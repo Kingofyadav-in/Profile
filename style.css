@@ -1,0 +1,449 @@
+/* ================= ROOT ================= */
+:root {
+  --glass-dark: rgba(255,255,255,0.06);
+  --glass-light: rgba(255,255,255,0.55);
+  --border-dark: rgba(255,255,255,0.14);
+  --border-light: rgba(0,0,0,0.12);
+  --blur: 18px;
+  --radius: 18px;
+  --gray: #bdbdbd;
+}
+
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================= BASE ================= */
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto;
+  line-height: 1.6;
+}
+
+body.theme-dark {
+  background: #000;
+  color: #e5e5e5;
+}
+
+body.theme-light {
+  background: #fff;
+  color: #111;
+}
+
+/* ================= GLASS ================= */
+.glass {
+  backdrop-filter: blur(var(--blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(160%);
+  border-radius: var(--radius);
+}
+
+body.theme-dark .glass {
+  background: var(--glass-dark);
+  border: 1px solid var(--border-dark);
+}
+
+body.theme-light .glass {
+  background: var(--glass-light);
+  border: 1px solid var(--border-light);
+}
+
+/* ================= HEADER ================= */
+.site-header {
+  position: static;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.brand-link {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+
+.logo {
+  width: 52px;
+  height: 52px;
+}
+
+.tagline {
+  font-size: 0.75rem;
+  color: var(--gray);
+}
+
+/* ================= NAV ================= */
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  opacity: 0.75;
+}
+
+.nav-list a:hover {
+  opacity: 1;
+}
+
+/* ================= MAIN ================= */
+.site-main {
+  max-width: 1100px;
+  margin: 100px auto;
+  padding: 0 20px;
+}
+
+.hero {
+  padding: 80px 0;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: var(--gray);
+  max-width: 520px;
+}
+
+.content {
+  padding: 80px 0;
+}
+
+.content h2 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.content p {
+  color: var(--gray);
+  max-width: 720px;
+}
+/* ================= STEP 17 : HOME ================= */
+
+.home-intro {
+  padding: 80px 0 40px;
+}
+
+.home-intro h1 {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+}
+
+.home-intro p {
+  color: var(--gray);
+  max-width: 620px;
+}
+
+.life-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  padding: 60px 0;
+}
+
+.life-card {
+  padding: 32px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.life-card h2 {
+  font-size: 1.4rem;
+}
+
+.life-card p {
+  color: var(--gray);
+  font-size: 0.95rem;
+}
+
+.life-action {
+  margin-top: auto;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  letter-spacing: 1px;
+}
+
+.life-card:hover {
+  transform: translateY(-6px);
+  opacity: 1;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .life-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ================= STEP 18 : PROFESSIONAL / BLOG ================= */
+
+.page-intro {
+  padding: 80px 0 40px;
+}
+
+.page-intro h1 {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+}
+
+.page-intro p {
+  color: var(--gray);
+  max-width: 700px;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  padding: 60px 0;
+}
+
+.blog-card {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.blog-card h2 {
+  font-size: 1.3rem;
+}
+
+.blog-card p {
+  font-size: 0.95rem;
+  color: var(--gray);
+}
+
+.blog-meta {
+  margin-top: auto;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+
+.blog-card:hover {
+  transform: translateY(-6px);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ================= STEP 19 : SERVICES ================= */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  padding: 60px 0;
+}
+
+.service-card {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.25s ease;
+}
+
+.service-card h2 {
+  font-size: 1.4rem;
+}
+
+.service-card p {
+  color: var(--gray);
+  font-size: 0.95rem;
+}
+
+.service-tag {
+  margin-top: auto;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================= STEP 20 : CONNECT ================= */
+
+.connect-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  padding: 60px 0;
+}
+
+.connect-card {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.connect-card h2 {
+  font-size: 1.4rem;
+}
+
+.connect-card p {
+  color: var(--gray);
+}
+
+.connect-tag {
+  margin-top: auto;
+  font-size: 0.7rem;
+  opacity: 0.6;
+  letter-spacing: 1px;
+}
+
+/* ACTIONS */
+.contact-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 60px 0;
+}
+
+.action-card {
+  padding: 28px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-6px);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .connect-grid,
+  .contact-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================= FOOTER ================= */
+.site-footer {
+  margin-top: 120px;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.footer-title {
+  font-size: 0.9rem;
+}
+
+.footer-text {
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+.footer-right {
+  text-align: right;
+  font-size: 0.8rem;
+}
+
+/* ================= SOCIAL ================= */
+.footer-social {
+  display: flex;
+  gap: 18px;
+}
+
+.footer-social img {
+  width: 20px;
+  opacity: 0.7;
+  filter: invert(1) grayscale(1);
+}
+
+.footer-social img:hover {
+  opacity: 1;
+}
+
+/* ================= FOOTER BOTTOM ================= */
+.footer-bottom {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.7rem;
+  color: var(--gray);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .header-inner {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .nav-list {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .site-main {
+    margin: 60px auto;
+    text-align: center;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-right {
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+}
