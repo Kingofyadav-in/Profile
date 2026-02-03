@@ -12,6 +12,10 @@
   --radius: 18px;
 
   --gray: #bdbdbd;
+
+  /* ===== BRAND COLORS (NEW – SAFE ADD) ===== */
+  --brand-orange: #FF671F;
+  --brand-green: #046A38;
 }
 
 /* ======================================================
@@ -112,9 +116,15 @@ body.theme-light .glass {
   opacity: 0.75;
 }
 
-.nav-list a:hover,
+.nav-list a:hover {
+  opacity: 1;
+}
+
+/* ACTIVE NAV = GREEN DEPTH */
 .nav-list a.active {
   opacity: 1;
+  border-bottom: 2px solid var(--brand-green);
+  padding-bottom: 4px;
 }
 
 /* ======================================================
@@ -178,7 +188,7 @@ body.theme-light .glass {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .life-card:hover,
@@ -186,6 +196,7 @@ body.theme-light .glass {
 .service-card:hover,
 .connect-card:hover {
   transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(4, 106, 56, 0.15);
 }
 
 .life-card p,
@@ -209,7 +220,6 @@ body.theme-light .glass {
 /* ======================================================
    CONTACT ACTIONS (CALL / EMAIL / COLLABORATE)
 ====================================================== */
-
 .contact-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -224,7 +234,13 @@ body.theme-light .glass {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* ORANGE = ACTION */
+.action-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(255, 103, 31, 0.35);
 }
 
 .action-card h3 {
@@ -234,10 +250,6 @@ body.theme-light .glass {
 .action-card p {
   font-size: 0.9rem;
   color: var(--gray);
-}
-
-.action-card:hover {
-  transform: translateY(-6px);
 }
 
 /* MOBILE */
@@ -312,6 +324,7 @@ body.theme-light .footer-social img {
 
 .theme-toggle:hover {
   opacity: 1;
+  color: var(--brand-orange);
 }
 
 /* ======================================================
@@ -364,5 +377,55 @@ body.theme-light .footer-social img {
 
   .footer-social {
     justify-content: center;
+  }
+}
+
+/* ======================================================
+   COLLABORATION – WHO FOR / WHO NOT (SAFE ADD)
+====================================================== */
+
+/* Extra vertical space between major sections */
+.page-intro.glass {
+  margin: 80px 0;
+  padding: 48px 56px;
+}
+
+/* Headings inside these sections */
+.page-intro.glass h2 {
+  margin-bottom: 18px;
+}
+
+/* List base */
+.page-intro.glass ul {
+  margin-top: 24px;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+/* Individual list item */
+.page-intro.glass ul li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 0.95rem;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+/* Subtle indicator (calm, not bullet) */
+.page-intro.glass ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--brand-green);
+  opacity: 0.8;
+}
+
+/* Mobile refinement */
+@media (max-width: 768px) {
+  .page-intro.glass {
+    padding: 36px 28px;
+    margin: 60px 0;
   }
 }
