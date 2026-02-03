@@ -1,12 +1,13 @@
 const CACHE_NAME = "hi-profile-v1";
 
 const ASSETS = [
-  "/Profile/",
-  "/Profile/index.html",
-  "/Profile/style.css",
-  "/Profile/script.js",
-  "/Profile/manifest.json"
+  "./",
+  "./index.html",
+  "./style.css",
+  "./script.js",
+  "./manifest.json"
 ];
+
 
 self.addEventListener("install", event => {
   event.waitUntil(
