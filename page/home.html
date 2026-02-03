@@ -6,8 +6,16 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32.png" />
   <link rel="apple-touch-icon" href="../favicon/apple-touch.png" />
   <meta name="theme-color" content="#000000" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Home | Hi – Profile" />
+  <meta property="og:description" content="A concise overview of personal values, professional work, and social connection." />
+  <meta property="og:image" content="../og-image.png" />
+  <meta property="og:url" content="https://kingofyadav.github.io/Hi-Profile/page/home.html" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  <title>Hi | Home</title>
+
+  <title>Home | Hi – Profile</title>
+  <meta name="description" content="A concise overview of personal values, professional work, and social connection — all in one place." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../style.css" />
 </head>
@@ -29,7 +37,7 @@
 </div>
 
 
-    <nav>
+    <nav aria-label="Main navigation">
       <ul class="nav-list">
         <li><a href="home.html" class="active">Home</a></li>
         <li><a href="blog.html">Blog</a></li>
@@ -115,9 +123,9 @@
 
 
     <div class="footer-right">
-      <div id="footerClock">--:--</div>
+      <div id="footerClock" aria-live="polite">--:--</div>
       <div id="footerLocation">Locating…</div>
-      <div id="status">STATUS: ACTIVE</div>
+      <div id="status" aria-live="polite">STATUS: --</div>
     </div>
 
   </div>

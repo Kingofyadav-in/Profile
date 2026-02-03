@@ -87,6 +87,7 @@ function loadSocials() {
     const a = document.createElement("a");
     a.href = url;
     a.target = "_blank";
+    a.setAttribute("aria-label", `${k} profile`);
     a.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${k}.svg">`;
     box.appendChild(a);
   });

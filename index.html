@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hi | Profile</title>
+  <title>Hi | Profile — Personal, Professional & Social</title>
+  <meta name="description" content="Hi – Profile is a unified personal platform connecting professional insights, services, and social communication." />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Hi | Profile — Personal, Professional & Social" />
+  <meta property="og:description" content="A unified digital profile connecting professional insights, services, and social communication." />
+  <meta property="og:image" content="https://kingofyadav.github.io/Hi-Profile/og-image.png" />
+  <meta property="og:url" content="https://kingofyadav.github.io/Hi-Profile/" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="stylesheet" href="style.css" />
 
@@ -21,7 +32,7 @@
 
     <div class="brand">
       <a href="index.html" class="brand-link">
-        <img id="siteLogo" class="logo" src="logo/day-logo.png" alt="Logo" />
+        <img id="siteLogo" class="logo" src="logo/day-logo.png" alt=" kingofyadav Logo" />
         <div>
           <div class="name">kingofyadav</div>
           <div class="tagline">Profile</div>
@@ -29,7 +40,8 @@
       </a>
     </div>
 
-    <nav>
+    <nav aria-label="Main navigation">
+
       <ul class="nav-list">
         <li><a href="page/home.html">Home</a></li>
         <li><a href="page/blog.html">Blog</a></li>
@@ -93,9 +105,9 @@
     </div>
 
     <div class="footer-right">
-      <div id="footerClock">--:--</div>
+      <div id="footerClock" aria-live="polite">--:--</div>
       <div id="footerLocation">Locating…</div>
-      <div id="status">STATUS: --</div>
+      <div id="status" aria-live="polite">STATUS: --</div>
     </div>
 
   </div>

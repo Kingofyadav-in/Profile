@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kingofyadav.github.io/Hi-Profile/sitemap.xml
