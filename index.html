@@ -4,31 +4,30 @@
   <meta charset="UTF-8" />
   <title>Hi | Profile</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <link rel="stylesheet" href="style.css" />
 
-<link rel="icon" href="favicon/favicon.ico" />
-<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
-<link rel="apple-touch-icon" href="favicon/apple-touch.png" />
-<meta name="theme-color" content="#000000" />
-
+  <!-- FAVICON -->
+  <link rel="icon" href="favicon/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="favicon/apple-touch.png" />
+  <meta name="theme-color" content="#000000" />
 </head>
 
 <body class="theme-dark">
 
-<!-- ================= HEADER ================= -->
 <header class="site-header glass">
   <div class="header-inner">
 
-  <div class="brand">
-  <a href="index.html" class="brand-link">
-    <img id="siteLogo" class="logo" src="logo/day-logo.png" alt="Logo" />
-    <div>
-      <div class="name">kingofyadav</div>
-      <div class="tagline">Profile</div>
+    <div class="brand">
+      <a href="index.html" class="brand-link">
+        <img id="siteLogo" class="logo" src="logo/day-logo.png" alt="Logo" />
+        <div>
+          <div class="name">kingofyadav</div>
+          <div class="tagline">Profile</div>
+        </div>
+      </a>
     </div>
-  </a>
-</div>
-
 
     <nav>
       <ul class="nav-list">
@@ -42,7 +41,6 @@
   </div>
 </header>
 
-<!-- ================= MAIN ================= -->
 <main class="site-main">
 
   <section class="home-intro">
@@ -55,30 +53,21 @@
 
   <section class="life-grid">
 
-    <!-- PERSONAL -->
-    <a href="personal.html" class="life-card glass">
+    <a href="page/services.html" class="life-card glass">
       <h2>Personal</h2>
-      <p>
-        Identity, beliefs, discipline, and personal growth.
-      </p>
+      <p>Identity, discipline, and personal growth.</p>
       <span class="life-action">Explore →</span>
     </a>
 
-    <!-- PROFESSIONAL -->
-    <a href="professional.html" class="life-card glass">
+    <a href="page/blog.html" class="life-card glass">
       <h2>Professional</h2>
-      <p>
-        Work, leadership, skills, and long-term vision.
-      </p>
+      <p>Work, leadership, and long-term vision.</p>
       <span class="life-action">Explore →</span>
     </a>
 
-    <!-- SOCIAL -->
-    <a href="social.html" class="life-card glass">
+    <a href="page/contact.html" class="life-card glass">
       <h2>Social</h2>
-      <p>
-        Society, service, community, and public contribution.
-      </p>
+      <p>Community, service, and public contribution.</p>
       <span class="life-action">Explore →</span>
     </a>
 
@@ -86,7 +75,6 @@
 
 </main>
 
-<!-- ================= FOOTER ================= -->
 <footer class="site-footer glass">
   <div class="footer-inner">
 
@@ -99,7 +87,10 @@
       </p>
     </div>
 
-    <div class="footer-social" id="socialLinks"></div>
+    <div class="footer-social">
+      <div id="socialLinks" class="social-icons"></div>
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌙</button>
+    </div>
 
     <div class="footer-right">
       <div id="footerClock">--:--</div>

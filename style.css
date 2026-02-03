@@ -1,25 +1,35 @@
-/* ================= ROOT ================= */
+/* ======================================================
+   ROOT VARIABLES
+====================================================== */
 :root {
-  --glass-dark: rgba(255,255,255,0.06);
-  --glass-light: rgba(255,255,255,0.55);
-  --border-dark: rgba(255,255,255,0.14);
-  --border-light: rgba(0,0,0,0.12);
+  --glass-dark: rgba(255, 255, 255, 0.06);
+  --glass-light: rgba(255, 255, 255, 0.6);
+
+  --border-dark: rgba(255, 255, 255, 0.14);
+  --border-light: rgba(0, 0, 0, 0.12);
+
   --blur: 18px;
   --radius: 18px;
+
   --gray: #bdbdbd;
 }
 
-/* ================= RESET ================= */
+/* ======================================================
+   RESET
+====================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ================= BASE ================= */
+/* ======================================================
+   BASE
+====================================================== */
 body {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
   line-height: 1.6;
+  min-height: 100vh;
 }
 
 body.theme-dark {
@@ -32,7 +42,9 @@ body.theme-light {
   color: #111;
 }
 
-/* ================= GLASS ================= */
+/* ======================================================
+   GLASS SYSTEM
+====================================================== */
 .glass {
   backdrop-filter: blur(var(--blur)) saturate(160%);
   -webkit-backdrop-filter: blur(var(--blur)) saturate(160%);
@@ -49,7 +61,9 @@ body.theme-light .glass {
   border: 1px solid var(--border-light);
 }
 
-/* ================= HEADER ================= */
+/* ======================================================
+   HEADER
+====================================================== */
 .site-header {
   position: static;
 }
@@ -63,20 +77,13 @@ body.theme-light .glass {
   align-items: center;
 }
 
-.brand {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
 .brand-link {
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 12px;
   text-decoration: none;
   color: inherit;
 }
-
 
 .logo {
   width: 52px;
@@ -88,7 +95,9 @@ body.theme-light .glass {
   color: var(--gray);
 }
 
-/* ================= NAV ================= */
+/* ======================================================
+   NAVIGATION
+====================================================== */
 .nav-list {
   list-style: none;
   display: flex;
@@ -103,253 +112,128 @@ body.theme-light .glass {
   opacity: 0.75;
 }
 
-.nav-list a:hover {
+.nav-list a:hover,
+.nav-list a.active {
   opacity: 1;
 }
 
-/* ================= MAIN ================= */
+/* ======================================================
+   MAIN LAYOUT
+====================================================== */
 .site-main {
   max-width: 1100px;
   margin: 100px auto;
   padding: 0 20px;
 }
 
-.hero {
-  padding: 80px 0;
-}
-
-.hero h1 {
-  font-size: 2.6rem;
-  margin-bottom: 10px;
-}
-
-.hero p {
-  color: var(--gray);
-  max-width: 520px;
-}
-
-.content {
-  padding: 80px 0;
-}
-
-.content h2 {
-  font-size: 1.6rem;
-  margin-bottom: 10px;
-}
-
-.content p {
-  color: var(--gray);
-  max-width: 720px;
-}
-/* ================= STEP 17 : HOME ================= */
-
-.home-intro {
-  padding: 80px 0 40px;
-}
-
-.home-intro h1 {
-  font-size: 2.4rem;
-  margin-bottom: 12px;
-}
-
-.home-intro p {
-  color: var(--gray);
-  max-width: 620px;
-}
-
-.life-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  padding: 60px 0;
-}
-
-.life-card {
-  padding: 32px;
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.life-card h2 {
-  font-size: 1.4rem;
-}
-
-.life-card p {
-  color: var(--gray);
-  font-size: 0.95rem;
-}
-
-.life-action {
-  margin-top: auto;
-  font-size: 0.8rem;
-  opacity: 0.7;
-  letter-spacing: 1px;
-}
-
-.life-card:hover {
-  transform: translateY(-6px);
-  opacity: 1;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-  .life-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-
-/* ================= STEP 18 : PROFESSIONAL / BLOG ================= */
-
+/* ======================================================
+   HOME / INTRO
+====================================================== */
+.home-intro,
 .page-intro {
   padding: 80px 0 40px;
 }
 
+.home-intro h1,
 .page-intro h1 {
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   margin-bottom: 12px;
 }
 
+.home-intro p,
 .page-intro p {
-  color: var(--gray);
   max-width: 700px;
-}
-
-.blog-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  padding: 60px 0;
-}
-
-.blog-card {
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.blog-card h2 {
-  font-size: 1.3rem;
-}
-
-.blog-card p {
-  font-size: 0.95rem;
   color: var(--gray);
 }
 
-.blog-meta {
-  margin-top: auto;
-  font-size: 0.7rem;
-  letter-spacing: 1px;
-  opacity: 0.6;
-}
-
-.blog-card:hover {
-  transform: translateY(-6px);
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-  .blog-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-
-/* ================= STEP 19 : SERVICES ================= */
-
-.services-grid {
+/* ======================================================
+   CARD GRID (HOME / SERVICES / BLOG)
+====================================================== */
+.life-grid,
+.blog-grid,
+.services-grid,
+.connect-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 28px;
   padding: 60px 0;
 }
 
-.service-card {
+.life-grid,
+.blog-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.services-grid,
+.connect-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.life-card,
+.blog-card,
+.service-card,
+.connect-card {
   padding: 32px;
+  text-decoration: none;
+  color: inherit;
   display: flex;
   flex-direction: column;
   gap: 14px;
   transition: transform 0.25s ease;
 }
 
-.service-card h2 {
-  font-size: 1.4rem;
+.life-card:hover,
+.blog-card:hover,
+.service-card:hover,
+.connect-card:hover {
+  transform: translateY(-6px);
 }
 
-.service-card p {
+.life-card p,
+.blog-card p,
+.service-card p,
+.connect-card p {
   color: var(--gray);
   font-size: 0.95rem;
 }
 
-.service-tag {
+.life-action,
+.blog-meta,
+.service-tag,
+.connect-tag {
   margin-top: auto;
   font-size: 0.7rem;
   letter-spacing: 1px;
   opacity: 0.6;
 }
 
-.service-card:hover {
-  transform: translateY(-6px);
-}
+/* ======================================================
+   CONTACT ACTIONS (CALL / EMAIL / COLLABORATE)
+====================================================== */
 
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ================= STEP 20 : CONNECT ================= */
-
-.connect-grid {
+.contact-actions {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 28px;
   padding: 60px 0;
 }
 
-.connect-card {
+.action-card {
   padding: 32px;
+  text-decoration: none;
+  color: inherit;
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.connect-card h2 {
-  font-size: 1.4rem;
-}
-
-.connect-card p {
-  color: var(--gray);
-}
-
-.connect-tag {
-  margin-top: auto;
-  font-size: 0.7rem;
-  opacity: 0.6;
-  letter-spacing: 1px;
-}
-
-/* ACTIONS */
-.contact-actions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  padding: 60px 0;
-}
-
-.action-card {
-  padding: 28px;
-  text-decoration: none;
-  color: inherit;
   transition: transform 0.25s ease;
+}
+
+.action-card h3 {
+  font-size: 1.2rem;
+}
+
+.action-card p {
+  font-size: 0.9rem;
+  color: var(--gray);
 }
 
 .action-card:hover {
@@ -358,13 +242,14 @@ body.theme-light .glass {
 
 /* MOBILE */
 @media (max-width: 768px) {
-  .connect-grid,
   .contact-actions {
     grid-template-columns: 1fr;
   }
 }
 
-/* ================= FOOTER ================= */
+/* ======================================================
+   FOOTER
+====================================================== */
 .site-footer {
   margin-top: 120px;
 }
@@ -392,23 +277,46 @@ body.theme-light .glass {
   font-size: 0.8rem;
 }
 
-/* ================= SOCIAL ================= */
+/* ======================================================
+   FOOTER SOCIAL + THEME TOGGLE
+====================================================== */
 .footer-social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.social-icons {
   display: flex;
   gap: 18px;
 }
 
 .footer-social img {
   width: 20px;
-  opacity: 0.7;
+  opacity: 0.75;
   filter: invert(1) grayscale(1);
 }
 
-.footer-social img:hover {
+body.theme-light .footer-social img {
+  filter: none;
+  opacity: 0.6;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.theme-toggle:hover {
   opacity: 1;
 }
 
-/* ================= FOOTER BOTTOM ================= */
+/* ======================================================
+   FOOTER BOTTOM
+====================================================== */
 .footer-bottom {
   text-align: center;
   padding: 20px;
@@ -416,7 +324,9 @@ body.theme-light .glass {
   color: var(--gray);
 }
 
-/* ================= MOBILE ================= */
+/* ======================================================
+   RESPONSIVE (MOBILE)
+====================================================== */
 @media (max-width: 768px) {
   .header-inner {
     flex-direction: column;
@@ -425,8 +335,8 @@ body.theme-light .glass {
   }
 
   .nav-list {
-    justify-content: space-between;
     width: 100%;
+    justify-content: space-between;
   }
 
   .site-main {
@@ -434,9 +344,18 @@ body.theme-light .glass {
     text-align: center;
   }
 
+  .life-grid,
+  .blog-grid,
+  .services-grid,
+  .connect-grid {
+    grid-template-columns: 1fr;
+  }
+
   .footer-inner {
     flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 28px;
   }
 
   .footer-right {
