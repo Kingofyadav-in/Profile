@@ -92,7 +92,6 @@ function loadSocials() {
     box.appendChild(a);
   });
 }
-
 /* ================= INIT ================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -110,3 +109,11 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStatus();
   }, 1000);
 });
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/Profile/service-worker.js")
+      .then(() => console.log("PWA service worker registered"))
+      .catch(err => console.error("SW registration failed:", err));
+  });
+}
