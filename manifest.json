@@ -1,20 +1,20 @@
 {
-  "name": "Hi – Profile",
-  "short_name": "Hi",
+  "name": "kingofyadav – Profile",
+  "short_name": "kingofyadav",
   "description": "Personal, Professional & Social profile of kingofyadav",
-  "start_url": "/Profile/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/Profile/favicon/android-chrome-192x192.png",
+      "src": "/favicon/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/Profile/favicon/android-chrome-512x512.png",
+      "src": "/favicon/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

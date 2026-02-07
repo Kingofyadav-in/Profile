@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kingofyadav.github.io/Hi-Profile/sitemap.xml
+# Block system or admin paths (if added later)
+Disallow: /admin/
+Disallow: /config/
+
+# Sitemap location
+Sitemap: https://kingofyadav.in/sitemap.xml

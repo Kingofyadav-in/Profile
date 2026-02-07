@@ -1,3 +1,5 @@
+"use strict";
+
 function $(id) {
   return document.getElementById(id);
 }
@@ -34,6 +36,7 @@ function setupThemeToggle() {
 
     localStorage.setItem("theme", next);
     applyTheme(next);
+    updateLogo();
   });
 }
 
@@ -43,33 +46,33 @@ function updateLogo() {
   const logo = $("siteLogo");
   if (!logo) return;
 
-  const theme = document.body.classList.contains("theme-light") ? "day" : "night";
-  const isSub = location.pathname.includes("/page/");
-  logo.src = `${isSub ? "../" : ""}logo/${theme}-logo.png`;
+  const theme = document.body.classList.contains("theme-light")
+    ? "day"
+    : "night";
+
+  logo.src = `logo/${theme}-logo.png`;
 }
 
 /* ================= FOOTER ================= */
 
 function updateClock() {
   const el = $("footerClock");
-  if (el) el.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  if (!el) return;
+
+  el.textContent = new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
 }
 
 function updateStatus() {
   const el = $("status");
   if (!el) return;
+
   const h = new Date().getHours();
-  el.textContent = h >= 10 && h < 22 ? "STATUS: ACTIVE" : "STATUS: OFFLINE";
-}
-
-function updateLocation() {
-  const el = $("footerLocation");
-  if (!el) return;
-
-  fetch("https://ipapi.co/json/")
-    .then(r => r.json())
-    .then(d => el.textContent = `${d.city || "Unknown"}, ${d.country_name || ""}`)
-    .catch(() => el.textContent = "Location unavailable");
+  el.textContent = h >= 10 && h < 22
+    ? "STATUS: ACTIVE"
+    : "STATUS: OFFLINE";
 }
 
 function loadSocials() {
@@ -83,15 +86,17 @@ function loadSocials() {
     github: "https://github.com/kingofyadav"
   };
 
-  Object.entries(links).forEach(([k, url]) => {
+  for (const [name, url] of Object.entries(links)) {
     const a = document.createElement("a");
     a.href = url;
     a.target = "_blank";
-    a.setAttribute("aria-label", `${k} profile`);
-    a.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${k}.svg">`;
+    a.rel = "noopener";
+    a.setAttribute("aria-label", `${name} profile`);
+    a.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${name}.svg" alt="">`;
     box.appendChild(a);
-  });
+  }
 }
+
 /* ================= INIT ================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -100,20 +105,25 @@ document.addEventListener("DOMContentLoaded", () => {
   updateLogo();
   updateClock();
   updateStatus();
-  updateLocation();
   loadSocials();
-  $("year").textContent = new Date().getFullYear();
 
+  const year = $("year");
+  if (year) year.textContent = new Date().getFullYear();
+
+  // Update once per minute (enough)
   setInterval(() => {
     updateClock();
     updateStatus();
-  }, 1000);
+  }, 60_000);
 });
+
+/* ================= PWA ================= */
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
-      .then(() => console.log("PWA service worker registered"))
+    navigator.serviceWorker
+      .register("service-worker.js")
+      .then(() => console.log("Service worker registered"))
       .catch(err => console.error("SW registration failed:", err));
   });
 }

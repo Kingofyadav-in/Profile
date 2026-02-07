@@ -2,120 +2,177 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hi | Profile — Personal, Professional & Social</title>
-  <meta name="description" content="Hi – Profile is a unified personal platform connecting professional insights, services, and social communication." />
+
+  <!-- ================= PRIMARY SEO ================= -->
+  <title>kingofyadav | Personal, Professional & Social Profile</title>
+  <meta
+    name="description"
+    content="kingofyadav — a unified personal platform sharing professional insights, services, leadership thinking, and social contribution from India."
+  />
+  <meta name="author" content="kingofyadav" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Open Graph -->
+
+  <!-- ================= THEME / PWA ================= -->
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- ================= OPEN GRAPH ================= -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Hi | Profile — Personal, Professional & Social" />
-  <meta property="og:description" content="A unified digital profile connecting professional insights, services, and social communication." />
-  <meta property="og:image" content="https://kingofyadav.github.io/Hi-Profile/og-image.png" />
-  <meta property="og:url" content="https://kingofyadav.github.io/Hi-Profile/" />
-  <!-- Twitter -->
+  <meta property="og:title" content="kingofyadav | Profile" />
+  <meta
+    property="og:description"
+    content="Explore the personal values, professional journey, and social impact of kingofyadav."
+  />
+  <meta property="og:image" content="https://kingofyadav.in/og-image.png" />
+  <meta property="og:url" content="https://kingofyadav.in/" />
+  <meta property="og:site_name" content="kingofyadav" />
+
+  <!-- ================= TWITTER ================= -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="kingofyadav | Profile" />
+  <meta
+    name="twitter:description"
+    content="Personal, professional, and social profile of kingofyadav."
+  />
+
+  <!-- ================= STYLES ================= -->
+  <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
-  <!-- FAVICON -->
+
+  <!-- ================= ICONS ================= -->
   <link rel="icon" href="favicon/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="favicon/apple-touch.png" />
-  <meta name="theme-color" content="#000000" />
-  <link rel="manifest" href="./manifest.json" />
 </head>
 
 <body class="theme-dark">
-  
-<header class="site-header glass">
-  <div class="header-inner">
 
-    <div class="brand">
-      <a href="index.html" class="brand-link">
-        <img id="siteLogo" class="logo" src="logo/day-logo.png" alt=" kingofyadav Logo" />
-        <div>
-          <div class="name">kingofyadav</div>
-          <div class="tagline">Profile</div>
-        </div>
-      </a>
+  <!-- Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- ==================================================
+       HEADER
+  ================================================== -->
+  <header class="site-header glass">
+    <div class="header-inner">
+
+      <!-- Brand -->
+      <div class="brand">
+        <a href="/" class="brand-link" aria-label="kingofyadav home">
+          <img
+            id="siteLogo"
+            class="logo"
+            src="logo/day-logo.png"
+            alt="kingofyadav personal profile"
+            width="52"
+            height="52"
+          />
+          <div class="brand-text">
+            <span class="brand-name">kingofyadav</span>
+            <span class="brand-tagline">Profile</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      <nav aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="/" class="active">Home</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="collaboration.html">Collaboration</a></li>
+        </ul>
+      </nav>
+
     </div>
+  </header>
 
-    <nav aria-label="Main navigation">
+  <!-- ==================================================
+       MAIN
+  ================================================== -->
+  <main class="site-main" id="main-content">
 
-      <ul class="nav-list">
-        <li><a href="page/home.html">Home</a></li>
-        <li><a href="page/blog.html">Blog</a></li>
-        <li><a href="page/services.html">Services</a></li>
-        <li><a href="page/contact.html">Contact</a></li>
-        <li><a href="page/collaboration.html">Collab</a></li>
-      </ul>
-    </nav>
-
-  </div>
-</header>
-
-<main class="site-main">
-
-  <section class="home-intro">
-    <h1>Three Dimensions of Life</h1>
-    <p>
-      Personal values, professional journey, and social impact —
-      each shaping who I am.
-    </p>
-  </section>
-
-  <section class="life-grid">
-
-    <a href="page/services.html" class="life-card glass">
-      <h2>Personal</h2>
-      <p>Identity, discipline, and personal growth.</p>
-      <span class="life-action">Explore →</span>
-    </a>
-
-    <a href="page/blog.html" class="life-card glass">
-      <h2>Professional</h2>
-      <p>Work, leadership, and long-term vision.</p>
-      <span class="life-action">Explore →</span>
-    </a>
-
-    <a href="page/contact.html" class="life-card glass">
-      <h2>Social</h2>
-      <p>Community, service, and public contribution.</p>
-      <span class="life-action">Explore →</span>
-    </a>
-
-  </section>
-
-</main>
-
-<footer class="site-footer glass">
-  <div class="footer-inner">
-
-    <div>
-      <p class="footer-title">Enquiry</p>
-      <p class="footer-text">
-        Boss: Amit Ku Yadav<br />
-        Phone: +919523528114<br />
-        Office: Bhagalpur, India<br />
-        Mail: kingofyadav.in@gmail.com
+    <!-- ================= INTRO ================= -->
+    <section class="home-intro" aria-labelledby="intro-title">
+      <h1 id="intro-title">Three Dimensions of Life</h1>
+      <p>
+        Personal values, professional journey, and social impact —
+        together shaping who I am and how I contribute.
       </p>
+    </section>
+
+    <!-- ================= PRIMARY PATHS ================= -->
+    <section
+      class="life-grid"
+      role="navigation"
+      aria-label="Primary profile sections"
+    >
+
+      <a href="services.html" class="life-card glass">
+        <h2>Personal</h2>
+        <p>Identity, discipline, and personal growth.</p>
+        <span class="life-action">Explore →</span>
+      </a>
+
+      <a href="blog.html" class="life-card glass">
+        <h2>Professional</h2>
+        <p>Work, leadership, and long-term vision.</p>
+        <span class="life-action">Explore →</span>
+      </a>
+
+      <a href="contact.html" class="life-card glass">
+        <h2>Social</h2>
+        <p>Community, service, and public contribution.</p>
+        <span class="life-action">Explore →</span>
+      </a>
+
+    </section>
+
+  </main>
+
+  <!-- ==================================================
+       FOOTER
+  ================================================== -->
+  <footer class="site-footer glass">
+    <div class="footer-inner">
+
+      <div>
+        <p class="footer-title">Enquiry</p>
+        <p class="footer-text">
+          Amit Ku Yadav<br />
+          Phone: +91 95235 28114<br />
+          Office: Bhagalpur, India<br />
+          Mail: kingofyadav.in@gmail.com
+        </p>
+      </div>
+
+      <div class="footer-social">
+        <div id="socialLinks" class="social-icons"></div>
+        <button
+          id="themeToggle"
+          class="theme-toggle"
+          aria-label="Toggle theme"
+          title="Toggle theme"
+        >
+          🌙
+        </button>
+      </div>
+
+      <div class="footer-right">
+        <div id="footerClock" aria-live="polite">--:--</div>
+        <div>Bhagalpur, India</div>
+        <div id="status" aria-live="polite">STATUS: --</div>
+      </div>
+
     </div>
 
-    <div class="footer-social">
-      <div id="socialLinks" class="social-icons"></div>
-      <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌙</button>
+    <div class="footer-bottom">
+      © <span id="year"></span> · All rights reserved
     </div>
+  </footer>
 
-    <div class="footer-right">
-      <div id="footerClock" aria-live="polite">--:--</div>
-      <div id="footerLocation">Locating…</div>
-      <div id="status" aria-live="polite">STATUS: --</div>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © <span id="year"></span> · All rights reserved
-  </div>
-</footer>
-
-<script src="script.js"></script>
+  <!-- ================= SCRIPT ================= -->
+  <script src="script.js"></script>
 </body>
 </html>
