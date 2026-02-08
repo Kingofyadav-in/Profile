@@ -1,0 +1,116 @@
+/* ======================================================
+   CONTACT COMMUNITY LIBRARY
+====================================================== */
+
+.contact-community {
+  margin-top: var(--space-lg);
+}
+
+.contact-library {
+  margin-top: var(--space-xl);
+}
+
+.contact-library .page-intro {
+  margin-bottom: var(--space-md);
+}
+
+.contact-library-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.contact-library-item {
+  padding: 28px;
+  border-radius: 18px;
+}
+
+.contact-library-item h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.contact-meta {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--brand-green);
+  margin-bottom: 12px;
+}
+
+.contact-library-item p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+/* ======================================================
+   CONNECTION IS POWER – MANIFESTO BLOCK
+====================================================== */
+
+.connection-intro {
+  max-width: 720px;              /* focus the message */
+  margin-bottom: var(--space-xl);
+}
+
+.connection-intro h1 {
+  font-size: clamp(1.8rem, 3.2vw, 2.2rem); /* ⬅ reduced */
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 20px;
+}
+
+/* Thought list */
+.connection-thoughts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.connection-thoughts li {
+  font-size: 0.95rem;   /* ⬅ reduced */
+  line-height: 1.65;
+  margin-bottom: 12px;
+  padding-left: 18px;
+}
+
+/* Subtle visual anchor (not bullet) */
+.connection-thoughts li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  opacity: 0.7;
+}
+
+/* Last line emphasis */
+.connection-thoughts li:last-child {
+  margin-top: 14px;
+  font-weight: 600;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1024px) {
+  .contact-library-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-library-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .contact-library-item {
+    padding: 20px;
+    border-radius: 16px;
+  }
+}

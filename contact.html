@@ -31,6 +31,15 @@
   <link rel="apple-touch-icon" href="favicon/apple-touch.png" />
 
   <!-- Styles -->
+  <!-- ================= STYLES ================= -->
+  <link rel="preload" href="css/base.css" as="style" />
+  <link rel="preload" href="css/components.css" as="style" />
+  <link rel="preload" href="css/contact.css" as="style" />
+  <link rel="preload" href="style.css" as="style" />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/contact.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -77,15 +86,17 @@
 <main class="site-main" id="main-content">
 
   <!-- INTRO -->
-  <section class="page-intro">
-    <h1>Connection Is Power</h1>
-    <p>
-      A phone connects humans.<br />
-      The internet connects the world.<br />
-      People connect purpose.<br />
-      Systems store and scale knowledge.
-    </p>
-  </section>
+ <section class="connection-intro">
+  <h1>Connection Is Power</h1>
+
+  <ul class="connection-thoughts">
+    <li>A phone connects humans.</li>
+    <li>The internet connects the world.</li>
+    <li>People connect purpose.</li>
+    <li>Systems store and scale knowledge.</li>
+  </ul>
+</section>
+
 
   <!-- CONNECTION GRID -->
   <section class="connect-grid" aria-label="Ways to connect">
@@ -116,8 +127,142 @@
 
   </section>
 
-  <!-- CONTACT ACTIONS -->
-  <section class="contact-actions" aria-label="Direct contact actions">
+  <!-- ================= CONTACT / COMMUNITY HUB ================= -->
+  <section class="contact-community">
+
+    <div class="page-intro">
+      <h1>Community & Contact</h1>
+      <p>
+       This space exists to bring people together — to learn,
+       contribute, and slowly build meaningful work through community.
+      </p>
+     </div>
+
+  <!-- ================= PEOPLE COMMUNITY ================= -->
+  <section class="contact-library">
+    <div class="page-intro">
+      <h2>People Community</h2>
+      <p>
+        Open to individuals who are learning, exploring,
+        and looking to grow through shared effort.
+      </p>
+    </div>
+
+    <div class="contact-library-grid">
+      <article class="contact-library-item glass">
+        <h3>Learners & Explorers</h3>
+        <span class="contact-meta">Open · Learning</span>
+        <p>
+          Individuals curious about ideas, systems,
+          public service, or long-term impact.
+        </p>
+      </article>
+
+      <article class="contact-library-item glass">
+        <h3>Volunteers</h3>
+        <span class="contact-meta">Community · Participation</span>
+        <p>
+          People willing to contribute time and effort
+          toward meaningful initiatives.
+        </p>
+      </article>
+
+      <article class="contact-library-item glass">
+        <h3>Young Contributors</h3>
+        <span class="contact-meta">Youth · Growth</span>
+        <p>
+          Students and young individuals seeking
+          experience through responsibility and learning.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= COMMUNITY CIRCLE ================= -->
+  <section class="contact-library">
+    <div class="page-intro">
+      <h2>Community Circle</h2>
+      <p>
+        Groups, collectives, and initiatives working
+        toward social, educational, or environmental goals.
+      </p>
+    </div>
+
+    <div class="contact-library-grid">
+      <article class="contact-library-item glass">
+        <h3>Social Groups</h3>
+        <span class="contact-meta">Social · Collaboration</span>
+        <p>
+          Informal or registered groups working
+          on community-level challenges.
+        </p>
+      </article>
+
+      <article class="contact-library-item glass">
+        <h3>NGOs & Initiatives</h3>
+        <span class="contact-meta">Impact · Partnership</span>
+        <p>
+          Organizations aligned with values of
+          responsibility, inclusion, and sustainability.
+        </p>
+      </article>
+
+      <article class="contact-library-item glass">
+        <h3>Learning Communities</h3>
+        <span class="contact-meta">Education · Knowledge</span>
+        <p>
+          Communities focused on shared learning,
+          mentoring, and capacity building.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= WORK COMMUNITY ================= -->
+  <section class="contact-library">
+    <div class="page-intro">
+      <h2>Work Community</h2>
+      <p>
+        For those interested in collaborating on real work —
+        slowly, responsibly, and with long-term intent.
+      </p>
+    </div>
+
+    <div class="contact-library-grid">
+      <article class="contact-library-item glass">
+        <h3>Project Collaborators</h3>
+        <span class="contact-meta">Work · Open</span>
+        <p>
+          Individuals interested in contributing
+          skills and effort to ongoing projects.
+        </p>
+      </article>
+
+      <article class="contact-library-item glass">
+        <h3>Independent Professionals</h3>
+        <span class="contact-meta">Skills · Contribution</span>
+        <p>
+          Professionals looking to collaborate
+          through shared values rather than contracts.
+        </p>
+      </article>
+
+      <article class="contact-library-item glass">
+        <h3>Future Opportunities</h3>
+        <span class="contact-meta">Growth · Upcoming</span>
+        <p>
+          A space that will evolve into structured
+          collaboration and work opportunities.
+        </p>
+      </article>
+    </div>
+  </section>
+
+</section>
+
+<!-- CONTACT ACTIONS -->
+
+<section class="contact-actions" aria-label="Direct contact actions">
 
     <a href="tel:+919523528114" class="action-card glass">
       <h3>Call</h3>

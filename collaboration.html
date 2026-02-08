@@ -31,7 +31,17 @@
   <link rel="apple-touch-icon" href="favicon/apple-touch.png" />
 
   <!-- Styles -->
+  <!-- ================= STYLES ================= -->
+  <link rel="preload" href="css/base.css" as="style" />
+  <link rel="preload" href="css/components.css" as="style" />
+  <link rel="preload" href="css/collaboration.css" as="style" />
+  <link rel="preload" href="style.css" as="style" />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/collaboration.css" />
   <link rel="stylesheet" href="style.css" />
+
 </head>
 
 <body class="theme-dark">
@@ -76,16 +86,23 @@
 <main class="site-main" id="main-content">
 
   <!-- INTRO -->
-  <section class="page-intro">
-    <h1>Collaboration Hub</h1>
-    <p>
-      This is not a hiring page.<br />
-      This is not a pitch room.<br /><br />
-      This is a quiet space for people who are learning,
-      building, and trying to do meaningful work — with clarity,
-      patience, and purpose.
-    </p>
+  <section class="collab-intro">
+    <h1>Collaboration</h1>
+
+    <div class="collab-message">
+      <p>
+        This is a quiet space for people who are learning,
+        building, and trying to do meaningful work —
+        with clarity, patience, and purpose.
+      </p>
+
+      <p class="collab-open">
+        Collaboration here is open to all.
+      </p>
+    </div>
   </section>
+
+
 
   <!-- CORE PRINCIPLES -->
   <section class="connect-grid" aria-label="Collaboration principles">
@@ -127,6 +144,67 @@
     </article>
 
   </section>
+  <!-- ================= COLLABORATION PARTNERS ================= -->
+<section class="collab-library" aria-label="Collaboration partners">
+
+  <div class="page-intro">
+    <h2>Collaboration Partners</h2>
+    <p>
+      Individuals, groups, and initiatives collaborating openly
+      through shared values, learning, and long-term intent.
+    </p>
+  </div>
+
+  <div class="collab-library-grid">
+
+    <article class="collab-library-item glass">
+      <h3>Community Educators</h3>
+      <span class="collab-meta">Learning · Open</span>
+      <p>
+        Individuals contributing knowledge, mentorship,
+        and learning resources for collective growth.
+      </p>
+    </article>
+
+    <article class="collab-library-item glass">
+      <h3>Social Workers Network</h3>
+      <span class="collab-meta">Social Impact · Ongoing</span>
+      <p>
+        Grassroots collaborators working on children,
+        women, and community-focused initiatives.
+      </p>
+    </article>
+
+    <article class="collab-library-item glass">
+      <h3>Independent Builders</h3>
+      <span class="collab-meta">Projects · Open</span>
+      <p>
+        Individuals building tools, platforms, or systems
+        with patience, responsibility, and purpose.
+      </p>
+    </article>
+
+    <article class="collab-library-item glass">
+      <h3>Youth Volunteers</h3>
+      <span class="collab-meta">Youth · Community</span>
+      <p>
+        Young individuals learning through participation,
+        service, and hands-on collaboration.
+      </p>
+    </article>
+
+    <article class="collab-library-item glass">
+      <h3>Environmental Groups</h3>
+      <span class="collab-meta">Nature · Awareness</span>
+      <p>
+        Groups and individuals working toward environmental
+        responsibility and long-term sustainability.
+      </p>
+    </article>
+
+  </div>
+</section>
+
 
 </main>
 

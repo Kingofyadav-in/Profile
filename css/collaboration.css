@@ -1,0 +1,107 @@
+/* ======================================================
+   COLLABORATION INTRO (QUIET, INTENTIONAL)
+====================================================== */
+
+.collab-intro {
+  max-width: 720px;              /* 🔥 fixes emptiness */
+}
+
+/* Rules block */
+.collab-rules {
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+/* Main message */
+.collab-message p {
+  margin-bottom: 20px;
+  line-height: 1.8;
+  opacity: 0.9;
+}
+
+/* Closing line */
+.collab-open {
+  margin-top: 32px;
+  font-weight: 600;
+}
+
+/* Soft divider (very subtle) */
+.collab-message::before {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--brand-green);
+  opacity: 0.5;
+  margin-bottom: 28px;
+}
+
+/* ======================================================
+   COLLABORATION PARTNERS LIBRARY
+====================================================== */
+
+.collab-library {
+  margin-top: var(--space-xl);
+}
+
+.collab-library .page-intro {
+  margin-bottom: var(--space-md);
+}
+
+.collab-library-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.collab-library-item {
+  padding: 28px;
+  border-radius: 18px;
+  transition: transform 0.3s ease;
+}
+
+.collab-library-item:hover {
+  transform: translateY(-6px);
+}
+
+.collab-library-item h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.collab-meta {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--brand-green);
+  margin-bottom: 12px;
+}
+
+.collab-library-item p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1024px) {
+  .collab-library-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .collab-library-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .collab-library-item {
+    padding: 20px;
+    border-radius: 16px;
+  }
+}

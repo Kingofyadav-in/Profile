@@ -1,18 +1,138 @@
 /* ======================================================
-   COMPONENTS CSS
-   Reusable UI blocks (Header, Nav, Layout, Cards, Footer)
+   DESIGN TOKENS
 ====================================================== */
+:root {
+  --container: 1100px;
 
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 24px;
+  --space-lg: 48px;
+  --space-xl: 80px;
+
+  --radius: 18px;
+  --blur: 18px;
+
+  --brand-green: #046A38;
+  --brand-orange: #FF671F;
+
+  --gray: #bdbdbd;
+  --text-dark: #111;
+  --text-light: #e5e5e5;
+
+  /* Card system */
+  --card-shadow-dark: 0 20px 40px rgba(0,0,0,0.55);
+  --card-shadow-light: 0 18px 36px rgba(0,0,0,0.12);
+  --card-border-dark: rgba(255,255,255,0.12);
+  --card-border-light: rgba(0,0,0,0.08);
+}
 
 /* ======================================================
-   HEADER
+   RESET & BASE
 ====================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    var(--brand-green),
+    var(--brand-orange)
+  );
+
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+body.theme-dark {
+  background: #000;
+  color: var(--text-light);
+}
+
+body.theme-light {
+  background: #fff;
+  color: var(--text-dark);
+}
+
+/* ======================================================
+   ACCESSIBILITY
+====================================================== */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: #000;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 1000;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ======================================================
+   GLASS
+====================================================== */
+.glass {
+  backdrop-filter: blur(var(--blur)) saturate(160%);
+  border-radius: var(--radius);
+}
+
+body.theme-dark .glass {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+body.theme-light .glass {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(0,0,0,0.12);
+}
+
+/* ======================================================
+   HEADER & NAV
+====================================================== */
+.header-inner {
+  max-width: var(--container);
+  margin: auto;
+  padding: var(--space-sm) 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .site-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
+
   backdrop-filter: blur(18px) saturate(160%);
 }
 
@@ -26,40 +146,18 @@ body.theme-light .site-header {
   border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
-.header-inner {
-  max-width: var(--container);
-  margin: auto;
-  padding: var(--space-sm) 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-
-/* ======================================================
-   BRAND (LOGO + TEXT)
-====================================================== */
 .brand-link {
   display: flex;
   align-items: center;
   gap: 12px;
   text-decoration: none;
   color: inherit;
-  position: relative;
-}
-
-/* Never apply underline / hover experiments to brand */
-.brand-link::after {
-  display: none;
 }
 
 .logo {
   width: 48px;
   height: 48px;
-}
-
-.brand-text {
-  line-height: 1.2;
 }
 
 .brand-name {
@@ -69,13 +167,8 @@ body.theme-light .site-header {
 .brand-tagline {
   font-size: 0.75rem;
   color: var(--gray);
-  opacity: 0.6;
 }
 
-
-/* ======================================================
-   NAVIGATION
-====================================================== */
 .nav-list {
   list-style: none;
   display: flex;
@@ -83,44 +176,48 @@ body.theme-light .site-header {
 }
 
 .nav-list a {
+  text-decoration: none;
+  color: inherit;
   font-size: 0.75rem;
   letter-spacing: 1px;
-  text-decoration: none;
-  position: relative;
   opacity: 0.75;
-  color: inherit;
 }
 
-/* Disable experimental underline in header nav */
-.nav-list a::after {
-  display: none;
-}
-
-/* Hover state */
-.nav-list a:hover {
-  opacity: 1;
-  color: var(--brand-green);
-}
-
-/* Active page */
 .nav-list a.active {
   opacity: 1;
-  color: var(--brand-green);
   border-bottom: 2px solid var(--brand-green);
   padding-bottom: 4px;
 }
 
+body {
+  padding-top: 96px; /* header height */
+}
+
 
 /* ======================================================
-   MAIN LAYOUT
+   MAIN & INTRO
 ====================================================== */
 .site-main {
   max-width: var(--container);
   margin: var(--space-lg) auto;
   padding: 0 20px;
 }
+
+.home-intro,
 .page-intro {
-  margin-bottom: var(--space-lg);/
+  padding: var(--space-lg) 0 var(--space-md);
+}
+
+.home-intro h1,
+.page-intro h1 {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+}
+
+.home-intro p,
+.page-intro p {
+  max-width: 700px;
+  color: var(--gray);
 }
 
 /* ======================================================
@@ -146,9 +243,12 @@ body.theme-light .site-header {
   grid-template-columns: repeat(2, 1fr);
 }
 
+.contact-actions {
+  grid-template-columns: repeat(3, 1fr);
+}
 
 /* ======================================================
-   CARD SYSTEM
+   CARD SYSTEM (FINAL)
 ====================================================== */
 .life-card,
 .blog-card,
@@ -160,10 +260,13 @@ body.theme-light .site-header {
   display: flex;
   flex-direction: column;
   gap: 18px;
+
   border-radius: calc(var(--radius) + 4px);
   overflow: hidden;
+
   text-decoration: none;
   color: inherit;
+
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
@@ -235,6 +338,40 @@ body.theme-light .action-card {
   transform: translateY(-8px);
 }
 
+body.theme-dark .life-card:hover,
+body.theme-dark .blog-card:hover,
+body.theme-dark .service-card:hover,
+body.theme-dark .connect-card:hover,
+body.theme-dark .action-card:hover {
+  box-shadow: 0 30px 60px rgba(0,0,0,0.75);
+}
+
+body.theme-light .life-card:hover,
+body.theme-light .blog-card:hover,
+body.theme-light .service-card:hover,
+body.theme-light .connect-card:hover,
+body.theme-light .action-card:hover {
+  box-shadow: 0 28px 52px rgba(0,0,0,0.18);
+}
+
+/* Card text helpers */
+.life-card p,
+.blog-card p,
+.service-card p,
+.connect-card p,
+.action-card p {
+  color: var(--gray);
+  font-size: 0.95rem;
+}
+
+.life-action,
+.blog-meta,
+.service-tag,
+.connect-tag {
+  margin-top: auto;
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
 
 /* ======================================================
    FOOTER
@@ -268,10 +405,8 @@ body.theme-light .action-card {
 
 .footer-social {
   display: flex;
-  align-items: center;
   gap: 16px;
 }
-
 
 .social-icons {
   display: flex;
@@ -284,17 +419,20 @@ body.theme-light .action-card {
   display: block;
 }
 
-/* Theme toggle */
 .theme-toggle {
   background: none;
   border: none;
+
   font-size: 22px;
   cursor: pointer;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   width: 36px;
   height: 36px;
+
   border-radius: 50%;
   transition: transform 0.2s ease, background 0.2s ease;
 }
@@ -308,9 +446,75 @@ body.theme-dark .theme-toggle:hover {
   background: rgba(255,255,255,0.12);
 }
 
+
 .footer-bottom {
   text-align: center;
   padding: 20px;
   font-size: 0.7rem;
   color: var(--gray);
+}
+
+/* ======================================================
+   MOBILE
+====================================================== */
+@media (max-width: 768px) {
+
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .nav-list {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-list a[href="collaboration.html"] {
+    font-size: 0;
+  }
+
+  .nav-list a[href="collaboration.html"]::after {
+    content: "Collab";
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+
+  .site-main {
+    margin: var(--space-lg) auto;
+  }
+
+  .life-grid,
+  .blog-grid,
+  .services-grid,
+  .connect-grid,
+  .contact-actions {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .footer-right {
+    text-align: left;
+  }
+}
+
+/* ======================================================
+   PERSONAL CARD IFRAME
+====================================================== */
+.section-frame {
+  width: 100%;
+  border: none;
+  margin-top: var(--space-xl);
+  min-height: 900px;
+}
+
+@media (max-width: 768px) {
+  .section-frame {
+    min-height: 1200px;
+  }
 }

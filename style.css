@@ -1,41 +1,40 @@
 /* ======================================================
-   DESIGN TOKENS
+   style.css (LEGACY / GLUE FILE)
+   --------------------------------
+   This file exists temporarily while the project
+   transitions to a modular CSS architecture.
+
+   Ownership:
+   - base.css        → foundation, theme, reset
+   - components.css  → header, nav, grids, cards, footer
+   - style.css       → mobile fixes, experiments, overrides
+
+   ⚠ Do not add new global styles here.
 ====================================================== */
-:root {
-  --container: 1100px;
 
-  --space-xs: 8px;
-  --space-sm: 12px;
-  --space-md: 24px;
-  --space-lg: 48px;
-  --space-xl: 80px;
-
-  --radius: 18px;
-  --blur: 18px;
-
-  --brand-green: #046A38;
-  --brand-orange: #FF671F;
-
-  --gray: #bdbdbd;
-  --text-dark: #111;
-  --text-light: #e5e5e5;
-
-  /* Card system */
-  --card-shadow-dark: 0 20px 40px rgba(0,0,0,0.55);
-  --card-shadow-light: 0 18px 36px rgba(0,0,0,0.12);
-  --card-border-dark: rgba(255,255,255,0.12);
-  --card-border-light: rgba(0,0,0,0.08);
-}
 
 /* ======================================================
-   RESET & BASE
+   EXPERIMENTAL LINK HOVER
+   --------------------------------
+   Temporary animated underline for text links.
+   Will be moved or removed in later phase.
 ====================================================== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Remove underline from call / message links */
+a[href^="tel"],
+a[href^="mailto"],
+a[href*="wa.me"] {
+  text-decoration: none;
+}
+
+/* Also disable experimental underline animation */
+a[href^="tel"]::after,
+a[href^="mailto"]::after,
+a[href*="wa.me"]::after {
+  display: none;
+}
+
+a {
+  position: relative;
 }
 
 a::after {
@@ -62,414 +61,37 @@ a:hover::after {
   transform-origin: left;
 }
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
-  line-height: 1.65;
-  min-height: 100vh;
-}
-
-body.theme-dark {
-  background: #000;
-  color: var(--text-light);
-}
-
-body.theme-light {
-  background: #fff;
-  color: var(--text-dark);
-}
-
-/* ======================================================
-   ACCESSIBILITY
-====================================================== */
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: 16px;
-  background: #000;
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 6px;
-  z-index: 1000;
-  text-decoration: none;
-}
-.skip-link:focus {
-  top: 16px;
-}
-
-/* ======================================================
-   GLASS
-====================================================== */
-.glass {
-  backdrop-filter: blur(var(--blur)) saturate(160%);
-  border-radius: var(--radius);
-}
-
-body.theme-dark .glass {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.14);
-}
-
-body.theme-light .glass {
-  background: rgba(255,255,255,0.6);
-  border: 1px solid rgba(0,0,0,0.12);
-}
-
-/* ======================================================
-   HEADER & NAV
-====================================================== */
-.header-inner {
-  max-width: var(--container);
-  margin: auto;
-  padding: var(--space-sm) 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-
-  backdrop-filter: blur(18px) saturate(160%);
-}
-
-body.theme-dark .site-header {
-  background: rgba(0,0,0,0.6);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-}
-
-body.theme-light .site-header {
-  background: rgba(255,255,255,0.85);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-}
-
-
-.brand-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.logo {
-  width: 48px;
-  height: 48px;
-}
-
-.brand-name {
-  font-weight: 600;
-}
-
-.brand-tagline {
-  font-size: 0.75rem;
-  color: var(--gray);
-}
-
-.nav-list {
-  list-style: none;
-  display: flex;
-  gap: 28px;
-}
-
-.nav-list a {
-  text-decoration: none;
-  color: inherit;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-  opacity: 0.75;
-}
-
-.nav-list a.active {
-  opacity: 1;
-  border-bottom: 2px solid var(--brand-green);
-  padding-bottom: 4px;
-}
-
-body {
-  padding-top: 96px; /* header height */
+/* Footer & icon links must never receive underline effects */
+.footer-inner a::after,
+.footer-social a::after,
+.social-icons a::after {
+  display: none !important;
 }
 
 
 /* ======================================================
-   MAIN & INTRO
+   MOBILE-ONLY ADJUSTMENTS
+   --------------------------------
+   These rules intentionally stay here until
+   mobile behavior is fully stabilized.
 ====================================================== */
-.site-main {
-  max-width: var(--container);
-  margin: var(--space-lg) auto;
-  padding: 0 20px;
-}
 
-.home-intro,
-.page-intro {
-  padding: var(--space-lg) 0 var(--space-md);
-}
-
-.home-intro h1,
-.page-intro h1 {
-  font-size: 2.2rem;
-  margin-bottom: 12px;
-}
-
-.home-intro p,
-.page-intro p {
-  max-width: 700px;
-  color: var(--gray);
-}
-
-/* ======================================================
-   GRID SYSTEMS
-====================================================== */
-.life-grid,
-.blog-grid,
-.services-grid,
-.connect-grid,
-.contact-actions {
-  display: grid;
-  gap: 32px;
-  padding: var(--space-lg) 0;
-}
-
-.life-grid,
-.blog-grid {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.services-grid,
-.connect-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.contact-actions {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-/* ======================================================
-   CARD SYSTEM (FINAL)
-====================================================== */
-.life-card,
-.blog-card,
-.service-card,
-.connect-card,
-.action-card {
-  position: relative;
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-
-  border-radius: calc(var(--radius) + 4px);
-  overflow: hidden;
-
-  text-decoration: none;
-  color: inherit;
-
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-}
-
-body.theme-dark .life-card,
-body.theme-dark .blog-card,
-body.theme-dark .service-card,
-body.theme-dark .connect-card,
-body.theme-dark .action-card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--card-border-dark);
-  box-shadow: var(--card-shadow-dark);
-}
-
-body.theme-light .life-card,
-body.theme-light .blog-card,
-body.theme-light .service-card,
-body.theme-light .connect-card,
-body.theme-light .action-card {
-  background: #fff;
-  border: 1px solid var(--card-border-light);
-  box-shadow: var(--card-shadow-light);
-}
-
-/* Inner glow */
-.life-card::before,
-.blog-card::before,
-.service-card::before,
-.connect-card::before,
-.action-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    120% 120% at top left,
-    rgba(4,106,56,0.18),
-    transparent 60%
-  );
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* Brand edge */
-.life-card::after,
-.blog-card::after,
-.service-card::after,
-.connect-card::after,
-.action-card::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 4px;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    var(--brand-green),
-    var(--brand-orange)
-  );
-  opacity: 0.85;
-}
-
-/* Hover lift */
-.life-card:hover,
-.blog-card:hover,
-.service-card:hover,
-.connect-card:hover,
-.action-card:hover {
-  transform: translateY(-8px);
-}
-
-body.theme-dark .life-card:hover,
-body.theme-dark .blog-card:hover,
-body.theme-dark .service-card:hover,
-body.theme-dark .connect-card:hover,
-body.theme-dark .action-card:hover {
-  box-shadow: 0 30px 60px rgba(0,0,0,0.75);
-}
-
-body.theme-light .life-card:hover,
-body.theme-light .blog-card:hover,
-body.theme-light .service-card:hover,
-body.theme-light .connect-card:hover,
-body.theme-light .action-card:hover {
-  box-shadow: 0 28px 52px rgba(0,0,0,0.18);
-}
-
-/* Card text helpers */
-.life-card p,
-.blog-card p,
-.service-card p,
-.connect-card p,
-.action-card p {
-  color: var(--gray);
-  font-size: 0.95rem;
-}
-
-.life-action,
-.blog-meta,
-.service-tag,
-.connect-tag {
-  margin-top: auto;
-  font-size: 0.7rem;
-  opacity: 0.6;
-}
-
-/* ======================================================
-   FOOTER
-====================================================== */
-.site-footer {
-  margin-top: var(--space-xl);
-}
-
-.footer-inner {
-  max-width: var(--container);
-  margin: auto;
-  padding: 40px 20px;
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 40px;
-}
-
-.footer-title {
-  font-size: 0.9rem;
-}
-
-.footer-text {
-  font-size: 0.8rem;
-  color: var(--gray);
-}
-
-.footer-right {
-  text-align: right;
-  font-size: 0.8rem;
-}
-
-.footer-social {
-  display: flex;
-  gap: 16px;
-}
-
-.social-icons {
-  display: flex;
-  gap: 16px;
-}
-
-.social-icons img {
-  width: 22px;
-  height: 22px;
-  display: block;
-}
-
-.theme-toggle {
-  background: none;
-  border: none;
-
-  font-size: 22px;
-  cursor: pointer;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 36px;
-  height: 36px;
-
-  border-radius: 50%;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.theme-toggle:hover {
-  transform: scale(1.1);
-  background: rgba(0,0,0,0.06);
-}
-
-body.theme-dark .theme-toggle:hover {
-  background: rgba(255,255,255,0.12);
-}
-
-
-.footer-bottom {
-  text-align: center;
-  padding: 20px;
-  font-size: 0.7rem;
-  color: var(--gray);
-}
-
-/* ======================================================
-   MOBILE
-====================================================== */
 @media (max-width: 768px) {
 
+  /* Header layout */
   .header-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
   }
 
+  /* Navigation spacing */
   .nav-list {
     width: 100%;
     justify-content: space-between;
   }
 
+  /* Mobile-friendly label for Collaboration */
   .nav-list a[href="collaboration.html"] {
     font-size: 0;
   }
@@ -478,12 +100,18 @@ body.theme-dark .theme-toggle:hover {
     content: "Collab";
     font-size: 0.75rem;
     letter-spacing: 1px;
+    transform: none; /* prevent underline animation */
+    position: static;
+    height: auto;
+    background: none;
   }
 
+  /* Main spacing */
   .site-main {
     margin: var(--space-lg) auto;
   }
 
+  /* Single-column layouts */
   .life-grid,
   .blog-grid,
   .services-grid,
@@ -493,6 +121,7 @@ body.theme-dark .theme-toggle:hover {
     gap: 24px;
   }
 
+  /* Footer layout */
   .footer-inner {
     grid-template-columns: 1fr;
     text-align: left;
@@ -503,9 +132,15 @@ body.theme-dark .theme-toggle:hover {
   }
 }
 
+
 /* ======================================================
-   PERSONAL CARD IFRAME
+   SPECIAL CASES
+   --------------------------------
+   These styles are page-specific and intentionally
+   not moved into components yet.
 ====================================================== */
+
+/* Embedded personal card / iframe */
 .section-frame {
   width: 100%;
   border: none;

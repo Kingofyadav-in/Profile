@@ -1,0 +1,83 @@
+/* ======================================================
+   BASE CSS
+   Global foundation styles
+====================================================== */
+
+/* Design tokens */
+:root {
+  --container: 1100px;
+
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 24px;
+  --space-lg: 48px;
+  --space-xl: 80px;
+
+  --radius: 18px;
+  --blur: 18px;
+
+  --brand-green: #046A38;
+  --brand-orange: #FF671F;
+
+  --gray: #bdbdbd;
+  --text-dark: #111;
+  --text-light: #e5e5e5;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body & theme */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+  line-height: 1.65;
+  min-height: 100vh;
+  padding-top: 96px; /* fixed header offset */
+}
+
+body.theme-dark {
+  background: #000;
+  color: var(--text-light);
+}
+
+body.theme-light {
+  background: #fff;
+  color: var(--text-dark);
+}
+
+/* Accessibility */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: #000;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 1000;
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* Glass utility */
+.glass {
+  backdrop-filter: blur(var(--blur)) saturate(160%);
+  border-radius: var(--radius);
+}
+
+body.theme-dark .glass {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+body.theme-light .glass {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(0,0,0,0.12);
+}

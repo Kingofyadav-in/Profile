@@ -1,0 +1,146 @@
+/* ======================================================
+   BLOG PAGE STYLES
+   --------------------------------
+   Scope: blog.html only
+   Responsibility:
+   - Blog grid
+   - Blog library
+   - Responsive behavior
+====================================================== */
+
+
+/* ======================================================
+   BLOG GRID (TOP SECTION – EXISTING)
+   (Kept compatible with your components.css cards)
+====================================================== */
+
+.blog-grid {
+  margin-top: var(--space-lg);
+}
+
+
+/* ======================================================
+   BLOG LIBRARY (DESKTOP FIRST)
+====================================================== */
+
+.blog-library {
+  margin-top: var(--space-xl);
+}
+
+/* Library intro spacing */
+.blog-library .page-intro {
+  margin-bottom: var(--space-md);
+}
+
+/* Desktop grid */
+.blog-library-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* Library card */
+.blog-library-item {
+  padding: 28px;
+  border-radius: 18px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover lift (desktop only feel) */
+.blog-library-item:hover {
+  transform: translateY(-6px);
+}
+
+/* Title */
+.blog-library-item h3 {
+  font-size: 1.05rem;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+
+/* Meta (Top / Latest / Featured) */
+.blog-meta {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--brand-green);
+  margin-bottom: 12px;
+}
+
+/* Description */
+.blog-library-item p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* Read more */
+.read-more {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--brand-green);
+  text-decoration: none;
+}
+
+/* Prevent underline experiment here */
+.read-more::after {
+  display: none;
+}
+
+
+/* ======================================================
+   TABLET ADJUSTMENT
+====================================================== */
+
+@media (max-width: 1024px) {
+  .blog-library-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+}
+
+
+/* ======================================================
+   MOBILE OPTIMIZATION (PHONE FIRST UX)
+====================================================== */
+
+@media (max-width: 768px) {
+
+  /* Section spacing */
+  .blog-library {
+    margin-top: 48px;
+  }
+
+  /* One column layout */
+  .blog-library-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Card comfort */
+  .blog-library-item {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  /* Title readability */
+  .blog-library-item h3 {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  /* Text flow */
+  .blog-library-item p {
+    font-size: 0.85rem;
+    line-height: 1.65;
+  }
+
+  /* CTA clarity */
+  .read-more {
+    margin-top: 20px;
+    font-size: 0.8rem;
+  }
+}
