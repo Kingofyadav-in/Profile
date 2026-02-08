@@ -19,6 +19,12 @@
   --gray: #bdbdbd;
   --text-dark: #111;
   --text-light: #e5e5e5;
+
+  /* Card system */
+  --card-shadow-dark: 0 20px 40px rgba(0,0,0,0.55);
+  --card-shadow-light: 0 18px 36px rgba(0,0,0,0.12);
+  --card-border-dark: rgba(255,255,255,0.12);
+  --card-border-light: rgba(0,0,0,0.08);
 }
 
 /* ======================================================
@@ -30,6 +36,30 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    var(--brand-green),
+    var(--brand-orange)
+  );
+
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 body {
@@ -73,10 +103,12 @@ body.theme-light {
   backdrop-filter: blur(var(--blur)) saturate(160%);
   border-radius: var(--radius);
 }
+
 body.theme-dark .glass {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.14);
 }
+
 body.theme-light .glass {
   background: rgba(255,255,255,0.6);
   border: 1px solid rgba(0,0,0,0.12);
@@ -93,6 +125,27 @@ body.theme-light .glass {
   justify-content: space-between;
   align-items: center;
 }
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  backdrop-filter: blur(18px) saturate(160%);
+}
+
+body.theme-dark .site-header {
+  background: rgba(0,0,0,0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+body.theme-light .site-header {
+  background: rgba(255,255,255,0.85);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
 
 .brand-link {
   display: flex;
@@ -136,12 +189,17 @@ body.theme-light .glass {
   padding-bottom: 4px;
 }
 
+body {
+  padding-top: 96px; /* header height */
+}
+
+
 /* ======================================================
    MAIN & INTRO
 ====================================================== */
 .site-main {
   max-width: var(--container);
-  margin: var(--space-xl) auto;
+  margin: var(--space-lg) auto;
   padding: 0 20px;
 }
 
@@ -190,21 +248,113 @@ body.theme-light .glass {
 }
 
 /* ======================================================
-   CARDS (UNIFIED)
+   CARD SYSTEM (FINAL)
 ====================================================== */
 .life-card,
 .blog-card,
 .service-card,
 .connect-card,
 .action-card {
+  position: relative;
   padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+
+  border-radius: calc(var(--radius) + 4px);
+  overflow: hidden;
+
   text-decoration: none;
   color: inherit;
+
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
+body.theme-dark .life-card,
+body.theme-dark .blog-card,
+body.theme-dark .service-card,
+body.theme-dark .connect-card,
+body.theme-dark .action-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--card-border-dark);
+  box-shadow: var(--card-shadow-dark);
+}
+
+body.theme-light .life-card,
+body.theme-light .blog-card,
+body.theme-light .service-card,
+body.theme-light .connect-card,
+body.theme-light .action-card {
+  background: #fff;
+  border: 1px solid var(--card-border-light);
+  box-shadow: var(--card-shadow-light);
+}
+
+/* Inner glow */
+.life-card::before,
+.blog-card::before,
+.service-card::before,
+.connect-card::before,
+.action-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120% 120% at top left,
+    rgba(4,106,56,0.18),
+    transparent 60%
+  );
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Brand edge */
+.life-card::after,
+.blog-card::after,
+.service-card::after,
+.connect-card::after,
+.action-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    var(--brand-green),
+    var(--brand-orange)
+  );
+  opacity: 0.85;
+}
+
+/* Hover lift */
+.life-card:hover,
+.blog-card:hover,
+.service-card:hover,
+.connect-card:hover,
+.action-card:hover {
+  transform: translateY(-8px);
+}
+
+body.theme-dark .life-card:hover,
+body.theme-dark .blog-card:hover,
+body.theme-dark .service-card:hover,
+body.theme-dark .connect-card:hover,
+body.theme-dark .action-card:hover {
+  box-shadow: 0 30px 60px rgba(0,0,0,0.75);
+}
+
+body.theme-light .life-card:hover,
+body.theme-light .blog-card:hover,
+body.theme-light .service-card:hover,
+body.theme-light .connect-card:hover,
+body.theme-light .action-card:hover {
+  box-shadow: 0 28px 52px rgba(0,0,0,0.18);
+}
+
+/* Card text helpers */
 .life-card p,
 .blog-card p,
 .service-card p,
@@ -224,23 +374,7 @@ body.theme-light .glass {
 }
 
 /* ======================================================
-   COLLABORATION PAGE (FINAL)
-====================================================== */
-.connect-grid {
-  align-items: stretch;
-}
-
-.connect-card {
-  justify-content: space-between;
-}
-
-.connect-card h2 {
-  font-size: 1.2rem;
-  line-height: 1.4;
-}
-
-/* ======================================================
-   FOOTER (CLEAN & FINAL)
+   FOOTER
 ====================================================== */
 .site-footer {
   margin-top: var(--space-xl);
@@ -269,10 +403,8 @@ body.theme-light .glass {
   font-size: 0.8rem;
 }
 
-/* SOCIAL ICONS (COLOR ICONS) */
 .footer-social {
   display: flex;
-  align-items: center;
   gap: 16px;
 }
 
@@ -287,7 +419,34 @@ body.theme-light .glass {
   display: block;
 }
 
-/* FOOTER BOTTOM */
+.theme-toggle {
+  background: none;
+  border: none;
+
+  font-size: 22px;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  background: rgba(0,0,0,0.06);
+}
+
+body.theme-dark .theme-toggle:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+
 .footer-bottom {
   text-align: center;
   padding: 20px;
@@ -296,7 +455,7 @@ body.theme-light .glass {
 }
 
 /* ======================================================
-   MOBILE (SINGLE SOURCE)
+   MOBILE
 ====================================================== */
 @media (max-width: 768px) {
 
@@ -342,10 +501,6 @@ body.theme-light .glass {
   .footer-right {
     text-align: left;
   }
-
-  .footer-social {
-    justify-content: flex-start;
-  }
 }
 
 /* ======================================================
@@ -358,7 +513,6 @@ body.theme-light .glass {
   min-height: 900px;
 }
 
-/* Mobile adjustment */
 @media (max-width: 768px) {
   .section-frame {
     min-height: 1200px;
