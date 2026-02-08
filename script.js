@@ -76,26 +76,52 @@ function updateStatus() {
 }
 
 function loadSocials() {
-  const box = $("socialLinks");
+  const box = document.getElementById("socialLinks");
   if (!box) return;
 
-  const links = {
-    facebook: "https://www.facebook.com/kingofyadav.in",
-    instagram: "https://www.instagram.com/kingofyadav.in",
-    youtube: "https://www.youtube.com/@kingofyadav-in",
-    github: "https://github.com/kingofyadav"
-  };
+  const links = [
+    {
+      name: "facebook",
+      url: "https://www.facebook.com/kingofyadav.in",
+      icon: "https://cdn-icons-png.flaticon.com/512/124/124010.png"
+    },
+    {
+      name: "instagram",
+      url: "https://www.instagram.com/kingofyadav.in",
+      icon: "https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+    },
+    {
+      name: "youtube",
+      url: "https://www.youtube.com/@kingofyadav-in",
+      icon: "https://cdn-icons-png.flaticon.com/512/1384/1384060.png"
+    },
+    {
+      name: "github",
+      url: "https://github.com/kingofyadav",
+      icon: "https://cdn-icons-png.flaticon.com/512/733/733553.png"
+    }
+  ];
 
-  for (const [name, url] of Object.entries(links)) {
+  box.innerHTML = "";
+
+  links.forEach(({ name, url, icon }) => {
     const a = document.createElement("a");
     a.href = url;
     a.target = "_blank";
     a.rel = "noopener";
-    a.setAttribute("aria-label", `${name} profile`);
-    a.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${name}.svg" alt="">`;
+    a.setAttribute("aria-label", name);
+
+    const img = document.createElement("img");
+    img.src = icon;
+    img.alt = name;
+    img.loading = "lazy";
+
+    a.appendChild(img);
     box.appendChild(a);
-  }
+  });
 }
+
+
 
 /* ================= INIT ================= */
 

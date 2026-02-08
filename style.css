@@ -22,7 +22,7 @@
 }
 
 /* ======================================================
-   RESET
+   RESET & BASE
 ====================================================== */
 *,
 *::before,
@@ -32,9 +32,6 @@
   padding: 0;
 }
 
-/* ======================================================
-   BASE
-====================================================== */
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
   line-height: 1.65;
@@ -52,30 +49,42 @@ body.theme-light {
 }
 
 /* ======================================================
+   ACCESSIBILITY
+====================================================== */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: #000;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 1000;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ======================================================
    GLASS
 ====================================================== */
 .glass {
   backdrop-filter: blur(var(--blur)) saturate(160%);
   border-radius: var(--radius);
 }
-
 body.theme-dark .glass {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.14);
 }
-
 body.theme-light .glass {
   background: rgba(255,255,255,0.6);
   border: 1px solid rgba(0,0,0,0.12);
 }
 
 /* ======================================================
-   HEADER / NAV
+   HEADER & NAV
 ====================================================== */
-.site-header {
-  position: static;
-}
-
 .header-inner {
   max-width: var(--container);
   margin: auto;
@@ -107,7 +116,6 @@ body.theme-light .glass {
   color: var(--gray);
 }
 
-/* NAV */
 .nav-list {
   list-style: none;
   display: flex;
@@ -129,7 +137,7 @@ body.theme-light .glass {
 }
 
 /* ======================================================
-   MAIN LAYOUT
+   MAIN & INTRO
 ====================================================== */
 .site-main {
   max-width: var(--container);
@@ -137,9 +145,6 @@ body.theme-light .glass {
   padding: 0 20px;
 }
 
-/* ======================================================
-   INTRO SECTIONS
-====================================================== */
 .home-intro,
 .page-intro {
   padding: var(--space-lg) 0 var(--space-md);
@@ -158,7 +163,7 @@ body.theme-light .glass {
 }
 
 /* ======================================================
-   GRIDS
+   GRID SYSTEMS
 ====================================================== */
 .life-grid,
 .blog-grid,
@@ -166,7 +171,7 @@ body.theme-light .glass {
 .connect-grid,
 .contact-actions {
   display: grid;
-  gap: var(--space-md);
+  gap: 32px;
   padding: var(--space-lg) 0;
 }
 
@@ -185,17 +190,17 @@ body.theme-light .glass {
 }
 
 /* ======================================================
-   CARDS
+   CARDS (UNIFIED)
 ====================================================== */
 .life-card,
 .blog-card,
 .service-card,
 .connect-card,
 .action-card {
-  padding: 28px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
   text-decoration: none;
   color: inherit;
 }
@@ -219,7 +224,23 @@ body.theme-light .glass {
 }
 
 /* ======================================================
-   FOOTER (DESKTOP-FIRST)
+   COLLABORATION PAGE (FINAL)
+====================================================== */
+.connect-grid {
+  align-items: stretch;
+}
+
+.connect-card {
+  justify-content: space-between;
+}
+
+.connect-card h2 {
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+/* ======================================================
+   FOOTER (CLEAN & FINAL)
 ====================================================== */
 .site-footer {
   margin-top: var(--space-xl);
@@ -234,17 +255,6 @@ body.theme-light .glass {
   gap: 40px;
 }
 
-/* LEFT = PRIMARY */
-.footer-inner > div:first-child {
-  text-align: left;
-}
-
-/* RIGHT = FUTURE / STATUS */
-.footer-right {
-  text-align: right;
-  font-size: 0.8rem;
-}
-
 .footer-title {
   font-size: 0.9rem;
 }
@@ -254,16 +264,30 @@ body.theme-light .glass {
   color: var(--gray);
 }
 
-/* SOCIAL */
+.footer-right {
+  text-align: right;
+  font-size: 0.8rem;
+}
+
+/* SOCIAL ICONS (COLOR ICONS) */
 .footer-social {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-/* ======================================================
-   FOOTER BOTTOM
-====================================================== */
+.social-icons {
+  display: flex;
+  gap: 16px;
+}
+
+.social-icons img {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+/* FOOTER BOTTOM */
 .footer-bottom {
   text-align: center;
   padding: 20px;
@@ -272,11 +296,10 @@ body.theme-light .glass {
 }
 
 /* ======================================================
-   MOBILE OPTIMIZATION
+   MOBILE (SINGLE SOURCE)
 ====================================================== */
 @media (max-width: 768px) {
 
-  /* HEADER */
   .header-inner {
     flex-direction: column;
     align-items: flex-start;
@@ -288,26 +311,29 @@ body.theme-light .glass {
     justify-content: space-between;
   }
 
-  /* MAIN */
+  .nav-list a[href="collaboration.html"] {
+    font-size: 0;
+  }
+
+  .nav-list a[href="collaboration.html"]::after {
+    content: "Collab";
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+
   .site-main {
     margin: var(--space-lg) auto;
   }
 
-  .home-intro h1,
-  .page-intro h1 {
-    font-size: 1.9rem;
-  }
-
-  /* GRIDS */
   .life-grid,
   .blog-grid,
   .services-grid,
   .connect-grid,
   .contact-actions {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
 
-  /* FOOTER */
   .footer-inner {
     grid-template-columns: 1fr;
     text-align: left;
