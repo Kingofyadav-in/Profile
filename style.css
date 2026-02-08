@@ -347,3 +347,20 @@ body.theme-light .glass {
     justify-content: flex-start;
   }
 }
+
+/* ======================================================
+   PERSONAL CARD IFRAME
+====================================================== */
+.section-frame {
+  width: 100%;
+  border: none;
+  margin-top: var(--space-xl);
+  min-height: 900px;
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px) {
+  .section-frame {
+    min-height: 1200px;
+  }
+}
