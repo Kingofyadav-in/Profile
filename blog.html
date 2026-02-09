@@ -44,9 +44,24 @@
   <link rel="stylesheet" href="css/blog.css" />
   <link rel="stylesheet" href="style.css" />
 
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "kingofyadav Blog",
+  "url": "https://kingofyadav.in/blog.html",
+  "author": {
+    "@type": "Person",
+    "name": "kingofyadav"
+  }
+}
+</script>
+
+
 </head>
 
 <body class="theme-dark">
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
 <!-- ==================================================
      HEADER
@@ -105,14 +120,15 @@
   <!-- ================= BLOG GRID ================= -->
   <section class="blog-grid" aria-label="Blog articles">
 
-    <article class="blog-card glass">
-      <h2>Building With Purpose</h2>
-      <p>
-        Why discipline, clarity, and long-term structure matter more than speed
-        when building meaningful work and institutions.
-      </p>
+    <a href="blog/building-with-purpose.html"
+        class="blog-card glass">
+        <h2>Building With Purpose</h2>
+        <p>
+          Why discipline, clarity, and long-term structure matter more than speed
+          when building meaningful work and institutions.
+        </p>
       <span class="blog-meta">Leadership · Vision</span>
-    </article>
+    </a>
 
     <article class="blog-card glass">
       <h2>Technology and Social Responsibility</h2>
@@ -163,7 +179,7 @@
           Exploring the discipline, values, and accountability required
           for meaningful public service.
         </p>
-        <a href="#" class="read-more">Read More →</a>
+        <a href="blog/public-service-responsibility.html" class="read-more">Read More →</a>
       </article>
 
       <article class="blog-library-item glass">
@@ -173,7 +189,7 @@
           How leaders should think and act during uncertainty,
           pressure, and transition.
         </p>
-        <a href="#" class="read-more">Read More →</a>
+        <a href="blog/leadership-difficult-times.html" class="read-more">Read More →</a>
       </article>
 
       <article class="blog-library-item glass">
@@ -183,7 +199,7 @@
           Understanding youth participation in shaping long-term
           public policy and governance.
         </p>
-        <a href="#" class="read-more">Read More →</a>
+        <a href="blog/youth-policy-future.html" class="read-more">Read More →</a>
       </article>
 
       <article class="blog-library-item glass">
@@ -193,7 +209,7 @@
           A journey from local engagement to structured systems
           and institutional leadership.
         </p>
-        <a href="#" class="read-more">Read More →</a>
+        <a href="blog/grassroots-governance.html" class="read-more">Read More →</a>
       </article>
 
       <article class="blog-library-item glass">
@@ -203,7 +219,7 @@
           Why transparency and digital openness are critical
           in modern public leadership.
         </p>
-        <a href="#" class="read-more">Read More →</a>
+        <a href="blog/digital-transparency.html" class="read-more">Read More →</a>
       </article>
 
     </div>
@@ -218,7 +234,8 @@
 <footer class="site-footer glass">
   <div class="footer-inner">
 
-    <div>
+    <!-- LEFT: ENQUIRY -->
+    <div class="footer-enquiry">
       <p class="footer-title">Enquiry</p>
       <p class="footer-text">
         Amit Ku Yadav<br />
@@ -226,10 +243,16 @@
         Office: Bhagalpur, India<br />
         Mail: kingofyadav.in@gmail.com
       </p>
+
+      <div class="social-icons" id="socialLinks"></div>
     </div>
 
-    <div class="footer-social">
-      <div id="socialLinks" class="social-icons"></div>
+    <!-- RIGHT: STATUS + TOGGLE -->
+    <div class="footer-right">
+      <div id="footerClock">--:--</div>
+      <div>Bhagalpur, India</div>
+      <div id="status">STATUS: --</div>
+
       <button
         id="themeToggle"
         class="theme-toggle"
@@ -238,12 +261,6 @@
       >
         🌙
       </button>
-    </div>
-
-    <div class="footer-right">
-      <div id="footerClock" aria-live="polite">--:--</div>
-      <div>Bhagalpur, India</div>
-      <div id="status" aria-live="polite">STATUS: --</div>
     </div>
 
   </div>

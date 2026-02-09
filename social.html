@@ -82,11 +82,9 @@
     </section>
 
     <!-- ================= SOCIAL OVERVIEW ================= -->
-    <section class="glass" style="padding:40px; margin-bottom:80px;">
-
-      <h2 style="margin-bottom:16px;">Public & Digital Communication</h2>
-
-      <p style="color:var(--gray); max-width:700px;">
+    <section class="social-section glass">
+      <h2>Public & Digital Communication</h2>
+      <p>
         This page represents the official and active social media presence
         of Amit Ku Yadav. All platforms listed below are used for public
         updates, community communication, and social engagement.
@@ -95,9 +93,7 @@
     </section>
 
     <!-- ================= SOCIAL PLATFORMS ================= -->
-    <section>
-
-      <h2 style="margin-bottom:32px;">Official Social Platforms</h2>
+    <section class="social-section">
 
       <div class="life-grid">
 
@@ -145,47 +141,45 @@
     </section>
 
     <!-- ================= EXTENDED DIGITAL PRESENCE ================= -->
-    <section style="margin-top:80px;">
-
-      <h2 style="margin-bottom:32px;">Extended Digital Presence</h2>
+    <section class="social-section">
 
       <div class="life-grid">
 
         <!-- Twitter / X -->
-        <div class="life-card glass">
-          <h3>X (Twitter)</h3>
+        <a href="https://facebook.com/kingofyadav.in" target="_blank" class="life-card glass">
+          <h3>Facebook</h3>
           <p>
             Public opinions, short updates, and engagement on key topics.
           </p>
-          <span class="life-action">Coming Soon</span>
-        </div>
+          <span class="life-action">Visit Page →</span>
+        </a>
 
         <!-- WhatsApp -->
-        <div class="life-card glass">
+        <a href="https://wa.me/919523528114" target="_blank" class="life-card glass">
           <h3>WhatsApp</h3>
           <p>
             Direct communication and coordination through official channels.
           </p>
           <span class="life-action">Contact Page</span>
-        </div>
+        </a>
 
         <!-- Website -->
-        <div class="life-card glass">
+        <a href="https://kingofyadav.in" class="life-card glass">
           <h3>Official Website</h3>
           <p>
             Central platform for personal, professional, and social presence.
           </p>
           <span class="life-action">You are here</span>
-        </div>
+        </a>
 
       </div>
 
     </section>
 
     <!-- ================= SOCIAL ACTIVITY NOTE ================= -->
-    <section class="glass" style="padding:32px; margin-top:80px;">
+    <section class="social-section glass">
 
-      <p style="color:var(--gray); max-width:700px;">
+      <p>
         🔔 <strong>Note:</strong>  
         This page is regularly updated to reflect active and verified
         social platforms. For accurate information, public communication,
@@ -200,35 +194,43 @@
        FOOTER (SAME AS HOME)
   ================================================== -->
   <footer class="site-footer glass">
-    <div class="footer-inner">
+  <div class="footer-inner">
 
-      <div>
-        <p class="footer-title">Enquiry</p>
-        <p class="footer-text">
-          Amit Ku Yadav<br />
-          Phone: +91 95235 28114<br />
-          Office: Bhagalpur, India<br />
-          Mail: kingofyadav.in@gmail.com
-        </p>
-      </div>
+    <!-- LEFT: ENQUIRY -->
+    <div class="footer-enquiry">
+      <p class="footer-title">Enquiry</p>
+      <p class="footer-text">
+        Amit Ku Yadav<br />
+        Phone: +91 95235 28114<br />
+        Office: Bhagalpur, India<br />
+        Mail: kingofyadav.in@gmail.com
+      </p>
 
-      <div class="footer-social">
-        <div id="socialLinks" class="social-icons"></div>
-        <button id="themeToggle" class="theme-toggle">🌙</button>
-      </div>
-
-      <div class="footer-right">
-        <div id="footerClock">--:--</div>
-        <div>Bhagalpur, India</div>
-        <div id="status">STATUS: --</div>
-      </div>
-
+      <div class="social-icons" id="socialLinks"></div>
     </div>
 
-    <div class="footer-bottom">
-      © <span id="year"></span> · All rights reserved
+    <!-- RIGHT: STATUS + TOGGLE -->
+    <div class="footer-right">
+      <div id="footerClock">--:--</div>
+      <div>Bhagalpur, India</div>
+      <div id="status">STATUS: --</div>
+
+      <button
+        id="themeToggle"
+        class="theme-toggle"
+        aria-label="Toggle theme"
+        title="Toggle theme"
+      >
+        🌙
+      </button>
     </div>
-  </footer>
+
+  </div>
+
+  <div class="footer-bottom">
+    © <span id="year"></span> · All rights reserved
+  </div>
+</footer>
 
   <!-- MAIN SITE SCRIPT -->
   <script src="script.js"></script>

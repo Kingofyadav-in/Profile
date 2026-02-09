@@ -3,7 +3,10 @@
    Global foundation styles
 ====================================================== */
 
-/* Design tokens */
+/* ======================================================
+   DESIGN TOKENS
+====================================================== */
+
 :root {
   --container: 1100px;
 
@@ -22,9 +25,20 @@
   --gray: #bdbdbd;
   --text-dark: #111;
   --text-light: #e5e5e5;
+
+  /* 🔥 CARD TOKENS (PRO FIX) */
+  --card-border-dark: rgba(255,255,255,0.14);
+  --card-border-light: rgba(0,0,0,0.12);
+
+  --card-shadow-dark: 0 10px 30px rgba(0,0,0,0.45);
+  --card-shadow-light: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* Reset */
+
+/* ======================================================
+   RESET
+====================================================== */
+
 *,
 *::before,
 *::after {
@@ -33,12 +47,27 @@
   padding: 0;
 }
 
-/* Body & theme */
+
+/* ======================================================
+   BODY & THEME
+====================================================== */
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
-  line-height: 1.65;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
+  font-size: 15px;              /* Pro baseline */
+  line-height: 1.7;             /* Reading comfort */
+  letter-spacing: 0.1px;        /* Subtle clarity */
+
   min-height: 100vh;
-  padding-top: 96px; /* fixed header offset */
+  padding-top: 96px;
 }
 
 body.theme-dark {
@@ -51,7 +80,47 @@ body.theme-light {
   color: var(--text-dark);
 }
 
-/* Accessibility */
+/* ======================================================
+   TYPOGRAPHY – HEADINGS
+====================================================== */
+
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+h1 {
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+
+h3 {
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+/* ======================================================
+   TYPOGRAPHY – BODY TEXT
+====================================================== */
+
+p {
+  margin-bottom: 0.75em;
+  color: var(--gray);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* ======================================================
+   ACCESSIBILITY
+====================================================== */
+
 .skip-link {
   position: absolute;
   top: -100px;
@@ -62,11 +131,16 @@ body.theme-light {
   border-radius: 6px;
   z-index: 1000;
 }
+
 .skip-link:focus {
   top: 16px;
 }
 
-/* Glass utility */
+
+/* ======================================================
+   GLASS UTILITY
+====================================================== */
+
 .glass {
   backdrop-filter: blur(var(--blur)) saturate(160%);
   border-radius: var(--radius);
@@ -80,4 +154,41 @@ body.theme-dark .glass {
 body.theme-light .glass {
   background: rgba(255,255,255,0.6);
   border: 1px solid rgba(0,0,0,0.12);
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14.5px;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  h2 {
+    font-size: 1.15rem;
+  }
+}
+
+/* ======================================================
+   LIGHT THEME – GLOBAL TEXT CONTRAST FIX (FINAL)
+====================================================== */
+
+body.theme-light {
+  --text-primary: #111;
+  --text-secondary: #333;
+  --text-muted: #555;
+}
+
+/* Override gray usage in light theme */
+body.theme-light p {
+  color: var(--text-secondary);
+}
+
+body.theme-light .footer-text,
+body.theme-light .footer-right,
+body.theme-light .footer-bottom,
+body.theme-light span,
+body.theme-light li {
+  color: var(--text-muted);
 }

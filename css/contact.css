@@ -44,21 +44,6 @@
   line-height: 1.6;
   opacity: 0.85;
 }
-/* ======================================================
-   CONNECTION IS POWER – MANIFESTO BLOCK
-====================================================== */
-
-.connection-intro {
-  max-width: 720px;              /* focus the message */
-  margin-bottom: var(--space-xl);
-}
-
-.connection-intro h1 {
-  font-size: clamp(1.8rem, 3.2vw, 2.2rem); /* ⬅ reduced */
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  margin-bottom: 20px;
-}
 
 /* Thought list */
 .connection-thoughts {

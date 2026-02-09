@@ -1,0 +1,54 @@
+/* ======================================================
+   PROFESSIONAL PAGE – FINAL STYLES
+   Scope: professional.html only
+   Goal:
+   - Calm professional hierarchy
+   - Consistent spacing system
+   - Perfect desktop & mobile balance
+====================================================== */
+
+
+/* ======================================================
+   PAGE INTRO
+====================================================== */
+
+.page-intro {
+  max-width: 720px;
+  margin-bottom: var(--space-xl);
+}
+
+.page-intro h1 {
+  font-size: clamp(1.9rem, 3vw, 2.3rem);
+  margin-bottom: 12px;
+}
+
+.page-intro p {
+  color: var(--gray);
+  max-width: 680px;
+  line-height: 1.7;
+}
+
+
+/* ======================================================
+   GENERIC SECTION RHYTHM
+====================================================== */
+
+.site-main > section {
+  margin-bottom: var(--space-xl);
+}
+
+.site-main > section > h2 {
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+}
+
+.site-main > section > p {
+  max-width: 720px;
+  color: var(--gray);
+  line-height: 1.7;
+}
+
+
+/* ======================================================
+   LIFE GRID ADJUSTMENTS (PRO CONTEXT)
+====================

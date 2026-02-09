@@ -36,6 +36,17 @@
   margin-bottom: 28px;
 }
 
+.connect-card {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.connect-card::after {
+  display: none !important;
+}
+
+
 /* ======================================================
    COLLABORATION PARTNERS LIBRARY
 ====================================================== */

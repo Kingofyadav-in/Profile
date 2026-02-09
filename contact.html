@@ -41,9 +41,27 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/contact.css" />
   <link rel="stylesheet" href="style.css" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "kingofyadav",
+  "url": "https://kingofyadav.in/contact.html",
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "telephone": "+91-95235-28114",
+    "contactType": "primary",
+    "areaServed": "IN",
+    "availableLanguage": ["English", "Hindi"]
+  }]
+}
+</script>
+
 </head>
 
 <body class="theme-dark">
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
 <!-- ================= HEADER ================= -->
 <header class="site-header glass">
@@ -86,60 +104,54 @@
 <main class="site-main" id="main-content">
 
   <!-- INTRO -->
- <section class="connection-intro">
-  <h1>Connection Is Power</h1>
-
-  <ul class="connection-thoughts">
-    <li>A phone connects humans.</li>
-    <li>The internet connects the world.</li>
-    <li>People connect purpose.</li>
-    <li>Systems store and scale knowledge.</li>
-  </ul>
-</section>
-
-
-  <!-- CONNECTION GRID -->
-  <section class="connect-grid" aria-label="Ways to connect">
-
-    <article class="connect-card glass">
-      <h2>Phone</h2>
-      <p>Direct human connection — voice, trust, and urgency.</p>
-      <span class="connect-tag">Call · Message</span>
-    </article>
-
-    <article class="connect-card glass">
-      <h2>Internet</h2>
-      <p>Information, reach, speed, and global presence.</p>
-      <span class="connect-tag">Web · Email</span>
-    </article>
-
-    <article class="connect-card glass">
-      <h2>People</h2>
-      <p>Communities, teams, youth, and social responsibility.</p>
-      <span class="connect-tag">Society · Network</span>
-    </article>
-
-    <article class="connect-card glass">
-      <h2>Systems</h2>
-      <p>Machines that store, learn, and scale understanding.</p>
-      <span class="connect-tag">AI · Automation</span>
-    </article>
-
-  </section>
-
-  <!-- ================= CONTACT / COMMUNITY HUB ================= -->
-  <section class="contact-community">
-
-    <div class="page-intro">
+  <div class="page-intro">
       <h1>Community & Contact</h1>
       <p>
        This space exists to bring people together — to learn,
        contribute, and slowly build meaningful work through community.
       </p>
-     </div>
+  </div>
+
+  <!-- CONNECTION GRID -->
+<section class="connect-grid" aria-label="Ways to connect">
+
+  <a href="tel:+919523528114"
+     class="connect-card glass"
+     aria-label="Call kingofyadav">
+    <h2>Phone</h2>
+    <p>Direct human connection — voice, trust, and urgency.</p>
+    <span class="connect-tag">Call · Message</span>
+  </a>
+
+  <a href="mailto:kingofyadav.in@gmail.com"
+     class="connect-card glass"
+     aria-label="Email kingofyadav">
+    <h2>Internet</h2>
+    <p>Information, reach, speed, and global presence.</p>
+    <span class="connect-tag">Web · Email</span>
+  </a>
+
+  <a href="#people-community"
+     class="connect-card glass"
+     aria-label="People and community connections">
+    <h2>People</h2>
+    <p>Communities, teams, youth, and social responsibility.</p>
+    <span class="connect-tag">Society · Network</span>
+  </a>
+
+  <a href="#work-community"
+     class="connect-card glass"
+     aria-label="Systems and work collaboration">
+    <h2>Systems</h2>
+    <p>Machines that store, learn, and scale understanding.</p>
+    <span class="connect-tag">AI · Automation</span>
+  </a>
+
+</section>
+
 
   <!-- ================= PEOPLE COMMUNITY ================= -->
-  <section class="contact-library">
+  <section class="contact-library" id="people-community">
     <div class="page-intro">
       <h2>People Community</h2>
       <p>
@@ -219,7 +231,7 @@
   </section>
 
   <!-- ================= WORK COMMUNITY ================= -->
-  <section class="contact-library">
+  <section class="contact-library" id="work-community">
     <div class="page-intro">
       <h2>Work Community</h2>
       <p>
@@ -258,18 +270,20 @@
     </div>
   </section>
 
-</section>
-
 <!-- CONTACT ACTIONS -->
 
 <section class="contact-actions" aria-label="Direct contact actions">
 
-    <a href="tel:+919523528114" class="action-card glass">
+    <a href="tel:+919523528114" 
+      class="action-card glass"
+      aria-label="Call kingofyadav">
       <h3>Call</h3>
       <p>For urgent and direct communication</p>
     </a>
 
-    <a href="mailto:kingofyadav.in@gmail.com" class="action-card glass">
+    <a href="mailto:kingofyadav.in@gmail.com" 
+      class="action-card glass"
+      aria-label="Email kingofyadav">
       <h3>Email</h3>
       <p>For detailed and thoughtful messages</p>
     </a>
@@ -280,7 +294,7 @@
       target="_blank"
       rel="noopener"
     >
-      <h3>Collaborate</h3>
+      <h3>YouTube</h3>
       <p>Projects, services, and partnerships</p>
     </a>
 
@@ -292,7 +306,8 @@
 <footer class="site-footer glass">
   <div class="footer-inner">
 
-    <div>
+    <!-- LEFT: ENQUIRY -->
+    <div class="footer-enquiry">
       <p class="footer-title">Enquiry</p>
       <p class="footer-text">
         Amit Ku Yadav<br />
@@ -300,10 +315,16 @@
         Office: Bhagalpur, India<br />
         Mail: kingofyadav.in@gmail.com
       </p>
+
+      <div class="social-icons" id="socialLinks"></div>
     </div>
 
-    <div class="footer-social">
-      <div id="socialLinks" class="social-icons"></div>
+    <!-- RIGHT: STATUS + TOGGLE -->
+    <div class="footer-right">
+      <div id="footerClock">--:--</div>
+      <div>Bhagalpur, India</div>
+      <div id="status">STATUS: --</div>
+
       <button
         id="themeToggle"
         class="theme-toggle"
@@ -314,16 +335,10 @@
       </button>
     </div>
 
-    <div class="footer-right">
-      <div id="footerClock" aria-live="polite">--:--</div>
-      <div>Bhagalpur, India</div>
-      <div id="status" aria-live="polite">STATUS: --</div>
-    </div>
-
   </div>
 
   <div class="footer-bottom">
-    © <span id="year"></span> · Connection is responsibility
+    © <span id="year"></span> · All rights reserved
   </div>
 </footer>
 

@@ -81,3 +81,11 @@
     border-radius: 16px;
   }
 }
+.service-cta {
+  margin-top: auto;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--brand-green);
+  text-decoration: none;
+}
+

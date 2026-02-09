@@ -81,24 +81,10 @@
       </p>
     </section>
 
-    <!-- ================= PROFESSIONAL OVERVIEW ================= -->
-    <section class="glass" style="padding:40px; margin-bottom:80px;">
-
-      <h2 style="margin-bottom:16px;">Professional Overview</h2>
-
-      <p style="color:var(--gray); max-width:700px;">
-        Amit Ku Yadav is actively involved in professional coordination,
-        leadership responsibilities, and structured work across public,
-        organizational, and community-driven initiatives. His professional
-        approach emphasizes clarity, accountability, and long-term impact.
-      </p>
-
-    </section>
-
     <!-- ================= CORE PROFESSIONAL AREAS ================= -->
     <section>
 
-      <h2 style="margin-bottom:32px;">Core Areas of Work</h2>
+      <h2>Core Areas of Work</h2>
 
       <div class="life-grid">
 
@@ -134,9 +120,9 @@
     </section>
 
     <!-- ================= PROFESSIONAL VALUES ================= -->
-    <section style="margin-top:80px;">
+    <section>
 
-      <h2 style="margin-bottom:24px;">Professional Values</h2>
+      <h2>Professional Values</h2>
 
       <div class="life-grid">
 
@@ -165,35 +151,43 @@
        FOOTER (SAME AS HOME)
   ================================================== -->
   <footer class="site-footer glass">
-    <div class="footer-inner">
+  <div class="footer-inner">
 
-      <div>
-        <p class="footer-title">Enquiry</p>
-        <p class="footer-text">
-          Amit Ku Yadav<br />
-          Phone: +91 95235 28114<br />
-          Office: Bhagalpur, India<br />
-          Mail: kingofyadav.in@gmail.com
-        </p>
-      </div>
+    <!-- LEFT: ENQUIRY -->
+    <div class="footer-enquiry">
+      <p class="footer-title">Enquiry</p>
+      <p class="footer-text">
+        Amit Ku Yadav<br />
+        Phone: +91 95235 28114<br />
+        Office: Bhagalpur, India<br />
+        Mail: kingofyadav.in@gmail.com
+      </p>
 
-      <div class="footer-social">
-        <div id="socialLinks" class="social-icons"></div>
-        <button id="themeToggle" class="theme-toggle">🌙</button>
-      </div>
-
-      <div class="footer-right">
-        <div id="footerClock">--:--</div>
-        <div>Bhagalpur, India</div>
-        <div id="status">STATUS: --</div>
-      </div>
-
+      <div class="social-icons" id="socialLinks"></div>
     </div>
 
-    <div class="footer-bottom">
-      © <span id="year"></span> · All rights reserved
+    <!-- RIGHT: STATUS + TOGGLE -->
+    <div class="footer-right">
+      <div id="footerClock">--:--</div>
+      <div>Bhagalpur, India</div>
+      <div id="status">STATUS: --</div>
+
+      <button
+        id="themeToggle"
+        class="theme-toggle"
+        aria-label="Toggle theme"
+        title="Toggle theme"
+      >
+        🌙
+      </button>
     </div>
-  </footer>
+
+  </div>
+
+  <div class="footer-bottom">
+    © <span id="year"></span> · All rights reserved
+  </div>
+</footer>
 
   <!-- MAIN SITE SCRIPT -->
   <script src="script.js"></script>

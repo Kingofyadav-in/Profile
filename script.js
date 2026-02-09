@@ -53,6 +53,12 @@ function updateLogo() {
   logo.src = `logo/${theme}-logo.png`;
 }
 
+document.querySelectorAll('.nav-list a').forEach(link => {
+  if (link.href === location.href) {
+    link.classList.add('active');
+  }
+});
+
 /* ================= FOOTER ================= */
 
 function updateClock() {

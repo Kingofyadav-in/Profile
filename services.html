@@ -42,9 +42,52 @@
   <link rel="stylesheet" href="css/services.css" />
   <link rel="stylesheet" href="style.css" />
 
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "kingofyadav",
+  "url": "https://kingofyadav.in",
+  "jobTitle": "Founder & Service Provider",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Bhagalpur",
+    "addressCountry": "IN"
+  },
+  "makesOffer": [
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Individual Development",
+        "description": "Guidance, learning paths, and growth systems for individuals."
+      }
+    },
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Commercial Solutions",
+        "description": "Strategy, technology, and execution support for businesses."
+      }
+    },
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Machine Intelligence",
+        "description": "AI, ML, and automation solutions built with ethical focus."
+      }
+    }
+  ]
+}
+</script>
+
+
 </head>
 
 <body class="theme-dark">
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
 <!-- ================= HEADER ================= -->
 <header class="site-header glass">
@@ -106,6 +149,7 @@
         focused on clarity, skills, and disciplined progress.
       </p>
       <span class="service-tag">Teenagers · Adults</span>
+        <a href="contact.html" class="service-cta">Enquire →</a>
     </article>
 
     <article class="service-card glass">
@@ -115,6 +159,7 @@
         startups, and organizations.
       </p>
       <span class="service-tag">Business · Organizations</span>
+        <a href="contact.html" class="service-cta">Enquire →</a>
     </article>
 
     <article class="service-card glass">
@@ -124,6 +169,7 @@
         exploration, and experience-based growth.
       </p>
       <span class="service-tag">Learn · Explore</span>
+        <a href="contact.html" class="service-cta">Enquire →</a>
     </article>
 
     <article class="service-card glass">
@@ -133,6 +179,7 @@
         ethical, and adaptive solutions.
       </p>
       <span class="service-tag">AI · ML · Automation</span>
+        <a href="contact.html" class="service-cta">Enquire →</a>
     </article>
 
   </section>
@@ -157,7 +204,7 @@
           A hospitality venture offering cultural experience,
           comfort, and responsible tourism practices.
         </p>
-        <a href="#" class="read-more">Read More →</a>
+        <a href="collaboration.html" class="read-more">Read More →</a>
       </article>
 
       <!-- Item 2 -->
@@ -168,7 +215,7 @@
           A registered brokerage firm delivering structured,
           compliant, and growth-oriented financial solutions.
         </p>
-        <a href="#" class="read-more">Read More →</a>
+        <a href="collaboration.html" class="read-more">Read More →</a>
       </article>
 
       <!-- Item 3 -->
@@ -179,7 +226,7 @@
           A national NGO prioritizing children and women,
           followed by youth development and environmental responsibility.
         </p>
-        <a href="#" class="read-more">Read More →</a>
+        <a href="javascript:void(0)" aria-disabled="true" class="read-more">Details coming soon</a>
       </article>
       <!-- Item 4 (NEW) -->
       <article class="services-library-item glass">
@@ -189,7 +236,7 @@
          A fitness initiative based in Bhagalpur, now expanding
          online to support health, training, and wellness worldwide.
         </p>
-          <a href="#" class="read-more">Read More →</a>
+          <a href="javascript:void(0)" aria-disabled="true" class="read-more">Details coming soon</a>
       </article>
 
     </div>
@@ -201,7 +248,8 @@
 <footer class="site-footer glass">
   <div class="footer-inner">
 
-    <div>
+    <!-- LEFT: ENQUIRY -->
+    <div class="footer-enquiry">
       <p class="footer-title">Enquiry</p>
       <p class="footer-text">
         Amit Ku Yadav<br />
@@ -209,10 +257,16 @@
         Office: Bhagalpur, India<br />
         Mail: kingofyadav.in@gmail.com
       </p>
+
+      <div class="social-icons" id="socialLinks"></div>
     </div>
 
-    <div class="footer-social">
-      <div id="socialLinks" class="social-icons"></div>
+    <!-- RIGHT: STATUS + TOGGLE -->
+    <div class="footer-right">
+      <div id="footerClock">--:--</div>
+      <div>Bhagalpur, India</div>
+      <div id="status">STATUS: --</div>
+
       <button
         id="themeToggle"
         class="theme-toggle"
@@ -221,12 +275,6 @@
       >
         🌙
       </button>
-    </div>
-
-    <div class="footer-right">
-      <div id="footerClock" aria-live="polite">--:--</div>
-      <div>Bhagalpur, India</div>
-      <div id="status" aria-live="polite">STATUS: --</div>
     </div>
 
   </div>

@@ -15,6 +15,7 @@
   <!-- ================= THEME / PWA ================= -->
   <meta name="theme-color" content="#000000" />
   <link rel="manifest" href="/manifest.json" />
+  <meta name="robots" content="index, follow">
 
   <!-- ================= OPEN GRAPH ================= -->
   <meta property="og:type" content="website" />
@@ -36,13 +37,21 @@
   />
 
   <!-- ================= STYLES ================= -->
-  <link rel="preload" href="css/base.css" as="style" />
-  <link rel="preload" href="css/components.css" as="style" />
-  <link rel="preload" href="style.css" as="style" />
-  
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/components.css" />
+
+  <!-- Base (critical) -->
+  <link rel="preload" href="css/base.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/base.css"></noscript>
+
+  <!-- Components (critical UI) -->
+  <link rel="preload" href="css/components.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/components.css"></noscript>
+
+  <!-- Page-specific -->
+  <link rel="stylesheet" href="css/index.css" />
+
+  <!-- Legacy / overrides -->
   <link rel="stylesheet" href="style.css" />
+
 
 
   <!-- ================= ICONS ================= -->
@@ -65,7 +74,7 @@
       <!-- Brand -->
       <div class="brand">
         <a href="/" class="brand-link" aria-label="kingofyadav home">
-          <img
+          <img fetchpriority="high" decoding="async"
             id="siteLogo"
             class="logo"
             src="logo/day-logo.png"
@@ -142,42 +151,45 @@
        FOOTER
   ================================================== -->
   <footer class="site-footer glass">
-    <div class="footer-inner">
+  <div class="footer-inner">
 
-      <div>
-        <p class="footer-title">Enquiry</p>
-        <p class="footer-text">
-          Amit Ku Yadav<br />
-          Phone: +91 95235 28114<br />
-          Office: Bhagalpur, India<br />
-          Mail: kingofyadav.in@gmail.com
-        </p>
-      </div>
+    <!-- LEFT: ENQUIRY -->
+    <div class="footer-enquiry">
+      <p class="footer-title">Enquiry</p>
+      <p class="footer-text">
+        Amit Ku Yadav<br />
+        Phone: +91 95235 28114<br />
+        Office: Bhagalpur, India<br />
+        Mail: kingofyadav.in@gmail.com
+      </p>
 
-      <div class="footer-social">
-        <div id="socialLinks" class="social-icons"></div>
-        <button
-          id="themeToggle"
-          class="theme-toggle"
-          aria-label="Toggle theme"
-          title="Toggle theme"
-        >
-          🌙
-        </button>
-      </div>
-
-      <div class="footer-right">
-        <div id="footerClock" aria-live="polite">--:--</div>
-        <div>Bhagalpur, India</div>
-        <div id="status" aria-live="polite">STATUS: --</div>
-      </div>
-
+      <!-- Social icons now logically belong here -->
+      <div class="social-icons" id="socialLinks"></div>
     </div>
 
-    <div class="footer-bottom">
-      © <span id="year"></span> · All rights reserved
+    <!-- RIGHT: STATUS + TOGGLE -->
+    <div class="footer-right">
+      <div id="footerClock">--:--</div>
+      <div>Bhagalpur, India</div>
+      <div id="status">STATUS: --</div>
+
+      <!-- Toggle now logically belongs here -->
+      <button
+        id="themeToggle"
+        class="theme-toggle"
+        aria-label="Toggle theme"
+        title="Toggle theme"
+      >
+        🌙
+      </button>
     </div>
-  </footer>
+
+  </div>
+
+  <div class="footer-bottom">
+    © <span id="year"></span> · All rights reserved
+  </div>
+</footer>
 
   <!-- ================= SCRIPT ================= -->
   <script src="script.js"></script>
