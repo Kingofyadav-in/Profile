@@ -159,10 +159,6 @@ body.theme-light .site-header {
   padding: 0 20px;
 }
 
-.page-intro {
-  margin-bottom: var(--space-lg);
-}
-
 
 /* ======================================================
    GRID SYSTEMS
@@ -470,5 +466,14 @@ body.theme-light .site-footer {
     font-size: 0.9rem;
     line-height: 1.6;
   }
+}
+/* ======================================================
+   GLOBAL FIRST SECTION SPACING (FINAL AUTHORITY)
+====================================================== */
+
+.home-intro,
+.page-intro {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
 }
 

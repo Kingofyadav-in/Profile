@@ -127,7 +127,42 @@ function loadSocials() {
   });
 }
 
+/* ================= PERSONAL ACCESS GATE ================= */
 
+const PERSONAL_ACCESS_PHRASE = "sahul";
+
+function checkPersonalAccess() {
+  const input = document.getElementById("accessKey");
+  const error = document.getElementById("accessError");
+  if (!input) return;
+
+  if (input.value.trim() === PERSONAL_ACCESS_PHRASE) {
+    sessionStorage.setItem("personalAccess", "granted");
+    window.location.href = "personal.html";
+  } else {
+    if (error) error.style.display = "block";
+  }
+}
+
+function initPersonalAccessGate() {
+  const input = document.getElementById("accessKey");
+  const button = document.getElementById("accessSubmit");
+
+  if (!input || !button) return;
+
+  // Button click
+  button.addEventListener("click", checkPersonalAccess);
+
+  // Enter key support
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      checkPersonalAccess();
+    }
+  });
+
+  // Auto focus
+  input.focus();
+}
 
 /* ================= INIT ================= */
 
@@ -138,6 +173,10 @@ document.addEventListener("DOMContentLoaded", () => {
   updateClock();
   updateStatus();
   loadSocials();
+
+  initPersonalAccessGate();
+  guardPersonalPage();
+
 
   const year = $("year");
   if (year) year.textContent = new Date().getFullYear();

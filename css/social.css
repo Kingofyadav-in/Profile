@@ -1,10 +1,12 @@
 /* ======================================================
-   SOCIAL PAGE – LAYOUT & RHYTHM
+   SOCIAL PAGE – PUBLIC DIGITAL PRESENCE (PRO)
    Scope: social.html only
-   Goal:
-   - Calm spacing
-   - Perfect desktop/mobile balance
-   - Zero inline styles
+   Goals:
+   - Strong hierarchy
+   - Calm vertical rhythm
+   - Card grids feel balanced
+   - Perfect mobile readability
+   - Zero global bleed
 ====================================================== */
 
 
@@ -12,97 +14,127 @@
    PAGE INTRO
 ====================================================== */
 
-.page-intro {
-  max-width: 720px;
-  margin-bottom: var(--space-xl);
+.page-social .page-intro {
+  max-width: 760px;
 }
 
-.page-intro h1 {
-  font-size: clamp(1.9rem, 3vw, 2.3rem);
-  margin-bottom: 12px;
+.page-social .page-intro h1 {
+  font-size: clamp(2rem, 3.2vw, 2.4rem);
+  margin-bottom: 14px;
 }
 
-.page-intro p {
-  color: var(--gray);
-  max-width: 680px;
-}
-
-
-/* ======================================================
-   GENERIC SOCIAL SECTION
-====================================================== */
-
-.social-section {
-  margin-bottom: var(--space-xl);
-}
-
-.social-section.glass {
-  padding: 40px;
-}
-
-.social-section h2 {
-  margin-bottom: 16px;
-  font-size: 1.25rem;
-}
-
-.social-section p {
-  color: var(--gray);
+.page-social .page-intro p {
   max-width: 700px;
-  line-height: 1.7;
+  line-height: 1.75;
+  color: var(--gray);
 }
 
 
 /* ======================================================
-   LIFE GRID (SOCIAL CARDS)
-   Reuses existing .life-card design
+   CONTENT GROUPING
 ====================================================== */
 
-.social-section .life-grid {
+.page-social .social-content {
+  margin-top: var(--space-xl);
+}
+
+
+/* ======================================================
+   SECTION RHYTHM
+====================================================== */
+
+.page-social .social-overview,
+.page-social .social-platforms,
+.page-social .social-extended,
+.page-social .social-note {
+  margin-bottom: var(--space-xl);
+}
+
+
+/* ======================================================
+   GLASS SECTIONS (OVERVIEW + NOTE)
+====================================================== */
+
+.page-social .social-overview.glass,
+.page-social .social-note.glass {
+  padding: 44px;
+  border-radius: var(--radius);
+}
+
+.page-social .social-overview h2,
+.page-social .social-platforms h2,
+.page-social .social-extended h2 {
+  font-size: 1.35rem;
+  margin-bottom: 18px;
+}
+
+.page-social .social-overview p,
+.page-social .social-note p {
+  max-width: 720px;
+  line-height: 1.75;
+  color: var(--gray);
+}
+
+
+/* ======================================================
+   GRID CONTEXT (SOCIAL CARDS)
+====================================================== */
+
+.page-social .social-platforms .life-grid,
+.page-social .social-extended .life-grid {
   margin-top: 0;
 }
 
 
 /* ======================================================
-   CARD TEXT TUNING (SOCIAL CONTEXT)
+   CARD TONE (SOCIAL CONTEXT)
 ====================================================== */
 
-.life-card h3 {
+.page-social .life-card {
+  min-height: 100%;
+}
+
+.page-social .life-card h3 {
   font-size: 1.1rem;
 }
 
-.life-card p {
-  font-size: 0.9rem;
+.page-social .life-card p {
+  font-size: 0.92rem;
   line-height: 1.6;
 }
 
-.life-action {
+.page-social .life-action {
   margin-top: auto;
   font-size: 0.75rem;
   letter-spacing: 1px;
+  opacity: 0.8;
 }
 
 
 /* ======================================================
-   NOTE / INFO BLOCK
+   NOTE / EMPHASIS
 ====================================================== */
 
-.social-section.glass p strong {
+.page-social .social-note p strong {
   color: var(--text-light);
 }
 
 
 /* ======================================================
-   RESPONSIVE – TABLET
+   RESPONSIVE – LARGE TABLETS
 ====================================================== */
 
 @media (max-width: 1024px) {
 
-  .social-section.glass {
-    padding: 32px;
+  .page-social .social-overview.glass,
+  .page-social .social-note.glass {
+    padding: 36px;
   }
 
-  .page-intro {
-    margin-bottom: 64px;
+  .page-social .social-overview h2,
+  .page-social .social-platforms h2,
+  .page-social .social-extended h2 {
+    font-size: 1.25rem;
   }
 }
 
@@ -113,32 +145,58 @@
 
 @media (max-width: 768px) {
 
-  .page-intro {
-    margin-bottom: 48px;
-  }
-
-  .page-intro h1 {
+  .page-social .page-intro h1 {
     font-size: 1.9rem;
   }
 
-  .social-section {
+  .page-social .social-content {
+    margin-top: 56px;
+  }
+
+  .page-social .social-overview,
+  .page-social .social-platforms,
+  .page-social .social-extended,
+  .page-social .social-note {
     margin-bottom: 56px;
   }
 
-  .social-section.glass {
-    padding: 24px;
+  .page-social .social-overview.glass,
+  .page-social .social-note.glass {
+    padding: 26px;
   }
 
-  .social-section h2 {
-    font-size: 1.1rem;
+  .page-social .social-overview h2,
+  .page-social .social-platforms h2,
+  .page-social .social-extended h2 {
+    font-size: 1.15rem;
   }
 
-  .social-section p {
+  .page-social .life-card h3 {
+    font-size: 1.05rem;
+  }
+
+  .page-social .life-card p {
     font-size: 0.9rem;
-    line-height: 1.65;
   }
 
-  .life-action {
+  .page-social .life-action {
     font-size: 0.8rem;
+  }
+}
+
+
+/* ======================================================
+   RESPONSIVE – SMALL MOBILE
+====================================================== */
+
+@media (max-width: 420px) {
+
+  .page-social .social-overview.glass,
+  .page-social .social-note.glass {
+    padding: 22px;
+  }
+
+  .page-social .page-intro p {
+    font-size: 0.95rem;
   }
 }

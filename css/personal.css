@@ -1,0 +1,235 @@
+/* ======================================================
+   PERSONAL PAGE – PRIVATE CONTENT SYSTEM (FINAL)
+   Scope: personal.html only
+   Principles:
+   - Uses global header & footer
+   - No duplicate component logic
+   - Clean private layout
+   - Mobile-first, calm, readable
+====================================================== */
+
+
+/* ======================================================
+   PAGE CONTAINER
+====================================================== */
+
+.personal-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+
+/* ======================================================
+   PERSONAL HEADER (PRIVATE VARIANT)
+   Uses global header offset from body
+====================================================== */
+
+.personal-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 900;
+  backdrop-filter: blur(14px);
+}
+
+body.theme-dark .personal-header {
+  background: rgba(0, 0, 0, 0.65);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.theme-light .personal-header {
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.personal-header-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+/* ======================================================
+   BRAND (LOGO + NAME)
+====================================================== */
+
+.personal-brand {
+  text-decoration: none;
+  color: inherit;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  row-gap: 2px;
+  align-items: center;
+}
+
+.personal-logo {
+  grid-row: 1 / span 2;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.personal-name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.personal-tagline {
+  grid-column: 2;
+  font-size: 0.72rem;
+  opacity: 0.6;
+}
+
+
+/* ======================================================
+   PERSONAL NAVIGATION
+====================================================== */
+
+.personal-nav {
+  display: flex;
+  gap: 18px;
+}
+
+.personal-nav a {
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.6;
+  color: inherit;
+}
+
+.personal-nav a:hover {
+  opacity: 1;
+}
+
+
+/* ======================================================
+   CONTENT SECTIONS
+====================================================== */
+
+.personal-section {
+  margin-bottom: 96px;
+}
+
+.personal-section.glass {
+  padding: 28px;
+  border-radius: 20px;
+}
+
+.personal-section h1 {
+  font-size: 1.9rem;
+  margin-bottom: 8px;
+}
+
+.personal-section h2 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+
+/* ======================================================
+   TEXT & IDENTITY
+====================================================== */
+
+.personal-role {
+  font-size: 0.85rem;
+  opacity: 0.65;
+  margin-bottom: 18px;
+}
+
+.personal-intro {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  max-width: 620px;
+  opacity: 0.9;
+}
+
+
+/* ======================================================
+   AVATAR
+====================================================== */
+
+.personal-avatar {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 18px;
+}
+
+
+/* ======================================================
+   PERSONAL ACTIONS
+   (Uses global .life-card component)
+====================================================== */
+
+.personal-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.personal-actions .life-card {
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+
+/* ======================================================
+   MOBILE COMFORT
+====================================================== */
+
+@media (max-width: 768px) {
+
+  .personal-main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .personal-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .personal-nav {
+    gap: 14px;
+  }
+
+  .personal-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .personal-section {
+    margin-bottom: 72px;
+  }
+
+  .personal-section.glass {
+    padding: 22px;
+  }
+
+  .personal-section h1 {
+    font-size: 1.6rem;
+  }
+
+  .personal-intro {
+    font-size: 0.92rem;
+  }
+
+  .personal-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

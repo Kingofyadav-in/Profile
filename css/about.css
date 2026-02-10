@@ -1,0 +1,96 @@
+/* ===============================
+   ABOUT – ENTRY HUB
+=============================== */
+
+.about-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(3rem, 6vw, 6rem) 1.25rem;
+  display: grid;
+  gap: clamp(1.8rem, 3vw, 2.8rem);
+}
+
+.page-intro h1 {
+  font-size: clamp(2.4rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.hero-text {
+  margin-top: 0.8rem;
+  max-width: 60ch;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* ENTRY CARDS */
+.about-entry {
+  border-radius: 20px;
+  background: var(--surface-soft);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.entry-link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.4rem;
+  padding: 2.2rem;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.entry-label {
+  font-weight: 600;
+  opacity: 0.5;
+}
+
+.about-entry h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.about-entry p {
+  margin: 0.4rem 0 0;
+  max-width: 44ch;
+  opacity: 0.75;
+  line-height: 1.6;
+}
+
+.entry-arrow {
+  font-size: 1.6rem;
+  opacity: 0.4;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* INTERACTION */
+.about-entry:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+}
+
+.about-entry:hover .entry-arrow {
+  transform: translateX(6px);
+  opacity: 1;
+}
+
+.about-entry:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* IDENTITY */
+.home-entry   { border-left: 4px solid #4f46e5; }
+.family-entry { border-left: 4px solid #16a34a; }
+.friends-entry{ border-left: 4px solid #ea580c; }
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .entry-link {
+    grid-template-columns: 1fr auto;
+  }
+
+  .entry-label {
+    display: none;
+  }
+}

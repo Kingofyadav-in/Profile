@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Private Access · Personal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <style>
+    /* -------- ACCESS GATE (LOCAL ONLY) -------- */
+
+    .access-wrapper {
+      min-height: calc(100vh - 96px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .access-card {
+      max-width: 420px;
+      width: 100%;
+      padding: 32px;
+      border-radius: 22px;
+      text-align: center;
+    }
+
+    .access-card h1 {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .access-card p {
+      font-size: 0.9rem;
+      opacity: 0.75;
+      margin-bottom: 22px;
+    }
+
+    .access-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: transparent;
+      color: inherit;
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+    }
+
+    .access-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .access-error {
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: #ff6b6b;
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="theme-dark">
+
+  <a href="#access-main" class="skip-link">Skip to content</a>
+
+  <!-- HEADER (reuse global) -->
+  <header class="site-header glass">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand-link">
+          <img id="siteLogo" src="logo/day-logo.png" class="logo" alt="kingofyadav logo" />
+          <div class="brand-text">
+            <span class="brand-name">kingofyadav</span>
+            <span class="brand-tagline">Profile</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main id="access-main" class="access-wrapper">
+    <div class="access-card glass">
+      <h1>Private Space</h1>
+      <p>
+        This area is reserved for close people only.
+        Please enter the shared access phrase.
+      </p>
+
+      <input
+        type="password"
+        id="accessKey"
+        class="access-input"
+        placeholder="Access phrase"
+        autocomplete="off"
+      />
+
+      <button id="accessSubmit" class="access-btn glass">
+      Enter
+      </button>
+
+
+      <div id="accessError" class="access-error">
+        Incorrect access phrase.
+      </div>
+    </div>
+  </main>
+
+ <script src="script.js"></script>
+ 
+</body>
+</html>

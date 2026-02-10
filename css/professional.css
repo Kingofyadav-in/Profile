@@ -1,54 +1,120 @@
 /* ======================================================
-   PROFESSIONAL PAGE – FINAL STYLES
+   PROFESSIONAL PAGE – PUBLIC WORK PROFILE (FINAL)
    Scope: professional.html only
-   Goal:
-   - Calm professional hierarchy
-   - Consistent spacing system
-   - Perfect desktop & mobile balance
+   Principles:
+   - Uses global header & footer
+   - Uses global grid & card system
+   - Page-safe scoping (no bleed)
+   - Calm professional rhythm
 ====================================================== */
 
 
 /* ======================================================
    PAGE INTRO
+   (Spacing handled globally in components.css)
 ====================================================== */
 
-.page-intro {
+.page-professional .page-intro {
   max-width: 720px;
-  margin-bottom: var(--space-xl);
 }
 
-.page-intro h1 {
+.page-professional .page-intro h1 {
   font-size: clamp(1.9rem, 3vw, 2.3rem);
   margin-bottom: 12px;
 }
 
-.page-intro p {
-  color: var(--gray);
+.page-professional .page-intro p {
   max-width: 680px;
   line-height: 1.7;
+  color: var(--gray);
 }
 
 
 /* ======================================================
-   GENERIC SECTION RHYTHM
+   SECTION RHYTHM (PROFESSIONAL CONTEXT)
 ====================================================== */
 
-.site-main > section {
+.page-professional .site-main > section {
   margin-bottom: var(--space-xl);
 }
 
-.site-main > section > h2 {
+.page-professional .site-main > section > h2 {
   font-size: 1.25rem;
   margin-bottom: 16px;
 }
 
-.site-main > section > p {
+.page-professional .site-main > section > p {
   max-width: 720px;
-  color: var(--gray);
   line-height: 1.7;
+  color: var(--gray);
 }
 
 
 /* ======================================================
-   LIFE GRID ADJUSTMENTS (PRO CONTEXT)
-====================
+   LIFE GRID – PROFESSIONAL TUNING
+   (Uses global .life-grid + .life-card)
+====================================================== */
+
+.page-professional .life-grid {
+  margin-top: var(--space-md);
+}
+
+
+/* ======================================================
+   CARD TEXT TONE (PROFESSIONAL)
+====================================================== */
+
+.page-professional .life-card h3 {
+  font-size: 1.05rem;
+}
+
+.page-professional .life-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.page-professional .life-action {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+
+/* ======================================================
+   RESPONSIVE – TABLET
+====================================================== */
+
+@media (max-width: 1024px) {
+
+  .page-professional .page-intro {
+    max-width: 100%;
+  }
+}
+
+
+/* ======================================================
+   RESPONSIVE – MOBILE
+====================================================== */
+
+@media (max-width: 768px) {
+
+  .page-professional .page-intro h1 {
+    font-size: 1.9rem;
+  }
+
+  .page-professional .site-main > section {
+    margin-bottom: 56px;
+  }
+
+  .page-professional .life-card h3 {
+    font-size: 1rem;
+  }
+
+  .page-professional .life-card p {
+    font-size: 0.88rem;
+  }
+
+  .page-professional .life-action {
+    font-size: 0.8rem;
+  }
+}

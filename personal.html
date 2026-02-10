@@ -3,62 +3,45 @@
 <head>
   <meta charset="UTF-8" />
 
-  <title>Amit Ku Yadav | Personal Profile</title>
-  <meta name="description" content="Personal profile of Amit Ku Yadav – public representative, social worker, and community leader." />
+  <title>Amit Ku Yadav | Personal</title>
+  <meta name="description" content="Personal profile of Amit Ku Yadav – values, journey, and people behind public service." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- MAIN SITE CSS -->
   <!-- ================= STYLES ================= -->
-  <link rel="preload" href="css/base.css" as="style" />
-  <link rel="preload" href="css/components.css" as="style" />
-  <link rel="preload" href="css/personal.css" as="style" />
-  <link rel="preload" href="style.css" as="style" />
-
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/personal.css" />
   <link rel="stylesheet" href="style.css" />
 
-
-  <!-- ICONS -->
+  <!-- ICON -->
   <link rel="icon" href="favicon/favicon.ico" />
 </head>
 
-<body class="theme-dark">
+<body class="theme-dark personal-page">
 
-  <!-- Accessibility -->
   <a href="#main-content" class="skip-link">Skip to content</a>
 
   <!-- ==================================================
-       HEADER (SAME AS HOME)
+       PERSONAL HEADER (DISCONNECTED FROM HOME)
   ================================================== -->
-  <header class="site-header glass">
-    <div class="header-inner">
+  <header class="personal-header glass">
+    <div class="personal-header-inner">
 
-      <div class="brand">
-        <a href="/" class="brand-link">
-          <img
-            id="siteLogo"
-            class="logo"
-            src="logo/day-logo.png"
-            alt="kingofyadav personal profile"
-            width="52"
-            height="52"
-          />
-          <div class="brand-text">
-            <span class="brand-name">kingofyadav</span>
-            <span class="brand-tagline">Profile</span>
-          </div>
-        </a>
-      </div>
+      <a href="index.html" class="personal-brand">
+        <img
+        src="logo/day-logo.png"
+        alt="Amit Ku Yadav"
+        class="personal-logo"
+        />
+        <span class="personal-name">Amit Ku Yadav</span>
+        <span class="personal-tagline">Personal · Values · Journey</span>
+      </a>
 
-      <nav aria-label="Main navigation">
-        <ul class="nav-list">
-          <li><a href="/">Home</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
+
+      <nav class="personal-nav" aria-label="Personal navigation">
+        <a href="about.html">About</a>
+        <a href="#people">People</a>
+        <a href="#connect">Connect</a>
       </nav>
 
     </div>
@@ -67,128 +50,112 @@
   <!-- ==================================================
        MAIN
   ================================================== -->
-  <main class="site-main" id="main-content">
+  <main class="site-main personal-main" id="main-content">
 
-    <!-- ================= PAGE INTRO ================= -->
-    <section class="page-intro">
-      <h1>Personal Profile</h1>
-      <p>
-        Identity, values, and people behind the journey of public service.
-      </p>
-    </section>
-
-    <!-- ================= PERSONAL CARD ================= -->
-    <section class="glass" style="padding:40px; text-align:center; margin-bottom:80px;">
-
+    <!-- ================= ABOUT ================= -->
+    <section id="about" class="personal-section glass">
       <img
         src="assets/images/profile.jpg"
         alt="Amit Ku Yadav"
-        style="width:140px;height:140px;border-radius:50%;object-fit:cover;margin-bottom:24px;"
+        class="personal-avatar"
       />
 
-      <h2>Amit Ku Yadav</h2>
-      <p style="color:var(--gray); margin-bottom:16px;">
+      <h1>Amit Ku Yadav</h1>
+      <p class="personal-role">
         Public Representative · Social Worker · Community Leader
       </p>
 
-      <p style="max-width:600px; margin:0 auto; color:var(--gray);">
-        Amit Ku Yadav is actively involved in public service, social development,
-        and community welfare with a people-centric and transparent leadership approach.
+      <p class="personal-intro">
+        I am actively involved in public service, social development,
+        and community welfare with a people-centric and transparent
+        leadership approach.
       </p>
 
-      <div style="margin-top:28px; display:flex; justify-content:center; gap:14px;">
-        <a href="contact.html" class="life-card glass" style="padding:12px 20px;">
-          Contact Me
-        </a>
-        <a href="services.html" class="life-card glass" style="padding:12px 20px;">
-          Public Work
-        </a>
+      <div class="personal-actions">
+        <a href="contact.html" class="life-card glass">Contact Me</a>
+        <a href="services.html" class="life-card glass">Public Work</a>
       </div>
-
     </section>
 
-    <!-- ================= FAMILY / WORKING MEMBERS ================= -->
-    <section>
-
-      <h2 style="margin-bottom:32px;">Family & Working Members</h2>
+    <!-- ================= PEOPLE ================= -->
+    <section id="people" class="personal-section">
+      <h2>Family & Working Members</h2>
 
       <div class="life-grid">
 
-        <!-- Brother 1 -->
         <div class="life-card glass">
           <h3>Aniket Ku Yadav</h3>
           <p>Community Representative</p>
-
-            <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
-              <a href="tel:+919939875791" class="life-action">📞 Call</a>
-                <a href="https://wa.me/919939875791" target="_blank" class="life-action">
-                💬 WhatsApp
-              </a>
-            </div>
+          <div class="life-actions">
+            <a href="tel:+919939875791" class="life-action">📞 Call</a>
+            <a href="https://wa.me/919939875791" target="_blank" class="life-action">
+              💬 WhatsApp
+            </a>
           </div>
+        </div>
 
-        <!-- Brother 2 -->
         <div class="life-card glass">
           <h3>Abhishek Ku Yadav</h3>
           <p>Community Coordinator</p>
-
-            <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
-              <a href="tel:+919801249451" class="life-action">📞 Call</a>
-                <a href="https://wa.me/919801249451" target="_blank" class="life-action">
-                💬 WhatsApp
-              </a>
-            </div>
+          <div class="life-actions">
+            <a href="tel:+919801249451" class="life-action">📞 Call</a>
+            <a href="https://wa.me/919801249451" target="_blank" class="life-action">
+              💬 WhatsApp
+            </a>
           </div>
+        </div>
 
       </div>
+    </section>
 
+    <!-- ================= CONNECT ================= -->
+    <section id="connect" class="personal-section glass">
+      <h2>Connect</h2>
+      <p>
+        I believe meaningful conversations build strong communities.
+        Feel free to reach out for discussion, collaboration, or service.
+      </p>
+      <a href="contact.html" class="life-card glass">Get in Touch</a>
     </section>
 
   </main>
 
   <!-- ==================================================
-       FOOTER (SAME AS HOME)
+       FOOTER (GLOBAL)
   ================================================== -->
   <footer class="site-footer glass">
-  <div class="footer-inner">
+    <div class="footer-inner">
 
-    <!-- LEFT: ENQUIRY -->
-    <div class="footer-enquiry">
-      <p class="footer-title">Enquiry</p>
-      <p class="footer-text">
-        Amit Ku Yadav<br />
-        Phone: +91 95235 28114<br />
-        Office: Bhagalpur, India<br />
-        Mail: kingofyadav.in@gmail.com
-      </p>
+      <div class="footer-enquiry">
+        <p class="footer-title">Enquiry</p>
+        <p class="footer-text">
+          Amit Ku Yadav<br />
+          Phone: +91 95235 28114<br />
+          Office: Bhagalpur, India<br />
+          Mail: kingofyadav.in@gmail.com
+        </p>
+        <div class="social-icons" id="socialLinks"></div>
+      </div>
 
-      <div class="social-icons" id="socialLinks"></div>
+      <div class="footer-right">
+        <div id="footerClock">--:--</div>
+        <div>Bhagalpur, India</div>
+        <div id="status">STATUS: --</div>
+        <button
+          id="themeToggle"
+          class="theme-toggle"
+          aria-label="Toggle theme"
+          title="Toggle theme"
+        >🌙</button>
+      </div>
+
     </div>
 
-    <!-- RIGHT: STATUS + TOGGLE -->
-    <div class="footer-right">
-      <div id="footerClock">--:--</div>
-      <div>Bhagalpur, India</div>
-      <div id="status">STATUS: --</div>
-
-      <button
-        id="themeToggle"
-        class="theme-toggle"
-        aria-label="Toggle theme"
-        title="Toggle theme"
-      >
-        🌙
-      </button>
+    <div class="footer-bottom">
+      © <span id="year"></span> · All rights reserved
     </div>
+  </footer>
 
-  </div>
-
-  <div class="footer-bottom">
-    © <span id="year"></span> · All rights reserved
-  </div>
-</footer>
-
-  <!-- MAIN SITE SCRIPT -->
   <script src="script.js"></script>
 
 </body>
