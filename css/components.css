@@ -1,10 +1,19 @@
 /* ======================================================
-   COMPONENTS CSS
+   COMPONENTS CSS – FINAL PRO VERSION
    Reusable UI blocks (Header, Nav, Layout, Cards, Footer)
 ====================================================== */
 
 /* ======================================================
-   TYPOGRAPHY – COMPONENT POLISH
+   GLOBAL LINK RESET
+====================================================== */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ======================================================
+   TYPOGRAPHY
 ====================================================== */
 
 .nav-list a {
@@ -32,18 +41,17 @@
   line-height: 1.6;
 }
 
-
 /* ======================================================
    HEADER
 ====================================================== */
 
 .site-header {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0 0 auto 0;
   width: 100%;
   z-index: 1000;
   backdrop-filter: blur(18px) saturate(160%);
+  transition: background 0.3s ease, border 0.3s ease;
 }
 
 body.theme-dark .site-header {
@@ -65,9 +73,7 @@ body.theme-light .site-header {
   align-items: center;
 }
 
-/* ======================================================
-   FIXED HEADER OFFSET – MOBILE (GLOBAL)
-====================================================== */
+/* Mobile header spacing compensation */
 
 @media (max-width: 768px) {
   body {
@@ -83,12 +89,6 @@ body.theme-light .site-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.brand-link::after {
-  display: none;
 }
 
 .logo {
@@ -99,7 +99,6 @@ body.theme-light .site-header {
 .brand-text {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 4px;
 }
 
@@ -112,9 +111,7 @@ body.theme-light .site-header {
   font-size: 0.75rem;
   color: var(--gray);
   opacity: 0.7;
-  line-height: 1.2;
 }
-
 
 /* ======================================================
    NAVIGATION
@@ -124,30 +121,25 @@ body.theme-light .site-header {
   list-style: none;
   display: flex;
   gap: 28px;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-list a {
-  text-decoration: none;
   opacity: 0.75;
-  color: inherit;
+  transition: opacity 0.25s ease, color 0.25s ease;
 }
 
-.nav-list a::after {
-  display: none;
-}
-
-.nav-list a:hover {
+.nav-list a:hover,
+.nav-list a.active {
   opacity: 1;
   color: var(--brand-green);
 }
 
 .nav-list a.active {
-  opacity: 1;
-  color: var(--brand-green);
   border-bottom: 2px solid var(--brand-green);
   padding-bottom: 4px;
 }
-
 
 /* ======================================================
    MAIN LAYOUT
@@ -159,9 +151,8 @@ body.theme-light .site-header {
   padding: 0 20px;
 }
 
-
 /* ======================================================
-   GRID SYSTEMS
+   GRID SYSTEM
 ====================================================== */
 
 .life-grid,
@@ -184,9 +175,8 @@ body.theme-light .site-header {
   grid-template-columns: repeat(2, 1fr);
 }
 
-
 /* ======================================================
-   CARD SYSTEM
+   CARD SYSTEM – UNIFIED
 ====================================================== */
 
 .life-card,
@@ -201,10 +191,10 @@ body.theme-light .site-header {
   gap: 18px;
   border-radius: calc(var(--radius) + 4px);
   overflow: hidden;
-  text-decoration: none;
-  color: inherit;
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
+
+/* Theme surfaces */
 
 body.theme-dark .life-card,
 body.theme-dark .blog-card,
@@ -225,6 +215,8 @@ body.theme-light .action-card {
   border: 1px solid var(--card-border-light);
   box-shadow: var(--card-shadow-light);
 }
+
+/* Decorative overlays */
 
 .life-card::before,
 .blog-card::before,
@@ -251,10 +243,8 @@ body.theme-light .action-card {
 .action-card::after {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0;
+  inset: 0 auto 0 0;
   width: 4px;
-  height: 100%;
   background: linear-gradient(
     180deg,
     var(--brand-green),
@@ -262,6 +252,8 @@ body.theme-light .action-card {
   );
   opacity: 0.85;
 }
+
+/* Hover effect */
 
 .life-card:hover,
 .blog-card:hover,
@@ -282,7 +274,7 @@ body.theme-light .action-card {
 }
 
 /* ======================================================
-   FOOTER – HTML-PERFECT FINAL VERSION
+   FOOTER
 ====================================================== */
 
 .site-footer {
@@ -299,8 +291,6 @@ body.theme-light .site-footer {
   background: rgba(255,255,255,0.85);
 }
 
-/* ---------- GRID ---------- */
-
 .footer-inner {
   max-width: var(--container);
   margin: 0 auto;
@@ -308,10 +298,7 @@ body.theme-light .site-footer {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 48px;
-  align-items: start;
 }
-
-/* ---------- LEFT ---------- */
 
 .footer-title {
   font-size: 0.85rem;
@@ -345,12 +332,9 @@ body.theme-light .site-footer {
   transform: translateY(-2px);
 }
 
-/* ---------- RIGHT ---------- */
-
 .footer-right {
   text-align: right;
   font-size: 0.8rem;
-  line-height: 1.6;
   color: var(--gray);
   display: flex;
   flex-direction: column;
@@ -367,7 +351,7 @@ body.theme-light .site-footer {
   cursor: pointer;
 }
 
-/* ---------- BOTTOM ---------- */
+/* Bottom */
 
 .footer-bottom {
   text-align: center;
@@ -377,42 +361,15 @@ body.theme-light .site-footer {
   opacity: 0.6;
 }
 
-/* ---------- MOBILE ---------- */
-
-@media (max-width: 768px) {
-
-  .footer-inner {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .footer-right {
-    text-align: left;
-  }
-
-  .footer-right .theme-toggle {
-    align-self: flex-start;
-  }
-}
-
-
 /* ======================================================
-   GLOBAL MOBILE LAYOUT SYSTEM (FOREVER)
-   Applies to ALL pages
+   MOBILE SYSTEM
 ====================================================== */
 
 @media (max-width: 768px) {
 
-  /* ---------- HEADER / NAVBAR ---------- */
-
   .header-inner {
     flex-direction: column;
-    align-items: center;
     gap: 12px;
-  }
-
-  .brand-link {
-    justify-content: center;
   }
 
   .brand-text {
@@ -420,20 +377,11 @@ body.theme-light .site-footer {
     text-align: center;
   }
 
-  /* Navigation moves below brand */
   .nav-list {
     justify-content: center;
     gap: 18px;
     padding-top: 6px;
   }
-
-  .nav-list a {
-    font-size: 0.72rem;
-    letter-spacing: 1px;
-  }
-
-
-  /* ---------- CARD SYSTEM (GLOBAL MOBILE) ---------- */
 
   .life-grid,
   .blog-grid,
@@ -449,26 +397,26 @@ body.theme-light .site-footer {
   .service-card,
   .connect-card,
   .action-card {
-    min-height: auto;
     padding: 24px 20px;
     border-radius: 22px;
   }
 
-  .life-card h2,
-  .blog-card h2,
-  .service-card h2 {
-    font-size: 1.1rem;
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 
-  .life-card p,
-  .blog-card p,
-  .service-card p {
-    font-size: 0.9rem;
-    line-height: 1.6;
+  .footer-right {
+    text-align: left;
+  }
+
+  .footer-right .theme-toggle {
+    align-self: flex-start;
   }
 }
+
 /* ======================================================
-   GLOBAL FIRST SECTION SPACING (FINAL AUTHORITY)
+   GLOBAL FIRST SECTION SPACING
 ====================================================== */
 
 .home-intro,
@@ -476,4 +424,3 @@ body.theme-light .site-footer {
   padding-top: var(--space-xl);
   padding-bottom: var(--space-xl);
 }
-
