@@ -5,6 +5,9 @@
   <title>Private Access · Personal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="canonical" href="https://kingofyadav.in/personal-access.html" />
+  <meta name="robots" content="noindex, nofollow" />
+
   <!-- Global styles -->
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components.css" />
@@ -75,7 +78,7 @@
   <header class="site-header glass">
     <div class="header-inner">
       <div class="brand">
-        <a href="index.html" class="brand-link">
+        <a href="/" class="brand-link">
           <img id="siteLogo" src="logo/day-logo.png" class="logo" alt="kingofyadav logo" />
           <div class="brand-text">
             <span class="brand-name">kingofyadav</span>
@@ -95,18 +98,19 @@
         Please enter the shared access phrase.
       </p>
 
-      <input
-        type="password"
-        id="accessKey"
-        class="access-input"
-        placeholder="Access phrase"
-        autocomplete="off"
-      />
+      <form id="accessForm">
+        <input
+          type="password"
+          id="accessKey"
+          class="access-input"
+          placeholder="Access phrase"
+          autocomplete="current-password"
+        />
 
-      <button id="accessSubmit" class="access-btn glass">
-      Enter
-      </button>
-
+        <button type="submit" id="accessSubmit" class="access-btn glass">
+          Enter
+        </button>
+      </form>
 
       <div id="accessError" class="access-error">
         Incorrect access phrase.
@@ -115,6 +119,6 @@
   </main>
 
  <script src="script.js"></script>
- 
+
 </body>
 </html>

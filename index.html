@@ -12,6 +12,8 @@
   <meta name="author" content="kingofyadav" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="canonical" href="https://kingofyadav.in/" />
+
   <!-- ================= THEME / PWA ================= -->
   <meta name="theme-color" content="#000000" />
   <link rel="manifest" href="/manifest.json" />
@@ -39,7 +41,7 @@
   <!-- ================= STYLES ================= -->
 
   <!-- Base (critical) -->
-  <link rel="preload" href="css/base.css" as="style" onload="this.rel='stylesheet'">
+ <link rel="stylesheet" href="css/base.css">
   <noscript><link rel="stylesheet" href="css/base.css"></noscript>
 
   <!-- Components (critical UI) -->
@@ -48,10 +50,6 @@
 
   <!-- Page-specific -->
   <link rel="stylesheet" href="css/index.css" />
-
-  <!-- Legacy / overrides -->
-  <link rel="stylesheet" href="style.css" />
-
 
 
   <!-- ================= ICONS ================= -->
@@ -92,7 +90,7 @@
       <!-- Navigation -->
       <nav aria-label="Main navigation">
         <ul class="nav-list">
-          <li><a href="/" class="active">Home</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="blog.html">Blog</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="contact.html">Contact</a></li>
@@ -109,13 +107,28 @@
   <main class="site-main" id="main-content">
 
     <!-- ================= INTRO ================= -->
-    <section id="home" class="home-intro" aria-labelledby="intro-title">
-      <h1 id="intro-title">Three Dimensions of Life</h1>
-      <p>
-        Personal values, professional journey, and social impact —<br />
-        Together shaping who I am and how I contribute.
+    <section class="home-intro">
+    <div class="hero-content">
+
+      <p class="hero-label">Digital Systems • Structured Presence</p>
+
+      <h1>
+      I Build <span class="accent">Powerful</span><br>
+      Digital Identity Systems
+      </h1>
+
+      <p class="hero-description">
+      I design structured, intentional digital environments
+      that feel calm, strategic, and built to last — not random, not rushed.
       </p>
-    </section>
+
+      <div class="hero-actions">
+        <a href="professional.html" class="btn-primary">View Professional Work</a>
+        <a href="social.html" class="btn-secondary">Explore Presence</a>
+      </div>
+
+    </div>
+  </section>
 
     <!-- ================= PRIMARY PATHS ================= -->
     <section
@@ -158,9 +171,9 @@
       <p class="footer-title">Enquiry</p>
       <p class="footer-text">
         Amit Ku Yadav<br />
-        Phone: +91 95235 28114<br />
+        Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
         Office: Bhagalpur, India<br />
-        Mail: kingofyadav.in@gmail.com
+        Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
       </p>
 
       <!-- Social icons now logically belong here -->

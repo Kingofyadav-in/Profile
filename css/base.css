@@ -10,6 +10,10 @@
 :root {
   --container: 1100px;
 
+  --text-primary: #111;
+  --text-secondary: #444;
+  --text-muted: #666;
+
   --space-xs: 8px;
   --space-sm: 12px;
   --space-md: 24px;
@@ -47,6 +51,10 @@
   padding: 0;
 }
 
+::selection {
+  background: var(--brand-green);
+  color: #fff;
+}
 
 /* ======================================================
    BODY & THEME
@@ -110,7 +118,7 @@ h3 {
 
 p {
   margin-bottom: 0.75em;
-  color: var(--gray);
+  color: var(--text-muted);
 }
 
 p:last-child {
@@ -191,4 +199,16 @@ body.theme-light .footer-bottom,
 body.theme-light span,
 body.theme-light li {
   color: var(--text-muted);
+}
+/* ======================================================
+   PAGE LOAD FADE
+====================================================== */
+
+body {
+  animation: fadeIn 0.35s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

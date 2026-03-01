@@ -62,7 +62,7 @@
 /* Subtle visual anchor (not bullet) */
 .connection-thoughts li::before {
   content: "";
-  position: absolute;
+  position: relative;
   left: 0;
   top: 0.7em;
   width: 6px;

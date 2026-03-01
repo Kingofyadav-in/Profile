@@ -118,3 +118,76 @@
     font-size: 0.8rem;
   }
 }
+/* =========================================
+   PROFESSIONAL HERO UPGRADE
+========================================= */
+
+.page-professional .professional-hero {
+  padding-top: 160px;
+  padding-bottom: 120px;
+  max-width: 820px;
+}
+
+.page-professional .hero-label {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 24px;
+}
+
+.page-professional .professional-hero h1 {
+  font-size: clamp(2.8rem, 5vw, 3.6rem);
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.page-professional .hero-description {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 620px;
+  opacity: 0.85;
+}
+
+/* Core Focus Block */
+
+.capability-statement {
+  padding: 48px;
+  border-radius: var(--radius);
+  margin-bottom: 80px;
+}
+
+.page-professional .capability-statement h2 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+
+.page-professional .capability-statement p {
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 700px;
+}
+
+/* Make professional cards stronger */
+
+.page-professional .life-card {
+  padding: 40px;
+}
+
+.page-professional .life-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.page-professional .life-card p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* Thicker accent line for authority */
+
+.page-professional .life-card::after {
+  width: 6px;
+}

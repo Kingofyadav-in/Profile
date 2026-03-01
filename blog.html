@@ -14,7 +14,7 @@
 
   <!-- ================= THEME ================= -->
   <meta name="theme-color" content="#000000" />
-
+  <meta name="robots" content="noindex, nofollow" />
   <!-- ================= OPEN GRAPH ================= -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Blog | kingofyadav" />
@@ -25,6 +25,8 @@
   <meta property="og:image" content="https://kingofyadav.in/og-image.png" />
   <meta property="og:url" content="https://kingofyadav.in/blog.html" />
   <meta property="og:site_name" content="kingofyadav" />
+
+  <link rel="canonical" href="https://kingofyadav.in/blog.html" />
 
   <!-- ================= TWITTER ================= -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -37,12 +39,10 @@
   <link rel="preload" href="css/base.css" as="style" />
   <link rel="preload" href="css/components.css" as="style" />
   <link rel="preload" href="css/blog.css" as="style" />
-  <link rel="preload" href="style.css" as="style" />
 
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/blog.css" />
-  <link rel="stylesheet" href="style.css" />
 
   <script type="application/ld+json">
 {
@@ -91,7 +91,7 @@
     <nav aria-label="Main navigation">
       <ul class="nav-list">
         <li><a href="/">Home</a></li>
-        <li><a href="blog.html" class="active">Blog</a></li>
+        <li><a href="blog.html" aria-current="page">Blog</a></li>
         <li><a href="services.html">Services</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="collaboration.html">Collab</a></li>
@@ -120,8 +120,8 @@
   <!-- ================= BLOG GRID ================= -->
   <section class="blog-grid" aria-label="Blog articles">
 
-    <a href="blog/building-with-purpose.html"
-        class="blog-card glass">
+    <article class="blog-card glass">
+      <a href="blog/building-with-purpose.html" class="blog-link">
         <h2>Building With Purpose</h2>
         <p>
           Why discipline, clarity, and long-term structure matter more than speed
@@ -129,6 +129,7 @@
         </p>
       <span class="blog-meta">Leadership · Vision</span>
     </a>
+    </article>
 
     <article class="blog-card glass">
       <h2>Technology and Social Responsibility</h2>
@@ -240,9 +241,9 @@
       <p class="footer-title">Enquiry</p>
       <p class="footer-text">
         Amit Ku Yadav<br />
-        Phone: +91 95235 28114<br />
+        Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
         Office: Bhagalpur, India<br />
-        Mail: kingofyadav.in@gmail.com
+        Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
       </p>
 
       <div class="social-icons" id="socialLinks"></div>

@@ -116,7 +116,7 @@
 ====================================================== */
 
 .page-social .social-note p strong {
-  color: var(--text-light);
+  color: var(--brand-green);
 }
 
 
@@ -183,7 +183,13 @@
     font-size: 0.8rem;
   }
 }
+.page-social .life-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
 
+.page-social .life-card:hover {
+  transform: translateY(-4px);
+}
 
 /* ======================================================
    RESPONSIVE – SMALL MOBILE
@@ -199,4 +205,47 @@
   .page-social .page-intro p {
     font-size: 0.95rem;
   }
+}
+
+/* =========================================
+   NEW SOCIAL HERO (GUARANTEED WORKING)
+========================================= */
+
+.social-hero {
+  padding-top: 200px;
+  padding-bottom: 160px;
+  max-width: 900px;
+  position: relative;
+}
+
+.social-hero h1 {
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  font-weight: 800;
+  margin-bottom: 28px;
+}
+
+.social-hero p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  max-width: 650px;
+  opacity: 0.9;
+}
+
+/* Premium glow effect */
+
+.social-hero::before {
+  content: "";
+  position: absolute;
+  top: -200px;
+  right: -150px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(4,106,56,0.2),
+    transparent 70%
+  );
+  z-index: -1;
 }

@@ -21,8 +21,9 @@ function initTheme() {
     return;
   }
 
-  const hour = new Date().getHours();
-  applyTheme(hour >= 6 && hour < 18 ? "light" : "dark");
+  // First check system preference
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(prefersDark ? "dark" : "light");
 }
 
 function setupThemeToggle() {
@@ -53,9 +54,9 @@ function updateLogo() {
   logo.src = `logo/${theme}-logo.png`;
 }
 
-document.querySelectorAll('.nav-list a').forEach(link => {
-  if (link.href === location.href) {
-    link.classList.add('active');
+document.querySelectorAll(".nav-list a").forEach(link => {
+  if (link.pathname === window.location.pathname) {
+    link.classList.add("active");
   }
 });
 
@@ -114,7 +115,7 @@ function loadSocials() {
     const a = document.createElement("a");
     a.href = url;
     a.target = "_blank";
-    a.rel = "noopener";
+    a.rel = "noopener noreferrer";
     a.setAttribute("aria-label", name);
 
     const img = document.createElement("img");
@@ -127,41 +128,97 @@ function loadSocials() {
   });
 }
 
-/* ================= PERSONAL ACCESS GATE ================= */
+/* ================= PERSONAL ACCESS GATE (HARDENED) ================= */
 
-const PERSONAL_ACCESS_PHRASE = "sahul";
+const PERSONAL_HASH =
+  "d9ec2d33f505a6f5bbf26bbef8bc1bfe44a905215d703556784e8d4da640ecce";
+// <-- replace with real SHA-256 hash of your phrase
 
-function checkPersonalAccess() {
+let attempts = 0;
+const MAX_ATTEMPTS = 5;
+
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+async function checkPersonalAccess(e) {
+  if (e) e.preventDefault();
+
   const input = document.getElementById("accessKey");
   const error = document.getElementById("accessError");
-  if (!input) return;
 
-  if (input.value.trim() === PERSONAL_ACCESS_PHRASE) {
+  if (!input || !error) return;
+
+  const value = input.value.trim();
+
+  // Always hide error first
+  error.style.display = "none";
+
+  // Empty check
+  if (!value) {
+    error.textContent = "Please enter access phrase.";
+    error.style.display = "block";
+    return;
+  }
+
+  // Lock check
+  if (attempts >= MAX_ATTEMPTS) {
+    error.textContent = "Too many attempts. Try again in 30 seconds.";
+    error.style.display = "block";
+    return;
+  }
+
+  const enteredHash = await sha256(value);
+
+  if (enteredHash === PERSONAL_HASH) {
     sessionStorage.setItem("personalAccess", "granted");
     window.location.href = "personal.html";
   } else {
-    if (error) error.style.display = "block";
+    attempts++;
+
+    error.textContent = "Incorrect access phrase.";
+    error.style.display = "block";
+
+    input.value = "";
+    input.focus();
+
+    if (attempts >= MAX_ATTEMPTS) {
+      setTimeout(() => {
+        attempts = 0;
+      }, 30000);
+    }
   }
 }
 
 function initPersonalAccessGate() {
+  const form = document.getElementById("accessForm");
   const input = document.getElementById("accessKey");
-  const button = document.getElementById("accessSubmit");
+  const error = document.getElementById("accessError");
 
-  if (!input || !button) return;
+  if (!form || !input) return;
 
-  // Button click
-  button.addEventListener("click", checkPersonalAccess);
+  form.addEventListener("submit", checkPersonalAccess);
 
-  // Enter key support
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      checkPersonalAccess();
-    }
+  // Hide error when typing
+  input.addEventListener("input", () => {
+    if (error) error.style.display = "none";
   });
 
-  // Auto focus
   input.focus();
+}
+/* ================= PERSONAL PAGE GUARD ================= */
+
+function guardPersonalPage() {
+  if (!window.location.pathname.endsWith("personal.html")) return;
+
+  const access = sessionStorage.getItem("personalAccess");
+
+  if (access !== "granted") {
+    window.location.replace("personal-access.html");
+  }
 }
 
 /* ================= INIT ================= */
@@ -198,3 +255,7 @@ if ("serviceWorker" in navigator) {
       .catch(err => console.error("SW registration failed:", err));
   });
 }
+window.addEventListener("scroll", () => {
+  const header = document.querySelector(".site-header");
+  header.classList.toggle("scrolled", window.scrollY > 10);
+});
