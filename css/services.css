@@ -1,0 +1,185 @@
+/* ======================================================
+  SERVICES PAGE – FINAL PRO VERSION
+  Hero Buttons + Businesses Section Fixed
+  Author: Amit Ku Yadav
+  Sections: hero | services-grid | library | utilities
+====================================================== */
+
+
+/* ================= HERO ================= */
+
+.services-hero {
+  padding: 180px 8% 140px 8%;
+  position: relative;
+}
+
+.services-hero .hero-content {
+  max-width: 760px;
+}
+
+.services-hero h1 {
+  font-size: clamp(3rem, 6vw, 4.2rem);
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+/* hero-description is centralized in css/base.css */
+
+/* Glow */
+.services-hero::before {
+  content: "";
+  position: absolute;
+  top: -200px;
+  left: -200px;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(
+    circle,
+    rgba(4,106,56,0.15),
+    transparent 70%
+  );
+  z-index: -1;
+}
+
+
+/* ================= HERO BUTTONS ================= */
+
+.services-hero .hero-actions {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.services-hero .hero-btn {
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: 0.3s ease;
+  display: inline-block;
+}
+
+/* Primary */
+.services-hero .hero-btn.primary {
+  background: var(--brand-green);
+  color: #fff;
+}
+
+.services-hero .hero-btn.primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(4,106,56,0.35);
+}
+
+/* Secondary */
+.services-hero .hero-btn.secondary {
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
+}
+
+.services-hero .hero-btn.secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+}
+
+
+/* ================= SERVICES GRID ================= */
+
+.services-grid {
+  padding: 0 8% 120px 8%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 60px;
+}
+
+
+/* ================= MY BUSINESSES & SOCIAL WORK ================= */
+
+.services-library {
+  padding: 160px 8% 140px 8%;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.services-library .page-intro {
+  margin-bottom: 80px;
+  text-align: center;
+}
+
+.services-library .page-intro h2 {
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+}
+
+.services-library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 60px;
+}
+
+/* Business Cards */
+.services-library-item {
+  padding: 45px 35px;
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.4s ease;
+}
+
+.services-library-item h3 {
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+}
+
+.services-library-item p {
+  line-height: 1.75;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+
+.services-library-item:hover {
+  transform: translateY(-10px);
+  border-color: rgba(4,106,56,0.6);
+  box-shadow: 0 25px 60px rgba(4,106,56,0.25);
+}
+
+/* Disabled link */
+.read-more.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .services-hero {
+    padding: 140px 6% 120px 6%;
+  }
+
+  .services-grid {
+    padding: 0 6% 90px 6%;
+    gap: 40px;
+  }
+
+  .services-library {
+    padding: 120px 6%;
+  }
+
+  .services-hero::before {
+    display: none;
+  }
+
+  .services-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .services-hero .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

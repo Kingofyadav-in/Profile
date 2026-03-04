@@ -1,0 +1,149 @@
+/* ======================================================
+  PROFESSIONAL PAGE – WORLD CLASS VERSION
+  Fully Scoped – Safe – Premium
+  Author: Amit Ku Yadav
+  Sections: hero | areas | values | utilities
+====================================================== */
+
+.page-professional .professional-hero {
+  padding: 180px 8% 140px 8%;
+  max-width: 900px;
+}
+
+/* hero-label styling is centralized in css/base.css */
+
+.page-professional .professional-hero h1 {
+  font-size: clamp(3rem, 5vw, 3.8rem);
+  line-height: 1.15;
+  font-weight: 700;
+  margin-bottom: 28px;
+  letter-spacing: -1.2px;
+}
+
+/* page-specific override for description width */
+.page-professional .hero-description {
+  max-width: 620px;
+}
+
+/* HERO BUTTONS */
+
+.page-professional .hero-actions {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.page-professional .hero-btn {
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.page-professional .hero-btn.primary {
+  background: var(--brand-green);
+  color: #fff;
+}
+
+.page-professional .hero-btn.primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(4,106,56,0.35);
+}
+
+.page-professional .hero-btn.secondary {
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
+}
+
+.page-professional .hero-btn.secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+}
+
+
+/* CORE STATEMENT */
+
+.page-professional .capability-statement {
+  padding: 60px;
+  margin: 0 8% 120px 8%;
+  border-radius: 28px;
+}
+
+.page-professional .capability-statement h2 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
+.page-professional .capability-statement p {
+  max-width: 720px;
+  line-height: 1.8;
+}
+
+
+/* SECTIONS */
+
+.page-professional section {
+  padding: 0 8% 140px 8%;
+}
+
+.page-professional section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 40px;
+}
+
+
+/* PROFESSIONAL CARDS */
+
+.page-professional .life-card {
+  padding: 45px;
+  border-radius: 26px;
+  transition: 0.4s ease;
+}
+
+.page-professional .life-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 14px;
+}
+
+.page-professional .life-card p {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.page-professional .life-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 60px rgba(4,106,56,0.25);
+}
+
+.page-professional .life-action {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .page-professional .professional-hero {
+    padding: 140px 6% 100px 6%;
+  }
+
+  .page-professional section {
+    padding: 0 6% 100px 6%;
+  }
+
+  .page-professional .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-professional .professional-hero h1 {
+    font-size: 2.2rem;
+  }
+}

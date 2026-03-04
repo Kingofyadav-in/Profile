@@ -1,0 +1,241 @@
+/* ======================================================
+  CONTACT PAGE – PROFESSIONAL UNIFIED VERSION
+  Matches Home Theme (Editorial Style)
+  Author: Amit Ku Yadav
+  Sections: hero | connect-grid | contact-library | forms
+====================================================== */
+
+
+/* ================= GLOBAL ================= */
+
+/* Global scroll-behavior and overflow are centralized in css/base.css */
+
+/* Section spacing system */
+section {
+  padding: 120px 8%;
+}
+
+/* ================= HERO ================= */
+
+.contact-hero {
+  padding-top: 180px;
+  padding-bottom: 160px;
+  position: relative;
+}
+
+.contact-hero .hero-content {
+  max-width: 760px;
+}
+
+/* hero-label styling is centralized in css/base.css */
+
+/* Main heading (same scale as home) */
+.contact-hero h1 {
+  font-size: clamp(3rem, 6vw, 4.2rem);
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+/* Accent color uses global token from css/base.css */
+
+/* hero-description is centralized in css/base.css */
+
+/* Glow background */
+.contact-hero::before {
+  content: "";
+  position: absolute;
+  top: -200px;
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(4,106,56,0.15),
+    transparent 70%
+  );
+  z-index: -1;
+}
+
+/* ================= BUTTON SYSTEM ================= */
+
+.hero-actions {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Primary */
+.btn-primary {
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--brand-green);
+  color: #000;
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+
+/* Secondary */
+.btn-secondary {
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
+  transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+}
+
+/* ================= SECTION INTRO ================= */
+
+.page-intro {
+  max-width: 720px;
+  margin-bottom: 70px;
+}
+
+.page-intro h2 {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+
+.page-intro p {
+  line-height: 1.7;
+  opacity: 0.8;
+}
+
+/* ================= CONNECT GRID ================= */
+
+.connect-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+}
+
+.connect-card {
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.35s ease;
+}
+
+.connect-card h3 {
+  margin-bottom: 14px;
+}
+
+.connect-card p {
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.connect-card:hover {
+  transform: translateY(-8px);
+}
+
+/* ================= LIBRARY ================= */
+
+.contact-library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 40px;
+}
+
+.contact-library-item {
+  padding: 35px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.35s ease;
+}
+
+.contact-library-item:hover {
+  transform: translateY(-8px);
+}
+
+/* ================= ACTION CARDS ================= */
+
+.contact-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 40px;
+}
+
+.action-card {
+  padding: 35px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.35s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-8px);
+}
+
+/* ================= HEADER SCROLL ================= */
+
+.site-header.scrolled {
+  backdrop-filter: blur(25px);
+  background: rgba(0,0,0,0.7);
+  transition: 0.3s ease;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  section {
+    padding: 90px 6%;
+  }
+
+  .contact-hero {
+    padding-top: 140px;
+    padding-bottom: 120px;
+  }
+
+  .contact-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contact-hero::before {
+    display: none;
+  }
+}
+/* ===============================
+   CONTACT PAGE THEME FIX
+================================ */
+
+/* Page-specific light-mode overrides not required (uses global tokens). */
+
+/* Fix hero buttons in light mode */
+.theme-light .contact-hero .hero-btn.secondary {
+  color: var(--brand-green);
+  border-color: rgba(4,106,56,0.4);
+  background: rgba(4,106,56,0.05);
+}
+
+.theme-light .contact-hero .hero-btn.secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+}

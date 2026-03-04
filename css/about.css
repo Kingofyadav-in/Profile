@@ -1,0 +1,337 @@
+/* ======================================================
+  ABOUT PAGE – WORLD CLASS EDITION
+  Executive • Structured • Global Standard • Premium UI
+  Author: Amit Ku Yadav
+  Sections: hero | vision | journey | impact | utilities
+====================================================== */
+
+
+/* ======================================================
+   PAGE LAYOUT
+====================================================== */
+
+.about-page {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 170px 28px 100px;
+  display: grid;
+  gap: 90px;
+}
+
+/* Ambient depth glow */
+.about-page::before {
+  content: "";
+  position: fixed;
+  top: -250px;
+  right: -250px;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(
+    circle,
+    rgba(4,106,56,0.12),
+    transparent 70%
+  );
+  z-index: -1;
+  animation: aboutGlow 18s ease-in-out infinite alternate;
+}
+
+@keyframes aboutGlow {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(60px); }
+}
+
+
+/* ======================================================
+   HEADINGS
+====================================================== */
+
+.personal-section h1,
+.personal-section h2 {
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.personal-section h1 {
+  font-size: clamp(3rem, 5vw, 3.6rem);
+  margin-bottom: 18px;
+}
+
+.personal-section h2 {
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Green underline accent */
+.personal-section h2::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 3px;
+  margin-top: 12px;
+  border-radius: 3px;
+  background: var(--brand-green);
+  opacity: 0.6;
+}
+
+
+/* ======================================================
+   INTRO TEXT
+====================================================== */
+
+.personal-intro {
+  font-size: 1.08rem;
+  line-height: 1.9;
+  max-width: 750px;
+  opacity: 0.88;
+}
+
+
+/* ======================================================
+   TIMELINE – EXECUTIVE STYLE
+====================================================== */
+
+.timeline {
+  list-style: none;
+  margin: 40px 0 0;
+  padding: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(4,106,56,0.4);
+}
+
+.timeline li {
+  position: relative;
+  padding-left: 50px;
+  margin-bottom: 40px;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  box-shadow: 0 0 0 6px rgba(4,106,56,0.15);
+}
+
+.timeline strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.timeline p {
+  opacity: 0.75;
+  line-height: 1.7;
+}
+
+
+/* ======================================================
+   IMPACT CARDS (Enhanced)
+====================================================== */
+
+.life-grid {
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 50px;
+}
+
+.life-card.glass {
+  padding: 50px;
+  border-radius: 28px;
+  backdrop-filter: blur(28px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* gradient hover overlay */
+.life-card.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: linear-gradient(
+    135deg,
+    rgba(4,106,56,0.18),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: 0.4s ease;
+}
+
+.life-card.glass:hover::before {
+  opacity: 1;
+}
+
+.life-card.glass:hover {
+  transform: translateY(-16px);
+  border-color: rgba(4,106,56,0.6);
+  box-shadow: 0 40px 90px rgba(4,106,56,0.3);
+}
+
+.life-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+}
+
+.life-card p {
+  opacity: 0.8;
+  line-height: 1.7;
+}
+
+
+/* ======================================================
+   CTA SECTION
+====================================================== */
+
+#connect .personal-actions {
+  margin-top: 40px;
+}
+
+#connect .life-card {
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid rgba(4,106,56,0.5);
+  transition: 0.3s ease;
+}
+
+#connect .life-card:hover {
+  background: rgba(4,106,56,0.12);
+}
+
+
+/* ======================================================
+   LIGHT MODE IMPROVEMENTS
+====================================================== */
+
+body.theme-light .life-card.glass {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+body.theme-light .timeline::before {
+  background: rgba(4,106,56,0.3);
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 768px) {
+
+  .about-page {
+    padding: 140px 22px 80px;
+    gap: 60px;
+  }
+
+  .personal-section h1 {
+    font-size: 2.4rem;
+  }
+
+  .personal-section h2 {
+    font-size: 1.6rem;
+  }
+
+  .life-card.glass {
+    padding: 36px;
+  }
+
+  .timeline li {
+    padding-left: 40px;
+  }
+
+}
+/* =========================================
+   MOBILE HEADER FIX – ABOUT PAGE ONLY
+   Order: Logo → Name → Tagline → Nav
+========================================= */
+
+@media (max-width: 768px) {
+
+  .personal-header-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+
+  /* Brand container stacked */
+  .personal-brand {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Logo */
+  .personal-logo {
+    width: 58px;
+    height: 58px;
+  }
+
+  /* Name + Tagline */
+  .personal-brand-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .personal-name {
+    font-size: 1.1rem;
+  }
+
+  .personal-tagline {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+
+  /* Navigation below brand */
+  .personal-nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 10px;
+  }
+
+  .personal-nav a {
+    font-size: 0.9rem;
+  }
+
+}
+/* Smooth header animation */
+.personal-header {
+  transition: transform 0.4s ease;
+}
+
+/* Mobile header hide animation */
+@media (max-width: 768px) {
+  .personal-header.hide,
+  .site-header.hide {
+    transform: translateY(-100%);
+    transition: transform 0.4s ease;
+  }
+
+  .personal-header,
+  .site-header {
+    transition: transform 0.4s ease;
+  }
+}

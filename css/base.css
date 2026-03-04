@@ -1,0 +1,389 @@
+/* ======================================================
+  BASE PRO CSS
+  Global Foundation System
+  Brand: Green (Trust) + Orange (Energy)
+  Author: Amit Ku Yadav
+  Sections: tokens | reset | typography | utilities | themes | motion
+====================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ======================================================
+   1. DESIGN TOKENS (PRO BRAND SYSTEM)
+====================================================== */
+
+:root {
+
+  /* Layout */
+  --container: 1100px;
+
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 24px;
+  --space-lg: 48px;
+  --space-xl: 80px;
+
+  /* Radius & Effects */
+  --radius: 18px;
+  --blur: 18px;
+
+  /* Typography Colors */
+  --text-primary: #111;
+  --text-secondary: #333;
+  --text-muted: #555;
+
+  --text-dark: #111;
+  --text-light: #e5e5e5;
+
+  /* Brand Core */
+  --brand-green: #046A38;
+  --brand-green-deep: #034f2a;
+  --brand-green-soft: rgba(4,106,56,0.15);
+
+  --brand-orange: #FF671F;
+  --brand-orange-deep: #e55a16;
+  --brand-orange-soft: rgba(255,103,31,0.15);
+
+  --brand-blue: #000080;
+
+  /* Gradients */
+  --gradient-brand: linear-gradient(
+    135deg,
+    var(--brand-green),
+    var(--brand-orange)
+  );
+
+  --gradient-soft: linear-gradient(
+    135deg,
+    var(--brand-green-soft),
+    var(--brand-orange-soft)
+  );
+
+  /* Card System */
+  --card-border-dark: rgba(255,255,255,0.12);
+  --card-border-light: rgba(0,0,0,0.12);
+
+  --card-shadow-dark: 0 10px 30px rgba(0,0,0,0.45);
+  --card-shadow-light: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* ======================================================
+   2. RESET
+====================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background: var(--brand-orange);
+  color: #fff;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* ======================================================
+   3. BODY & THEMES
+====================================================== */
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
+  font-size: 15px;
+  line-height: 1.7;
+  letter-spacing: 0.1px;
+
+  min-height: 100vh;
+  padding-top: 96px;
+
+  animation: fadeIn 0.35s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Dark Theme */
+
+body.theme-dark {
+  background: #000;
+  color: var(--text-light);
+
+  --card-bg: #1c1c1e;
+  --card-border: var(--card-border-dark);
+  --card-shadow: var(--card-shadow-dark);
+  --card-text: var(--text-light);
+}
+
+/* Light Theme */
+
+body.theme-light {
+  background: #fff;
+  color: var(--text-dark);
+
+  --card-bg: #ffffff;
+  --card-border: var(--card-border-light);
+  --card-shadow: var(--card-shadow-light);
+  --card-text: var(--text-dark);
+}
+
+/* Ambient Dual Brand Glow */
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 20% 30%, var(--brand-green-soft), transparent 50%),
+    radial-gradient(circle at 80% 70%, var(--brand-orange-soft), transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(100px);
+}
+
+/* ======================================================
+   4. TYPOGRAPHY
+====================================================== */
+
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+h1 {
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+
+h3 {
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+p {
+  margin-bottom: 0.75em;
+  color: var(--text-muted);
+}
+
+body.theme-light p {
+  color: var(--text-secondary);
+}
+
+/* Accent (Gradient Text) */
+
+.accent {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Hero Label */
+
+.hero-label {
+  color: var(--brand-green);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+
+/* ======================================================
+   5. ACCESSIBILITY
+====================================================== */
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: #000;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ======================================================
+   6. GLASS SYSTEM (PRO)
+====================================================== */
+
+.glass {
+  backdrop-filter: blur(var(--blur)) saturate(160%);
+  border-radius: var(--radius);
+}
+
+body.theme-dark .glass {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.37),
+    0 0 0 1px var(--brand-green-soft);
+}
+
+body.theme-light .glass {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(0,0,0,0.12);
+}
+
+/* ======================================================
+   7. BRAND BUTTON UTILITY
+====================================================== */
+
+.btn-brand {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 50px;
+  background: var(--gradient-brand);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.btn-brand:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 25px rgba(4,106,56,0.3),
+    0 8px 20px rgba(255,103,31,0.3);
+}
+
+/* ======================================================
+   8. RESPONSIVE
+====================================================== */
+
+@media (max-width: 768px) {
+
+  body {
+    font-size: 14.5px;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  h2 {
+    font-size: 1.15rem;
+  }
+}
+/* ======================================================
+   GLOBAL HEADER SYSTEM (STABLE + CLEAN)
+====================================================== */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+/* Header container */
+.header-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Brand */
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.brand-tagline {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* Nav */
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list li a {
+  text-decoration: none;
+  font-size: 0.9rem;
+  position: relative;
+  padding-bottom: 4px;
+  white-space: nowrap;
+}
+
+.nav-list li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--gradient-brand);
+  transition: width 0.3s ease;
+}
+
+.nav-list li a:hover::after,
+.nav-list li a.active::after {
+  width: 100%;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .header-inner {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-list {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+}
