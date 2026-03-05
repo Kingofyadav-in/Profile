@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title id="post-title">Blog Post</title>
+
+<meta name="description" id="post-description" content="Blog article">
+
+<!-- ================= STYLES ================= -->
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/blog-elite.css">
+<link rel="stylesheet" href="/css/components.css">
+
+<link rel="icon" href="/favicon/favicon.ico">
+
+</head>
+<body class="theme-dark">
+
+
+<!-- =====================================================
+     GLOBAL HEADER
+===================================================== -->
+<header class="site-header">
+  <div class="header-inner">
+
+    <a href="/pages/blog.html" class="brand-link">
+      <img src="/logo/night-logo.png" class="logo" alt="Logo">
+      <div class="brand-text">
+        <span class="brand-name">Blog</span>
+        <span class="brand-tagline">Elite Reader</span>
+      </div>
+    </a>
+
+  </div>
+</header>
+
+
+
+<!-- =====================================================
+     BLOG POST CONTAINER
+===================================================== -->
+
+<main class="blog-reader">
+
+  <article class="blog-post glass">
+
+    <!-- HERO AREA -->
+    <header class="post-hero">
+      <span class="post-meta" id="post-meta"></span>
+      <h1 id="post-heading"></h1>
+    </header>
+
+    <!-- FEATURE IMAGE -->
+    <div class="post-image" id="post-image-container"></div>
+
+    <!-- CONTENT -->
+    <section class="post-content" id="post-content">
+      Loading article...
+    </section>
+
+  </article>
+
+
+  <!-- ===================================================
+       NAVIGATION BETWEEN POSTS
+  ==================================================== -->
+  <div class="post-navigation">
+
+    <a href="/pages/blog.html" class="nav-btn">
+      ← Back to Blog
+    </a>
+
+  </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="site-footer glass">
+  <div class="footer-inner">
+    © <span id="year"></span> | Blog System
+  </div>
+</footer>
+
+
+
+<!-- =====================================================
+     BLOG ENGINE
+     Auto Loads Post From JSON Using URL Slug
+===================================================== -->
+
+<script>
+
+/* ================= AUTO LOAD POST ================= */
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const slug = window.location.pathname
+    .split("/")
+    .pop()
+    .replace(".html", "");
+
+  try {
+
+    const res = await fetch("/data/blog-data.json");
+    const posts = await res.json();
+
+    const post = posts.find(p => p.slug === slug);
+
+    if (!post) {
+      document.getElementById("post-content").innerHTML =
+        "<h2>Post Not Found</h2>";
+      return;
+    }
+
+    /* ===== SEO ===== */
+    document.title = post.title;
+    document.getElementById("post-title").content = post.excerpt;
+
+    /* ===== HEADER DATA ===== */
+    document.getElementById("post-heading").innerText = post.title;
+    document.getElementById("post-meta").innerText =
+      `${post.category} · ${post.date}`;
+
+    document.getElementById("post-description").content =
+      post.excerpt;
+
+    /* ===== IMAGE (Optional) ===== */
+    if (post.image) {
+      document.getElementById("post-image-container").innerHTML = `
+        <img src="${post.image}"
+             alt="${post.title}"
+             class="post-image-file">
+      `;
+    }
+
+    /* ===== CONTENT =====
+       If you store full HTML in JSON -> render it
+       If markdown -> we upgrade later
+    */
+
+    document.getElementById("post-content").innerHTML =
+      post.content || "<p>No content available.</p>";
+
+  }
+
+  catch (err) {
+    console.error("Blog Load Error:", err);
+  }
+
+});
+
+
+/* ================= YEAR AUTO ================= */
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+</script>
+
+</body>
+</html>

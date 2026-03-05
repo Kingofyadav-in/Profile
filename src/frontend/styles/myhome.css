@@ -1,0 +1,322 @@
+/* ======================================================
+   PERSONAL SECTION – NATIONAL COLOR SYSTEM
+   Uses Only:
+   Deep Saffron #FF9933
+   White #FFFFFF
+   India Green #138808
+   Black #000000
+====================================================== */
+
+/* =========================
+   ROOT COLOR SYSTEM
+========================= */
+
+
+:root {
+
+  /* === Core Colors === */
+  --primary: #138808;        /* Main Brand */
+  --secondary: #FF9933;      /* Accent */
+  --light: #FFFFFF;
+  --dark: #000000;
+
+  /* === UI System === */
+  --bg-dark: #000000;
+  --bg-light: #FFFFFF;
+
+  --card-bg: rgba(255,255,255,0.06);
+  --card-border: rgba(255,255,255,0.15);
+
+  --radius: 20px;
+  --blur: 20px;
+
+  /* === Primary Gradient (Green First) === */
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  );
+}
+
+/* =========================
+   THEMES
+========================= */
+
+body.theme-dark {
+  background: var(--dark);
+  color: var(--light);
+}
+
+body.theme-light {
+  background: var(--light);
+  color: var(--dark);
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.personal-main {
+  max-width: var(--container);
+  margin: auto;
+  padding: 170px 32px 100px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.personal-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  backdrop-filter: blur(var(--blur));
+  background: rgba(0,0,0,0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  z-index: 1000;
+}
+
+.personal-header-inner {
+  max-width: var(--container);
+  margin: auto;
+  padding: 18px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ==============================
+   NAVIGATION (CLEAN FIXED)
+============================== */
+
+.personal-nav {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.personal-nav a {
+  position: relative;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: 0.3s ease;
+  color: inherit;
+}
+
+/* Hover + Active */
+.personal-nav a:hover,
+.personal-nav a.active {
+  opacity: 1;
+  color: var(--brand-green);
+}
+
+/* Underline */
+.personal-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--brand-green), var(--brand-orange));
+  transition: width 0.3s ease;
+}
+
+.personal-nav a:hover::after,
+.personal-nav a.active::after {
+  width: 100%;
+}
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media (max-width: 768px) {
+
+  .page-intro {
+    padding: 160px 20px 80px;
+  }
+
+  .page-intro .life-card:first-child {
+    padding: 40px 20px;
+  }
+
+  .page-intro .life-card:first-child h2 {
+    font-size: 1.6rem;
+  }
+
+  .services-grid {
+    gap: 20px;
+  }
+
+  .personal-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    padding-top: 10px;
+  }
+
+  .personal-nav a {
+    font-size: 0.8rem;
+  }
+}
+
+/* =========================
+   HERO
+========================= */
+
+.personal-section {
+  margin-bottom: 120px;
+}
+
+.personal-section.glass {
+  padding: 70px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(var(--blur));
+  transition: 0.4s ease;
+}
+
+.personal-section.glass:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 70px rgba(255,153,51,0.2);
+}
+
+/* Titles */
+
+.personal-section h1 {
+  font-size: clamp(2.8rem, 5vw, 3.6rem);
+}
+
+.personal-section h1::after {
+  content: "";
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: var(--saffron);
+  margin-top: 16px;
+  border-radius: 4px;
+}
+
+.personal-section h2 {
+  margin-bottom: 18px;
+}
+
+.personal-section h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  margin-top: 10px;
+  background: var(--india-green);
+  border-radius: 4px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.life-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+}
+
+.personal-page .life-card {
+  padding: 40px;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(var(--blur));
+  transition: 0.4s ease;
+}
+
+.personal-page .life-card:hover {
+  transform: translateY(-12px);
+  border-color: var(--saffron);
+  box-shadow: 0 25px 60px rgba(19,136,8,0.3);
+}
+
+/* =========================
+   TIMELINE
+========================= */
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--india-green);
+}
+
+.timeline li {
+  padding-left: 50px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--saffron);
+  box-shadow: 0 0 0 6px rgba(255,153,51,0.2);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-brand {
+  padding: 14px 32px;
+  border-radius: 50px;
+  background: linear-gradient(
+    90deg,
+    var(--saffron),
+    var(--india-green)
+  );
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.btn-brand:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(255,153,51,0.4);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  .personal-main {
+    padding: 140px 20px 70px;
+  }
+
+  .personal-section.glass {
+    padding: 40px;
+  }
+
+  .personal-nav {
+    gap: 16px;
+  }
+
+}

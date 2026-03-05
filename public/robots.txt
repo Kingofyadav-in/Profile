@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kingofyadav.in/sitemap.xml
+Host: https://kingofyadav.in

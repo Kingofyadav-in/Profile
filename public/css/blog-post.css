@@ -1,0 +1,261 @@
+/* ======================================================
+   BLOG POST – WORLD CLASS READER EXPERIENCE
+   Elite • Focused • Clean • Professional
+====================================================== */
+
+
+/* ======================================================
+   MAIN LAYOUT
+====================================================== */
+
+.blog-elite-container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 160px 6% 120px;
+  display: grid;
+  grid-template-columns: 2fr 0.8fr;
+  gap: 80px;
+}
+
+
+/* ======================================================
+   ARTICLE BODY
+====================================================== */
+
+.elite-article {
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+/* Title */
+
+.elite-article h1 {
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+/* Subtitle */
+
+.article-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 30px;
+  max-width: 700px;
+}
+
+/* Section Headings */
+
+.elite-article h2 {
+  margin-top: 70px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.elite-article h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--brand-green);
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+
+/* ======================================================
+   TYPOGRAPHY
+====================================================== */
+
+.elite-article p {
+  margin-bottom: 22px;
+  opacity: 0.9;
+}
+
+.elite-article ul {
+  padding-left: 20px;
+  margin-bottom: 30px;
+}
+
+.elite-article ul li {
+  margin-bottom: 10px;
+}
+
+
+/* ======================================================
+   BLOCKQUOTE
+====================================================== */
+
+.elite-article blockquote {
+  padding: 25px;
+  border-left: 4px solid var(--brand-green);
+  background: rgba(4,106,56,0.08);
+  font-style: italic;
+  margin: 30px 0;
+  border-radius: 12px;
+}
+
+
+/* ======================================================
+   CODE STYLE
+====================================================== */
+
+.elite-article pre {
+  background: #111;
+  padding: 20px;
+  border-radius: 14px;
+  overflow-x: auto;
+  margin: 30px 0;
+  font-size: 0.9rem;
+}
+
+.elite-article code {
+  background: rgba(4,106,56,0.15);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+
+/* ======================================================
+   RELATED POSTS
+====================================================== */
+
+.related-posts {
+  margin-top: 100px;
+}
+
+.related-posts h2 {
+  font-size: 1.8rem;
+  margin-bottom: 40px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.related-card {
+  padding: 30px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: 0.3s ease;
+  display: block;
+}
+
+.related-card h3 {
+  font-size: 1.1rem;
+}
+
+.related-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--brand-green);
+  box-shadow: 0 20px 50px rgba(4,106,56,0.2);
+}
+
+
+/* ======================================================
+   SIDEBAR – TABLE OF CONTENT
+====================================================== */
+
+.elite-sidebar {
+  position: sticky;
+  top: 140px;
+  height: fit-content;
+  padding: 30px;
+  border-radius: 22px;
+}
+
+.elite-sidebar h3 {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+/* TOC Links */
+
+#toc a {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  transition: 0.3s ease;
+}
+
+#toc a:hover {
+  color: var(--brand-green);
+  opacity: 1;
+}
+
+
+/* ======================================================
+   READING PROGRESS BAR
+====================================================== */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 0%;
+  background: var(--brand-green);
+  z-index: 9999;
+  transition: width 0.2s ease;
+}
+
+
+/* ======================================================
+   SHARE BUTTON
+====================================================== */
+
+.share-buttons button {
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  background: var(--brand-green);
+  color: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.3s ease;
+}
+
+.share-buttons button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(4,106,56,0.3);
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1024px) {
+
+  .blog-elite-container {
+    grid-template-columns: 1fr;
+  }
+
+  .elite-sidebar {
+    position: relative;
+    top: auto;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .blog-elite-container {
+    padding: 140px 5% 80px;
+  }
+
+  .elite-article h1 {
+    font-size: 2rem;
+  }
+
+  .related-grid {
+    gap: 20px;
+  }
+
+}

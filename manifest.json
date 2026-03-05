@@ -1,12 +1,17 @@
 {
-  "name": "Amit Ku Yadav – Profile",
-  "short_name": "Amit Ku Yadav",
-  "description": "Personal, Professional & Social profile of Amit Ku Yadav",
+  "name": "Amit Ku Yadav – Personal Digital Platform",
+  "short_name": "Amit Yadav",
+  "description": "Official personal, professional and social digital platform of Amit Ku Yadav from Bhagalpur, India.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#000000",
   "theme_color": "#046A38",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["portfolio", "personal", "social", "business"],
   "icons": [
     {
       "src": "/favicon/android-chrome-192x192.png",
@@ -17,6 +22,36 @@
       "src": "/favicon/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "MyCity – Bhagalpur",
+      "short_name": "MyCity",
+      "url": "/pages/mycity.html",
+      "icons": [
+        {
+          "src": "/favicon/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "MyHome",
+      "short_name": "MyHome",
+      "url": "/pages/myhome.html",
+      "icons": [
+        {
+          "src": "/favicon/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

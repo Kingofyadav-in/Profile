@@ -1,0 +1,290 @@
+/* ======================================================
+   MYCITY – PROFESSIONAL CIVIC SYSTEM
+   Ultra Clean • Structured • Premium
+   Theme: India Green Primary, Saffron Accent, White & Black
+====================================================== */
+
+/* ================= PAGE WRAPPER ================= */
+
+.city-page {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 140px 24px 100px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Soft background glow */
+.city-page::before {
+  content: "";
+  position: fixed;
+  top: -350px;
+  right: -300px;
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(
+    circle,
+    rgba(19,136,8,0.15), /* India Green soft glow */
+    transparent 70%
+  );
+  z-index: -1;
+  animation: cityGlowMove 20s ease-in-out infinite alternate;
+}
+
+@keyframes cityGlowMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(80px); }
+}
+
+/* ================= HERO ================= */
+
+.city-hero {
+  text-align: center;
+  padding: 120px 40px;
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at top left, rgba(19,136,8,0.25), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(255,153,51,0.25), transparent 60%);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.city-hero:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+}
+
+.city-hero h1 {
+  font-size: clamp(2.4rem, 5vw, 3.2rem);
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #138808; /* India Green primary */
+}
+
+.city-intro {
+  font-size: 1.1rem;
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.8;
+  opacity: 0.9;
+  color: #000000; /* Black text for readability */
+}
+
+/* ================= PERSONAL NAV ================= */
+
+.personal-nav {
+  display: flex;
+  gap: 26px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.personal-nav a {
+  position: relative;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: 0.3s ease;
+  color: #138808; /* Primary green links */
+}
+
+.personal-nav a:hover,
+.personal-nav a.active {
+  opacity: 1;
+  color: #FF9933; /* Saffron hover/active */
+}
+
+/* Animated underline */
+.personal-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    #138808, /* green */
+    #FF9933  /* saffron */
+  );
+  transition: width 0.3s ease;
+}
+
+.personal-nav a:hover::after,
+.personal-nav a.active::after {
+  width: 100%;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .personal-nav {
+    justify-content: center;
+    gap: 16px;
+    margin-top: 10px;
+  }
+
+  .personal-nav a {
+    font-size: 0.8rem;
+  }
+}
+
+/* ================= SECTION SYSTEM ================= */
+
+.city-section {
+  margin-top: 110px;
+  position: relative;
+}
+
+.city-section h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #138808; /* Green primary */
+}
+
+/* Stylish divider */
+.city-section h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  margin: 12px auto 0 auto;
+  border-radius: 3px;
+  background: linear-gradient(to right, #138808, #FF9933);
+}
+
+/* ================= GRID ================= */
+
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+/* ================= CITY CARDS ================= */
+
+.city-card {
+  padding: 38px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.06); /* subtle white glass */
+  border: 1px solid rgba(19,136,8,0.3); /* India Green border */
+  backdrop-filter: blur(16px);
+  transition: all 0.35s ease;
+  text-align: center;
+}
+
+.city-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 14px;
+  color: #138808;
+}
+
+.city-card p {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  text-align: left;
+  opacity: 0.85;
+  color: #000000;
+}
+
+.city-card:hover {
+  transform: translateY(-12px);
+  border-color: #138808;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+}
+
+.city-card a {
+  display: inline-block;
+  margin-top: 14px;
+  font-weight: 600;
+  color: #138808;
+  text-decoration: none;
+  position: relative;
+}
+
+.city-card a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -3px;
+  background: #FF9933;
+  transition: width 0.3s ease;
+}
+
+.city-card a:hover::after {
+  width: 100%;
+}
+
+/* ================= GLASS SECTION ================= */
+
+.city-section.glass {
+  padding: 70px;
+  border-radius: 32px;
+  backdrop-filter: blur(22px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(19,136,8,0.2);
+}
+
+/* ================= ANIMATION ================= */
+
+.city-card,
+.city-section {
+  opacity: 0;
+  transform: translateY(25px);
+  animation: cityFadeUp 0.6s ease forwards;
+}
+
+@keyframes cityFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+  .city-hero h1 {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .city-page {
+    padding: 160px 18px 80px;
+  }
+
+  .city-hero {
+    padding: 80px 20px;
+  }
+
+  .city-section {
+    margin-top: 80px;
+  }
+
+  .city-section.glass {
+    padding: 40px;
+  }
+
+  .city-card {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .city-hero {
+    padding: 60px 16px;
+  }
+
+  .city-card {
+    padding: 22px;
+  }
+}

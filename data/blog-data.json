@@ -1,0 +1,25 @@
+{
+  "posts": [
+
+    {
+      "slug": "public-service-responsibility",
+      "title": "Public Service & Responsibility",
+      "category": "Top Article",
+      "date": "March 2026",
+      "excerpt": "Exploring discipline, accountability...",
+      "image": "/assets/images/blog1.jpg",
+      "content": "<h2>Full Article</h2><p>Long premium content here...</p>"
+    },
+
+    {
+      "title": "Building With Purpose",
+      "slug": "building-with-purpose",
+      "date": "Feb 2026",
+      "category": "Leadership",
+      "excerpt": "Why discipline and structure matter more than speed.",
+      "hidden": false,
+      "content": "<p>Full article HTML content...</p>"
+    }
+
+  ]
+}
