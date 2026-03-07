@@ -56,8 +56,10 @@ function updateLogo() {
     : "night";
 
   ["siteLogo", "personalLogo"].forEach(id => {
-    const logo = $(id);
-    if (logo) logo.src = `/logo/${theme}-logo.png`;
+    const logo = document.getElementById(id);
+    if (logo) {
+      logo.src = `/assets/images/logo/${theme}-logo.png`;
+    }
   });
 }
 
