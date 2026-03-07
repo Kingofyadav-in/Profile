@@ -1,220 +1,412 @@
 /* ======================================================
-   MYSELF PAGE – PRO EDITION (UPDATED)
-   Clean • Modern • Smooth • Production Ready
+   MYSELF PAGE – PREMIUM PROFILE SYSTEM
+   Clean • Elegant • Smooth • Production Ready
 ====================================================== */
 
 /* ==============================
    PAGE LAYOUT
 ============================== */
 
-.page-intro {
-  padding: 150px 6% 100px;
-  max-width: 1100px;
-  margin: 0 auto;
+.page-intro{
+  padding:150px 6% 100px;
+  max-width:1100px;
+  margin:auto;
+  position:relative;
 }
 
-.page-intro section {
-  margin-bottom: 70px;
+.page-intro section{
+  margin-bottom:80px;
 }
 
 /* ==============================
    HERO CARD
 ============================== */
 
-.page-intro .life-card:first-child {
-  text-align: center;
-  padding: 70px 50px;
-  border-radius: 28px;
-  backdrop-filter: blur(25px);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+.page-intro .life-card:first-child{
+
+  text-align:center;
+
+  padding:80px 60px;
+
+  border-radius:30px;
+
+  backdrop-filter:blur(25px) saturate(160%);
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  position:relative;
+
+  overflow:hidden;
+
+  transition:transform .35s ease, box-shadow .35s ease;
+
 }
 
-.page-intro .life-card:first-child:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 35px 80px rgba(4,106,56,0.25);
+/* subtle gradient overlay */
+
+.page-intro .life-card:first-child::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  border-radius:inherit;
+
+  background:linear-gradient(
+    135deg,
+    rgba(4,106,56,0.15),
+    rgba(255,103,31,0.12)
+  );
+
+  opacity:0;
+
+  transition:opacity .3s ease;
+
 }
 
-.page-intro .life-card:first-child h2 {
-  font-size: 2.2rem;
-  margin-bottom: 18px;
+.page-intro .life-card:first-child:hover::before{
+  opacity:1;
 }
 
-.page-intro .life-card:first-child p {
-  max-width: 720px;
-  margin: 0 auto;
-  font-size: 1rem;
-  line-height: 1.8;
+.page-intro .life-card:first-child:hover{
+
+  transform:translateY(-10px);
+
+  box-shadow:0 35px 80px rgba(4,106,56,0.25);
+
+}
+
+.page-intro .life-card:first-child h2{
+
+  font-size:2.3rem;
+
+  margin-bottom:18px;
+
+  letter-spacing:-0.3px;
+
+}
+
+.page-intro .life-card:first-child p{
+
+  max-width:720px;
+
+  margin:auto;
+
+  font-size:1rem;
+
+  line-height:1.9;
+
+  opacity:.92;
+
 }
 
 /* ==============================
    SECTION TITLES
 ============================== */
 
-.page-intro h2 {
-  font-size: 1.6rem;
-  margin-bottom: 20px;
-  position: relative;
+.page-intro h2{
+
+  font-size:1.65rem;
+
+  margin-bottom:20px;
+
+  position:relative;
+
 }
 
-.page-intro h2::after {
-  content: "";
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: var(--brand-green);
-  margin-top: 10px;
-  border-radius: 3px;
-  opacity: 0.7;
+.page-intro h2::after{
+
+  content:"";
+
+  display:block;
+
+  width:70px;
+
+  height:3px;
+
+  background:linear-gradient(
+    90deg,
+    var(--brand-green),
+    var(--brand-orange)
+  );
+
+  margin-top:10px;
+
+  border-radius:3px;
+
+  opacity:.8;
+
 }
 
 /* ==============================
    SERVICES GRID
 ============================== */
 
-.services-grid {
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
+.services-grid{
+
+  margin-top:24px;
+
+  display:grid;
+
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+  gap:32px;
+
 }
 
-/* Service Cards */
-.service-card {
-  padding: 30px;
-  border-radius: 22px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* ==============================
+   SERVICE CARDS
+============================== */
+
+.service-card{
+
+  padding:34px;
+
+  border-radius:24px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(18px);
+
+  position:relative;
+
+  overflow:hidden;
+
+  transition:transform .3s ease, box-shadow .3s ease;
+
 }
 
-.service-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 25px 60px rgba(4,106,56,0.2);
+/* gradient hover */
+
+.service-card::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  border-radius:inherit;
+
+  opacity:0;
+
+  background:linear-gradient(
+    135deg,
+    rgba(4,106,56,0.15),
+    rgba(255,103,31,0.15)
+  );
+
+  transition:opacity .3s ease;
+
 }
 
-/* Text inside service cards */
-.service-card h3 {
-  margin-bottom: 12px;
+.service-card:hover::before{
+  opacity:1;
 }
 
-.service-card p {
-  line-height: 1.7;
-  opacity: 0.85;
+.service-card:hover{
+
+  transform:translateY(-8px);
+
+  box-shadow:0 30px 70px rgba(4,106,56,0.22);
+
+}
+
+.service-card h3{
+
+  margin-bottom:12px;
+
+}
+
+.service-card p{
+
+  line-height:1.75;
+
+  opacity:.9;
+
 }
 
 /* ==============================
    PHILOSOPHY SECTION
 ============================== */
 
-.page-intro .life-card:nth-last-child(2) p {
-  font-style: italic;
-  font-size: 1rem;
-  line-height: 1.8;
+.page-intro .life-card:nth-last-child(2) p{
+
+  font-style:italic;
+
+  font-size:1rem;
+
+  line-height:1.9;
+
+  opacity:.9;
+
 }
 
 /* ==============================
    CTA SECTION
 ============================== */
 
-.page-intro .life-card:last-child {
-  text-align: center;
-  padding: 60px 40px;
+.page-intro .life-card:last-child{
+
+  text-align:center;
+
+  padding:70px 40px;
+
+  border-radius:28px;
+
 }
 
 /* ==============================
-   ANIMATION SYSTEM (CLEAN)
+   ANIMATION SYSTEM
 ============================== */
 
 .page-intro .life-card,
-.page-intro .service-card {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.6s ease forwards;
+.page-intro .service-card{
+
+  opacity:0;
+
+  transform:translateY(24px);
+
+  animation:fadeUp .6s ease forwards;
+
 }
 
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@keyframes fadeUp{
+
+  to{
+
+    opacity:1;
+
+    transform:translateY(0);
+
   }
+
 }
 
 /* ==============================
-   NAVIGATION (CLEAN FIXED)
+   PERSONAL NAVIGATION
 ============================== */
 
-.personal-nav {
-  display: flex;
-  gap: 28px;
-  align-items: center;
-  font-size: 0.85rem;
-  font-weight: 500;
+.personal-nav{
+
+  display:flex;
+
+  gap:28px;
+
+  align-items:center;
+
+  font-size:.85rem;
+
+  font-weight:500;
+
 }
 
-.personal-nav a {
-  position: relative;
-  text-decoration: none;
-  opacity: 0.7;
-  transition: 0.3s ease;
-  color: inherit;
+.personal-nav a{
+
+  position:relative;
+
+  text-decoration:none;
+
+  opacity:.75;
+
+  transition:.3s ease;
+
+  color:inherit;
+
 }
 
-/* Hover + Active */
 .personal-nav a:hover,
-.personal-nav a.active {
-  opacity: 1;
-  color: var(--brand-green);
+.personal-nav a.active{
+
+  opacity:1;
+
+  color:var(--brand-green);
+
 }
 
-/* Underline */
-.personal-nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--brand-green), var(--brand-orange));
-  transition: width 0.3s ease;
+.personal-nav a::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+
+  bottom:-6px;
+
+  width:0%;
+
+  height:2px;
+
+  background:linear-gradient(
+    90deg,
+    var(--brand-green),
+    var(--brand-orange)
+  );
+
+  transition:width .3s ease;
+
 }
 
 .personal-nav a:hover::after,
-.personal-nav a.active::after {
-  width: 100%;
+.personal-nav a.active::after{
+
+  width:100%;
+
 }
 
 /* ==============================
    MOBILE
 ============================== */
 
-@media (max-width: 768px) {
+@media(max-width:768px){
 
-  .page-intro {
-    padding: 160px 20px 80px;
+  .page-intro{
+
+    padding:160px 20px 80px;
+
   }
 
-  .page-intro .life-card:first-child {
-    padding: 40px 20px;
+  .page-intro .life-card:first-child{
+
+    padding:40px 22px;
+
   }
 
-  .page-intro .life-card:first-child h2 {
-    font-size: 1.6rem;
+  .page-intro .life-card:first-child h2{
+
+    font-size:1.65rem;
+
   }
 
-  .services-grid {
-    gap: 20px;
+  .services-grid{
+
+    gap:22px;
+
   }
 
-  .personal-nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    padding-top: 10px;
+  .personal-nav{
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:16px;
+
+    padding-top:10px;
+
   }
 
-  .personal-nav a {
-    font-size: 0.8rem;
+  .personal-nav a{
+
+    font-size:.8rem;
+
   }
+
 }

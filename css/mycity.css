@@ -1,290 +1,300 @@
 /* ======================================================
-   MYCITY – PROFESSIONAL CIVIC SYSTEM
-   Ultra Clean • Structured • Premium
-   Theme: India Green Primary, Saffron Accent, White & Black
+   MYCITY – PREMIUM CIVIC EXPERIENCE
+   Clean • Elegant • India Inspired
+   Brand: India Green + Saffron
 ====================================================== */
 
 /* ================= PAGE WRAPPER ================= */
 
-.city-page {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 140px 24px 100px;
-  position: relative;
-  overflow-x: hidden;
+.city-page{
+  max-width:1300px;
+  margin:auto;
+  padding:140px 24px 100px;
+  position:relative;
+  overflow:hidden;
 }
 
-/* Soft background glow */
-.city-page::before {
-  content: "";
-  position: fixed;
-  top: -350px;
-  right: -300px;
-  width: 1000px;
-  height: 1000px;
-  background: radial-gradient(
-    circle,
-    rgba(19,136,8,0.15), /* India Green soft glow */
-    transparent 70%
-  );
-  z-index: -1;
-  animation: cityGlowMove 20s ease-in-out infinite alternate;
+/* Ambient glow */
+
+.city-page::before{
+  content:"";
+  position:fixed;
+  top:-300px;
+  right:-300px;
+  width:900px;
+  height:900px;
+  background:radial-gradient(circle,rgba(19,136,8,0.18),transparent 70%);
+  z-index:-1;
+  filter:blur(20px);
+  animation:cityGlowMove 18s ease-in-out infinite alternate;
 }
 
-@keyframes cityGlowMove {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(80px); }
+@keyframes cityGlowMove{
+  0%{transform:translateY(0);}
+  100%{transform:translateY(90px);}
 }
 
 /* ================= HERO ================= */
 
-.city-hero {
-  text-align: center;
-  padding: 120px 40px;
-  border-radius: 32px;
+.city-hero{
+  text-align:center;
+  padding:120px 40px;
+  border-radius:32px;
+
   background:
-    radial-gradient(circle at top left, rgba(19,136,8,0.25), transparent 60%),
-    radial-gradient(circle at bottom right, rgba(255,153,51,0.25), transparent 60%);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  radial-gradient(circle at top left,rgba(19,136,8,0.25),transparent 60%),
+  radial-gradient(circle at bottom right,rgba(255,153,51,0.25),transparent 60%);
+
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+
+  transition:transform .35s ease,box-shadow .35s ease;
 }
 
-.city-hero:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+.city-hero:hover{
+  transform:translateY(-6px);
+  box-shadow:0 35px 80px rgba(0,0,0,0.35);
 }
 
-.city-hero h1 {
-  font-size: clamp(2.4rem, 5vw, 3.2rem);
-  font-weight: 700;
-  margin-bottom: 18px;
-  color: #138808; /* India Green primary */
+.city-hero h1{
+  font-size:clamp(2.6rem,5vw,3.4rem);
+  font-weight:700;
+  margin-bottom:18px;
+  letter-spacing:-0.4px;
+  color:#138808;
 }
 
-.city-intro {
-  font-size: 1.1rem;
-  max-width: 720px;
-  margin: 0 auto;
-  line-height: 1.8;
-  opacity: 0.9;
-  color: #000000; /* Black text for readability */
+.city-intro{
+  font-size:1.08rem;
+  max-width:720px;
+  margin:auto;
+  line-height:1.9;
+  opacity:.92;
 }
 
 /* ================= PERSONAL NAV ================= */
 
-.personal-nav {
-  display: flex;
-  gap: 26px;
-  flex-wrap: wrap;
-  font-size: 0.85rem;
-  font-weight: 500;
+.personal-nav{
+  display:flex;
+  gap:28px;
+  flex-wrap:wrap;
+  font-size:.85rem;
+  font-weight:500;
 }
 
-.personal-nav a {
-  position: relative;
-  text-decoration: none;
-  opacity: 0.7;
-  transition: 0.3s ease;
-  color: #138808; /* Primary green links */
+.personal-nav a{
+  position:relative;
+  text-decoration:none;
+  opacity:.75;
+  transition:.3s ease;
+  color:#138808;
 }
 
 .personal-nav a:hover,
-.personal-nav a.active {
-  opacity: 1;
-  color: #FF9933; /* Saffron hover/active */
+.personal-nav a.active{
+  opacity:1;
+  color:#FF9933;
 }
 
-/* Animated underline */
-.personal-nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0%;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    #138808, /* green */
-    #FF9933  /* saffron */
-  );
-  transition: width 0.3s ease;
+.personal-nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0%;
+  height:2px;
+  background:linear-gradient(90deg,#138808,#FF9933);
+  transition:width .3s ease;
 }
 
 .personal-nav a:hover::after,
-.personal-nav a.active::after {
-  width: 100%;
-}
-
-/* ================= MOBILE ================= */
-
-@media (max-width: 768px) {
-
-  .personal-nav {
-    justify-content: center;
-    gap: 16px;
-    margin-top: 10px;
-  }
-
-  .personal-nav a {
-    font-size: 0.8rem;
-  }
+.personal-nav a.active::after{
+  width:100%;
 }
 
 /* ================= SECTION SYSTEM ================= */
 
-.city-section {
-  margin-top: 110px;
-  position: relative;
+.city-section{
+  margin-top:110px;
+  position:relative;
 }
 
-.city-section h2 {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 30px;
-  color: #138808; /* Green primary */
+.city-section h2{
+  font-size:2rem;
+  text-align:center;
+  margin-bottom:30px;
+  color:#138808;
 }
 
-/* Stylish divider */
-.city-section h2::after {
-  content: "";
-  display: block;
-  width: 80px;
-  height: 3px;
-  margin: 12px auto 0 auto;
-  border-radius: 3px;
-  background: linear-gradient(to right, #138808, #FF9933);
+.city-section h2::after{
+  content:"";
+  display:block;
+  width:90px;
+  height:3px;
+  margin:14px auto 0;
+  border-radius:4px;
+  background:linear-gradient(to right,#138808,#FF9933);
 }
 
 /* ================= GRID ================= */
 
-.city-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
-  margin-top: 40px;
+.city-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:42px;
+  margin-top:42px;
 }
 
 /* ================= CITY CARDS ================= */
 
-.city-card {
-  padding: 38px;
-  border-radius: 26px;
-  background: rgba(255,255,255,0.06); /* subtle white glass */
-  border: 1px solid rgba(19,136,8,0.3); /* India Green border */
-  backdrop-filter: blur(16px);
-  transition: all 0.35s ease;
-  text-align: center;
+.city-card{
+  padding:40px;
+  border-radius:28px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(19,136,8,0.28);
+
+  backdrop-filter:blur(18px);
+
+  transition:all .35s ease;
+
+  position:relative;
 }
 
-.city-card h3 {
-  font-size: 1.25rem;
-  margin-bottom: 14px;
-  color: #138808;
+.city-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  opacity:0;
+  background:linear-gradient(
+    135deg,
+    rgba(19,136,8,0.15),
+    rgba(255,153,51,0.15)
+  );
+  transition:opacity .3s ease;
 }
 
-.city-card p {
-  font-size: 0.98rem;
-  line-height: 1.7;
-  text-align: left;
-  opacity: 0.85;
-  color: #000000;
+.city-card:hover::before{
+  opacity:1;
 }
 
-.city-card:hover {
-  transform: translateY(-12px);
-  border-color: #138808;
-  box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+.city-card:hover{
+  transform:translateY(-12px);
+  border-color:#138808;
+  box-shadow:0 35px 80px rgba(0,0,0,0.35);
 }
 
-.city-card a {
-  display: inline-block;
-  margin-top: 14px;
-  font-weight: 600;
-  color: #138808;
-  text-decoration: none;
-  position: relative;
+.city-card h3{
+  font-size:1.25rem;
+  margin-bottom:14px;
+  color:#138808;
 }
 
-.city-card a::after {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  left: 0;
-  bottom: -3px;
-  background: #FF9933;
-  transition: width 0.3s ease;
+.city-card p{
+  font-size:.97rem;
+  line-height:1.75;
+  opacity:.88;
 }
 
-.city-card a:hover::after {
-  width: 100%;
+.city-card a{
+  display:inline-block;
+  margin-top:16px;
+  font-weight:600;
+  color:#138808;
+  text-decoration:none;
+  position:relative;
+}
+
+.city-card a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-4px;
+  width:0%;
+  height:2px;
+  background:#FF9933;
+  transition:width .3s ease;
+}
+
+.city-card a:hover::after{
+  width:100%;
 }
 
 /* ================= GLASS SECTION ================= */
 
-.city-section.glass {
-  padding: 70px;
-  border-radius: 32px;
-  backdrop-filter: blur(22px);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(19,136,8,0.2);
+.city-section.glass{
+  padding:70px;
+  border-radius:34px;
+
+  background:rgba(255,255,255,0.04);
+
+  backdrop-filter:blur(24px);
+
+  border:1px solid rgba(19,136,8,0.2);
+
+  box-shadow:0 20px 60px rgba(0,0,0,0.2);
 }
 
 /* ================= ANIMATION ================= */
 
 .city-card,
-.city-section {
-  opacity: 0;
-  transform: translateY(25px);
-  animation: cityFadeUp 0.6s ease forwards;
+.city-section{
+  opacity:0;
+  transform:translateY(26px);
+  animation:cityFadeUp .6s ease forwards;
 }
 
-@keyframes cityFadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media (max-width: 992px) {
-  .city-hero h1 {
-    font-size: 2.4rem;
+@keyframes cityFadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
   }
 }
 
-@media (max-width: 768px) {
+/* ================= MOBILE ================= */
 
-  .city-page {
-    padding: 160px 18px 80px;
+@media(max-width:992px){
+
+  .city-hero h1{
+    font-size:2.5rem;
   }
 
-  .city-hero {
-    padding: 80px 20px;
-  }
-
-  .city-section {
-    margin-top: 80px;
-  }
-
-  .city-section.glass {
-    padding: 40px;
-  }
-
-  .city-card {
-    padding: 28px;
-  }
 }
 
-@media (max-width: 480px) {
+@media(max-width:768px){
 
-  .city-hero {
-    padding: 60px 16px;
+  .city-page{
+    padding:160px 18px 80px;
   }
 
-  .city-card {
-    padding: 22px;
+  .city-hero{
+    padding:80px 22px;
   }
+
+  .city-section{
+    margin-top:80px;
+  }
+
+  .city-section.glass{
+    padding:40px;
+  }
+
+  .city-card{
+    padding:28px;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .city-hero{
+    padding:60px 16px;
+  }
+
+  .city-card{
+    padding:22px;
+  }
+
 }

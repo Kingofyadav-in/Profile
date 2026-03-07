@@ -68,14 +68,28 @@ function updateLogo() {
 ====================================================== */
 
 function initActiveNav() {
+
   const current = window.location.pathname.replace(/\/$/, "");
 
   $$(".nav-list a").forEach(link => {
+
     const target = link.pathname.replace(/\/$/, "");
-    if (current.endsWith(target)) {
+
+    /* Home page exact match */
+    if (target === "" || target === "/") {
+      if (current === "" || current === "/") {
+        link.classList.add("active");
+      }
+      return;
+    }
+
+    /* Other pages */
+    if (current === target || current.startsWith(target + "/")) {
       link.classList.add("active");
     }
+
   });
+
 }
 
 /* ======================================================
