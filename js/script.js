@@ -58,7 +58,7 @@ function updateLogo() {
   ["siteLogo", "personalLogo"].forEach(id => {
     const logo = document.getElementById(id);
     if (logo) {
-      logo.src = `/assets/images/logo/${theme}-logo.png`;
+      logo.src = `/logo/${theme}-logo.png`;
     }
   });
 }

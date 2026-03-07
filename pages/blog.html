@@ -15,6 +15,7 @@
   <!-- ================= THEME ================= -->
   <meta name="theme-color" content="#000000" />
   <meta name="robots" content="index, follow">
+
   <!-- ================= OPEN GRAPH ================= -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Blog | Amit Ku Yadav" />
@@ -26,37 +27,53 @@
   <meta property="og:url" content="https://kingofyadav.in/blog.html" />
   <meta property="og:site_name" content="Amit Ku Yadav" />
 
-  <link rel="canonical" href="https://kingofyadav.in/blog.html" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/blog.html" />
+  <link rel="manifest" href="/manifest.json">
+
 
   <!-- ================= TWITTER ================= -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Blog | Amit Ku Yadav">
+  <meta name="twitter:description" content="Leadership insights and long-form thinking by Amit Ku Yadav.">
+  <meta name="twitter:image" content="https://kingofyadav.in/og-image.png">
 
   <!-- ================= ICONS ================= -->
-  <link rel="icon" href="favicon/favicon.ico" />
-  <link rel="apple-touch-icon" href="favicon/apple-touch.png" />
+  <link rel="icon" href="/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
 
   <!-- ================= STYLES ================= -->
-  <link rel="preload" href="/assets/css/base.css" as="style" />
-  <link rel="preload" href="/assets/css/components.css" as="style" />
-  <link rel="preload" href="/assets/css/blog.css" as="style" />
+  <link rel="preload" href="/css/base.css" as="style" onload="this.rel='stylesheet'">
+  <link rel="preload" href="/css/components.css" as="style" onload="this.rel='stylesheet'">
+  <link rel="preload" href="/css/blog.css" as="style" onload="this.rel='stylesheet'">
 
-  <link rel="stylesheet" href="/assets/css/base.css" />
-  <link rel="stylesheet" href="/assets/css/components.css" />
-  <link rel="stylesheet" href="/assets/css/blog.css" />
+  <noscript>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/blog.css">
+  </noscript>
 
-  <script type="application/ld+json">
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/blog.css" />
+
+<script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "Amit Ku Yadav Blog",
-  "url": "https://kingofyadav.in/blog.html",
-  "author": {
-    "@type": "Person",
-    "name": "Amit Ku Yadav"
-  }
+ "@context": "https://schema.org",
+ "@type": "Blog",
+ "name": "Amit Ku Yadav Blog",
+ "url": "https://kingofyadav.in/pages/blog.html",
+ "author": {
+   "@type": "Person",
+   "name": "Amit Ku Yadav",
+   "url": "https://kingofyadav.in"
+ },
+ "publisher": {
+   "@type": "Person",
+   "name": "Amit Ku Yadav"
+ }
 }
 </script>
-
 
 </head>
 
@@ -75,10 +92,10 @@
         <img
           id="siteLogo"
           class="logo"
-          src="/assets/images/logo/day-logo.png"
+          src="/logo/day-logo.png"
           alt="Amit Ku Yadav personal profile"
-          width="52"
-          height="52"
+          width="50"
+          height="50"
         />
         <div class="brand-text">
           <span class="brand-name">Amit Ku Yadav</span>
@@ -211,7 +228,7 @@
   </div>
 </footer>
 
-  <script src="/assets/js/script.js"></script>
+  <script src="/js/script.js" defer></script>
 
 </body>
 </html>

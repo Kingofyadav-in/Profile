@@ -1,12 +1,12 @@
 /* ======================================================
-   BLOG PAGE – ELITE PRO SYSTEM
-   Hero | Grid | Library | Reader Ready
+   BLOG PAGE – PROFESSIONAL SYSTEM
+   Hero | Featured | Library | Reader UX
    Author: Amit Ku Yadav
 ====================================================== */
 
 
 /* ======================================================
-   GLOBAL WRAPPER
+   PAGE WRAPPER
 ====================================================== */
 
 .blog-page {
@@ -26,43 +26,56 @@
 
 .blog-hero .hero-content {
   max-width: 820px;
+
+  opacity: 0;
+  transform: translateY(40px);
+  animation: blogHeroReveal 0.8s ease forwards;
 }
 
-/* Title */
+
+/* ======================================================
+   HERO TYPOGRAPHY
+====================================================== */
 
 .blog-hero h1 {
-  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-size: clamp(3rem, 6vw, 4.4rem);
   line-height: 1.05;
   font-weight: 800;
   letter-spacing: -1.8px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
-
-/* Description */
 
 .blog-hero .hero-description {
   max-width: 650px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
   opacity: 0.85;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
 }
 
-/* Glow Effect */
+
+/* ======================================================
+   HERO GLOW
+====================================================== */
 
 .blog-hero::before {
   content: "";
   position: absolute;
-  top: -250px;
-  left: -200px;
-  width: 700px;
-  height: 700px;
+
+  top: -260px;
+  left: -220px;
+
+  width: 720px;
+  height: 720px;
+
   background: radial-gradient(
     circle,
-    rgba(4,106,56,0.18),
+    rgba(4,106,56,0.20),
     transparent 70%
   );
-  z-index: -1;
+
   filter: blur(120px);
+  z-index: -1;
 }
 
 
@@ -79,25 +92,36 @@
 .hero-btn {
   padding: 14px 32px;
   border-radius: 999px;
-  font-size: 0.8rem;
+
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+
   text-decoration: none;
+
   transition: all 0.3s ease;
 }
+
 
 /* Primary */
 
 .hero-btn.primary {
-  background: var(--brand-green);
+  background: linear-gradient(
+    135deg,
+    var(--brand-green),
+    var(--brand-orange)
+  );
+
   color: #fff;
-  border: 1px solid var(--brand-green);
 }
 
 .hero-btn.primary:hover {
   transform: translateY(-4px);
-  box-shadow: 0 15px 35px rgba(4,106,56,0.35);
+  box-shadow:
+    0 12px 30px rgba(4,106,56,0.25),
+    0 8px 20px rgba(255,103,31,0.25);
 }
+
 
 /* Secondary */
 
@@ -115,37 +139,40 @@
 
 
 /* ======================================================
-   BLOG GRID (FEATURED POSTS)
+   FEATURED BLOG GRID
 ====================================================== */
 
 .blog-grid {
   padding: 0 8% 140px;
+
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 70px;
+
+  gap: 60px;
 }
 
-/* Card */
+
+/* Card Styling */
 
 .blog-card {
-  padding: 45px;
+  padding: 44px;
   border-radius: 26px;
-  backdrop-filter: blur(24px);
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: all 0.35s ease;
+
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .blog-card:hover {
-  transform: translateY(-12px);
-  border-color: rgba(4,106,56,0.6);
-  box-shadow: 0 30px 80px rgba(4,106,56,0.25);
+  transform: translateY(-10px);
 }
 
+
+/* Card Title */
+
 .blog-card h2 {
-  font-size: 1.6rem;
-  margin-bottom: 15px;
+  font-size: 1.55rem;
+  margin-bottom: 14px;
 }
+
 
 /* Meta */
 
@@ -153,10 +180,13 @@
   font-size: 0.7rem;
   letter-spacing: 2px;
   text-transform: uppercase;
+
   color: var(--brand-green);
+
   margin-bottom: 12px;
   display: inline-block;
 }
+
 
 /* Read More */
 
@@ -167,60 +197,96 @@
   text-decoration: none;
 }
 
+.read-more:hover {
+  text-decoration: underline;
+}
+
 
 /* ======================================================
-   BLOG LIBRARY (ARCHIVE SYSTEM)
+   BLOG LIBRARY
 ====================================================== */
 
 .blog-library {
-  padding: 180px 8% 160px;
+  padding: 170px 8% 160px;
   border-top: 1px solid rgba(255,255,255,0.06);
 }
 
+
+/* Library Intro */
+
 .blog-library .page-intro {
   text-align: center;
-  margin-bottom: 100px;
+  margin-bottom: 90px;
 }
 
 .blog-library .page-intro h2 {
-  font-size: 2.6rem;
-  margin-bottom: 20px;
+  font-size: 2.5rem;
+  margin-bottom: 18px;
 }
 
-/* Grid */
+.blog-library .page-intro p {
+  max-width: 600px;
+  margin: auto;
+  opacity: 0.85;
+}
+
+
+/* Library Grid */
 
 .blog-library-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 60px;
+
+  grid-template-columns:
+  repeat(auto-fit, minmax(300px, 1fr));
+
+  gap: 50px;
 }
 
-/* Library Card */
+
+/* Library Cards */
 
 .blog-library-item {
-  padding: 50px 40px;
+  padding: 46px 38px;
   border-radius: 26px;
-  backdrop-filter: blur(22px);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: all 0.35s ease;
+
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .blog-library-item:hover {
-  transform: translateY(-12px);
-  border-color: rgba(4,106,56,0.6);
-  box-shadow: 0 25px 70px rgba(4,106,56,0.2);
+  transform: translateY(-10px);
 }
 
+
+/* Library Content */
+
 .blog-library-item h3 {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   margin-bottom: 12px;
 }
 
 .blog-library-item p {
   line-height: 1.75;
   opacity: 0.85;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
+}
+
+
+/* ======================================================
+   HERO ANIMATION
+====================================================== */
+
+@keyframes blogHeroReveal {
+
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
 }
 
 
@@ -239,6 +305,9 @@
   }
 
 }
+
+
+/* Tablet */
 
 @media (max-width: 768px) {
 
@@ -269,6 +338,9 @@
   }
 
 }
+
+
+/* Mobile */
 
 @media (max-width: 480px) {
 

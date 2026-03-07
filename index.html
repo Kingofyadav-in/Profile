@@ -16,7 +16,7 @@
 
   <!-- ================= THEME / PWA ================= -->
   <meta name="theme-color" content="#000000" />
-  <link rel="manifest" href="/manifest.json" />
+  <link rel="manifest" href="manifest.json" />
   <meta name="robots" content="index, follow">
 
   <!-- ================= OPEN GRAPH ================= -->
@@ -26,13 +26,14 @@
     property="og:description"
     content="Explore the personal values, professional journey, and social impact of Amit Ku Yadav."
   />
-  <meta property="og:image" content="https://kingofyadav.in/assets/images/og-image.png" />
+  <meta property="og:image" content="https://kingofyadav.in/og-image.png" />
   <meta property="og:url" content="https://kingofyadav.in/" />
   <meta property="og:site_name" content="Amit Ku Yadav" />
 
   <!-- ================= TWITTER ================= -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Amit Ku Yadav | Profile" />
+  <meta name="twitter:image" content="https://kingofyadav.in/og-image.png">
   <meta
     name="twitter:description"
     content="Personal, professional, and social profile of Amit Ku Yadav."
@@ -41,21 +42,37 @@
   <!-- ================= STYLES ================= -->
 
   <!-- Base (critical) -->
- <link rel="stylesheet" href="assets/css/base.css">
-  <noscript><link rel="stylesheet" href="assets/css/base.css"></noscript>
+  <link rel="stylesheet" href="css/base.css">
+  <noscript><link rel="stylesheet" href="css/base.css"></noscript>
 
   <!-- Components (critical UI) -->
-  <link rel="preload" href="assets/css/components.css" as="style" onload="this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="assets/css/components.css"></noscript>
+  <link rel="preload" href="css/components.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/components.css"></noscript>
 
   <!-- Page-specific -->
-  <link rel="stylesheet" href="assets/css/index.css" />
+  <link rel="stylesheet" href="css/index.css" />
 
 
   <!-- ================= ICONS ================= -->
-  <link rel="icon" href="assets/favicon/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png" />
-  <link rel="apple-touch-icon" href="assets/favicon/apple-touch.png" />
+  <link rel="icon" href="favicon/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Person",
+ "name": "Amit Ku Yadav",
+ "url": "https://kingofyadav.in",
+ "jobTitle": "Digital Systems Builder",
+ "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "Bhagalpur",
+   "addressCountry": "India"
+ }
+}
+</script>
+
 </head>
 
 <body class="theme-dark">
@@ -75,10 +92,10 @@
           <img fetchpriority="high" decoding="async"
             id="siteLogo"
             class="logo"
-            src="assets/images/logo/day-logo.png"
+            src="logo/day-logo.png"
             alt="Amit Ku Yadav personal profile"
-            width="52"
-            height="52"
+            width="50"
+            height="50"
           />
           <div class="brand-text">
             <span class="brand-name">Amit Ku Yadav</span>
@@ -90,7 +107,7 @@
       <!-- Navigation -->
       <nav aria-label="Main navigation">
         <ul class="nav-list">
-          <li><a href="/">Home</a></li>
+          <li><a href="/" aria-current="page">Home</a></li>
           <li><a href="pages/blog.html">Blog</a></li>
           <li><a href="pages/services.html">Services</a></li>
           <li><a href="pages/contact.html">Contact</a></li>
@@ -202,8 +219,9 @@
   </div>
 
 </footer>
+
   <!-- ================= SCRIPT ================= -->
-  <script src="assets/js/script.js"></script>
+  <script src="js/script.js" defer></script>
 
 </body>
 </html>

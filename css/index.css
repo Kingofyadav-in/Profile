@@ -1,0 +1,235 @@
+/* ======================================================
+  index.css
+  Home Page System
+  Brand: Green (Trust) + Orange (Energy)
+  Author: Amit Ku Yadav
+  Sections: hero | grid | polish | motion | responsive
+====================================================== */
+
+
+/* ======================================================
+   HERO SECTION
+====================================================== */
+
+.home-intro {
+  padding-top: 180px;
+  padding-bottom: 160px;
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+
+/* Hero Content */
+
+.hero-content {
+  max-width: 720px;
+
+  opacity: 0;
+  transform: translateY(40px);
+  animation: heroReveal 0.9s ease forwards;
+}
+
+
+/* Hero Label handled in base.css */
+
+
+/* ======================================================
+   HERO TYPOGRAPHY
+====================================================== */
+
+.home-intro h1 {
+  font-size: clamp(3.2rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.hero-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+
+/* ======================================================
+   HERO BUTTONS
+====================================================== */
+
+.hero-actions {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.hero-actions a {
+  transition: transform 0.25s ease;
+}
+
+.hero-actions a:hover {
+  transform: translateY(-3px);
+}
+
+
+/* Secondary Button */
+
+.btn-secondary {
+  padding: 14px 26px;
+  border-radius: 999px;
+
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
+
+  transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+}
+
+
+/* Extra hover polish */
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.04);
+}
+
+
+
+/* ======================================================
+   HERO BACKGROUND EFFECT
+====================================================== */
+
+.home-intro::before {
+  content: "";
+  position: absolute;
+
+  top: -250px;
+  left: -250px;
+
+  width: 700px;
+  height: 700px;
+
+  background: radial-gradient(
+    circle,
+    rgba(4,106,56,0.2),
+    transparent 70%
+  );
+
+  filter: blur(40px);
+  z-index: -1;
+}
+
+
+/* ======================================================
+   HERO MOTION
+====================================================== */
+
+@keyframes heroReveal {
+
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+
+/* ======================================================
+   LIFE GRID POLISH
+====================================================== */
+
+.life-grid {
+  margin-top: 20px;
+}
+
+
+/* ======================================================
+   MICRO INTERACTION POLISH
+====================================================== */
+
+.life-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.life-card::after {
+  transition: opacity 0.3s ease;
+}
+
+.life-card:hover::after {
+  opacity: 1;
+}
+
+
+
+/* ======================================================
+   PREMIUM PAGE FLOW
+====================================================== */
+
+.home-intro + .life-grid {
+  margin-top: 40px;
+}
+
+
+
+/* ======================================================
+   RESPONSIVE SYSTEM
+====================================================== */
+
+@media (max-width: 1024px) {
+
+  .home-intro {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+  .home-intro {
+    grid-template-columns: 1fr;
+
+    padding-top: 140px;
+    padding-bottom: 120px;
+  }
+
+  .home-intro h1 {
+    font-size: 2.4rem;
+    letter-spacing: -1px;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .home-intro::before {
+    display: none;
+  }
+
+}
