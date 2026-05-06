@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050f0a"/>
+      <stop offset="100%" stop-color="#0a1f14"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#046A38"/>
+      <stop offset="100%" stop-color="#FF671F"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="70%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#046A38" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#046A38" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <rect width="640" height="360" fill="url(#glow)"/>
+  <g stroke="#046A38" stroke-opacity="0.08" stroke-width="1">
+    <line x1="0" y1="60" x2="640" y2="60"/><line x1="0" y1="120" x2="640" y2="120"/><line x1="0" y1="180" x2="640" y2="180"/><line x1="0" y1="240" x2="640" y2="240"/><line x1="0" y1="300" x2="640" y2="300"/>
+    <line x1="80" y1="0" x2="80" y2="360"/><line x1="160" y1="0" x2="160" y2="360"/><line x1="240" y1="0" x2="240" y2="360"/><line x1="320" y1="0" x2="320" y2="360"/><line x1="400" y1="0" x2="400" y2="360"/><line x1="480" y1="0" x2="480" y2="360"/><line x1="560" y1="0" x2="560" y2="360"/>
+  </g>
+  <!-- Hourglass + infinity / time horizon -->
+  <g transform="translate(430, 50)" opacity="0.18">
+    <!-- Hourglass -->
+    <path d="M55,25 L155,25 L105,110 L155,195 L55,195 L105,110 Z" fill="none" stroke="#046A38" stroke-width="2.5"/>
+    <line x1="55" y1="25" x2="155" y2="25" stroke="#046A38" stroke-width="2"/>
+    <line x1="55" y1="195" x2="155" y2="195" stroke="#046A38" stroke-width="2"/>
+    <!-- Sand top (flowing) -->
+    <path d="M62,35 L148,35 L110,95 L100,110 L90,95 Z" fill="#046A38" fill-opacity="0.25"/>
+    <!-- Sand bottom (accumulated) -->
+    <path d="M105,125 L90,165 L120,165 Z" fill="#FF671F" fill-opacity="0.45"/>
+    <!-- Time arrows -->
+    <line x1="30" y1="215" x2="175" y2="215" stroke="#046A38" stroke-width="1.5"/>
+    <polygon points="175,215 162,210 162,220" fill="#046A38"/>
+    <text x="40" y="228" font-family="system-ui,sans-serif" font-size="9" fill="#046A38" fill-opacity="0.5">NOW</text>
+    <text x="150" y="228" font-family="system-ui,sans-serif" font-size="9" fill="#046A38" fill-opacity="0.5">FUTURE</text>
+  </g>
+  <rect x="48" y="200" width="80" height="3" rx="2" fill="url(#accent)"/>
+  <rect x="48" y="60" width="80" height="24" rx="12" fill="#046A38" fill-opacity="0.2"/>
+  <rect x="48" y="60" width="80" height="24" rx="12" fill="none" stroke="#046A38" stroke-width="1"/>
+  <text x="88" y="76" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#046A38" text-anchor="middle" letter-spacing="1">STRATEGY</text>
+  <text x="48" y="130" font-family="system-ui,sans-serif" font-size="28" font-weight="800" fill="#ffffff" letter-spacing="-0.5">The Power of</text>
+  <text x="48" y="164" font-family="system-ui,sans-serif" font-size="28" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Long-Term Thinking</text>
+  <text x="48" y="225" font-family="system-ui,sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">Foundation of lasting leadership</text>
+  <text x="48" y="322" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.35" letter-spacing="0.5">AMIT KU YADAV · JAN 2026</text>
+  <rect x="0" y="350" width="640" height="10" fill="url(#accent)" opacity="0.6"/>
+</svg>

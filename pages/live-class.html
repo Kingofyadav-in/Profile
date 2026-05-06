@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Classroom — Amit Ku Yadav</title>
+  <meta name="description" content="Join a live interactive classroom by Amit Ku Yadav. Real-time blackboard and whiteboard sessions on computers, AI, and human intelligence." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/live-class.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Live Classroom — Amit Ku Yadav" />
+  <meta property="og:description" content="Join a live interactive classroom session by Amit Ku Yadav. Real-time lessons on AI, computers, and human intelligence." />
+  <meta property="og:image" content="https://kingofyadav.in/og-image.png" />
+  <meta property="og:url" content="https://kingofyadav.in/pages/live-class.html" />
+  <meta property="og:site_name" content="Amit Ku Yadav" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Live Classroom — Amit Ku Yadav" />
+  <meta name="twitter:description" content="Join a live interactive classroom session by Amit Ku Yadav." />
+  <meta name="twitter:image" content="https://kingofyadav.in/og-image.png" />
+  <meta name="twitter:creator" content="@kingofyadav_in" />
+  <meta name="twitter:site" content="@kingofyadav_in" />
+
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0b1e0e" />
+
+  <link rel="stylesheet" href="/css/base.css?v=hi-1" />
+  <link rel="stylesheet" href="/css/live-class.css?v=hi-5" />
+</head>
+
+<body class="lc-page" data-board-theme="dark">
+<script>try{var _t=localStorage.getItem("live_class_theme");if(_t){document.body.dataset.boardTheme=_t;}}catch(e){}</script>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- ══════════════════════════════════════
+     STATUS BAR
+══════════════════════════════════════ -->
+<div class="lc-status-bar" id="lcStatusBar" role="status" aria-live="polite">
+  <div class="lc-status-bar-inner">
+    <span class="lc-status-indicator" id="lcStatusDot" data-state="connecting"></span>
+    <span class="lc-status-text" id="lcStatusText">Connecting to classroom…</span>
+    <span class="lc-status-sep" aria-hidden="true">·</span>
+    <span id="lcStatusViewers">0 learners online</span>
+    <span class="lc-status-sep" aria-hidden="true">·</span>
+    <span id="lcStatusUpdated">Waiting for board…</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     HEADER
+══════════════════════════════════════ -->
+<header class="lc-header">
+  <a href="/" class="lc-brand" aria-label="Return to Amit Ku Yadav home">
+    <img src="/logo/night-logo.png" alt="Amit Ku Yadav" id="liveClassLogo"
+      class="lc-brand-logo" width="38" height="38" />
+    <div class="lc-brand-text">
+      <span class="lc-brand-name">Amit Ku Yadav</span>
+      <span class="lc-brand-sub">Live Classroom</span>
+    </div>
+  </a>
+
+  <div class="lc-room-pill" aria-label="Class room">
+    <span class="lc-live-dot" id="lcLiveDot" aria-hidden="true"></span>
+    <span id="boardRoom">Loading room…</span>
+  </div>
+
+  <nav class="lc-header-controls" aria-label="Board controls">
+    <button type="button" id="boardAutoScroll"
+      class="lc-ctrl-btn" aria-pressed="true" title="Toggle auto-scroll (A)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <span>Auto</span>
+    </button>
+    <button type="button" id="boardThemeToggle"
+      class="lc-ctrl-btn" aria-label="Switch board theme (T)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <span id="boardThemeLabel">Whiteboard</span>
+    </button>
+    <button type="button" id="boardFullscreen"
+      class="lc-ctrl-btn" aria-label="Toggle fullscreen (F)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+      <span>Full</span>
+    </button>
+    <button type="button" id="lcMobileJoinBtn"
+      class="lc-ctrl-btn lc-ctrl-btn--join" aria-label="Open join panel">
+      Join Class
+    </button>
+  </nav>
+</header>
+
+<!-- ══════════════════════════════════════
+     MAIN
+══════════════════════════════════════ -->
+<main class="lc-main" id="main-content">
+
+  <!-- Class Identity Strip -->
+  <div class="lc-identity-strip">
+    <div class="lc-identity-title">
+      <h1 id="boardTitle">Live Classroom</h1>
+      <p id="boardSubtitle">How computers, AI, and human intelligence can help people.</p>
+    </div>
+    <div class="lc-identity-chips" role="list" aria-label="Class information">
+      <div class="lc-chip" role="listitem">
+        <span>Teacher</span><strong id="boardTeacher">—</strong>
+      </div>
+      <div class="lc-chip" role="listitem">
+        <span>Mode</span><strong id="boardMode">Blackboard</strong>
+      </div>
+      <div class="lc-chip" role="listitem">
+        <span>Learners</span><strong id="viewerCountMeta">0</strong>
+      </div>
+      <div class="lc-chip" role="listitem">
+        <span>Rev.</span><strong id="boardRevision">1</strong>
+      </div>
+      <div class="lc-chip lc-chip--status" role="listitem">
+        <span>Status</span><strong id="boardStatus">Connecting…</strong>
+      </div>
+      <div class="lc-chip" role="listitem">
+        <span>Updated</span><strong id="boardUpdated">—</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Board + Sidebar -->
+  <div class="lc-workspace">
+
+    <!-- ── BOARD ── -->
+    <section class="lc-board-section" aria-label="Live classroom board">
+      <div class="lc-board-frame">
+
+        <div class="lc-board-chrome">
+          <div class="lc-chrome-left">
+            <span class="lc-chrome-dot lc-chrome-dot--red"></span>
+            <span class="lc-chrome-dot lc-chrome-dot--amber"></span>
+            <span class="lc-chrome-dot lc-chrome-dot--green"></span>
+          </div>
+          <span class="lc-chrome-label" id="boardConnection">Connecting…</span>
+          <span class="lc-chrome-right" id="boardLearnerStatus">0 joined</span>
+        </div>
+
+        <div class="lc-board" id="liveBoard" aria-live="polite" aria-atomic="false">
+          <div class="lc-board-connecting">
+            <span class="lc-connecting-spinner" aria-hidden="true"></span>
+            <p>Connecting to live classroom…</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="lc-sidebar" id="lcSidebar" aria-label="Class controls and participants">
+
+      <!-- Join Card -->
+      <div class="lc-card lc-join-card" id="joinClassPanel">
+        <div class="lc-card-head">
+          <span class="lc-card-kicker">Live Access</span>
+          <strong class="lc-card-title">Join Class</strong>
+        </div>
+        <form id="joinClassForm" class="lc-join-form" novalidate>
+          <label for="joinNameInput">Your name</label>
+          <input id="joinNameInput" name="name" type="text"
+            autocomplete="name" maxlength="80"
+            placeholder="Enter your name" required />
+          <button type="submit" id="joinClassBtn">
+            <span>Join Live Class</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </form>
+        <p class="lc-hint" id="joinStatus">Enter your name to appear in the live class.</p>
+      </div>
+
+      <!-- Learners Card -->
+      <div class="lc-card lc-learners-card">
+        <div class="lc-card-head">
+          <span class="lc-card-kicker">Connected Now</span>
+          <strong class="lc-card-title"><span id="viewerCount">0</span> learners</strong>
+        </div>
+        <div class="lc-viewer-list" id="viewerList">
+          <p class="lc-viewer-empty">No learners joined yet.</p>
+        </div>
+      </div>
+
+      <!-- Share Card -->
+      <div class="lc-card lc-share-card">
+        <div class="lc-card-head">
+          <span class="lc-card-kicker">Invite Others</span>
+          <strong class="lc-card-title">Share Board</strong>
+        </div>
+        <button type="button" id="copyInviteBtn" class="lc-copy-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Class Link
+        </button>
+        <p class="lc-hint" id="copyInviteStatus">Share for others to view the live board.</p>
+      </div>
+
+      <!-- Shortcuts Card -->
+      <div class="lc-card lc-shortcuts-card">
+        <div class="lc-card-head">
+          <span class="lc-card-kicker">Keyboard</span>
+          <strong class="lc-card-title">Shortcuts</strong>
+        </div>
+        <ul class="lc-shortcuts">
+          <li><kbd>T</kbd><span>Toggle theme</span></li>
+          <li><kbd>F</kbd><span>Fullscreen</span></li>
+          <li><kbd>J</kbd><span>Jump to join field</span></li>
+        </ul>
+      </div>
+
+    </aside>
+  </div>
+
+</main>
+
+<!-- ══════════════════════════════════════
+     MOBILE JOIN DRAWER
+══════════════════════════════════════ -->
+<div class="lc-drawer-backdrop" id="lcDrawerBackdrop" hidden aria-hidden="true"></div>
+<div class="lc-drawer" id="lcDrawer" hidden aria-hidden="true" role="dialog" aria-label="Join class">
+  <div class="lc-drawer-header">
+    <strong>Join Live Class</strong>
+    <button type="button" class="lc-drawer-close" id="lcDrawerClose" aria-label="Close">&#x2715;</button>
+  </div>
+  <form id="lcDrawerForm" class="lc-join-form">
+    <label for="lcDrawerName">Your name</label>
+    <input id="lcDrawerName" type="text" autocomplete="name"
+      maxlength="80" placeholder="Enter your name" />
+    <button type="submit">Join Live Class</button>
+  </form>
+  <p class="lc-hint" id="lcDrawerStatus">Enter your name to join the live class.</p>
+</div>
+
+<!-- Toast -->
+<div class="lc-toast-area" id="lcToastArea" aria-live="assertive" aria-atomic="true"></div>
+
+<script src="/js/live-class.js?v=hi-6" defer></script>
+</body>
+</html>

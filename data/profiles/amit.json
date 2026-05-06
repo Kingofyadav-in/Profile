@@ -1,0 +1,262 @@
+{
+  "slug": "amit",
+  "ownerName": "Amit Ku Yadav",
+  "brand": {
+    "name": "Amit Ku Yadav",
+    "homeHref": "/pages/personal.html"
+  },
+  "aboutMe": {
+    "hero": {
+      "title": "About Amit Ku Yadav",
+      "intro": "I am Amit Ku Yadav, a 26-year-old builder from Bhagalpur. I do not define myself by one title. I work across business, public service, digital systems, and community initiatives with a simple focus: build useful work, stay accountable, and keep growing."
+    },
+    "sections": [
+      {
+        "title": "How I Present Myself",
+        "body": "At this stage of life, I believe trust is built through work, not labels. Some days my work is business, some days it is technology, some days it is public coordination, and some days it is social responsibility. I want people to judge me by consistency, honesty, and the quality of effort I bring."
+      },
+      {
+        "title": "What I Am Building",
+        "body": "I am building a life around structured work: local relationships, digital presence, business systems, youth participation, and community problem-solving. I am still learning, but I want every project connected with my name to feel responsible, organized, and useful."
+      },
+      {
+        "title": "Personal Standard",
+        "body": "Be clear. Be reachable. Be disciplined. Do not overpromise. Do the work in front of you, improve every year, and let people see progress with their own eyes."
+      }
+    ],
+    "journey": [
+      {
+        "title": "1999 — Born in Bhagalpur",
+        "body": "Born on 25 December 1999 in Bhagalpur, Bihar. Early years shaped by family discipline, cultural values, and strong moral guidance."
+      },
+      {
+        "title": "2015–2019 — Education & Awareness",
+        "body": "Academic foundation completed in Bhagalpur. Began understanding real challenges faced by communities at ground level."
+      },
+      {
+        "title": "2019–2021 — Ground-Level Learning",
+        "body": "Started understanding people, local issues, coordination, and the importance of showing up consistently before speaking about leadership."
+      },
+      {
+        "title": "2021–2023 — Work Across Business & Systems",
+        "body": "Began working on business and digital systems, learning how planning, service, communication, and responsibility connect in the real world."
+      },
+      {
+        "title": "2023–Present — Public & Social Initiatives",
+        "body": "Continued building work around youth, community, environment, and public coordination while learning how to create more organized impact."
+      },
+      {
+        "title": "2024–Present — Digital Identity Platform",
+        "body": "Launched kingofyadav.in as a structured public profile, not to claim a final identity, but to show transparent work, learning, and direction."
+      }
+    ],
+    "education": [
+      {
+        "title": "School Education — Bhagalpur",
+        "body": "Completed foundational schooling in Bhagalpur, Bihar — building academic discipline and a structured approach to learning."
+      },
+      {
+        "title": "Higher Education",
+        "body": "Pursued higher studies focused on leadership, systems, and practical knowledge applicable to real-world community and business challenges."
+      }
+    ],
+    "impact": [
+      {
+        "title": "Public Coordination",
+        "body": "Listening to people, staying reachable, and helping organize practical next steps where possible."
+      },
+      {
+        "title": "Youth Direction",
+        "body": "Encouraging young people to think clearly, work with discipline, and avoid shortcuts."
+      },
+      {
+        "title": "Digital & Business Systems",
+        "body": "Building tools, platforms, and organized services that support long-term credibility."
+      }
+    ]
+  },
+  "mySelf": {
+    "hero": {
+      "title": "Who I Am",
+      "body": [
+        "I am Amit Ku Yadav, 26, from Bhagalpur. I am still building my path, so I avoid putting myself inside one fixed title.",
+        "My work moves across digital systems, business ideas, public connection, social initiatives, and personal growth. The common thread is structure, trust, and useful action."
+      ]
+    },
+    "vision": {
+      "title": "My Direction",
+      "body": "To become a dependable person in every space where I work: business, technology, community, and public life. I want people to trust my process before they trust my name."
+    },
+    "skills": [
+      {
+        "title": "Digital Systems",
+        "body": "Building structured websites, tools, and online presence that help people understand work clearly."
+      },
+      {
+        "title": "Business Thinking",
+        "body": "Learning how service, operations, communication, and trust come together in real work."
+      },
+      {
+        "title": "Public Communication",
+        "body": "Keeping communication direct, respectful, and useful for people who want to connect."
+      },
+      {
+        "title": "Community Work",
+        "body": "Supporting local and youth-focused efforts with organization, discipline, and practical help."
+      }
+    ],
+    "philosophy": {
+      "title": "My Philosophy",
+      "body": "I am not trying to look bigger than my work. I am trying to become better through work. Trust should be earned slowly and kept carefully."
+    },
+    "interests": [
+      {
+        "title": "Ground Work",
+        "body": "Understanding people, local issues, and practical responsibilities at the ground level."
+      },
+      {
+        "title": "Digital Systems",
+        "body": "Creating online systems that make identity, work, and contact easier to understand."
+      },
+      {
+        "title": "Reading & Research",
+        "body": "Studying leadership, governance, technology, business, and long-term thinking."
+      },
+      {
+        "title": "Youth Guidance",
+        "body": "Sharing discipline, clarity, and realistic thinking with young people wherever possible."
+      }
+    ],
+    "facts": [
+      {
+        "title": "Born",
+        "body": "25 December 1999 · Bhagalpur, Bihar"
+      },
+      {
+        "title": "Age",
+        "body": "26 Years"
+      },
+      {
+        "title": "Ventures",
+        "body": "Business, digital, and social initiatives in progress"
+      },
+      {
+        "title": "Current Focus",
+        "body": "Building trust through work across multiple fields"
+      }
+    ]
+  },
+  "myHome": {
+    "hero": {
+      "title": "MyHome",
+      "intro": "Home is where my discipline, respect, and sense of responsibility started. Whatever I build outside begins with the values I learned here."
+    },
+    "foundation": {
+      "title": "Foundations",
+      "body": "My home represents stability, education, respect, and honest effort. It reminds me to stay grounded even while working in many directions.",
+      "meta": "Core Values: Discipline · Respect · Service · Structure"
+    },
+    "infrastructure": [
+      {
+        "title": "Connectivity",
+        "body": "A clear online presence so people can understand who I am, what I do, and how to reach me."
+      },
+      {
+        "title": "Information System",
+        "body": "Organized communication for personal, professional, and public work."
+      },
+      {
+        "title": "Security",
+        "body": "Controlled access for private details and responsible handling of personal information."
+      }
+    ],
+    "dailyStructure": [
+      {
+        "title": "Morning Discipline",
+        "body": "Planning the day, checking priorities, and keeping responsibilities clear."
+      },
+      {
+        "title": "Community Engagement",
+        "body": "Focused communication and coordination."
+      },
+      {
+        "title": "Continuous Learning",
+        "body": "Learning from people, experience, reading, and real work."
+      }
+    ],
+    "location": {
+      "title": "Location",
+      "body": "Bhagalpur, Bihar, India",
+      "meta": "Established Presence: Ongoing"
+    },
+    "community": {
+      "title": "Community Environment",
+      "body": "Home is not only a private place. It connects to family, neighbors, local responsibility, and the larger community around me."
+    }
+  },
+  "myCity": {
+    "hero": {
+      "title": "Bhagalpur – Silk City of Asia",
+      "intro": "I was born on 25 December 1999 in Bhagalpur, Bihar. This city keeps me connected to my roots while I work across digital, business, public, and social spaces."
+    },
+    "sections": [
+      {
+        "title": "About Bhagalpur",
+        "body": "Bhagalpur is a major city in Bihar, India, historically known as Champa in ancient texts. It is one of the oldest continuously inhabited regions in eastern India."
+      },
+      {
+        "title": "Geography & River Ganga",
+        "body": "The River Ganga flows beside Bhagalpur, shaping its agriculture, trade, and spiritual culture."
+      },
+      {
+        "title": "Culture & Festivals",
+        "body": "The city celebrates Chhath Puja, Durga Puja, Eid, and various cultural fairs. Bhagalpur blends traditional Bihar culture with modern urban life."
+      },
+      {
+        "title": "Education & Institutions",
+        "body": "Bhagalpur is home to Tilka Manjhi Bhagalpur University (TMBU), established in 1960 — one of the major universities in eastern Bihar. The city has numerous schools, colleges, and professional institutions serving students across the region and neighboring districts."
+      },
+      {
+        "title": "Economy & Trade",
+        "body": "Beyond silk, Bhagalpur's economy is driven by agriculture, small-scale industries, and a growing trade sector. The city is a regional commercial hub in eastern Bihar, with improving road and rail connectivity attracting new business activity and investment."
+      }
+    ],
+    "highlights": [
+      {
+        "title": "Silk Industry",
+        "body": "Bhagalpur is internationally known as Silk City of Asia for its premium Tussar silk production."
+      },
+      {
+        "title": "Vikramshila",
+        "body": "Ancient center of Buddhist learning established in 8th century."
+      },
+      {
+        "title": "River Ganga",
+        "body": "The sacred Ganga flows beside the city, shaping culture and economy."
+      },
+      {
+        "title": "Population & Growth",
+        "body": "Rapidly developing urban hub of eastern Bihar with expanding education and trade sectors."
+      }
+    ],
+    "connectivity": [
+      {
+        "title": "Rail",
+        "body": "Bhagalpur Junction is a major railway station connecting the city to Kolkata, Delhi, and beyond."
+      },
+      {
+        "title": "Road",
+        "body": "Connected via NH-80 and NH-131 with expanding inter-city and state highway infrastructure."
+      },
+      {
+        "title": "River",
+        "body": "The sacred Ganga provides natural connectivity and supports local trade, transport, and agriculture."
+      }
+    ],
+    "personalNote": {
+      "title": "My Personal Connection",
+      "body": "Bhagalpur keeps me grounded. It shaped how I understand people, responsibility, trust, and practical work. Wherever I grow, this city remains part of my identity.",
+      "meta": "Age: 26 Years · Native City: Bhagalpur, Bihar, India"
+    }
+  }
+}

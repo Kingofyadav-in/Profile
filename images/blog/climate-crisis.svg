@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#05080a"/>
+      <stop offset="100%" stop-color="#0a1205"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#046A38"/>
+      <stop offset="100%" stop-color="#FF671F"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="70%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FF671F" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#046A38" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <rect width="640" height="360" fill="url(#glow)"/>
+
+  <!-- Earth globe -->
+  <g transform="translate(435,70)" opacity="0.2">
+    <circle cx="100" cy="110" r="95" fill="none" stroke="#046A38" stroke-width="1.5"/>
+    <ellipse cx="100" cy="110" rx="40" ry="95" fill="none" stroke="#046A38" stroke-width="1"/>
+    <ellipse cx="100" cy="110" rx="95" ry="30" fill="none" stroke="#046A38" stroke-width="1"/>
+    <ellipse cx="100" cy="110" rx="95" ry="65" fill="none" stroke="#046A38" stroke-width="0.8"/>
+    <!-- Thermometer -->
+    <rect x="175" y="40" width="14" height="80" rx="7" fill="none" stroke="#FF671F" stroke-width="1.5"/>
+    <rect x="177" y="75" width="10" height="43" rx="5" fill="#FF671F" opacity="0.6"/>
+    <circle cx="182" cy="128" r="9" fill="#FF671F" opacity="0.7"/>
+  </g>
+
+  <rect x="48" y="195" width="80" height="3" rx="2" fill="url(#accent)"/>
+
+  <rect x="48" y="60" width="105" height="24" rx="12" fill="#046A38" fill-opacity="0.2"/>
+  <rect x="48" y="60" width="105" height="24" rx="12" fill="none" stroke="#046A38" stroke-width="1"/>
+  <text x="100" y="76" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#046A38" text-anchor="middle" letter-spacing="1">ENVIRONMENT</text>
+
+  <text x="48" y="128" font-family="system-ui,sans-serif" font-size="26" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Climate Crisis 2025</text>
+  <text x="48" y="162" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#FF671F" letter-spacing="-0.3">The Last Window</text>
+
+  <text x="48" y="220" font-family="system-ui,sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">The final decade for decisive action</text>
+
+  <text x="48" y="322" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.35" letter-spacing="0.5">AMIT KU YADAV · APR 2026</text>
+  <rect x="0" y="350" width="640" height="10" fill="url(#accent)" opacity="0.6"/>
+</svg>

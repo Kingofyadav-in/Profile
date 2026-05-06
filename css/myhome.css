@@ -1,0 +1,329 @@
+/* ======================================================
+  MYHOME PAGE – PRO VERSION
+  Author: Amit Ku Yadav
+====================================================== */
+
+/* ── Main Container ── */
+
+.personal-main {
+  max-width: var(--container);
+  margin: auto;
+  padding: 160px 40px 100px;
+}
+
+/* ── Navigation ── */
+
+.personal-nav {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.personal-nav a {
+  position: relative;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.7;
+  color: inherit;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+.personal-nav a:hover,
+.personal-nav a.active {
+  opacity: 1;
+  color: var(--brand-green);
+}
+
+.personal-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--brand-green), var(--brand-orange));
+  transition: width 0.3s ease;
+}
+
+.personal-nav a:hover::after,
+.personal-nav a.active::after { width: 100%; }
+
+/* ── Personal Sections ── */
+
+.personal-section {
+  margin-bottom: 100px;
+}
+
+.personal-section.glass {
+  padding: 60px;
+  border-radius: 28px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.personal-section.glass:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 56px rgba(255,153,51,0.15);
+}
+
+.home-snapshot {
+  margin: 0 0 36px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid rgba(128,128,128,0.14);
+  border-bottom: 1px solid rgba(128,128,128,0.14);
+}
+
+.home-snapshot div {
+  padding: 24px 22px;
+  border-right: 1px solid rgba(128,128,128,0.14);
+}
+
+.home-snapshot div:last-child {
+  border-right: none;
+}
+
+.home-snapshot span {
+  display: block;
+  color: var(--brand-green);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.home-snapshot strong {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(0.98rem, 1.5vw, 1.16rem);
+  line-height: 1.25;
+}
+
+/* ── Headings ── */
+
+.personal-section h1 {
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.personal-section h1::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand-green), var(--brand-orange));
+  margin-top: 14px;
+  border-radius: 3px;
+}
+
+.personal-section h2 {
+  font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 8px;
+  position: relative;
+  padding-bottom: 14px;
+}
+
+.personal-section h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--brand-green), var(--brand-orange));
+}
+
+/* ── Cards ── */
+
+.life-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.personal-page .life-card {
+  padding: 36px 32px;
+  border-radius: 22px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.personal-page .life-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 56px rgba(19,136,8,0.2);
+}
+
+/* ── Timeline ── */
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  position: relative;
+  margin-top: 32px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--brand-green), var(--brand-orange));
+  opacity: 0.3;
+  border-radius: 2px;
+}
+
+.timeline li {
+  padding-left: 50px;
+  margin-bottom: 36px;
+  position: relative;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--brand-orange);
+  box-shadow: 0 0 0 5px rgba(255,153,51,0.15);
+}
+
+.timeline strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.timeline p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  opacity: 0.75;
+}
+
+/* ── Buttons ── */
+
+.btn-brand {
+  display: inline-block;
+  padding: 13px 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-brand:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(4,106,56,0.3);
+}
+
+/* ── Mobile ── */
+
+@media (max-width: 768px) {
+  .personal-main { padding: 130px 20px 80px; }
+  .personal-section.glass { padding: 32px 20px; }
+  .personal-section { margin-bottom: 70px; }
+  .home-snapshot { grid-template-columns: repeat(2, 1fr); }
+  .home-snapshot div:nth-child(2) { border-right: none; }
+  .home-snapshot div:nth-child(-n+2) { border-bottom: 1px solid rgba(128,128,128,0.14); }
+  .life-grid { gap: 16px; }
+}
+
+/* Keep the shared personal-section header identical across subpages. */
+.personal-header .personal-nav {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.personal-header .personal-nav a {
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: inherit;
+  opacity: 0.6;
+}
+
+.personal-header .personal-nav a:hover,
+.personal-header .personal-nav a.active {
+  opacity: 1;
+  color: inherit;
+}
+
+.personal-header .personal-nav a::after {
+  bottom: -4px;
+  background: var(--brand-green);
+}
+
+/* Modern profile-page polish */
+.personal-page .personal-section {
+  margin-bottom: 36px;
+}
+
+.personal-page .personal-section.glass {
+  border-radius: 22px;
+}
+
+.personal-page .hero-home {
+  padding: clamp(56px, 8vw, 84px);
+  border-radius: 24px;
+}
+
+.personal-page .hero-home h1 {
+  font-size: clamp(2.8rem, 6vw, 4.8rem);
+  letter-spacing: -1.8px;
+}
+
+.personal-page .life-card {
+  border-radius: 18px;
+  min-height: 170px;
+}
+
+body.theme-dark .personal-page .personal-section.glass,
+body.theme-dark .personal-page .life-card {
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+body.theme-light .personal-page .personal-section.glass,
+body.theme-light .personal-page .life-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 14px 42px rgba(0,0,0,0.06);
+}
+
+@media (max-width: 520px) {
+  .home-snapshot {
+    grid-template-columns: 1fr;
+  }
+
+  .home-snapshot div,
+  .home-snapshot div:nth-child(2) {
+    border-right: none;
+  }
+
+  .home-snapshot div {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(128,128,128,0.14);
+  }
+
+  .home-snapshot div:last-child {
+    border-bottom: none;
+  }
+}

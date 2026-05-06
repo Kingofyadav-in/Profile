@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HI App — Amit Ku Yadav</title>
+  <meta name="description" content="Human Intelligence App — personal life OS." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/personal.html" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="HI App" />
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+  <meta name="theme-color" content="#046A38" />
+  <link rel="stylesheet" href="/css/base.css?v=hi-1" />
+  <link rel="stylesheet" href="/css/components.css?v=20260504-pwa2" />
+  <link rel="stylesheet" href="/css/personal.css?v=hi-1" />
+  <link rel="stylesheet" href="/css/auth.css?v=hi-1" />
+  <link rel="stylesheet" href="/css/hi-app.css?v=hi-1" />
+</head>
+
+<body class="theme-dark personal-page">
+
+<script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
+<script src="/js/auth.js?v=hi-1"></script>
+<script>requireAuth(); document.documentElement.style.visibility="";</script>
+
+<div id="scrollProgress"></div>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- ════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════ -->
+<header class="personal-header glass">
+  <div class="personal-header-inner">
+    <a href="/pages/personal.html" class="personal-brand">
+      <img id="personalLogo" src="/logo/day-logo.png" alt="HI App" class="personal-logo" />
+      <div class="personal-brand-text">
+        <span class="personal-name">Amit Ku Yadav</span>
+        <span class="personal-tagline">HI App</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="personal-nav">
+      <a href="/pages/about-me.html">ABOUT ME</a>
+      <a href="/pages/origin.html">ORIGIN</a>
+      <a href="/pages/haven.html">HAVEN</a>
+      <a href="/pages/bhagalpur.html">BHAGALPUR</a>
+      <a href="/pages/hi-license.html" class="hi-nav-license">&#x1F5AA; License</a>
+    </nav>
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════
+     MAIN
+════════════════════════════════════════════ -->
+<main class="site-main personal-main" id="main-content">
+
+  <!-- ──────────────────────────────────────
+       HI HERO
+  ────────────────────────────────────── -->
+  <section class="hi-personal-hero glass" aria-label="HI App overview">
+    <div class="hi-personal-hero-main">
+      <div class="hi-personal-hero-left">
+        <img src="/logo/day-logo.png" alt="HI App" id="hiPersonalHeroLogo" class="hi-personal-hero-logo" />
+        <div>
+          <p class="hi-personal-kicker">Human Intelligence App</p>
+          <h1 id="hiHeroTitle">Life OS for Amit Ku Yadav</h1>
+          <p class="hi-personal-hero-copy">
+            Identity, daily focus, personal records, professional work, social memory, AI thinking, and ownership certificates in one private local app.
+          </p>
+          <div class="hi-personal-hero-actions" aria-label="Quick actions">
+            <a class="hi-hero-action primary" href="#hi-tabs">Today</a>
+            <a class="hi-hero-action" href="/pages/login.html?next=%2Fpages%2Fpersonal.html%23create-identity">Create Identity</a>
+            <a class="hi-hero-action" href="/pages/hi-license.html">License</a>
+            <button type="button" class="hi-hero-action" id="hiHeroAskAiBtn">Ask AI</button>
+          </div>
+        </div>
+      </div>
+      <div class="hi-personal-hero-status" aria-label="Today status">
+        <div class="hi-hero-status-top">
+          <div>
+            <p class="hi-personal-kicker">Today</p>
+            <div class="hi-hero-greeting" id="hiHeroGreeting">Good day</div>
+            <div class="hi-hero-date" id="hiHeroDate"></div>
+          </div>
+          <div class="hi-hero-orbit" aria-hidden="true">
+            <span></span>
+          </div>
+        </div>
+        <div class="hi-hero-identity-line">
+          <span id="hiHeroIdentityName">Amit Ku Yadav</span>
+          <code id="hiHeroHDI">HDI pending</code>
+        </div>
+        <div class="hi-hero-vitals">
+          <div>
+            <span>Mood</span>
+            <div class="hi-hero-dot-row" id="hiHeroMoodDots"></div>
+          </div>
+          <div>
+            <span>Energy</span>
+            <div class="hi-hero-dot-row" id="hiHeroEnergyDots"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hi-personal-hero-rail" aria-label="HI pillars">
+      <div><span>01</span><strong>Identity</strong></div>
+      <div><span>02</span><strong>Life OS</strong></div>
+      <div><span>03</span><strong>AI Brain</strong></div>
+      <div><span>04</span><strong>World</strong></div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────
+       HI INTRO GUIDE
+  ────────────────────────────────────── -->
+  <section id="hi-intro-guide" aria-label="HI Introduction Guide">
+
+    <style>
+      /* ── Scoped styles for #hi-intro-guide ── */
+      #hi-intro-guide {
+        margin: 1.25rem auto;
+        max-width: 860px;
+        padding: 0 1rem;
+        font-family: inherit;
+      }
+
+      /* ── Banner ── */
+      #hi-intro-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .75rem;
+        background: var(--card-bg, #1a1a1a);
+        border: 1px solid var(--brand-green, #046A38);
+        border-radius: 10px;
+        padding: .65rem 1rem;
+        cursor: pointer;
+        transition: opacity .2s;
+      }
+      #hi-intro-banner.hi-guide-dismissed {
+        display: none;
+      }
+      .hi-intro-banner-left {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        flex: 1;
+        min-width: 0;
+      }
+      .hi-intro-banner-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--brand-green, #046A38);
+        flex-shrink: 0;
+        animation: hi-guide-pulse 2s infinite;
+      }
+      @keyframes hi-guide-pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50%       { opacity: .5; transform: scale(1.3); }
+      }
+      .hi-intro-banner-text {
+        color: var(--text-light, #e0e0e0);
+        font-size: .92rem;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .hi-intro-banner-actions {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        flex-shrink: 0;
+      }
+      #hi-guide-toggle-btn {
+        background: none;
+        border: 1px solid var(--brand-green, #046A38);
+        color: var(--brand-green, #046A38);
+        border-radius: 6px;
+        padding: .3rem .7rem;
+        font-size: .8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .15s, color .15s;
+        white-space: nowrap;
+      }
+      #hi-guide-toggle-btn:hover {
+        background: var(--brand-green, #046A38);
+        color: #fff;
+      }
+      #hi-guide-dismiss-btn {
+        background: none;
+        border: none;
+        color: var(--text-light, #aaa);
+        font-size: 1rem;
+        cursor: pointer;
+        padding: .2rem .4rem;
+        border-radius: 4px;
+        transition: color .15s;
+        line-height: 1;
+      }
+      #hi-guide-dismiss-btn:hover {
+        color: var(--brand-orange, #e87722);
+      }
+
+      /* ── Accordion body ── */
+      #hi-guide-body {
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height .4s cubic-bezier(.4,0,.2,1);
+      }
+      #hi-guide-body.hi-guide-open {
+        max-height: 2400px;
+      }
+      .hi-guide-body-inner {
+        padding: .85rem 0 .25rem;
+        display: flex;
+        flex-direction: column;
+        gap: .6rem;
+      }
+
+      /* ── Accordion item ── */
+      .hi-guide-item {
+        background: var(--card-bg, #1a1a1a);
+        border: 1px solid rgba(128,128,128,.2);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: border-color .2s;
+      }
+      .hi-guide-item.hi-guide-item-active {
+        border-left: 3px solid var(--brand-green, #046A38);
+      }
+      .hi-guide-item-header {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        padding: .75rem 1rem;
+        cursor: pointer;
+        user-select: none;
+        list-style: none;
+      }
+      .hi-guide-item-header::-webkit-details-marker { display: none; }
+      .hi-guide-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--brand-green, #046A38);
+        color: #fff;
+        font-size: .78rem;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .hi-guide-item-title {
+        flex: 1;
+        color: var(--text-light, #e0e0e0);
+        font-size: .93rem;
+        font-weight: 600;
+      }
+      .hi-guide-chevron {
+        flex-shrink: 0;
+        color: var(--brand-green, #046A38);
+        transition: transform .25s;
+        font-style: normal;
+        font-size: .85rem;
+        line-height: 1;
+      }
+      .hi-guide-item-active .hi-guide-chevron {
+        transform: rotate(180deg);
+      }
+
+      /* ── Accordion content panel ── */
+      .hi-guide-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .35s cubic-bezier(.4,0,.2,1);
+      }
+      .hi-guide-item-active .hi-guide-panel {
+        max-height: 900px;
+      }
+      .hi-guide-panel-inner {
+        padding: 0 1rem 1rem 3.25rem;
+        color: var(--text-light, #ccc);
+        font-size: .875rem;
+        line-height: 1.7;
+      }
+      .hi-guide-panel-inner p { margin: .4rem 0; }
+      .hi-guide-panel-inner ul {
+        margin: .4rem 0 .4rem 1rem;
+        padding: 0;
+      }
+      .hi-guide-panel-inner li { margin-bottom: .3rem; }
+      .hi-guide-panel-inner strong { color: var(--brand-green, #046A38); }
+
+      /* ── Steps inside items ── */
+      .hi-guide-steps {
+        list-style: none;
+        margin: .5rem 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: .35rem;
+      }
+      .hi-guide-steps li {
+        display: flex;
+        gap: .6rem;
+        align-items: flex-start;
+      }
+      .hi-guide-step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 1.5px solid var(--brand-green, #046A38);
+        color: var(--brand-green, #046A38);
+        font-size: .72rem;
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: .15rem;
+      }
+
+      /* ── CTA buttons ── */
+      .hi-guide-cta {
+        display: inline-block;
+        margin-top: .65rem;
+        padding: .38rem .9rem;
+        border: 1.5px solid var(--brand-green, #046A38);
+        border-radius: 6px;
+        color: var(--brand-green, #046A38);
+        background: transparent;
+        font-size: .82rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background .15s, color .15s;
+      }
+      .hi-guide-cta:hover {
+        background: var(--brand-green, #046A38);
+        color: #fff;
+      }
+
+      /* ── Note callout ── */
+      .hi-guide-note {
+        margin-top: .6rem;
+        padding: .45rem .75rem;
+        background: rgba(232, 119, 34, .1);
+        border-left: 3px solid var(--brand-orange, #e87722);
+        border-radius: 0 6px 6px 0;
+        color: var(--brand-orange, #e87722);
+        font-size: .82rem;
+        font-style: italic;
+      }
+    </style>
+
+    <!-- Banner -->
+    <div id="hi-intro-banner" role="button" aria-expanded="false" tabindex="0">
+      <div class="hi-intro-banner-left">
+        <span class="hi-intro-banner-dot" aria-hidden="true"></span>
+        <span class="hi-intro-banner-text">New to HI? Here's how to set it up &#x2192;</span>
+      </div>
+      <div class="hi-intro-banner-actions">
+        <button id="hi-guide-toggle-btn" type="button" aria-controls="hi-guide-body">Show Guide</button>
+        <button id="hi-guide-dismiss-btn" type="button" aria-label="Dismiss introduction banner" title="Dismiss">&#x2715;</button>
+      </div>
+    </div>
+
+    <!-- Accordion body -->
+    <div id="hi-guide-body" aria-live="polite">
+      <div class="hi-guide-body-inner">
+
+        <!-- Item 1 — What is HI? -->
+        <div class="hi-guide-item" data-guide-index="0">
+          <div class="hi-guide-item-header" role="button" tabindex="0" aria-expanded="false">
+            <span class="hi-guide-num">1</span>
+            <span class="hi-guide-item-title">What is HI?</span>
+            <i class="hi-guide-chevron" aria-hidden="true">&#x25BE;</i>
+          </div>
+          <div class="hi-guide-panel">
+            <div class="hi-guide-panel-inner">
+              <p><strong>HI (Human Intelligence App)</strong> is a private, local-first personal life OS built for you and only you.</p>
+              <ul>
+                <li>Stores your <strong>identity</strong>, daily focus, goals, projects, social contacts, and AI thinking.</li>
+                <li>Runs <strong>entirely on your device</strong> — no cloud sync, no third-party tracking.</li>
+                <li>Your data lives in your browser's local storage — not on any server.</li>
+                <li><strong>Your data, your control.</strong> You decide what gets published and what stays private.</li>
+              </ul>
+              <p>Think of HI as a personal operating system for your life: one place to think, plan, record, and own everything that matters to you.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 — Configure Your Identity -->
+        <div class="hi-guide-item" data-guide-index="1">
+          <div class="hi-guide-item-header" role="button" tabindex="0" aria-expanded="false">
+            <span class="hi-guide-num">2</span>
+            <span class="hi-guide-item-title">Configure Your Identity</span>
+            <i class="hi-guide-chevron" aria-hidden="true">&#x25BE;</i>
+          </div>
+          <div class="hi-guide-panel">
+            <div class="hi-guide-panel-inner">
+              <p>Your identity is the foundation of HI. Follow these steps to get started:</p>
+              <ul class="hi-guide-steps">
+                <li>
+                  <span class="hi-guide-step-num">1</span>
+                  <span>Open <strong>"Create Identity"</strong> from the nav or Origin page &rarr; enter HI App &rarr; fill in your <strong>Full Name</strong>, <strong>Tagline</strong>, <strong>Roles</strong>, <strong>Location</strong>, and <strong>Life Mission</strong> &rarr; click <strong>Save</strong>.</span>
+                </li>
+                <li>
+                  <span class="hi-guide-step-num">2</span>
+                  <span>Your <strong>HDI (Human Digital Identity)</strong> is automatically generated from a hash of your identity — it appears in the hero panel above as a short code.</span>
+                </li>
+                <li>
+                  <span class="hi-guide-step-num">3</span>
+                  <span>Add your <strong>values</strong> and <strong>trust principles</strong> using the Personal tab &rarr; Trust Principles section.</span>
+                </li>
+              </ul>
+              <a class="hi-guide-cta" href="/pages/origin.html#create-identity-users">Open Identity Setup &#x2192;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 — Set Up Your Device -->
+        <div class="hi-guide-item" data-guide-index="2">
+          <div class="hi-guide-item-header" role="button" tabindex="0" aria-expanded="false">
+            <span class="hi-guide-num">3</span>
+            <span class="hi-guide-item-title">Set Up Your Device</span>
+            <i class="hi-guide-chevron" aria-hidden="true">&#x25BE;</i>
+          </div>
+          <div class="hi-guide-panel">
+            <div class="hi-guide-panel-inner">
+              <ul>
+                <li><strong>Install HI as a PWA:</strong> on mobile tap <em>"Add to Home Screen"</em>; on desktop look for the install icon in your browser's address bar.</li>
+                <li><strong>Device fingerprint:</strong> your device gets a unique fingerprint automatically — visible in the Jarvis status panel.</li>
+                <li><strong>Trusted access:</strong> log in once and your session persists for 24 hours without needing to re-authenticate.</li>
+                <li><strong>Offline mode:</strong> all your HI data is stored in-browser and works fully without an internet connection.</li>
+              </ul>
+              <div class="hi-guide-note">Jarvis API must be running locally for AI features to work.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 — Social Rights & Content Claims -->
+        <div class="hi-guide-item" data-guide-index="3">
+          <div class="hi-guide-item-header" role="button" tabindex="0" aria-expanded="false">
+            <span class="hi-guide-num">4</span>
+            <span class="hi-guide-item-title">Social Rights &amp; Content Claims</span>
+            <i class="hi-guide-chevron" aria-hidden="true">&#x25BE;</i>
+          </div>
+          <div class="hi-guide-panel">
+            <div class="hi-guide-panel-inner">
+              <ul>
+                <li><strong>Everything you create</strong> in HI — notes, goals, projects, contacts — belongs exclusively to you.</li>
+                <li>Content published on <strong>kingofyadav.in</strong> is claimed under your <strong>HDI (Human Digital Identity)</strong>.</li>
+                <li>Your HDI acts as a <strong>digital signature</strong> on your published content, proving authorship.</li>
+                <li><strong>Social memory:</strong> contacts and events you add are private — never shared without your explicit action.</li>
+                <li><strong>Content claim process:</strong> open the License page — your HDI is your claim certificate.</li>
+              </ul>
+              <a href="/pages/hi-license.html" class="hi-guide-cta">View My License &amp; HDI &#x2192;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5 — HI License & Ownership -->
+        <div class="hi-guide-item" data-guide-index="4">
+          <div class="hi-guide-item-header" role="button" tabindex="0" aria-expanded="false">
+            <span class="hi-guide-num">5</span>
+            <span class="hi-guide-item-title">HI License &amp; Ownership</span>
+            <i class="hi-guide-chevron" aria-hidden="true">&#x25BE;</i>
+          </div>
+          <div class="hi-guide-panel">
+            <div class="hi-guide-panel-inner">
+              <ul>
+                <li>The <strong>HI License</strong> defines your rights over all content created through this platform.</li>
+                <li><strong>Personal data:</strong> exclusively yours — never monetised, never sold.</li>
+                <li><strong>Published content:</strong> licensed under your HDI signature — readable at <code>/pages/hi-license.html</code>.</li>
+                <li><strong>Third-party use:</strong> any use of your published content requires attribution to your HDI.</li>
+                <li><strong>Revocation:</strong> you can revoke access to any content claim at any time via the License page.</li>
+              </ul>
+              <a href="/pages/hi-license.html" class="hi-guide-cta">Read Full License &#x2192;</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.hi-guide-body-inner -->
+    </div><!-- /#hi-guide-body -->
+
+    <script>
+      (function () {
+        var STORAGE_KEY = 'hi_intro_dismissed';
+        var banner      = document.getElementById('hi-intro-banner');
+        var body        = document.getElementById('hi-guide-body');
+        var toggleBtn   = document.getElementById('hi-guide-toggle-btn');
+        var dismissBtn  = document.getElementById('hi-guide-dismiss-btn');
+        var isOpen      = false;
+
+        // --- dismiss on load if already dismissed ---
+        try {
+          if (localStorage.getItem(STORAGE_KEY) === '1') {
+            banner.classList.add('hi-guide-dismissed');
+          }
+        } catch (e) {}
+
+        // --- toggle guide open/close ---
+        function toggleGuide(e) {
+          if (e && e.target === dismissBtn) return; // let dismiss handler fire
+          isOpen = !isOpen;
+          body.classList.toggle('hi-guide-open', isOpen);
+          banner.setAttribute('aria-expanded', String(isOpen));
+          toggleBtn.textContent = isOpen ? 'Hide Guide' : 'Show Guide';
+        }
+
+        banner.addEventListener('click', toggleGuide);
+        banner.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleGuide(e); }
+        });
+
+        // --- dismiss banner ---
+        dismissBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          banner.classList.add('hi-guide-dismissed');
+          try { localStorage.setItem(STORAGE_KEY, '1'); } catch (err) {}
+        });
+
+        // --- accordion: only one item open at a time ---
+        var items = document.querySelectorAll('#hi-intro-guide .hi-guide-item');
+        items.forEach(function (item) {
+          var header = item.querySelector('.hi-guide-item-header');
+          header.addEventListener('click', function () {
+            var isActive = item.classList.contains('hi-guide-item-active');
+            // close all
+            items.forEach(function (i) {
+              i.classList.remove('hi-guide-item-active');
+              i.querySelector('.hi-guide-item-header').setAttribute('aria-expanded', 'false');
+            });
+            // open clicked one (unless it was already open)
+            if (!isActive) {
+              item.classList.add('hi-guide-item-active');
+              header.setAttribute('aria-expanded', 'true');
+            }
+          });
+          header.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); header.click(); }
+          });
+        });
+      })();
+    </script>
+
+  </section>
+
+  <!-- ──────────────────────────────────────
+       LIFE TABS
+  ────────────────────────────────────── -->
+  <div class="hi-tabs-bar" id="hi-tabs" role="tablist">
+    <button class="hi-tab-btn active" data-tab="personal">Personal</button>
+    <button class="hi-tab-btn"        data-tab="professional">Professional</button>
+    <button class="hi-tab-btn"        data-tab="social">Social</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PERSONAL TAB
+  ══════════════════════════════════════ -->
+  <div class="hi-tab-content" data-tab="personal">
+
+    <section class="personal-section">
+      <h2>Habits Today</h2>
+      <div id="hi-habits-grid" class="hi-habits-grid"></div>
+    </section>
+
+    <section id="facts" class="personal-section glass">
+      <h2>Personal Details</h2>
+      <div class="life-grid" id="pd-details-grid"></div>
+      <button class="pd-add-btn" data-pd-add="details">+ Add Detail</button>
+    </section>
+
+    <section id="values" class="personal-section">
+      <h2>Trust Principles</h2>
+      <div class="life-grid" id="pd-values-grid"></div>
+      <button class="pd-add-btn" data-pd-add="values">+ Add Value</button>
+    </section>
+
+    <section id="people-personal" class="personal-section">
+      <h2>People &amp; Working Members</h2>
+      <div class="life-grid" id="pd-people-grid"></div>
+      <button class="pd-add-btn" data-pd-add="people">+ Add Person</button>
+    </section>
+
+    <section class="personal-section">
+      <h2>Personal Goals</h2>
+      <div id="hi-goals-list" class="hi-goals-list"></div>
+      <button class="pd-add-btn" id="hiAddGoalBtn">+ Add Goal</button>
+    </section>
+
+    <section class="personal-section">
+      <h2>Notes &amp; Reflections</h2>
+      <div id="hi-notes-list" class="hi-notes-list"></div>
+      <button class="pd-add-btn" id="hiAddNoteBtn">+ Quick Note</button>
+    </section>
+
+    <section id="connect" class="personal-section glass">
+      <h2>Quick Links</h2>
+      <div class="personal-actions">
+        <a href="/pages/hi-license.html" class="life-card glass">&#x1F5AA; My License &amp; HDI</a>
+        <a href="/pages/login.html?next=%2Fpages%2Fpersonal.html" class="life-card glass">Login / Setup</a>
+        <a href="http://127.0.0.1:8501" class="life-card glass" target="_blank" rel="noopener noreferrer">Jarvis Control</a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PROFESSIONAL TAB
+  ══════════════════════════════════════ -->
+  <div class="hi-tab-content" data-tab="professional" hidden>
+
+    <div id="hi-pro-stats" class="hi-stats-bar glass"></div>
+
+    <section class="personal-section">
+      <h2>Projects</h2>
+      <div id="hi-projects-grid" class="hi-projects-grid"></div>
+    </section>
+
+    <section id="hi-protasks-section" class="personal-section glass" hidden>
+      <h2 id="hi-protask-project-name" class="hi-protask-project-name"></h2>
+      <ul id="hi-protask-list" class="hi-task-list"></ul>
+      <form id="hi-protask-form" class="hi-task-form hi-protask-form">
+        <input id="hi-protask-input" type="text" placeholder="Add task for this project…" maxlength="200" autocomplete="off" />
+        <select id="hi-protask-priority" class="hi-priority-select">
+          <option value="normal">Normal</option>
+          <option value="high">High</option>
+          <option value="low">Low</option>
+        </select>
+        <button type="submit">+</button>
+      </form>
+    </section>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SOCIAL TAB
+  ══════════════════════════════════════ -->
+  <div class="hi-tab-content" data-tab="social" hidden>
+
+    <!-- Upcoming 14 days -->
+    <section class="personal-section glass" aria-label="Upcoming">
+      <h2>Upcoming (14 Days)</h2>
+      <div id="hi-upcoming-list" class="hi-upcoming-list"></div>
+    </section>
+
+    <!-- People / Contacts -->
+    <section class="personal-section" aria-label="Contacts">
+      <h2>People &amp; Contacts</h2>
+      <div id="hi-people-grid" class="hi-people-grid"></div>
+      <button class="pd-add-btn" id="hiAddPersonBtn">+ Add Contact</button>
+    </section>
+
+    <!-- Events -->
+    <section class="personal-section" aria-label="Events">
+      <h2>Events &amp; Meetings</h2>
+      <div id="hi-events-list" class="hi-events-list"></div>
+      <button class="pd-add-btn" id="hiAddEventBtn">+ Add Event</button>
+    </section>
+
+  </div>
+
+</main>
+
+<!-- ════════════════════════════════════════════
+     AI CHAT PANEL
+════════════════════════════════════════════ -->
+<div id="hi-chat-backdrop" class="hi-chat-backdrop" hidden></div>
+
+<div id="hi-chat-panel" class="hi-chat-panel" aria-hidden="true" role="dialog" aria-label="HI AI Assistant">
+  <div class="hi-chat-header">
+    <div class="hi-chat-avatar">AI</div>
+    <div class="hi-chat-header-text">
+      <div class="hi-chat-title">HI Assistant</div>
+      <div class="hi-chat-context-status" id="hi-chat-context-status">Initializing…</div>
+    </div>
+    <button type="button" class="hi-chat-action-btn" id="hi-chat-clear" title="Clear conversation">&#x1F5D1;</button>
+    <button type="button" class="hi-chat-close-btn" id="hi-chat-close" aria-label="Close chat">&#x2715;</button>
+  </div>
+
+  <div class="hi-chat-messages" id="hi-chat-messages" role="log" aria-live="polite">
+    <!-- hi-assistant.js -->
+  </div>
+
+  <div class="hi-chat-suggestions" id="hi-chat-suggestions">
+    <!-- hi-assistant.js -->
+  </div>
+
+  <form class="hi-chat-form" id="hi-chat-form">
+    <textarea id="hi-chat-input" class="hi-chat-input"
+      placeholder="Ask about your life, goals, tasks… (Enter to send, Shift+Enter for new line)"
+      rows="1" maxlength="2000" aria-label="Message"></textarea>
+    <button type="submit" id="hi-chat-send" class="hi-chat-send-btn" aria-label="Send message">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </form>
+</div>
+
+<!-- ════════════════════════════════════════════
+     FLOATING AI BUTTON
+════════════════════════════════════════════ -->
+<button class="hi-ai-fab" id="hiAiBtn" aria-label="Open AI Assistant" aria-expanded="false">
+  <span class="hi-ai-icon">AI</span>
+  <span class="hi-ai-label">Ask AI</span>
+</button>
+
+<!-- ════════════════════════════════════════════
+     MODALS
+════════════════════════════════════════════ -->
+
+<!-- Identity -->
+<div id="hi-identity-modal" class="hi-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="hiIdentityModalTitle">
+  <div class="hi-modal">
+    <div class="hi-modal-header">
+      <h3 id="hiIdentityModalTitle">Create Your Identity</h3>
+      <button class="hi-modal-close" id="hiIdentityModalClose">&#x2715;</button>
+    </div>
+    <div class="hi-modal-body">
+      <div class="hi-field"><label for="hi-id-name">Full Name <span class="hi-req">*</span></label><input id="hi-id-name" type="text" maxlength="100" autocomplete="off" placeholder="Amit Ku Yadav" /></div>
+      <div class="hi-field"><label for="hi-id-tagline">Tagline</label><input id="hi-id-tagline" type="text" maxlength="120" autocomplete="off" placeholder="One sentence that defines you" /></div>
+      <div class="hi-field"><label for="hi-id-roles">Roles <small>(comma separated)</small></label><input id="hi-id-roles" type="text" maxlength="200" autocomplete="off" placeholder="Founder, Builder, Creator" /></div>
+      <div class="hi-field"><label for="hi-id-location">Location</label><input id="hi-id-location" type="text" maxlength="100" autocomplete="off" placeholder="Bhagalpur, India" /></div>
+      <div class="hi-field"><label for="hi-id-mission">Life Mission</label><textarea id="hi-id-mission" rows="3" maxlength="400" placeholder="What are you building your life toward?"></textarea></div>
+      <div id="hiIdentityModalErr" class="hi-modal-err"></div>
+    </div>
+    <div class="hi-modal-footer">
+      <button class="hi-btn-cancel" id="hiIdentityModalCancel">Cancel</button>
+      <button class="hi-btn-primary" id="hiIdentityModalSave">Save Identity</button>
+    </div>
+  </div>
+</div>
+
+<!-- Goal -->
+<div id="hi-goal-modal" class="hi-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="hiGoalModalTitle">
+  <div class="hi-modal">
+    <div class="hi-modal-header"><h3 id="hiGoalModalTitle">Add Goal</h3><button class="hi-modal-close" id="hiGoalModalClose">&#x2715;</button></div>
+    <div class="hi-modal-body">
+      <div class="hi-field"><label for="hi-goal-f-title">Goal <span class="hi-req">*</span></label><input id="hi-goal-f-title" type="text" maxlength="150" autocomplete="off" placeholder="What do you want to achieve?" /></div>
+      <div class="hi-field"><label for="hi-goal-f-note">Note <small>(optional)</small></label><input id="hi-goal-f-note" type="text" maxlength="200" autocomplete="off" /></div>
+      <div class="hi-field"><label for="hi-goal-f-deadline">Deadline</label><input id="hi-goal-f-deadline" type="date" /></div>
+      <div class="hi-field"><label for="hi-goal-f-progress">Progress — <span id="hiGoalProgressVal">0%</span></label><input id="hi-goal-f-progress" type="range" min="0" max="100" value="0" class="hi-range" /></div>
+      <div id="hiGoalModalErr" class="hi-modal-err"></div>
+    </div>
+    <div class="hi-modal-footer"><button class="hi-btn-cancel" id="hiGoalModalCancel">Cancel</button><button class="hi-btn-primary" id="hiGoalModalSave">Save Goal</button></div>
+  </div>
+</div>
+
+<!-- Note -->
+<div id="hi-note-modal" class="hi-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="hiNoteModalTitle">
+  <div class="hi-modal">
+    <div class="hi-modal-header"><h3 id="hiNoteModalTitle">Quick Note</h3><button class="hi-modal-close" id="hiNoteModalClose">&#x2715;</button></div>
+    <div class="hi-modal-body">
+      <div class="hi-field"><label for="hi-note-f-title">Title <small>(optional)</small></label><input id="hi-note-f-title" type="text" maxlength="100" autocomplete="off" placeholder="Give it a name" /></div>
+      <div class="hi-field"><label for="hi-note-f-body">Note <span class="hi-req">*</span></label><textarea id="hi-note-f-body" rows="5" maxlength="1000" placeholder="Write your thought, idea, or reflection…"></textarea></div>
+      <div id="hiNoteModalErr" class="hi-modal-err"></div>
+    </div>
+    <div class="hi-modal-footer"><button class="hi-btn-cancel" id="hiNoteModalCancel">Cancel</button><button class="hi-btn-primary" id="hiNoteModalSave">Save Note</button></div>
+  </div>
+</div>
+
+<!-- Project -->
+<div id="hi-project-modal" class="hi-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="hiProjectModalTitle">
+  <div class="hi-modal">
+    <div class="hi-modal-header"><h3 id="hiProjectModalTitle">Add Project</h3><button class="hi-modal-close" id="hiProjectModalClose">&#x2715;</button></div>
+    <div class="hi-modal-body">
+      <div class="hi-field"><label for="hi-proj-f-name">Project Name <span class="hi-req">*</span></label><input id="hi-proj-f-name" type="text" maxlength="100" autocomplete="off" placeholder="e.g. New Venture" /></div>
+      <div class="hi-field"><label for="hi-proj-f-icon">Icon / Emoji</label><input id="hi-proj-f-icon" type="text" maxlength="4" autocomplete="off" placeholder="📁" /></div>
+      <div id="hiProjectModalErr" class="hi-modal-err"></div>
+    </div>
+    <div class="hi-modal-footer"><button class="hi-btn-cancel" id="hiProjectModalCancel">Cancel</button><button class="hi-btn-primary" id="hiProjectModalSave">Add Project</button></div>
+  </div>
+</div>
+
+<!-- Person (Social) -->
+<div id="hi-person-modal" class="hi-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="hiPersonModalTitle">
+  <div class="hi-modal">
+    <div class="hi-modal-header"><h3 id="hiPersonModalTitle">Add Contact</h3><button class="hi-modal-close" id="hiPersonModalClose">&#x2715;</button></div>
+    <div class="hi-modal-body">
+      <div class="hi-field"><label for="hi-person-f-name">Full Name <span class="hi-req">*</span></label><input id="hi-person-f-name" type="text" maxlength="100" autocomplete="off" /></div>
+      <div class="hi-field"><label for="hi-person-f-role">Role / Title</label><input id="hi-person-f-role" type="text" maxlength="100" autocomplete="off" placeholder="e.g. Community Coordinator" /></div>
+      <div class="hi-claim-row">
+        <div class="hi-field"><label for="hi-person-f-phone">Phone</label><input id="hi-person-f-phone" type="tel" maxlength="20" /></div>
+        <div class="hi-field"><label for="hi-person-f-whatsapp">WhatsApp <small>(if different)</small></label><input id="hi-person-f-whatsapp" type="tel" maxlength="20" /></div>
+      </div>
+      <div class="hi-claim-row">
+        <div class="hi-field"><label for="hi-person-f-birthday">Birthday</label><input id="hi-person-f-birthday" type="date" /></div>
+        <div class="hi-field">
+          <label for="hi-person-f-relationship">Relationship</label>
+          <select id="hi-person-f-relationship" class="hi-priority-select" style="width:100%">
+            <option value="">— Select —</option>
+            <option>Family</option><option>Friend</option><option>Colleague</option>
+            <option>Mentor</option><option>Community</option><option>Contact</option><option>Partner</option>
+          </select>
+        </div>
+      </div>
+      <div class="hi-field"><label for="hi-person-f-note">Note</label><textarea id="hi-person-f-note" rows="2" maxlength="300" placeholder="Quick note about this person"></textarea></div>
+      <div id="hiPersonModalErr" class="hi-modal-err"></div>
+    </div>
+    <div class="hi-modal-footer"><button class="hi-btn-cancel" id="hiPersonModalCancel">Cancel</button><button class="hi-btn-primary" id="hiPersonModalSave">Save Contact</button></div>
+  </div>
+</div>
+
+<!-- Event (Social) -->
+<div id="hi-event-modal" class="hi-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="hiEventModalTitle">
+  <div class="hi-modal">
+    <div class="hi-modal-header"><h3 id="hiEventModalTitle">Add Event</h3><button class="hi-modal-close" id="hiEventModalClose">&#x2715;</button></div>
+    <div class="hi-modal-body">
+      <div class="hi-field"><label for="hi-event-f-title">Title <span class="hi-req">*</span></label><input id="hi-event-f-title" type="text" maxlength="150" autocomplete="off" placeholder="What is the event?" /></div>
+      <div class="hi-claim-row">
+        <div class="hi-field"><label for="hi-event-f-date">Date <span class="hi-req">*</span></label><input id="hi-event-f-date" type="date" /></div>
+        <div class="hi-field"><label for="hi-event-f-time">Time</label><input id="hi-event-f-time" type="time" /></div>
+      </div>
+      <div class="hi-field">
+        <label for="hi-event-f-type">Type</label>
+        <select id="hi-event-f-type" class="hi-priority-select" style="width:100%">
+          <option>Meeting</option><option>Birthday</option><option>Gathering</option>
+          <option>Deadline</option><option>Community</option><option>Other</option>
+        </select>
+      </div>
+      <div class="hi-field"><label for="hi-event-f-note">Note</label><input id="hi-event-f-note" type="text" maxlength="200" autocomplete="off" placeholder="Quick note" /></div>
+      <div id="hiEventModalErr" class="hi-modal-err"></div>
+    </div>
+    <div class="hi-modal-footer"><button class="hi-btn-cancel" id="hiEventModalCancel">Cancel</button><button class="hi-btn-primary" id="hiEventModalSave">Save Event</button></div>
+  </div>
+</div>
+
+<!-- personal-data.js modal (unchanged) -->
+<div id="pdModal" class="pd-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pdModalTitle">
+  <div class="pd-modal glass">
+    <div class="pd-modal-header"><h3 id="pdModalTitle">Edit Card</h3><button class="pd-modal-close" id="pdModalClose">&#x2715;</button></div>
+    <div class="pd-modal-body" id="pdModalBody"></div>
+    <div class="pd-modal-footer">
+      <button class="pd-btn-delete" id="pdDeleteBtn">&#x1F5D1; Delete</button>
+      <div class="pd-modal-actions">
+        <button class="pd-btn-cancel" id="pdCancelBtn">Cancel</button>
+        <button class="pd-btn-save" id="pdSaveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="site-footer glass">
+  <div class="footer-inner">
+    <div class="footer-enquiry">
+      <p class="footer-title">Enquiry</p>
+      <p class="footer-text">
+        Amit Ku Yadav<br />
+        Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
+        Office: Bhagalpur, India<br />
+        Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
+      </p>
+      <div class="social-icons" id="socialLinks"></div>
+    </div>
+    <div class="footer-right">
+      <div id="footerClock">--:--</div>
+      <div>Bhagalpur, India</div>
+      <div id="status">STATUS: --</div>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
+    </div>
+  </div>
+  <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All rights reserved</div>
+</footer>
+
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- ════════════════════════════════════════════
+     SCRIPTS  (storage first — all else deferred)
+════════════════════════════════════════════ -->
+<script src="/js/script.js?v=hi-1"           defer></script>
+<script src="/js/hi-storage.js?v=hi-1"></script>
+<script src="/js/hi-app.js?v=hi-1"          defer></script>
+<script src="/js/hi-personal.js?v=hi-1"      defer></script>
+<script src="/js/hi-professional.js?v=hi-1"  defer></script>
+<script src="/js/hi-social.js?v=hi-1"        defer></script>
+<script src="/js/hi-context.js?v=hi-1"       defer></script>
+<script src="/js/hi-assistant.js?v=hi-1"    defer></script>
+<script src="/js/hi-license.js?v=hi-1"       defer></script>
+<script src="/js/personal-data.js?v=hi-1"    defer></script>
+
+<script>
+  var _u = document.getElementById("authUserDisplay");
+  if (_u) _u.textContent = getAuthUser() || "";
+  var _lb = document.getElementById("logoutBtn");
+  if (_lb) _lb.addEventListener("click", logout);
+  (function() {
+    var logo = document.getElementById("hiPersonalHeroLogo");
+    if (logo) logo.src = document.body.classList.contains("theme-light") ? "/logo/day-logo.png" : "/logo/night-logo.png";
+    var askBtn = document.getElementById("hiHeroAskAiBtn");
+    if (askBtn) askBtn.addEventListener("click", function() {
+      var fab = document.getElementById("hiAiBtn");
+      if (fab) fab.click();
+    });
+    function openIdentityFromHash() {
+      if (window.location.hash !== "#create-identity") return;
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (typeof hiOpenIdentityModal === "function" && typeof hiLoadIdentity === "function") {
+          clearInterval(timer);
+          hiLoadIdentity().then(function(identity) {
+            hiOpenIdentityModal(identity || null);
+          }).catch(function() {
+            hiOpenIdentityModal(null);
+          });
+          return;
+        }
+        var btn = document.getElementById("hiEditIdentityBtn") || document.getElementById("hiSetupIdentityBtn");
+        if (btn) {
+          clearInterval(timer);
+          btn.click();
+        } else if (tries > 30) {
+          clearInterval(timer);
+        }
+      }, 100);
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", openIdentityFromHash);
+    } else {
+      openIdentityFromHash();
+    }
+  })();
+</script>
+
+</body>
+</html>

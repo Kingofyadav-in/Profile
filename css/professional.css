@@ -1,0 +1,438 @@
+/* ======================================================
+   PROFESSIONAL PAGE
+   Author: Amit Ku Yadav
+====================================================== */
+
+/* ── Hero ── */
+
+.professional-hero {
+  padding: 80px 0 72px;
+  max-width: 780px;
+}
+
+.professional-hero h1 {
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin-bottom: 20px;
+}
+
+.professional-hero .hero-description {
+  max-width: 560px;
+  font-size: 1rem;
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+
+.professional-hero .hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+/* Hero buttons */
+
+.hero-btn {
+  display: inline-block;
+  padding: 13px 28px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.hero-btn.primary {
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
+  color: #fff;
+}
+
+.hero-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(4,106,56,0.3), 0 8px 18px rgba(255,103,31,0.2);
+}
+
+.hero-btn.secondary {
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
+}
+
+.hero-btn.secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+.pro-proof {
+  margin: 0 0 64px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid rgba(128,128,128,0.14);
+  border-bottom: 1px solid rgba(128,128,128,0.14);
+}
+
+.pro-proof div {
+  padding: 24px 22px;
+  border-right: 1px solid rgba(128,128,128,0.14);
+}
+
+.pro-proof div:last-child {
+  border-right: none;
+}
+
+.pro-proof span {
+  display: block;
+  color: var(--brand-green);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.pro-proof strong {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(0.98rem, 1.5vw, 1.16rem);
+  line-height: 1.25;
+}
+
+/* ── Stats Bar ── */
+
+.pro-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 48px 0 72px;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(128,128,128,0.12);
+  border-bottom: 1px solid rgba(128,128,128,0.12);
+  margin-bottom: 80px;
+}
+
+.pro-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 48px;
+}
+
+.pro-stat:first-child { padding-left: 0; }
+.pro-stat:last-child  { padding-right: 0; }
+
+.pro-stat-num {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.pro-stat-plus {
+  font-size: 0.6em;
+  vertical-align: super;
+}
+
+.pro-stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.pro-stat-divider {
+  width: 1px;
+  height: 44px;
+  background: rgba(128,128,128,0.2);
+  flex-shrink: 0;
+}
+
+/* ── Section Labels ── */
+
+.pro-section-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 10px;
+}
+
+/* ── Sections ── */
+
+.professional-areas,
+.professional-values {
+  padding: 0 0 80px;
+}
+
+.professional-areas h2,
+.professional-values h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 40px;
+}
+
+/* ── Capability Statement ── */
+
+.capability-statement {
+  padding: 52px 56px;
+  margin-bottom: 80px;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.capability-statement::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--brand-green-soft), transparent 60%);
+  pointer-events: none;
+}
+
+.capability-statement h2 {
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin-bottom: 16px;
+}
+
+.capability-statement p {
+  max-width: 640px;
+  line-height: 1.85;
+  font-size: 0.98rem;
+}
+
+/* ── Areas Cards ── */
+
+.pro-grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 24px;
+}
+
+.pro-card {
+  padding: 36px 32px;
+  border-radius: 24px;
+  position: relative;
+}
+
+.pro-num {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: var(--brand-green);
+  margin-bottom: 18px;
+  opacity: 0.65;
+}
+
+.pro-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.2px;
+}
+
+.pro-card p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.pro-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  border: 1px solid var(--brand-orange-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.pro-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 50px rgba(4,106,56,0.15);
+}
+
+/* ── Values Grid ── */
+
+.pro-values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.pro-value-card {
+  padding: 36px 32px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.3s ease;
+}
+
+.pro-value-icon {
+  font-size: 1.7rem;
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.pro-value-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.pro-value-card p {
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.pro-value-card:hover {
+  transform: translateY(-6px);
+}
+
+.professional-cta {
+  margin: 0 0 80px;
+  padding: clamp(30px, 4vw, 52px);
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: center;
+}
+
+.professional-cta h2 {
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.professional-cta p {
+  max-width: 680px;
+  line-height: 1.75;
+}
+
+.professional-cta-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* ── Mobile ── */
+
+@media (max-width: 768px) {
+  .professional-hero {
+    padding: 60px 0 56px;
+  }
+
+  .professional-hero h1 {
+    font-size: 2.2rem;
+    letter-spacing: -0.8px;
+  }
+
+  .professional-hero .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pro-proof {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 56px;
+  }
+
+  .pro-proof div:nth-child(2) {
+    border-right: none;
+  }
+
+  .pro-proof div:nth-child(-n+2) {
+    border-bottom: 1px solid rgba(128,128,128,0.14);
+  }
+
+  .capability-statement {
+    padding: 32px 24px;
+    margin-bottom: 60px;
+  }
+
+  .pro-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    padding: 36px 0 56px;
+    margin-bottom: 60px;
+  }
+
+  .pro-stat { padding: 0; }
+  .pro-stat-divider { display: none; }
+
+  .pro-grid,
+  .pro-values-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .professional-areas,
+  .professional-values {
+    padding-bottom: 60px;
+  }
+
+  .professional-cta {
+    grid-template-columns: 1fr;
+    margin-bottom: 60px;
+  }
+
+  .professional-cta-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .pro-proof {
+    grid-template-columns: 1fr;
+  }
+
+  .pro-proof div,
+  .pro-proof div:nth-child(2) {
+    border-right: none;
+  }
+
+  .pro-proof div {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(128,128,128,0.14);
+  }
+
+  .pro-proof div:last-child {
+    border-bottom: none;
+  }
+}
+
+/* ── Career Timeline Section ── */
+
+.professional-timeline {
+  max-width: 860px;
+  padding: 0 0 80px;
+}
+
+.professional-timeline h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .professional-timeline {
+    padding-bottom: 60px;
+  }
+}

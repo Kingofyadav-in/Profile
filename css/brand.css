@@ -1,0 +1,761 @@
+/* ======================================================
+   BRAND PAGE SYSTEM
+   kingofyadav.in
+   Elite Brand UI Framework
+   Author: Amit Ku Yadav
+   Version: 2.0
+====================================================== */
+
+
+/* ======================================================
+   GLOBAL BRAND SECTION
+====================================================== */
+
+.brand-section{
+max-width:var(--container);
+margin:auto;
+padding:90px 20px;
+position:relative;
+}
+
+
+/* ======================================================
+   GLOBAL BRAND HERO
+====================================================== */
+
+.brand-hero{
+padding-top:clamp(140px,14vw,200px);
+padding-bottom:clamp(88px,9vw,140px);
+position:relative;
+display:block;
+}
+
+
+/* HERO CONTENT */
+
+.brand-hero-content{
+max-width:720px;
+
+opacity:0;
+transform:translateY(40px);
+animation:brandHeroReveal .9s ease forwards;
+}
+
+.brand-hero .hero-content{
+max-width:900px;
+opacity:0;
+transform:translateY(40px);
+animation:brandHeroReveal .9s ease forwards;
+}
+
+
+/* HERO LABEL */
+
+.hero-label{
+font-size:12px;
+letter-spacing:2px;
+font-weight:600;
+color:var(--brand-green);
+margin-bottom:12px;
+}
+
+
+/* HERO TITLE */
+
+.brand-hero h1{
+font-size:clamp(3rem,6.2vw,5.2rem);
+line-height:1.02;
+letter-spacing:-2.4px;
+font-weight:800;
+margin-bottom:22px;
+}
+
+
+/* HERO DESCRIPTION */
+
+.brand-hero p{
+font-size:1rem;
+line-height:1.7;
+max-width:600px;
+opacity:.9;
+}
+
+.brand-proof{
+max-width:var(--container);
+margin:0 auto clamp(36px,5vw,72px);
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+border-top:1px solid rgba(128,128,128,0.14);
+border-bottom:1px solid rgba(128,128,128,0.14);
+}
+
+.brand-proof div{
+padding:24px 22px;
+border-right:1px solid rgba(128,128,128,0.14);
+}
+
+.brand-proof div:last-child{
+border-right:none;
+}
+
+.brand-proof span{
+display:block;
+color:var(--brand-green);
+font-size:.68rem;
+font-weight:800;
+letter-spacing:1.4px;
+text-transform:uppercase;
+}
+
+.brand-proof strong{
+display:block;
+margin-top:6px;
+font-size:clamp(1rem,1.5vw,1.18rem);
+line-height:1.25;
+}
+
+
+/* HERO ACTIONS */
+
+.hero-actions{
+display:flex;
+gap:18px;
+align-items:center;
+margin-top:28px;
+flex-wrap:wrap;
+}
+
+
+/* HERO MEDIA */
+
+.brand-hero-media img{
+width:100%;
+border-radius:28px;
+
+box-shadow:
+0 40px 80px rgba(0,0,0,0.35);
+
+transition:transform .5s ease;
+}
+
+.brand-hero-media img:hover{
+transform:scale(1.02);
+}
+
+
+/* HERO BACKGROUND GLOW */
+
+.brand-hero::before{
+content:"";
+position:absolute;
+
+top:-280px;
+left:-260px;
+
+width:720px;
+height:720px;
+
+background:radial-gradient(
+circle,
+rgba(4,106,56,0.22),
+transparent 70%
+);
+
+filter:blur(50px);
+z-index:-1;
+}
+
+.brand-hero::after{
+content:"";
+position:absolute;
+
+right:-200px;
+bottom:-200px;
+
+width:600px;
+height:600px;
+
+background:radial-gradient(
+circle,
+rgba(255,103,31,0.15),
+transparent 70%
+);
+
+filter:blur(60px);
+z-index:-1;
+}
+
+
+/* HERO ANIMATION */
+
+@keyframes brandHeroReveal{
+
+from{
+opacity:0;
+transform:translateY(40px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+
+
+/* ======================================================
+   BRAND NAVIGATION
+====================================================== */
+
+.brand-nav{
+margin:0 auto 36px;
+max-width:900px;
+
+border-radius:16px;
+padding:12px 16px;
+
+backdrop-filter:blur(12px);
+}
+
+.brand-nav ul{
+list-style:none;
+display:flex;
+justify-content:center;
+gap:26px;
+flex-wrap:wrap;
+margin:0;
+padding:0;
+}
+
+.brand-nav a{
+font-size:14px;
+font-weight:600;
+padding:10px 14px;
+border-radius:8px;
+
+transition:all .25s ease;
+opacity:.85;
+}
+
+.brand-nav a:hover{
+color:var(--brand-green);
+background:rgba(0,0,0,0.05);
+}
+
+
+
+/* ======================================================
+   HERO BUTTONS
+====================================================== */
+
+.hero-btn{
+padding:14px 28px;
+border-radius:999px;
+
+font-weight:600;
+font-size:14px;
+
+letter-spacing:.3px;
+
+display:inline-flex;
+align-items:center;
+gap:6px;
+
+transition:all .3s ease;
+}
+
+.hero-btn.primary{
+background:linear-gradient(
+135deg,
+var(--brand-green),
+var(--brand-orange)
+);
+
+color:#fff;
+}
+
+.hero-btn.primary:hover{
+
+transform:translateY(-4px) scale(1.02);
+
+box-shadow:
+0 14px 40px rgba(4,106,56,0.25),
+0 14px 40px rgba(255,103,31,0.25);
+
+}
+
+.hero-btn.secondary{
+border:1px solid var(--card-border-light);
+}
+
+.hero-btn.secondary:hover{
+border-color:var(--brand-green);
+color:var(--brand-green);
+transform:translateY(-2px);
+}
+
+
+
+/* ======================================================
+   BRAND GRID
+====================================================== */
+
+.brand-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:34px;
+margin-top:50px;
+}
+
+
+
+/* ======================================================
+   BRAND CARD
+====================================================== */
+
+.brand-card{
+
+padding:32px;
+border-radius:22px;
+
+display:flex;
+flex-direction:column;
+gap:16px;
+
+transition:all .35s ease;
+
+position:relative;
+overflow:hidden;
+
+}
+
+body.theme-dark .brand-card{
+background:rgba(255,255,255,0.04);
+border:1px solid var(--card-border-dark);
+}
+
+body.theme-light .brand-card{
+background:#fff;
+border:1px solid var(--card-border-light);
+}
+
+.brand-card::before{
+
+content:"";
+position:absolute;
+inset:0;
+
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.08),
+transparent
+);
+
+opacity:0;
+transition:opacity .35s ease;
+
+}
+
+.brand-card:hover::before{
+opacity:1;
+}
+
+.brand-card:hover{
+transform:translateY(-8px);
+
+box-shadow:
+0 22px 50px rgba(0,0,0,0.25);
+}
+
+.brand-section .service-card{
+min-height:100%;
+}
+
+.brand-section .service-card h2{
+font-size:1.22rem;
+}
+
+.brand-section .service-card p{
+line-height:1.75;
+}
+
+.brand-section .service-card ul{
+padding-left:18px;
+margin-top:8px;
+}
+
+.brand-section .service-card li{
+font-size:.9rem;
+line-height:1.65;
+margin-bottom:5px;
+}
+
+.brand-card h2{
+font-size:22px;
+}
+
+.brand-card p{
+font-size:14px;
+line-height:1.6;
+opacity:.85;
+}
+
+.brand-card ul{
+padding-left:18px;
+}
+
+.brand-card li{
+font-size:14px;
+margin-bottom:6px;
+}
+
+
+
+/* ======================================================
+   FEATURES GRID
+====================================================== */
+
+.brand-features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:26px;
+margin-top:60px;
+}
+
+.brand-feature{
+padding:26px;
+border-radius:18px;
+
+transition:all .3s ease;
+}
+
+body.theme-dark .brand-feature{
+background:rgba(255,255,255,0.04);
+border:1px solid var(--card-border-dark);
+}
+
+body.theme-light .brand-feature{
+background:#fff;
+border:1px solid var(--card-border-light);
+}
+
+.brand-feature:hover{
+transform:translateY(-5px);
+}
+
+.brand-feature h3{
+margin-bottom:8px;
+}
+
+.brand-feature p{
+font-size:14px;
+opacity:.8;
+}
+
+
+
+/* ======================================================
+   WEDDING GALLERY
+====================================================== */
+
+.brand-gallery{
+margin-top:60px;
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
+}
+
+.brand-gallery img{
+
+width:100%;
+height:210px;
+
+object-fit:cover;
+
+border-radius:16px;
+
+transition:
+transform .45s ease,
+box-shadow .4s ease;
+
+}
+
+.brand-gallery img:hover{
+
+transform:scale(1.05);
+
+box-shadow:
+0 20px 45px rgba(0,0,0,0.35);
+
+}
+
+
+
+/* ======================================================
+   BANQUET CAPACITY TABLE
+====================================================== */
+
+.brand-table{
+width:100%;
+border-collapse:collapse;
+
+margin-top:50px;
+font-size:14px;
+}
+
+.brand-table th,
+.brand-table td{
+padding:16px;
+text-align:left;
+
+border-bottom:1px solid rgba(0,0,0,0.08);
+}
+
+body.theme-dark .brand-table th,
+body.theme-dark .brand-table td{
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.brand-table th{
+font-weight:600;
+color:var(--brand-green);
+}
+
+.brand-table tbody tr:hover{
+background:rgba(0,0,0,0.03);
+}
+
+
+
+/* ======================================================
+   MAP + BOOKING GRID
+====================================================== */
+
+.brand-booking{
+margin-top:32px;
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+}
+
+
+/* MAP */
+
+.brand-map iframe{
+width:100%;
+height:420px;
+border-radius:18px;
+border:0;
+}
+
+
+
+/* BOOKING FORM */
+
+.brand-form{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+.brand-form label{
+font-size:13px;
+opacity:.8;
+}
+
+.brand-form input,
+.brand-form select,
+.brand-form textarea{
+
+padding:13px;
+
+border-radius:12px;
+
+border:1px solid var(--card-border-light);
+
+background:transparent;
+
+font-size:14px;
+
+transition:border .25s ease;
+
+}
+
+.brand-form input:focus,
+.brand-form select:focus,
+.brand-form textarea:focus{
+
+outline:none;
+border-color:var(--brand-green);
+
+}
+
+.brand-form textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.brand-form button{
+margin-top:8px;
+}
+
+
+
+/* ======================================================
+   CTA SECTION
+====================================================== */
+
+.brand-cta{
+
+margin-top:110px;
+
+text-align:center;
+
+padding:80px 20px;
+
+border-radius:28px;
+
+position:relative;
+overflow:hidden;
+
+}
+
+body.theme-dark .brand-cta{
+background:rgba(255,255,255,0.04);
+border:1px solid var(--card-border-dark);
+}
+
+body.theme-light .brand-cta{
+background:#fff;
+border:1px solid var(--card-border-light);
+}
+
+.brand-cta h2{
+font-size:32px;
+margin-bottom:12px;
+}
+
+.brand-cta p{
+max-width:640px;
+margin:auto;
+margin-bottom:28px;
+opacity:.85;
+}
+
+.brand-buttons{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.brand-disclaimer{
+max-width:900px;
+margin:0 auto clamp(72px,8vw,110px);
+padding:clamp(28px,4vw,44px);
+border-radius:22px;
+}
+
+.brand-disclaimer h2{
+font-size:clamp(1.35rem,2.4vw,1.8rem);
+margin-bottom:12px;
+}
+
+.brand-disclaimer p{
+max-width:760px;
+line-height:1.8;
+opacity:.82;
+}
+
+
+
+/* ======================================================
+   RESPONSIVE SYSTEM
+====================================================== */
+
+@media (max-width:1024px){
+
+.brand-hero{
+padding-bottom:96px;
+}
+
+}
+
+@media (max-width:900px){
+
+.brand-booking{
+grid-template-columns:1fr;
+}
+
+.brand-map iframe{
+height:320px;
+}
+
+}
+
+@media (max-width:768px){
+
+.brand-hero{
+padding-top:120px;
+padding-bottom:80px;
+}
+
+.brand-hero h1{
+font-size:clamp(2.25rem,8vw,3rem);
+letter-spacing:-1.2px;
+}
+
+.brand-proof{
+grid-template-columns:repeat(2,1fr);
+}
+
+.brand-proof div:nth-child(2){
+border-right:none;
+}
+
+.brand-proof div:nth-child(-n+2){
+border-bottom:1px solid rgba(128,128,128,0.14);
+}
+
+.hero-actions{
+flex-direction:column;
+align-items:flex-start;
+gap:14px;
+}
+
+.brand-hero::before,
+.brand-hero::after{
+display:none;
+}
+
+}
+
+@media (max-width:600px){
+
+.brand-section{
+padding:60px 20px;
+}
+
+.brand-proof{
+grid-template-columns:1fr;
+}
+
+.brand-proof div,
+.brand-proof div:nth-child(2){
+border-right:none;
+}
+
+.brand-proof div{
+padding:18px 0;
+border-bottom:1px solid rgba(128,128,128,0.14);
+}
+
+.brand-proof div:last-child{
+border-bottom:none;
+}
+
+}

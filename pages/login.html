@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login · Amit Ku Yadav Personal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <link rel="stylesheet" href="/css/base.css?v=hi-1" />
+  <link rel="stylesheet" href="/css/auth.css?v=hi-1" />
+</head>
+
+<body class="theme-dark auth-page">
+
+<!-- Theme restore — runs before anything renders -->
+<script>
+try {
+  var _t = localStorage.getItem("theme");
+  if (_t) {
+    document.body.classList.remove("theme-dark","theme-light");
+    document.body.classList.add(_t);
+  }
+} catch(e) {}
+</script>
+
+<!-- Load auth module synchronously -->
+<script src="/js/auth.js?v=hi-1"></script>
+
+<!-- Redirect immediately if already logged in -->
+<script>
+if (isAuthenticated()) {
+  var _fallback = "/pages/personal.html";
+  var _rawNext = new URLSearchParams(window.location.search).get("next");
+  var _next = _fallback;
+  try {
+    if (_rawNext) {
+      var _decodedNext = decodeURIComponent(_rawNext);
+      if (_decodedNext.charAt(0) === "/" && _decodedNext.indexOf("//") !== 0 && !/[\r\n]/.test(_decodedNext)) {
+        _next = _decodedNext;
+      }
+    }
+  } catch(e) {}
+  window.location.replace(_next);
+}
+</script>
+
+<main class="auth-shell" aria-labelledby="authTitle">
+
+<section class="auth-intro" aria-label="Personal section overview">
+  <a href="/" class="auth-brand auth-brand--intro">
+    <img id="authLogo" src="/logo/night-logo.png" alt="Amit Ku Yadav" />
+    <div>
+      <div class="auth-brand-name">Amit Ku Yadav</div>
+      <div class="auth-brand-sub">Dynamic Personal Workspace</div>
+    </div>
+  </a>
+
+  <p class="auth-kicker">Protected Section</p>
+  <h1 id="authTitle">Access the dynamic personal dashboard.</h1>
+  <p class="auth-copy">
+    Sign in to manage private personal details, editable cards, values, and family or working member records.
+  </p>
+
+  <div class="auth-access-grid" aria-label="Access features">
+    <div>
+      <span>01</span>
+      <strong>Secure Gate</strong>
+      <p>One-time local access on this browser.</p>
+    </div>
+    <div>
+      <span>02</span>
+      <strong>Dynamic Cards</strong>
+      <p>Add, edit, and organize personal data.</p>
+    </div>
+    <div>
+      <span>03</span>
+      <strong>Local Account</strong>
+      <p>Credentials stay on this browser.</p>
+    </div>
+  </div>
+</section>
+
+<section class="auth-card" aria-label="Login and sign up form">
+
+  <!-- Brand -->
+  <a href="/" class="auth-brand auth-brand--card">
+    <img id="authLogoCard" src="/logo/night-logo.png" alt="Amit Ku Yadav" />
+    <div>
+      <div class="auth-brand-name">Amit Ku Yadav</div>
+      <div class="auth-brand-sub">Personal Access</div>
+    </div>
+  </a>
+
+  <div class="auth-route-note" id="authRouteNote">Continue to Personal Dashboard</div>
+
+  <!-- Tabs -->
+  <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+    <button class="auth-tab active" id="tab-login"
+      role="tab" aria-selected="true" aria-controls="panel-login">
+      Login
+    </button>
+    <button class="auth-tab" id="tab-signup"
+      role="tab" aria-selected="false" aria-controls="panel-signup">
+      Setup
+    </button>
+  </div>
+
+  <!-- LOGIN PANEL -->
+  <div class="auth-panel active" id="panel-login" role="tabpanel" aria-labelledby="tab-login">
+
+    <!-- Hint shown when no account exists yet -->
+    <div class="auth-hint" id="noAccountHint" style="display:none;">
+      <span>No local admin yet?</span>
+      <button type="button" id="goSignupBtn">Set up →</button>
+    </div>
+    <div class="auth-hint" id="resetHint" style="display:none; margin-top:12px;">
+      <span>Need a fresh admin?</span>
+      <button type="button" id="resetUsersBtn">Reset users</button>
+    </div>
+
+    <form id="loginForm" novalidate autocomplete="on">
+
+      <div class="auth-field">
+        <label for="login-username">Username</label>
+        <input id="login-username" name="username" type="text"
+          placeholder="Enter your username"
+          autocomplete="username" spellcheck="false" required />
+      </div>
+
+      <div class="auth-field">
+        <label for="login-password">Password</label>
+        <div class="pw-wrap">
+          <input id="login-password" name="password" type="password"
+            placeholder="Enter your password"
+            autocomplete="current-password" required />
+          <button type="button" class="pw-toggle" data-target="login-password"
+            aria-label="Show password"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+      </div>
+
+      <label class="auth-remember">
+        <input type="checkbox" id="login-remember" checked disabled />
+        Save local access on this browser
+      </label>
+
+      <button type="submit" class="auth-submit" id="loginBtn">Login</button>
+      <div class="auth-status" id="loginStatus" role="alert" aria-live="polite"></div>
+
+    </form>
+  </div>
+
+  <!-- SIGN UP PANEL -->
+  <div class="auth-panel" id="panel-signup" role="tabpanel" aria-labelledby="tab-signup">
+    <form id="signupForm" novalidate autocomplete="off">
+
+      <div class="auth-field">
+        <label for="signup-username">Choose Username</label>
+        <input id="signup-username" name="username" type="text"
+          placeholder="At least 3 characters"
+          autocomplete="username" spellcheck="false" required />
+      </div>
+
+      <div class="auth-field">
+        <label for="signup-password">Choose Password</label>
+        <div class="pw-wrap">
+          <input id="signup-password" name="password" type="password"
+            placeholder="At least 8 characters"
+            autocomplete="new-password" required />
+          <button type="button" class="pw-toggle" data-target="signup-password"
+            aria-label="Show password"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+        <div class="pw-strength" id="pwStrengthBar" role="progressbar"
+          aria-label="Password strength" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        </div>
+        <div class="pw-strength-text" id="pwStrengthText">Use 8+ characters with a mix of letters, numbers, and symbols.</div>
+      </div>
+
+      <div class="auth-field">
+        <label for="signup-confirm">Confirm Password</label>
+        <div class="pw-wrap">
+          <input id="signup-confirm" name="confirm" type="password"
+            placeholder="Repeat your password"
+            autocomplete="new-password" required />
+          <button type="button" class="pw-toggle" data-target="signup-confirm"
+            aria-label="Show password"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+      </div>
+
+      <button type="submit" class="auth-submit" id="signupBtn">Create Local Admin</button>
+      <div class="auth-status" id="signupStatus" role="alert" aria-live="polite"></div>
+
+    </form>
+    <p class="auth-divider">Local admin access only. Public profile accounts need backend auth.</p>
+    <p class="auth-divider" id="resetWarning" style="margin-top:10px;">
+      Reset removes all local admin users from this browser.
+    </p>
+
+    <div class="auth-users" id="localUsersWrap" style="display:none;">
+      <div class="auth-users-head">
+        <span>Local Admin Snapshot</span>
+        <button type="button" id="refreshUsersBtn">Refresh</button>
+      </div>
+      <div class="auth-users-list" id="localUsersList"></div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<script>
+"use strict";
+
+/* ── Logo sync ── */
+(function() {
+  var isDark = document.body.classList.contains("theme-dark");
+  ["authLogo", "authLogoCard"].forEach(function(id) {
+    var logo = document.getElementById(id);
+    if (logo) logo.src = isDark ? "/logo/night-logo.png" : "/logo/day-logo.png";
+  });
+})();
+
+/* ── Destination note ── */
+(function() {
+  var note = document.getElementById("authRouteNote");
+  if (!note) return;
+  var next = safeNextPath();
+  note.textContent = next.indexOf("personal.html") !== -1
+    ? "Continue to Personal Dashboard"
+    : "Continue to Protected Section";
+})();
+
+/* ── Show "no account" hint on login tab if no users exist ── */
+if (!hasAnyUser()) {
+  var hint = document.getElementById("noAccountHint");
+  if (hint) hint.style.display = "flex";
+} else {
+  var resetHint = document.getElementById("resetHint");
+  if (resetHint) resetHint.style.display = "flex";
+}
+renderLocalUsers();
+
+/* ── Tab switching ── */
+var tabLogin   = document.getElementById("tab-login");
+var tabSignup  = document.getElementById("tab-signup");
+var panelLogin  = document.getElementById("panel-login");
+var panelSignup = document.getElementById("panel-signup");
+
+function activateTab(which) {
+  var isLogin = which === "login";
+  tabLogin.classList.toggle("active",  isLogin);
+  tabSignup.classList.toggle("active", !isLogin);
+  tabLogin.setAttribute("aria-selected",  String(isLogin));
+  tabSignup.setAttribute("aria-selected", String(!isLogin));
+  panelLogin.classList.toggle("active",  isLogin);
+  panelSignup.classList.toggle("active", !isLogin);
+}
+
+tabLogin.addEventListener("click",  function() { activateTab("login"); });
+tabSignup.addEventListener("click", function() { activateTab("signup"); });
+
+var goSignup = document.getElementById("goSignupBtn");
+if (goSignup) goSignup.addEventListener("click", function() { activateTab("signup"); });
+
+var resetUsersBtn = document.getElementById("resetUsersBtn");
+if (resetUsersBtn) resetUsersBtn.addEventListener("click", function() {
+  var confirmReset = window.confirm("Reset this browser's local admin account? This will remove all saved users and require a fresh signup.");
+  if (!confirmReset) return;
+  var result = resetLocalAdminState();
+  var statusId = hasAnyUser() ? "signupStatus" : "loginStatus";
+  if (result && result.ok) {
+    setStatus(statusId, "✓ Local admin cleared. Create a fresh account now.", "success");
+    var hint = document.getElementById("noAccountHint");
+    if (hint) hint.style.display = "none";
+    renderLocalUsers();
+    setTimeout(function() { activateTab("signup"); }, 250);
+  } else {
+    setStatus(statusId, (result && result.error) || "Reset failed. Please try again.", "error");
+  }
+});
+
+var refreshUsersBtn = document.getElementById("refreshUsersBtn");
+if (refreshUsersBtn) refreshUsersBtn.addEventListener("click", function() {
+  renderLocalUsers();
+});
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function renderLocalUsers() {
+  var wrap = document.getElementById("localUsersWrap");
+  var list = document.getElementById("localUsersList");
+  if (!wrap || !list) return;
+  var users = getLocalUsersSnapshot();
+  if (!users.length) {
+    wrap.style.display = "none";
+    list.innerHTML = "";
+    return;
+  }
+  wrap.style.display = "block";
+  list.innerHTML = users.map(function(user) {
+    return '<div class="auth-user-item">' +
+      '<div class="auth-user-top"><strong>' + escapeHtml(user.username) + '</strong>' +
+      '<span>' + escapeHtml(user.createdAtLabel) + '</span></div>' +
+      '<div class="auth-user-meta">Hash version: ' + escapeHtml(user.hashVersion) + '</div>' +
+      '<div class="auth-user-meta">Session key: <code>' + escapeHtml(user.sessionKey || 'local') + '</code></div>' +
+      '<div class="auth-user-meta">Password hash: <code>' + escapeHtml(user.passwordHashPreview || '(empty)') + '</code></div>' +
+      '<div class="auth-user-meta">Hash length: ' + escapeHtml(user.passwordHashLength) + ' · Salt: ' + (user.hasSalt ? 'yes' : 'no') + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ── Show / hide password ── */
+document.querySelectorAll(".pw-toggle").forEach(function(btn) {
+  btn.addEventListener("click", function() {
+    var input = document.getElementById(btn.dataset.target);
+    if (!input) return;
+    var hidden = input.type === "password";
+    input.type = hidden ? "text" : "password";
+    btn.setAttribute("aria-label", hidden ? "Hide password" : "Show password");
+    btn.innerHTML = hidden
+      ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+      : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  });
+});
+
+/* ── Password strength ── */
+var pwInput     = document.getElementById("signup-password");
+var strengthBar = document.getElementById("pwStrengthBar");
+var strengthText = document.getElementById("pwStrengthText");
+
+pwInput.addEventListener("input", function() {
+  var val   = pwInput.value;
+  var score = 0;
+  if (val.length >= 8)           score++;
+  if (val.length >= 10)          score++;
+  if (/[A-Z]/.test(val))         score++;
+  if (/[0-9]/.test(val))         score++;
+  if (/[^A-Za-z0-9]/.test(val))  score++;
+
+  var pct = score * 20;
+  strengthBar.style.width = pct + "%";
+  strengthBar.setAttribute("aria-valuenow", pct);
+  strengthBar.style.background =
+    score <= 1 ? "#ff4d4d" :
+    score <= 2 ? "#ff9900" :
+    score <= 3 ? "#f0c040" :
+                 "var(--brand-green)";
+  if (strengthText) {
+    strengthText.textContent =
+      score <= 1 ? "Weak password. Add length and variety." :
+      score <= 2 ? "Fair password. Add uppercase, numbers, or symbols." :
+      score <= 3 ? "Good password. Longer is better." :
+                   "Strong password.";
+  }
+});
+
+/* ── Helpers ── */
+function setStatus(elId, msg, type) {
+  var el = document.getElementById(elId);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = "auth-status " + (type || "");
+}
+
+function setLoading(btnId, loading, label) {
+  var btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading
+    ? '<span class="spin"></span>Please wait…'
+    : label;
+}
+
+function safeNextPath() {
+  var fallback = "/pages/personal.html";
+  var raw = new URLSearchParams(window.location.search).get("next");
+  if (!raw) return fallback;
+  try {
+    var decoded = decodeURIComponent(raw);
+    if (decoded.charAt(0) !== "/" || decoded.indexOf("//") === 0) return fallback;
+    if (/[\r\n]/.test(decoded)) return fallback;
+    return decoded;
+  } catch(e) {
+    return fallback;
+  }
+}
+
+function getNext() {
+  return safeNextPath();
+}
+
+/* ── LOGIN FORM ── */
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  setStatus("loginStatus", "", "");
+  setLoading("loginBtn", true, "Login");
+
+  var username = document.getElementById("login-username").value;
+  var password = document.getElementById("login-password").value;
+  var remember = document.getElementById("login-remember").checked;
+
+    login(username, password, remember).then(function(result) {
+    if (result.ok) {
+      setStatus("loginStatus", "✓ Login successful. Redirecting…", "success");
+      setTimeout(function() {
+        window.location.replace(getNext());
+      }, 500);
+    } else {
+      setStatus("loginStatus", result.error, "error");
+      setLoading("loginBtn", false, "Login");
+    }
+  }).catch(function(err) {
+    console.error("[auth] login error:", err);
+    var message = err && err.message ? err.message : "Local browser auth failed. Please check console details.";
+    setStatus("loginStatus", message, "error");
+    setLoading("loginBtn", false, "Login");
+  });
+});
+
+/* ── SIGN UP FORM ── */
+document.getElementById("signupForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  setStatus("signupStatus", "", "");
+
+  var username = document.getElementById("signup-username").value;
+  var password = document.getElementById("signup-password").value;
+  var confirm  = document.getElementById("signup-confirm").value;
+
+  if (password !== confirm) {
+    setStatus("signupStatus", "Passwords do not match.", "error");
+    return;
+  }
+
+  setLoading("signupBtn", true, "Create Local Admin");
+
+  signup(username, password).then(function(result) {
+    if (!result.ok) {
+      setStatus("signupStatus", result.error, "error");
+      setLoading("signupBtn", false, "Create Local Admin");
+      return;
+    }
+    setStatus("signupStatus", "✓ Account created! Logging you in…", "success");
+    return login(username, password, true);
+  }).then(function(loginResult) {
+    if (!loginResult) return; /* already handled above */
+    if (!loginResult.ok) {
+      /* signup succeeded but auto-login failed — send to login tab */
+      setStatus("signupStatus", "Account created. Please log in.", "success");
+      setTimeout(function() { activateTab("login"); }, 1000);
+      return;
+    }
+    setTimeout(function() {
+      window.location.replace(getNext());
+    }, 700);
+  }).catch(function(err) {
+    console.error("[auth] signup error:", err);
+    var message = err && err.message ? err.message : "Local admin creation failed. Please check console details.";
+    setStatus("signupStatus", message, "error");
+    setLoading("signupBtn", false, "Create Local Admin");
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,533 @@
+/* ======================================================
+  CONTACT PAGE – PROFESSIONAL UNIFIED VERSION
+  Matches Home Theme (Editorial Style)
+  Author: Amit Ku Yadav
+  Sections: hero | connect-grid | contact-library | forms
+====================================================== */
+
+
+/* ================= GLOBAL ================= */
+
+/* Global scroll-behavior and overflow are centralized in css/base.css */
+
+/* Section spacing system — scoped to contact page sections */
+.connect-grid,
+.contact-library,
+.contact-actions {
+  padding: clamp(80px, 9vw, 120px) 0;
+}
+
+/* ================= HERO ================= */
+
+.contact-hero {
+  padding: clamp(120px, 14vw, 200px) 0 clamp(100px, 10vw, 160px);
+  position: relative;
+}
+
+.contact-hero .hero-content {
+  max-width: 760px;
+}
+
+/* hero-label styling is centralized in css/base.css */
+
+/* Main heading (same scale as home) */
+.contact-hero h1 {
+  font-size: clamp(3.2rem, 6.5vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  font-weight: 800;
+  margin-bottom: 28px;
+}
+
+/* Accent color uses global token from css/base.css */
+
+/* hero-description is centralized in css/base.css */
+
+/* Glow background */
+.contact-hero::before {
+  content: none;
+  position: absolute;
+  top: -200px;
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(4,106,56,0.15),
+    transparent 70%
+  );
+  z-index: -1;
+}
+
+/* ================= BUTTON SYSTEM ================= */
+
+.hero-actions {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Primary */
+.btn-primary {
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--brand-green);
+  color: #000;
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+
+/* Secondary */
+.btn-secondary {
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
+  transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+}
+
+/* ================= SECTION INTRO ================= */
+
+.page-intro {
+  max-width: 720px;
+  margin-bottom: 70px;
+}
+
+.page-intro h2 {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+
+.page-intro p {
+  line-height: 1.7;
+  opacity: 0.8;
+}
+
+/* ================= CONNECT GRID ================= */
+
+.connect-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+}
+
+.connect-card {
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.35s ease;
+}
+
+.connect-card h3 {
+  margin-bottom: 14px;
+}
+
+.connect-card p {
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.connect-card:hover {
+  transform: translateY(-8px);
+}
+
+/* ================= LIBRARY ================= */
+
+.contact-library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 40px;
+}
+
+.contact-library-item {
+  padding: 35px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.35s ease;
+}
+
+.contact-library-item:hover {
+  transform: translateY(-8px);
+}
+
+/* ================= ACTION CARDS ================= */
+
+.contact-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 40px;
+  scroll-margin-top: 120px;
+}
+
+.contact-hero + .contact-actions {
+  padding-top: 0;
+  padding-bottom: clamp(56px, 7vw, 96px);
+}
+
+.action-card {
+  padding: 35px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.35s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-8px);
+}
+
+/* ================= CONTACT FORM ================= */
+
+.contact-form-section {
+  padding: 0 0 clamp(80px, 8vw, 120px);
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 60px;
+  align-items: start;
+  position: relative;
+  scroll-margin-top: 120px;
+}
+
+/* Ambient glow behind section */
+.contact-form-section::before {
+  content: "";
+  position: absolute;
+  right: -100px;
+  top: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,103,31,0.1), transparent 65%);
+  filter: blur(40px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ── Info Panel ── */
+
+.cf-info {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  position: sticky;
+  top: 120px;
+}
+
+.cf-info h2 {
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.cf-info-desc {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  max-width: 380px;
+  opacity: 0.8;
+}
+
+.cf-details {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.cf-details li {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cf-detail-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--brand-green);
+}
+
+.cf-details a,
+.cf-details span:not(.cf-detail-label) {
+  font-size: 0.9rem;
+  color: inherit;
+  opacity: 0.85;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.cf-details a:hover {
+  color: var(--brand-orange);
+  opacity: 1;
+}
+
+/* ── Form Card ── */
+
+.contact-form {
+  padding: 48px;
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+body.theme-dark .contact-form {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px var(--brand-green-soft);
+}
+
+body.theme-light .contact-form {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.07);
+}
+
+/* ── Form Fields ── */
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--brand-green);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 13px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: inherit;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  resize: vertical;
+}
+
+body.theme-dark .form-group input,
+body.theme-dark .form-group textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+body.theme-light .form-group input,
+body.theme-light .form-group textarea {
+  background: #f7f8fa;
+  border: 1px solid rgba(0,0,0,0.12);
+  color: var(--text-dark);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--brand-green);
+  box-shadow: 0 0 0 3px var(--brand-green-soft);
+}
+
+body.theme-dark .form-group input:focus,
+body.theme-dark .form-group textarea:focus {
+  background: rgba(255,255,255,0.06);
+}
+
+body.theme-light .form-group input:focus,
+body.theme-light .form-group textarea:focus {
+  background: #fff;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  opacity: 0.35;
+}
+
+/* ── Submit Row ── */
+
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.form-status {
+  font-size: 0.85rem;
+  min-height: 1.2em;
+  margin: 0;
+  flex: 1;
+}
+
+.form-status.success { color: var(--brand-green); }
+.form-status.error   { color: var(--brand-orange); }
+
+.cf-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  white-space: nowrap;
+}
+
+.cf-submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(4,106,56,0.3), 0 8px 18px rgba(255,103,31,0.25);
+}
+
+.cf-submit-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 900px) {
+  .contact-form-section {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .cf-info {
+    position: static;
+  }
+
+  .cf-info h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-form {
+    padding: 28px 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .cf-submit-btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* ================= TAGS & META ================= */
+
+.connect-tag,
+.contact-meta {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 10px;
+}
+
+.contact-library-item h3,
+.connect-card h2 {
+  margin-bottom: 6px;
+}
+
+/* ================= HEADER SCROLL ================= */
+
+.site-header.scrolled {
+  backdrop-filter: blur(25px);
+  background: rgba(0,0,0,0.7);
+  transition: 0.3s ease;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  .connect-grid,
+  .contact-library,
+  .contact-actions {
+    padding: 64px 0;
+  }
+
+  .contact-form-section {
+    padding: 0 0 64px;
+  }
+
+  .contact-hero {
+    padding: 110px 0 90px;
+  }
+
+  .contact-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contact-hero::before {
+    display: none;
+  }
+}
+/* ===============================
+   CONTACT PAGE THEME FIX
+================================ */
+
+/* Page-specific light-mode overrides not required (uses global tokens). */
+
+/* Fix hero buttons in light mode */
+.theme-light .contact-hero .hero-btn.secondary {
+  color: var(--brand-green);
+  border-color: rgba(4,106,56,0.4);
+  background: rgba(4,106,56,0.05);
+}
+
+.theme-light .contact-hero .hero-btn.secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+}

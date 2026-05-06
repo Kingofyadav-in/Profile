@@ -1,0 +1,483 @@
+/* ======================================================
+   BLOG PAGE – PRO RESPONSIVE LAYOUT
+   Desktop → Tablet → Mobile → Small → XS
+====================================================== */
+
+.blog-page {
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+/* ======================================================
+   1. HERO
+====================================================== */
+
+/* blog-hero layout now uses .page-hero — see components.css */
+
+.blog-hero .hero-content {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: blogHeroReveal 0.8s ease forwards;
+}
+
+.blog-hero::before {
+  content: none;
+  position: absolute;
+  top: -200px;
+  left: -180px;
+  width: 680px;
+  height: 680px;
+  background: radial-gradient(circle, rgba(4,106,56,0.15), transparent 70%);
+  filter: blur(80px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.hero-btn {
+  padding: 12px 26px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.hero-btn.primary {
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
+  color: #fff;
+}
+
+.hero-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(4,106,56,0.28), 0 8px 18px rgba(255,103,31,0.22);
+}
+
+.hero-btn.secondary {
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
+}
+
+.hero-btn.secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+.blog-proof {
+  margin: 0 0 clamp(56px, 7vw, 92px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid rgba(128,128,128,0.14);
+  border-bottom: 1px solid rgba(128,128,128,0.14);
+}
+
+.blog-proof div {
+  padding: 24px 22px;
+  border-right: 1px solid rgba(128,128,128,0.14);
+}
+
+.blog-proof div:last-child {
+  border-right: none;
+}
+
+.blog-proof span {
+  display: block;
+  color: var(--brand-green);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.blog-proof strong {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  line-height: 1.25;
+}
+
+
+/* ======================================================
+   2. CATEGORY PILLS
+====================================================== */
+
+.blog-category {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  color: var(--brand-green);
+  border: 1px solid var(--brand-green-soft);
+}
+
+
+/* ======================================================
+   3. FEATURED BLOG GRID
+====================================================== */
+
+.blog-grid {
+  padding: 0 0 clamp(56px, 8vw, 120px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 2vw, 32px);
+}
+
+
+/* ======================================================
+   4. BLOG CARD
+====================================================== */
+
+.blog-card {
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  position: relative;
+  text-decoration: none;
+}
+
+body.theme-dark .blog-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+body.theme-light .blog-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.blog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 56px rgba(0,0,0,0.3), 0 0 0 1px var(--brand-green-soft);
+}
+
+/* Card image — aspect-ratio based so it adapts at all sizes */
+.blog-card img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* Card content */
+.blog-card-content {
+  padding: 28px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.blog-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+
+.blog-card p {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  opacity: 0.8;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.blog-read {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--brand-green);
+  text-decoration: none;
+  transition: gap 0.2s ease;
+  margin-top: auto;
+}
+
+.blog-read:hover { gap: 10px; }
+
+
+/* ======================================================
+   5. BLOG LIBRARY
+====================================================== */
+
+.blog-library {
+  border-top: 1px solid rgba(128,128,128,0.12);
+  padding: clamp(56px, 7vw, 100px) 0 clamp(56px, 8vw, 120px);
+}
+
+.blog-library .page-intro {
+  max-width: 680px;
+  margin-bottom: 52px;
+}
+
+.blog-library .page-intro h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  margin-bottom: 14px;
+}
+
+.blog-library .page-intro p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.8;
+}
+
+.blog-library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.blog-library-item {
+  padding: 36px 28px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+body.theme-dark .blog-library-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+body.theme-light .blog-library-item {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+.blog-library-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--brand-green), var(--brand-orange));
+}
+
+.blog-library-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.2);
+}
+
+.blog-library-item h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.blog-library-item p {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  opacity: 0.8;
+  flex: 1;
+}
+
+
+/* ======================================================
+   6. ANIMATIONS
+====================================================== */
+
+@keyframes blogHeroReveal {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.blog-card--in {
+  animation: cardIn 0.5s ease both;
+}
+
+
+/* ======================================================
+   7. RESPONSIVE BREAKPOINTS
+====================================================== */
+
+/* ── Wide tablet (max 1080px) ── */
+@media (max-width: 1080px) {
+  .blog-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+}
+
+/* ── Tablet (max 900px): 2-column grid ── */
+@media (max-width: 900px) {
+  .blog-proof {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .blog-proof div:nth-child(2) {
+    border-right: none;
+  }
+
+  .blog-proof div:nth-child(-n+2) {
+    border-bottom: 1px solid rgba(128,128,128,0.14);
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .blog-library-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Mobile large (max 640px) ── */
+@media (max-width: 640px) {
+  .blog-proof {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-proof div,
+  .blog-proof div:nth-child(2) {
+    border-right: none;
+  }
+
+  .blog-proof div {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(128,128,128,0.14);
+  }
+
+  .blog-proof div:last-child {
+    border-bottom: none;
+  }
+
+  .blog-hero h1 {
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
+    letter-spacing: -1px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .blog-library-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .blog-card-content {
+    padding: 22px 18px 18px;
+  }
+
+  .blog-library-item {
+    padding: 28px 22px;
+  }
+}
+
+/* ── Mobile small (max 480px) ── */
+@media (max-width: 480px) {
+  .blog-hero h1 {
+    font-size: clamp(1.6rem, 7.5vw, 2rem);
+    letter-spacing: -0.5px;
+  }
+
+  .blog-hero .hero-description {
+    font-size: 0.92rem;
+  }
+
+  .blog-card h3 {
+    font-size: 1rem;
+  }
+
+  .blog-card p {
+    font-size: 0.85rem;
+  }
+
+  .blog-card-content {
+    padding: 18px 16px 16px;
+  }
+
+  .blog-library-item {
+    padding: 22px 18px;
+    gap: 8px;
+  }
+
+  .blog-library-item h3 {
+    font-size: 0.98rem;
+  }
+
+  .blog-library .page-intro h2 {
+    font-size: 1.7rem;
+  }
+
+  .blog-library .page-intro {
+    margin-bottom: 36px;
+  }
+}
+
+/* ── Very small (max 360px) ── */
+@media (max-width: 360px) {
+  .blog-hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-btn {
+    padding: 11px 20px;
+    font-size: 0.78rem;
+  }
+
+  .blog-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .blog-card-content {
+    padding: 16px 14px;
+  }
+
+  .blog-library-item {
+    padding: 18px 14px;
+  }
+}
+
+
+/* ======================================================
+   8. LIGHT THEME OVERRIDES
+====================================================== */
+
+body.theme-light .blog-hero::before {
+  background: radial-gradient(circle, rgba(4,106,56,0.08), transparent 70%);
+}

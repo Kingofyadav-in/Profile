@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050f0a"/>
+      <stop offset="100%" stop-color="#0a1f14"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#046A38"/>
+      <stop offset="100%" stop-color="#FF671F"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="70%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#046A38" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#046A38" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <rect width="640" height="360" fill="url(#glow)"/>
+  <g stroke="#046A38" stroke-opacity="0.08" stroke-width="1">
+    <line x1="0" y1="60" x2="640" y2="60"/><line x1="0" y1="120" x2="640" y2="120"/><line x1="0" y1="180" x2="640" y2="180"/><line x1="0" y1="240" x2="640" y2="240"/><line x1="0" y1="300" x2="640" y2="300"/>
+    <line x1="80" y1="0" x2="80" y2="360"/><line x1="160" y1="0" x2="160" y2="360"/><line x1="240" y1="0" x2="240" y2="360"/><line x1="320" y1="0" x2="320" y2="360"/><line x1="400" y1="0" x2="400" y2="360"/><line x1="480" y1="0" x2="480" y2="360"/><line x1="560" y1="0" x2="560" y2="360"/>
+  </g>
+  <!-- Star + rising arrow -->
+  <g transform="translate(430, 50)" opacity="0.18">
+    <polygon points="100,18 116,64 168,64 126,92 142,138 100,112 58,138 74,92 32,64 84,64" fill="none" stroke="#FF671F" stroke-width="2"/>
+    <!-- Three people below -->
+    <circle cx="65" cy="165" r="10" fill="none" stroke="#046A38" stroke-width="1.5"/>
+    <line x1="65" y1="175" x2="65" y2="200" stroke="#046A38" stroke-width="1.5"/>
+    <line x1="52" y1="185" x2="78" y2="185" stroke="#046A38" stroke-width="1.5"/>
+    <circle cx="100" cy="160" r="10" fill="none" stroke="#046A38" stroke-width="1.5"/>
+    <line x1="100" y1="170" x2="100" y2="200" stroke="#046A38" stroke-width="1.5"/>
+    <line x1="87" y1="182" x2="113" y2="182" stroke="#046A38" stroke-width="1.5"/>
+    <circle cx="135" cy="165" r="10" fill="none" stroke="#046A38" stroke-width="1.5"/>
+    <line x1="135" y1="175" x2="135" y2="200" stroke="#046A38" stroke-width="1.5"/>
+    <line x1="122" y1="185" x2="148" y2="185" stroke="#046A38" stroke-width="1.5"/>
+    <!-- Arrow -->
+    <line x1="162" y1="200" x2="175" y2="155" stroke="#FF671F" stroke-width="2"/>
+    <polygon points="175,155 166,168 178,170" fill="#FF671F"/>
+  </g>
+  <rect x="48" y="200" width="80" height="3" rx="2" fill="url(#accent)"/>
+  <rect x="48" y="60" width="98" height="24" rx="12" fill="#046A38" fill-opacity="0.2"/>
+  <rect x="48" y="60" width="98" height="24" rx="12" fill="none" stroke="#046A38" stroke-width="1"/>
+  <text x="97" y="76" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#046A38" text-anchor="middle" letter-spacing="1">LEADERSHIP</text>
+  <text x="48" y="130" font-family="system-ui,sans-serif" font-size="28" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Youth Leadership:</text>
+  <text x="48" y="164" font-family="system-ui,sans-serif" font-size="28" font-weight="800" fill="#ffffff" letter-spacing="-0.5">A New Era</text>
+  <text x="48" y="225" font-family="system-ui,sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">Lead differently or fall behind</text>
+  <text x="48" y="322" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.35" letter-spacing="0.5">AMIT KU YADAV · MAR 2026</text>
+  <rect x="0" y="350" width="640" height="10" fill="url(#accent)" opacity="0.6"/>
+</svg>

@@ -1,0 +1,552 @@
+/* ======================================================
+  index.css
+  Home Page System
+  Brand: Green (Trust) + Orange (Energy)
+  Author: Amit Ku Yadav
+  Sections: hero | grid | polish | motion | responsive
+====================================================== */
+
+
+/* ======================================================
+   HERO SECTION
+====================================================== */
+
+.home-intro {
+  padding-top: clamp(130px, 14vw, 200px);
+  padding-bottom: clamp(100px, 10vw, 160px);
+  position: relative;
+}
+
+
+/* Hero Content */
+
+.hero-content {
+  max-width: 860px;
+
+  opacity: 0;
+  transform: translateY(40px);
+  animation: heroReveal 0.9s ease forwards;
+}
+
+
+/* Hero Label handled in base.css */
+
+
+/* ======================================================
+   HERO TYPOGRAPHY
+====================================================== */
+
+.home-intro h1 {
+  font-size: clamp(3.4rem, 6.5vw, 5.6rem);
+  line-height: 1.0;
+  letter-spacing: -3px;
+  font-weight: 800;
+  margin-bottom: 28px;
+}
+
+.hero-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 680px;
+}
+
+
+/* ======================================================
+   HERO BUTTONS
+====================================================== */
+
+.hero-actions {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.hero-actions a {
+  transition: transform 0.25s ease;
+}
+
+.hero-actions a:hover {
+  transform: translateY(-3px);
+}
+
+
+/* Secondary Button */
+
+.btn-secondary {
+  padding: 14px 26px;
+  border-radius: 999px;
+
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+
+  border: 1px solid var(--brand-green);
+  color: var(--brand-green);
+
+  transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--brand-green);
+  color: #fff;
+}
+
+.btn-secondary--spaced {
+  margin-left: 4px;
+}
+
+
+/* Extra hover polish */
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.04);
+}
+
+.hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+  max-width: 760px;
+}
+
+.hero-proof span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(128,128,128,0.16);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.hero-proof strong {
+  margin-right: 5px;
+  color: var(--brand-green);
+}
+
+body.theme-light .hero-proof span {
+  background: rgba(255,255,255,0.78);
+}
+
+body.theme-dark .hero-proof span {
+  color: rgba(255,255,255,0.78);
+}
+
+
+
+/* ======================================================
+   HERO BACKGROUND EFFECT
+====================================================== */
+
+.home-intro::before {
+  content: none;
+  position: absolute;
+
+  top: -250px;
+  left: -250px;
+
+  width: 700px;
+  height: 700px;
+
+  background: radial-gradient(
+    circle,
+    rgba(4,106,56,0.2),
+    transparent 70%
+  );
+
+  filter: blur(40px);
+  z-index: -1;
+}
+
+
+/* ======================================================
+   HERO MOTION
+====================================================== */
+
+@keyframes heroReveal {
+
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+
+/* ======================================================
+   LIFE GRID POLISH
+====================================================== */
+
+.life-grid {
+  margin-top: 20px;
+}
+
+
+/* ======================================================
+   MICRO INTERACTION POLISH
+====================================================== */
+
+.life-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.life-card::after {
+  transition: opacity 0.3s ease;
+}
+
+.life-card:hover::after {
+  opacity: 1;
+}
+
+
+
+/* ======================================================
+   PREMIUM PAGE FLOW
+====================================================== */
+
+.home-intro + .life-grid {
+  margin-top: 40px;
+}
+
+/* ======================================================
+   TRUST SNAPSHOT
+====================================================== */
+
+.trust-strip {
+  margin: 18px 0 34px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid rgba(128,128,128,0.14);
+  border-bottom: 1px solid rgba(128,128,128,0.14);
+}
+
+.trust-strip div {
+  padding: 24px 22px;
+  border-right: 1px solid rgba(128,128,128,0.14);
+}
+
+.trust-strip div:last-child {
+  border-right: none;
+}
+
+.trust-label,
+.card-kicker {
+  display: block;
+  color: var(--brand-green);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.trust-strip strong {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  line-height: 1.25;
+}
+
+.card-kicker {
+  margin-bottom: -6px;
+}
+
+
+
+
+
+/* ======================================================
+   WORK WITH ME CTA
+====================================================== */
+
+.home-cta {
+  margin: 34px 0 24px;
+  padding: 32px;
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+  gap: 28px;
+  align-items: center;
+}
+
+.home-cta h2 {
+  margin: 10px 0 14px;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  line-height: 1.15;
+}
+
+.home-cta p {
+  max-width: 760px;
+  line-height: 1.7;
+  opacity: 0.84;
+}
+
+.home-cta-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+
+/* ======================================================
+   RESPONSIVE SYSTEM
+====================================================== */
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+  .home-intro {
+    padding-top: 120px;
+    padding-bottom: 100px;
+  }
+
+  .home-intro h1 {
+    font-size: clamp(2.4rem, 8vw, 3.2rem);
+    letter-spacing: -1.5px;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .home-intro::before {
+    display: none;
+  }
+
+  .hero-proof {
+    gap: 8px;
+  }
+
+  .hero-proof span {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .trust-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .trust-strip div:nth-child(2) {
+    border-right: none;
+  }
+
+  .trust-strip div:nth-child(-n+2) {
+    border-bottom: 1px solid rgba(128,128,128,0.14);
+  }
+
+  .home-cta {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  .home-cta-actions {
+    justify-content: flex-start;
+  }
+
+}
+
+/* ======================================================
+   HOME — ABOUT SECTION (Centered Card)
+====================================================== */
+
+.home-about {
+  padding: 2rem 0 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.home-about-card {
+  max-width: 720px;
+  width: 100%;
+  padding: 3.5rem 3rem 3rem;
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.home-about-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--brand-green-soft);
+  box-shadow: 0 0 0 6px var(--brand-green-soft);
+  margin-bottom: 0.25rem;
+}
+
+.home-about-name {
+  font-size: clamp(1.7rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.home-about-role {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--brand-green);
+  margin: 0;
+  opacity: 0.85;
+}
+
+.home-about-bio {
+  font-size: 0.93rem;
+  line-height: 1.8;
+  max-width: 480px;
+  margin: 0;
+}
+
+.home-about-card .hero-actions {
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
+/* Stats Row */
+
+.home-about-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(128,128,128,0.12);
+}
+
+.about-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.about-stat-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(128,128,128,0.15);
+  flex-shrink: 0;
+}
+
+.about-stat-num {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.about-stat-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  opacity: 0.45;
+}
+
+@media (max-width: 640px) {
+  .trust-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .trust-strip div,
+  .trust-strip div:nth-child(2) {
+    border-right: none;
+  }
+
+  .trust-strip div {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(128,128,128,0.14);
+  }
+
+  .trust-strip div:last-child {
+    border-bottom: none;
+  }
+
+  .home-about-card {
+    padding: 2rem 1.5rem 2rem;
+  }
+
+  .home-about-avatar {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* ======================================================
+   HOME — SECTION PATTERN (Ventures, Blog)
+====================================================== */
+
+.home-section {
+  padding-top: 2rem;
+}
+
+/* Override the built-in 48px life-grid padding inside home sections */
+.home-section .life-grid {
+  padding-top: 1.25rem;
+  padding-bottom: 0;
+}
+
+.home-section-label {
+  display: block;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.home-section-title {
+  text-align: center;
+  font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  margin-bottom: 0;
+}
+
+.home-section-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+/* ======================================================
+   MOBILE ADDITIONS
+====================================================== */
+
+@media (max-width: 768px) {
+  .home-about-teaser {
+    padding: 1.75rem 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .home-section {
+    padding-top: 1.5rem;
+  }
+
+  .home-section .life-grid {
+    padding-top: 1rem;
+  }
+}
