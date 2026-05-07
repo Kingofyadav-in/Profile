@@ -28,6 +28,19 @@
       ]
     },
     {
+      "source": "/api-static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=600, must-revalidate"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
@@ -44,11 +57,11 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+          "value": "camera=(), microphone=(self), geolocation=(), interest-cohort=()"
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; script-src-elem 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' wss://kingofyadav.in https://kingofyadav.in https://formspree.io https://www.googleapis.com https://static.cloudflareinsights.com https://*.cloudflareinsights.com https://*.cloudflare.com; worker-src 'self'; frame-src 'self' https://www.youtube.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://jarvis.kingofyadav.in https://static.cloudflareinsights.com; script-src-elem 'self' 'unsafe-inline' https://jarvis.kingofyadav.in https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://kingofyadav.in wss://kingofyadav.in https://jarvis.kingofyadav.in wss://jarvis.kingofyadav.in https://formspree.io https://www.googleapis.com https://static.cloudflareinsights.com https://*.cloudflareinsights.com https://*.cloudflare.com; worker-src 'self'; frame-src 'self' https://www.youtube.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none';"
         }
       ]
     }
