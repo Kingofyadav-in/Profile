@@ -36,13 +36,18 @@ module.exports = async (req, res) => {
       }
       if (method === 'PUT') {
         const { name, tagline, roles, mission, location, hdi_code } = req.body;
+        const rolesJson = JSON.stringify(roles || []);
+        // Singleton upsert: update if row exists, insert if not
+        await db.query(
+          `UPDATE identity SET name=$1,tagline=$2,roles=$3::jsonb,mission=$4,location=$5,hdi_code=$6,updated_at=NOW()`,
+          [name, tagline, rolesJson, mission, location, hdi_code]
+        );
         const { rows } = await db.query(`
-          INSERT INTO identity (name, tagline, roles, mission, location, hdi_code)
-          VALUES ($1,$2,$3,$4,$5,$6)
-          ON CONFLICT (id) DO UPDATE
-            SET name=$1,tagline=$2,roles=$3,mission=$4,location=$5,hdi_code=$6,updated_at=NOW()
-          RETURNING *`, [name, tagline, roles, mission, location, hdi_code]);
-        return res.json({ ok: true, data: rows[0] });
+          INSERT INTO identity (name,tagline,roles,mission,location,hdi_code)
+          SELECT $1,$2,$3::jsonb,$4,$5,$6 WHERE NOT EXISTS (SELECT 1 FROM identity)
+          RETURNING *`, [name, tagline, rolesJson, mission, location, hdi_code]);
+        const final = rows[0] || (await db.query('SELECT * FROM identity LIMIT 1')).rows[0];
+        return res.json({ ok: true, data: final });
       }
     }
 
