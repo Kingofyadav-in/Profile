@@ -892,6 +892,7 @@
 ════════════════════════════════════════════ -->
 <script src="/js/script.js?v=hi-1"           defer></script>
 <script src="/js/hi-storage.js?v=hi-1"></script>
+<script src="/js/hi-api.js?v=hi-1"></script>
 <script src="/js/hi-app.js?v=hi-1"          defer></script>
 <script src="/js/hi-personal.js?v=hi-1"      defer></script>
 <script src="/js/hi-professional.js?v=hi-1"  defer></script>
@@ -941,6 +942,11 @@
       document.addEventListener("DOMContentLoaded", openIdentityFromHash);
     } else {
       openIdentityFromHash();
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", hiApiInit);
+    } else {
+      hiApiInit();
     }
   })();
 </script>
