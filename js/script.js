@@ -682,6 +682,44 @@ window.addEventListener("appinstalled", () => {
 });
 
 /* ======================================================
+   iOS SAFARI — Add to Home Screen prompt
+   (beforeinstallprompt never fires on iOS Safari)
+====================================================== */
+(function () {
+  const isIos        = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone === true;
+  const isSafari     = /^((?!chrome|crios|fxios|android).)*safari/i.test(navigator.userAgent);
+
+  if (!isIos || isStandalone || !isSafari) return;
+  if (localStorage.getItem("pwaInstallDismissed")) return;
+
+  const shareIcon = `<svg class="pwa-ios-share-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>`;
+
+  const banner = document.createElement("div");
+  banner.id = "pwaIosBanner";
+  banner.className = "pwa-install-banner pwa-ios-banner";
+  banner.innerHTML = `
+    <div class="pwa-install-icon">
+      <img src="/favicon/apple-touch-icon.png" alt="HI App" width="40" height="40" />
+    </div>
+    <div class="pwa-install-text">
+      <strong>Install HI App</strong>
+      <span class="pwa-ios-hint">Tap ${shareIcon} <b>Share</b> → <b>Add to Home Screen</b></span>
+    </div>
+    <button id="pwaIosDismiss" class="pwa-btn-dismiss" aria-label="Dismiss">&#x2715;</button>
+  `;
+  document.body.appendChild(banner);
+
+  requestAnimationFrame(() => banner.classList.add("pwa-banner-visible"));
+
+  document.getElementById("pwaIosDismiss").onclick = () => {
+    banner.classList.remove("pwa-banner-visible");
+    setTimeout(() => banner.remove(), 500);
+    localStorage.setItem("pwaInstallDismissed", "1");
+  };
+})();
+
+/* ======================================================
    CONTACT FORM (Formspree)
 ====================================================== */
 

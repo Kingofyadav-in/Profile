@@ -1403,3 +1403,25 @@ body.theme-light .pwa-install-banner {
   .pwa-install-banner { left: 8px; right: 8px; padding: 12px 14px; gap: 10px; }
   .pwa-btn-install { padding: 7px 14px; }
 }
+
+/* iOS banner hint line */
+.pwa-ios-hint {
+  font-size: .76rem;
+  color: var(--pwa-subtext);
+  white-space: normal;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.pwa-ios-hint b { color: var(--pwa-text); font-weight: 700; }
+
+.pwa-ios-share-icon {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  color: #007AFF; /* iOS blue */
+  flex-shrink: 0;
+}
