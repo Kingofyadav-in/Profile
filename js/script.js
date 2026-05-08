@@ -711,18 +711,34 @@ function initContactForm() {
     status.className = "form-status";
 
     try {
-      const res = await fetch(`https://formspree.io/f/${formId}`, {
-        method: "POST",
-        headers: { "Accept": "application/json" },
-        body: new FormData(form)
-      });
+      const name    = form.querySelector('[name="name"]').value.trim();
+      const email   = form.querySelector('[name="email"]').value.trim();
+      const subject = form.querySelector('[name="subject"]').value.trim();
+      const message = form.querySelector('[name="message"]').value.trim();
 
-      if (res.ok) {
+      const [res] = await Promise.allSettled([
+        fetch(`https://formspree.io/f/${formId}`, {
+          method: "POST",
+          headers: { "Accept": "application/json" },
+          body: new FormData(form)
+        }),
+        fetch("/api/public-enquiry", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, subject, message, page: window.location.pathname }),
+          keepalive: true
+        })
+      ]);
+
+      const ok = res.status === "fulfilled" && res.value.ok;
+      if (ok) {
         status.textContent = "Message sent! I'll reply within 24–48 hours.";
         status.className = "form-status success";
         form.reset();
       } else {
-        const data = await res.json().catch(() => ({}));
+        const data = res.status === "fulfilled"
+          ? await res.value.json().catch(() => ({}))
+          : {};
         status.textContent = data.error || "Something went wrong. Please email directly.";
         status.className = "form-status error";
       }
@@ -763,13 +779,21 @@ function initEnquiryForm() {
     };
 
     try {
-      const response = await fetch("https://formspree.io/f/xwvaodjy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(formData)
-      });
+      const [res] = await Promise.allSettled([
+        fetch("https://formspree.io/f/xwvaodjy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(formData)
+        }),
+        fetch("/api/public-enquiry", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...formData, page: window.location.pathname }),
+          keepalive: true
+        })
+      ]);
 
-      if (response.ok) {
+      if (res.status === "fulfilled" && res.value.ok) {
         alert("Enquiry submitted. I'll reply within 24–48 hours.");
         this.reset();
         closeEnquiry();

@@ -841,18 +841,35 @@
         );
         formData.append('source', payload.source);
 
-        fetch('https://formspree.io/f/' + form.dataset.formspreeId, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: formData
-        })
-          .then(function (res) {
-            if (!res.ok) {
-              return res.json().catch(function () { return {}; }).then(function (data) {
-                throw new Error(data.error || 'Server responded with ' + res.status);
-              });
-            }
-            return res.json().catch(function () { return {}; });
+        var jarvisPayload = {
+          name: payload.name,
+          email: payload.email,
+          subject: 'Collaboration: ' + payload.collaboration_type,
+          message: 'What they are building:\n' + payload.what_building + '\n\nWhat they need:\n' + payload.what_needed,
+          page: window.location.pathname
+        };
+
+        Promise.allSettled([
+          fetch('https://formspree.io/f/' + form.dataset.formspreeId, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: formData
+          }),
+          fetch('/api/public-enquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(jarvisPayload),
+            keepalive: true
+          })
+        ])
+          .then(function (results) {
+            var main = results[0];
+            if (main.status === 'rejected') throw new Error('Network error');
+            return main.value.ok
+              ? Promise.resolve()
+              : main.value.json().catch(function () { return {}; }).then(function (data) {
+                  throw new Error(data.error || 'Server responded with ' + main.value.status);
+                });
           })
           .then(function () {
             setLoading(false);
