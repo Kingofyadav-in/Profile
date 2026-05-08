@@ -6,10 +6,10 @@
    Author: Amit Ku Yadav
 ====================================================== */
 
-const VERSION = "v14-live-class-join";
+const VERSION = "v16";
 const STATIC_CACHE = `ak-static-${VERSION}`;
 const DYNAMIC_CACHE = `ak-dynamic-${VERSION}`;
-const MAX_DYNAMIC_ITEMS = 100;
+const MAX_DYNAMIC_ITEMS = 80;
 
 const STATIC_ASSETS = [
   "/",
@@ -17,56 +17,30 @@ const STATIC_ASSETS = [
   "/offline.html",
   "/manifest.json",
 
-  /* Pages */
-  "/pages/personal.html",
-  "/pages/hi-license.html",
-  "/pages/live-class.html",
+  /* CSS */
+  "/css/base.css?v=20260502-pro",
+  "/css/components.css?v=20260502-translate2",
+  "/css/index.css?v=20260502-pro",
+  "/css/blog.css?v=20260502-pro",
+  "/css/services.css?v=20260502-pro",
+  "/css/contact.css?v=20260502-pro",
+  "/css/professional.css?v=20260502-pro",
+  "/css/social.css?v=20260502-pro",
+  "/css/personal.css?v=20260502-pro",
+  "/css/about.css?v=20260502-pro",
+  "/css/myself.css?v=20260502-pro",
+  "/css/myhome.css?v=20260502-pro",
+  "/css/mycity.css?v=20260502-pro",
+  "/css/blog-post.css?v=20260502-pro",
+  "/css/brand.css?v=20260502-brand",
+  "/css/collaboration.css?v=20260502-pro",
+  "/css/auth.css?v=20260502-pro",
 
-  /* CSS — core */
-  "/css/base.css?v=hi-1",
-  "/css/components.css?v=20260504-pwa2",
-  "/css/index.css?v=hi-1",
-  "/css/blog.css?v=hi-1",
-  "/css/services.css?v=hi-1",
-  "/css/contact.css?v=hi-1",
-  "/css/professional.css?v=hi-1",
-  "/css/social.css?v=hi-1",
-  "/css/personal.css?v=hi-1",
-  "/css/about.css?v=hi-1",
-  "/css/myself.css?v=hi-3",
-  "/css/personal-pages.css?v=hi-1",
-  "/css/live-class.css?v=hi-5",
-  "/css/myhome.css?v=hi-1",
-  "/css/mycity.css?v=hi-1",
-  "/css/blog-post.css?v=hi-1",
-  "/css/brand.css?v=hi-1",
-  "/css/collaboration.css?v=hi-4",
-  "/css/hi-guide.css?v=hi-2",
-  "/css/auth.css?v=hi-1",
-
-  /* CSS — HI App */
-  "/css/hi-app.css?v=hi-1",
-  "/css/hi-app.css?v=hi-3",
-
-  /* JS — core */
-  "/js/script.js?v=hi-1",
-  "/js/personal-data.js?v=hi-1",
-  "/js/profile-renderer.js?v=hi-1",
-  "/js/auth.js?v=hi-1",
-
-  /* JS — HI App */
-  "/js/hi-storage.js?v=hi-1",
-  "/js/hi-app.js?v=hi-1",
-  "/js/hi-personal.js?v=hi-1",
-  "/js/hi-professional.js?v=hi-1",
-  "/js/hi-social.js?v=hi-1",
-  "/js/hi-context.js?v=hi-1",
-  "/js/hi-assistant.js?v=hi-1",
-  "/js/hi-license.js?v=hi-1",
-  "/js/hi-sync.js?v=hi-1",
-  "/js/hi-guide.js?v=hi-2",
-  "/js/live-class.js?v=hi-6",
-  "/pages/live-class.html",
+  /* JS */
+  "/js/script.js?v=20260503-translate7",
+  "/js/personal-data.js?v=20260502-pro",
+  "/js/profile-renderer.js?v=20260502-pro",
+  "/js/auth.js?v=20260502-pro",
 
   /* LOGO */
   "/logo/day-logo.png",
@@ -75,8 +49,7 @@ const STATIC_ASSETS = [
   /* FAVICONS */
   "/favicon/favicon.ico",
   "/favicon/android-chrome-192x192.png",
-  "/favicon/android-chrome-512x512.png",
-  "/favicon/apple-touch-icon.png"
+  "/favicon/android-chrome-512x512.png"
 ];
 
 self.addEventListener("install", (event) => {
