@@ -20,10 +20,10 @@ module.exports = async (req, res) => {
   if (!checkAuth(req, res)) return;
 
   const segments = req.url.split('?')[0].split('/').filter(Boolean);
-  // segments: ['api','hi','resource','id'] → pick from index 2
   const hiIdx = segments.indexOf('hi');
   const resource = segments[hiIdx + 1];
-  const id = segments[hiIdx + 2];
+  // prefer ?id= query param; fall back to path segment for compatibility
+  const id = req.query.id || segments[hiIdx + 2];
   const { method } = req;
   const db = pool;
 
