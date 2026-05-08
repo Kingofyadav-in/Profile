@@ -3,7 +3,6 @@
 
   var script = document.currentScript;
   var ENDPOINT = (script && script.dataset.endpoint) || "";
-  var FALLBACK_ENDPOINT = (script && script.dataset.fallbackEndpoint) || "/api/jarvis-chat";
   var LIVE_ENDPOINT = (script && script.dataset.liveEndpoint) || "";
   var TITLE = (script && script.dataset.title) || "Jarvis AI";
   var SUBTITLE = (script && script.dataset.subtitle) || "Ask about King Yadav and the website.";
@@ -231,7 +230,11 @@
     setBusy(true);
     var typing = appendTyping();
 
-    postChat(ENDPOINT, { message: text, history: requestHistory })
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text, history: requestHistory })
+    })
       .then(function (res) {
         if (res.status === 429) { throw new Error("rate_limit"); }
         if (!res.ok) { throw new Error("http_" + res.status); }
@@ -261,31 +264,6 @@
         setBusy(false);
         input.focus();
       });
-  }
-
-  function postChat(endpoint, payload) {
-    var primary = endpoint || "";
-    var fallback = FALLBACK_ENDPOINT || "";
-    var tried = [];
-
-    function request(url) {
-      tried.push(url);
-      return fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      }).then(function (res) {
-        var canFallback = fallback && tried.indexOf(fallback) === -1 && fallback !== url;
-        if (canFallback && !res.ok && res.status !== 429) return request(fallback);
-        return res;
-      }).catch(function (err) {
-        var canFallback = fallback && tried.indexOf(fallback) === -1 && fallback !== url;
-        if (canFallback) return request(fallback);
-        throw err;
-      });
-    }
-
-    return request(primary || fallback);
   }
 
   function renderModeBar() {

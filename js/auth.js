@@ -11,7 +11,7 @@
 const AUTH_USERS_KEY  = "ak_users";
 const AUTH_TOKEN_KEY  = "ak_auth_token";
 const SESSION_EXP_MS  = 24 * 60 * 60 * 1000;        // 24 h
-const REMEMBER_EXP_MS = 10 * 365 * 24 * 60 * 60 * 1000; // local one-time setup
+const REMEMBER_EXP_MS = 30 * 24 * 60 * 60 * 1000;   // 30 days
 const RATE_LIMIT_KEY  = "ak_login_attempts";
 const DEVICE_ID_KEY   = "ak_device_id";
 const MAX_ATTEMPTS    = 5;
@@ -300,7 +300,7 @@ async function signup(username, password) {
   }
 }
 
-async function login(username, password, remember = true) {
+async function login(username, password, remember = false) {
   try {
     if (checkRateLimit().blocked) {
       return { ok: false, error: "Too many attempts. Please wait 15 minutes." };
@@ -317,7 +317,7 @@ async function login(username, password, remember = true) {
     if (!matches) { recordFailedAttempt(); return { ok: false, error: "Incorrect username or password." }; }
 
     clearRateLimit();
-    saveToken(username, true);
+    saveToken(username, remember);
     await syncLocalAdminUser(user, "login");
     return { ok: true };
   } catch (err) {
