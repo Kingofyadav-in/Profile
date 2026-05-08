@@ -6,12 +6,11 @@
   <title>My Self | Amit Ku Yadav | Private Identity System</title>
   <meta name="description" content="Private identity page for Amit Ku Yadav: values, skills, personal direction, interests, and self-organization." />
   <meta name="robots" content="noindex, nofollow" />
-  <link rel="stylesheet" href="/css/base.css?v=hi-1" />
-  <link rel="stylesheet" href="/css/components.css?v=20260504-pwa2" />
-  <link rel="stylesheet" href="/css/personal.css?v=hi-1" />
-  <link rel="stylesheet" href="/css/myself.css?v=hi-3" />
-  <link rel="stylesheet" href="/css/personal-pages.css?v=hi-1" />
-<link rel="canonical" href="https://kingofyadav.in/pages/origin.html" />
+  <link rel="stylesheet" href="/css/base.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/components.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/personal.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/myself.css?v=20260502-pro" />
+<link rel="canonical" href="https://kingofyadav.in/pages/my-self.html" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -28,7 +27,7 @@
 </script>
 </head>
 
-<body class="theme-light">
+<body class="theme-light" data-profile-page="mySelf">
 <script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
 
 <div id="scrollProgress"></div>
@@ -48,10 +47,9 @@
     </button>
     <nav class="personal-nav">
       <a href="/pages/about-me.html">ABOUT ME</a>
-      <a href="/pages/origin.html" class="active">ORIGIN</a>
-      <a href="/pages/haven.html">HAVEN</a>
-      <a href="/pages/bhagalpur.html">BHAGALPUR</a>
-      <a href="/pages/hi-license.html" class="hi-nav-license">&#x1F5AA; License</a>
+      <a href="/pages/my-self.html" class="active">MY SELF</a>
+      <a href="/pages/my-home.html">MY HOME</a>
+      <a href="/pages/my-city.html">MY CITY</a>
     </nav>
 
   </div>
@@ -59,37 +57,8 @@
 
 <main class="site-main page-intro" id="main-content">
 
-  <section id="create-identity-users" class="identity-create-hero life-card" aria-label="Create Your Identity users">
-    <div class="identity-create-copy">
-      <p class="hero-label">Create Your Identity</p>
-      <h1 id="originIdentityTitle">Build Your Human Digital Identity</h1>
-      <p id="originIdentityCopy">
-        Start with a clear profile, generate your HDI, then use HI App to connect
-        your private records, ownership claims, and personal operating system.
-      </p>
-      <div class="identity-profile-line" id="originIdentityProfile" hidden>
-        <span id="originIdentityAvatar">A</span>
-        <div>
-          <strong id="originIdentityName">Amit Ku Yadav</strong>
-          <code id="originIdentityHdi">HDI pending</code>
-        </div>
-      </div>
-      <div class="identity-create-actions">
-        <a href="/pages/login.html?next=%2Fpages%2Fpersonal.html%23create-identity" class="btn-primary" id="originIdentityPrimary">Create Identity Now</a>
-        <a href="/pages/personal.html" class="identity-secondary-btn" id="originIdentityWorkspace">Open HI App</a>
-        <a href="/pages/hi-license.html" class="identity-secondary-btn">View License System</a>
-      </div>
-    </div>
-    <div class="identity-create-panel" aria-label="Identity creation steps">
-      <div><span>01</span><strong id="originStepOneTitle">Register</strong><p id="originStepOneCopy">Create local HI App access on this browser.</p></div>
-      <div><span>02</span><strong>Profile</strong><p>Save name, role, location, mission, and values.</p></div>
-      <div><span>03</span><strong>HDI</strong><p>Generate your Human Digital Identity code.</p></div>
-      <div><span>04</span><strong>Claim</strong><p>Use your HDI for license and ownership records.</p></div>
-    </div>
-  </section>
-
   <!-- HERO -->
-  <section class="life-card origin-identity-card">
+  <section class="life-card">
     <p class="hero-label">Private Identity</p>
     <h2>Who I Am Becoming</h2>
     <p>
@@ -241,60 +210,9 @@
     <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
-  <script src="/js/script.js?v=hi-1" defer></script>
-  <script src="/js/hi-storage.js?v=hi-1"></script>
-  <script>
-    (function() {
-      function rolesText(identity) {
-        if (!identity) return "";
-        return Array.isArray(identity.roles) ? identity.roles.join(" · ") : String(identity.roles || "");
-      }
+  <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
+  <script src="/js/script.js?v=20260502-translate6" defer></script>
 
-      function renderIdentity(identity) {
-        if (!identity || !identity.name) return;
-
-        var name = identity.name || "HI User";
-        var roles = rolesText(identity);
-        var title = document.getElementById("originIdentityTitle");
-        var copy = document.getElementById("originIdentityCopy");
-        var profile = document.getElementById("originIdentityProfile");
-        var avatar = document.getElementById("originIdentityAvatar");
-        var nameEl = document.getElementById("originIdentityName");
-        var hdiEl = document.getElementById("originIdentityHdi");
-        var primary = document.getElementById("originIdentityPrimary");
-        var stepTitle = document.getElementById("originStepOneTitle");
-        var stepCopy = document.getElementById("originStepOneCopy");
-
-        if (title) title.textContent = "Identity Profile for " + name;
-        if (copy) {
-          copy.textContent = (identity.mission || identity.tagline || "Your Human Digital Identity is active on this browser.") +
-            (roles ? " Role: " + roles + "." : "");
-        }
-        if (profile) profile.hidden = false;
-        if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
-        if (nameEl) nameEl.textContent = name;
-        if (hdiEl) hdiEl.textContent = identity.hdi || "HDI pending";
-        if (primary) {
-          primary.textContent = "Edit Identity Profile";
-          primary.href = "/pages/login.html?next=%2Fpages%2Fpersonal.html%23create-identity";
-        }
-        if (stepTitle) stepTitle.textContent = "Active";
-        if (stepCopy) stepCopy.textContent = "Your local identity profile is already saved on this browser.";
-      }
-
-      function boot() {
-        if (typeof hiGet !== "function") return;
-        hiGet("identity", "primary").then(renderIdentity).catch(function() {});
-      }
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", boot);
-      } else {
-        boot();
-      }
-    })();
-  </script>
-
-  <script src="/api-static/jarvis-widget.js?v=hi-jarvis-20260507" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-fallback-endpoint="/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
+  <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 </body>
 </html>
