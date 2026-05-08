@@ -465,9 +465,7 @@ function initScrollReveal() {
     ".contact-library-item, .pro-value-card, .pro-card, " +
     ".hosting-card, .city-card, .timeline li, .page-intro, " +
     ".personal-section, .city-section, .capability-statement, " +
-    ".pro-stats, .services-library-item, .partner-card, " +
-    ".collab-type-card, .collab-proof-bar, .collab-form-section, " +
-    ".collab-steps-section, .collab-cta"
+    ".pro-stats, .services-library-item, .partner-card"
   );
   if (!elements.length) return;
 
@@ -628,96 +626,33 @@ function showSWUpdateBanner(reg) {
     if (reg.waiting) reg.waiting.postMessage({ type: "SKIP_WAITING" });
   };
 }
-/* ======================================================
-   PWA INSTALL PROMPT (Android / Chrome)
-====================================================== */
-
-let _pwaInstallPrompt = null;
-
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  _pwaInstallPrompt = e;
-
-  /* Don't show if user already dismissed or installed */
-  if (localStorage.getItem("pwaInstallDismissed")) return;
-
-  const banner = document.createElement("div");
-  banner.id = "pwaInstallBanner";
-  banner.className = "pwa-install-banner";
-  banner.innerHTML = `
-    <div class="pwa-install-icon">
-      <img src="/favicon/android-chrome-192x192.png" alt="HI App" width="40" height="40" />
-    </div>
-    <div class="pwa-install-text">
-      <strong>Install HI App</strong>
-      <span>Add to your home screen — works offline</span>
-    </div>
-    <div class="pwa-install-actions">
-      <button id="pwaInstallBtn" class="pwa-btn-install">Install</button>
-      <button id="pwaInstallDismiss" class="pwa-btn-dismiss">&#x2715;</button>
-    </div>
-  `;
-  document.body.appendChild(banner);
-
-  requestAnimationFrame(() => banner.classList.add("pwa-banner-visible"));
-
-  document.getElementById("pwaInstallBtn").onclick = async () => {
-    banner.remove();
-    _pwaInstallPrompt.prompt();
-    const { outcome } = await _pwaInstallPrompt.userChoice;
-    if (outcome === "accepted") localStorage.setItem("pwaInstallDismissed", "1");
-    _pwaInstallPrompt = null;
-  };
-
-  document.getElementById("pwaInstallDismiss").onclick = () => {
-    banner.remove();
-    localStorage.setItem("pwaInstallDismissed", "1");
-  };
-});
-
-window.addEventListener("appinstalled", () => {
-  localStorage.setItem("pwaInstallDismissed", "1");
-  const b = document.getElementById("pwaInstallBanner");
-  if (b) b.remove();
-});
 
 /* ======================================================
-   iOS SAFARI — Add to Home Screen prompt
-   (beforeinstallprompt never fires on iOS Safari)
+   PWA INSTALL PROMPT
 ====================================================== */
-(function () {
-  const isIos        = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isStandalone = window.navigator.standalone === true;
-  const isSafari     = /^((?!chrome|crios|fxios|android).)*safari/i.test(navigator.userAgent);
 
-  if (!isIos || isStandalone || !isSafari) return;
-  if (localStorage.getItem("pwaIosDismissed")) return;
+let _installEvent = null;
 
-  const shareIcon = `<svg class="pwa-ios-share-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>`;
+function initInstallPrompt() {
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    _installEvent = e;
+    const btn = document.getElementById("pwaInstallBtn");
+    if (btn) btn.style.display = "inline-flex";
+  });
 
-  const banner = document.createElement("div");
-  banner.id = "pwaIosBanner";
-  banner.className = "pwa-install-banner pwa-ios-banner";
-  banner.innerHTML = `
-    <div class="pwa-install-icon">
-      <img src="/favicon/apple-touch-icon.png" alt="HI App" width="40" height="40" />
-    </div>
-    <div class="pwa-install-text">
-      <strong>Install HI App</strong>
-      <span class="pwa-ios-hint">Tap ${shareIcon} <b>Share</b> → <b>Add to Home Screen</b></span>
-    </div>
-    <button id="pwaIosDismiss" class="pwa-btn-dismiss" aria-label="Dismiss">&#x2715;</button>
-  `;
-  document.body.appendChild(banner);
+  window.addEventListener("appinstalled", () => {
+    _installEvent = null;
+    const btn = document.getElementById("pwaInstallBtn");
+    if (btn) btn.style.display = "none";
+  });
+}
 
-  requestAnimationFrame(() => banner.classList.add("pwa-banner-visible"));
-
-  document.getElementById("pwaIosDismiss").onclick = () => {
-    banner.classList.remove("pwa-banner-visible");
-    setTimeout(() => banner.remove(), 500);
-    localStorage.setItem("pwaIosDismissed", "1");
-  };
-})();
+function triggerInstallPrompt() {
+  if (!_installEvent) return;
+  _installEvent.prompt();
+  _installEvent.userChoice.then(() => { _installEvent = null; });
+}
 
 /* ======================================================
    CONTACT FORM (Formspree)
@@ -749,34 +684,18 @@ function initContactForm() {
     status.className = "form-status";
 
     try {
-      const name    = form.querySelector('[name="name"]').value.trim();
-      const email   = form.querySelector('[name="email"]').value.trim();
-      const subject = form.querySelector('[name="subject"]').value.trim();
-      const message = form.querySelector('[name="message"]').value.trim();
+      const res = await fetch(`https://formspree.io/f/${formId}`, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: new FormData(form)
+      });
 
-      const [res] = await Promise.allSettled([
-        fetch(`https://formspree.io/f/${formId}`, {
-          method: "POST",
-          headers: { "Accept": "application/json" },
-          body: new FormData(form)
-        }),
-        fetch("/api/public-enquiry", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, subject, message, page: window.location.pathname }),
-          keepalive: true
-        })
-      ]);
-
-      const ok = res.status === "fulfilled" && res.value.ok;
-      if (ok) {
+      if (res.ok) {
         status.textContent = "Message sent! I'll reply within 24–48 hours.";
         status.className = "form-status success";
         form.reset();
       } else {
-        const data = res.status === "fulfilled"
-          ? await res.value.json().catch(() => ({}))
-          : {};
+        const data = await res.json().catch(() => ({}));
         status.textContent = data.error || "Something went wrong. Please email directly.";
         status.className = "form-status error";
       }
@@ -817,21 +736,13 @@ function initEnquiryForm() {
     };
 
     try {
-      const [res] = await Promise.allSettled([
-        fetch("https://formspree.io/f/xwvaodjy", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify(formData)
-        }),
-        fetch("/api/public-enquiry", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...formData, page: window.location.pathname }),
-          keepalive: true
-        })
-      ]);
+      const response = await fetch("https://formspree.io/f/xwvaodjy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(formData)
+      });
 
-      if (res.status === "fulfilled" && res.value.ok) {
+      if (response.ok) {
         alert("Enquiry submitted. I'll reply within 24–48 hours.");
         this.reset();
         closeEnquiry();
@@ -1275,6 +1186,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initParallax();
   initGlobalClickHandler();
   initServiceWorker();
+  initInstallPrompt();
   initScrollProgress();
   initBackToTop();
   initHomeBlogPreview();

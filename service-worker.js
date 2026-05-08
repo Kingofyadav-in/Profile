@@ -37,7 +37,7 @@ const STATIC_ASSETS = [
   "/css/auth.css?v=20260502-pro",
 
   /* JS */
-  "/js/script.js?v=20260503-translate7",
+  "/js/script.js?v=20260508-install",
   "/js/personal-data.js?v=20260502-pro",
   "/js/profile-renderer.js?v=20260502-pro",
   "/js/auth.js?v=20260502-pro",

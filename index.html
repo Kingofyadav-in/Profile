@@ -16,15 +16,10 @@
 
   <!-- ================= THEME / PWA ================= -->
   <meta name="theme-color" content="#000000" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="manifest" href="manifest.json" />
   <meta name="robots" content="index, follow">
-
-  <!-- ================= iOS PWA ================= -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="HI App" />
-  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
-  <link rel="apple-touch-startup-image" href="/favicon/android-chrome-512x512.png" />
 
   <!-- ================= OPEN GRAPH ================= -->
   <meta property="og:type" content="website" />
@@ -48,27 +43,24 @@
   <meta name="twitter:creator" content="@kingofyadav_in" />
   <meta name="twitter:site" content="@kingofyadav_in" />
 
-  <!-- ================= PRECONNECT ================= -->
-  <link rel="preconnect" href="https://formspree.io" />
-  <link rel="dns-prefetch" href="https://static.cloudflareinsights.com" />
-
   <!-- ================= STYLES ================= -->
 
   <!-- Base (critical) -->
-  <link rel="stylesheet" href="css/base.css?v=hi-1">
-  <noscript><link rel="stylesheet" href="css/base.css?v=hi-1"></noscript>
+  <link rel="stylesheet" href="css/base.css?v=20260502-pro">
+  <noscript><link rel="stylesheet" href="css/base.css?v=20260502-pro"></noscript>
 
   <!-- Components (critical UI) -->
-  <link rel="preload" href="css/components.css?v=20260504-pwa2" as="style" onload="this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="css/components.css?v=20260504-pwa2"></noscript>
+  <link rel="preload" href="css/components.css?v=20260502-pro" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/components.css?v=20260502-pro"></noscript>
 
   <!-- Page-specific -->
-  <link rel="stylesheet" href="css/index.css?v=hi-1" />
+  <link rel="stylesheet" href="css/index.css?v=20260502-pro" />
 
 
   <!-- ================= ICONS ================= -->
   <link rel="icon" href="favicon/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
 
 <script type="application/ld+json">
 {
@@ -144,7 +136,6 @@
           <li><a href="pages/services.html">Services</a></li>
           <li><a href="pages/contact.html">Contact</a></li>
           <li><a href="pages/collaboration.html">Collab</a></li>
-          <li><a href="pages/live-class.html">Live Class</a></li>
         </ul>
       </nav>
     </div>
@@ -194,19 +185,20 @@
       aria-label="Primary profile sections"
     >
 
-      <a href="pages/personal.html" class="life-card glass" aria-label="Personal profile: values, discipline, origin story, and long-term direction">
+      <a href="pages/personal.html" class="life-card glass">
         <h2>Personal</h2>
         <p>Values, discipline, origin story, and long-term personal direction.</p>
         <span class="life-action">Explore →</span>
       </a>
 
-      <a href="pages/professional.html" class="life-card glass" aria-label="Professional profile: digital systems, business work, leadership, and execution">
+
+      <a href="pages/professional.html" class="life-card glass">
         <h2>Professional</h2>
         <p>Digital systems, business work, leadership, and execution philosophy.</p>
         <span class="life-action">Explore →</span>
       </a>
 
-      <a href="pages/social.html" class="life-card glass" aria-label="Social profile: community presence, public contribution, and social initiatives">
+      <a href="pages/social.html" class="life-card glass">
         <h2>Social</h2>
         <p>Community presence, public contribution, and social initiatives.</p>
         <span class="life-action">Explore →</span>
@@ -392,6 +384,7 @@
 
   <div class="footer-bottom">
     © <span id="year"></span> · All rights reserved
+    <button id="pwaInstallBtn" onclick="triggerInstallPrompt()" aria-label="Install app" style="display:none;margin-left:12px;padding:4px 12px;font-size:0.75rem;border:1px solid var(--accent,#046A38);background:transparent;color:inherit;border-radius:4px;cursor:pointer;vertical-align:middle;">Install App</button>
   </div>
 
 </footer>
@@ -401,8 +394,8 @@
   </button>
 
   <!-- ================= SCRIPT ================= -->
-  <script src="js/script.js?v=hi-2" defer></script>
+  <script src="js/script.js?v=20260508-install" defer></script>
 
-  <script src="/api-static/jarvis-widget.js?v=hi-jarvis-20260507" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-fallback-endpoint="/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
+  <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="/api/jarvis-chat" data-live-endpoint="/api/ws/public" data-enquiry-endpoint="/api/public-enquiry" data-signup-endpoint="/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 </body>
 </html>
