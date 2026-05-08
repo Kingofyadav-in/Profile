@@ -1,251 +1,112 @@
-const DEFAULT_STATE = {
-  revision: 1,
-  theme: "dark",
-  title: "Live Future Class",
-  subtitle: "How computers, AI, and human intelligence can help people.",
-  status: "Waiting for teacher",
-  teacher: "Amit Ku Yadav",
-  room: "Future Computer Class",
-  focusId: "welcome",
-  viewers: {},
-  blocks: [
-    {
-      id: "welcome",
-      type: "text",
-      text: "Welcome. This board updates live from the teacher terminal.",
-      createdAt: Date.now()
-    }
-  ],
-  updatedAt: Date.now()
-};
+const db = require('../lib/db');
 
-function getState() {
-  if (!globalThis.__HI_LIVE_CLASS_STATE) {
-    globalThis.__HI_LIVE_CLASS_STATE = { ...DEFAULT_STATE, blocks: DEFAULT_STATE.blocks.slice() };
-  }
-  return globalThis.__HI_LIVE_CLASS_STATE;
-}
+const TOKEN = process.env.LIVE_CLASS_TOKEN;
+const MAX_BLOCKS = 80;
 
-function send(res, status, payload) {
-  res.statusCode = status;
-  res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Cache-Control", "no-store, max-age=0");
-  res.end(JSON.stringify(payload));
-}
-
-function publicState(state) {
-  cleanupViewers(state);
-  return {
-    ...state,
-    viewers: Object.values(state.viewers || {})
-      .sort((a, b) => b.lastSeen - a.lastSeen)
-      .slice(0, 80)
-  };
-}
-
-function readBody(req) {
-  return new Promise((resolve, reject) => {
-    let raw = "";
-    req.on("data", chunk => {
-      raw += chunk;
-      if (raw.length > 250000) {
-        reject(new Error("Request body too large"));
-        req.destroy();
-      }
-    });
-    req.on("end", () => {
-      try {
-        resolve(raw ? JSON.parse(raw) : {});
-      } catch (err) {
-        reject(new Error("Invalid JSON"));
-      }
-    });
-    req.on("error", reject);
-  });
-}
-
-function tokenFrom(req, body) {
-  const auth = String(req.headers.authorization || "");
-  if (auth.toLowerCase().startsWith("bearer ")) return auth.slice(7).trim();
-  return String(req.headers["x-live-class-token"] || body.token || "").trim();
-}
-
-function sanitizeText(value, limit) {
-  return String(value || "").replace(/\r/g, "").trim().slice(0, limit || 5000);
-}
-
-function clientIp(req) {
-  const raw = String(req.headers["x-forwarded-for"] || req.socket.remoteAddress || "");
-  return raw.split(",")[0].trim() || "unknown";
+function getToken(req) {
+  const auth = req.headers['authorization'] || '';
+  if (auth.startsWith('Bearer ')) return auth.slice(7);
+  return req.headers['x-live-class-token'] || (req.body && req.body.token) || '';
 }
 
 function maskIp(ip) {
-  if (!ip || ip === "unknown") return "unknown";
-  if (ip.includes(":")) return ip.split(":").slice(0, 3).join(":") + ":...";
-  const parts = ip.split(".");
-  if (parts.length === 4) return `${parts[0]}.${parts[1]}.${parts[2]}.x`;
-  return ip.slice(0, 8) + "...";
+  if (!ip) return 'unknown';
+  const parts = ip.split('.');
+  if (parts.length === 4) { parts[3] = 'xxx'; return parts.join('.'); }
+  return ip.replace(/:[^:]+$/, ':xxxx');
 }
 
-function cleanupViewers(state) {
-  const now = Date.now();
-  const viewers = state.viewers || {};
-  Object.keys(viewers).forEach(id => {
-    if (now - viewers[id].lastSeen > 70000) delete viewers[id];
-  });
-  state.viewers = viewers;
+async function getSession(id) {
+  const { rows } = await db.query(
+    'SELECT * FROM live_class_sessions WHERE id = $1', [id]
+  );
+  if (!rows.length) return null;
+  const session = rows[0];
+  const blocks = await db.query(
+    'SELECT * FROM live_class_blocks WHERE session_id = $1 ORDER BY position ASC', [id]
+  );
+  const viewers = await db.query(
+    'SELECT * FROM live_class_viewers WHERE session_id = $1 AND last_seen > NOW() - INTERVAL \'70 seconds\'', [id]
+  );
+  session.blocks = blocks.rows;
+  session.viewers = Object.fromEntries(viewers.rows.map(v => [v.id, v]));
+  return session;
 }
 
-function nextId() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+async function ensureSession(id) {
+  await db.query(`
+    INSERT INTO live_class_sessions (id, title, subtitle, theme, status, teacher, revision)
+    VALUES ($1, 'Live Class', '', 'blackboard', 'active', '', 0)
+    ON CONFLICT (id) DO NOTHING
+  `, [id]);
 }
 
-function addBlock(state, type, text, extra) {
-  const block = {
-    id: nextId(),
-    type,
-    text: sanitizeText(text, type === "code" ? 12000 : 5000),
-    createdAt: Date.now(),
-    ...(extra || {})
-  };
-  if (!block.text && type !== "divider") return;
-  state.blocks.push(block);
-  state.focusId = block.id;
-  if (state.blocks.length > 80) state.blocks = state.blocks.slice(-80);
-}
+module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-live-class-token');
 
-function mutate(state, body) {
-  const action = sanitizeText(body.action, 40).toLowerCase();
-  const value = sanitizeText(body.value ?? body.text ?? "", 12000);
+  if (req.method === 'OPTIONS') return res.status(204).end();
 
-  if (action === "state") {
-    return state;
+  const ROOM = 'main';
+
+  if (req.method === 'GET') {
+    await ensureSession(ROOM);
+    const session = await getSession(ROOM);
+    return res.json({ ok: true, state: session });
   }
 
-  if (action === "title") {
-    state.title = value || state.title;
-    if (body.subtitle !== undefined) state.subtitle = sanitizeText(body.subtitle, 500);
-  } else if (action === "subtitle") {
-    state.subtitle = value;
-  } else if (action === "teacher") {
-    state.teacher = value || state.teacher;
-  } else if (action === "room") {
-    state.room = value || state.room;
-  } else if (action === "status") {
-    state.status = value || "Live";
-  } else if (action === "theme") {
-    state.theme = value === "light" ? "light" : "dark";
-  } else if (action === "write" || action === "text" || action === "w") {
-    addBlock(state, "text", value);
-  } else if (action === "heading" || action === "h") {
-    addBlock(state, "heading", value);
-  } else if (action === "code") {
-    addBlock(state, "code", value, { language: sanitizeText(body.language || "text", 40) });
-  } else if (action === "list") {
-    addBlock(state, "list", value);
-  } else if (action === "quote") {
-    addBlock(state, "quote", value);
-  } else if (action === "homework") {
-    addBlock(state, "homework", value);
-  } else if (action === "link") {
-    addBlock(state, "link", sanitizeText(body.label || value, 500), { url: sanitizeText(body.url || value, 2000) });
-  } else if (action === "image") {
-    addBlock(state, "image", sanitizeText(body.caption || "", 500), { url: sanitizeText(body.url || value, 2000) });
-  } else if (action === "divider") {
-    addBlock(state, "divider", "");
-  } else if (action === "focus") {
-    const index = parseInt(value, 10);
-    const target = Number.isFinite(index) ? state.blocks[index - 1] : state.blocks.find(block => block.id === value);
-    if (target) state.focusId = target.id;
-  } else if (action === "undo") {
-    state.blocks.pop();
-    state.focusId = state.blocks.length ? state.blocks[state.blocks.length - 1].id : "";
-  } else if (action === "clear") {
-    state.blocks = [];
-    state.focusId = "";
-  } else if (action === "reset") {
-    const fresh = { ...DEFAULT_STATE, blocks: DEFAULT_STATE.blocks.slice(), updatedAt: Date.now() };
-    globalThis.__HI_LIVE_CLASS_STATE = fresh;
-    return fresh;
-  } else {
-    const err = new Error("Unknown action");
-    err.status = 400;
-    throw err;
-  }
+  if (req.method === 'POST') {
+    const { action, text, language, url, caption, name, device, id: viewerId } = req.body || {};
+    const token = getToken(req);
+    const isTeacher = TOKEN && token === TOKEN;
+    const ip = maskIp(req.headers['x-forwarded-for'] || req.socket?.remoteAddress);
 
-  state.revision += 1;
-  state.updatedAt = Date.now();
-  if (action !== "status") state.status = "Live now";
-  return state;
-}
+    await ensureSession(ROOM);
 
-function joinViewer(state, body, req) {
-  cleanupViewers(state);
-  const now = Date.now();
-  const deviceId = sanitizeText(body.deviceId || nextId(), 120).replace(/[^a-z0-9_.:-]/gi, "").slice(0, 120) || nextId();
-  const name = sanitizeText(body.name || "Guest Learner", 80) || "Guest Learner";
-  const device = sanitizeText(body.device || "Browser", 120);
-  const ip = clientIp(req);
-
-  state.viewers = state.viewers || {};
-  state.viewers[deviceId] = {
-    id: deviceId,
-    name,
-    device,
-    ip: maskIp(ip),
-    joinedAt: state.viewers[deviceId] ? state.viewers[deviceId].joinedAt : now,
-    lastSeen: now
-  };
-  state.updatedAt = now;
-  return state;
-}
-
-module.exports = async function handler(req, res) {
-  if (req.method === "OPTIONS") {
-    res.setHeader("Allow", "GET, POST, OPTIONS");
-    res.statusCode = 204;
-    res.end();
-    return;
-  }
-
-  if (req.method === "GET") {
-    send(res, 200, publicState(getState()));
-    return;
-  }
-
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "GET, POST, OPTIONS");
-    send(res, 405, { error: "Method not allowed" });
-    return;
-  }
-
-  let body;
-  try {
-    body = await readBody(req);
-    if (String(body.action || "").toLowerCase() === "join") {
-      send(res, 200, publicState(joinViewer(getState(), body, req)));
-      return;
+    if (action === 'join') {
+      const vid = viewerId || `v-${Date.now()}`;
+      await db.query(`
+        INSERT INTO live_class_viewers (id, session_id, name, device, ip, joined_at, last_seen)
+        VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
+        ON CONFLICT (id, session_id) DO UPDATE SET name=$3, device=$4, last_seen=NOW()
+      `, [vid, ROOM, name || 'Student', device || 'browser', ip]);
+      const session = await getSession(ROOM);
+      return res.json({ ok: true, viewerId: vid, state: session });
     }
-  } catch (err) {
-    send(res, 400, { error: err.message });
-    return;
+
+    if (!isTeacher) return res.status(401).json({ ok: false, error: 'Unauthorized' });
+
+    const writeActions = ['write', 'text', 'heading', 'code', 'list', 'quote', 'homework', 'link', 'image', 'divider'];
+
+    if (writeActions.includes(action)) {
+      const countRes = await db.query('SELECT COUNT(*) FROM live_class_blocks WHERE session_id=$1', [ROOM]);
+      if (parseInt(countRes.rows[0].count) >= MAX_BLOCKS) {
+        await db.query('DELETE FROM live_class_blocks WHERE session_id=$1 AND id=(SELECT id FROM live_class_blocks WHERE session_id=$1 ORDER BY position ASC LIMIT 1)', [ROOM]);
+      }
+      const posRes = await db.query('SELECT COALESCE(MAX(position),0)+1 AS pos FROM live_class_blocks WHERE session_id=$1', [ROOM]);
+      const blockId = `b-${Date.now()}`;
+      await db.query(`
+        INSERT INTO live_class_blocks (id, session_id, type, content, language, url, caption, position)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+      `, [blockId, ROOM, action === 'write' ? 'text' : action, text || '', language || null, url || null, caption || null, posRes.rows[0].pos]);
+    } else if (action === 'undo') {
+      await db.query('DELETE FROM live_class_blocks WHERE session_id=$1 AND id=(SELECT id FROM live_class_blocks WHERE session_id=$1 ORDER BY position DESC LIMIT 1)', [ROOM]);
+    } else if (action === 'clear') {
+      await db.query('DELETE FROM live_class_blocks WHERE session_id=$1', [ROOM]);
+    } else if (action === 'reset') {
+      await db.query('DELETE FROM live_class_blocks WHERE session_id=$1', [ROOM]);
+      await db.query('UPDATE live_class_sessions SET title=$2, subtitle=$3, theme=$4, status=$5, focus_id=NULL WHERE id=$1', [ROOM, 'Live Class', '', 'blackboard', 'active']);
+    } else if (action === 'focus') {
+      await db.query('UPDATE live_class_sessions SET focus_id=$2 WHERE id=$1', [ROOM, text]);
+    } else if (['title','subtitle','theme','status','teacher','room'].includes(action)) {
+      await db.query(`UPDATE live_class_sessions SET ${action}=$2 WHERE id=$1`, [ROOM, text]);
+    }
+
+    await db.query('UPDATE live_class_sessions SET revision=revision+1, updated_at=NOW() WHERE id=$1', [ROOM]);
+    const session = await getSession(ROOM);
+    return res.json({ ok: true, state: session });
   }
 
-  const expected = String(process.env.LIVE_CLASS_TOKEN || "").trim();
-  if (!expected) {
-    send(res, 503, { error: "LIVE_CLASS_TOKEN is not configured on the server." });
-    return;
-  }
-
-  if (tokenFrom(req, body) !== expected) {
-    send(res, 401, { error: "Unauthorized live class command." });
-    return;
-  }
-
-  try {
-    const state = mutate(getState(), body);
-    send(res, 200, publicState(state));
-  } catch (err) {
-    send(res, err.status || 500, { error: err.message || "Live class update failed." });
-  }
+  res.status(405).json({ ok: false, error: 'Method not allowed' });
 };
