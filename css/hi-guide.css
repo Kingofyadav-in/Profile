@@ -1,0 +1,299 @@
+/* ======================================================
+   HI GUIDE MODULE
+   Reusable compact accordion used by HI App-related pages.
+====================================================== */
+
+.hi-intro-guide {
+  width: min(100%, 920px);
+  margin: clamp(24px, 4vw, 46px) auto;
+  font-family: inherit;
+}
+
+.hi-intro-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(4,106,56,.38);
+  background: var(--card-bg, rgba(255,255,255,.04));
+  cursor: pointer;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.hi-intro-banner:hover,
+.hi-intro-banner:focus-visible {
+  border-color: var(--brand-green, #046A38);
+  box-shadow: 0 14px 34px rgba(4,106,56,.14);
+  outline: none;
+}
+
+.hi-intro-banner.hi-guide-dismissed {
+  display: none;
+}
+
+.hi-intro-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.hi-intro-banner-dot {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--brand-green, #046A38);
+  animation: hi-guide-pulse 2s infinite;
+}
+
+@keyframes hi-guide-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .5; transform: scale(1.25); }
+}
+
+.hi-intro-banner-text {
+  min-width: 0;
+  color: inherit;
+  font-size: .92rem;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hi-intro-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.hi-guide-toggle-btn,
+.hi-guide-dismiss-btn {
+  font: inherit;
+  cursor: pointer;
+}
+
+.hi-guide-toggle-btn {
+  min-height: 34px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--brand-green, #046A38);
+  background: transparent;
+  color: var(--brand-green, #046A38);
+  font-size: .8rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.hi-guide-toggle-btn:hover {
+  background: var(--brand-green, #046A38);
+  color: #fff;
+}
+
+.hi-guide-dismiss-btn {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: currentColor;
+  opacity: .62;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.hi-guide-dismiss-btn:hover {
+  color: var(--brand-orange, #FF671F);
+  opacity: 1;
+}
+
+.hi-guide-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .38s cubic-bezier(.4,0,.2,1);
+}
+
+.hi-guide-body.hi-guide-open {
+  max-height: 2600px;
+}
+
+.hi-guide-body-inner {
+  display: grid;
+  gap: 10px;
+  padding: 12px 0 0;
+}
+
+.hi-guide-item {
+  border: 1px solid rgba(128,128,128,.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg, rgba(255,255,255,.04));
+}
+
+.hi-guide-item.hi-guide-item-active {
+  border-left: 4px solid var(--brand-green, #046A38);
+}
+
+.hi-guide-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hi-guide-num,
+.hi-guide-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  font-weight: 850;
+}
+
+.hi-guide-num {
+  width: 28px;
+  height: 28px;
+  background: var(--brand-green, #046A38);
+  color: #fff;
+  font-size: .78rem;
+}
+
+.hi-guide-item-title {
+  flex: 1;
+  min-width: 0;
+  color: inherit;
+  font-size: .94rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.hi-guide-chevron {
+  color: var(--brand-green, #046A38);
+  font-style: normal;
+  line-height: 1;
+  transition: transform .24s ease;
+}
+
+.hi-guide-item-active .hi-guide-chevron {
+  transform: rotate(180deg);
+}
+
+.hi-guide-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .32s cubic-bezier(.4,0,.2,1);
+}
+
+.hi-guide-item-active .hi-guide-panel {
+  max-height: 980px;
+}
+
+.hi-guide-panel-inner {
+  padding: 0 16px 16px 56px;
+  font-size: .9rem;
+  line-height: 1.7;
+  color: var(--text-muted, #999);
+}
+
+body.theme-light .hi-guide-panel-inner {
+  color: var(--text-secondary, #333);
+}
+
+.hi-guide-panel-inner p {
+  margin: 0 0 9px;
+}
+
+.hi-guide-panel-inner ul,
+.hi-guide-steps {
+  margin: 8px 0;
+}
+
+.hi-guide-panel-inner li {
+  margin-bottom: 6px;
+}
+
+.hi-guide-panel-inner strong {
+  color: var(--brand-green, #046A38);
+}
+
+.hi-guide-steps {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.hi-guide-steps li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.hi-guide-step-num {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--brand-green, #046A38);
+  color: var(--brand-green, #046A38);
+  font-size: .72rem;
+  margin-top: 2px;
+}
+
+.hi-guide-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  margin-top: 10px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--brand-green, #046A38);
+  background: transparent;
+  color: var(--brand-green, #046A38);
+  font-size: .84rem;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hi-guide-cta:hover {
+  background: var(--brand-green, #046A38);
+  color: #fff;
+}
+
+.hi-guide-note {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--brand-orange, #FF671F);
+  border-radius: 0 8px 8px 0;
+  background: rgba(255,103,31,.1);
+  color: var(--brand-orange, #FF671F);
+  font-size: .84rem;
+}
+
+@media (max-width: 560px) {
+  .hi-intro-banner {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hi-intro-banner-text {
+    white-space: normal;
+  }
+
+  .hi-intro-banner-actions,
+  .hi-guide-toggle-btn {
+    width: 100%;
+  }
+
+  .hi-guide-panel-inner {
+    padding-left: 16px;
+  }
+}
