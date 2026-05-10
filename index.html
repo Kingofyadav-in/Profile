@@ -388,17 +388,19 @@
 
 </footer>
 
-  <!-- PWA Install Banner -->
-  <div id="pwaInstallBar" role="banner" aria-label="Install app" hidden>
-    <div class="pwa-ib-icon">
-      <img src="/images/logo.png" alt="HI App" width="40" height="40" onerror="this.style.display='none'">
+  <!-- PWA Install Popup -->
+  <div id="pwaInstallBar" role="dialog" aria-label="Install app" hidden>
+    <div class="pwa-ib-top">
+      <div class="pwa-ib-icon">
+        <img src="/images/logo.png" alt="" width="40" height="40" onerror="this.style.display='none'">
+      </div>
+      <div class="pwa-ib-text">
+        <strong>Install HI App</strong>
+        <span>Quick access · Works offline</span>
+      </div>
+      <button class="pwa-ib-dismiss" onclick="dismissInstallBar()" aria-label="Dismiss">✕</button>
     </div>
-    <div class="pwa-ib-text">
-      <strong>Install HI App</strong>
-      <span>Quick access · Works offline</span>
-    </div>
-    <button class="pwa-ib-action" onclick="triggerInstallPrompt()">Install</button>
-    <button class="pwa-ib-dismiss" onclick="dismissInstallBar()" aria-label="Dismiss install prompt">✕</button>
+    <button class="pwa-ib-action" onclick="triggerInstallPrompt()">Add to Home Screen</button>
   </div>
 
   <button id="backToTop" aria-label="Back to top">
