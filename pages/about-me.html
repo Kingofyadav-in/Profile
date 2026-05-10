@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/base.css?v=20260502-pro" />
   <link rel="stylesheet" href="/css/components.css?v=20260502-pro" />
   <link rel="stylesheet" href="/css/personal.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/auth.css?v=hi-1" />
   <link rel="stylesheet" href="/css/about.css?v=20260502-pro" />
 
   <link rel="icon" href="/favicon/favicon.ico" />
@@ -41,15 +42,10 @@
   <div class="personal-header-inner">
 
     <a href="/pages/personal.html" class="personal-brand">
-      <img
-        id="personalLogo"
-        src="/logo/day-logo.png"
-        alt="Amit Ku Yadav"
-        class="personal-logo"
-        />
+      <img id="personalLogo" src="/logo/day-logo.png" alt="HI App" class="personal-logo" />
       <div class="personal-brand-text">
         <span class="personal-name">Amit Ku Yadav</span>
-        <span class="personal-tagline">Personal</span>
+        <span class="personal-tagline">ABOUT ME</span>
       </div>
     </a>
 
@@ -61,8 +57,12 @@
       <a href="/pages/origin.html">ORIGIN</a>
       <a href="/pages/haven.html">HAVEN</a>
       <a href="/pages/bhagalpur.html">BHAGALPUR</a>
+      <a href="/pages/hi-license.html" class="hi-nav-license">&#x1F5AA; License</a>
     </nav>
-
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
   </div>
 </header>
 
@@ -70,13 +70,29 @@
 <main class="about-page" id="main-content">
 
   <!-- HERO -->
-  <section class="personal-section glass" id="people">
-    <p class="hero-label">Private Profile</p>
-    <h1>About Amit Ku Yadav</h1>
-    <p class="personal-intro">
-      This page is the private profile layer of my identity: origin, values,
-      journey, education, philosophy, and the kind of work I want to be known for.
-    </p>
+  <section class="personal-section glass profile-hero" id="people">
+    <div class="profile-hero-copy">
+      <p class="hero-label">Private Profile · About</p>
+      <h1>About Amit Ku Yadav</h1>
+      <p class="personal-intro">
+        Origin, values, journey, ventures, and the working philosophy behind a
+        life being built through consistent, visible, honest work.
+      </p>
+      <div class="profile-hero-actions">
+        <a class="profile-hero-action primary" href="#journey">View Journey</a>
+        <a class="profile-hero-action" href="#ventures">Active Ventures</a>
+        <a class="profile-hero-action" href="/pages/personal.html">HI App</a>
+      </div>
+    </div>
+    <aside class="profile-hero-panel" aria-label="About profile summary">
+      <p class="profile-panel-title">Identity Snapshot</p>
+      <div class="profile-panel-list">
+        <div><span>Born</span><strong>25 December 1999</strong></div>
+        <div><span>Base</span><strong>Bhagalpur, Bihar</strong></div>
+        <div><span>Work</span><strong>Digital Systems · Business · Social Impact</strong></div>
+        <div><span>Standard</span><strong>Trust through work, not title</strong></div>
+      </div>
+    </aside>
   </section>
 
   <section class="about-snapshot" aria-label="Profile snapshot">
@@ -99,13 +115,17 @@
   </section>
 
 
-  <!-- IDENTITY -->
   <section class="personal-section glass">
-    <h2>How I Present Myself</h2>
+    <h2>Who I Am</h2>
     <p class="personal-intro">
-      I do not want my identity to depend on one title. I want the work to make
-      the introduction: consistency, honest communication, visible responsibility,
-      and the discipline to improve every year without losing my roots.
+      Born 25 December 1999 in Bhagalpur, Bihar. I work at the intersection of
+      digital systems, business building, community leadership, and social impact.
+      I do not come from a background of formal institutional power or inherited
+      networks. What I have built has been built step by step — through learning,
+      coordination, visible accountability, and long-term consistency.
+    </p>
+    <p class="personal-intro">
+      My identity is not a title. It is a record. The work either supports it or it doesn't.
     </p>
   </section>
 
@@ -114,9 +134,14 @@
   <section class="personal-section glass" id="vision">
     <h2>What I Am Building</h2>
     <p class="personal-intro">
-      I am building a structured life: strong local relationships, credible
-      digital presence, practical business systems, youth participation, and
-      community problem-solving that can scale beyond one person.
+      A structured life — not a brand, not a persona. A life with strong local
+      relationships, credible digital presence, practical business systems, youth
+      participation, and community problem-solving that can work beyond one person.
+    </p>
+    <p class="personal-intro">
+      The goal is not to be known everywhere. The goal is to be trusted where it
+      matters — by the people closest to the work, by the community I am part of,
+      and over time, by anyone who examines the record and finds it consistent.
     </p>
   </section>
 
@@ -127,30 +152,48 @@
 
     <ul class="timeline">
       <li>
-        <strong>1999 — Born in Bhagalpur</strong>
-        <p>Born on 25 December 1999 in Bhagalpur, Bihar. Early years shaped by family discipline, cultural values, and strong moral guidance.</p>
+        <strong>1999 — Born in Bhagalpur, Bihar</strong>
+        <p>Born on 25 December 1999. Early years shaped by family values, local culture, and the discipline of a Bhagalpur upbringing — a city with deep historical roots and a strong community identity.</p>
       </li>
       <li>
-        <strong>2015–2019 — Education &amp; Awareness</strong>
-        <p>Academic foundation completed in Bhagalpur. Began understanding real challenges faced by communities at ground level.</p>
+        <strong>2015–2019 — Academic Foundation</strong>
+        <p>Completed school and early higher education in Bhagalpur. Began developing awareness of real community problems, economic gaps, and the distance between what institutions say and what ground-level reality looks like.</p>
       </li>
       <li>
         <strong>2019–2021 — Ground-Level Learning</strong>
-        <p>Started understanding people, local issues, coordination, and the importance of showing up consistently.</p>
+        <p>Left formal learning to understand people directly. Spent time in community coordination, observing how problems are actually solved (or not), building real relationships, and learning how trust is earned versus assumed.</p>
       </li>
       <li>
-        <strong>2021–2023 — Work Across Business &amp; Systems</strong>
-        <p>Began working on business and digital systems, learning how planning, service, communication, and responsibility connect.</p>
+        <strong>2021–2023 — Business Systems &amp; Digital Work</strong>
+        <p>Began building digital systems — websites, business profiles, service platforms. Learned how planning, communication, delivery, and accountability connect to build credible, functional operations.</p>
       </li>
       <li>
-        <strong>2023–Present — Public &amp; Social Initiatives</strong>
-        <p>Continued building work around youth, community, environment, and public coordination while learning how to create organized impact.</p>
+        <strong>2023–Present — Ventures &amp; Social Initiatives</strong>
+        <p>Launched three active ventures: Royal Heritage Resort (hospitality), Jhon Aamit LLP (registered brokerage firm), and National Youth Force (national NGO focused on children, women, youth, and environment). Began structured public communication.</p>
       </li>
       <li>
-        <strong>2024–Present — Digital Identity Platform</strong>
-        <p>Launched kingofyadav.in — a structured digital presence covering personal, professional, and social dimensions of work and life.</p>
+        <strong>2024–Present — kingofyadav.in Digital Platform</strong>
+        <p>Built and launched a structured digital identity platform covering personal, professional, and social dimensions — including the HI App (private Life OS), Jarvis AI assistant, and HDI identity system.</p>
       </li>
     </ul>
+  </section>
+
+  <section class="personal-section" id="ventures">
+    <h2>Active Ventures</h2>
+    <div class="life-grid">
+      <div class="life-card glass">
+        <h3>Royal Heritage Resort</h3>
+        <p>Hospitality venture — cultural experience, comfort, and responsible tourism in Bihar.</p>
+      </div>
+      <div class="life-card glass">
+        <h3>Jhon Aamit LLP</h3>
+        <p>Registered brokerage firm — structured, compliant, growth-oriented financial solutions.</p>
+      </div>
+      <div class="life-card glass">
+        <h3>National Youth Force</h3>
+        <p>National NGO — children, women, youth development, and environmental responsibility.</p>
+      </div>
+    </div>
   </section>
 
 
@@ -173,10 +216,19 @@
   <section class="personal-section glass">
     <h2>Personal Philosophy</h2>
     <p class="personal-intro">
-      Discipline creates stability. Stability creates progress. Progress creates
-      trust. I try to keep the work simple, visible, and useful enough that it
-      can stand without loud explanation.
+      Discipline creates stability. Stability creates progress. Progress creates trust.
     </p>
+    <ul class="timeline">
+      <li>
+        <strong>Do the work before explaining it</strong>
+      </li>
+      <li>
+        <strong>Be reachable, responsible, and honest about what you can and cannot deliver</strong>
+      </li>
+      <li>
+        <strong>Build for the long run — consistency over years matters more than attention in months</strong>
+      </li>
+    </ul>
   </section>
 
 
@@ -254,8 +306,15 @@
   <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
+  <script src="/js/auth.js?v=hi-1"></script>
   <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
   <script src="/js/script.js?v=20260502-translate6" defer></script>
+  <script>
+    var _u = document.getElementById("authUserDisplay");
+    if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
+    var _lb = document.getElementById("logoutBtn");
+    if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
+  </script>
 
   <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

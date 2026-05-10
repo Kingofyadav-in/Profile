@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/css/base.css?v=20260502-pro" />
   <link rel="stylesheet" href="/css/components.css?v=20260502-pro" />
   <link rel="stylesheet" href="/css/personal.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/auth.css?v=hi-1" />
   <link rel="stylesheet" href="/css/myself.css?v=20260502-pro" />
 <link rel="canonical" href="https://kingofyadav.in/pages/origin.html" />
 <script type="application/ld+json">
@@ -27,7 +28,7 @@
 </script>
 </head>
 
-<body class="theme-light" data-profile-page="mySelf">
+<body class="theme-dark" data-profile-page="mySelf">
 <script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
 
 <div id="scrollProgress"></div>
@@ -35,10 +36,10 @@
 <header class="personal-header glass">
   <div class="personal-header-inner">
     <a href="/pages/personal.html" class="personal-brand">
-      <img src="/logo/day-logo.png" class="personal-logo" id="personalLogo" alt="Amit Ku Yadav" />
+      <img id="personalLogo" src="/logo/day-logo.png" alt="HI App" class="personal-logo" />
       <div class="personal-brand-text">
         <span class="personal-name">Amit Ku Yadav</span>
-        <span class="personal-tagline">Personal</span>
+        <span class="personal-tagline">ORIGIN</span>
       </div>
     </a>
 
@@ -50,27 +51,40 @@
       <a href="/pages/origin.html" class="active">ORIGIN</a>
       <a href="/pages/haven.html">HAVEN</a>
       <a href="/pages/bhagalpur.html">BHAGALPUR</a>
+      <a href="/pages/hi-license.html" class="hi-nav-license">&#x1F5AA; License</a>
     </nav>
-
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
   </div>
 </header>
 
-<main class="site-main page-intro" id="main-content">
+<main class="personal-main personal-page page-intro" id="main-content">
 
-  <!-- HERO -->
-  <section class="life-card">
-    <p class="hero-label">Private Identity</p>
-    <h2>Who I Am Becoming</h2>
-    <p>
-      I am Amit Ku Yadav from Bhagalpur. This private page is a clear record
-      of how I think, what I value, what I am building, and the direction I want
-      my life to follow.
-    </p>
-    <p>
-      I do not want to be limited by one title. My work moves across digital
-      systems, ventures, public connection, social initiatives, and disciplined
-      personal growth.
-    </p>
+  <section class="life-card glass profile-hero">
+    <div class="profile-hero-copy">
+      <p class="hero-label">Origin · Self</p>
+      <h1>Who I Am Becoming</h1>
+      <p class="personal-intro">
+        A private identity page for the person behind the work: standards, skills,
+        interests, operating principles, and the direction I want my life to follow.
+      </p>
+      <div class="profile-hero-actions">
+        <a class="profile-hero-action primary" href="#standards">Standards</a>
+        <a class="profile-hero-action" href="#skills">Skills</a>
+        <a class="profile-hero-action" href="/pages/about-me.html">About</a>
+      </div>
+    </div>
+    <aside class="profile-hero-panel" aria-label="Origin identity summary">
+      <p class="profile-panel-title">Self System</p>
+      <div class="profile-panel-list">
+        <div><span>Identity</span><strong>Builder · Learner · Coordinator</strong></div>
+        <div><span>Base</span><strong>Bhagalpur, Bihar</strong></div>
+        <div><span>Direction</span><strong>Systems, service, and disciplined growth</strong></div>
+        <div><span>Measure</span><strong>Dependability over attention</strong></div>
+      </div>
+    </aside>
   </section>
 
   <section class="private-snapshot" aria-label="Private self snapshot">
@@ -80,18 +94,43 @@
     <div><span>Base</span><strong>Bhagalpur</strong></div>
   </section>
 
-  <!-- VISION -->
-  <section class="life-card">
-    <h2>My Vision</h2>
+  <section class="life-card glass" id="direction">
+    <h2>My Direction</h2>
     <p>
       To become dependable in every space where I work: family, business,
       technology, community, and public life. Dependability is the real measure.
     </p>
+    <p>
+      I am not trying to build a loud identity. I am building a clear one — a person
+      whose work, communication, and record stay consistent when checked closely.
+    </p>
   </section>
 
-  <!-- SKILLS -->
-  <section class="services-grid">
+  <section class="life-card glass" id="standards">
+    <h2>Personal Standards</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <h2>Clarity</h2>
+        <p>Say what is real, what is planned, and what still needs work.</p>
+      </div>
+      <div class="service-card">
+        <h2>Discipline</h2>
+        <p>Keep routine, delivery, communication, and health structured.</p>
+      </div>
+      <div class="service-card">
+        <h2>Responsibility</h2>
+        <p>Own the outcome when my name, system, or promise is attached.</p>
+      </div>
+      <div class="service-card">
+        <h2>Respect</h2>
+        <p>Respect people, time, privacy, commitments, and the work itself.</p>
+      </div>
+    </div>
+  </section>
 
+  <section class="life-card glass" id="skills">
+    <h2>Skills &amp; Working Strengths</h2>
+    <div class="services-grid">
     <div class="service-card">
       <h2>Digital Systems</h2>
       <p>Websites, automation, structured profiles, and performance-focused public presence.</p>
@@ -111,20 +150,22 @@
       <h2>Public Communication</h2>
       <p>Structured growth across writing, social platforms, and community channels.</p>
     </div>
-
+    </div>
   </section>
 
-  <!-- PERSONAL PHILOSOPHY -->
-  <section class="life-card">
+  <section class="life-card glass">
     <h2>My Philosophy</h2>
     <p>
       Discipline creates stability. Clarity protects energy. Consistency builds
       identity. A person becomes strong by doing the right things repeatedly.
     </p>
+    <p>
+      I prefer practical improvement over public noise. The work should become
+      strong enough that explanation becomes simple.
+    </p>
   </section>
 
-  <!-- PERSONAL INTERESTS -->
-  <section class="life-card">
+  <section class="life-card glass">
     <h2>Personal Interests</h2>
     <div class="services-grid">
       <div class="service-card">
@@ -146,8 +187,7 @@
     </div>
   </section>
 
-  <!-- FACTS -->
-  <section class="life-card">
+  <section class="life-card glass">
     <h2>Quick Facts</h2>
     <div class="services-grid">
       <div class="service-card">
@@ -169,8 +209,7 @@
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="life-card">
+  <section class="life-card glass">
     <h2>Keep The Direction Clear</h2>
     <p>This page is a private reference point for identity, standards, and personal growth.</p>
     <a href="/pages/personal.html" class="btn-primary">Back To Personal</a>
@@ -210,8 +249,15 @@
     <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
+  <script src="/js/auth.js?v=hi-1"></script>
   <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
   <script src="/js/script.js?v=20260502-translate6" defer></script>
+  <script>
+    var _u = document.getElementById("authUserDisplay");
+    if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
+    var _lb = document.getElementById("logoutBtn");
+    if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
+  </script>
 
   <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

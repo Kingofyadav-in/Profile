@@ -3,20 +3,24 @@
 
   var script = document.currentScript;
   var ENDPOINT = (script && script.dataset.endpoint) || "";
+  if ((location.hostname === "localhost" || location.hostname === "127.0.0.1") && (!ENDPOINT || ENDPOINT.indexOf("/api/") === 0)) {
+    ENDPOINT = "http://127.0.0.1:5050/api/jarvis-chat";
+  }
   var LIVE_ENDPOINT = (script && script.dataset.liveEndpoint) || "";
   var TITLE = (script && script.dataset.title) || "Jarvis AI";
   var SUBTITLE = (script && script.dataset.subtitle) || "Ask about King Yadav and the website.";
   var SITE_LINE = (script && script.dataset.siteLine) || "Digital identity, blogs, services, and ventures in one place.";
-  var WELCOME = "Hi! I’m Jarvis, King Yadav’s AI assistant. Ask me anything about this website or the work behind it.";
+  var WELCOME = "Hi. I’m Jarvis AI Operator for kingofyadav.in. Ask about Amit, services, ventures, writing, collaboration, or the right next page to open.";
   var STORAGE_KEY = "jarvis_public_chat_history_v1";
   var SPEAK_KEY = "jarvis_public_chat_speak_v1";
   var MODE_KEY = "jarvis_public_chat_mode_v1";
   var ENQUIRY_ENDPOINT = (script && script.dataset.enquiryEndpoint) || "";
   var SIGNUP_ENDPOINT = (script && script.dataset.signupEndpoint) || "";
   var SUGGESTIONS = [
-    "Who is King Yadav?",
-    "What services are offered?",
-    "How can I collaborate?"
+    "Show me Amit's digital world",
+    "Which service should I choose?",
+    "How can I collaborate?",
+    "Summarize the ventures"
   ];
   var MODES = {
     chat: { label: "Chat", endpoint: ENDPOINT },
@@ -26,55 +30,57 @@
 
   /* ── Styles ────────────────────────────────────────────────────────────── */
   var css = [
-    "#jrv-btn{position:fixed;bottom:24px;right:24px;z-index:9998;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#046A38,#FF671F);box-shadow:0 4px 18px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;transition:transform .18s,box-shadow .18s;}",
-    "#jrv-btn:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(0,0,0,.55);}",
+    "#jrv-btn{position:fixed;bottom:24px;right:24px;z-index:9998;width:64px;height:64px;border-radius:20px;border:1px solid rgba(255,255,255,.14);cursor:pointer;background:linear-gradient(135deg,#046A38,#FF671F);box-shadow:0 18px 44px rgba(4,106,56,.28),0 8px 24px rgba(0,0,0,.34);display:flex;align-items:center;justify-content:center;transition:transform .18s,box-shadow .18s,border-radius .18s;}",
+    "#jrv-btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 22px 56px rgba(4,106,56,.36),0 10px 28px rgba(0,0,0,.42);border-radius:24px;}",
     "#jrv-btn svg{width:26px;height:26px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}",
-    "#jrv-panel{position:fixed;bottom:92px;right:24px;z-index:9999;width:360px;max-width:calc(100vw - 32px);height:520px;max-height:calc(100vh - 110px);background:#111;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.65);display:flex;flex-direction:column;overflow:hidden;transform:scale(.92) translateY(12px);opacity:0;pointer-events:none;transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .18s;}",
+    "#jrv-panel{position:fixed;bottom:96px;right:24px;z-index:9999;width:min(620px,calc(100vw - 32px));height:min(720px,calc(100vh - 124px));max-height:calc(100vh - 124px);background:linear-gradient(145deg,rgba(4,106,56,.08),rgba(255,103,31,.055)),#0a0b0a;border:1px solid rgba(255,255,255,.12);border-radius:20px;box-shadow:0 28px 90px rgba(0,0,0,.52);display:flex;flex-direction:column;overflow:hidden;transform:scale(.94) translateY(18px);opacity:0;pointer-events:none;transition:transform .24s cubic-bezier(.22,1,.36,1),opacity .18s;}",
     "#jrv-panel.jrv-open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}",
-    "#jrv-head{padding:14px 16px 12px;background:#0e0e0e;border-bottom:1px solid #1f1f1f;display:flex;align-items:center;gap:10px;flex-shrink:0;}",
-    "#jrv-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#046A38,#FF671F);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:#fff;font-family:system-ui,sans-serif;}",
+    "#jrv-head{min-height:74px;padding:18px 22px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:12px;flex-shrink:0;position:relative;}",
+    "#jrv-head:before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#046A38,#FF671F);}",
+    "#jrv-avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#046A38,#FF671F);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:#fff;font-family:system-ui,sans-serif;box-shadow:0 12px 30px rgba(4,106,56,.24);}",
     "#jrv-head-text{flex:1;min-width:0;}",
-    "#jrv-head-title{font-family:system-ui,sans-serif;font-size:14px;font-weight:700;color:#f0f0f0;line-height:1.2;}",
-    "#jrv-head-sub{font-family:system-ui,sans-serif;font-size:11px;color:#888;line-height:1.2;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}",
+    "#jrv-head-title{font-family:system-ui,sans-serif;font-size:15px;font-weight:850;color:#f4f4f4;line-height:1.2;letter-spacing:0;}",
+    "#jrv-head-sub{font-family:system-ui,sans-serif;font-size:11.5px;color:rgba(255,255,255,.58);line-height:1.25;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}",
     "#jrv-site-line,#jrv-live{display:none;}",
-    "#jrv-online{width:8px;height:8px;border-radius:50%;background:#2ecc71;box-shadow:0 0 6px #2ecc71;flex-shrink:0;}",
-    "#jrv-msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:#333 transparent;}",
+    "#jrv-online{width:10px;height:10px;border-radius:50%;background:#2ecc71;box-shadow:0 0 12px #2ecc71;flex-shrink:0;}",
+    "#jrv-msgs{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;scrollbar-width:thin;scrollbar-color:#333 transparent;background:radial-gradient(circle at 15% 10%,rgba(4,106,56,.08),transparent 28%),radial-gradient(circle at 90% 70%,rgba(255,103,31,.065),transparent 30%);}",
     "#jrv-msgs::-webkit-scrollbar{width:4px;}",
     "#jrv-msgs::-webkit-scrollbar-track{background:transparent;}",
     "#jrv-msgs::-webkit-scrollbar-thumb{background:#333;border-radius:2px;}",
-    ".jrv-msg{max-width:85%;font-family:system-ui,sans-serif;font-size:13px;line-height:1.5;padding:9px 12px;border-radius:12px;word-break:break-word;white-space:pre-wrap;}",
-    ".jrv-msg-bot{align-self:flex-start;background:#1c1c1e;color:#e8e8e8;border-bottom-left-radius:4px;}",
-    ".jrv-msg-user{align-self:flex-end;background:linear-gradient(135deg,#FF671F,#c94f00);color:#fff;border-bottom-right-radius:4px;}",
+    ".jrv-msg{max-width:min(86%,500px);font-family:system-ui,sans-serif;font-size:14px;line-height:1.68;padding:14px 16px;border-radius:18px;word-break:break-word;white-space:pre-wrap;box-shadow:0 10px 28px rgba(0,0,0,.14);}",
+    ".jrv-msg-bot{align-self:flex-start;background:rgba(255,255,255,.075);color:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.08);border-bottom-left-radius:5px;}",
+    ".jrv-msg-user{align-self:flex-end;background:linear-gradient(135deg,#046A38,#0a7a46);color:#fff;border:1px solid rgba(255,255,255,.14);border-bottom-right-radius:5px;}",
     ".jrv-msg-err{align-self:flex-start;background:#2a1a1a;color:#ff6b6b;border-bottom-left-radius:4px;font-size:12px;}",
     ".jrv-mode{align-self:center;font-family:system-ui,sans-serif;font-size:10px;color:#888;background:#181818;border:1px solid #2a2a2a;border-radius:999px;padding:4px 8px;}",
-    ".jrv-typing{align-self:flex-start;background:#1c1c1e;padding:10px 14px;border-radius:12px;border-bottom-left-radius:4px;display:flex;gap:5px;align-items:center;}",
+    ".jrv-typing{align-self:flex-start;background:rgba(255,255,255,.075);padding:13px 16px;border-radius:18px;border-bottom-left-radius:5px;display:flex;gap:5px;align-items:center;border:1px solid rgba(255,255,255,.08);}",
     ".jrv-dot{width:6px;height:6px;border-radius:50%;background:#666;animation:jrv-bounce .9s infinite ease-in-out;}",
     ".jrv-dot:nth-child(2){animation-delay:.15s;}",
     ".jrv-dot:nth-child(3){animation-delay:.3s;}",
     "@keyframes jrv-bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}",
-    "#jrv-foot{padding:10px 12px 12px;background:#0e0e0e;border-top:1px solid #1f1f1f;flex-shrink:0;}",
-    "#jrv-row{display:flex;gap:8px;align-items:flex-end;}",
+    "#jrv-foot{padding:14px 18px 18px;background:rgba(255,255,255,.04);border-top:1px solid rgba(255,255,255,.1);flex-shrink:0;}",
+    "#jrv-row{display:flex;gap:10px;align-items:flex-end;}",
     "#jrv-suggest{display:flex;gap:6px;overflow-x:auto;padding:0 0 8px;scrollbar-width:none;}",
     "#jrv-suggest::-webkit-scrollbar{display:none;}",
-    ".jrv-chip{border:1px solid #2a2a2a;background:#171717;color:#cfcfcf;border-radius:999px;padding:6px 9px;font-family:system-ui,sans-serif;font-size:11px;white-space:nowrap;cursor:pointer;}",
-    ".jrv-chip:hover{border-color:#046A38;color:#fff;}",
-    "#jrv-input{flex:1;background:#1c1c1e;border:1px solid #2a2a2a;border-radius:10px;padding:9px 12px;color:#f0f0f0;font-family:system-ui,sans-serif;font-size:13px;line-height:1.4;resize:none;outline:none;min-height:38px;max-height:100px;overflow-y:auto;transition:border-color .15s;box-sizing:border-box;}",
+    ".jrv-chip{border:1px solid rgba(4,106,56,.28);background:rgba(4,106,56,.08);color:#d8d8d8;border-radius:10px;padding:8px 11px;font-family:system-ui,sans-serif;font-size:11.5px;white-space:nowrap;cursor:pointer;}",
+    ".jrv-chip:hover{border-color:#046A38;color:#fff;background:rgba(4,106,56,.14);}",
+    "#jrv-input{flex:1;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 16px;color:#f0f0f0;font-family:system-ui,sans-serif;font-size:14px;line-height:1.55;resize:none;outline:none;min-height:52px;max-height:170px;overflow-y:auto;transition:border-color .15s,box-shadow .15s;box-sizing:border-box;}",
     "#jrv-input::placeholder{color:#555;}",
-    "#jrv-input:focus{border-color:#046A38;}",
-    ".jrv-tool{width:36px;height:36px;border-radius:50%;border:1px solid #2a2a2a;background:#1c1c1e;color:#d8d8d8;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,border-color .15s,color .15s;}",
+    "#jrv-input:focus{border-color:#046A38;box-shadow:0 0 0 3px rgba(4,106,56,.12);}",
+    ".jrv-tool{width:44px;height:44px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.075);color:#d8d8d8;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,border-color .15s,color .15s,transform .15s;}",
     ".jrv-tool:hover{border-color:#046A38;color:#fff;}",
     ".jrv-tool.jrv-active{background:#12311f;border-color:#046A38;color:#fff;}",
     ".jrv-tool.jrv-listening{background:#3a1818;border-color:#FF671F;color:#fff;animation:jrv-pulse 1s infinite ease-in-out;}",
     ".jrv-tool:disabled{opacity:.35;cursor:default;}",
     ".jrv-tool svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}",
     "@keyframes jrv-pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}",
-    "#jrv-send{width:36px;height:36px;border-radius:50%;border:none;background:linear-gradient(135deg,#046A38,#FF671F);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s;}",
+    "#jrv-send{width:52px;height:52px;border-radius:16px;border:none;background:linear-gradient(135deg,#046A38,#FF671F);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s,transform .15s,box-shadow .15s;box-shadow:0 12px 26px rgba(4,106,56,.22);}",
+    "#jrv-send:hover{transform:translateY(-1px) scale(1.04);box-shadow:0 16px 34px rgba(4,106,56,.3);}",
     "#jrv-send:disabled{opacity:.4;cursor:default;}",
-    "#jrv-send svg{width:14px;height:14px;}",
+    "#jrv-send svg{width:18px;height:18px;}",
     "#jrv-brand{text-align:center;font-family:system-ui,sans-serif;font-size:10px;color:#444;margin-top:7px;}",
     "#jrv-brand a{color:#046A38;text-decoration:none;}",
     "#jrv-modebar{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 8px;}",
-    ".jrv-modechip{flex:1;min-width:0;border:1px solid #2a2a2a;background:#171717;color:#cfcfcf;border-radius:999px;padding:6px 9px;font-family:system-ui,sans-serif;font-size:11px;white-space:nowrap;cursor:pointer;}",
+    ".jrv-modechip{flex:1;min-width:0;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.055);color:#cfcfcf;border-radius:12px;padding:8px 10px;font-family:system-ui,sans-serif;font-size:11px;white-space:nowrap;cursor:pointer;}",
     ".jrv-modechip:hover{border-color:#046A38;color:#fff;}",
     ".jrv-modechip.jrv-selected{background:#12311f;border-color:#046A38;color:#fff;}",
     "#jrv-intake{display:none;padding-bottom:8px;}",
@@ -88,7 +94,8 @@
     ".jrv-form-actions{display:flex;gap:8px;justify-content:flex-end;}",
     ".jrv-form-actions .jrv-small{border:1px solid #2a2a2a;background:#171717;color:#cfcfcf;border-radius:999px;padding:7px 12px;font-family:system-ui,sans-serif;font-size:11px;cursor:pointer;}",
     ".jrv-form-actions .jrv-small:hover{border-color:#046A38;color:#fff;}",
-    ".jrv-form-actions .jrv-primary{border:none;background:linear-gradient(135deg,#046A38,#FF671F);color:#fff;border-radius:999px;padding:7px 14px;font-family:system-ui,sans-serif;font-size:11px;cursor:pointer;}"
+    ".jrv-form-actions .jrv-primary{border:none;background:linear-gradient(135deg,#046A38,#FF671F);color:#fff;border-radius:999px;padding:7px 14px;font-family:system-ui,sans-serif;font-size:11px;cursor:pointer;}",
+    "@media(max-width:640px){#jrv-panel{left:0;right:0;bottom:0;top:0;width:100vw;height:100vh;max-width:none;max-height:none;border-radius:0;}#jrv-btn{right:18px;bottom:18px;width:58px;height:58px;border-radius:18px;}#jrv-msgs{padding:18px 16px;}.jrv-msg{max-width:94%;font-size:13.5px;}#jrv-foot{padding:12px 14px 16px;}#jrv-input{font-size:13.5px;}.jrv-tool{width:40px;height:40px;border-radius:12px;}#jrv-send{width:46px;height:46px;border-radius:14px;}}"
   ].join("");
 
   /* ── DOM ───────────────────────────────────────────────────────────────── */
@@ -275,10 +282,14 @@
               .then(doFetch);
           }
           removeEl(typing);
-          var msg = err.message === "rate_limit"
-            ? "Too many messages — please wait a moment."
-            : "Jarvis chat is temporarily offline. Please use the contact page for now.";
-          appendErr(msg);
+          if (err.message === "rate_limit") {
+            appendErr("Too many messages — please wait a moment.");
+            return;
+          }
+          appendMode("Local guide mode");
+          var localReply = localFallbackReply(text);
+          appendBot(localReply, true);
+          speakReply(localReply);
         });
     }
 
@@ -308,18 +319,24 @@
   function localFallbackReply(text) {
     var q = String(text || "").toLowerCase();
     if (q.indexOf("service") !== -1 || q.indexOf("work") !== -1) {
-      return "Jarvis live chat is offline right now. You can still view services on the Services page or use the Contact page to reach Amit directly.";
+      return "Open the Services page for digital identity, websites, automation, AI workflows, and structured web systems. If you want direct help, use the Contact page with your goal, timeline, and budget.";
     }
     if (q.indexOf("collab") !== -1 || q.indexOf("partner") !== -1) {
-      return "For collaboration, use the Collaboration page or Contact page. Live Jarvis replies will return when the backend API is online.";
+      return "For collaboration, open the Collaboration page. Share who you are, what you want to build, what you can contribute, and the timeline. Use Contact for direct communication.";
     }
     if (q.indexOf("contact") !== -1 || q.indexOf("email") !== -1) {
-      return "Please use the Contact page for direct messages. The live Jarvis backend is currently offline.";
+      return "Use the Contact page for direct messages. Include your name, email, subject, and a clear description so Amit can respond properly.";
     }
     if (q.indexOf("blog") !== -1 || q.indexOf("article") !== -1) {
-      return "You can read Amit's articles from the Blog page. Live Jarvis chat is currently offline.";
+      return "Open the Blog page to read Amit's writing on technology, leadership, AI, governance, youth, privacy, education, entrepreneurship, and future systems.";
     }
-    return "Jarvis live chat is temporarily offline. You can browse the website normally, or use the Contact page for direct communication.";
+    if (q.indexOf("venture") !== -1 || q.indexOf("brand") !== -1 || q.indexOf("royal") !== -1 || q.indexOf("jhon") !== -1 || q.indexOf("youth") !== -1) {
+      return "Amit's public ventures include Royal Heritage Resort, Jhon Aamit LLP, and National Youth Force. Open the brand pages to review each initiative.";
+    }
+    if (q.indexOf("who") !== -1 || q.indexOf("amit") !== -1 || q.indexOf("king") !== -1 || q.indexOf("about") !== -1) {
+      return "Amit Ku Yadav is a Bhagalpur-based digital systems builder working across identity, websites, ventures, public communication, and social impact. Open About or Blog for the deeper story.";
+    }
+    return "I can guide you around kingofyadav.in: About, Blog, Services, Ventures, Collaboration, and Contact. Ask about a service, venture, article, or how to collaborate.";
   }
 
   function setMode(mode) {

@@ -284,6 +284,167 @@ body.theme-light .hi-personal-hero-rail > div {
   align-items: start;
 }
 
+/* ======================================================
+   DIGITAL WORLD COMMAND CENTER
+====================================================== */
+
+.hi-world-dashboard {
+  margin: 0 0 34px;
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: 14px;
+  border: 1px solid rgba(128,128,128,.16);
+  background: rgba(255,255,255,.035);
+}
+
+body.theme-light .hi-world-dashboard {
+  background: #fff;
+  border-color: rgba(0,0,0,.08);
+  box-shadow: 0 14px 42px rgba(0,0,0,.06);
+}
+
+.hi-world-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: end;
+  margin-bottom: 24px;
+}
+
+.hi-world-head h2,
+.hi-ai-command-copy h2 {
+  margin: 0;
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.hi-world-head p,
+.hi-ai-command-copy p {
+  max-width: 720px;
+  margin: 12px 0 0;
+  font-size: .94rem;
+  line-height: 1.72;
+  opacity: .72;
+}
+
+.hi-world-status {
+  min-width: 190px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(4,106,56,.22);
+  background: linear-gradient(135deg, rgba(4,106,56,.12), rgba(255,103,31,.08));
+}
+
+.hi-world-status span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--brand-green);
+  font-size: .68rem;
+  font-weight: 850;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.hi-world-status strong {
+  display: block;
+  font-size: .95rem;
+  line-height: 1.3;
+}
+
+.hi-world-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.hi-world-card {
+  min-height: 168px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(128,128,128,.16);
+  background: rgba(255,255,255,.035);
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+
+body.theme-light .hi-world-card {
+  background: rgba(0,0,0,.018);
+}
+
+.hi-world-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(4,106,56,.45);
+  background: rgba(4,106,56,.075);
+}
+
+.hi-world-card.primary {
+  border-color: rgba(4,106,56,.42);
+  background: linear-gradient(135deg, rgba(4,106,56,.18), rgba(255,103,31,.1));
+}
+
+.hi-world-card span {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--brand-orange);
+  font-family: "Courier New", monospace;
+  font-size: .72rem;
+  font-weight: 850;
+}
+
+.hi-world-card strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.02rem;
+  line-height: 1.25;
+}
+
+.hi-world-card p {
+  margin: 0;
+  font-size: .84rem;
+  line-height: 1.58;
+  opacity: .68;
+}
+
+.hi-ai-command-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .9fr);
+  gap: 24px;
+  align-items: center;
+  margin: 0 0 34px;
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: 14px;
+}
+
+.hi-ai-command-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hi-ai-command-grid .hi-ai-prompt {
+  min-height: 54px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(4,106,56,.26);
+  background: rgba(4,106,56,.08);
+  color: inherit;
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.hi-ai-command-grid .hi-ai-prompt:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-green);
+  background: rgba(4,106,56,.14);
+}
+
 
 /* ======================================================
    2. IDENTITY CARD
@@ -388,6 +549,31 @@ body.theme-light .hi-personal-hero-rail > div {
   margin: 0 0 6px;
   opacity: 0.9;
   letter-spacing: 0.3px;
+}
+
+.hi-identity-username {
+  font-size: 0.78rem;
+  color: var(--brand-orange);
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.hi-identity-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+
+.hi-identity-contact span {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.04);
 }
 
 .hi-identity-tagline {
@@ -1888,6 +2074,219 @@ body.theme-light .hi-chat-input {
 .hi-chat-send-btn:hover { transform: scale(1.08); box-shadow: 0 4px 14px rgba(4,106,56,.4); }
 .hi-chat-send-btn:disabled { opacity: .4; cursor: default; transform: none; }
 
+/* World-class AI operator surface */
+.hi-chat-backdrop {
+  background: rgba(0,0,0,.56);
+  backdrop-filter: blur(10px) saturate(130%);
+}
+
+.hi-chat-panel {
+  top: 18px;
+  right: 18px;
+  bottom: 18px;
+  width: min(720px, calc(100vw - 36px));
+  max-width: none;
+  border: 1px solid rgba(128,128,128,.16);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 28px 90px rgba(0,0,0,.46);
+  transform: translateX(calc(100% + 28px)) scale(.98);
+}
+
+body.theme-dark .hi-chat-panel {
+  background:
+    linear-gradient(145deg, rgba(4,106,56,.08), rgba(255,103,31,.055)),
+    #0a0b0a;
+}
+
+body.theme-light .hi-chat-panel {
+  background:
+    linear-gradient(145deg, rgba(4,106,56,.055), rgba(255,103,31,.045)),
+    #fbfbf8;
+}
+
+.hi-chat-panel.open {
+  transform: translateX(0) scale(1);
+}
+
+.hi-chat-header {
+  min-height: 74px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(128,128,128,.14);
+  background: rgba(255,255,255,.035);
+}
+
+body.theme-light .hi-chat-header {
+  background: rgba(255,255,255,.68);
+}
+
+.hi-chat-header::before {
+  height: 2px;
+}
+
+.hi-chat-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(4,106,56,.22);
+}
+
+.hi-chat-title {
+  font-size: 1rem;
+  font-weight: 850;
+  letter-spacing: 0;
+}
+
+.hi-chat-context-status {
+  margin-top: 4px;
+  font-size: .72rem;
+  opacity: .62;
+}
+
+.hi-chat-action-btn,
+.hi-chat-close-btn {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(128,128,128,.12);
+  background: rgba(255,255,255,.045);
+  opacity: .72;
+}
+
+body.theme-light .hi-chat-action-btn,
+body.theme-light .hi-chat-close-btn {
+  background: rgba(0,0,0,.035);
+}
+
+.hi-chat-messages {
+  padding: 24px;
+  gap: 16px;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(4,106,56,.08), transparent 28%),
+    radial-gradient(circle at 90% 70%, rgba(255,103,31,.065), transparent 30%);
+}
+
+.hi-chat-welcome {
+  min-height: 100%;
+  justify-content: center;
+  padding: 44px 24px;
+}
+
+.hi-chat-welcome-icon {
+  width: 74px;
+  height: 74px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(4,106,56,.2), rgba(255,103,31,.16));
+  border: 1px solid rgba(128,128,128,.16);
+  font-size: 2.5rem;
+}
+
+.hi-chat-welcome p {
+  max-width: 440px;
+  font-size: .95rem;
+  opacity: .72;
+}
+
+.hi-chat-bubble {
+  max-width: min(86%, 560px);
+}
+
+.hi-bubble-content {
+  padding: 14px 16px;
+  border-radius: 18px;
+  font-size: .93rem;
+  line-height: 1.72;
+  box-shadow: 0 10px 28px rgba(0,0,0,.12);
+}
+
+body.theme-dark .hi-chat-bubble.assistant .hi-bubble-content {
+  background: rgba(255,255,255,.075);
+  color: rgba(255,255,255,.9);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+body.theme-light .hi-chat-bubble.assistant .hi-bubble-content {
+  background: rgba(255,255,255,.9);
+  color: #111;
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+.hi-chat-bubble.user .hi-bubble-content {
+  background: linear-gradient(135deg, #046A38, #0a7a46);
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+.hi-chat-suggestions {
+  padding: 14px 20px 0;
+  gap: 8px;
+  background: rgba(255,255,255,.02);
+}
+
+.hi-suggestion-chip {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: .76rem;
+  background: rgba(4,106,56,.08);
+}
+
+.hi-chat-form {
+  gap: 12px;
+  padding: 16px 20px 20px;
+  border-top: 1px solid rgba(128,128,128,.14);
+  background: rgba(255,255,255,.035);
+}
+
+body.theme-light .hi-chat-form {
+  background: rgba(255,255,255,.68);
+}
+
+.hi-chat-input {
+  min-height: 52px;
+  max-height: 180px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  font-size: .94rem;
+  line-height: 1.55;
+}
+
+body.theme-dark .hi-chat-input {
+  background: rgba(255,255,255,.075);
+  border: 1px solid rgba(255,255,255,.1);
+}
+
+body.theme-light .hi-chat-input {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.1);
+}
+
+.hi-chat-send-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  box-shadow: 0 12px 26px rgba(4,106,56,.22);
+}
+
+.hi-chat-send-btn svg {
+  width: 19px;
+  height: 19px;
+}
+
+.hi-ai-fab {
+  min-width: 118px;
+  border-radius: 999px;
+  box-shadow: 0 18px 44px rgba(4,106,56,.28);
+}
+
+.hi-chat-open .hi-ai-fab {
+  transform: translateY(-2px);
+  opacity: .88;
+}
+
 
 /* ======================================================
    19. LICENSE SYSTEM  (Phase 10)
@@ -2943,7 +3342,17 @@ body.theme-light .hi-hdi-claims {
 ====================================================== */
 
 @media (max-width: 768px) {
-  .hi-chat-panel { width: 100vw; border-left: none; }
+  .hi-chat-panel {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    border-left: none;
+    border-radius: 0;
+  }
+  .hi-chat-header { padding: 16px 18px; }
+  .hi-chat-messages { padding: 18px 16px; }
+  .hi-chat-form { padding: 12px 14px 16px; }
   .hi-people-grid { grid-template-columns: 1fr; }
   .hi-claim-row { grid-template-columns: 1fr; }
   .hi-cert-footer { grid-template-columns: 1fr 1fr; }
@@ -2951,6 +3360,9 @@ body.theme-light .hi-hdi-claims {
   .hi-personal-hero-main { grid-template-columns: 1fr; }
   .hi-personal-hero-left { grid-template-columns: 1fr; }
   .hi-personal-hero-rail { grid-template-columns: repeat(2, 1fr); }
+  .hi-world-head,
+  .hi-ai-command-panel { grid-template-columns: 1fr; }
+  .hi-world-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hi-license-hero-grid { grid-template-columns: repeat(2, 1fr); }
   .hi-license-test-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hi-demo-cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -2965,10 +3377,16 @@ body.theme-light .hi-hdi-claims {
 
 @media (max-width: 480px) {
   .hi-chat-suggestions { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+  .hi-chat-bubble { max-width: 94%; }
+  .hi-bubble-content { font-size: .88rem; }
+  .hi-chat-input { font-size: .9rem; }
   .hi-cert-name { font-size: 1.25rem; }
   .hi-personal-hero-rail { grid-template-columns: 1fr; }
   .hi-personal-hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
   .hi-hero-action { width: 100%; }
+  .hi-world-grid,
+  .hi-ai-command-grid { grid-template-columns: 1fr; }
+  .hi-world-card { min-height: auto; }
   .hi-license-hero-grid { grid-template-columns: 1fr; }
   .hi-license-test-grid { grid-template-columns: 1fr; }
   .hi-demo-cert-head { flex-direction: column; }
@@ -2983,4 +3401,11 @@ body.theme-light .hi-hdi-claims {
   .hi-pro-cert-grid,
   .hi-pro-cert-hashes { grid-template-columns: 1fr; }
   .hi-pro-cert-id { font-size: .95rem; }
+}
+
+@media (min-width: 1024px) {
+  .personal-main,
+  .hi-license-main {
+    max-width: 1280px;
+  }
 }

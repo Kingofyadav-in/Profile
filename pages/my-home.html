@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="/css/base.css?v=20260502-pro" />
 <link rel="stylesheet" href="/css/components.css?v=20260502-pro" />
 <link rel="stylesheet" href="/css/personal.css?v=20260502-pro" />
+<link rel="stylesheet" href="/css/auth.css?v=hi-1" />
 <link rel="stylesheet" href="/css/myhome.css?v=20260502-pro" />
 
 <link rel="icon" href="/favicon/favicon.ico" />
@@ -39,98 +40,110 @@
 <!-- ================= HEADER ================= -->
 <header class="personal-header glass">
   <div class="personal-header-inner">
-
     <a href="/pages/personal.html" class="personal-brand">
-      <img src="/logo/night-logo.png"
-           alt="Amit Ku Yadav"
-           id="personalLogo"
-           class="personal-logo">
-
+      <img id="personalLogo" src="/logo/day-logo.png" alt="HI App" class="personal-logo" />
       <div class="personal-brand-text">
         <span class="personal-name">Amit Ku Yadav</span>
-        <span class="personal-tagline">Personal</span>
+        <span class="personal-tagline">HAVEN</span>
       </div>
     </a>
-
-  <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <nav class="personal-nav">
-        <a href="/pages/about-me.html">ABOUT ME</a>
-        <a href="/pages/origin.html">ORIGIN</a>
-        <a href="/pages/haven.html" class="active">HAVEN</a>
-        <a href="/pages/bhagalpur.html">BHAGALPUR</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="personal-nav">
+      <a href="/pages/about-me.html">ABOUT ME</a>
+      <a href="/pages/origin.html">ORIGIN</a>
+      <a href="/pages/haven.html" class="active">HAVEN</a>
+      <a href="/pages/bhagalpur.html">BHAGALPUR</a>
+      <a href="/pages/hi-license.html" class="hi-nav-license">&#x1F5AA; License</a>
     </nav>
-
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
   </div>
 </header>
 
 <!-- ================= MAIN ================= -->
-<main id="main-content" class="site-main personal-page">
+<main id="main-content" class="personal-main personal-page">
 
-  <!-- HERO -->
-  <section class="personal-section glass hero-home">
-    <header>
-      <h1>Haven</h1>
+  <section class="personal-section glass hero-home profile-hero">
+    <header class="profile-hero-copy">
+      <p class="hero-label">Foundation · Home</p>
+      <h1>My Home</h1>
       <p class="personal-intro">
-        A private digital representation of home: the place where discipline,
-        responsibility, respect, and long-term direction begin.
+        The first system I ever learned: values, discipline, people, routine, and
+        the foundation that supports every public and digital responsibility.
       </p>
+      <div class="profile-hero-actions">
+        <a class="profile-hero-action primary" href="#core-values">Core Values</a>
+        <a class="profile-hero-action" href="#digital-home">Digital System</a>
+        <a class="profile-hero-action" href="#location">Location</a>
+      </div>
     </header>
-  </section>
-
-  <section class="home-snapshot" aria-label="Home foundation snapshot">
-    <div><span>Foundation</span><strong>Family Values</strong></div>
-    <div><span>Standard</span><strong>Discipline</strong></div>
-    <div><span>Environment</span><strong>Bhagalpur</strong></div>
-    <div><span>Purpose</span><strong>Stability</strong></div>
-  </section>
-
-  <!-- FOUNDATIONS -->
-  <section class="personal-section glass" id="foundation">
-    <header>
-      <h2>Foundations</h2>
-    </header>
-
-    <article>
-      <p>
-        My home represents stability, education, respect, and integrity.
-        It is where character is shaped before public work begins.
-      </p>
-    </article>
-
-    <aside>
-      <p><strong>Core Values:</strong> Discipline · Respect · Responsibility · Service · Structure</p>
+    <aside class="profile-hero-panel" aria-label="Home foundation system">
+      <p class="profile-panel-title">Foundation System</p>
+      <div class="profile-panel-list">
+        <div><span>Base</span><strong>Bhagalpur, Bihar</strong></div>
+        <div><span>Values</span><strong>Family · Discipline · Respect</strong></div>
+        <div><span>Routine</span><strong>Plan · Work · Review · Rest</strong></div>
+        <div><span>Digital Layer</span><strong>Records · Privacy · Coordination</strong></div>
+      </div>
     </aside>
   </section>
 
-  <!-- DIGITAL HOME SYSTEM -->
-  <section class="personal-section" id="digital-home">
+  <section class="home-snapshot" aria-label="Home foundation snapshot">
+    <div><span>Location</span><strong>Bhagalpur, Bihar, India</strong></div>
+    <div><span>Foundation</span><strong>Family · Discipline · Respect</strong></div>
+    <div><span>Work Base</span><strong>Digital &amp; Community Work</strong></div>
+    <div><span>Principle</span><strong>Home shapes the person before the world does</strong></div>
+  </section>
+
+  <section class="personal-section glass" id="foundation">
     <header>
-      <h2>Digital Home Infrastructure</h2>
+      <h2>What Home Means to Me</h2>
     </header>
+    <p>
+      Home is where standard is set. Before public work, before business, before
+      digital presence — there is home. The relationships here are the ones that
+      remain honest when nothing else has to be. The structure here is the one
+      that holds when external pressure builds.
+    </p>
+    <p>
+      I have learned more about accountability, patience, communication, and
+      long-term thinking from home than from any formal system. That is not
+      sentiment — it is the foundation of how I work.
+    </p>
+  </section>
 
+  <section class="personal-section" id="core-values">
+    <header>
+      <h2>Core Values</h2>
+    </header>
     <div class="life-grid">
-
       <article class="life-card glass">
-        <h3>Connectivity</h3>
-        <p>Reliable digital access for learning, communication, work, and family coordination.</p>
+        <h3>Discipline</h3>
+        <p>Structure is not restriction — it is the foundation of all reliable work.</p>
       </article>
-
       <article class="life-card glass">
-        <h3>Information System</h3>
-        <p>Organized records, communication channels, and important personal references.</p>
+        <h3>Respect</h3>
+        <p>Given to people, to time, and to the work itself — not just to titles.</p>
       </article>
-
       <article class="life-card glass">
-        <h3>Security</h3>
-        <p>Privacy-first habits, controlled access, and careful handling of personal information.</p>
+        <h3>Accountability</h3>
+        <p>If something has my name on it, I am responsible for it.</p>
       </article>
-
+      <article class="life-card glass">
+        <h3>Service</h3>
+        <p>Useful work for real people is more important than visible work for approval.</p>
+      </article>
+      <article class="life-card glass">
+        <h3>Patience</h3>
+        <p>Long-term improvement is more trustworthy than short-term attention.</p>
+      </article>
     </div>
   </section>
 
-  <!-- DAILY STRUCTURE -->
   <section class="personal-section glass">
     <header>
       <h2>Daily Structure</h2>
@@ -138,42 +151,57 @@
 
     <ul class="timeline">
       <li>
-        <strong>Morning Discipline</strong>
-        <p>Planning, health, reading, and structuring the most important responsibilities.</p>
+        <strong>Morning</strong>
+        <p>Planning, health, physical discipline, and setting the day's priorities clearly.</p>
       </li>
       <li>
-        <strong>Community Engagement</strong>
-        <p>Focused communication, coordination, and practical contribution outside the home.</p>
+        <strong>Daytime</strong>
+        <p>Community engagement, project work, communication, and external coordination.</p>
       </li>
       <li>
-        <strong>Continuous Learning</strong>
-        <p>Daily improvement through study, research, observation, and honest review.</p>
+        <strong>Evening</strong>
+        <p>Review, reading, learning from the day — what worked, what didn't, what to adjust.</p>
+      </li>
+      <li>
+        <strong>Night</strong>
+        <p>Rest with intention — protecting sleep as a non-negotiable system requirement.</p>
       </li>
     </ul>
   </section>
 
-  <!-- LOCATION -->
-  <section class="personal-section glass" id="location">
+  <section class="personal-section" id="digital-home">
     <header>
-      <h2>Location</h2>
+      <h2>Digital Home Infrastructure</h2>
     </header>
-
-    <address>
-      Bhagalpur, Bihar, India<br />
-      <time datetime="2026">Established Presence: Ongoing</time>
-    </address>
-
+    <p>Home in 2026 is also a digital environment. Mine is built around:</p>
+    <div class="life-grid">
+      <article class="life-card glass">
+        <h3>Connectivity</h3>
+        <p>Reliable access for work, learning, research, and family coordination.</p>
+      </article>
+      <article class="life-card glass">
+        <h3>Information System</h3>
+        <p>Organized personal records, project files, and communication channels.</p>
+      </article>
+      <article class="life-card glass">
+        <h3>Privacy &amp; Security</h3>
+        <p>Privacy-first habits, controlled data access, careful handling of personal and professional information.</p>
+      </article>
+    </div>
   </section>
 
-  <!-- COMMUNITY -->
-  <section class="personal-section glass" id="community">
+  <section class="personal-section glass" id="location">
     <header>
-      <h2>Community Environment</h2>
+      <h2>Location &amp; Environment</h2>
     </header>
-
-    <p class="personal-intro">
-      Home extends beyond walls — it represents the surrounding community,
-      environment, and collective responsibility.
+    <p>
+      Bhagalpur, Bihar, India — the city that is both my origin and my operating base.
+      Working from here is a deliberate choice. The people I serve are here. The
+      community I am part of is here. The context I understand most clearly is here.
+    </p>
+    <p>
+      Strong local roots are not a limitation — they are a competitive advantage
+      for anyone building long-term trust.
     </p>
   </section>
 
@@ -209,8 +237,15 @@
     <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
+  <script src="/js/auth.js?v=hi-1"></script>
   <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
   <script src="/js/script.js?v=20260502-translate6" defer></script>
+  <script>
+    var _u = document.getElementById("authUserDisplay");
+    if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
+    var _lb = document.getElementById("logoutBtn");
+    if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
+  </script>
 
   <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

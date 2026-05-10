@@ -49,7 +49,9 @@ async function _hiApiPush(store, record) {
 
   if (store === 'identity') {
     return hiApiFetch('identity', 'PUT', {
-      name: record.name, tagline: record.tagline, roles: record.roles,
+      name: record.name, username: record.username, email: record.email,
+      phone_code: record.phoneCode, phone: record.phone,
+      tagline: record.tagline, roles: record.roles,
       mission: record.mission, location: record.location, hdi_code: record.hdi
     });
   }
@@ -143,7 +145,20 @@ async function hiApiPull() {
     const identity = await hiApiFetch('identity');
     if (identity?.data) {
       const d = identity.data;
-      await hiPut('identity', { id: 'primary', name: d.name, tagline: d.tagline, roles: d.roles, mission: d.mission, location: d.location, hdi: d.hdi_code, updatedAt: Date.now() });
+      await hiPut('identity', {
+        id: 'primary',
+        name: d.name,
+        username: d.username || d.user_name || '',
+        email: d.email || '',
+        phoneCode: d.phone_code || d.phoneCode || '',
+        phone: d.phone || '',
+        tagline: d.tagline,
+        roles: d.roles,
+        mission: d.mission,
+        location: d.location,
+        hdi: d.hdi_code,
+        updatedAt: Date.now()
+      });
     }
 
     // Tasks

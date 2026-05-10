@@ -59,6 +59,39 @@ function pdSave(data) {
   }
 }
 
+function pdUpsertDetail(details, id, title, value) {
+  const cleanValue = String(value || "").trim();
+  const idx = details.findIndex(item => item.id === id);
+  if (!cleanValue) {
+    if (idx >= 0) details.splice(idx, 1);
+    return;
+  }
+  const next = { id, title, value: cleanValue, source: "identity" };
+  if (idx >= 0) details[idx] = Object.assign({}, details[idx], next);
+  else details.unshift(next);
+}
+
+function pdSyncIdentityDetails(identity) {
+  if (!identity) return;
+  const data = pdLoad();
+  const phone = identity.phone
+    ? ((identity.phoneCode || "") + " " + identity.phone).trim()
+    : "";
+
+  pdUpsertDetail(data.details, "identity_name", "Full Name", identity.name);
+  pdUpsertDetail(data.details, "identity_username", "Username", identity.username ? "@" + identity.username : "");
+  pdUpsertDetail(data.details, "identity_email", "Email", identity.email);
+  pdUpsertDetail(data.details, "identity_mobile", "Mobile", phone);
+  pdUpsertDetail(data.details, "identity_hdi", "HDI", identity.hdi);
+  pdUpsertDetail(data.details, "identity_location", "Location", identity.location);
+  pdUpsertDetail(data.details, "identity_roles", "Roles", Array.isArray(identity.roles) ? identity.roles.join(" · ") : identity.roles);
+
+  pdSave(data);
+  pdRenderDetails(data);
+}
+
+window.pdSyncIdentityDetails = pdSyncIdentityDetails;
+
 function genId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 }
@@ -111,7 +144,10 @@ function pdRenderDetails(data) {
     <div class="life-card glass pd-card" data-section="details" data-id="${esc(d.id)}"
          tabindex="0" role="button" aria-label="Edit ${esc(d.title)}">
       <span class="pd-edit-badge" aria-hidden="true">✏️ Edit</span>
-      <h3>${esc(d.title)}</h3>
+      <div class="pd-card-head">
+        <h3>${esc(d.title)}</h3>
+        ${d.source === "identity" ? '<span class="pd-link-badge" aria-hidden="true">Linked</span>' : ''}
+      </div>
       <p>${esc(d.value)}</p>
     </div>
   `).join("");
@@ -370,11 +406,18 @@ function pdDeleteCard() {
 
 function pdBindCards() {
   document.querySelectorAll(".pd-card").forEach(card => {
-    card.onclick = () => pdOpenModal(card.dataset.section, card.dataset.id);
+    const isLinkedIdentity = card.dataset.section === "details" && String(card.dataset.id || "").indexOf("identity_") === 0;
+    card.onclick = () => {
+      if (isLinkedIdentity && typeof hiOpenIdentityModal === "function" && typeof hiLoadIdentity === "function") {
+        hiLoadIdentity().then(identity => hiOpenIdentityModal(identity || null)).catch(() => hiOpenIdentityModal(null));
+        return;
+      }
+      pdOpenModal(card.dataset.section, card.dataset.id);
+    };
     card.onkeydown = e => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        pdOpenModal(card.dataset.section, card.dataset.id);
+        card.click();
       }
     };
   });

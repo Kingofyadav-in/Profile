@@ -20,7 +20,10 @@ async function hiBuildAIContext() {
     if (identity) {
       lines.push("IDENTITY");
       lines.push("Name: " + identity.name);
+      if (identity.username) lines.push("Username: @" + identity.username);
       if (identity.hdi)      lines.push("HDI: " + identity.hdi);
+      if (identity.email)    lines.push("Email: " + identity.email);
+      if (identity.phone)    lines.push("Phone: " + ((identity.phoneCode || "") + " " + identity.phone).trim());
       if (identity.roles && identity.roles.length)
                              lines.push("Roles: " + (Array.isArray(identity.roles) ? identity.roles.join(" · ") : identity.roles));
       if (identity.location) lines.push("Location: " + identity.location);

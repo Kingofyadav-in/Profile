@@ -36,6 +36,21 @@ function hiGreeting() {
   return "Good night";
 }
 
+function hiBuildUsername(name) {
+  return String(name || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, "")
+    .replace(/^[._-]+|[._-]+$/g, "")
+    .slice(0, 40);
+}
+
+function hiFormatIdentityPhone(identity) {
+  if (!identity || !identity.phone) return "";
+  var code = identity.phoneCode || "";
+  return (code ? code + " " : "") + identity.phone;
+}
+
 /* ── HDI Generator ── */
 
 async function hiGenerateHDI(name) {
@@ -109,7 +124,14 @@ function hiRenderIdentity(identity) {
       '</div>' +
       '<div class="hi-identity-right">' +
         '<h2 class="hi-identity-name">' + hiEsc(identity.name) + '</h2>' +
+        (identity.username ? '<p class="hi-identity-username">@' + hiEsc(identity.username) + '</p>' : '') +
         (roles    ? '<p class="hi-identity-roles">'   + hiEsc(roles)             + '</p>' : '') +
+        (identity.email || identity.phone
+          ? '<div class="hi-identity-contact">' +
+              (identity.email ? '<span>' + hiEsc(identity.email) + '</span>' : '') +
+              (identity.phone ? '<span>' + hiEsc(hiFormatIdentityPhone(identity)) + '</span>' : '') +
+            '</div>'
+          : '') +
         (identity.tagline  ? '<p class="hi-identity-tagline">&ldquo;' + hiEsc(identity.tagline) + '&rdquo;</p>' : '') +
         (identity.location ? '<p class="hi-identity-location">&#x1F4CD; ' + hiEsc(identity.location) + '</p>' : '') +
         (identity.mission  ? '<p class="hi-identity-mission">'  + hiEsc(identity.mission)  + '</p>' : '') +
@@ -169,6 +191,14 @@ function hiOpenIdentityModal(identity) {
 
   document.getElementById("hi-id-name").value =
     identity ? (identity.name || "") : "Amit Ku Yadav";
+  document.getElementById("hi-id-username").value =
+    identity ? (identity.username || hiBuildUsername(identity.name)) : "kingofyadav";
+  document.getElementById("hi-id-email").value =
+    identity ? (identity.email || "") : "";
+  document.getElementById("hi-id-phone-code").value =
+    identity ? (identity.phoneCode || "+91") : "+91";
+  document.getElementById("hi-id-phone").value =
+    identity ? (identity.phone || "") : "";
   document.getElementById("hi-id-tagline").value =
     identity ? (identity.tagline || "") : "";
   document.getElementById("hi-id-roles").value =
@@ -203,6 +233,10 @@ function hiCloseIdentityModal() {
 
 async function hiSaveIdentityModal() {
   var name     = (document.getElementById("hi-id-name").value     || "").trim();
+  var username = (document.getElementById("hi-id-username").value || "").trim();
+  var email    = (document.getElementById("hi-id-email").value    || "").trim();
+  var phoneCode= (document.getElementById("hi-id-phone-code").value || "").trim();
+  var phone    = (document.getElementById("hi-id-phone").value    || "").trim();
   var tagline  = (document.getElementById("hi-id-tagline").value  || "").trim();
   var rolesRaw = (document.getElementById("hi-id-roles").value    || "").trim();
   var mission  = (document.getElementById("hi-id-mission").value  || "").trim();
@@ -213,6 +247,20 @@ async function hiSaveIdentityModal() {
     if (errEl) errEl.textContent = "Name is required.";
     return;
   }
+  username = hiBuildUsername(username || name);
+  if (!username) {
+    if (errEl) errEl.textContent = "Username is required.";
+    return;
+  }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (errEl) errEl.textContent = "Enter a valid email address.";
+    return;
+  }
+  if (phoneCode && !/^\+\d{1,4}$/.test(phoneCode)) {
+    if (errEl) errEl.textContent = "Country code must look like +91.";
+    return;
+  }
+  phone = phone.replace(/[^\d\s-]/g, "").trim();
   if (errEl) errEl.textContent = "";
 
   var existing = await hiLoadIdentity();
@@ -220,12 +268,25 @@ async function hiSaveIdentityModal() {
     ? rolesRaw.split(/[,·]/).map(function(r) { return r.trim(); }).filter(Boolean)
     : [];
 
-  var data = Object.assign({}, existing || {}, { name: name, tagline: tagline, roles: roles, mission: mission, location: location });
+  var data = Object.assign({}, existing || {}, {
+    name: name,
+    username: username,
+    email: email,
+    phoneCode: phoneCode || "+91",
+    phone: phone,
+    tagline: tagline,
+    roles: roles,
+    mission: mission,
+    location: location
+  });
   if (existing && existing.hdi) data.hdi = existing.hdi;
 
   var saved = await hiSaveIdentity(data);
   hiRenderIdentity(saved);
   hiRenderHeroIdentity(saved);
+  if (typeof window.pdSyncIdentityDetails === "function") {
+    window.pdSyncIdentityDetails(saved);
+  }
   hiCloseIdentityModal();
 }
 
@@ -415,6 +476,15 @@ document.addEventListener("DOMContentLoaded", async function() {
   /* Identity */
   var identity = await hiLoadIdentity();
   hiRenderIdentity(identity);
+  if (typeof window.pdSyncIdentityDetails === "function") {
+    window.pdSyncIdentityDetails(identity);
+  }
+  var pdEditBtn = document.getElementById("hiPersonalDetailsEditBtn");
+  if (pdEditBtn) {
+    pdEditBtn.addEventListener("click", function() {
+      hiOpenIdentityModal(identity || null);
+    });
+  }
 
   /* Today */
   hiRenderTodayHeader();

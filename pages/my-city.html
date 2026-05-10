@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/base.css?v=20260502-pro">
   <link rel="stylesheet" href="/css/components.css?v=20260502-pro">
   <link rel="stylesheet" href="/css/personal.css?v=20260502-pro">
+  <link rel="stylesheet" href="/css/auth.css?v=hi-1">
   <link rel="stylesheet" href="/css/mycity.css?v=20260502-pro">
 
   <link rel="icon" href="/favicon/favicon.ico" />
@@ -38,158 +39,244 @@
 <a href="#main-content" class="skip-link">Skip to content</a>
 <header class="personal-header glass">
   <div class="personal-header-inner">
-
-      <a href="/pages/personal.html" class="personal-brand">
-        <img src="/logo/night-logo.png" id="personalLogo" class="personal-logo" alt="Amit Ku Yadav">
-        <div class="personal-brand-text">
-          <span class="personal-name">Amit Ku Yadav</span>
-          <span class="personal-tagline">Personal</span>
-        </div>
-      </a>
-
-   <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-     <span></span><span></span><span></span>
-   </button>
-   <nav class="personal-nav">
+    <a href="/pages/personal.html" class="personal-brand">
+      <img id="personalLogo" src="/logo/day-logo.png" alt="HI App" class="personal-logo" />
+      <div class="personal-brand-text">
+        <span class="personal-name">Amit Ku Yadav</span>
+        <span class="personal-tagline">BHAGALPUR</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="personal-nav">
       <a href="/pages/about-me.html">ABOUT ME</a>
       <a href="/pages/origin.html">ORIGIN</a>
       <a href="/pages/haven.html">HAVEN</a>
       <a href="/pages/bhagalpur.html" class="active">BHAGALPUR</a>
+      <a href="/pages/hi-license.html" class="hi-nav-license">&#x1F5AA; License</a>
     </nav>
-
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
   </div>
 </header>
 
 <main class="city-page" id="main-content">
 
-  <!-- HERO -->
-  <section class="city-hero glass">
-    <p class="hero-label">Private Roots</p>
-    <h1>Bhagalpur, Bihar</h1>
-    <p class="city-intro">
-      My city is part of my identity. Bhagalpur shaped my early discipline,
-      relationships, public awareness, and understanding of how communities grow.
-    </p>
+  <section class="city-hero glass profile-hero">
+    <div class="profile-hero-copy">
+      <p class="hero-label">My City · Roots</p>
+      <h1>Bhagalpur, Bihar</h1>
+      <p class="city-intro">
+        Born here on 25 December 1999. Bhagalpur — Champa Nagari, the Silk City
+        of India — shaped my discipline, public awareness, and understanding of
+        what real communities need.
+      </p>
+      <div class="profile-hero-actions">
+        <a class="profile-hero-action primary" href="#silk-city">Silk Legacy</a>
+        <a class="profile-hero-action" href="#vikramshila">Vikramshila</a>
+        <a class="profile-hero-action" href="#ganga-wildlife">Ganga</a>
+      </div>
+    </div>
+    <aside class="profile-hero-panel" aria-label="Bhagalpur quick facts">
+      <p class="profile-panel-title">City Signal</p>
+      <div class="profile-panel-list">
+        <div><span>Known As</span><strong>Silk City of India</strong></div>
+        <div><span>Ancient Name</span><strong>Champa Nagari</strong></div>
+        <div><span>River</span><strong>Ganga, southern bank</strong></div>
+        <div><span>Identity</span><strong>Angika culture · trade · learning</strong></div>
+      </div>
+    </aside>
   </section>
 
   <section class="city-snapshot" aria-label="City roots snapshot">
-    <div><span>Known As</span><strong>Silk City</strong></div>
-    <div><span>River</span><strong>Ganga</strong></div>
-    <div><span>Root</span><strong>Birthplace</strong></div>
-    <div><span>Role</span><strong>Community Base</strong></div>
+    <div><span>Known As</span><strong>Silk City of India</strong></div>
+    <div><span>Founded</span><strong>Ancient Anga Kingdom, 6th century BCE</strong></div>
+    <div><span>River</span><strong>Ganga (Southern Bank)</strong></div>
+    <div><span>Status</span><strong>Smart City Mission, Govt. of India</strong></div>
   </section>
 
-  <!-- ABOUT -->
-  <section class="city-section">
-    <h2>About Bhagalpur</h2>
+  <nav class="profile-quick-nav" aria-label="Bhagalpur section navigation">
+    <a href="#history">History</a>
+    <a href="#vikramshila">Vikramshila</a>
+    <a href="#silk-city">Silk</a>
+    <a href="#ganga-wildlife">Ganga</a>
+    <a href="#culture">Culture</a>
+    <a href="#connectivity">Connectivity</a>
+  </nav>
+
+  <section class="city-section" id="history">
+    <h2>A City Written in History</h2>
     <p>
-      Bhagalpur is a major city in Bihar, historically connected with trade,
-      education, river culture, and the silk industry. For me, it is also the
-      place where local relationships, responsibility, and public awareness began.
+      Bhagalpur derives its name from Bhagdatpuram — meaning "City of Good Luck."
+      Historically known as Champa Nagari, it was the capital of the ancient Anga
+      Mahajanapada (6th century BCE), referenced in both the Ramayana and the
+      Mahabharata. The city flourished under the Gupta Empire, the Pala dynasty,
+      and the Mughal era before becoming a significant administrative centre during
+      British rule.
     </p>
     <p>
-      Learn more:
-      <a href="https://en.wikipedia.org/wiki/Bhagalpur" target="_blank" rel="noopener noreferrer">Wikipedia</a>
-    </p>
-  </section>
-
-  <section class="city-section">
-  <h2>City Highlights</h2>
-
-  <div class="city-grid">
-
-    <div class="city-card">
-      <h3>Silk Industry</h3>
-      <p>Bhagalpur is widely known for silk weaving and premium Tussar silk production.</p>
-    </div>
-
-    <div class="city-card">
-      <h3>Vikramshila</h3>
-      <p>An ancient center of Buddhist learning and one of the region's major heritage symbols.</p>
-    </div>
-
-    <div class="city-card">
-      <h3>River Ganga</h3>
-      <p>The Ganga shapes culture, agriculture, movement, and the emotional life of the city.</p>
-    </div>
-
-    <div class="city-card">
-      <h3>Population & Growth</h3>
-      <p>A growing urban center of eastern Bihar with expanding education, trade, and services.</p>
-    </div>
-
-  </div>
-</section>
-
-  <!-- GEOGRAPHY -->
-  <section class="city-section">
-    <h2>Geography & River Ganga</h2>
-    <p>
-      The River Ganga flows beside Bhagalpur,
-      shaping its agriculture, trade, and spiritual culture.
+      Chinese travellers Fa-Hien and Hieun-Tsang recorded Bhagalpur as an indispensable
+      trade centre in eastern India during the 7th century — one of the few Indian
+      cities documented in both ancient Indian texts and foreign historical records.
     </p>
   </section>
 
-  <!-- CULTURE -->
-  <section class="city-section">
-    <h2>Culture & Festivals</h2>
+  <section class="city-section" id="vikramshila">
+    <h2>Vikramshila — Where Knowledge Lived</h2>
     <p>
-      The city celebrates Chhath Puja, Durga Puja, Eid, and various cultural fairs.
-      Bhagalpur blends traditional Bihar culture with modern urban life.
+      Established by Emperor Dharmapala of the Pala Empire in the 8th century CE,
+      Vikramshila Mahavihara was one of the greatest centres of Buddhist learning
+      in the ancient world — rivalling Nalanda University at its peak. It drew scholars
+      from across Asia and focused on multiple fields including Tantricism, logic,
+      and philosophy. It was destroyed by Bakhtiyar Khilji in 1203 CE. Today, the
+      ruins at Antichak village in Bhagalpur district are a protected archaeological
+      site, and Vikramshila Central University is currently under construction nearby.
     </p>
+    <div class="city-grid">
+      <div class="city-card">
+        <h3>Founded</h3>
+        <p>8th century CE by Emperor Dharmapala, Pala Empire.</p>
+      </div>
+      <div class="city-card">
+        <h3>Scale</h3>
+        <p>International centre of learning, rivalled Nalanda.</p>
+      </div>
+      <div class="city-card">
+        <h3>Today</h3>
+        <p>Ruins at Antichak, UNESCO-nominated, new university under construction.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- EDUCATION -->
-  <section class="city-section">
+  <section class="city-section" id="silk-city">
+    <h2>The Silk City — A GI-Tagged Legacy</h2>
+    <p>
+      Bhagalpur's Tussar silk is one of India's most iconic fabrics — internationally
+      recognized for its natural lustre, robustness, and airy texture. The silk industry
+      here is over 200 years old, supporting more than 35,000 weavers on 25,000 looms.
+      In 2013, Bhagalpur silk was granted Geographical Indication (GI) status — the
+      same protection as Darjeeling tea and Basmati rice. It now reaches markets in
+      West Asia, Europe, the US, and Japan.
+    </p>
+    <div class="city-grid">
+      <div class="city-card">
+        <h3>GI Status</h3>
+        <p>Granted 2013 — unique regional recognition.</p>
+      </div>
+      <div class="city-card">
+        <h3>Industry Scale</h3>
+        <p>35,000+ weavers, 25,000 looms.</p>
+      </div>
+      <div class="city-card">
+        <h3>Annual Output</h3>
+        <p>~2 million metres of Tussar silk per year.</p>
+      </div>
+      <div class="city-card">
+        <h3>Global Reach</h3>
+        <p>West Asia, Europe, USA, Japan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="city-section" id="education">
     <h2>Education &amp; Institutions</h2>
     <p>
-      Bhagalpur is home to Tilka Manjhi Bhagalpur University (TMBU), established in 1960 —
-      one of the major universities in eastern Bihar. The city has numerous schools,
-      colleges, and professional institutions serving students across the region and neighboring districts.
+      Bhagalpur is one of only two districts in Bihar — after capital Patna — to house
+      three major higher educational institutions in one city:
     </p>
-  </section>
-
-  <!-- ECONOMY -->
-  <section class="city-section">
-    <h2>Economy &amp; Trade</h2>
+    <div class="city-grid">
+      <div class="city-card">
+        <h3>IIIT Bhagalpur</h3>
+        <p>Indian Institute of Information Technology.</p>
+      </div>
+      <div class="city-card">
+        <h3>TMBU</h3>
+        <p>Tilka Manjhi Bhagalpur University (est. 1960).</p>
+      </div>
+      <div class="city-card">
+        <h3>BAU</h3>
+        <p>Bihar Agricultural University.</p>
+      </div>
+    </div>
     <p>
-      Beyond silk, Bhagalpur's economy is driven by agriculture, small-scale industries,
-      and a growing trade sector. The city is a regional commercial hub in eastern Bihar,
-      with improving road and rail connectivity attracting new business activity and investment.
+      Also: Jawaharlal Nehru Medical College, Bhagalpur College of Engineering,
+      400+ government schools, ITI, and polytechnic institutes.
     </p>
   </section>
 
-  <!-- CONNECTIVITY -->
-  <section class="city-section">
+  <section class="city-section" id="ganga-wildlife">
+    <h2>The Ganga &amp; the Gangetic Dolphin</h2>
+    <p>
+      The Ganga flows along the southern edge of the city — shaping its agriculture,
+      trade, spiritual culture, and daily life. The river around Bhagalpur is one of
+      the last habitats of the Gangetic dolphin, the national aquatic animal of India.
+      The Vikramshila Gangetic Dolphin Sanctuary is established here — a protected zone
+      that makes Bhagalpur one of the most important conservation sites in the country.
+    </p>
+    <p>
+      Bhagalpur is also one of only three places in the world — along with Cambodia
+      and Assam — where the endangered Greater Adjutant Stork (Garuda bird) nests and
+      breeds, growing from 78 to over 500 birds since 2007.
+    </p>
+  </section>
+
+  <section class="city-section" id="culture">
+    <h2>Culture, Language &amp; Festivals</h2>
+    <p>
+      The Angika culture defines the cultural identity of this region. The city blends
+      Hindu, Muslim, Buddhist, and Jain traditions across its history and present life.
+    </p>
+    <div class="city-grid">
+      <div class="city-card">
+        <h3>Kali Puja</h3>
+        <p>The most important festival; Shobhayatra celebrated its 71st year in 2024. The post-puja procession takes 36 hours to complete — one of the longest in Bihar.</p>
+      </div>
+      <div class="city-card">
+        <h3>Bishari Puja (Manasa)</h3>
+        <p>A folk festival originating from Champapuri, ancient capital of Anga Mahajanapada.</p>
+      </div>
+      <div class="city-card">
+        <h3>Major Festivals</h3>
+        <p>Chhath Puja, Durga Puja, Eid, and Shravani Mela.</p>
+      </div>
+      <div class="city-card">
+        <h3>Art Forms</h3>
+        <p>Manjusha paintings, Madhubani paintings, Kashida handloom work, terracotta crafts, and Chhau dance.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="city-section" id="connectivity">
     <h2>Connectivity</h2>
     <div class="city-grid">
       <div class="city-card">
         <h3>Rail</h3>
-        <p>Bhagalpur Junction is a major railway station connecting the city to Kolkata, Delhi, and beyond.</p>
+        <p>Bhagalpur Junction — major station connecting to Kolkata, Delhi, Patna.</p>
       </div>
       <div class="city-card">
         <h3>Road</h3>
-        <p>Connected via NH-80 and NH-131 with expanding inter-city and state highway infrastructure.</p>
+        <p>NH-80, NH-131; Vikramshila Setu connects to the northern bank of the Ganga.</p>
       </div>
       <div class="city-card">
-        <h3>River</h3>
-        <p>The sacred Ganga provides natural connectivity and supports local trade, transport, and agriculture.</p>
+        <h3>Smart City</h3>
+        <p>Listed under Government of India's Smart Cities Mission for planned infrastructure upgrades.</p>
       </div>
     </div>
   </section>
 
-  <!-- PERSONAL NOTE -->
   <section class="city-section glass">
     <h2>My Personal Connection</h2>
     <p>
-      I was born on 25 December 1999 in Bhagalpur.
-      Growing up here shaped my values, discipline, local understanding,
-      and desire to build systems that can serve real people.
+      Born on 25 December 1999 in Bhagalpur. This city gave me my earliest
+      understanding of discipline, local responsibility, community dynamics, and
+      what it means to build something real for real people. The Ganga, the silk
+      markets, the old quarters of Champanagar, the university culture — all of
+      this is part of who I am before any digital system or title ever was.
     </p>
-    <p>
-      Age: 26 Years<br>
-      Native City: Bhagalpur, Bihar, India
-    </p>
+    <p>Age: 26 · Native: Bhagalpur, Bihar, India</p>
   </section>
 
 </main>
@@ -231,8 +318,15 @@
     <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
+  <script src="/js/auth.js?v=hi-1"></script>
   <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
   <script src="/js/script.js?v=20260502-translate6" defer></script>
+  <script>
+    var _u = document.getElementById("authUserDisplay");
+    if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
+    var _lb = document.getElementById("logoutBtn");
+    if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
+  </script>
 
   <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

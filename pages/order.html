@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order Service | Amit Ku Yadav</title>
+  <meta name="description" content="Start a service purchase, confirm payment, and receive delivery through a structured order flow for hosting, e-commerce, and custom web systems." />
+  <meta name="author" content="Amit Ku Yadav" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/order.html" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="preload" href="/css/base.css?v=20260502-pro" as="style" />
+  <link rel="preload" href="/css/components.css?v=20260502-pro" as="style" />
+  <link rel="preload" href="/css/order.css?v=20260510-pro" as="style" />
+  <link rel="stylesheet" href="/css/base.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/components.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/order.css?v=20260510-pro" />
+</head>
+<body class="theme-dark">
+  <script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
+  <div id="scrollProgress"></div>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header glass">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="/" class="brand-link" aria-label="Amit Ku Yadav home">
+          <img id="siteLogo" class="logo" src="/logo/day-logo.png" alt="Amit Ku Yadav personal profile" width="50" height="50" />
+          <div class="brand-text">
+            <span class="brand-name">Amit Ku Yadav</span>
+            <span class="brand-tagline">Order</span>
+          </div>
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/pages/blog.html">Blog</a></li>
+          <li><a href="/pages/services.html" class="active" aria-current="page">Services</a></li>
+          <li><a href="/pages/contact.html">Contact</a></li>
+          <li><a href="/pages/collaboration.html">Collab</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main order-page" id="main-content">
+    <section class="order-hero page-hero">
+      <div class="hero-content">
+        <p class="hero-label">Purchase System</p>
+        <h1>Start, pay, receive service.</h1>
+        <p class="hero-description">
+          Pick a package, send the request, confirm payment, and move into delivery with one structured flow.
+          The page keeps the order clear for both the buyer and the service owner.
+        </p>
+        <div class="hero-actions">
+          <a href="#order-packages" class="btn-primary">Choose Package</a>
+          <a href="/pages/contact.html" class="btn-secondary">Contact First</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="order-snapshot" aria-label="Order process summary">
+      <div><span>Step 1</span><strong>Choose a package</strong></div>
+      <div><span>Step 2</span><strong>Confirm scope & payment</strong></div>
+      <div><span>Step 3</span><strong>Build and deliver</strong></div>
+      <div><span>Step 4</span><strong>Receive handoff</strong></div>
+    </section>
+
+    <section id="order-packages" class="order-packages-section">
+      <div class="page-intro">
+        <span class="hero-label">Packages</span>
+        <h2>Choose the service you want to purchase.</h2>
+        <p>
+          Each package includes a clear start point, a fixed scope, and a delivery path so the work can move from payment to service without confusion.
+        </p>
+      </div>
+
+      <div class="order-packages-grid">
+        <article class="order-package glass" data-plan="starter" tabindex="0" role="button" aria-label="Select Starter Hosting">
+          <span class="order-package-badge">Starter</span>
+          <h3>Starter Hosting</h3>
+          <strong class="order-price">₹99/mo</strong>
+          <p>Best for personal sites, simple launches, and portfolios.</p>
+          <ul>
+            <li>1 website</li>
+            <li>SSL and SSD hosting</li>
+            <li>1 email account</li>
+          </ul>
+          <button type="button" class="order-select-btn">Select Package</button>
+        </article>
+
+        <article class="order-package glass" data-plan="pro" tabindex="0" role="button" aria-label="Select Pro Hosting">
+          <span class="order-package-badge">Popular</span>
+          <h3>Pro Hosting</h3>
+          <strong class="order-price">₹299/mo</strong>
+          <p>For growing websites, multiple pages, and daily updates.</p>
+          <ul>
+            <li>5 websites</li>
+            <li>Daily backups</li>
+            <li>Priority support</li>
+          </ul>
+          <button type="button" class="order-select-btn">Select Package</button>
+        </article>
+
+        <article class="order-package glass" data-plan="store" tabindex="0" role="button" aria-label="Select E-Commerce Store">
+          <span class="order-package-badge">Store</span>
+          <h3>E-Commerce Store</h3>
+          <strong class="order-price">₹899/mo</strong>
+          <p>For shops that need catalog, checkout, and payment flow.</p>
+          <ul>
+            <li>Product catalog</li>
+            <li>Cart and checkout</li>
+            <li>Order tracking setup</li>
+          </ul>
+          <button type="button" class="order-select-btn">Select Package</button>
+        </article>
+
+        <article class="order-package glass" data-plan="business" tabindex="0" role="button" aria-label="Select Business Hosting">
+          <span class="order-package-badge">Business</span>
+          <h3>Business Hosting</h3>
+          <strong class="order-price">₹599/mo</strong>
+          <p>For large sites, stronger traffic, and formal business use.</p>
+          <ul>
+            <li>Unlimited websites</li>
+            <li>50 GB NVMe SSD</li>
+            <li>Free domain for 1 year</li>
+          </ul>
+          <button type="button" class="order-select-btn">Select Package</button>
+        </article>
+
+        <article class="order-package glass" data-plan="custom" tabindex="0" role="button" aria-label="Select Custom Build">
+          <span class="order-package-badge">Custom</span>
+          <h3>Custom Build</h3>
+          <strong class="order-price">Quote</strong>
+          <p>For websites, automation, software, or service systems that need a tailored scope.</p>
+          <ul>
+            <li>Scope review</li>
+            <li>Custom timeline</li>
+            <li>Fixed quote after review</li>
+          </ul>
+          <button type="button" class="order-select-btn">Select Package</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="order-checkout-section">
+      <div class="order-checkout-grid">
+        <form id="orderForm" class="order-form glass" data-formspree-id="xwvaodjy" novalidate>
+          <div class="page-intro">
+            <span class="hero-label">Checkout</span>
+            <h2>Submit the order request.</h2>
+            <p>
+              Fill in the details so the service can be confirmed, payment can be handled cleanly, and delivery can begin without back-and-forth.
+            </p>
+          </div>
+
+          <input type="hidden" name="order_id" id="orderIdField" />
+          <input type="hidden" name="selected_plan" id="selectedPlanField" />
+          <input type="hidden" name="selected_amount" id="selectedAmountField" />
+
+          <div class="order-form-grid">
+            <div class="form-group">
+              <label for="orderName">Full Name</label>
+              <input id="orderName" name="name" type="text" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label for="orderEmail">Email</label>
+              <input id="orderEmail" name="email" type="email" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+              <label for="orderPhone">Phone</label>
+              <input id="orderPhone" name="phone" type="tel" placeholder="+91 98765 43210" required />
+            </div>
+            <div class="form-group">
+              <label for="orderBusiness">Business / Project</label>
+              <input id="orderBusiness" name="project" type="text" placeholder="Project or brand name" />
+            </div>
+            <div class="form-group">
+              <label for="orderService">Service Type</label>
+              <select id="orderService" name="service_type" required>
+                <option value="starter">Starter Hosting</option>
+                <option value="pro">Pro Hosting</option>
+                <option value="store">E-Commerce Store</option>
+                <option value="business">Business Hosting</option>
+                <option value="custom">Custom Build</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="orderPayment">Payment Preference</label>
+              <select id="orderPayment" name="payment_preference" required>
+                <option value="upi">UPI Payment</option>
+                <option value="bank">Bank Transfer</option>
+                <option value="link">Payment Link / Gateway</option>
+                <option value="review">Confirm Scope First</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="orderTimeline">Target Timeline</label>
+              <select id="orderTimeline" name="timeline" required>
+                <option value="urgent">Urgent / This Week</option>
+                <option value="soon">Soon / 1-2 Weeks</option>
+                <option value="planned">Planned / This Month</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="orderBudget">Budget Range</label>
+              <select id="orderBudget" name="budget">
+                <option value="">Select range</option>
+                <option value="under-1k">Under ₹1,000</option>
+                <option value="1k-5k">₹1,000 - ₹5,000</option>
+                <option value="5k-15k">₹5,000 - ₹15,000</option>
+                <option value="15k-plus">₹15,000+</option>
+              </select>
+            </div>
+            <div class="form-group form-group--full">
+              <label for="orderMessage">Project Brief</label>
+              <textarea id="orderMessage" name="message" rows="6" placeholder="Describe what you want built, sold, or delivered." required></textarea>
+            </div>
+          </div>
+
+          <div class="order-form-footer">
+            <p class="form-status" id="orderStatus" aria-live="polite"></p>
+            <button type="submit" class="cf-submit-btn" id="orderSubmit">
+              Request Purchase
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M3.105 3.105a1.5 1.5 0 0 1 1.95-.204l12 7.5a1.5 1.5 0 0 1 0 2.598l-12 7.5a1.5 1.5 0 0 1-2.204-1.72l1.5-5.25a.75.75 0 0 1 .528-.535L9.4 12 4.879 10.506a.75.75 0 0 1-.528-.535l-1.5-5.25a1.5 1.5 0 0 1 .254-1.616z"/></svg>
+            </button>
+          </div>
+        </form>
+
+        <aside class="order-summary glass" aria-label="Selected package and delivery summary">
+          <div class="order-summary-top">
+            <span class="hero-label">Order Summary</span>
+            <h2 id="orderSummaryTitle">Starter Hosting</h2>
+            <p id="orderSummaryDescription">Best for personal sites, simple launches, and portfolios.</p>
+          </div>
+
+          <div class="order-summary-price">
+            <span id="orderSummaryPrice">₹99/mo</span>
+            <small id="orderSummaryNote">Delivery starts after scope confirmation and payment review.</small>
+          </div>
+
+          <div class="order-summary-block">
+            <h3>What you receive</h3>
+            <ul id="orderSummaryList">
+              <li>1 website</li>
+              <li>SSL and SSD hosting</li>
+              <li>1 email account</li>
+            </ul>
+          </div>
+
+          <div class="order-summary-block">
+            <h3>Service flow</h3>
+            <ol>
+              <li>Request received</li>
+              <li>Scope confirmed</li>
+              <li>Payment verified</li>
+              <li>Build or activation</li>
+              <li>Service handoff</li>
+            </ol>
+          </div>
+
+          <div class="order-summary-block">
+            <h3>Payment mode</h3>
+            <p>Choose UPI, bank transfer, or payment link. Custom gateways can be added when merchant details are ready.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="order-receipt-section">
+      <div class="page-intro">
+        <span class="hero-label">Receipt</span>
+        <h2>Your last request.</h2>
+        <p>
+          The latest order request is saved locally on this device so you can return to the same service handoff state.
+        </p>
+      </div>
+
+      <div id="orderReceipt" class="order-receipt glass">
+        <p class="order-receipt-empty">No order request saved yet.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer glass">
+    <div class="footer-inner">
+      <div class="footer-enquiry">
+        <p class="footer-title">Enquiry</p>
+        <p class="footer-text">
+          Amit Ku Yadav<br />
+          Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
+          Office: Bhagalpur, India<br />
+          Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
+        </p>
+      </div>
+      <div class="footer-right">
+        <div id="footerClock">--:--</div>
+        <div>Bhagalpur, India</div>
+        <div id="status">STATUS: --</div>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> · All rights reserved</div>
+  </footer>
+
+  <button id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script src="/js/script.js?v=hi-1" defer></script>
+  <script src="/js/order.js?v=hi-1" defer></script>
+</body>
+</html>

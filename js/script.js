@@ -55,11 +55,28 @@ function updateLogo() {
     ? "day"
     : "night";
 
-  ["siteLogo", "personalLogo"].forEach(id => {
-    const logo = document.getElementById(id);
-    if (logo) {
-      logo.src = `/logo/${theme}-logo.png`;
-    }
+  const logoSrc = `/logo/${theme}-logo.png`;
+  const logoSelectors = [
+    "#siteLogo",
+    "#personalLogo",
+    "#authLogo",
+    "#authLogoCard",
+    "#liveClassLogo",
+    "#hiPersonalHeroLogo",
+    "#hiLicenseHeroLogo",
+    "#hiLicenseFooterLogo",
+    ".logo",
+    ".personal-logo",
+    ".hi-section-logo",
+    "img[src*='/logo/day-logo.png']",
+    "img[src*='/logo/night-logo.png']",
+    "img[src*='logo/day-logo.png']",
+    "img[src*='logo/night-logo.png']"
+  ];
+
+  document.querySelectorAll(logoSelectors.join(",")).forEach(logo => {
+    if (logo.dataset && logo.dataset.noThemeLogo === "true") return;
+    logo.src = logoSrc;
   });
 }
 

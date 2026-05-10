@@ -18,6 +18,49 @@ var _hiContextLoaded  = false;
 var _hiContextStr     = "";
 var _hiSending        = false;
 
+function hiLocalOperatorReply(userText) {
+  var text = (userText || "").toLowerCase();
+  var hasContext = _hiContextLoaded && _hiContextStr;
+  var base =
+    "Local operator mode is active. The live AI backend is not reachable, but I can still guide your HI Life OS from this page.\n\n";
+
+  if (text.indexOf("identity") >= 0 || text.indexOf("hdi") >= 0 || text.indexOf("profile") >= 0) {
+    return base +
+      "Identity priority:\n" +
+      "1. Open Create Identity and complete name, roles, location, tagline, and mission.\n" +
+      "2. Confirm the HDI code appears in the hero panel.\n" +
+      "3. Use HI License after identity is saved so ownership records connect to the right person.\n\n" +
+      (hasContext ? "Your local HI context is loaded, so saved identity data is available in this browser." : "Your local HI context is not loaded yet. Save identity first.");
+  }
+
+  if (text.indexOf("today") >= 0 || text.indexOf("focus") >= 0 || text.indexOf("task") >= 0 || text.indexOf("goal") >= 0) {
+    return base +
+      "Today command plan:\n" +
+      "1. Check identity and HDI status.\n" +
+      "2. Pick the top 3 actions from goals, projects, and people.\n" +
+      "3. Record one useful note after each completed action.\n" +
+      "4. End the day with a short review: done, blocked, next.\n\n" +
+      "When the backend is online, I will turn this into a deeper personalized plan.";
+  }
+
+  if (text.indexOf("license") >= 0 || text.indexOf("ownership") >= 0 || text.indexOf("certificate") >= 0) {
+    return base +
+      "License flow:\n" +
+      "1. Save your identity first.\n" +
+      "2. Open HI License.\n" +
+      "3. Claim the content or page you want to protect.\n" +
+      "4. Generate and verify the certificate from the ledger.";
+  }
+
+  return base +
+    "Recommended next actions:\n" +
+    "1. Create or update your identity.\n" +
+    "2. Review the AI dashboard cards on Personal.\n" +
+    "3. Open About, Origin, Haven, Bhagalpur, and HI License to confirm each page has the right content.\n" +
+    "4. Reopen chat after the backend is online for full AI reasoning.\n\n" +
+    "Technical note: this fallback protects the user experience when localhost/API/provider connection fails.";
+}
+
 var HI_SUGGESTIONS = [
   "What should I focus on today?",
   "Review my goals and suggest next steps",
@@ -200,10 +243,7 @@ async function hiSendMessage(userText) {
     hiAppendMessage("assistant", reply);
   } catch(err) {
     hiHideTyping();
-    hiAppendMessage("assistant",
-      "Could not connect to the AI backend. Make sure the server is running.\n\n" +
-      "Error: " + (err.message || "unknown")
-    );
+    hiAppendMessage("assistant", hiLocalOperatorReply(userText));
   }
 
   await hiSaveChatHistory();

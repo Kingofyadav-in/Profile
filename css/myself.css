@@ -320,9 +320,11 @@
   border-radius: 24px;
 }
 
+.page-intro .life-card:first-child h1,
 .page-intro .life-card:first-child h2 {
   font-size: clamp(2.6rem, 5vw, 4.2rem);
-  letter-spacing: -1.5px;
+  letter-spacing: 0;
+  line-height: 1.04;
 }
 
 .page-intro .life-card:first-child p {
@@ -368,5 +370,11 @@ body.theme-light .page-intro .service-card {
 
   .private-snapshot div:last-child {
     border-bottom: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-intro {
+    max-width: 1280px;
   }
 }

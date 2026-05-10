@@ -18,7 +18,6 @@
   <link rel="stylesheet" href="/css/personal.css?v=hi-1" />
   <link rel="stylesheet" href="/css/auth.css?v=hi-1" />
   <link rel="stylesheet" href="/css/hi-app.css?v=hi-3" />
-  <link rel="stylesheet" href="/css/hi-guide.css?v=hi-2" />
 </head>
 
 <body class="theme-dark personal-page">
@@ -34,10 +33,13 @@
     <a href="/pages/personal.html" class="personal-brand">
       <img id="personalLogo" src="/logo/day-logo.png" alt="HI App" class="personal-logo" />
       <div class="personal-brand-text">
-        <span class="personal-name">HI License</span>
-        <span class="personal-tagline">Digital Identity</span>
+        <span class="personal-name">Amit Ku Yadav</span>
+        <span class="personal-tagline">HI LICENSE</span>
       </div>
     </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <nav class="personal-nav">
       <a href="/pages/about-me.html">ABOUT ME</a>
       <a href="/pages/origin.html">ORIGIN</a>
@@ -54,8 +56,8 @@
 
 <main class="site-main personal-main hi-license-main" id="main-content">
 
-  <section class="hi-license-hero glass" aria-label="HI License overview">
-    <div class="hi-license-hero-brand">
+  <section class="hi-license-hero glass profile-hero" aria-label="HI License overview">
+    <div class="hi-license-hero-brand profile-hero-copy">
       <img src="/logo/day-logo.png" alt="HI App" class="hi-license-hero-logo" id="hiLicenseHeroLogo" />
       <div>
         <p class="hi-license-kicker">Human Intelligence App</p>
@@ -63,75 +65,23 @@
         <p class="hi-license-hero-copy">
           Human Digital Identity, content claims, certificates, and local-first ownership records for kingofyadav.in.
         </p>
-      </div>
-    </div>
-    <div class="hi-license-hero-grid" aria-label="License capabilities">
-      <div><span>01</span><strong>Identity</strong><p>HDI certificate</p></div>
-      <div><span>02</span><strong>Claim</strong><p>Content ownership</p></div>
-      <div><span>03</span><strong>Proof</strong><p>Hash certificate</p></div>
-      <div><span>04</span><strong>Backup</strong><p>Portable JSON</p></div>
-    </div>
-  </section>
-
-  <section class="personal-section glass hi-license-section hi-license-test-section" aria-label="HI App test user guide">
-    <div class="hi-license-section-head">
-      <img src="/logo/day-logo.png" alt="" class="hi-section-logo" />
-      <div>
-        <p class="hi-license-kicker">Test User Path</p>
-        <h2>Use the License System Like a Pro Tester</h2>
-        <p>
-          Create sample content, generate a certificate, verify the claim details,
-          then export a backup. Use non-sensitive test data while reviewing the flow.
-        </p>
-      </div>
-    </div>
-    <div class="hi-license-test-grid" aria-label="Testing checklist">
-      <div><span>01</span><strong>Identity</strong><p>Confirm your HDI certificate appears after identity setup.</p></div>
-      <div><span>02</span><strong>Claim</strong><p>Create a sample claim with a clear title and description.</p></div>
-      <div><span>03</span><strong>Verify</strong><p>Open the certificate and check owner, hash, and license type.</p></div>
-      <div><span>04</span><strong>Backup</strong><p>Export JSON and confirm it can be restored in another browser profile.</p></div>
-    </div>
-  </section>
-
-  <section class="personal-section glass hi-license-section hi-license-demo-section" aria-label="Demo HI license certificate">
-    <div class="hi-license-section-head">
-      <img src="/logo/day-logo.png" alt="" class="hi-section-logo" />
-      <div>
-        <p class="hi-license-kicker">Demo Certificate</p>
-        <h2>Sample License Before You Generate Your Own</h2>
-        <p>
-          This preview shows what a generated HI claim certificate looks like.
-          It is sample data for testers, not a live ownership record.
-        </p>
-      </div>
-    </div>
-
-    <div class="hi-demo-cert">
-      <div class="hi-demo-cert-head">
-        <div>
-          <p class="hi-license-kicker">HI Proof-of-Claim</p>
-          <h3>Test Research Note</h3>
-          <span>Sample local-first certificate</span>
+        <div class="profile-hero-actions">
+          <a class="profile-hero-action primary" href="#hi-claim-title">Claim Content</a>
+          <a class="profile-hero-action" href="#hi-license-certificate-section">Certificate</a>
+          <a class="profile-hero-action" href="/pages/personal.html">HI App</a>
         </div>
-        <div class="hi-demo-seal" aria-hidden="true">HI</div>
       </div>
-      <div class="hi-demo-cert-grid">
-        <div><span>Owner</span><strong>Demo Test User</strong></div>
-        <div><span>HDI</span><strong>DTU-2026-A1B2C3</strong></div>
-        <div><span>License ID</span><strong>HI-LIC-DEMO-2026-001</strong></div>
-        <div><span>License Type</span><strong>Attribution Required</strong></div>
-        <div><span>Content Type</span><strong>Research Note</strong></div>
-        <div><span>Status</span><strong>Demo Only</strong></div>
-      </div>
-      <div class="hi-demo-hash">
-        <span>Content Hash</span>
-        <code>sha256: 8f4d2a9c7e31b6a0-demo-preview-only</code>
-      </div>
-      <p class="hi-demo-notice">
-        A real certificate is generated from your local identity, selected license type,
-        claim title, content description, timestamp, and generated hash.
-      </p>
     </div>
+    <aside class="profile-hero-panel" aria-label="HI License live status">
+      <p class="profile-panel-title">License Stack</p>
+      <div class="profile-panel-list">
+        <div><span>Identity</span><strong>HDI certificate</strong></div>
+        <div><span>Claim</span><strong>Content ownership record</strong></div>
+        <div><span>Proof</span><strong>Hash certificate</strong></div>
+        <div><span>Backup</span><strong>Portable JSON vault</strong></div>
+      </div>
+      <p class="profile-panel-note">Local-first records stay in the browser unless exported or synced by the HI system.</p>
+    </aside>
   </section>
 
   <section class="personal-section glass hi-license-section hi-license-flow-section" aria-label="Register generate claim guide">
@@ -148,99 +98,34 @@
         <span>01</span>
         <div>
           <strong>Register local access</strong>
-          <p>Open HI App, choose Setup on the login page, create a local username and password, then enter the protected workspace.</p>
-          <a href="/pages/login.html?next=%2Fpages%2Fpersonal.html">Open setup</a>
+          <a href="/pages/login.html?next=%2Fpages%2Fpersonal.html">Open setup →</a>
         </div>
       </li>
       <li>
         <span>02</span>
         <div>
           <strong>Generate your HDI</strong>
-          <p>Use Edit Identity in HI App. Save name, role, location, and mission. HI generates your Human Digital Identity automatically.</p>
         </div>
       </li>
       <li>
         <span>03</span>
         <div>
           <strong>Create or select content</strong>
-          <p>Add a sample note, goal, project, or event in HI App, or use the manual Claim Content form below.</p>
         </div>
       </li>
       <li>
         <span>04</span>
         <div>
           <strong>Claim and generate license</strong>
-          <p>Choose content type and license type, add a description, then generate the certificate. Use sample data only while testing.</p>
         </div>
       </li>
       <li>
         <span>05</span>
         <div>
           <strong>Verify and export</strong>
-          <p>Open the certificate, check HDI, license ID, hash, and timestamp. Export a JSON backup when the flow works.</p>
         </div>
       </li>
     </ol>
-  </section>
-
-  <section class="hi-intro-guide" data-storage-key="hi_license_guide_dismissed" aria-label="HI License guide">
-    <div class="hi-intro-banner" role="button" aria-expanded="false" tabindex="0">
-      <div class="hi-intro-banner-left">
-        <span class="hi-intro-banner-dot" aria-hidden="true"></span>
-        <span class="hi-intro-banner-text">New to HI License? Follow the test-user guide</span>
-      </div>
-      <div class="hi-intro-banner-actions">
-        <button class="hi-guide-toggle-btn" type="button">Show Guide</button>
-        <button class="hi-guide-dismiss-btn" type="button" aria-label="Dismiss guide" title="Dismiss">&#x2715;</button>
-      </div>
-    </div>
-    <div class="hi-guide-body" aria-live="polite">
-      <div class="hi-guide-body-inner">
-        <div class="hi-guide-item">
-          <div class="hi-guide-item-header" role="button" tabindex="0" aria-expanded="false">
-            <span class="hi-guide-num">1</span>
-            <span class="hi-guide-item-title">Prepare identity first</span>
-            <i class="hi-guide-chevron" aria-hidden="true">&#x25BE;</i>
-          </div>
-          <div class="hi-guide-panel">
-            <div class="hi-guide-panel-inner">
-              <p>The license system signs claims with your local HDI, so identity setup should be tested before claim generation.</p>
-              <a class="hi-guide-cta" href="/pages/personal.html">Open HI App</a>
-            </div>
-          </div>
-        </div>
-        <div class="hi-guide-item">
-          <div class="hi-guide-item-header" role="button" tabindex="0" aria-expanded="false">
-            <span class="hi-guide-num">2</span>
-            <span class="hi-guide-item-title">Generate a sample certificate</span>
-            <i class="hi-guide-chevron" aria-hidden="true">&#x25BE;</i>
-          </div>
-          <div class="hi-guide-panel">
-            <div class="hi-guide-panel-inner">
-              <ul class="hi-guide-steps">
-                <li><span class="hi-guide-step-num">1</span><span>Enter a sample title such as "Test Research Note".</span></li>
-                <li><span class="hi-guide-step-num">2</span><span>Select content type and license type.</span></li>
-                <li><span class="hi-guide-step-num">3</span><span>Add a short test description, then generate the license.</span></li>
-              </ul>
-              <div class="hi-guide-note">Do not use private IDs, real contracts, or sensitive documents while testing.</div>
-            </div>
-          </div>
-        </div>
-        <div class="hi-guide-item">
-          <div class="hi-guide-item-header" role="button" tabindex="0" aria-expanded="false">
-            <span class="hi-guide-num">3</span>
-            <span class="hi-guide-item-title">Verify and export</span>
-            <i class="hi-guide-chevron" aria-hidden="true">&#x25BE;</i>
-          </div>
-          <div class="hi-guide-panel">
-            <div class="hi-guide-panel-inner">
-              <p>After creating a claim, open the certificate view and check that the owner HDI, generated ID, hash, and license label are readable.</p>
-              <p>Use Export HI Backup to create a portable JSON file for restore testing.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- HDI Certificate -->
@@ -430,7 +315,6 @@
 <script src="/js/hi-app.js?v=hi-1"      defer></script>
 <script src="/js/hi-license.js?v=hi-1"  defer></script>
 <script src="/js/hi-sync.js?v=hi-1"     defer></script>
-<script src="/js/hi-guide.js?v=hi-2"    defer></script>
 <script>
   var _u = document.getElementById("authUserDisplay");
   if (_u) _u.textContent = getAuthUser() || "";

@@ -8,7 +8,7 @@
 .personal-main {
   max-width: 1100px;
   margin: auto;
-  padding: 160px 40px 100px;
+  padding: 24px 40px 100px;
 }
 
 /* ── Navigation ── */
@@ -234,7 +234,7 @@
 /* ── Mobile ── */
 
 @media (max-width: 768px) {
-  .personal-main { padding: 130px 20px 80px; }
+  .personal-main { padding: 34px 20px 80px; }
   .personal-section.glass { padding: 32px 20px; }
   .personal-section { margin-bottom: 70px; }
   .home-snapshot { grid-template-columns: repeat(2, 1fr); }
@@ -287,7 +287,7 @@
 
 .personal-page .hero-home h1 {
   font-size: clamp(2.8rem, 6vw, 4.8rem);
-  letter-spacing: -1.8px;
+  letter-spacing: 0;
 }
 
 .personal-page .life-card {
@@ -306,6 +306,12 @@ body.theme-light .personal-page .life-card {
   background: #fff;
   border: 1px solid rgba(0,0,0,0.08);
   box-shadow: 0 14px 42px rgba(0,0,0,0.06);
+}
+
+@media (min-width: 1024px) {
+  .personal-main {
+    max-width: 1280px;
+  }
 }
 
 @media (max-width: 520px) {
