@@ -105,13 +105,13 @@ async function _hiApiPush(store, record) {
 
   if (store === 'social') {
     if (record.type === 'person') {
-      const body = { name: record.name, email: record.email || '', phone: record.phone || '', company: record.role || '', note: record.note || '', follow_up_date: null };
+      const body = { name: record.name, email: record.email || '', phone: record.phone || '', company: record.role || '', note: record.note || '', follow_up_date: null, whatsapp: record.whatsapp || '', birthday: record.birthday || null, relationship: record.relationship || '' };
       if (isNew) { const r = await hiApiFetch('contacts', 'POST', body); if (r?.data?.id) hiApiSetId(record.id, r.data.id, 'contacts'); }
       else hiApiFetch(`contacts?id=${apiId}`, 'PUT', body);
       return;
     }
     if (record.type === 'event') {
-      const body = { title: record.title, description: record.note || '', event_date: record.date, follow_up_date: null };
+      const body = { title: record.title, description: record.note || '', event_date: record.date, follow_up_date: null, event_time: record.time || null, event_type: record.eventType || 'Meeting' };
       if (isNew) { const r = await hiApiFetch('events', 'POST', body); if (r?.data?.id) hiApiSetId(record.id, r.data.id, 'events'); }
       else hiApiFetch(`events?id=${apiId}`, 'PUT', body);
       return;
@@ -186,7 +186,7 @@ async function hiApiPull() {
     if (contacts?.data) {
       for (const c of contacts.data) {
         hiApiSetId(c.id, c.id, 'contacts');
-        await hiPut('social', { id: c.id, type: 'person', name: c.name, email: c.email, phone: c.phone, role: c.company, note: c.note });
+        await hiPut('social', { id: c.id, type: 'person', name: c.name, email: c.email, phone: c.phone, role: c.company, note: c.note, whatsapp: c.whatsapp || '', birthday: c.birthday || '', relationship: c.relationship || '' });
       }
     }
 
@@ -195,7 +195,7 @@ async function hiApiPull() {
     if (events?.data) {
       for (const e of events.data) {
         hiApiSetId(e.id, e.id, 'events');
-        await hiPut('social', { id: e.id, type: 'event', title: e.title, date: e.event_date, note: e.description });
+        await hiPut('social', { id: e.id, type: 'event', title: e.title, date: e.event_date, note: e.description, time: e.event_time || '', eventType: e.event_type || 'Meeting' });
       }
     }
 
