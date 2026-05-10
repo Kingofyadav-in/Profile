@@ -361,7 +361,7 @@ body.theme-light .hi-personal-hero-rail > div {
 }
 
 .hi-hdi-badge {
-  font-size: 0.58rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.8px;
   color: var(--brand-green);
@@ -476,7 +476,7 @@ body.theme-light .hi-personal-hero-rail > div {
 }
 
 .hi-vital-label {
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.8px;
   text-transform: uppercase;
@@ -521,7 +521,7 @@ body.theme-light .hi-personal-hero-rail > div {
 }
 
 .hi-section-label {
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 1.2px;
   text-transform: uppercase;
@@ -596,7 +596,7 @@ body.theme-light .hi-task-item:hover { background: rgba(0,0,0,0.04); }
   border: none;
   cursor: pointer;
   opacity: 0;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   color: inherit;
   padding: 3px 6px;
   border-radius: 6px;
@@ -786,7 +786,7 @@ body.theme-light .hi-task-form input {
 }
 
 .hi-ai-label {
-  font-size: 0.46rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.4px;
   opacity: 0.82;
@@ -955,13 +955,15 @@ body.theme-light .hi-modal {
 .hi-modal-close {
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
   opacity: 0.4;
-  padding: 4px 8px;
+  padding: 8px 10px;
   border-radius: 6px;
   color: inherit;
   line-height: 1;
+  min-width: 36px;
+  min-height: 36px;
   transition: opacity 0.2s ease, background 0.2s ease;
 }
 
@@ -1002,7 +1004,8 @@ body.theme-light .hi-modal {
 .hi-field input,
 .hi-field textarea {
   width: 100%;
-  padding: 10px 13px;
+  padding: 11px 13px;
+  min-height: 44px;
   border-radius: 10px;
   font-size: 0.88rem;
   outline: none;
@@ -1187,7 +1190,7 @@ body.theme-light .hi-field textarea {
   border-radius: 50%;
   background: var(--brand-green);
   color: #fff;
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 800;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
@@ -1325,7 +1328,7 @@ body.theme-light .hi-field textarea {
 }
 
 .hi-note-date {
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -1389,7 +1392,7 @@ body.theme-light .hi-field textarea {
 
 .hi-stat-label {
   display: block;
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.8px;
   text-transform: uppercase;
@@ -1522,7 +1525,7 @@ body.theme-light .hi-priority-select option {
 
 /* Priority badges */
 .hi-prio-badge {
-  font-size: 0.58rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.8px;
   color: #FF671F;

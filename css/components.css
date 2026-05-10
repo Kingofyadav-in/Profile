@@ -166,7 +166,8 @@ body.theme-light .site-header {
 .btn-primary,
 .btn-signup {
   display: inline-block;
-  padding: 13px 28px;
+  padding: 14px 28px;
+  min-height: 44px;
   border-radius: 999px;
   font-size: 0.86rem;
   font-weight: 600;
@@ -230,7 +231,7 @@ body.theme-light .site-header {
   display: block;
   margin-bottom: 6px;
   color: var(--brand-green);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 1.4px;
   text-transform: uppercase;
@@ -249,7 +250,7 @@ body.theme-light .site-header {
 }
 
 .jarvis-translator-control span {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -282,7 +283,7 @@ body.theme-light .site-header {
 
 .jarvis-translator-control small {
   min-height: 1.2em;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   line-height: 1.4;
   opacity: 0.62;
 }
@@ -597,7 +598,7 @@ body.theme-light .action-card {
 .footer-quote-label {
   margin-bottom: 14px;
   color: var(--brand-green);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 1.8px;
   text-transform: uppercase;
@@ -674,9 +675,11 @@ body.theme-light .site-footer {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px;
+  padding: 10px;
   color: inherit;
   flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .hamburger span {
@@ -747,7 +750,7 @@ body.theme-light .site-footer {
 
   .nav-list li a {
     display: block;
-    padding: 12px 0;
+    padding: 14px 0;
     font-size: 0.95rem;
     letter-spacing: 0.3px;
     border-bottom: 1px solid rgba(128,128,128,0.1);
@@ -765,7 +768,7 @@ body.theme-light .site-footer {
 
   .personal-nav a {
     display: block;
-    padding: 12px 0;
+    padding: 14px 0;
     font-size: 0.95rem;
     border-bottom: 1px solid rgba(128,128,128,0.1);
   }
@@ -1205,7 +1208,7 @@ body.theme-light .contact-library-item {
 
 .contact-meta {
   display: inline-block;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
