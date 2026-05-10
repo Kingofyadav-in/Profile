@@ -384,17 +384,29 @@
 
   <div class="footer-bottom">
     © <span id="year"></span> · All rights reserved
-    <button id="pwaInstallBtn" onclick="triggerInstallPrompt()" aria-label="Install app" style="display:none;margin-left:12px;padding:4px 12px;font-size:0.75rem;border:1px solid var(--accent,#046A38);background:transparent;color:inherit;border-radius:4px;cursor:pointer;vertical-align:middle;">Install App</button>
   </div>
 
 </footer>
+
+  <!-- PWA Install Banner -->
+  <div id="pwaInstallBar" role="banner" aria-label="Install app" hidden>
+    <div class="pwa-ib-icon">
+      <img src="/images/logo.png" alt="HI App" width="40" height="40" onerror="this.style.display='none'">
+    </div>
+    <div class="pwa-ib-text">
+      <strong>Install HI App</strong>
+      <span>Quick access · Works offline</span>
+    </div>
+    <button class="pwa-ib-action" onclick="triggerInstallPrompt()">Install</button>
+    <button class="pwa-ib-dismiss" onclick="dismissInstallBar()" aria-label="Dismiss install prompt">✕</button>
+  </div>
 
   <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
   <!-- ================= SCRIPT ================= -->
-  <script src="js/script.js?v=20260508-install" defer></script>
+  <script src="js/script.js?v=20260510-installbar" defer></script>
 
   <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

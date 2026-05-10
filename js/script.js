@@ -632,26 +632,39 @@ function showSWUpdateBanner(reg) {
 ====================================================== */
 
 let _installEvent = null;
+const _installDismissKey = "pwa_install_dismissed_v1";
 
 function initInstallPrompt() {
+  if (localStorage.getItem(_installDismissKey)) return;
+
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     _installEvent = e;
-    const btn = document.getElementById("pwaInstallBtn");
-    if (btn) btn.style.display = "inline-flex";
+    const bar = document.getElementById("pwaInstallBar");
+    if (bar) bar.hidden = false;
   });
 
   window.addEventListener("appinstalled", () => {
     _installEvent = null;
-    const btn = document.getElementById("pwaInstallBtn");
-    if (btn) btn.style.display = "none";
+    const bar = document.getElementById("pwaInstallBar");
+    if (bar) bar.hidden = true;
   });
 }
 
 function triggerInstallPrompt() {
   if (!_installEvent) return;
   _installEvent.prompt();
-  _installEvent.userChoice.then(() => { _installEvent = null; });
+  _installEvent.userChoice.then(() => {
+    _installEvent = null;
+    const bar = document.getElementById("pwaInstallBar");
+    if (bar) bar.hidden = true;
+  });
+}
+
+function dismissInstallBar() {
+  const bar = document.getElementById("pwaInstallBar");
+  if (bar) bar.hidden = true;
+  localStorage.setItem(_installDismissKey, "1");
 }
 
 /* ======================================================
