@@ -237,6 +237,25 @@ module.exports = async (req, res) => {
       if (method === 'DELETE' && id) { await db.query('DELETE FROM chat_sessions WHERE id=$1', [id]); return res.json({ ok: true }); }
     }
 
+    // ── LICENSES ──────────────────────────────────────────────────
+    if (resource === 'licenses') {
+      if (method === 'GET') {
+        const { rows } = await db.query('SELECT * FROM hdi_licenses ORDER BY claim_date DESC');
+        return res.json({ ok: true, data: rows });
+      }
+      if (method === 'POST') {
+        const { claim_id, content_hash, status, metadata } = req.body;
+        const { rows } = await db.query('INSERT INTO hdi_licenses (claim_id,content_hash,status,metadata) VALUES ($1,$2,$3,$4) RETURNING *', [claim_id, content_hash, status || 'active', JSON.stringify(metadata || {})]);
+        return res.status(201).json({ ok: true, data: rows[0] });
+      }
+      if (method === 'PUT' && id) {
+        const { claim_id, content_hash, status, metadata } = req.body;
+        const { rows } = await db.query('UPDATE hdi_licenses SET claim_id=$2,content_hash=$3,status=$4,metadata=$5 WHERE id=$1 RETURNING *', [id, claim_id, content_hash, status || 'active', JSON.stringify(metadata || {})]);
+        return res.json({ ok: true, data: rows[0] });
+      }
+      if (method === 'DELETE' && id) { await db.query('DELETE FROM hdi_licenses WHERE id=$1', [id]); return res.json({ ok: true }); }
+    }
+
     res.status(404).json({ ok: false, error: `Unknown resource: ${resource}` });
   } catch (err) {
     console.error(err);
