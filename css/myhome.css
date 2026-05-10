@@ -6,7 +6,7 @@
 /* ── Main Container ── */
 
 .personal-main {
-  max-width: var(--container);
+  max-width: 1100px;
   margin: auto;
   padding: 160px 40px 100px;
 }

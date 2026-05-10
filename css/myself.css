@@ -6,7 +6,7 @@
 /* ── Page Layout ── */
 
 .page-intro {
-  padding: 160px 8% 100px;
+  padding: 160px 40px 100px;
   max-width: 1100px;
   margin: auto;
   position: relative;
@@ -245,7 +245,7 @@
 
 @media (max-width: 768px) {
   .page-intro {
-    padding: 140px 6% 80px;
+    padding: 130px 20px 80px;
   }
 
   .private-snapshot {
