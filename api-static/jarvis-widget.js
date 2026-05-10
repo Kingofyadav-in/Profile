@@ -198,6 +198,17 @@
   speakBtn.addEventListener("click", toggleSpeechOutput);
   updateAudioControls();
 
+  /* ── Warmup ping (silent, fires once on load to wake Railway) ─────────── */
+  if (ENDPOINT) {
+    setTimeout(function () {
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "__warmup__", history: [] })
+      }).catch(function () { /* silent */ });
+    }, 1500);
+  }
+
   /* ── Core functions ────────────────────────────────────────────────────── */
   function toggle() {
     isOpen = !isOpen;
@@ -229,41 +240,52 @@
     }
     setBusy(true);
     var typing = appendTyping();
+    var payload = JSON.stringify({ message: text, history: requestHistory });
+    var retried = false;
 
-    fetch(ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, history: requestHistory })
-    })
-      .then(function (res) {
-        if (res.status === 429) { throw new Error("rate_limit"); }
-        if (!res.ok) { throw new Error("http_" + res.status); }
-        return res.json();
+    function doFetch() {
+      return fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload
       })
-      .then(function (data) {
-        removeEl(typing);
-        if (!data.ok) {
-          appendErr(data.error || "Jarvis is unavailable.");
-          return;
-        }
-        if (data.mode === "fallback" && !document.getElementById("jrv-limited-mode")) {
-          appendMode("Limited mode");
-        }
-        var reply = data.reply || data.response || data.message || "(no reply)";
-        appendBot(reply, true);
-        speakReply(reply);
-      })
-      .catch(function (err) {
-        removeEl(typing);
-        var msg = err.message === "rate_limit"
-          ? "Too many messages — please wait a moment."
-          : "Jarvis chat is temporarily offline. Please use the contact page for now.";
-        appendErr(msg);
-      })
-      .then(function () {
-        setBusy(false);
-        input.focus();
-      });
+        .then(function (res) {
+          if (res.status === 429) { throw new Error("rate_limit"); }
+          if (!res.ok) { throw new Error("http_" + res.status); }
+          return res.json();
+        })
+        .then(function (data) {
+          removeEl(typing);
+          if (!data.ok) {
+            appendErr(data.error || "Jarvis is unavailable.");
+            return;
+          }
+          if (data.mode === "fallback" && !document.getElementById("jrv-limited-mode")) {
+            appendMode("Limited mode");
+          }
+          var reply = data.reply || data.response || data.message || "(no reply)";
+          appendBot(reply, true);
+          speakReply(reply);
+        })
+        .catch(function (err) {
+          if (err.message !== "rate_limit" && !retried) {
+            retried = true;
+            appendMode("Waking Jarvis up — retrying…");
+            return new Promise(function (resolve) { setTimeout(resolve, 3000); })
+              .then(doFetch);
+          }
+          removeEl(typing);
+          var msg = err.message === "rate_limit"
+            ? "Too many messages — please wait a moment."
+            : "Jarvis chat is temporarily offline. Please use the contact page for now.";
+          appendErr(msg);
+        });
+    }
+
+    doFetch().then(function () {
+      setBusy(false);
+      input.focus();
+    });
   }
 
   function renderModeBar() {
