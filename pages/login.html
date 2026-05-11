@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon/favicon.ico" />
-  <link rel="stylesheet" href="/css/base.css?v=20260502-pro" />
-  <link rel="stylesheet" href="/css/auth.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/base.css?v=hi-1" />
+  <link rel="stylesheet" href="/css/auth.css?v=hi-1" />
 </head>
 
 <body class="theme-dark auth-page">
@@ -24,7 +24,7 @@ try {
 </script>
 
 <!-- Load auth module synchronously -->
-<script src="/js/auth.js?v=20260502-pro"></script>
+<script src="/js/auth.js?v=hi-1"></script>
 
 <!-- Redirect immediately if already logged in -->
 <script>
@@ -65,7 +65,7 @@ if (isAuthenticated()) {
     <div>
       <span>01</span>
       <strong>Secure Gate</strong>
-      <p>Session or 30-day remembered access.</p>
+      <p>One-time local access on this browser.</p>
     </div>
     <div>
       <span>02</span>
@@ -139,8 +139,8 @@ if (isAuthenticated()) {
       </div>
 
       <label class="auth-remember">
-        <input type="checkbox" id="login-remember" />
-        Remember me for 30 days
+        <input type="checkbox" id="login-remember" checked disabled />
+        Save local access on this browser
       </label>
 
       <button type="submit" class="auth-submit" id="loginBtn">Login</button>
@@ -406,7 +406,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
   var password = document.getElementById("login-password").value;
   var remember = document.getElementById("login-remember").checked;
 
-  login(username, password, remember).then(function(result) {
+    login(username, password, remember).then(function(result) {
     if (result.ok) {
       setStatus("loginStatus", "✓ Login successful. Redirecting…", "success");
       setTimeout(function() {
@@ -447,7 +447,7 @@ document.getElementById("signupForm").addEventListener("submit", function(e) {
       return;
     }
     setStatus("signupStatus", "✓ Account created! Logging you in…", "success");
-    return login(username, password, false);
+    return login(username, password, true);
   }).then(function(loginResult) {
     if (!loginResult) return; /* already handled above */
     if (!loginResult.ok) {
@@ -468,6 +468,5 @@ document.getElementById("signupForm").addEventListener("submit", function(e) {
 });
 </script>
 
-<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
    Author: Amit Ku Yadav
 ====================================================== */
 
-const VERSION = "v16";
+const VERSION = "v17";
 const STATIC_CACHE = `ak-static-${VERSION}`;
 const DYNAMIC_CACHE = `ak-dynamic-${VERSION}`;
 const MAX_DYNAMIC_ITEMS = 80;
@@ -14,6 +14,7 @@ const MAX_DYNAMIC_ITEMS = 80;
 const STATIC_ASSETS = [
   "/",
   "/index.html",
+  "/pages/gallery.html",
   "/offline.html",
   "/manifest.json",
 
@@ -49,7 +50,11 @@ const STATIC_ASSETS = [
   /* FAVICONS */
   "/favicon/favicon.ico",
   "/favicon/android-chrome-192x192.png",
-  "/favicon/android-chrome-512x512.png"
+  "/favicon/android-chrome-512x512.png",
+
+  /* GALLERY */
+  "/images/gallery/Screenshot_20250511_203439_Snapchat.jpg",
+  "/images/gallery/Screenshot_20250511_203646_Snapchat.jpg"
 ];
 
 self.addEventListener("install", (event) => {

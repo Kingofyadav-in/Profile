@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+<title>Digital Rupee Coin Front</title>
+<defs>
+<radialGradient id="gold" cx="35%" cy="25%" r="75%"><stop offset="0%" stop-color="#fff4a8"/><stop offset="35%" stop-color="#ffd24a"/><stop offset="70%" stop-color="#b97300"/><stop offset="100%" stop-color="#f5bb28"/></radialGradient>
+<linearGradient id="tri" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff8c00"/><stop offset="33%" stop-color="#ff8c00"/><stop offset="34%" stop-color="#fff"/><stop offset="66%" stop-color="#fff"/><stop offset="67%" stop-color="#138808"/><stop offset="100%" stop-color="#138808"/></linearGradient>
+<filter id="s"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-opacity=".35"/></filter>
+<filter id="e"><feDropShadow dx="3" dy="3" stdDeviation="1" flood-color="#5b3300"/><feDropShadow dx="-1" dy="-1" stdDeviation="1" flood-color="#fff0a0"/></filter>
+<clipPath id="c"><circle cx="600" cy="600" r="515"/></clipPath>
+</defs>
+<circle cx="600" cy="600" r="545" fill="url(#gold)" filter="url(#s)"/>
+<circle cx="600" cy="600" r="515" fill="url(#tri)" clip-path="url(#c)"/>
+<circle cx="600" cy="600" r="545" fill="none" stroke="#5d3300" stroke-width="14"/>
+<circle cx="600" cy="600" r="500" fill="none" stroke="#ffd86b" stroke-width="12"/>
+<g transform="translate(600 600)" stroke="#6d3c00" stroke-width="7" stroke-linecap="round">
+<line id="t" x1="0" y1="-535" x2="0" y2="-505"/>
+<use href="#t" transform="rotate(10)"/><use href="#t" transform="rotate(20)"/><use href="#t" transform="rotate(30)"/><use href="#t" transform="rotate(40)"/><use href="#t" transform="rotate(50)"/><use href="#t" transform="rotate(60)"/><use href="#t" transform="rotate(70)"/><use href="#t" transform="rotate(80)"/><use href="#t" transform="rotate(90)"/><use href="#t" transform="rotate(100)"/><use href="#t" transform="rotate(110)"/><use href="#t" transform="rotate(120)"/><use href="#t" transform="rotate(130)"/><use href="#t" transform="rotate(140)"/><use href="#t" transform="rotate(150)"/><use href="#t" transform="rotate(160)"/><use href="#t" transform="rotate(170)"/><use href="#t" transform="rotate(180)"/><use href="#t" transform="rotate(190)"/><use href="#t" transform="rotate(200)"/><use href="#t" transform="rotate(210)"/><use href="#t" transform="rotate(220)"/><use href="#t" transform="rotate(230)"/><use href="#t" transform="rotate(240)"/><use href="#t" transform="rotate(250)"/><use href="#t" transform="rotate(260)"/><use href="#t" transform="rotate(270)"/><use href="#t" transform="rotate(280)"/><use href="#t" transform="rotate(290)"/><use href="#t" transform="rotate(300)"/><use href="#t" transform="rotate(310)"/><use href="#t" transform="rotate(320)"/><use href="#t" transform="rotate(330)"/><use href="#t" transform="rotate(340)"/><use href="#t" transform="rotate(350)"/>
+</g>
+<g stroke="#f9cf55" stroke-width="5" fill="none" opacity=".85" stroke-linecap="round">
+<path d="M135 420h180v-45h90M135 520h240v-50h80M135 700h245v55h80M1065 420H885v-45h-90M1065 520H825v-50h-80M1065 700H820v55h-80"/>
+<circle cx="405" cy="375" r="9" fill="#f9cf55"/><circle cx="455" cy="470" r="9" fill="#f9cf55"/><circle cx="460" cy="755" r="9" fill="#f9cf55"/><circle cx="795" cy="375" r="9" fill="#f9cf55"/><circle cx="745" cy="470" r="9" fill="#f9cf55"/><circle cx="740" cy="755" r="9" fill="#f9cf55"/>
+</g>
+<text x="600" y="185" text-anchor="middle" font-family="Arial,sans-serif" font-size="92" font-weight="900" fill="#ffd95a" stroke="#6b3900" stroke-width="5" filter="url(#e)">भारत</text>
+<text x="250" y="610" text-anchor="middle" font-family="Arial,sans-serif" font-size="290" font-weight="900" fill="url(#gold)" stroke="#6b3900" stroke-width="8" filter="url(#e)">₹</text>
+<g transform="translate(600 520)" fill="url(#gold)" stroke="#6b3900" stroke-width="6" filter="url(#e)">
+<ellipse cx="0" cy="-115" rx="82" ry="65"/><circle cx="-32" cy="-128" r="8" fill="#5b3300"/><circle cx="32" cy="-128" r="8" fill="#5b3300"/><path d="M-25-95Q0-72 25-95" fill="none"/>
+<path d="M-90-110Q-170-125-180-58Q-128-75-95-40Z"/><path d="M90-110Q170-125 180-58Q128-75 95-40Z"/>
+<path d="M-75-45Q-45 30-50 145H-115Q-130 25-75-45Z"/><path d="M75-45Q45 30 50 145H115Q130 25 75-45Z"/><path d="M-43-40Q0 45 43-40Q58 55 35 145H-35Q-58 55-43-40Z"/>
+<rect x="-150" y="145" width="300" height="72" rx="16"/><circle cx="0" cy="181" r="34" fill="none"/>
+</g>
+<text x="875" y="565" text-anchor="middle" font-family="Arial,sans-serif" font-size="96" font-style="italic" font-weight="900" fill="#f4bd2b" stroke="#6b3900" stroke-width="4">UPI</text>
+<path d="M990 512l50 30-50 30z" fill="#ff8c00"/><path d="M1016 512l50 30-50 30z" fill="#138808"/>
+<text x="600" y="850" text-anchor="middle" font-family="Arial,sans-serif" font-size="76" font-weight="900" fill="#ffd95a" stroke="#5b3300" stroke-width="4">DIGITAL RUPEE</text>
+<text x="600" y="910" text-anchor="middle" font-family="Arial,sans-serif" font-size="36" font-weight="700" fill="#ffd95a">COLLABORATE · CONNECT · EMPOWER</text>
+</svg>

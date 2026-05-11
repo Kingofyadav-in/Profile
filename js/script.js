@@ -1196,6 +1196,60 @@ function _jarvisSetCache(key, data) {
   try { localStorage.setItem(key, JSON.stringify(data)); } catch {}
 }
 
+/* ======================================================
+   GLOBAL HI COIN HEADER BALANCE
+====================================================== */
+
+function ensureHeaderCoinBadges() {
+  const headers = document.querySelectorAll(".site-header .header-inner, .personal-header-inner");
+  headers.forEach(header => {
+    if (header.querySelector(".header-coin-balance")) return;
+
+    const badge = document.createElement("a");
+    badge.className = "header-coin-balance";
+    badge.href = "/pages/wallet.html";
+    badge.setAttribute("aria-label", "Open HI Wallet");
+    badge.innerHTML = '<span>HI Coin</span><strong class="headerCoinBalanceValue">0</strong>';
+
+    const authBar = header.querySelector(".auth-bar");
+    if (authBar) header.insertBefore(badge, authBar);
+    else header.appendChild(badge);
+  });
+}
+
+function updateHeaderCoinBadges(total) {
+  document.querySelectorAll(".header-coin-balance strong, .headerCoinBalanceValue").forEach(el => {
+    el.textContent = String(total || 0);
+  });
+}
+
+function initHeaderCoinBalance() {
+  ensureHeaderCoinBadges();
+  updateHeaderCoinBadges(0);
+  if (!window.indexedDB) return;
+
+  const req = indexedDB.open("hi_app");
+  req.onsuccess = event => {
+    const db = event.target.result;
+    if (!db.objectStoreNames.contains("wallet")) {
+      db.close();
+      return;
+    }
+    const tx = db.transaction("wallet", "readonly");
+    const getAll = tx.objectStore("wallet").getAll();
+    getAll.onsuccess = () => {
+      const total = (getAll.result || []).reduce((sum, wallet) => {
+        return sum + Number((wallet && wallet.balance) || 0);
+      }, 0);
+      updateHeaderCoinBadges(total);
+    };
+    tx.oncomplete = () => db.close();
+    tx.onerror = () => {
+      try { db.close(); } catch {}
+    };
+  };
+}
+
 
 /* ======================================================
    INIT
@@ -1205,6 +1259,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   setupThemeToggle();
   initActiveNav();
+  initHeaderCoinBalance();
   startFooterUpdates();
   loadSocials();
   initHamburger();

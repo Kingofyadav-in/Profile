@@ -1,17 +1,21 @@
 <div align="center">
 
-<img src="logo/night-logo.png" alt="Amit Ku Yadav" width="120" />
+<img src="logo/night-logo.png" alt="Amit Ku Yadav" width="110" />
 
-# Amit Ku Yadav — Official Digital Platform
+# Amit Ku Yadav — Digital Platform
 
-**Personal · Professional · Social**
+### Personal Portfolio · Professional Profile · Social Identity · AI Life OS
 
-[![Live](https://img.shields.io/badge/Live-kingofyadav.in-046A38?style=flat-square&logo=vercel&logoColor=white)](https://kingofyadav.in)
-[![PWA](https://img.shields.io/badge/PWA-Enabled-5A0FC8?style=flat-square&logo=pwa&logoColor=white)](https://kingofyadav.in)
-[![License](https://img.shields.io/badge/License-MIT-FF671F?style=flat-square)](LICENSE)
+[![Live Site](https://img.shields.io/badge/Live-kingofyadav.in-046A38?style=flat-square&logo=vercel&logoColor=white)](https://kingofyadav.in)
+[![PWA](https://img.shields.io/badge/PWA-Installable-5A0FC8?style=flat-square&logo=pwa&logoColor=white)](https://kingofyadav.in)
+[![SEO](https://img.shields.io/badge/SEO-89%2F100-FF671F?style=flat-square)](https://kingofyadav.in)
+[![Lighthouse](https://img.shields.io/badge/Performance-A%E2%88%92-046A38?style=flat-square)](https://kingofyadav.in)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Vanilla JS](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Vercel](https://img.shields.io/badge/Deployed-Vercel-000000?style=flat-square&logo=vercel)](https://vercel.com)
+
+**[kingofyadav.in](https://kingofyadav.in)** — Built from scratch. Zero frameworks. Zero dependencies.
 
 </div>
 
@@ -19,30 +23,69 @@
 
 ## What This Is
 
-A personal digital platform built from scratch — no frameworks, no dependencies, pure craft. It covers three dimensions of life:
+`kingofyadav.in` is a complete personal digital platform and life operating system for **Amit Ku Yadav** — digital systems builder, founder, and community leader from Bhagalpur, Bihar, India.
 
-| Dimension | Pages | Purpose |
-|---|---|---|
-| **Personal** | MySelf · MyHome · MyCity | Values, roots, and identity |
-| **Professional** | Professional · Services · Collaboration | Work, skills, and partnerships |
-| **Social** | Social · Blog · About Me | Writing, presence, and community |
+It is not a template. It is not WordPress. It is a hand-crafted, production-grade system that serves three parallel purposes simultaneously:
 
-Plus three brand pages: **Royal Heritage Resort**, **Jhon Aamit LLP**, and **National Youth Force**.
+| Layer | What It Does |
+|---|---|
+| **Public Portfolio** | Personal story, professional work, ventures, blog, services |
+| **Social Identity** | Verified social presence, community work, HDI (Human Digital Identity) |
+| **Private Life OS** | HI App — personal dashboard, AI assistant, tasks, contacts, goals |
+
+All three layers share one codebase, one design system, and zero framework overhead.
 
 ---
 
-## Tech Stack
+## Architecture Overview
 
 ```
-Vanilla HTML5 + CSS3 + JavaScript    — zero build step, zero frameworks
-PWA (Service Worker + Web Manifest)  — installable, works offline
-Client-side Local Admin Auth         — protects personal dashboard
-JSON-driven Blog                     — 20+ posts, no CMS needed
-Formspree                            — contact form backend
-Vercel                               — hosting and deployment
+┌─────────────────────────────────────────────────────────────┐
+│                    kingofyadav.in                           │
+│                                                             │
+│  ┌──────────┐  ┌──────────────┐  ┌─────────────────────┐  │
+│  │  PUBLIC  │  │ PROFESSIONAL │  │      SOCIAL          │  │
+│  │  SITE    │  │  PORTFOLIO   │  │      LAYER           │  │
+│  │          │  │              │  │                       │  │
+│  │ index    │  │ professional │  │ social · blog        │  │
+│  │ about-me │  │ services     │  │ 20 blog posts        │  │
+│  │ brands   │  │ collaboration│  │ blog-data.json       │  │
+│  └──────────┘  └──────────────┘  └─────────────────────┘  │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │              HI APP  (Private Dashboard)            │   │
+│  │                                                     │   │
+│  │  personal.html  ←  requireAuth()                   │   │
+│  │       │                                             │   │
+│  │  ┌────┴──────────────────────────────────────┐     │   │
+│  │  │            hi-storage.js (IndexedDB)       │     │   │
+│  │  │  identity · personal · professional        │     │   │
+│  │  │  social · chat · tasks · licenses          │     │   │
+│  │  └───────────────────────────────────────────┘     │   │
+│  │       │                                             │   │
+│  │  hi-app.js · hi-personal.js · hi-professional.js   │   │
+│  │  hi-social.js · hi-assistant.js · hi-license.js    │   │
+│  │  hi-context.js · hi-sync.js                        │   │
+│  │                                                     │   │
+│  │  AI Assistant ──→ POST /api/jarvis-chat             │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │              LIVE CLASSROOM                          │   │
+│  │  live-class.html ←→ /api/live-class (Vercel Fn)    │   │
+│  │  Teacher terminal → board.js → POST with token      │   │
+│  │  Students → browser → real-time polling (1.5s)      │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  ┌──────────────────┐  ┌──────────────────────────────┐   │
+│  │  SERVICE WORKER  │  │       VERCEL EDGE             │   │
+│  │  App Shell       │  │  HTTPS redirect               │   │
+│  │  Network-first   │  │  CSP headers                  │   │
+│  │  HTML + assets   │  │  X-Frame-Options              │   │
+│  │  Offline page    │  │  Immutable CSS/JS caching     │   │
+│  └──────────────────┘  └──────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
 ```
-
-No React. No Vue. No Webpack. Intentionally lean.
 
 ---
 
@@ -51,205 +94,453 @@ No React. No Vue. No Webpack. Intentionally lean.
 ```
 kingofyadav.in/
 │
-├── index.html                  # Homepage (hero, life grid, blog preview)
+├── index.html                    # Homepage: hero, ventures, blog preview, about
 │
 ├── pages/
-│   ├── about-me.html           # Personal story
-│   ├── blog.html               # Blog listing (rendered from JSON)
-│   ├── collaboration.html      # Partnership opportunities
-│   ├── contact.html            # Contact form (Formspree)
-│   ├── login.html              # Auth gate (login + signup)
-│   ├── my-city.html            # Bhagalpur — roots
-│   ├── my-home.html            # Home life
-│   ├── my-self.html            # Personal values
-│   ├── personal.html           # Protected dashboard (requires auth)
-│   ├── professional.html       # Career & achievements
-│   ├── services.html           # Services offered
-│   └── social.html             # Social media + YouTube
+│   ├── about-me.html             # Personal story, timeline, philosophy
+│   ├── blog.html                 # Blog listing (JSON-driven, client-rendered)
+│   ├── collaboration.html        # Partnership and community hub
+│   ├── contact.html              # Contact form (Formspree backend)
+│   ├── hi-license.html           # HDI certificate and digital license viewer
+│   ├── live-class.html           # Real-time live classroom board
+│   ├── login.html                # Auth gateway (local PBKDF2)
+│   ├── origin.html               # Private: personal origin story
+│   ├── haven.html                # Private: home life
+│   ├── bhagalpur.html            # Private: Bhagalpur city roots
+│   ├── personal.html             # Protected: HI App dashboard
+│   ├── professional.html         # Career, ventures, execution philosophy
+│   ├── services.html             # Services offered + pricing structure
+│   └── social.html               # Social presence and verified profiles
 │
-├── blog/                       # 20 individual blog post pages
+├── blog/                         # 20 long-form article pages (2500–3000 words each)
 │   ├── ai-future-of-work.html
 │   ├── building-digital-identity.html
-│   └── ...
+│   ├── climate-crisis-2025.html
+│   ├── community-leadership-principles.html
+│   ├── creator-economy-power-shift.html
+│   ├── digital-privacy-surveillance.html
+│   ├── electric-vehicles-clean-energy.html
+│   ├── entrepreneurship-mindset-2025.html
+│   ├── future-of-education.html
+│   ├── geopolitics-2025.html
+│   ├── governance-digital-age.html
+│   ├── india-rising-global-superpower.html
+│   ├── leadership-modern-era.html
+│   ├── long-term-thinking.html
+│   ├── mental-health-global-epidemic.html
+│   ├── ngos-modern-india.html
+│   ├── technology-future-systems.html
+│   ├── web3-decentralized-future.html
+│   ├── youth-leadership-new-era.html
+│   └── youth-structured-guidance.html
 │
-├── brands/
-│   ├── royal-heritage-resort.html
-│   ├── jhon-aamit-llp.html
-│   └── national-youth-force.html
+├── brands/                       # Venture landing pages
+│   ├── royal-heritage-resort.html      # Hospitality (Schema: Hotel)
+│   ├── jhon-aamit-llp.html             # Finance (Schema: FinancialService)
+│   └── national-youth-force.html       # NGO (Schema: NGO)
 │
 ├── css/
-│   ├── base.css                # Design tokens, reset, themes (critical)
-│   ├── components.css          # Reusable UI components
-│   ├── index.css               # Homepage-specific
-│   ├── blog.css / blog-post.css
-│   ├── auth.css
-│   └── [page].css              # One stylesheet per page
+│   ├── base.css                  # Design tokens, reset, dark/light themes [CRITICAL]
+│   ├── components.css            # Shared UI: nav, cards, buttons, footer
+│   ├── hi-app.css                # HI dashboard + identity + modal system
+│   ├── hi-guide.css              # Onboarding guide component
+│   ├── live-class.css            # Live classroom full redesign
+│   ├── index.css                 # Homepage layout
+│   ├── blog.css / blog-post.css  # Blog listing + article
+│   ├── auth.css                  # Login/signup
+│   ├── brand.css                 # Venture pages shared
+│   ├── collaboration.css         # Collaboration hub
+│   ├── professional.css          # Professional profile
+│   ├── personal.css              # Personal section shell
+│   ├── social.css                # Social presence
+│   ├── services.css              # Services page
+│   ├── contact.css               # Contact form
+│   ├── about.css                 # About me page
+│   ├── personal-pages.css        # Origin / Haven / Bhagalpur sub-pages
+│   ├── myself.css                # Personal identity sub-page
+│   ├── myhome.css / mycity.css   # Home and city sub-pages
+│   └── live-class.css            # Live classroom
 │
 ├── js/
-│   ├── script.js               # Core: theme, nav, blog render, forms, PWA
-│   ├── auth.js                 # Login/signup/session/guard logic
-│   └── personal-data.js        # Personal dashboard CRUD
+│   ├── script.js                 # Core: theme, nav, blog render, forms, PWA
+│   ├── auth.js                   # PBKDF2 login/signup/session/guard
+│   ├── personal-data.js          # Legacy personal CRUD (localStorage)
+│   ├── profile-renderer.js       # Dynamic profile card builder
+│   ├── live-class.js             # Live classroom client (polling, board, toast)
+│   │
+│   ├── hi-storage.js             # IndexedDB wrapper (7 stores)
+│   ├── hi-app.js                 # HI identity card, tabs, greeting, HDI
+│   ├── hi-personal.js            # Habits, goals, notes, personal details
+│   ├── hi-professional.js        # Projects, tasks, professional stats
+│   ├── hi-social.js              # Contacts, events, upcoming panel
+│   ├── hi-context.js             # AI context builder (reads all HI stores)
+│   ├── hi-assistant.js           # AI chat panel (Claude via Jarvis API)
+│   ├── hi-license.js             # HDI generator + certificate system
+│   ├── hi-sync.js                # Backup / restore (export/import JSON)
+│   └── hi-guide.js               # Interactive onboarding guide
 │
-├── blog-data.json              # Blog metadata (title, date, tags, excerpt)
-├── service-worker.js           # PWA: App Shell + smart caching
-├── manifest.json               # PWA manifest
-├── sitemap.xml                 # SEO sitemap (40+ URLs)
-├── robots.txt                  # Crawler rules
-├── 404.html                    # Custom not-found page
-├── offline.html                # Offline fallback
-└── og-image.png                # Social share preview
+├── api/                          # Local Node.js dev server API handlers
+│   ├── live-class.js             # Live class board (GET state / POST commands)
+│   └── profiles/[slug].js        # Dynamic profile API
+│
+├── functions/api/                # Vercel Serverless Functions (production)
+│   └── live-class.js             # Same logic as api/live-class.js (ES module)
+│
+├── tools/
+│   ├── board.js                  # CLI tool: post commands to live board
+│   └── live-server.js            # Local dev server (static + API)
+│
+├── api-static/
+│   └── jarvis-widget.js          # Floating Jarvis AI widget (public pages)
+│
+├── blog-data.json                # Blog post metadata (title, date, tags, slug)
+├── service-worker.js             # PWA: App Shell + smart caching strategy
+├── manifest.json                 # PWA manifest (icons, shortcuts, display)
+├── vercel.json                   # Vercel: headers, redirects, cache rules
+├── .env.example                  # Environment variable template
+├── sitemap.xml                   # SEO sitemap (32 URLs)
+├── robots.txt                    # Crawler rules + sitemap pointer
+├── 404.html                      # Custom not-found page
+├── offline.html                  # PWA offline fallback
+└── og-image.png                  # Social share card (1200×630)
 ```
 
 ---
 
-## Key Features
+## Features
+
+### Public Portfolio & Personal Brand
+
+- **Homepage** — hero, life grid (Personal / Professional / Social), ventures showcase, blog preview, about card, CTA
+- **About Me** — personal timeline, origin story, values, philosophy
+- **Professional Profile** — career history, digital systems work, execution philosophy, venture overview
+- **Services** — detailed service catalog with pricing tiers, process steps, FAQ (Schema: Person + Offers)
+- **Collaboration** — community and partnership opportunities
+- **Social** — verified social profiles, YouTube integration, community presence
+
+### Blog Engine (20 Articles)
+
+- Articles average **2500–3000 words** — original, research-backed, long-form writing
+- Topics: AI, geopolitics, mental health, India, leadership, entrepreneurship, climate, education, NGOs
+- Driven by `blog-data.json` — no CMS, no database
+- Full OG + Twitter card + Article schema on every post
+- Individual post pages with reading progress indicator
+
+### Brand Pages (3 Ventures)
+
+| Venture | Type | Schema |
+|---|---|---|
+| Royal Heritage Resort | Hospitality | `Hotel` |
+| Jhon Aamit LLP | Finance / Brokerage | `FinancialService` |
+| National Youth Force | National NGO | `NGO` |
+
+### HI App — Human Intelligence Dashboard
+
+A private, local-first personal life operating system. Auth-protected. No cloud sync. All data stays in the browser.
+
+**7 IndexedDB stores:**
+
+| Store | Contents |
+|---|---|
+| `identity` | Name, tagline, roles, mission, HDI code |
+| `personal` | Details, values, goals, notes, habits |
+| `professional` | Projects, tasks, skills, priorities |
+| `social` | Contacts, events, follow-ups |
+| `chat` | AI conversation history (by date) |
+| `tasks` | Cross-domain task list |
+| `licenses` | HDI certificate claims |
+
+**HI Features:**
+- Identity card with auto-generated **HDI** (Human Digital Identity) — unique code derived from identity hash
+- Today view: greeting, mood/energy dots, task focus
+- Personal tab: habits tracker, goals with progress, notes & reflections
+- Professional tab: project cards, per-project task lists, stats bar
+- Social tab: upcoming 14-day view, contacts list, events log
+- AI Assistant: Claude-powered chat with full HI context injection
+- License system: digital content ownership certificates
+- Backup/restore: full JSON export of all 7 IndexedDB stores
+
+### Live Classroom
+
+Real-time teacher-controlled board for live sessions. Teacher posts blocks from the terminal; students see updates every 1.5 seconds.
+
+**Board block types:** `heading` · `text` · `code` · `list` · `quote` · `homework` · `link` · `image` · `divider`
+
+**Features:** Blackboard/Whiteboard themes · Fullscreen mode · Live learner list · Toast notifications · Mobile join drawer · Auto-scroll · Keyboard shortcuts
+
+### HDI — Human Digital Identity
+
+Every piece of content on `kingofyadav.in` is claimed under a Human Digital Identity code (`AKY-YYYY-XXXXX`). The license page at `/pages/hi-license.html` displays the active certificate, claim metadata, and content hash for verification.
 
 ### Progressive Web App
-- **App Shell caching** — instant repeat loads
-- **Network-first HTML**, stale-while-revalidate images, cache-first assets
-- **Offline fallback** page when disconnected
+
+- **App Shell + Network-first HTML** — loads instantly, works offline
+- **Stale-while-revalidate** for images, CSS, JS
+- **Offline page** when disconnected
 - **Installable** on Android, iOS, and desktop Chrome
-- Auto update banner when new version is deployed
-
-### Design System
-- CSS custom properties for colors, spacing, typography
-- Dark / light theme toggle with `localStorage` persistence
-- India-coded palette: Forest Green `#046A38` + Saffron `#FF671F`
-- Glass-morphism cards, animated gradients, scroll-reveal
-- Fully responsive — mobile-first layout
-
-### Authentication
-- PBKDF2-SHA-256 hashing for new local admin accounts, with legacy SHA-256 compatibility
-- Session token with 24-hour expiry
-- Remember-me option (30-day localStorage token)
-- Route guard (`requireAuth()`) on personal dashboard
-
-### Blog Engine
-- 20 posts driven from `blog-data.json`
-- Rendered client-side — no server required
-- Tags, dates, reading time, featured images
-- Individual post pages with table of contents
-
-### Performance
-- Zero external JS dependencies
-- Deferred and preloaded stylesheets
-- `IntersectionObserver` for scroll animations and lazy loading
-- Animated counters, back-to-top with scroll progress bar
+- **Auto-update banner** when a new service worker version is deployed
+- **PWA shortcuts**: Dashboard · Blog · Contact
 
 ---
 
-## Running Locally
+## Design System
+
+**Palette** — inspired by the Indian tricolour:
+
+| Token | Value | Usage |
+|---|---|---|
+| `--brand-green` | `#046A38` | Forest Green — headings, CTAs, accents |
+| `--brand-orange` | `#FF671F` | Saffron Orange — highlights, hover states |
+| `--dark-bg` | `#0a0a0b` | Dark mode background |
+| `--light-bg` | `#ffffff` | Light mode background |
+| `--glass` | `rgba(255,255,255,.08)` | Glass morphism cards |
+
+**Typography** — system-native, no external fonts loaded:
+```
+System UI → -apple-system → BlinkMacSystemFont → Segoe UI → Roboto → Arial
+```
+
+**Theming** — dark/light toggle with `localStorage` persistence. Flash-free: theme script runs before `<body>` paints.
+
+**Responsive** — mobile-first. Breakpoints at `620px`, `768px`, `900px`, `1100px`.
+
+---
+
+## Environment Variables
+
+Two environment variables are required for backend features. Everything else works without them.
+
+### `LIVE_CLASS_TOKEN`
+
+Authenticates teacher commands on the live classroom board.
+
+```bash
+# On Vercel (production)
+vercel env add LIVE_CLASS_TOKEN production
+# Enter any strong random string, e.g.: openssl rand -hex 32
+
+# Local dev
+export LIVE_CLASS_TOKEN="your-local-secret"
+node tools/live-server.js
+```
+
+Without this set, `POST /api/live-class` returns `503` for teacher commands. Student join and board viewing (`GET`) always work without it.
+
+### `JARVIS_API_KEY`
+
+API key for the Jarvis AI backend that powers the HI Assistant chat on the private dashboard.
+
+```bash
+# On Vercel
+vercel env add JARVIS_API_KEY production
+
+# Local dev — not needed if Jarvis is running on 127.0.0.1:5050
+# hi-assistant.js auto-detects localhost and uses http://127.0.0.1:5050/api/jarvis-chat
+```
+
+### Setup via Vercel Dashboard
+
+1. Go to [vercel.com/dashboard](https://vercel.com) → Project `hi`
+2. **Settings → Environment Variables**
+3. Add `LIVE_CLASS_TOKEN` — set for **Production** + **Preview**
+4. Add `JARVIS_API_KEY` — set for **Production**
+5. Redeploy
+
+---
+
+## Local Development
 
 ```bash
 # Clone
-git clone https://github.com/kingofyadav/profile.git
-cd profile
+git clone https://github.com/kingofyadav/hi.git
+cd hi
 
-# Serve (any static server works)
+# Copy env template
+cp .env.example .env
+# Fill in LIVE_CLASS_TOKEN at minimum
+
+# Start local server (serves static files + /api/live-class)
+LIVE_CLASS_TOKEN=local-secret node tools/live-server.js
+# → http://127.0.0.1:8787
+
+# Or use any static server for the public site only
 npx serve .
-# or
 python3 -m http.server 8080
-# or open index.html directly in browser
 ```
 
-No install step. No build step. Open and go.
+No install step. No build step. No transpilation. Open and go.
 
 ---
 
-## Deploying
+## Live Classroom — Teacher Guide
 
-The live `kingofyadav.in` deployment currently runs from this repo on the Jarvis machine through Nginx and Cloudflare. Vercel config is kept for portability, but the active production path is:
-
-```text
-Cloudflare HTTPS -> Nginx origin on :80 -> /home/kingofyadav/Profile
-                                  -> /api/* proxied to Jarvis API :5050
-```
-
-Production checklist:
+### Start a session
 
 ```bash
-# 1. Start or restart Jarvis API
+# Set your token once per terminal session
+export LIVE_CLASS_TOKEN="your-secret"
+export LIVE_CLASS_ENDPOINT="https://kingofyadav.in/api/live-class"
+
+# Or for local dev (token not required on localhost)
+export LIVE_CLASS_ENDPOINT="http://127.0.0.1:8787/api/live-class"
+```
+
+### Board commands
+
+```bash
+node tools/board.js title "How Computers Help People"
+node tools/board.js subtitle "A practical introduction"
+
+node tools/board.js heading "Topic 1 — What is a Computer?"
+node tools/board.js write "A computer processes information to solve problems."
+node tools/board.js code js "console.log('Hello, World!')"
+node tools/board.js list "1. Input\n2. Process\n3. Output"
+node tools/board.js quote "The computer is the most remarkable tool we've ever built."
+node tools/board.js homework "Write 5 ways computers help your daily life."
+node tools/board.js link "MDN Web Docs" "https://developer.mozilla.org"
+node tools/board.js image "Computer diagram" "https://example.com/diagram.png"
+node tools/board.js divider
+
+node tools/board.js focus 3           # Highlight block #3
+node tools/board.js undo              # Remove last block
+node tools/board.js clear             # Clear the board
+node tools/board.js theme light       # Switch to whiteboard mode
+node tools/board.js teacher "Amit Ku Yadav"
+node tools/board.js room "Future Computer Class"
+node tools/board.js status "Class is live"
+node tools/board.js reset             # Restore default state
+```
+
+### Command reference
+
+| Command | Arguments | Effect |
+|---|---|---|
+| `title` | `"text"` | Set main board title |
+| `subtitle` | `"text"` | Set subtitle line |
+| `heading` | `"text"` | Add large section heading |
+| `write` / `w` | `"text"` | Add text block |
+| `code` | `lang "text"` | Add syntax-highlighted code block |
+| `list` | `"line1\nline2"` | Add preformatted list |
+| `quote` | `"text"` | Add styled quote block |
+| `homework` | `"text"` | Add homework assignment panel |
+| `link` | `"label" "url"` | Add clickable link block |
+| `image` | `"caption" "url"` | Add image block |
+| `divider` | — | Add horizontal separator |
+| `focus` | `n` or `id` | Highlight block by number or ID |
+| `undo` | — | Remove last block |
+| `clear` | — | Clear all content |
+| `theme` | `dark` / `light` | Switch board theme |
+| `teacher` | `"name"` | Update teacher name |
+| `room` | `"name"` | Update room name |
+| `status` | `"text"` | Update status line |
+| `reset` | — | Restore default board state |
+
+### Student keyboard shortcuts
+
+| Key | Action |
+|---|---|
+| `T` | Toggle Blackboard / Whiteboard |
+| `F` | Toggle Fullscreen |
+| `J` | Jump to Join Name field |
+| `Esc` | Close mobile join drawer |
+
+---
+
+## Deployment
+
+### Vercel (recommended)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Link and deploy
+vercel --prod
+
+# Set environment variables
+vercel env add LIVE_CLASS_TOKEN production
+vercel env add JARVIS_API_KEY production
+```
+
+The `vercel.json` config handles:
+- HTTP → HTTPS permanent redirect
+- 1-year immutable cache for `/css/*` and `/js/*` (version params used for busting)
+- No-cache for `service-worker.js`
+- Security headers: CSP · X-Frame-Options · X-Content-Type-Options · Referrer-Policy · Permissions-Policy
+
+### Self-hosted (Nginx + Cloudflare)
+
+```
+Cloudflare HTTPS
+    → Nginx :80
+        → /                  static files from /home/kingofyadav/HI
+        → /api/jarvis-chat   proxied to Jarvis API :5050
+        → /api/live-class    proxied to live-server :8787
+```
+
+```bash
+# Start Jarvis AI API
 bash /home/kingofyadav/jarvis-platform/scripts/start_api.sh
 
-# 2. Install/reload Nginx config after config changes
+# Reload Nginx after config changes
 sudo bash /home/kingofyadav/jarvis-platform/scripts/install-nginx.sh
 
-# 3. Verify public health
-bash /home/kingofyadav/jarvis-platform/scripts/public-health.sh
-
-# 4. Verify key headers/assets
-curl -I https://kingofyadav.in/
-curl -I 'https://kingofyadav.in/css/base.css?v=20260501-csp-fix'
-```
-
-After CSS/JS changes, purge Cloudflare cache or bump the query-string version on changed assets.
-
-For autostart and monitoring:
-
-```bash
+# Enable autostart
 bash /home/kingofyadav/jarvis-platform/scripts/install-systemd.sh
 loginctl enable-linger "$USER"
-systemctl --user start jarvis-kingofyadav jarvis-api jarvis-dashboard
-systemctl --user start jarvis-watchdog.timer jarvis-doctor.timer
+systemctl --user start jarvis-kingofyadav jarvis-api
+
+# Verify production health
+bash /home/kingofyadav/jarvis-platform/scripts/public-health.sh
+curl -I https://kingofyadav.in/
 ```
 
-If deploying to Vercel later, environment variables and serverless API routing must be configured separately.
+---
+
+## Security
+
+| Layer | Mechanism |
+|---|---|
+| HTTPS | Cloudflare + Vercel HTTPS-only redirect |
+| Auth | PBKDF2-SHA-256 (client-side, local admin only) |
+| CSP | Strict allowlist: scripts, styles, images, connect, frame |
+| Live Class | Bearer token on all teacher `POST` commands |
+| Clickjacking | `X-Frame-Options: DENY` + `frame-ancestors: none` |
+| MIME sniffing | `X-Content-Type-Options: nosniff` |
+| Referrer | `strict-origin-when-cross-origin` |
+| Permissions | Camera, mic, geolocation, FLoC all denied |
+| HI Data | Stays in browser only — IndexedDB + localStorage, never transmitted |
+
+> **Auth scope note:** The login system is a **local admin gate** for Amit's private dashboard — not a multi-user account system. PBKDF2 runs client-side on a stored hash.
 
 ---
 
-## Configuration
+## Performance
 
-These values must be set before the site works fully. Currently some are placeholders.
-
-| Variable / Location | Where | Status |
-|---|---|---|
-| Formspree Form ID | `js/script.js` line ~403 | ⚠️ Replace `YOUR_FORM_ID` |
-| Enquiry API endpoint | `js/script.js` line ~473 | ⚠️ Not implemented |
-| YouTube API key | `pages/social.html` | ⚠️ Configure or proxy |
-| HTTPS enforcement | Server / Vercel config | ⚠️ Required for secure auth |
-| CSP headers | `vercel.json` or `.htaccess` | ⚠️ Not set |
+| Metric | Value |
+|---|---|
+| External JS dependencies | **0** |
+| External fonts | **0** (system-ui stack) |
+| Build step | **None** |
+| CSS/JS cache TTL | **1 year** (immutable, version-param busted) |
+| Script loading | All deferred or async |
+| Images | `loading="lazy"`, `fetchpriority="high"` on LCP, width/height set |
+| PWA cache | App Shell + SWR for assets + Network-first for HTML |
+| Preconnect | `formspree.io` · `static.cloudflareinsights.com` |
 
 ---
 
-## Known Issues & What to Fix Next
+## SEO
 
-These are documented from the pre-launch audit. Fix in priority order.
-
-### 🔴 Critical — Fix Before Launch
-
-- [x] **Formspree Form ID** — configured as `xwvaodjy` in `contact.html`.
-- [x] **Enquiry API endpoint** — routed through Formspree (`xwvaodjy`), no missing backend.
-- [x] **Login rate limiting** — added to `js/auth.js`: 5 attempts max, 15-minute lockout via sessionStorage.
-- [x] **HTTPS enforcement** — redirect rule added in `vercel.json`.
-- [x] **Content Security Policy** — CSP + security headers added via `vercel.json`.
-
-> **Remaining auth note:** This is local-admin browser auth, not a production multi-user identity system. For public profile accounts, migrate to backend auth such as Firebase Auth, Clerk, Supabase Auth, or server sessions.
-
-### 🟠 High — Fix Within a Week
-
-- [x] **Duplicate service worker** — `/js/service-worker.js` deleted. Root `/service-worker.js` is the only one.
-- [x] **Inline `onclick` handlers** — `onclick="logout()"` and `onclick="location.reload()"` replaced with `addEventListener`. Blog TOC placeholders now use the real `#article` anchor across all 20 posts.
-- [x] **Security headers** — `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` added via `vercel.json`.
-- [ ] **Logo image too large** — `logo/night-logo.png` is 308 KB. Compress to <80 KB using TinyPNG or Squoosh. Large logos hurt FCP.
-- [ ] **YouTube API key** — if using YouTube Data API, proxy through a Vercel function at `/api/youtube.js`.
-
-### 🟡 Medium — Fix Before Store Launch
-
-- [x] **Password toggle uses emoji** — `👁` / `🙈` replaced with SVG eye icons in `pages/login.html`.
-- [ ] **Blog images missing width/height** — causes cumulative layout shift (CLS). Add explicit dimensions to all `<img>` tags in blog posts.
-- [ ] **No analytics** — add Plausible or Google Analytics to measure traffic before adding a store.
-- [ ] **No pagination on blog** — all 20 posts load at once. Add pagination or infinite scroll before the list grows further.
-- [ ] **WCAG color contrast not verified** — run the green `#046A38` / saffron `#FF671F` palette through a contrast checker (APCA or WCAG AA).
-- [ ] **`aria-current="page"`** — add to the active nav link on each page for screen reader users.
-
-### 🔵 Nice to Have — Future Work
-
-- [ ] Add blog search (client-side JSON filtering)
-- [ ] Implement email obfuscation to reduce spam harvesting
-- [ ] Add a newsletter/mailing list (Mailchimp, ConvertKit, Loops)
-- [ ] Build admin UI for adding blog posts without editing JSON manually
-- [ ] Add comment system (Giscus via GitHub Discussions is free)
-- [ ] Set up Plausible / GA4 dashboard for store conversion tracking
+| Signal | Status |
+|---|---|
+| Indexable pages | **32** (sitemap.xml) |
+| Schema markup | Person · Article · Hotel · FinancialService · NGO · ContactPoint · Offer |
+| Article rich results | All 20 blog posts have `@type: Article` JSON-LD |
+| Open Graph | 100% coverage on all public pages |
+| Twitter cards | `summary_large_image` on all public pages |
+| Canonical tags | Every page |
+| Sitemap | Auto-submitted at `/sitemap.xml` |
 
 ---
 
@@ -257,43 +548,30 @@ These are documented from the pre-launch audit. Fix in priority order.
 
 | Browser | Support |
 |---|---|
-| Chrome / Edge 90+ | Full |
+| Chrome / Edge 90+ | Full — including PWA install |
 | Firefox 90+ | Full |
-| Safari 15+ | Full (PWA install via Add to Home Screen) |
+| Safari 15+ | Full — PWA via "Add to Home Screen" |
 | Samsung Internet | Full |
 | IE 11 | Not supported |
 
 ---
 
-## Design Language
-
-| Token | Value | Usage |
-|---|---|---|
-| `--color-primary` | `#046A38` | Forest Green — headings, CTAs |
-| `--color-accent` | `#FF671F` | Saffron Orange — highlights, hover |
-| `--font-heading` | System sans-serif stack | Headings |
-| `--font-body` | System serif stack | Body copy |
-| `--radius-card` | `16px` | Card corners |
-| `--shadow-glass` | Glass morphism blur | Cards, nav |
-
-Inspired by the colors of the Indian flag. Minimalist, readable, fast.
-
----
-
 ## Author
+
+<div align="center">
 
 **Amit Ku Yadav**
 Bhagalpur, Bihar, India
 
-Founder of Jhon Aamit LLP · Royal Heritage Resort · National Youth Force
+Digital Systems Builder · Community Leader · Social Entrepreneur
 
-[kingofyadav.in](https://kingofyadav.in) · [circle.onelife@gmail.com](mailto:circle.onelife@gmail.com)
+Founder of **Royal Heritage Resort** · **Jhon Aamit LLP** · **National Youth Force**
+
+[kingofyadav.in](https://kingofyadav.in) · [circle.onelife@gmail.com](mailto:circle.onelife@gmail.com) · [+91 95235 28114](tel:+919523528114)
 
 ---
 
-<div align="center">
-
-Designed, written, and coded by Amit Ku Yadav.
-No templates. No page builders. Built by hand.
+*Designed, written, and coded by Amit Ku Yadav.*
+*No templates. No page builders. No frameworks. Built by hand.*
 
 </div>

@@ -244,7 +244,7 @@ body.theme-dark .hero-proof span {
 .card-kicker {
   display: block;
   color: var(--brand-green);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 1.4px;
   text-transform: uppercase;
@@ -462,7 +462,7 @@ body.theme-dark .hero-proof span {
 }
 
 .about-stat-label {
-  font-size: 0.72rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;

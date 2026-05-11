@@ -156,13 +156,13 @@ module.exports = async (req, res) => {
         return res.json({ ok: true, data: rows });
       }
       if (method === 'POST') {
-        const { name, email, phone, company, note, follow_up_date, whatsapp, birthday, relationship } = req.body;
-        const { rows } = await db.query('INSERT INTO contacts (name,email,phone,company,note,follow_up_date,whatsapp,birthday,relationship) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *', [name, email, phone, company, note, follow_up_date || null, whatsapp || null, birthday || null, relationship || null]);
+        const { name, email, phone, company, note, follow_up_date } = req.body;
+        const { rows } = await db.query('INSERT INTO contacts (name,email,phone,company,note,follow_up_date) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *', [name, email, phone, company, note, follow_up_date || null]);
         return res.status(201).json({ ok: true, data: rows[0] });
       }
       if (method === 'PUT' && id) {
-        const { name, email, phone, company, note, follow_up_date, whatsapp, birthday, relationship } = req.body;
-        const { rows } = await db.query('UPDATE contacts SET name=$2,email=$3,phone=$4,company=$5,note=$6,follow_up_date=$7,whatsapp=$8,birthday=$9,relationship=$10,updated_at=NOW() WHERE id=$1 RETURNING *', [id, name, email, phone, company, note, follow_up_date || null, whatsapp || null, birthday || null, relationship || null]);
+        const { name, email, phone, company, note, follow_up_date } = req.body;
+        const { rows } = await db.query('UPDATE contacts SET name=$2,email=$3,phone=$4,company=$5,note=$6,follow_up_date=$7,updated_at=NOW() WHERE id=$1 RETURNING *', [id, name, email, phone, company, note, follow_up_date || null]);
         return res.json({ ok: true, data: rows[0] });
       }
       if (method === 'DELETE' && id) { await db.query('DELETE FROM contacts WHERE id=$1', [id]); return res.json({ ok: true }); }
@@ -175,13 +175,13 @@ module.exports = async (req, res) => {
         return res.json({ ok: true, data: rows });
       }
       if (method === 'POST') {
-        const { title, description, event_date, follow_up_date, contact_id, event_time, event_type } = req.body;
-        const { rows } = await db.query('INSERT INTO events (title,description,event_date,follow_up_date,contact_id,event_time,event_type) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *', [title, description, event_date, follow_up_date || null, contact_id || null, event_time || null, event_type || 'Meeting']);
+        const { title, description, event_date, follow_up_date, contact_id } = req.body;
+        const { rows } = await db.query('INSERT INTO events (title,description,event_date,follow_up_date,contact_id) VALUES ($1,$2,$3,$4,$5) RETURNING *', [title, description, event_date, follow_up_date || null, contact_id || null]);
         return res.status(201).json({ ok: true, data: rows[0] });
       }
       if (method === 'PUT' && id) {
-        const { title, description, event_date, follow_up_date, contact_id, event_time, event_type } = req.body;
-        const { rows } = await db.query('UPDATE events SET title=$2,description=$3,event_date=$4,follow_up_date=$5,contact_id=$6,event_time=$7,event_type=$8 WHERE id=$1 RETURNING *', [id, title, description, event_date, follow_up_date || null, contact_id || null, event_time || null, event_type || 'Meeting']);
+        const { title, description, event_date, follow_up_date, contact_id } = req.body;
+        const { rows } = await db.query('UPDATE events SET title=$2,description=$3,event_date=$4,follow_up_date=$5,contact_id=$6 WHERE id=$1 RETURNING *', [id, title, description, event_date, follow_up_date || null, contact_id || null]);
         return res.json({ ok: true, data: rows[0] });
       }
       if (method === 'DELETE' && id) { await db.query('DELETE FROM events WHERE id=$1', [id]); return res.json({ ok: true }); }
@@ -235,25 +235,6 @@ module.exports = async (req, res) => {
         return res.json({ ok: true, data: rows[0] });
       }
       if (method === 'DELETE' && id) { await db.query('DELETE FROM chat_sessions WHERE id=$1', [id]); return res.json({ ok: true }); }
-    }
-
-    // ── LICENSES ──────────────────────────────────────────────────
-    if (resource === 'licenses') {
-      if (method === 'GET') {
-        const { rows } = await db.query('SELECT * FROM hdi_licenses ORDER BY claim_date DESC');
-        return res.json({ ok: true, data: rows });
-      }
-      if (method === 'POST') {
-        const { claim_id, content_hash, status, metadata } = req.body;
-        const { rows } = await db.query('INSERT INTO hdi_licenses (claim_id,content_hash,status,metadata) VALUES ($1,$2,$3,$4) RETURNING *', [claim_id, content_hash, status || 'active', JSON.stringify(metadata || {})]);
-        return res.status(201).json({ ok: true, data: rows[0] });
-      }
-      if (method === 'PUT' && id) {
-        const { claim_id, content_hash, status, metadata } = req.body;
-        const { rows } = await db.query('UPDATE hdi_licenses SET claim_id=$2,content_hash=$3,status=$4,metadata=$5 WHERE id=$1 RETURNING *', [id, claim_id, content_hash, status || 'active', JSON.stringify(metadata || {})]);
-        return res.json({ ok: true, data: rows[0] });
-      }
-      if (method === 'DELETE' && id) { await db.query('DELETE FROM hdi_licenses WHERE id=$1', [id]); return res.json({ ok: true }); }
     }
 
     res.status(404).json({ ok: false, error: `Unknown resource: ${resource}` });

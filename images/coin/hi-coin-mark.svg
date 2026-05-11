@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520" role="img" aria-labelledby="title desc">
+  <title id="title">HI Coin Mark</title>
+  <desc id="desc">Transparent background golden HI digital coin mark.</desc>
+  <defs>
+    <radialGradient id="gold" cx="36%" cy="28%" r="72%">
+      <stop offset="0" stop-color="#fff4b8"/>
+      <stop offset="0.28" stop-color="#ffcf55"/>
+      <stop offset="0.62" stop-color="#d99013"/>
+      <stop offset="1" stop-color="#7b4800"/>
+    </radialGradient>
+    <linearGradient id="brand" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ff671f"/>
+      <stop offset="0.52" stop-color="#f9b233"/>
+      <stop offset="1" stop-color="#046a38"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="22" stdDeviation="18" flood-color="#000" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <circle cx="260" cy="246" r="196" fill="url(#gold)"/>
+    <circle cx="260" cy="246" r="178" fill="none" stroke="#fff0a7" stroke-width="8"/>
+    <circle cx="260" cy="246" r="158" fill="none" stroke="#8b5100" stroke-width="3" opacity=".55"/>
+    <path d="M118 247c48-34 83-34 132 0s84 34 132 0" fill="none" stroke="#046a38" stroke-width="20" stroke-linecap="round" opacity=".9"/>
+    <path d="M118 213c48-34 83-34 132 0s84 34 132 0" fill="none" stroke="#ff671f" stroke-width="20" stroke-linecap="round" opacity=".92"/>
+    <path d="M118 230c48-34 83-34 132 0s84 34 132 0" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".82"/>
+    <g fill="none" stroke="#7b4800" stroke-width="5" opacity=".62">
+      <path d="M152 137h56m0 0v-30m104 30h56m-56 0v-30M152 355h56m0 0v30m104-30h56m-56 0v30"/>
+      <path d="M112 246H82m356 0h-30M260 98V68m0 356v-30"/>
+    </g>
+    <g fill="#9b5a00" opacity=".7">
+      <circle cx="152" cy="137" r="8"/>
+      <circle cx="368" cy="137" r="8"/>
+      <circle cx="152" cy="355" r="8"/>
+      <circle cx="368" cy="355" r="8"/>
+      <circle cx="82" cy="246" r="7"/>
+      <circle cx="438" cy="246" r="7"/>
+    </g>
+    <text x="260" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="112" font-weight="800" fill="#5c3500" letter-spacing="0">HI</text>
+    <text x="260" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="800" fill="#5c3500" letter-spacing="6">COIN</text>
+    <path d="M203 340h114" stroke="url(#brand)" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -87,7 +87,7 @@
 .pro-proof span {
   display: block;
   color: var(--brand-green);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 1.4px;
   text-transform: uppercase;
@@ -249,7 +249,7 @@
 
 .pro-tag {
   display: inline-block;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;

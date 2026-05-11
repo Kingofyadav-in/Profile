@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gallery | Amit Ku Yadav</title>
+  <meta name="description" content="A curated photo gallery from Amit Ku Yadav's personal visual archive." />
+  <meta name="author" content="Amit Ku Yadav" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/gallery.html" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Gallery | Amit Ku Yadav" />
+  <meta property="og:description" content="A curated photo gallery from Amit Ku Yadav's personal visual archive." />
+  <meta property="og:image" content="https://kingofyadav.in/images/gallery/Screenshot_20250511_203439_Snapchat.jpg" />
+  <meta property="og:url" content="https://kingofyadav.in/pages/gallery.html" />
+  <meta property="og:site_name" content="Amit Ku Yadav" />
+
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+
+  <link rel="stylesheet" href="/css/base.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/components.css?v=20260511-gallery" />
+
+  <style>
+    .gallery-page {
+      --gallery-border: rgba(128,128,128,.16);
+      --gallery-soft: rgba(128,128,128,.06);
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--section-pad-h) 64px;
+    }
+
+    .gallery-hero {
+      min-height: calc(82vh - 80px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 460px);
+      gap: clamp(28px, 5vw, 70px);
+      align-items: center;
+      padding: clamp(54px, 8vw, 112px) 0 clamp(34px, 5vw, 68px);
+    }
+
+    .gallery-hero h1 {
+      margin: 0 0 20px;
+      font-size: clamp(3rem, 7vw, 6.2rem);
+      line-height: .95;
+      letter-spacing: 0;
+    }
+
+    .gallery-hero p:not(.hero-label) {
+      max-width: 690px;
+      font-size: clamp(1rem, 1.4vw, 1.18rem);
+      line-height: 1.72;
+    }
+
+    .gallery-hero-card {
+      position: relative;
+      min-height: clamp(460px, 58vw, 620px);
+      border: 1px solid var(--gallery-border);
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255,103,31,.18), transparent 34%),
+        radial-gradient(circle at 84% 20%, rgba(4,106,56,.2), transparent 38%),
+        var(--gallery-soft);
+      box-shadow: var(--card-shadow);
+    }
+
+    .gallery-hero-card img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      display: block;
+      object-fit: cover;
+      object-position: center top;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
+      mask-composite: intersect;
+    }
+
+    .gallery-hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.22), transparent 14%, transparent 86%, rgba(0,0,0,.22)),
+        linear-gradient(to bottom, rgba(0,0,0,.18), transparent 14%, transparent 76%, rgba(0,0,0,.38));
+      pointer-events: none;
+    }
+
+    .gallery-proof {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 42px;
+    }
+
+    .gallery-proof div,
+    .gallery-card,
+    .gallery-feature {
+      border: 1px solid var(--gallery-border);
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+    }
+
+    .gallery-proof div {
+      min-height: 110px;
+      padding: 18px;
+      border-radius: 12px;
+    }
+
+    .gallery-proof span,
+    .gallery-card span,
+    .gallery-section-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--brand-orange);
+      font-size: .68rem;
+      font-weight: 850;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .gallery-proof strong {
+      display: block;
+      font-size: clamp(1.25rem, 2.6vw, 2rem);
+      line-height: 1.05;
+    }
+
+    .gallery-section {
+      padding: clamp(34px, 6vw, 78px) 0;
+    }
+
+    .gallery-section-head {
+      max-width: 760px;
+      margin-bottom: 24px;
+    }
+
+    .gallery-section-head h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4.4vw, 3.8rem);
+      line-height: 1.05;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .gallery-card {
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    .gallery-card figure {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: var(--gallery-soft);
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform .35s ease;
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .gallery-card-content {
+      padding: 18px;
+    }
+
+    .gallery-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .gallery-card p {
+      margin: 0;
+      font-size: .92rem;
+      line-height: 1.58;
+    }
+
+    .gallery-feature {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+      gap: 18px;
+      align-items: stretch;
+      padding: clamp(18px, 3vw, 28px);
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, rgba(4,106,56,.13), rgba(255,103,31,.09)),
+        var(--card-bg);
+    }
+
+    .gallery-feature-media {
+      min-height: 360px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(128,128,128,.08);
+    }
+
+    .gallery-feature-media img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      display: block;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .gallery-feature-copy {
+      align-self: center;
+    }
+
+    .gallery-feature-copy h2 {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.05;
+    }
+
+    .gallery-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .gallery-tags span {
+      padding: 8px 11px;
+      border: 1px solid rgba(128,128,128,.2);
+      border-radius: 999px;
+      background: rgba(128,128,128,.07);
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    body.theme-dark .gallery-page p {
+      color: #aaa;
+    }
+
+    @media (max-width: 980px) {
+      .gallery-hero,
+      .gallery-feature {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-proof {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .gallery-page {
+        padding-bottom: 38px;
+      }
+
+      .gallery-hero {
+        min-height: auto;
+        padding-top: 32px;
+      }
+
+      .gallery-hero h1 {
+        font-size: clamp(2.6rem, 15vw, 4rem);
+      }
+
+      .gallery-proof,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-hero-card,
+      .gallery-hero-card img,
+      .gallery-feature-media,
+      .gallery-feature-media img {
+        min-height: 420px;
+      }
+    }
+  </style>
+</head>
+
+<body class="theme-dark">
+<script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
+<div id="scrollProgress"></div>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<header class="site-header glass">
+  <div class="header-inner">
+    <div class="brand">
+      <a href="/" class="brand-link" aria-label="Amit Ku Yadav home">
+        <img id="siteLogo" class="logo" src="/logo/day-logo.png" alt="Amit Ku Yadav personal profile" width="50" height="50" />
+        <div class="brand-text">
+          <span class="brand-name">Amit Ku Yadav</span>
+          <span class="brand-tagline">Gallery</span>
+        </div>
+      </a>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/pages/blog.html">Blog</a></li>
+        <li><a href="/pages/gallery.html" aria-current="page">Gallery</a></li>
+        <li><a href="/pages/services.html">Services</a></li>
+        <li><a href="/pages/contact.html">Contact</a></li>
+        <li><a href="/pages/collaboration.html">Collaboration</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="site-main gallery-page" id="main-content">
+  <section class="gallery-hero">
+    <div>
+      <p class="hero-label">VISUAL ARCHIVE</p>
+      <h1>Gallery of digital work.</h1>
+      <p>
+        A clean visual archive from the local gallery collection, presented with
+        the same light and dark theme language used across kingofyadav.in.
+      </p>
+      <div class="hero-actions">
+        <a href="#gallery-library" class="btn-primary">Explore Gallery</a>
+        <a href="/pages/contact.html" class="btn-secondary">Request Work</a>
+      </div>
+    </div>
+    <figure class="gallery-hero-card" aria-label="Featured gallery photo">
+      <img src="/images/gallery/Screenshot_20250511_203439_Snapchat.jpg" alt="Featured portrait from Amit Ku Yadav gallery" />
+    </figure>
+  </section>
+
+  <section class="gallery-proof" aria-label="Gallery focus">
+    <div><span>Theme</span><strong>Personal</strong></div>
+    <div><span>Format</span><strong>Portrait</strong></div>
+    <div><span>Archive</span><strong>Gallery</strong></div>
+    <div><span>Style</span><strong>Clean</strong></div>
+  </section>
+
+  <section class="gallery-section">
+    <article class="gallery-feature">
+      <div class="gallery-feature-media">
+        <img src="/images/gallery/Screenshot_20250511_203646_Snapchat.jpg" alt="Second portrait from Amit Ku Yadav gallery" loading="lazy" />
+      </div>
+      <div class="gallery-feature-copy">
+        <span class="gallery-section-label">Featured Photo</span>
+        <h2>Personal gallery, polished for the website.</h2>
+        <p>
+          The gallery now uses the images from the dedicated local gallery
+          folder, with portrait framing, depth, and responsive spacing.
+        </p>
+        <div class="gallery-tags" aria-label="Gallery categories">
+          <span>Portrait</span>
+          <span>Personal</span>
+          <span>Archive</span>
+          <span>Gallery</span>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="gallery-section" id="gallery-library" aria-label="Gallery library">
+    <header class="gallery-section-head">
+      <span class="gallery-section-label">Library</span>
+      <h2>Curated visuals</h2>
+      <p>
+        Selected images from the dedicated gallery folder, arranged with
+        consistent portrait cards and site-matched visual depth.
+      </p>
+    </header>
+
+    <div class="gallery-grid">
+      <article class="gallery-card">
+        <figure><img src="/images/gallery/Screenshot_20250511_203439_Snapchat.jpg" alt="Portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
+        <div class="gallery-card-content"><span>Photo 01</span><h3>Gallery Portrait</h3><p>Local gallery image framed for a clean website presentation.</p></div>
+      </article>
+      <article class="gallery-card">
+        <figure><img src="/images/gallery/Screenshot_20250511_203646_Snapchat.jpg" alt="Second portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
+        <div class="gallery-card-content"><span>Photo 02</span><h3>Gallery Portrait</h3><p>Second local gallery image with matching responsive portrait layout.</p></div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer glass">
+  <div class="footer-inner">
+    <div class="footer-enquiry">
+      <p class="footer-title">Enquiry</p>
+      <p class="footer-text">
+        Amit Ku Yadav<br />
+        Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
+        Office: Bhagalpur, India<br />
+        Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
+      </p>
+      <div class="social-icons" id="socialLinks"></div>
+    </div>
+    <div class="footer-right">
+      <div id="footerClock">--:--</div>
+      <div>Bhagalpur, India</div>
+      <div id="status">STATUS: --</div>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
+    </div>
+  </div>
+  <div class="footer-bottom">© <span id="year"></span> · All rights reserved</div>
+</footer>
+
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+</button>
+<script src="/js/script.js?v=20260511-gallery" defer></script>
+<script src="/api-static/jarvis-widget.js?v=hi-jarvis-20260507" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-fallback-endpoint="/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, gallery, services, ventures, and collaboration." defer></script>
+</body>
+</html>

@@ -39,10 +39,10 @@
       <nav aria-label="Main navigation">
         <ul class="nav-list">
           <li><a href="/">Home</a></li>
-          <li><a href="/pages/blog.html">Blog</a></li>
+          <li><a href="/pages/blog.html">Blog</a></li><li><a href="/pages/gallery.html">Gallery</a></li>
           <li><a href="/pages/services.html" class="active" aria-current="page">Services</a></li>
           <li><a href="/pages/contact.html">Contact</a></li>
-          <li><a href="/pages/collaboration.html">Collab</a></li>
+          <li><a href="/pages/collaboration.html">Collaboration</a></li>
         </ul>
       </nav>
     </div>
@@ -287,6 +287,65 @@
     </section>
   </main>
 
+  <!-- UPI Payment Modal -->
+  <div id="upiModal" class="upi-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="upiModalTitle" hidden>
+    <div class="upi-modal-inner glass">
+      <button class="upi-close-btn" id="upiModalClose" aria-label="Close payment modal" type="button">&#x2715;</button>
+
+      <div class="upi-modal-head">
+        <span class="hero-label">UPI Payment</span>
+        <h2 id="upiModalTitle">Pay Now</h2>
+        <p class="upi-order-id" id="upiModalOrderId"></p>
+      </div>
+
+      <div id="upiPaySection" class="upi-pay-section">
+        <div class="upi-qr-row">
+          <div class="upi-qr-wrap">
+            <img id="upiQrCode" src="" alt="UPI QR Code" width="220" height="220" loading="lazy" />
+          </div>
+          <div class="upi-right-col">
+            <div class="upi-amount-block">
+              <span class="upi-field-label">Amount to pay</span>
+              <strong class="upi-amount-value" id="upiModalAmount"></strong>
+            </div>
+
+            <div class="upi-id-block">
+              <span class="upi-field-label">UPI ID</span>
+              <div class="upi-id-row">
+                <code id="upiIdDisplay" class="upi-id-text"></code>
+                <button type="button" class="upi-copy-btn" id="upiCopyBtn">Copy</button>
+              </div>
+            </div>
+
+            <div class="upi-apps-block">
+              <span class="upi-field-label">Open in app</span>
+              <div class="upi-apps-grid">
+                <a id="upiPhonePeLink" href="#" class="upi-app-btn upi-app--phonepe" target="_blank" rel="noopener noreferrer">PhonePe</a>
+                <a id="upiGPayLink" href="#" class="upi-app-btn upi-app--gpay" target="_blank" rel="noopener noreferrer">GPay</a>
+                <a id="upiPaytmLink" href="#" class="upi-app-btn upi-app--paytm" target="_blank" rel="noopener noreferrer">Paytm</a>
+                <a id="upiBhimLink" href="#" class="upi-app-btn upi-app--bhim" target="_blank" rel="noopener noreferrer">BHIM</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="upi-utr-block">
+          <label for="upiUtr" class="upi-field-label">Enter UTR / Transaction ID after paying</label>
+          <input type="text" id="upiUtr" class="upi-utr-input" placeholder="12-digit UTR e.g. 423456789012" maxlength="22" inputmode="numeric" autocomplete="off" />
+          <p class="upi-utr-hint">Find this in your UPI app → Payment History → Transaction details</p>
+        </div>
+      </div>
+
+      <div class="upi-modal-foot">
+        <p class="upi-status" id="upiStatus" aria-live="polite"></p>
+        <button type="button" class="cf-submit-btn" id="upiConfirmBtn">
+          <span class="upi-btn-label">Confirm Payment</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143z" clip-rule="evenodd"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer glass">
     <div class="footer-inner">
       <div class="footer-enquiry">
@@ -313,6 +372,7 @@
   </button>
 
   <script src="/js/script.js?v=hi-1" defer></script>
+  <script src="/js/upi-payment.js?v=hi-1" defer></script>
   <script src="/js/order.js?v=hi-1" defer></script>
 </body>
 </html>

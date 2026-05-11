@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Digital Coin Community | India to World</title>
+  <meta name="description" content="A community page exploring a trusted digital coin vision from India to the world: identity, UPI, wallets, community, and responsible digital currency design." />
+  <meta name="author" content="Amit Ku Yadav" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/coin.html" />
+
+  <link rel="preload" href="/css/base.css?v=20260502-pro" as="style" />
+  <link rel="preload" href="/css/components.css?v=20260502-pro" as="style" />
+  <link rel="stylesheet" href="/css/base.css?v=20260502-pro" />
+  <link rel="stylesheet" href="/css/components.css?v=20260502-pro" />
+
+  <style>
+    .coin-page {
+      --coin-border: rgba(128,128,128,.16);
+      --coin-panel: rgba(255,255,255,.04);
+      --coin-muted-dark: #aaa;
+    }
+
+    .coin-main {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--section-pad-h) 56px;
+    }
+
+    .coin-hero {
+      min-height: calc(100vh - 80px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(380px, 620px);
+      gap: clamp(28px, 5vw, 72px);
+      align-items: center;
+      padding: clamp(56px, 8vw, 118px) 0 clamp(42px, 6vw, 74px);
+    }
+
+    .coin-hero-copy {
+      max-width: 820px;
+    }
+
+    .coin-hero h1 {
+      margin: 0 0 22px;
+      font-size: clamp(3.2rem, 7vw, 6.4rem);
+      line-height: .95;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+
+    .coin-hero-copy p:not(.hero-label) {
+      max-width: 680px;
+      font-size: clamp(1rem, 1.4vw, 1.18rem);
+      line-height: 1.72;
+    }
+
+    .coin-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .coin-page .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 24px;
+      border: 1px solid rgba(128,128,128,.24);
+      border-radius: 999px;
+      color: var(--text-color);
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .coin-page .btn-secondary:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,103,31,.45);
+      background: rgba(255,103,31,.1);
+    }
+
+    .coin-hero-visual {
+      position: relative;
+      display: grid;
+      align-items: center;
+      min-height: clamp(360px, 42vw, 560px);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--coin-border);
+      background:
+        radial-gradient(circle at 18% 10%, rgba(255,103,31,.18), transparent 36%),
+        radial-gradient(circle at 88% 16%, rgba(4,106,56,.18), transparent 38%),
+        rgba(128,128,128,.06);
+      box-shadow: var(--card-shadow);
+    }
+
+    .coin-hero-visual img {
+      width: 100%;
+      height: 100%;
+      min-height: clamp(360px, 42vw, 560px);
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      padding: 0;
+      border-radius: 10%;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      mask-composite: intersect;
+    }
+
+    .coin-hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.28), transparent 12%, transparent 88%, rgba(0,0,0,.28)),
+        linear-gradient(to bottom, rgba(0,0,0,.26), transparent 12%, transparent 72%, rgba(0,0,0,.4));
+      pointer-events: none;
+    }
+
+    .coin-visual-caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .coin-visual-caption span {
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.48);
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+    }
+
+    .coin-proof {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0 0 52px;
+    }
+
+    .coin-proof div,
+    .coin-card,
+    .coin-panel {
+      border: 1px solid var(--coin-border);
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+    }
+
+    .coin-proof div {
+      min-height: 112px;
+      padding: 18px;
+      border-radius: 12px;
+    }
+
+    .coin-proof span,
+    .coin-card span,
+    .coin-panel-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--brand-orange);
+      font-size: .68rem;
+      font-weight: 850;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .coin-proof strong {
+      display: block;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      line-height: 1;
+    }
+
+    .coin-section {
+      padding: clamp(36px, 6vw, 82px) 0;
+    }
+
+    .coin-section-head {
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .coin-section-head h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.7rem);
+      line-height: 1.05;
+    }
+
+    .coin-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .coin-card {
+      min-height: 230px;
+      padding: 22px;
+      border-radius: 12px;
+    }
+
+    .coin-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.12rem;
+    }
+
+    .coin-card p {
+      margin: 0;
+    }
+
+    .coin-card.primary {
+      background: linear-gradient(135deg, rgba(4,106,56,.18), rgba(255,103,31,.13));
+      border-color: rgba(4,106,56,.36);
+    }
+
+    .coin-showcase {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .coin-showcase-media,
+    .coin-architecture-media {
+      position: relative;
+      min-height: 360px;
+      border: 1px solid var(--coin-border);
+      border-radius: 14px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255,103,31,.12), transparent 36%),
+        radial-gradient(circle at 82% 18%, rgba(4,106,56,.14), transparent 38%),
+        rgba(128,128,128,.055);
+      box-shadow: var(--card-shadow);
+    }
+
+    .coin-showcase-media::after,
+    .coin-architecture-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.18), transparent 12%, transparent 88%, rgba(0,0,0,.18)),
+        linear-gradient(to bottom, rgba(0,0,0,.18), transparent 12%, transparent 88%, rgba(0,0,0,.18));
+      box-shadow: inset 0 0 54px rgba(0,0,0,.18);
+      pointer-events: none;
+    }
+
+    .coin-showcase-media img,
+    .coin-architecture-media img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      padding: 0;
+      border-radius: 10%;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      mask-composite: intersect;
+    }
+
+    .coin-tech-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .coin-tech-item {
+      padding: 18px;
+      border: 1px solid var(--coin-border);
+      border-radius: 12px;
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+    }
+
+    .coin-tech-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .coin-architecture {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .coin-comparison {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .coin-comparison div {
+      padding: 16px;
+      border: 1px solid rgba(128,128,128,.14);
+      border-radius: 10px;
+      background: rgba(128,128,128,.055);
+    }
+
+    .coin-comparison b {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--brand-green);
+      font-size: .82rem;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+    }
+
+    .coin-comparison p {
+      margin: 0;
+      font-size: .88rem;
+    }
+
+    .coin-world {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .coin-panel {
+      padding: clamp(24px, 4vw, 42px);
+      border-radius: 14px;
+    }
+
+    .coin-flow {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .coin-flow div {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid rgba(128,128,128,.14);
+      border-radius: 10px;
+      background: rgba(128,128,128,.055);
+    }
+
+    .coin-flow b {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--gradient-brand);
+      font-size: .78rem;
+    }
+
+    .coin-flow strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .coin-roadmap {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      counter-reset: road;
+    }
+
+    .coin-roadmap article {
+      position: relative;
+      min-height: 210px;
+      padding: 22px;
+      border: 1px solid var(--coin-border);
+      border-radius: 12px;
+      background: rgba(128,128,128,.055);
+    }
+
+    .coin-roadmap article::before {
+      counter-increment: road;
+      content: "0" counter(road);
+      display: block;
+      margin-bottom: 24px;
+      color: var(--brand-orange);
+      font-family: "Courier New", monospace;
+      font-weight: 850;
+    }
+
+    .coin-community {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+
+    .coin-note {
+      margin: 0;
+      padding: 16px 18px;
+      border: 1px solid rgba(255,103,31,.28);
+      border-radius: 12px;
+      background: rgba(255,103,31,.08);
+      font-size: .9rem;
+    }
+
+    body.theme-dark .coin-page p {
+      color: var(--coin-muted-dark);
+    }
+
+    body.theme-light .coin-visual-caption span {
+      background: rgba(17,17,17,.62);
+    }
+
+    @media (max-width: 980px) {
+      .coin-hero,
+      .coin-world,
+      .coin-showcase,
+      .coin-architecture,
+      .coin-community {
+        grid-template-columns: 1fr;
+      }
+
+      .coin-proof,
+      .coin-roadmap,
+      .coin-comparison {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .coin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .coin-main {
+        padding-bottom: 34px;
+      }
+
+      .coin-hero {
+        min-height: auto;
+        padding-top: 32px;
+      }
+
+      .coin-hero h1 {
+        font-size: clamp(2.6rem, 15vw, 4rem);
+      }
+
+      .coin-proof,
+      .coin-roadmap,
+      .coin-comparison,
+      .coin-visual-caption {
+        grid-template-columns: 1fr;
+      }
+
+      .coin-hero-visual,
+      .coin-hero-visual img {
+        min-height: 320px;
+      }
+    }
+  </style>
+</head>
+
+<body class="theme-dark">
+  <script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
+  <div id="scrollProgress"></div>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header glass">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="/" class="brand-link" aria-label="Amit Ku Yadav home">
+          <img id="siteLogo" class="logo" src="/logo/day-logo.png" alt="Amit Ku Yadav personal profile" width="50" height="50" />
+          <div class="brand-text">
+            <span class="brand-name">Amit Ku Yadav</span>
+            <span class="brand-tagline">Digital Coin</span>
+          </div>
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/pages/blog.html">Blog</a></li><li><a href="/pages/gallery.html">Gallery</a></li>
+          <li><a href="/pages/services.html">Services</a></li>
+          <li><a href="/pages/contact.html">Contact</a></li>
+          <li><a href="/pages/collaboration.html">Collaboration</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="coin-main coin-page" id="main-content">
+    <section class="coin-hero" aria-label="Digital coin community hero">
+      <div class="coin-hero-copy">
+        <p class="hero-label">India to World Digital Currency Community</p>
+        <h1>Explore the next trusted digital coin movement.</h1>
+        <p>
+          A community-led concept for a digital coin experience rooted in India’s payment culture:
+          UPI familiarity, identity-first wallets, responsible transaction design, and global public participation.
+        </p>
+        <div class="coin-hero-actions">
+          <a href="#coin-community" class="btn-primary">Join Community</a>
+          <a href="/pages/wallet.html" class="btn-secondary">Open HI Wallet</a>
+        </div>
+      </div>
+
+      <figure class="coin-hero-visual">
+        <img src="/images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_32_09%20AM.png" alt="Digital rupee coin concept with India, UPI, blockchain, security, and trusted network symbols" />
+        <figcaption class="coin-visual-caption">
+          <span>Secure</span>
+          <span>UPI Ready</span>
+          <span>Global Vision</span>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="coin-proof" aria-label="Community highlights">
+      <div><span>Origin</span><strong>India</strong></div>
+      <div><span>Direction</span><strong>World</strong></div>
+      <div><span>Focus</span><strong>Trust</strong></div>
+      <div><span>Access</span><strong>People</strong></div>
+    </section>
+
+    <section class="coin-section" aria-label="Core idea">
+      <div class="coin-section-head">
+        <span class="coin-panel-label">Foundation</span>
+        <h2>Digital currency should feel human, useful, and accountable.</h2>
+        <p>
+          The page is a public exploration hub, not a financial product. It maps how a future-ready coin
+          community can discuss wallets, identity, payments, transparency, and real-world utility.
+        </p>
+      </div>
+      <div class="coin-grid">
+        <article class="coin-card primary">
+          <span>01</span>
+          <h3>Identity-first wallet</h3>
+          <p>Connect coin ownership to a clear digital identity layer so records are meaningful and personal.</p>
+        </article>
+        <article class="coin-card">
+          <span>02</span>
+          <h3>UPI-inspired flow</h3>
+          <p>Borrow the simplicity people already understand: scan, approve, verify, and keep transparent receipts.</p>
+        </article>
+        <article class="coin-card">
+          <span>03</span>
+          <h3>Community governance</h3>
+          <p>Let builders, users, merchants, educators, and local groups shape practical use cases together.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="coin-section coin-showcase" aria-label="Digital coin technology showcase">
+      <div class="coin-showcase-media">
+        <img src="/images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_31_58%20AM.png" alt="Multiple views of a digital coin showing front, edge, and back rotation" loading="lazy" />
+      </div>
+      <div class="coin-panel">
+        <span class="coin-panel-label">Technology Layer</span>
+        <h2>Think like Bitcoin, design for everyday India.</h2>
+        <p>
+          Bitcoin proved that a public ledger, scarcity rules, wallet ownership, and network verification can create a new digital asset class.
+          This concept explores those principles through an India-first experience: identity-aware wallets, UPI-style usability, merchant records, and community trust.
+        </p>
+        <div class="coin-tech-stack">
+          <div class="coin-tech-item"><strong>Ledger proof</strong><p>Every coin movement should produce a timestamped record that can be audited without confusion.</p></div>
+          <div class="coin-tech-item"><strong>Wallet ownership</strong><p>Users need a clear wallet address, balance, history, and recovery path before any system can feel trustworthy.</p></div>
+          <div class="coin-tech-item"><strong>Supply discipline</strong><p>A serious coin model needs rules for generation, limits, burns, and visible supply accounting.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="coin-section coin-architecture" aria-label="Digital coin architecture">
+      <div class="coin-panel">
+        <span class="coin-panel-label">Architecture</span>
+        <h2>The stack behind a world-class digital coin.</h2>
+        <p>
+          A professional digital currency page should explain the system, not only show a coin image.
+          The architecture connects coin issuance, smart contract logic, UPI bridge thinking, wallets, compliance, and settlement rails.
+        </p>
+        <div class="coin-comparison" aria-label="Digital currency principles">
+          <div><b>Asset</b><p>Coin rules, token identity, and visible supply.</p></div>
+          <div><b>Ledger</b><p>Blocks, hashes, transaction history, and audit trail.</p></div>
+          <div><b>Wallet</b><p>Address, balance, keys, identity, and permissions.</p></div>
+          <div><b>Rail</b><p>UPI-inspired payment UX and merchant settlement records.</p></div>
+        </div>
+      </div>
+      <div class="coin-architecture-media">
+        <img src="/images/coin/india_digital_coin_architecture.svg" alt="Layered architecture diagram for digital coin, UPI bridge, wallet, compliance, and settlement" loading="lazy" />
+      </div>
+    </section>
+
+    <section class="coin-section coin-showcase" aria-label="Trusted network visual">
+      <div class="coin-panel">
+        <span class="coin-panel-label">Network Trust</span>
+        <h2>Security, identity, and adoption need to move together.</h2>
+        <p>
+          A coin can only become useful when people understand why it is secure, how it connects to payments,
+          where transaction records live, and what protections exist for ordinary users.
+        </p>
+        <div class="coin-flow">
+          <div><b>01</b><p><strong>Secure wallet</strong>Device identity, HDI, and local ledger history make ownership visible to the user.</p></div>
+          <div><b>02</b><p><strong>Payment bridge</strong>UPI-style behavior keeps the experience familiar: scan, confirm, receive proof.</p></div>
+          <div><b>03</b><p><strong>Trusted network</strong>Community education, merchant stories, and transparent limits create adoption confidence.</p></div>
+        </div>
+      </div>
+      <div class="coin-showcase-media">
+        <img src="/images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_32_17%20AM.png" alt="Digital coin presentation with security, UPI integration, blockchain technology, Indian innovation, and trusted network icons" loading="lazy" />
+      </div>
+    </section>
+
+    <section class="coin-section coin-world" aria-label="India to world model">
+      <div class="coin-panel">
+        <span class="coin-panel-label">From India</span>
+        <h2>Built around trust signals people already know.</h2>
+        <p>
+          India’s digital payment behavior has already trained millions of people to use fast payment rails.
+          A responsible coin community can learn from that behavior while keeping education, safety, and compliance at the center.
+        </p>
+        <p class="coin-note">
+          This page presents a concept and community direction only. It is not legal tender, not investment advice,
+          and not a live public cryptocurrency offering.
+        </p>
+      </div>
+      <div class="coin-panel">
+        <span class="coin-panel-label">To World</span>
+        <h2>Make the idea portable.</h2>
+        <div class="coin-flow">
+          <div><b>1</b><p><strong>Learn</strong>Explain wallets, coin records, security, limits, and responsibilities in simple language.</p></div>
+          <div><b>2</b><p><strong>Build</strong>Create prototypes for identity, payment receipts, merchant acceptance, and community rewards.</p></div>
+          <div><b>3</b><p><strong>Verify</strong>Keep every transaction record inspectable, exportable, and tied to clear user consent.</p></div>
+          <div><b>4</b><p><strong>Expand</strong>Invite global contributors to adapt the model for local communities and real needs.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="coin-section" aria-label="Roadmap">
+      <div class="coin-section-head">
+        <span class="coin-panel-label">Roadmap</span>
+        <h2>A practical path for the community.</h2>
+      </div>
+      <div class="coin-roadmap">
+        <article><h3>Public education</h3><p>Publish simple explainers about digital coin basics, UPI-style flows, and wallet safety.</p></article>
+        <article><h3>Prototype wallet</h3><p>Use the HI Wallet as a local sandbox for identity-bound coin records and balance history.</p></article>
+        <article><h3>Merchant stories</h3><p>Map how stores, creators, NGOs, and local communities could use verified digital receipts.</p></article>
+        <article><h3>Open standards</h3><p>Define transparent rules for identity, privacy, audit trails, limits, and responsible adoption.</p></article>
+      </div>
+    </section>
+
+    <section id="coin-community" class="coin-section coin-community" aria-label="Join community">
+      <div class="coin-panel">
+        <span class="coin-panel-label">Community</span>
+        <h2>Join the conversation.</h2>
+        <p>
+          This is for builders, students, founders, designers, policy thinkers, merchants, and community leaders
+          who want to explore a trusted digital currency experience from India to the world.
+        </p>
+        <div class="coin-hero-actions">
+          <a href="/pages/contact.html" class="btn-primary">Contact to Collaborate</a>
+          <a href="/pages/collaboration.html" class="btn-secondary">Partnership Page</a>
+        </div>
+      </div>
+      <div class="coin-panel">
+        <span class="coin-panel-label">Explore</span>
+        <h2>Open the local wallet sandbox.</h2>
+        <p>
+          Generate local HI coins after identity setup and inspect how HDI, device identity, balance,
+          and ledger history can work together inside a private browser-based prototype.
+        </p>
+        <div class="coin-hero-actions">
+          <a href="/pages/wallet.html" class="btn-primary">Open HI Wallet</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer glass">
+    <div class="footer-inner">
+      <div class="footer-enquiry">
+        <p class="footer-title">Enquiry</p>
+        <p class="footer-text">
+          Amit Ku Yadav<br />
+          Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
+          Office: Bhagalpur, India<br />
+          Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
+        </p>
+        <div class="social-icons" id="socialLinks"></div>
+      </div>
+      <div class="footer-right">
+        <div id="footerClock">--:--</div>
+        <div>Bhagalpur, India</div>
+        <div id="status">STATUS: --</div>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> · All rights reserved</div>
+  </footer>
+
+  <button id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script src="/js/script.js?v=hi-coin-community-1" defer></script>
+</body>
+</html>

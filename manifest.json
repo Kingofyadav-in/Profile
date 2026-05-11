@@ -1,27 +1,31 @@
 {
-  "name": "Amit Ku Yadav – Personal Digital Platform",
-  "short_name": "Amit Yadav",
-  "description": "Official personal, professional and social digital platform of Amit Ku Yadav from Bhagalpur, India.",
+  "name": "HI App — Amit Ku Yadav",
+  "short_name": "HI App",
+  "description": "Human Intelligence App — identity, life OS, AI assistant, and digital platform of Amit Ku Yadav, Bhagalpur, India.",
   "start_url": "/",
   "scope": "/",
+  "id": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": ["standalone", "minimal-ui", "browser"],
   "background_color": "#000000",
   "theme_color": "#046A38",
   "orientation": "portrait-primary",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["portfolio", "personal", "social", "business"],
+  "categories": ["lifestyle", "productivity", "personal", "business"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/favicon/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/favicon/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/favicon/android-chrome-512x512.png",
@@ -30,28 +34,36 @@
       "purpose": "maskable"
     }
   ],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "HI App — Amit Ku Yadav"
+    }
+  ],
   "shortcuts": [
     {
-      "name": "MyCity – Bhagalpur",
-      "short_name": "MyCity",
-      "url": "/pages/mycity.html",
-      "icons": [
-        {
-          "src": "/favicon/android-chrome-192x192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "name": "HI Dashboard",
+      "short_name": "Dashboard",
+      "description": "Open your personal life OS",
+      "url": "/pages/personal.html",
+      "icons": [{ "src": "/favicon/android-chrome-192x192.png", "sizes": "192x192" }]
     },
     {
-      "name": "MyHome",
-      "short_name": "MyHome",
-      "url": "/pages/myhome.html",
-      "icons": [
-        {
-          "src": "/favicon/android-chrome-192x192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Read Amit's latest writing",
+      "url": "/pages/blog.html",
+      "icons": [{ "src": "/favicon/android-chrome-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch",
+      "url": "/pages/contact.html",
+      "icons": [{ "src": "/favicon/android-chrome-192x192.png", "sizes": "192x192" }]
     }
   ]
 }

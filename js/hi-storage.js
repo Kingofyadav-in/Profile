@@ -7,8 +7,8 @@
 ====================================================== */
 
 const HI_DB_NAME    = "hi_app";
-const HI_DB_VERSION = 1;
-const HI_STORES     = ["identity","personal","professional","social","chat","tasks","licenses"];
+const HI_DB_VERSION = 2;
+const HI_STORES     = ["identity","personal","professional","social","chat","tasks","licenses","wallet"];
 
 var _hiDb = null;
 

@@ -221,19 +221,66 @@
         projectName: (document.getElementById("orderBusiness").value || "").trim(),
         paymentPreference: (document.getElementById("orderPayment")?.selectedOptions[0]?.textContent || "").trim(),
         timelineLabel: (document.getElementById("orderTimeline")?.selectedOptions[0]?.textContent || "").trim(),
-        status: "Pending send",
+        status: "Pending payment",
         note: "Scope review starts next. Payment is confirmed after the service details are aligned."
       };
 
+      upsertOrder(record);
+      renderReceipt(record);
+
+      // UPI payment: open modal instead of direct submit
+      var paymentVal = document.getElementById("orderPayment")?.value;
+      if (paymentVal === "upi" && window.UPIPayment) {
+        var upiPayload = new FormData(form);
+        upiPayload.set("subject", "Service Purchase Request – UPI");
+        upiPayload.set("order_id", record.orderId);
+        upiPayload.set("selected_plan", record.planLabel);
+        upiPayload.set("selected_amount", record.amount);
+        upiPayload.set("customer_name", record.customerName);
+        upiPayload.set("project_name", record.projectName);
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Processing…";
+        if (status) { status.textContent = ""; status.className = "form-status"; }
+
+        window.UPIPayment.open(
+          record,
+          upiPayload,
+          formId,
+          function onSuccess(utr) {
+            record.status = "Payment submitted";
+            if (utr) record.utr = utr;
+            upsertOrder(record);
+            renderReceipt(record);
+            if (status) {
+              status.textContent = "Payment confirmed. Order " + record.orderId + " submitted successfully.";
+              status.className = "form-status success";
+            }
+            form.reset();
+            setSelectedPlan(record.planKey);
+            document.getElementById("orderIdField").value = orderId();
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Request Purchase";
+          },
+          function onCancel() {
+            if (status) {
+              status.textContent = "Payment cancelled. Your order details are saved.";
+              status.className = "form-status";
+            }
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Request Purchase";
+          }
+        );
+        return;
+      }
+
+      // Non-UPI: standard Formspree flow
       if (status) {
         status.textContent = "Submitting purchase request…";
         status.className = "form-status";
       }
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending…";
-
-      upsertOrder(record);
-      renderReceipt(record);
 
       var payload = new FormData(form);
       payload.set("subject", "Service Purchase Request");
