@@ -7,10 +7,53 @@
 ====================================================== */
 
 var HI_DEFAULT_HABITS = [
-  { id: "sleep",      name: "Sleep 8h",   icon: "💤" },
-  { id: "exercise",   name: "Exercise",   icon: "🏃" },
-  { id: "reading",    name: "Reading",    icon: "📚" },
-  { id: "meditation", name: "Meditation", icon: "🧘" }
+  { id: "planning",   name: "Plan the day",        icon: "🧭" },
+  { id: "health",     name: "Health discipline",   icon: "💪" },
+  { id: "reading",    name: "Read & research",     icon: "📚" },
+  { id: "outreach",   name: "People follow-up",    icon: "🤝" },
+  { id: "review",     name: "Night review",        icon: "✅" }
+];
+
+var HI_DEFAULT_GOALS = [
+  {
+    id: "goal-digital-world",
+    title: "Make HI Life OS a complete personal command center",
+    note: "Keep identity, tasks, people, wallet, vault, and AI context connected.",
+    progress: 72,
+    deadline: "2026-06-30"
+  },
+  {
+    id: "goal-public-credibility",
+    title: "Strengthen public credibility across kingofyadav.in",
+    note: "Publish clear proof of ventures, services, writing, and community work.",
+    progress: 64,
+    deadline: "2026-07-15"
+  },
+  {
+    id: "goal-community-network",
+    title: "Organize youth and community coordination",
+    note: "Track core people, meetings, follow-ups, and practical local initiatives.",
+    progress: 48,
+    deadline: "2026-08-01"
+  }
+];
+
+var HI_DEFAULT_NOTES = [
+  {
+    id: "note-operating-standard",
+    title: "Operating Standard",
+    body: "Be clear, reachable, disciplined, and useful. The dashboard should turn identity, work, people, and decisions into one daily operating system."
+  },
+  {
+    id: "note-public-work",
+    title: "Public Work Direction",
+    body: "Focus on digital systems, business platforms, youth guidance, local relationships, and credible public communication. Every section should show work, not only claims."
+  },
+  {
+    id: "note-ai-use",
+    title: "AI Co-Pilot Rule",
+    body: "Use AI for review, structure, planning, and risk checks. Human judgment makes the final decision."
+  }
 ];
 
 /* ── Habits ── */
@@ -34,6 +77,40 @@ async function hiToggleHabit(habitId) {
   record.checks        = record.checks || {};
   record.checks[habitId] = !record.checks[habitId];
   await hiPut("personal", record);
+}
+
+async function hiEnsurePersonalSeedData() {
+  var all = await hiGetAll("personal");
+  var now = Date.now();
+  var hasGoal = all.some(function(r) { return r.type === "goal"; });
+  var hasNote = all.some(function(r) { return r.type === "note"; });
+  var hasMood = all.some(function(r) { return r.id === "mood-" + hiTodayDate(); });
+
+  if (!hasGoal) {
+    for (var i = 0; i < HI_DEFAULT_GOALS.length; i++) {
+      await hiPut("personal", Object.assign({}, HI_DEFAULT_GOALS[i], {
+        type: "goal",
+        seeded: true,
+        createdAt: now + i,
+        updatedAt: now + i
+      }));
+    }
+  }
+
+  if (!hasNote) {
+    for (var j = 0; j < HI_DEFAULT_NOTES.length; j++) {
+      await hiPut("personal", Object.assign({}, HI_DEFAULT_NOTES[j], {
+        type: "note",
+        seeded: true,
+        createdAt: now + 100 + j,
+        updatedAt: now + 100 + j
+      }));
+    }
+  }
+
+  if (!hasMood) {
+    await hiSaveMoodEnergy(4, 4);
+  }
 }
 
 async function hiRenderHabits() {
@@ -280,9 +357,12 @@ async function hiSaveNoteModal() {
 /* ── INIT ── */
 
 document.addEventListener("DOMContentLoaded", function() {
-  hiRenderHabits();
-  hiRenderGoals();
-  hiRenderNotes();
+  hiEnsurePersonalSeedData().then(function() {
+    hiRenderHabits();
+    hiRenderGoals();
+    hiRenderNotes();
+    if (typeof hiRenderHeroToday === "function") hiRenderHeroToday();
+  });
 
   /* Add buttons */
   var addGoalBtn = document.getElementById("hiAddGoalBtn");

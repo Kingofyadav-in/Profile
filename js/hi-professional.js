@@ -7,9 +7,20 @@
 ====================================================== */
 
 var HI_DEFAULT_PROJECTS = [
-  { id: "rhr", name: "Royal Heritage Resort", icon: "🏨", color: "#046A38", status: "active" },
-  { id: "nyf", name: "National Youth Force",  icon: "🌐", color: "#FF671F", status: "active" },
-  { id: "jal", name: "Jhon Aamit LLP",        icon: "⚖️",  color: "#000080", status: "active" }
+  { id: "hi-life-os", name: "HI Life OS",              icon: "🪪", color: "#046A38", status: "active" },
+  { id: "rhr",        name: "Royal Heritage Resort",   icon: "🏨", color: "#0F766E", status: "active" },
+  { id: "nyf",        name: "National Youth Force",    icon: "🌐", color: "#FF671F", status: "active" },
+  { id: "jal",        name: "Jhon Aamit LLP",          icon: "⚖️", color: "#000080", status: "active" },
+  { id: "profile",    name: "kingofyadav.in Platform", icon: "🚀", color: "#6B21A8", status: "active" }
+];
+
+var HI_DEFAULT_PROTASKS = [
+  { id: "seed-protask-hi-1", projectId: "hi-life-os", title: "Connect identity, wallet, vault, assistant, and dashboard into one daily flow", priority: "high", done: false },
+  { id: "seed-protask-hi-2", projectId: "hi-life-os", title: "Add backup and restore checks so private records survive browser changes", priority: "high", done: false },
+  { id: "seed-protask-profile-1", projectId: "profile", title: "Keep homepage, services, blog, and contact pages aligned with current work", priority: "normal", done: false },
+  { id: "seed-protask-rhr-1", projectId: "rhr", title: "Prepare resort trust profile with services, enquiry paths, and local proof", priority: "normal", done: false },
+  { id: "seed-protask-nyf-1", projectId: "nyf", title: "Organize youth initiative programs, coordinators, and public communication", priority: "high", done: false },
+  { id: "seed-protask-jal-1", projectId: "jal", title: "Document services, operating process, and client intake for business work", priority: "normal", done: false }
 ];
 
 var _hiActiveProjectId = null;
@@ -31,11 +42,26 @@ async function hiLoadProjects() {
   return projects.sort(function(a, b) { return (a.createdAt || 0) - (b.createdAt || 0); });
 }
 
+async function hiEnsureProTaskSeedData() {
+  var all = await hiGetAll("professional");
+  var hasTasks = all.some(function(r) { return r.type === "protask"; });
+  if (hasTasks) return;
+  var now = Date.now();
+  for (var i = 0; i < HI_DEFAULT_PROTASKS.length; i++) {
+    await hiPut("professional", Object.assign({}, HI_DEFAULT_PROTASKS[i], {
+      type: "protask",
+      seeded: true,
+      createdAt: now + i
+    }));
+  }
+}
+
 async function hiRenderProjects() {
   var grid = document.getElementById("hi-projects-grid");
   if (!grid) return;
 
   var projects = await hiLoadProjects();
+  await hiEnsureProTaskSeedData();
   if (!_hiActiveProjectId && projects.length) _hiActiveProjectId = projects[0].id;
 
   grid.innerHTML = projects.map(function(p) {
@@ -221,8 +247,7 @@ async function hiRenderProStats() {
 /* ── INIT ── */
 
 document.addEventListener("DOMContentLoaded", function() {
-  hiRenderProjects();
-  hiRenderProStats();
+  hiRenderProjects().then(hiRenderProStats);
   hiInitProTaskInput();
 
   /* Project modal */

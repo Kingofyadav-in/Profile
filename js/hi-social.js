@@ -9,6 +9,42 @@
 var HI_RELATIONSHIP_TYPES = ["Family","Friend","Colleague","Mentor","Community","Contact","Partner"];
 var HI_EVENT_TYPES = ["Meeting","Birthday","Gathering","Deadline","Community","Other"];
 
+var HI_DEFAULT_PEOPLE = [
+  {
+    id: "seed-person-aniket",
+    name: "Aniket Ku Yadav",
+    role: "Community Representative",
+    phone: "+919939875791",
+    whatsapp: "+919939875791",
+    relationship: "Community",
+    note: "Core working contact for local coordination and follow-up."
+  },
+  {
+    id: "seed-person-abhishek",
+    name: "Abhishek Ku Yadav",
+    role: "Community Coordinator",
+    phone: "+919801249451",
+    whatsapp: "+919801249451",
+    relationship: "Community",
+    note: "Supports people coordination, field updates, and practical execution."
+  },
+  {
+    id: "seed-person-public",
+    name: "Public Enquiry Desk",
+    role: "Website, services, and collaboration intake",
+    phone: "+919523528114",
+    whatsapp: "+919523528114",
+    relationship: "Contact",
+    note: "Primary contact channel published for kingofyadav.in enquiries."
+  }
+];
+
+var HI_DEFAULT_EVENTS = [
+  { id: "seed-event-dashboard-review", title: "Dashboard review and backup check", daysFromNow: 1, time: "09:30", eventType: "Deadline", note: "Confirm identity, tasks, people, and vault data are present." },
+  { id: "seed-event-community-followup", title: "Community coordination follow-up", daysFromNow: 3, time: "17:00", eventType: "Community", note: "Review youth, local, and member coordination updates." },
+  { id: "seed-event-public-content", title: "Public profile content update", daysFromNow: 7, time: "11:00", eventType: "Meeting", note: "Improve proof, services, ventures, and collaboration pages." }
+];
+
 /* ── Helpers ── */
 
 function hiDaysFromNow(dateStr) {
@@ -21,6 +57,49 @@ function hiDaysFromNow(dateStr) {
 function hiShortDate(dateStr) {
   if (!dateStr) return "";
   return new Date(dateStr).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" });
+}
+
+function hiDateOffset(days) {
+  var d = new Date();
+  d.setHours(0,0,0,0);
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0,10);
+}
+
+async function hiEnsureSocialSeedData() {
+  var all = await hiGetAll("social");
+  var hasPeople = all.some(function(r) { return r.type === "person"; });
+  var hasEvents = all.some(function(r) { return r.type === "event"; });
+  var now = Date.now();
+
+  if (!hasPeople) {
+    for (var i = 0; i < HI_DEFAULT_PEOPLE.length; i++) {
+      await hiPut("social", Object.assign({}, HI_DEFAULT_PEOPLE[i], {
+        type: "person",
+        seeded: true,
+        createdAt: now + i,
+        updatedAt: now + i
+      }));
+    }
+  }
+
+  if (!hasEvents) {
+    for (var j = 0; j < HI_DEFAULT_EVENTS.length; j++) {
+      var event = HI_DEFAULT_EVENTS[j];
+      await hiPut("social", {
+        type: "event",
+        id: event.id,
+        title: event.title,
+        date: hiDateOffset(event.daysFromNow),
+        time: event.time,
+        eventType: event.eventType,
+        note: event.note,
+        seeded: true,
+        createdAt: now + 100 + j,
+        updatedAt: now + 100 + j
+      });
+    }
+  }
 }
 
 function hiNextBirthday(bdayStr) {
@@ -300,9 +379,11 @@ async function hiSaveEventModal() {
 /* ── INIT ── */
 
 document.addEventListener("DOMContentLoaded", function() {
-  hiRenderUpcoming();
-  hiRenderPeople();
-  hiRenderEvents();
+  hiEnsureSocialSeedData().then(function() {
+    hiRenderUpcoming();
+    hiRenderPeople();
+    hiRenderEvents();
+  });
 
   var addPersonBtn = document.getElementById("hiAddPersonBtn");
   if (addPersonBtn) addPersonBtn.addEventListener("click", function() { hiOpenPersonModal(null); });

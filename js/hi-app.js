@@ -8,6 +8,30 @@
 
 var HI_IDENTITY_ID = "primary";
 
+var HI_DEFAULT_IDENTITY = {
+  name: "Amit Ku Yadav",
+  username: "kingofyadav",
+  email: "kingofyadav.in@gmail.com",
+  phoneCode: "+91",
+  phone: "95235 28114",
+  tagline: "Building trusted digital systems, ventures, and community impact from Bhagalpur.",
+  roles: [
+    "Digital Systems Builder",
+    "Founder",
+    "Community Organizer",
+    "Creator"
+  ],
+  mission: "Build a disciplined personal internet for identity, work, people, records, ownership, and AI-assisted decisions while staying accountable to useful real-world impact.",
+  location: "Bhagalpur, Bihar, India"
+};
+
+var HI_DEFAULT_TODAY_TASKS = [
+  "Review HI Life OS dashboard and update missing records",
+  "Check priority messages, calls, and community follow-ups",
+  "Move one public website or venture task forward",
+  "Ask AI for a risk and focus audit before closing the day"
+];
+
 /* ── Helpers ── */
 
 function hiEsc(str) {
@@ -88,6 +112,15 @@ async function hiSaveIdentity(data) {
   if (!data.createdAt) data.createdAt = Date.now();
   await hiPut("identity", data);
   return data;
+}
+
+async function hiEnsureDefaultIdentity() {
+  var identity = await hiLoadIdentity();
+  if (identity) return identity;
+  return hiSaveIdentity(Object.assign({}, HI_DEFAULT_IDENTITY, {
+    seeded: true,
+    createdAt: Date.now()
+  }));
 }
 
 /* ── Render Identity Card ── */
@@ -334,6 +367,22 @@ async function hiLoadTodayTasks() {
     .sort(function(a, b) { return a.createdAt - b.createdAt; });
 }
 
+async function hiEnsureTodayTasks() {
+  var existing = await hiLoadTodayTasks();
+  if (existing.length) return existing;
+  for (var i = 0; i < HI_DEFAULT_TODAY_TASKS.length; i++) {
+    await hiPut("tasks", {
+      id: "seed-task-" + hiTodayDate() + "-" + i,
+      title: HI_DEFAULT_TODAY_TASKS[i],
+      done: false,
+      date: hiTodayDate(),
+      seeded: true,
+      createdAt: Date.now() + i
+    });
+  }
+  return hiLoadTodayTasks();
+}
+
 async function hiAddTask(title) {
   var task = {
     id: hiGenId(), title: title.trim(),
@@ -492,7 +541,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   }
 
   /* Identity */
-  var identity = await hiLoadIdentity();
+  var identity = await hiEnsureDefaultIdentity();
   hiRenderIdentity(identity);
   if (typeof window.pdSyncIdentityDetails === "function") {
     window.pdSyncIdentityDetails(identity);
@@ -506,6 +555,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   /* Today */
   hiRenderTodayHeader();
+  await hiEnsureTodayTasks();
   hiRenderTasks();
   hiInitTaskInput();
   hiInitMood();

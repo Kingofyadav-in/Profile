@@ -12,17 +12,22 @@ const PD_KEY = "ak_pd";
 /* ── Default seed data (used on first load) ── */
 const PD_DEFAULTS = {
   details: [
-    { id: "dob",        title: "Date of Birth", value: "25 December 1999" },
-    { id: "age",        title: "Age",            value: "26 Years" },
-    { id: "city",       title: "City",           value: "Bhagalpur, Bihar, India" },
-    { id: "work",       title: "Work Direction", value: "Digital Systems · Business · Public & Community Work" },
-    { id: "approach",   title: "Approach",       value: "Learning, building, coordinating, and improving step by step" },
-    { id: "focus",      title: "Current Focus",  value: "Trust, useful work, clear communication, and long-term credibility" }
+    { id: "dob",        title: "Date of Birth",       value: "25 December 1999" },
+    { id: "age",        title: "Age",                 value: "26 Years" },
+    { id: "city",       title: "Base",                value: "Bhagalpur, Bihar, India" },
+    { id: "identity",   title: "Public Identity",     value: "Amit Ku Yadav · kingofyadav.in" },
+    { id: "work",       title: "Work Direction",      value: "Digital systems, business platforms, public communication, and community initiatives" },
+    { id: "ventures",   title: "Active Ventures",     value: "HI Life OS, kingofyadav.in, Royal Heritage Resort, National Youth Force, Jhon Aamit LLP" },
+    { id: "approach",   title: "Operating Approach",  value: "Plan clearly, document proof, coordinate people, protect data, and improve daily" },
+    { id: "focus",      title: "Current Focus",       value: "Trust, useful work, AI-assisted execution, backup discipline, and long-term credibility" }
   ],
   values: [
-    { id: "discipline",     title: "Discipline",     desc: "Daily structure, patience, and steady work matter more than temporary attention." },
-    { id: "accountability", title: "Accountability", desc: "If my name is connected to something, I should be reachable, responsible, and clear." },
-    { id: "trust",          title: "Trust",          desc: "Trust should be earned through action, consistency, and honest communication." }
+    { id: "discipline",     title: "Discipline",        desc: "Daily structure, patience, and steady work matter more than temporary attention." },
+    { id: "accountability", title: "Accountability",    desc: "If my name is connected to something, I should be reachable, responsible, and clear." },
+    { id: "trust",          title: "Trust",             desc: "Trust should be earned through action, consistency, and honest communication." },
+    { id: "clarity",        title: "Clarity",           desc: "People should understand what I do, how to contact me, and what proof supports the work." },
+    { id: "ownership",      title: "Ownership",         desc: "Important identity, records, content, and decisions should be backed up and attached to a clear owner." },
+    { id: "service",        title: "Useful Service",    desc: "Digital work, business work, and social work should solve practical problems, not only look impressive." }
   ],
   people: [
     { id: "aniket",   name: "Aniket Ku Yadav",  role: "Community Representative", phone: "+919939875791", whatsapp: "+919939875791" },
@@ -39,11 +44,15 @@ function pdLoad() {
     const raw = localStorage.getItem(PD_KEY);
     if (raw) {
       const p = JSON.parse(raw);
-      return {
+      const data = {
         details: Array.isArray(p.details) ? p.details : [],
         values:  Array.isArray(p.values)  ? p.values  : [],
         people:  Array.isArray(p.people)  ? p.people  : []
       };
+      if (!data.details.length) data.details = JSON.parse(JSON.stringify(PD_DEFAULTS.details));
+      if (!data.values.length) data.values = JSON.parse(JSON.stringify(PD_DEFAULTS.values));
+      if (!data.people.length) data.people = JSON.parse(JSON.stringify(PD_DEFAULTS.people));
+      return data;
     }
   } catch {}
   return JSON.parse(JSON.stringify(PD_DEFAULTS));
