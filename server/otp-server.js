@@ -9,12 +9,14 @@ loadEnvFile(".env");
 loadEnvFile(".env.local");
 
 const PORT = Number(process.env.PORT || 5050);
+const HOST = process.env.HOST || "0.0.0.0";
 const MSG91_AUTHKEY = process.env.MSG91_AUTHKEY || "";
 const MSG91_TEMPLATE_ID = process.env.MSG91_TEMPLATE_ID || "";
 const AUTH_JWT_SECRET = process.env.AUTH_JWT_SECRET || "dev-only-change-this-secret";
 const CORS_ORIGIN = process.env.CORS_ORIGIN || "*";
 const OTP_LENGTH = String(process.env.MSG91_OTP_LENGTH || "6");
 const OTP_EXPIRY_MINUTES = String(process.env.MSG91_OTP_EXPIRY_MINUTES || "5");
+const allowedOrigins = CORS_ORIGIN.split(",").map(origin => origin.trim()).filter(Boolean);
 
 const attempts = new Map();
 
@@ -34,9 +36,14 @@ function loadEnvFile(name) {
 }
 
 function json(res, status, payload) {
+  const origin = String(res.req && res.req.headers && res.req.headers.origin || "");
+  const allowOrigin = allowedOrigins.includes("*") || !allowedOrigins.length
+    ? "*"
+    : (allowedOrigins.includes(origin) ? origin : allowedOrigins[0]);
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
-    "Access-Control-Allow-Origin": CORS_ORIGIN,
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Vary": allowOrigin === "*" ? "Origin" : "Origin, Access-Control-Request-Method, Access-Control-Request-Headers",
     "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Cache-Control": "no-store"
@@ -96,6 +103,23 @@ function signToken(payload) {
   const unsigned = `${base64url(JSON.stringify(header))}.${base64url(JSON.stringify(body))}`;
   const sig = crypto.createHmac("sha256", AUTH_JWT_SECRET).update(unsigned).digest("base64url");
   return `${unsigned}.${sig}`;
+}
+
+function validateStartupConfig() {
+  const warnings = [];
+  if (!MSG91_AUTHKEY || MSG91_AUTHKEY === "your_msg91_authkey") {
+    warnings.push("MSG91_AUTHKEY is missing or still a placeholder.");
+  }
+  if (!MSG91_TEMPLATE_ID || MSG91_TEMPLATE_ID === "your_msg91_otp_template_id") {
+    warnings.push("MSG91_TEMPLATE_ID is missing or still a placeholder.");
+  }
+  if (!AUTH_JWT_SECRET || AUTH_JWT_SECRET === "dev-only-change-this-secret") {
+    warnings.push("AUTH_JWT_SECRET is missing or using the default development secret.");
+  }
+  if (warnings.length) {
+    console.warn("[otp-api] configuration warnings:");
+    warnings.forEach(msg => console.warn(`[otp-api] ${msg}`));
+  }
 }
 
 async function msg91SendOtp(mobile) {
@@ -205,6 +229,7 @@ http.createServer((req, res) => {
     console.error("[otp-api]", err);
     json(res, 500, { ok: false, error: "Internal server error" });
   });
-}).listen(PORT, () => {
-  console.log(`OTP API listening on http://127.0.0.1:${PORT}/api`);
+}).listen(PORT, HOST, () => {
+  validateStartupConfig();
+  console.log(`OTP API listening on http://${HOST}:${PORT}/api`);
 });

@@ -19,7 +19,8 @@ const LOCKOUT_MS      = 15 * 60 * 1000;              // 15 min
 const HASH_VERSION    = "pbkdf2-sha256";
 const PBKDF2_ROUNDS   = 120000;
 const AUTH_API_BASE_KEY = "ak_auth_api_base";
-const DEFAULT_AUTH_API_BASE = "http://127.0.0.1:5050/api";
+const DEFAULT_LOCAL_AUTH_API_BASE = "http://127.0.0.1:5050/api";
+const DEFAULT_PROD_AUTH_API_BASE = "/api";
 
 /* ======================================================
    HASH — SHA-256 with fallback for non-secure contexts
@@ -98,6 +99,30 @@ function cyrb53(str) {
   const hi = (h2 >>> 0).toString(16).padStart(8, "0");
   const lo = (h1 >>> 0).toString(16).padStart(8, "0");
   return hi + lo + str.length.toString(16);
+}
+
+function isLocalHost() {
+  if (typeof window === "undefined" || !window.location) return false;
+  return /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/.test(window.location.hostname || "");
+}
+
+function normalizeApiBase(raw) {
+  const value = String(raw || "").trim();
+  if (!value) return "";
+
+  if (/^\/[^/]/.test(value) || value === "/api") {
+    return value.replace(/\/+$/, "");
+  }
+
+  try {
+    const parsed = new URL(value, window.location.origin);
+    if (!isLocalHost() && /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/.test(parsed.hostname)) {
+      return "";
+    }
+    return parsed.toString().replace(/\/+$/, "");
+  } catch {
+    return "";
+  }
 }
 
 /* ======================================================
@@ -270,22 +295,34 @@ function getAuthUser() {
 
 function getAuthApiBase() {
   try {
-    return (
-      window.HI_AUTH_API_BASE ||
-      localStorage.getItem(AUTH_API_BASE_KEY) ||
-      DEFAULT_AUTH_API_BASE
-    ).replace(/\/+$/, "");
+    const candidates = [
+      window.HI_AUTH_API_BASE,
+      localStorage.getItem(AUTH_API_BASE_KEY),
+      isLocalHost() ? DEFAULT_LOCAL_AUTH_API_BASE : DEFAULT_PROD_AUTH_API_BASE
+    ];
+
+    for (const candidate of candidates) {
+      const normalized = normalizeApiBase(candidate);
+      if (normalized) return normalized;
+    }
+
+    return isLocalHost() ? DEFAULT_LOCAL_AUTH_API_BASE : DEFAULT_PROD_AUTH_API_BASE;
   } catch {
-    return DEFAULT_AUTH_API_BASE;
+    return isLocalHost() ? DEFAULT_LOCAL_AUTH_API_BASE : DEFAULT_PROD_AUTH_API_BASE;
   }
 }
 
 async function authApi(path, payload) {
-  const response = await fetch(getAuthApiBase() + path, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload || {})
-  });
+  let response;
+  try {
+    response = await fetch(getAuthApiBase() + path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload || {})
+    });
+  } catch (err) {
+    throw new Error("OTP service unavailable. Check the Railway proxy or OTP_API_BASE.");
+  }
   const data = await response.json().catch(() => ({}));
   if (!response.ok || !data.ok) {
     throw new Error(data.error || data.message || "Authentication request failed.");

@@ -326,6 +326,18 @@ node tools/live-server.js
 
 Without this set, `POST /api/live-class` returns `503` for teacher commands. Student join and board viewing (`GET`) always work without it.
 
+### `OTP_API_BASE`
+
+Public base URL for the OTP service. In production, point Vercel's `/api/auth/*` proxy at the Railway service here.
+
+```bash
+# On Vercel
+vercel env add OTP_API_BASE production
+
+# Example value
+https://your-railway-service.up.railway.app/api
+```
+
 ### `JARVIS_API_KEY`
 
 API key for the Jarvis AI backend that powers the HI Assistant chat on the private dashboard.
@@ -344,7 +356,8 @@ vercel env add JARVIS_API_KEY production
 2. **Settings → Environment Variables**
 3. Add `LIVE_CLASS_TOKEN` — set for **Production** + **Preview**
 4. Add `JARVIS_API_KEY` — set for **Production**
-5. Redeploy
+5. Add `OTP_API_BASE` — set for **Production** and point it at the Railway OTP service
+6. Redeploy
 
 ---
 
