@@ -54,6 +54,12 @@ function setupThemeToggle() {
   });
 }
 
+function removeFooterThemeToggles() {
+  document.querySelectorAll(".site-footer .theme-toggle, .site-footer #themeToggle").forEach(btn => {
+    btn.remove();
+  });
+}
+
 function setupLogoThemeToggle() {
   document.querySelectorAll(".personal-logo, #siteLogo, .logo").forEach(logo => {
     logo.title = "Toggle theme";
@@ -465,11 +471,10 @@ function initProFooter() {
     {
       title: "Identity",
       links: [
-        { href: "/pages/about-me.html", label: "About Me", note: "Profile and work" },
+        { href: "/pages/about.html", label: "About Me", note: "Profile and work" },
         { href: "/pages/origin.html", label: "Origin", note: "Roots and story" },
         { href: "/pages/haven.html", label: "Haven", note: "Private foundation" },
         { href: "/pages/bhagalpur.html", label: "Bhagalpur", note: "Local signal" },
-        { href: "/pages/my-city.html", label: "My City", note: "Place and context" },
         { href: "/pages/social.html", label: "Social", note: "Network links" }
       ]
     },
@@ -1348,6 +1353,7 @@ function _jarvisSetCache(key, data) {
 
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
+  removeFooterThemeToggles();
   setupThemeToggle();
   setupLogoThemeToggle();
   initActiveNav();

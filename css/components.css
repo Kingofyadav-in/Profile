@@ -758,6 +758,23 @@ body.theme-light .site-footer {
     display: flex;
   }
 
+  .site-header .hamburger {
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-left: auto;
+    border: 1px solid rgba(128,128,128,0.18);
+    border-radius: 999px;
+    background: rgba(128,128,128,0.08);
+  }
+
+  .site-header .hamburger.open {
+    color: var(--brand-green);
+    border-color: rgba(4,106,56,0.3);
+    background: rgba(4,106,56,0.12);
+  }
+
   .header-inner {
     flex-direction: row;
     align-items: center;
@@ -766,34 +783,59 @@ body.theme-light .site-footer {
     position: relative;
   }
 
+  .site-header .brand {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .site-header .brand-link,
+  .site-header .brand-text {
+    min-width: 0;
+  }
+
+  .site-header .brand-name,
+  .site-header .brand-tagline {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .site-header nav[aria-label="Main navigation"],
   .personal-header nav.personal-nav {
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    top: calc(100% + 8px);
+    left: auto;
+    right: 12px;
+    width: min(320px, calc(100vw - 24px));
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.35s ease, padding 0.35s ease;
-    padding: 0 20px;
+    transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.25s ease, transform 0.25s ease;
+    padding: 0 10px;
+    border-radius: 18px;
+    opacity: 0;
+    transform: translateY(-6px);
+    box-shadow: 0 18px 42px rgba(0,0,0,0.28);
   }
 
   body.theme-dark .site-header nav[aria-label="Main navigation"],
   body.theme-dark .personal-header nav.personal-nav {
-    background: rgba(0,0,0,0.94);
-    border-top: 1px solid rgba(255,255,255,0.08);
+    background: rgba(10,12,12,0.96);
+    border: 1px solid rgba(255,255,255,0.1);
   }
 
   body.theme-light .site-header nav[aria-label="Main navigation"],
   body.theme-light .personal-header nav.personal-nav {
     background: rgba(255,255,255,0.97);
-    border-top: 1px solid rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.08);
   }
 
   .site-header nav[aria-label="Main navigation"].open,
   .personal-header nav.personal-nav.open {
-    max-height: 400px;
-    padding: 10px 20px 20px;
+    max-height: min(70vh, 520px);
+    padding: 10px;
+    opacity: 1;
+    transform: translateY(0);
+    overflow-y: auto;
   }
 
   .nav-list {
@@ -802,15 +844,25 @@ body.theme-light .site-footer {
   }
 
   .nav-list li a {
-    display: block;
-    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 11px 12px;
     font-size: 0.95rem;
     letter-spacing: 0.3px;
-    border-bottom: 1px solid rgba(128,128,128,0.1);
+    border-bottom: 0;
+    border-radius: 12px;
   }
 
-  .nav-list li:last-child a {
-    border-bottom: none;
+  .nav-list li a::after {
+    display: none;
+  }
+
+  .nav-list li a:hover,
+  .nav-list li a.active,
+  .nav-list li a[aria-current="page"] {
+    color: var(--brand-green);
+    background: rgba(4,106,56,0.12);
   }
 
   .personal-nav {
@@ -942,39 +994,11 @@ body.theme-light .site-footer {
 }
 
 
-/* ======================================================
-   THEME TOGGLE FIX
-====================================================== */
-
+/* Footer theme controls are intentionally hidden. The logo is the theme toggle. */
+.site-footer .theme-toggle,
+.site-footer #themeToggle,
 .footer-right .theme-toggle {
-  display: inline-flex;       /* FIX alignment */
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 18px;
-  cursor: pointer;
-  border: 1px solid var(--card-border-light);
-  background: transparent;
-  transition: all 0.3s ease;
-}
-
-.footer-right .theme-toggle:hover {
-  background: linear-gradient(
-    135deg,
-    var(--brand-green),
-    var(--brand-orange)
-  );
-  color: #fff;
-  border-color: transparent;
-  transform: rotate(15deg);
-}
-
-/* Dark theme border correction */
-
-body.theme-dark .footer-right .theme-toggle {
-  border: 1px solid var(--card-border-dark);
+  display: none !important;
 }
 
 
@@ -993,9 +1017,6 @@ body.theme-dark .footer-right .theme-toggle {
     align-items: flex-start;
   }
 
-  .footer-right .theme-toggle {
-    align-self: flex-start;
-  }
 }
 /* ======================================================
    FOOTER BOTTOM + TOGGLE
@@ -1010,12 +1031,6 @@ body.theme-dark .footer-right .theme-toggle {
 .footer-left {
   text-align: left;
 }
-
-.footer-right .theme-toggle {
-  margin-top: 0;
-  align-self: center;
-}
-
 
 /* ======================================================
    FOOTER MOBILE
@@ -1033,10 +1048,6 @@ body.theme-dark .footer-right .theme-toggle {
     align-items: flex-start;
     justify-content: flex-start;
     justify-self: start;
-  }
-
-  .footer-right .theme-toggle {
-    align-self: center;
   }
 
   .footer-bottom {

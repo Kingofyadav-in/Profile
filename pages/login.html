@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Login · Amit Ku Yadav Personal</title>
+  <title>Login | Amit Ku Yadav HI Access</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon/favicon.ico" />
   <link rel="stylesheet" href="/css/base.css?v=hi-1" />
-  <link rel="stylesheet" href="/css/auth.css?v=header-pro-1" />
+  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
 </head>
 
 <body class="theme-dark auth-page">
@@ -24,7 +24,7 @@ try {
 </script>
 
 <!-- Load auth module synchronously -->
-<script src="/js/auth.js?v=hi-1"></script>
+<script src="/js/auth.js?v=auth-otp-1"></script>
 
 <!-- Redirect immediately if already logged in -->
 <script>
@@ -55,27 +55,27 @@ if (isAuthenticated()) {
     </div>
   </a>
 
-  <p class="auth-kicker">Protected Section</p>
-  <h1 id="authTitle">Access the dynamic personal dashboard.</h1>
+  <p class="auth-kicker">HI Access</p>
+  <h1 id="authTitle">Enter the private workspace.</h1>
   <p class="auth-copy">
-    Sign in to manage private personal details, editable cards, values, and family or working member records.
+    Sign in to manage identity records, private tools, wallet data, and local admin controls from one protected browser session.
   </p>
 
   <div class="auth-access-grid" aria-label="Access features">
     <div>
       <span>01</span>
-      <strong>Secure Gate</strong>
-      <p>One-time local access on this browser.</p>
+      <strong>Local Gate</strong>
+      <p>Protected access for this device.</p>
     </div>
     <div>
       <span>02</span>
-      <strong>Dynamic Cards</strong>
-      <p>Add, edit, and organize personal data.</p>
+      <strong>HI Tools</strong>
+      <p>Identity, wallet, vault, and merchant controls.</p>
     </div>
     <div>
       <span>03</span>
-      <strong>Local Account</strong>
-      <p>Credentials stay on this browser.</p>
+      <strong>Private Setup</strong>
+      <p>One local admin account per browser.</p>
     </div>
   </div>
 </section>
@@ -91,13 +91,17 @@ if (isAuthenticated()) {
     </div>
   </a>
 
-  <div class="auth-route-note" id="authRouteNote">Continue to Personal Dashboard</div>
+  <div class="auth-route-note" id="authRouteNote">Continue securely</div>
 
   <!-- Tabs -->
   <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
     <button class="auth-tab active" id="tab-login"
       role="tab" aria-selected="true" aria-controls="panel-login">
       Login
+    </button>
+    <button class="auth-tab" id="tab-otp"
+      role="tab" aria-selected="false" aria-controls="panel-otp">
+      Phone OTP
     </button>
     <button class="auth-tab" id="tab-signup"
       role="tab" aria-selected="false" aria-controls="panel-signup">
@@ -149,6 +153,38 @@ if (isAuthenticated()) {
     </form>
   </div>
 
+  <!-- PHONE OTP PANEL -->
+  <div class="auth-panel" id="panel-otp" role="tabpanel" aria-labelledby="tab-otp">
+    <form id="otpRequestForm" novalidate autocomplete="on">
+      <div class="auth-field">
+        <label for="otp-phone">Mobile Number</label>
+        <input id="otp-phone" name="phone" type="tel"
+          placeholder="9523528114"
+          inputmode="numeric"
+          autocomplete="tel"
+          spellcheck="false" required />
+      </div>
+      <button type="submit" class="auth-submit" id="otpSendBtn">Send OTP</button>
+    </form>
+
+    <form id="otpVerifyForm" class="auth-otp-verify" novalidate autocomplete="one-time-code" hidden>
+      <div class="auth-field">
+        <label for="otp-code">Enter OTP</label>
+        <input id="otp-code" name="otp" type="text"
+          placeholder="6 digit code"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          maxlength="9"
+          spellcheck="false" required />
+      </div>
+      <button type="submit" class="auth-submit" id="otpVerifyBtn">Verify & Continue</button>
+      <button type="button" class="auth-link-btn" id="otpChangePhoneBtn">Change number</button>
+    </form>
+
+    <div class="auth-status" id="otpStatus" role="alert" aria-live="polite"></div>
+    <p class="auth-divider">OTP is sent through the Railway API using MSG91. Standard SMS delivery rules apply.</p>
+  </div>
+
   <!-- SIGN UP PANEL -->
   <div class="auth-panel" id="panel-signup" role="tabpanel" aria-labelledby="tab-signup">
     <form id="signupForm" novalidate autocomplete="off">
@@ -186,11 +222,11 @@ if (isAuthenticated()) {
         </div>
       </div>
 
-      <button type="submit" class="auth-submit" id="signupBtn">Create Local Admin</button>
+      <button type="submit" class="auth-submit" id="signupBtn">Create Admin</button>
       <div class="auth-status" id="signupStatus" role="alert" aria-live="polite"></div>
 
     </form>
-    <p class="auth-divider">Local admin access only. Public profile accounts need backend auth.</p>
+    <p class="auth-divider">Local admin access only. Data remains on this browser.</p>
     <p class="auth-divider" id="resetWarning" style="margin-top:10px;">
       Reset removes all local admin users from this browser.
     </p>
@@ -211,14 +247,30 @@ if (isAuthenticated()) {
 <script>
 "use strict";
 
-/* ── Logo sync ── */
-(function() {
+/* ── Logo sync and theme toggle ── */
+function syncAuthLogos() {
   var isDark = document.body.classList.contains("theme-dark");
   ["authLogo", "authLogoCard"].forEach(function(id) {
     var logo = document.getElementById(id);
     if (logo) logo.src = isDark ? "/logo/night-logo.png" : "/logo/day-logo.png";
   });
-})();
+}
+
+syncAuthLogos();
+
+["authLogo", "authLogoCard"].forEach(function(id) {
+  var logo = document.getElementById(id);
+  if (!logo) return;
+  logo.title = "Toggle theme";
+  logo.addEventListener("click", function(event) {
+    event.preventDefault();
+    var next = document.body.classList.contains("theme-dark") ? "theme-light" : "theme-dark";
+    document.body.classList.remove("theme-dark", "theme-light");
+    document.body.classList.add(next);
+    try { localStorage.setItem("theme", next); } catch(e) {}
+    syncAuthLogos();
+  });
+});
 
 /* ── Destination note ── */
 (function() {
@@ -242,21 +294,29 @@ renderLocalUsers();
 
 /* ── Tab switching ── */
 var tabLogin   = document.getElementById("tab-login");
+var tabOtp     = document.getElementById("tab-otp");
 var tabSignup  = document.getElementById("tab-signup");
 var panelLogin  = document.getElementById("panel-login");
+var panelOtp    = document.getElementById("panel-otp");
 var panelSignup = document.getElementById("panel-signup");
 
 function activateTab(which) {
   var isLogin = which === "login";
-  tabLogin.classList.toggle("active",  isLogin);
-  tabSignup.classList.toggle("active", !isLogin);
+  var isOtp = which === "otp";
+  var isSignup = which === "signup";
+  tabLogin.classList.toggle("active", isLogin);
+  tabOtp.classList.toggle("active", isOtp);
+  tabSignup.classList.toggle("active", isSignup);
   tabLogin.setAttribute("aria-selected",  String(isLogin));
-  tabSignup.setAttribute("aria-selected", String(!isLogin));
+  tabOtp.setAttribute("aria-selected", String(isOtp));
+  tabSignup.setAttribute("aria-selected", String(isSignup));
   panelLogin.classList.toggle("active",  isLogin);
-  panelSignup.classList.toggle("active", !isLogin);
+  panelOtp.classList.toggle("active", isOtp);
+  panelSignup.classList.toggle("active", isSignup);
 }
 
 tabLogin.addEventListener("click",  function() { activateTab("login"); });
+tabOtp.addEventListener("click", function() { activateTab("otp"); });
 tabSignup.addEventListener("click", function() { activateTab("signup"); });
 
 var goSignup = document.getElementById("goSignupBtn");
@@ -378,6 +438,10 @@ function setLoading(btnId, loading, label) {
     : label;
 }
 
+function cleanPhone(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
 function safeNextPath() {
   var fallback = "/pages/personal.html";
   var raw = new URLSearchParams(window.location.search).get("next");
@@ -422,6 +486,63 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     setStatus("loginStatus", message, "error");
     setLoading("loginBtn", false, "Login");
   });
+});
+
+/* ── PHONE OTP FORM ── */
+var otpPhoneValue = "";
+var otpRequestForm = document.getElementById("otpRequestForm");
+var otpVerifyForm = document.getElementById("otpVerifyForm");
+var otpPhoneInput = document.getElementById("otp-phone");
+var otpCodeInput = document.getElementById("otp-code");
+var otpChangePhoneBtn = document.getElementById("otpChangePhoneBtn");
+
+otpRequestForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  setStatus("otpStatus", "", "");
+  otpPhoneValue = cleanPhone(otpPhoneInput.value);
+  if (otpPhoneValue.length !== 10 && !(otpPhoneValue.length === 12 && otpPhoneValue.indexOf("91") === 0)) {
+    setStatus("otpStatus", "Enter a valid Indian mobile number.", "error");
+    return;
+  }
+  setLoading("otpSendBtn", true, "Send OTP");
+  requestPhoneOtp(otpPhoneValue).then(function() {
+    setStatus("otpStatus", "OTP sent. Check your phone.", "success");
+    otpRequestForm.hidden = true;
+    otpVerifyForm.hidden = false;
+    otpCodeInput.focus();
+  }).catch(function(err) {
+    setStatus("otpStatus", err.message || "Could not send OTP.", "error");
+  }).finally(function() {
+    setLoading("otpSendBtn", false, "Send OTP");
+  });
+});
+
+otpVerifyForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  setStatus("otpStatus", "", "");
+  var code = cleanPhone(otpCodeInput.value);
+  if (code.length < 4) {
+    setStatus("otpStatus", "Enter the OTP code.", "error");
+    return;
+  }
+  setLoading("otpVerifyBtn", true, "Verify & Continue");
+  verifyPhoneOtp(otpPhoneValue, code).then(function() {
+    setStatus("otpStatus", "OTP verified. Redirecting…", "success");
+    setTimeout(function() {
+      window.location.replace(getNext());
+    }, 450);
+  }).catch(function(err) {
+    setStatus("otpStatus", err.message || "OTP verification failed.", "error");
+    setLoading("otpVerifyBtn", false, "Verify & Continue");
+  });
+});
+
+otpChangePhoneBtn.addEventListener("click", function() {
+  otpVerifyForm.hidden = true;
+  otpRequestForm.hidden = false;
+  otpCodeInput.value = "";
+  setStatus("otpStatus", "", "");
+  otpPhoneInput.focus();
 });
 
 /* ── SIGN UP FORM ── */

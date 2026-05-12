@@ -48,7 +48,7 @@ All three layers share one codebase, one design system, and zero framework overh
 │  │  SITE    │  │  PORTFOLIO   │  │      LAYER           │  │
 │  │          │  │              │  │                       │  │
 │  │ index    │  │ professional │  │ social · blog        │  │
-│  │ about-me │  │ services     │  │ 20 blog posts        │  │
+│  │ about │  │ services     │  │ 20 blog posts        │  │
 │  │ brands   │  │ collaboration│  │ blog-data.json       │  │
 │  └──────────┘  └──────────────┘  └─────────────────────┘  │
 │                                                             │
@@ -97,7 +97,7 @@ kingofyadav.in/
 ├── index.html                    # Homepage: hero, ventures, blog preview, about
 │
 ├── pages/
-│   ├── about-me.html             # Personal story, timeline, philosophy
+│   ├── about.html             # Personal story, timeline, philosophy
 │   ├── blog.html                 # Blog listing (JSON-driven, client-rendered)
 │   ├── collaboration.html        # Partnership and community hub
 │   ├── contact.html              # Contact form (Formspree backend)

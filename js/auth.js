@@ -18,6 +18,8 @@ const MAX_ATTEMPTS    = 5;
 const LOCKOUT_MS      = 15 * 60 * 1000;              // 15 min
 const HASH_VERSION    = "pbkdf2-sha256";
 const PBKDF2_ROUNDS   = 120000;
+const AUTH_API_BASE_KEY = "ak_auth_api_base";
+const DEFAULT_AUTH_API_BASE = "http://127.0.0.1:5050/api";
 
 /* ======================================================
    HASH — SHA-256 with fallback for non-secure contexts
@@ -183,6 +185,20 @@ function saveToken(username, remember) {
   } catch { /* storage blocked (private mode quota, etc.) */ }
 }
 
+function saveRemoteToken(user, apiToken) {
+  const phone = user && user.phone ? String(user.phone) : "";
+  const token = JSON.stringify({
+    username: phone ? "+" + phone : "otp-user",
+    phone: phone,
+    apiToken: apiToken || "",
+    provider: "msg91",
+    exp: Date.now() + SESSION_EXP_MS
+  });
+  try {
+    sessionStorage.setItem(AUTH_TOKEN_KEY, token);
+  } catch {}
+}
+
 function getToken() {
   try {
     const raw =
@@ -250,6 +266,41 @@ function isAuthenticated() {
 function getAuthUser() {
   const token = getToken();
   return token ? token.username : null;
+}
+
+function getAuthApiBase() {
+  try {
+    return (
+      window.HI_AUTH_API_BASE ||
+      localStorage.getItem(AUTH_API_BASE_KEY) ||
+      DEFAULT_AUTH_API_BASE
+    ).replace(/\/+$/, "");
+  } catch {
+    return DEFAULT_AUTH_API_BASE;
+  }
+}
+
+async function authApi(path, payload) {
+  const response = await fetch(getAuthApiBase() + path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload || {})
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data.ok) {
+    throw new Error(data.error || data.message || "Authentication request failed.");
+  }
+  return data;
+}
+
+async function requestPhoneOtp(phone) {
+  return authApi("/auth/request-otp", { phone: phone });
+}
+
+async function verifyPhoneOtp(phone, otp) {
+  const data = await authApi("/auth/verify-otp", { phone: phone, otp: otp });
+  saveRemoteToken(data.user || { phone: phone }, data.token || "");
+  return data;
 }
 
 function hasAnyUser() {
@@ -331,6 +382,35 @@ function logout() {
   window.location.replace("/pages/login.html");
 }
 
+function authLoginUrl() {
+  const next = encodeURIComponent(
+    window.location.pathname + window.location.search
+  );
+  return "/pages/login.html?next=" + next;
+}
+
+function initAuthButton() {
+  const btn = document.getElementById("logoutBtn");
+  if (!btn) return;
+
+  const bar = btn.closest(".auth-bar");
+  if (bar) bar.hidden = false;
+
+  const authed = isAuthenticated();
+  btn.textContent = authed ? "Logout" : "Login";
+  btn.setAttribute("aria-label", authed ? "Logout" : "Login");
+  btn.classList.toggle("is-login", !authed);
+  btn.classList.toggle("is-logout", authed);
+
+  btn.onclick = function () {
+    if (isAuthenticated()) {
+      logout();
+      return;
+    }
+    window.location.href = authLoginUrl();
+  };
+}
+
 /* ======================================================
    ROUTE GUARD
    Call this synchronously at top of protected pages.
@@ -345,4 +425,10 @@ function requireAuth() {
     );
     window.location.replace("/pages/login.html?next=" + next);
   }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initAuthButton);
+} else {
+  initAuthButton();
 }

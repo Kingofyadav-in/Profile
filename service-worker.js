@@ -6,7 +6,7 @@
    Author: Amit Ku Yadav
 ====================================================== */
 
-const VERSION = "v19";
+const VERSION = "v27";
 const STATIC_CACHE = `ak-static-${VERSION}`;
 const DYNAMIC_CACHE = `ak-dynamic-${VERSION}`;
 const MAX_DYNAMIC_ITEMS = 80;
@@ -28,14 +28,14 @@ const STATIC_ASSETS = [
 
   /* CSS */
   "/css/base.css?v=20260502-pro",
-  "/css/components.css?v=20260511-cssfix",
+  "/css/components.css?v=footer-clean-1",
   "/css/index.css?v=20260502-pro",
   "/css/blog.css?v=20260502-pro",
   "/css/services.css?v=20260502-pro",
   "/css/contact.css?v=20260502-pro",
   "/css/professional.css?v=20260502-pro",
   "/css/social.css?v=20260502-pro",
-  "/css/personal.css?v=20260502-pro",
+  "/css/personal.css?v=nav-pro-3",
   "/css/about.css?v=20260502-pro",
   "/css/myself.css?v=20260502-pro",
   "/css/myhome.css?v=20260502-pro",
@@ -43,13 +43,13 @@ const STATIC_ASSETS = [
   "/css/blog-post.css?v=20260502-pro",
   "/css/brand.css?v=20260502-brand",
   "/css/collaboration.css?v=20260502-pro",
-  "/css/auth.css?v=20260502-pro",
+  "/css/auth.css?v=auth-otp-1",
 
   /* JS */
-  "/js/script.js?v=20260512-logotheme",
+  "/js/script.js?v=footer-clean-1",
   "/js/personal-data.js?v=20260502-pro",
   "/js/profile-renderer.js?v=20260502-pro",
-  "/js/auth.js?v=20260502-pro",
+  "/js/auth.js?v=auth-otp-1",
 
   /* LOGO */
   "/logo/day-logo.png",
@@ -126,15 +126,15 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  /* CSS / JS / Fonts — Stale While Revalidate */
+  /* CSS / JS / Fonts — Network First */
   if (
     request.destination === "style" ||
     request.destination === "script" ||
     request.destination === "font"
   ) {
     event.respondWith(
-      caches.match(request).then(cached => {
-        const networkFetch = fetch(request).then(res => {
+      fetch(request)
+        .then(res => {
           if (res.status === 200) {
             caches.open(DYNAMIC_CACHE).then(cache => {
               cache.put(request, res.clone());
@@ -142,9 +142,8 @@ self.addEventListener("fetch", (event) => {
             });
           }
           return res;
-        }).catch(() => null);
-        return cached || networkFetch;
-      })
+        })
+        .catch(() => caches.match(request))
     );
     return;
   }
