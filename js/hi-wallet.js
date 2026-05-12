@@ -6,7 +6,8 @@
    Depends on: auth.js, hi-storage.js, hi-app.js
 ====================================================== */
 
-var HI_WALLET_MAX_SUPPLY = 99;
+var HI_WALLET_MAX_SUPPLY = 10000;
+var HI_WALLET_GENESIS_AMOUNT = 1;
 
 function hiWalletDeviceId() {
   try {
@@ -89,6 +90,19 @@ async function hiWalletLoadOrCreate(identity) {
     };
     await hiPut("wallet", wallet);
   }
+  wallet.transactions = Array.isArray(wallet.transactions) ? wallet.transactions : [];
+  if (!wallet.genesisIssued) {
+    wallet = await hiWalletAddTransaction(identity, wallet, {
+      type: "Genesis HI",
+      direction: "credit",
+      amount: HI_WALLET_GENESIS_AMOUNT,
+      counterparty: identity.hdi,
+      note: "1 Human = 1 Genesis HI"
+    });
+    wallet.genesisIssued = true;
+    wallet.genesisAt = wallet.genesisAt || Date.now();
+    await hiPut("wallet", wallet);
+  }
   return wallet;
 }
 
@@ -98,19 +112,40 @@ function hiWalletSetText(id, value) {
 }
 
 function hiWalletSetStatus(message, type) {
-  var el = document.getElementById("walletStatus");
+  hiWalletSetNamedStatus("walletStatus", message, type);
+}
+
+function hiWalletSetNamedStatus(id, message, type) {
+  var el = document.getElementById(id);
   if (!el) return;
   el.textContent = message || "";
   el.className = "wallet-status" + (type ? " " + type : "");
 }
 
+function hiWalletTrustScore(identity, wallet) {
+  if (!identity || !wallet) return 0;
+  var txs = Array.isArray(wallet.transactions) ? wallet.transactions : [];
+  var identityAgeDays = Math.max(0, Math.floor((Date.now() - Number(identity.createdAt || Date.now())) / 86400000));
+  var score = 35;
+  if (identity.hdi) score += 15;
+  if (wallet.genesisIssued) score += 15;
+  score += Math.min(15, txs.length * 3);
+  score += Math.min(10, identityAgeDays);
+  if (wallet.deviceFingerprint) score += 10;
+  return Math.max(0, Math.min(100, score));
+}
+
 function hiWalletRenderLocked() {
   var locked = document.getElementById("walletLocked");
-  var form = document.getElementById("walletMintForm");
   if (locked) locked.classList.add("active");
-  if (form) form.hidden = true;
+  Array.prototype.forEach.call(document.querySelectorAll(".wallet-form"), function(form) {
+    form.hidden = true;
+  });
+  var exportBtn = document.getElementById("walletExportProof");
+  if (exportBtn) exportBtn.disabled = true;
   hiWalletSetText("walletBalance", "0");
-  hiWalletSetText("walletRemaining", "99");
+  hiWalletSetText("walletGenesisStatus", "Identity required");
+  hiWalletSetText("walletTrustScore", "0");
   hiWalletSetText("walletHdi", "Identity required");
   hiWalletSetText("walletOwner", "No registered HI identity");
   hiWalletSetText("walletDevice", hiWalletDeviceId());
@@ -123,31 +158,37 @@ function hiWalletRenderLedger(wallet) {
   if (!list) return;
   var txs = wallet && Array.isArray(wallet.transactions) ? wallet.transactions.slice().reverse() : [];
   if (!txs.length) {
-    list.innerHTML = '<p class="wallet-empty">No coin generated yet. Use the generator after your HI identity is active.</p>';
+    list.innerHTML = '<p class="wallet-empty">No wallet activity yet. Create your HI identity to unlock Genesis HI.</p>';
     return;
   }
   list.innerHTML = txs.map(function(tx) {
     var d = new Date(tx.createdAt || Date.now()).toLocaleString("en-IN", {
       day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
     });
+    var direction = tx.direction === "debit" ? "debit" : "credit";
+    var sign = direction === "debit" ? "-" : "+";
     return '<article class="wallet-tx">' +
       '<span>' + hiEsc(d) + '</span>' +
-      '<div><strong>' + hiEsc(tx.type || "Generated") + '</strong><code>' + hiEsc(tx.hash || "") + '</code></div>' +
-      '<div class="wallet-tx-amount">+' + hiEsc(tx.amount) + ' HI</div>' +
+      '<div><strong>' + hiEsc(tx.type || "Wallet Activity") + '</strong><small>' + hiEsc(tx.note || tx.counterparty || "") + '</small><code>' + hiEsc(tx.hash || "") + '</code></div>' +
+      '<div class="wallet-tx-amount ' + direction + '">' + sign + hiEsc(tx.amount) + ' HI</div>' +
     '</article>';
   }).join("");
 }
 
 function hiWalletRender(identity, wallet) {
   var locked = document.getElementById("walletLocked");
-  var form = document.getElementById("walletMintForm");
   if (locked) locked.classList.remove("active");
-  if (form) form.hidden = false;
+  Array.prototype.forEach.call(document.querySelectorAll(".wallet-form"), function(form) {
+    form.hidden = false;
+  });
+  var exportBtn = document.getElementById("walletExportProof");
+  if (exportBtn) exportBtn.disabled = false;
 
   var balance = Number(wallet.balance || 0);
   var remaining = Math.max(0, HI_WALLET_MAX_SUPPLY - balance);
   hiWalletSetText("walletBalance", String(balance));
-  hiWalletSetText("walletRemaining", String(remaining));
+  hiWalletSetText("walletGenesisStatus", wallet.genesisIssued ? "Issued" : "Pending");
+  hiWalletSetText("walletTrustScore", String(hiWalletTrustScore(identity, wallet)));
   hiWalletSetText("walletHdi", identity.hdi || "HDI pending");
   hiWalletSetText("walletOwner", identity.name || "Registered identity");
   hiWalletSetText("walletDevice", wallet.deviceId || hiWalletDeviceId());
@@ -159,27 +200,40 @@ function hiWalletRender(identity, wallet) {
   var submit = document.getElementById("walletMintSubmit");
   if (submit) submit.disabled = remaining <= 0;
   if (remaining <= 0) {
-    hiWalletSetStatus("This identity/device wallet already generated the 99 HI coin maximum.", "");
+    hiWalletSetStatus("This identity/device wallet reached the " + HI_WALLET_MAX_SUPPLY + " HI ecosystem demo cap.", "");
   }
   hiWalletRenderLedger(wallet);
 }
 
-async function hiWalletGenerateCoin(identity, wallet, amount) {
-  var nextBalance = Number(wallet.balance || 0) + amount;
+async function hiWalletAddTransaction(identity, wallet, data) {
+  var direction = data.direction === "debit" ? "debit" : "credit";
+  var amount = Math.max(1, parseInt(data.amount, 10) || 0);
+  var currentBalance = Number(wallet.balance || 0);
+  var nextBalance = direction === "debit" ? currentBalance - amount : currentBalance + amount;
+  if (direction === "debit" && nextBalance < 0) {
+    throw new Error("Insufficient HI balance.");
+  }
   var now = Date.now();
   var txRaw = [
     wallet.id,
     identity.hdi,
     wallet.deviceFingerprint,
+    data.type,
+    direction,
     amount,
     nextBalance,
+    data.counterparty || "",
+    data.note || "",
     now
   ].join("|");
   var tx = {
     id: "tx_" + hiGenId(),
-    type: "Identity Coin Generation",
+    type: data.type || "Wallet Activity",
+    direction: direction,
     amount: amount,
     hdi: identity.hdi,
+    counterparty: data.counterparty || "",
+    note: data.note || "",
     deviceFingerprint: wallet.deviceFingerprint,
     hash: await hiWalletHash(txRaw),
     createdAt: now
@@ -194,6 +248,73 @@ async function hiWalletGenerateCoin(identity, wallet, amount) {
   return wallet;
 }
 
+async function hiWalletGenerateCoin(identity, wallet, amount, reason) {
+  return await hiWalletAddTransaction(identity, wallet, {
+    type: "Earned HI Reward",
+    direction: "credit",
+    amount: amount,
+    counterparty: "HI Economy",
+    note: reason || "Verified Contribution"
+  });
+}
+
+async function hiWalletTransfer(identity, wallet, mode, address, amount) {
+  if (mode === "receive" && Number(wallet.balance || 0) + amount > HI_WALLET_MAX_SUPPLY) {
+    throw new Error("Receive would exceed the " + HI_WALLET_MAX_SUPPLY + " HI ecosystem demo cap.");
+  }
+  return await hiWalletAddTransaction(identity, wallet, {
+    type: mode === "receive" ? "Receive HI" : "Send HI",
+    direction: mode === "receive" ? "credit" : "debit",
+    amount: amount,
+    counterparty: address,
+    note: mode === "receive" ? "Prototype receive record" : "Prototype send record"
+  });
+}
+
+async function hiWalletMockUpi(identity, wallet, merchant, amount) {
+  return await hiWalletAddTransaction(identity, wallet, {
+    type: "Mock UPI Merchant Payment",
+    direction: "debit",
+    amount: amount,
+    counterparty: merchant || "Merchant",
+    note: "Demo settlement only. No INR moved."
+  });
+}
+
+function hiWalletExportProof(identity, wallet) {
+  var proof = {
+    project: "HI Wallet",
+    phase: "Phase 1 local prototype",
+    compliancePosition: "Not legal tender, not INR, not a bank, not real fintech settlement.",
+    exportedAt: new Date().toISOString(),
+    identity: {
+      name: identity.name || "",
+      hdi: identity.hdi || "",
+      username: identity.username || ""
+    },
+    wallet: {
+      address: wallet.address,
+      type: wallet.type,
+      deviceId: wallet.deviceId,
+      deviceFingerprint: wallet.deviceFingerprint,
+      balance: wallet.balance,
+      maxSupply: wallet.maxSupply,
+      genesisIssued: !!wallet.genesisIssued,
+      trustScore: hiWalletTrustScore(identity, wallet)
+    },
+    transactions: Array.isArray(wallet.transactions) ? wallet.transactions : []
+  };
+  var blob = new Blob([JSON.stringify(proof, null, 2)], { type: "application/json" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "hi-wallet-proof-" + String(identity.hdi || "identity").toLowerCase() + ".json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
 async function hiWalletInit() {
   try { await hiOpenDB(); } catch (e) {}
   var userEl = document.getElementById("authUserDisplay");
@@ -201,13 +322,19 @@ async function hiWalletInit() {
   var logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn && typeof logout === "function") logoutBtn.addEventListener("click", logout);
 
-  var identity = typeof hiLoadIdentity === "function" ? await hiLoadIdentity() : null;
-  if (!identity || !identity.hdi) {
+  var identity, wallet;
+  try {
+    identity = typeof hiLoadIdentity === "function" ? await hiLoadIdentity() : null;
+    if (!identity || !identity.hdi) {
+      hiWalletRenderLocked();
+      return;
+    }
+    wallet = await hiWalletLoadOrCreate(identity);
+  } catch (e) {
+    hiWalletSetStatus("Wallet failed to load. Reload the page or clear browser storage.", "error");
     hiWalletRenderLocked();
     return;
   }
-
-  var wallet = await hiWalletLoadOrCreate(identity);
   hiWalletRender(identity, wallet);
 
   var form = document.getElementById("walletMintForm");
@@ -217,19 +344,71 @@ async function hiWalletInit() {
     hiWalletSetStatus("", "");
     var input = document.getElementById("walletMintAmount");
     var amount = parseInt(input ? input.value : "0", 10);
-    if (!Number.isFinite(amount) || amount < 1 || amount > 99) {
-      hiWalletSetStatus("Enter a coin amount from 1 to 99.", "error");
+    if (!Number.isFinite(amount) || amount < 1 || amount > HI_WALLET_MAX_SUPPLY) {
+      hiWalletSetStatus("Enter a HI amount from 1 to " + HI_WALLET_MAX_SUPPLY + ".", "error");
       return;
     }
     var remaining = HI_WALLET_MAX_SUPPLY - Number(wallet.balance || 0);
     if (amount > remaining) {
-      hiWalletSetStatus("Only " + remaining + " HI coin can still be generated for this identity/device.", "error");
+      hiWalletSetStatus("Only " + remaining + " HI can still be added before the prototype cap.", "error");
       return;
     }
-    wallet = await hiWalletGenerateCoin(identity, wallet, amount);
+    var reason = document.getElementById("walletMintReason");
+    wallet = await hiWalletGenerateCoin(identity, wallet, amount, reason ? reason.value : "");
     if (input) input.value = "";
     hiWalletRender(identity, wallet);
-    hiWalletSetStatus("Generated " + amount + " HI coin and saved it with your HDI/device identity.", "success");
+    hiWalletSetStatus("Added " + amount + " earned HI and saved it to the local ledger.", "success");
+  });
+
+  var transferForm = document.getElementById("walletTransferForm");
+  if (transferForm) transferForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    hiWalletSetNamedStatus("walletTransferStatus", "", "");
+    var modeEl = document.getElementById("walletTransferMode");
+    var addressEl = document.getElementById("walletTransferAddress");
+    var amountEl = document.getElementById("walletTransferAmount");
+    var mode = modeEl ? modeEl.value : "send";
+    var address = addressEl ? addressEl.value.trim() : "";
+    var amount = parseInt(amountEl ? amountEl.value : "0", 10);
+    if (!address || !Number.isFinite(amount) || amount < 1) {
+      hiWalletSetNamedStatus("walletTransferStatus", "Enter a wallet/HDI and valid amount.", "error");
+      return;
+    }
+    if (mode === "send" && amount > Number(wallet.balance || 0)) {
+      hiWalletSetNamedStatus("walletTransferStatus", "Insufficient HI balance for this send simulation.", "error");
+      return;
+    }
+    wallet = await hiWalletTransfer(identity, wallet, mode, address, amount);
+    if (amountEl) amountEl.value = "";
+    hiWalletRender(identity, wallet);
+    hiWalletSetNamedStatus("walletTransferStatus", "Transfer saved to the local ledger.", "success");
+  });
+
+  var upiForm = document.getElementById("walletUpiForm");
+  if (upiForm) upiForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    hiWalletSetNamedStatus("walletUpiStatus", "", "");
+    var merchantEl = document.getElementById("walletMerchantName");
+    var amountEl = document.getElementById("walletUpiAmount");
+    var merchant = merchantEl ? merchantEl.value.trim() : "";
+    var amount = parseInt(amountEl ? amountEl.value : "0", 10);
+    if (!merchant || !Number.isFinite(amount) || amount < 1) {
+      hiWalletSetNamedStatus("walletUpiStatus", "Enter merchant and valid HI amount.", "error");
+      return;
+    }
+    if (amount > Number(wallet.balance || 0)) {
+      hiWalletSetNamedStatus("walletUpiStatus", "Insufficient HI balance for mock merchant payment.", "error");
+      return;
+    }
+    wallet = await hiWalletMockUpi(identity, wallet, merchant, amount);
+    if (amountEl) amountEl.value = "";
+    hiWalletRender(identity, wallet);
+    hiWalletSetNamedStatus("walletUpiStatus", "Mock merchant payment recorded. No real INR moved.", "success");
+  });
+
+  var exportBtn = document.getElementById("walletExportProof");
+  if (exportBtn) exportBtn.addEventListener("click", function() {
+    hiWalletExportProof(identity, wallet);
   });
 }
 

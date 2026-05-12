@@ -163,8 +163,8 @@
       if (!isQuote) {
         var utrEl = document.getElementById("upiUtr");
         utr = utrEl ? utrEl.value.trim() : "";
-        if (!utr || utr.length < 10) {
-          setStatus("Enter the UTR / transaction ID from your UPI app (at least 10 digits).", "error");
+        if (!utr || !/^\d{10,}$/.test(utr)) {
+          setStatus("Enter a valid numeric UTR / transaction ID from your UPI app (at least 10 digits).", "error");
           if (utrEl) utrEl.focus();
           return;
         }

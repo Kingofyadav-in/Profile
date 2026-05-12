@@ -228,7 +228,7 @@ body.theme-light .personal-section.glass {
 .personal-section h2 {
   font-size: clamp(1.4rem, 2.5vw, 1.9rem);
   font-weight: 700;
-  letter-spacing: -0.4px;
+  letter-spacing: 0;
   margin-bottom: 0;
   position: relative;
   display: inline-block;
@@ -281,7 +281,7 @@ body.theme-light .personal-section.glass {
 .personal-section h1 {
   font-size: clamp(2.4rem, 4.5vw, 3.4rem);
   font-weight: 800;
-  letter-spacing: -1px;
+  letter-spacing: 0;
   margin-bottom: 12px;
   line-height: 1.1;
 }
@@ -374,7 +374,7 @@ body.theme-light .personal-section.glass {
    8. CARD GRID
 ====================================================== */
 
-.life-grid {
+.personal-page .life-grid {
   margin-top: 36px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -419,14 +419,14 @@ body.theme-light .personal-page .life-card {
   box-shadow: 0 20px 48px rgba(4,106,56,0.18);
 }
 
-.life-actions {
+.personal-page .life-actions {
   margin-top: 16px;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.life-action {
+.personal-page .life-action {
   font-size: 0.78rem;
   font-weight: 600;
   text-decoration: none;
@@ -438,7 +438,7 @@ body.theme-light .personal-page .life-card {
   transition: opacity 0.2s ease, background 0.2s ease;
 }
 
-.life-action:hover {
+.personal-page .life-action:hover {
   opacity: 1;
   background: rgba(4,106,56,0.1);
 }
@@ -799,9 +799,9 @@ body.theme-light .pd-field textarea {
     gap: 16px;
   }
 
-  /* Hide auth username text, keep logout button */
-  .auth-bar span:first-child {
-    display: none;
+  .auth-bar {
+    font-size: .72rem;
+    gap: 6px;
   }
 }
 
@@ -1179,4 +1179,209 @@ body.theme-light .profile-hero-panel {
     padding: 20px;
     border-radius: 18px;
   }
+}
+
+/* ======================================================
+   WORLD-CLASS HI APP HEADER
+   Full-width desktop header for all personal/HI pages
+====================================================== */
+
+@media (min-width: 769px) {
+  .personal-header {
+    min-height: 78px;
+  }
+
+  .personal-header-inner {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 78px;
+    padding: 10px clamp(22px, 3vw, 48px) !important;
+    display: grid !important;
+    grid-template-columns: minmax(220px, auto) minmax(0, 1fr) auto !important;
+    gap: clamp(14px, 2vw, 28px);
+    align-items: center;
+  }
+
+  .personal-brand {
+    min-width: 0;
+    padding: 6px 10px 6px 6px !important;
+    border-radius: 999px !important;
+    transition: background .2s ease, transform .2s ease;
+  }
+
+  .personal-brand:hover {
+    background: rgba(128,128,128,.08);
+    transform: translateY(-1px);
+  }
+
+  .personal-logo {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+  }
+
+  .personal-brand-text {
+    min-width: 0;
+  }
+
+  .personal-name {
+    max-width: 210px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: .96rem;
+    font-weight: 850;
+  }
+
+  .personal-tagline {
+    max-width: 230px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--brand-green);
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+    opacity: .95;
+  }
+
+  .personal-header .personal-nav {
+    min-width: 0;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 7px !important;
+  }
+
+  .personal-header .personal-nav a {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px !important;
+    padding: 8px 11px !important;
+    border: 1px solid transparent !important;
+    border-radius: 999px !important;
+    font-size: .7rem !important;
+    font-weight: 850 !important;
+    letter-spacing: .65px !important;
+    line-height: 1;
+    opacity: .78 !important;
+    transition: opacity .18s ease, color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
+  }
+
+  .personal-header .personal-nav a::after {
+    display: none !important;
+  }
+
+  .personal-header .personal-nav a:hover,
+  .personal-header .personal-nav a.active {
+    opacity: 1;
+    color: var(--brand-green);
+    background: rgba(4,106,56,.09);
+    border-color: rgba(4,106,56,.2);
+    transform: translateY(-1px);
+  }
+
+  body.theme-dark .personal-header .personal-nav a:hover,
+  body.theme-dark .personal-header .personal-nav a.active {
+    background: rgba(4,106,56,.16);
+    border-color: rgba(255,255,255,.1);
+  }
+
+  .personal-header .hi-nav-license {
+    color: var(--brand-orange);
+  }
+
+  .personal-header .auth-bar {
+    justify-self: end;
+    min-height: 38px;
+    padding: 5px 6px 5px 12px;
+    border: 1px solid rgba(128,128,128,.16);
+    border-radius: 999px;
+    background: rgba(128,128,128,.06);
+    opacity: 1;
+    white-space: nowrap;
+  }
+
+  .personal-header .auth-logout-btn {
+    min-height: 28px;
+    padding: 5px 12px;
+    background: rgba(255,103,31,.08);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1280px) {
+  .personal-header-inner {
+    grid-template-columns: minmax(220px, 1fr) auto !important;
+    grid-template-areas:
+      "brand auth"
+      "nav nav" !important;
+    row-gap: 6px;
+    min-height: 88px;
+  }
+
+  .personal-header .personal-brand {
+    grid-area: brand;
+  }
+
+  .personal-header .auth-bar {
+    grid-area: auth;
+    align-self: start;
+    margin-top: 4px;
+  }
+
+  .personal-header .personal-nav {
+    grid-area: nav;
+    justify-content: flex-start !important;
+    padding-left: 58px;
+  }
+}
+
+@media (min-width: 1281px) {
+  .personal-header .personal-brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .personal-header .personal-nav {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .personal-header .auth-bar {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+  }
+}
+
+/* ======================================================
+   LOGO — THEME TOGGLE INTERACTIVE STATE
+====================================================== */
+
+@keyframes logoThemeSwitch {
+  0%   { transform: scale(1) rotate(0deg); }
+  30%  { transform: scale(0.82) rotate(-18deg); }
+  70%  { transform: scale(1.1) rotate(10deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.personal-logo,
+.logo {
+  cursor: pointer;
+  transition: transform 0.22s ease, filter 0.22s ease;
+  border-radius: 50%;
+}
+
+.personal-logo:hover,
+.logo:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(4,106,56,0.55));
+}
+
+.personal-logo.logo-theme-switching,
+.logo.logo-theme-switching {
+  animation: logoThemeSwitch 0.38s cubic-bezier(.36,.07,.19,.97);
 }

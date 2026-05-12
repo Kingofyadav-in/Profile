@@ -34,7 +34,7 @@
 .contact-hero h1 {
   font-size: clamp(3.2rem, 6.5vw, 5rem);
   line-height: 1.05;
-  letter-spacing: -2px;
+  letter-spacing: 0;
   font-weight: 800;
   margin-bottom: 28px;
 }
@@ -235,7 +235,7 @@
   font-size: clamp(2rem, 3.5vw, 2.8rem);
   line-height: 1.15;
   font-weight: 700;
-  letter-spacing: -1px;
+  letter-spacing: 0;
 }
 
 .cf-info-desc {

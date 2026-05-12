@@ -1,180 +1,352 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>HI Wallet — Amit Ku Yadav</title>
-  <meta name="description" content="HI Wallet for identity-bound local HI coins connected to HDI and device identity." />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="icon" href="/favicon/favicon.ico" />
-  <meta name="theme-color" content="#046A38" />
-  <link rel="stylesheet" href="/css/base.css?v=hi-1" />
-  <link rel="stylesheet" href="/css/components.css?v=20260504-pwa2" />
-  <link rel="stylesheet" href="/css/personal.css?v=hi-1" />
-  <link rel="stylesheet" href="/css/auth.css?v=hi-1" />
-  <link rel="stylesheet" href="/css/hi-app.css?v=hi-1" />
-  <link rel="stylesheet" href="/css/hi-wallet.css?v=hi-wallet-1" />
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>HI Wallet — Amit Ku Yadav</title>
+    <meta
+      name="description"
+      content="HI Wallet for identity-bound local HI coins connected to HDI and device identity."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon/favicon.ico" />
+    <meta name="theme-color" content="#046A38" />
+    <link rel="stylesheet" href="/css/base.css?v=hi-1" />
+    <link rel="stylesheet" href="/css/components.css?v=footer-bright-1" />
+<link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+    <link rel="stylesheet" href="/css/personal.css?v=header-pro-1" />
+    <link rel="stylesheet" href="/css/auth.css?v=header-pro-1" />
+    <link rel="stylesheet" href="/css/hi-app.css?v=hi-1" />
+    <link rel="stylesheet" href="/css/hi-wallet.css?v=wallet-ui-2" />
+  </head>
 
-<body class="theme-dark personal-page wallet-page">
-<script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
-<script src="/js/auth.js?v=hi-1"></script>
-<script>requireAuth(); document.documentElement.style.visibility="";</script>
+  <body class="theme-dark personal-page wallet-page">
+    <script>
+      try {
+        var _t = localStorage.getItem('theme')
+        if (_t) {
+          document.body.classList.remove('theme-dark', 'theme-light')
+          document.body.classList.add(_t)
+        }
+      } catch (e) {}
+    </script>
+    <script src="/js/auth.js?v=hi-1"></script>
+    <script>
+      requireAuth()
+      document.documentElement.style.visibility = ''
+    </script>
 
-<div id="scrollProgress"></div>
-<a href="#main-content" class="skip-link">Skip to content</a>
+    <div id="scrollProgress"></div>
+    <a href="#main-content" class="skip-link">Skip to content</a>
 
-<header class="personal-header glass">
-  <div class="personal-header-inner">
-    <a href="/pages/personal.html" class="personal-brand">
-      <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
-      <div class="personal-brand-text">
-        <span class="personal-name">Amit Ku Yadav</span>
-        <span class="personal-tagline">HI Wallet</span>
+    <header class="personal-header glass">
+      <div class="personal-header-inner">
+        <a href="/pages/personal.html" class="personal-brand">
+          <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
+          <div class="personal-brand-text">
+            <span class="personal-name">Amit Ku Yadav</span>
+            <span class="personal-tagline">HI Wallet</span>
+          </div>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="personal-nav">
+          <a href="/pages/wallet.html" class="active" aria-current="page">WALLET</a>
+          <a href="/pages/vault.html">VAULT</a>
+          <a href="/pages/merchant.html">MERCHANT</a>
+          <a href="/marketplace/">MARKETPLACE</a>
+          <a href="/pages/hi-license.html" class="hi-nav-license">&#x1F5AA; License</a>
+        </nav>
+        <div class="auth-bar">
+          <span>Hi, <strong id="authUserDisplay"></strong></span>
+          <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+        </div>
       </div>
-    </a>
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
+    </header>
+
+    <main class="wallet-main" id="main-content">
+      <section id="walletLocked" class="wallet-locked" aria-live="polite">
+        <p class="wallet-kicker">Identity Required</p>
+        <h2>Create your HI identity first.</h2>
+        <p>
+          HI coin generation unlocks only after your Human Digital Identity is saved. The wallet
+          binds coins to your HDI and this browser device identity.
+        </p>
+        <div class="wallet-actions">
+          <a class="wallet-action primary" href="/pages/personal.html#create-identity"
+            >Create Identity</a
+          >
+          <a class="wallet-action" href="/pages/hi-license.html">View HI License</a>
+        </div>
+      </section>
+
+      <section class="wallet-hero" aria-label="HI Wallet overview">
+        <div class="wallet-hero-copy">
+          <p class="wallet-kicker">HI Wallet</p>
+          <h1>Identity-powered wallet prototype.</h1>
+          <p>
+            HI Wallet connects one human identity to one permanent local wallet, one Genesis HI,
+            transparent ledger proof, and demo payment flows for services and merchants.
+          </p>
+          <div class="wallet-actions">
+            <a class="wallet-action primary" href="#walletActions">Use Wallet</a>
+            <a class="wallet-action" href="/marketplace/">Marketplace</a>
+            <a class="wallet-action" href="/pages/vault.html">HI Vault</a>
+            <a class="wallet-action" href="/pages/merchant.html">Merchant</a>
+            <a class="wallet-action" href="/wallet/">Digital Coin Project</a>
+            <a class="wallet-action" href="/pages/personal.html">Back to Life OS</a>
+          </div>
+        </div>
+
+        <aside class="wallet-card" aria-label="Wallet balance">
+          <img
+            class="wallet-hero-art"
+            src="/images/coin/hi-coin-both-sides.svg?v=2"
+            alt="HI digital coin artwork"
+            loading="eager"
+          />
+          <span class="wallet-balance-label">Available HI Coin</span>
+          <div class="wallet-balance">
+            <strong id="walletBalance">0</strong>
+            <span>HI</span>
+          </div>
+          <p>Genesis status: <strong id="walletGenesisStatus">Pending</strong></p>
+          <p>Trust score: <strong id="walletTrustScore">0</strong>/100</p>
+          <code id="walletAddress" class="wallet-address">Loading wallet address...</code>
+        </aside>
+      </section>
+
+      <section class="wallet-principles" aria-label="HI Wallet position">
+        <div><span>Identity</span><strong>1 Human = 1 HDI</strong></div>
+        <div><span>Genesis</span><strong>1 verified human = 1 HI</strong></div>
+        <div><span>Value</span><strong>Earned, used, not traded</strong></div>
+        <div><span>Phase 1</span><strong>Prototype, not fintech</strong></div>
+      </section>
+
+      <section class="wallet-grid">
+        <article class="wallet-panel" id="walletGenerator">
+          <p class="wallet-kicker">Genesis Engine</p>
+          <h2>Create identity-backed value.</h2>
+          <p>
+            Phase 1 starts with exactly one Genesis HI for a saved human identity. Additional HI is
+            simulated as earned contribution credit inside this local prototype.
+          </p>
+
+          <form id="walletMintForm" class="wallet-form">
+            <div class="wallet-field">
+              <label for="walletMintAmount">Contribution reward</label>
+              <input
+                id="walletMintAmount"
+                type="number"
+                min="1"
+                max="10000"
+                step="1"
+                placeholder="Example: 5"
+                required
+              />
+            </div>
+            <div class="wallet-field">
+              <label for="walletMintReason">Reward reason</label>
+              <select id="walletMintReason">
+                <option value="Verified Contribution">Verified Contribution</option>
+                <option value="Learning Reward">Learning Reward</option>
+                <option value="Community Help">Community Help</option>
+                <option value="Bug Report">Bug Report</option>
+                <option value="Service Work">Service Work</option>
+              </select>
+            </div>
+            <div class="wallet-range-row">
+              <span>Genesis is automatic</span>
+              <span>Ecosystem demo cap: 10000 HI</span>
+            </div>
+            <button class="wallet-submit" id="walletMintSubmit" type="submit">Add Earned HI</button>
+            <p class="wallet-status" id="walletStatus" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <article class="wallet-panel" aria-label="Identity binding">
+          <p class="wallet-kicker">Saved Binding</p>
+          <h2>HI ID and device proof.</h2>
+          <div class="wallet-meta-grid">
+            <div class="wallet-meta">
+              <span>Owner</span>
+              <strong id="walletOwner">Loading</strong>
+            </div>
+            <div class="wallet-meta">
+              <span>HI ID / HDI</span>
+              <code id="walletHdi">Loading</code>
+            </div>
+            <div class="wallet-meta">
+              <span>Device ID</span>
+              <code id="walletDevice">Loading</code>
+            </div>
+            <div class="wallet-meta">
+              <span>Fingerprint Hash</span>
+              <code id="walletFingerprint">Loading</code>
+            </div>
+            <div class="wallet-meta">
+              <span>Wallet Type</span>
+              <strong>Personal HI Wallet</strong>
+            </div>
+            <div class="wallet-meta">
+              <span>Compliance Position</span>
+              <strong>Local prototype only</strong>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="wallet-grid wallet-actions-grid" id="walletActions">
+        <article class="wallet-panel">
+          <p class="wallet-kicker">Send / Receive</p>
+          <h2>Move HI inside the prototype.</h2>
+          <form id="walletTransferForm" class="wallet-form">
+            <div class="wallet-field">
+              <label for="walletTransferMode">Mode</label>
+              <select id="walletTransferMode">
+                <option value="send">Send HI</option>
+                <option value="receive">Receive HI</option>
+              </select>
+            </div>
+            <div class="wallet-field">
+              <label for="walletTransferAddress">Wallet address or HDI</label>
+              <input
+                id="walletTransferAddress"
+                type="text"
+                placeholder="hiw_user_abc123 or AKY-2026-23185D"
+                required
+              />
+            </div>
+            <div class="wallet-field">
+              <label for="walletTransferAmount">Amount</label>
+              <input
+                id="walletTransferAmount"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="Example: 3"
+                required
+              />
+            </div>
+            <button class="wallet-submit" type="submit">Save Transfer</button>
+            <p class="wallet-status" id="walletTransferStatus" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <article class="wallet-panel">
+          <p class="wallet-kicker">Mock UPI Bridge</p>
+          <h2>Merchant QR simulation.</h2>
+          <div class="wallet-merchant-qr" aria-label="Mock merchant QR">
+            <span>PAY</span>
+            <strong>HI</strong>
+            <code>MER-YADAV-2026</code>
+          </div>
+          <form id="walletUpiForm" class="wallet-form">
+            <div class="wallet-field">
+              <label for="walletMerchantName">Merchant</label>
+              <input id="walletMerchantName" type="text" value="Yadav Digital Store" required />
+            </div>
+            <div class="wallet-field">
+              <label for="walletUpiAmount">HI amount</label>
+              <input
+                id="walletUpiAmount"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="Example: 2"
+                required
+              />
+            </div>
+            <button class="wallet-submit" type="submit">Pay Mock Merchant</button>
+            <p class="wallet-status" id="walletUpiStatus" aria-live="polite"></p>
+          </form>
+        </article>
+      </section>
+
+      <section class="wallet-panel wallet-blueprint" aria-label="Wallet system layers">
+        <p class="wallet-kicker">System Layers</p>
+        <h2>HI Wallet stays separate from the Digital Coin project.</h2>
+        <div class="wallet-layer-grid">
+          <div>
+            <span>01</span><strong>HDI Identity Layer</strong>
+            <p>Creates the human identity and binds the wallet to it.</p>
+          </div>
+          <div>
+            <span>02</span><strong>HI Wallet Layer</strong>
+            <p>Stores local balance, address, device proof, and wallet state.</p>
+          </div>
+          <div>
+            <span>03</span><strong>Identity Coin Engine</strong>
+            <p>Issues the one Genesis HI and contribution rewards.</p>
+          </div>
+          <div>
+            <span>04</span><strong>Local Ledger</strong>
+            <p>Records every local action with hashes and timestamps.</p>
+          </div>
+          <div>
+            <span>05</span><strong>Mock UPI Bridge</strong>
+            <p>Simulates payment UX without real settlement.</p>
+          </div>
+          <div>
+            <span>06</span><strong>Merchant Layer</strong>
+            <p>Models QR payment, merchant identity, and receipts.</p>
+          </div>
+          <div>
+            <span>07</span><strong>Marketplace Layer</strong>
+            <p>Lets HI move through services, work, learning, and contribution.</p>
+          </div>
+          <div>
+            <span>08</span><strong>Trust Score</strong>
+            <p>Converts identity age, ledger history, and verified activity into reputation.</p>
+          </div>
+          <div>
+            <span>09</span><strong>Future Settlement</strong>
+            <p>Keeps a path toward compliant UPI-style merchant settlement.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wallet-panel wallet-ledger-panel" aria-label="Wallet ledger">
+        <p class="wallet-kicker">Ledger</p>
+        <h2>Transparent local history.</h2>
+        <div class="wallet-ledger-tools">
+          <button class="wallet-action" id="walletExportProof" type="button">Export Proof</button>
+          <span>Includes identity, wallet, balance, trust score, and transactions.</span>
+        </div>
+        <div id="walletLedger" class="wallet-ledger"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer glass">
+      <div class="footer-inner">
+        <div class="footer-enquiry">
+          <p class="footer-title">Enquiry</p>
+          <p class="footer-text">
+            Amit Ku Yadav<br />
+            Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
+            Office: Bhagalpur, India<br />
+            Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
+          </p>
+          <div class="social-icons" id="socialLinks"></div>
+        </div>
+        <div class="footer-right">
+          <div id="footerClock">--:--</div>
+          <div>Bhagalpur, India</div>
+          <div id="status">STATUS: --</div>
+          <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
+        </div>
+      </div>
+      <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All rights reserved</div>
+    </footer>
+
+    <button id="backToTop" aria-label="Back to top">
+      <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
     </button>
-    <nav class="personal-nav">
-      <a href="/pages/personal.html">LIFE OS</a>
-      <a href="/pages/about-me.html">ABOUT ME</a>
-      <a href="/pages/origin.html">ORIGIN</a>
-      <a href="/pages/haven.html">HAVEN</a>
-      <a href="/pages/bhagalpur.html">BHAGALPUR</a>
-      <a href="/pages/wallet.html" class="active" aria-current="page">WALLET</a>
-      <a href="/pages/hi-license.html" class="hi-nav-license">&#x1F5AA; License</a>
-    </nav>
-    <div class="auth-bar">
-      <span>Hi, <strong id="authUserDisplay"></strong></span>
-      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
-    </div>
-  </div>
-</header>
 
-<main class="wallet-main" id="main-content">
-  <section id="walletLocked" class="wallet-locked" aria-live="polite">
-    <p class="wallet-kicker">Identity Required</p>
-    <h2>Create your HI identity first.</h2>
-    <p>
-      HI coin generation unlocks only after your Human Digital Identity is saved.
-      The wallet binds coins to your HDI and this browser device identity.
-    </p>
-    <div class="wallet-actions">
-      <a class="wallet-action primary" href="/pages/personal.html#create-identity">Create Identity</a>
-      <a class="wallet-action" href="/pages/hi-license.html">View HI License</a>
-    </div>
-  </section>
-
-  <section class="wallet-hero" aria-label="HI Wallet overview">
-    <div class="wallet-hero-copy">
-      <p class="wallet-kicker">HI Wallet</p>
-      <h1>Identity-bound digital coin.</h1>
-      <p>
-        Generate local HI coins only after HI identity registration. Each coin record is saved with
-        your HDI, wallet address, device id, and a hashed device fingerprint.
-      </p>
-      <div class="wallet-actions">
-        <a class="wallet-action primary" href="#walletGenerator">Generate Coin</a>
-        <a class="wallet-action" href="/pages/personal.html">Back to Life OS</a>
-      </div>
-    </div>
-
-    <aside class="wallet-card" aria-label="Wallet balance">
-      <img class="wallet-hero-art" src="/images/coin/hi-coin-both-sides.svg?v=2" alt="HI digital coin artwork" loading="eager" />
-      <span class="wallet-balance-label">Available HI Coin</span>
-      <div class="wallet-balance">
-        <strong id="walletBalance">0</strong>
-        <span>HI</span>
-      </div>
-      <p>Remaining generation limit: <strong id="walletRemaining">99</strong> HI</p>
-      <code id="walletAddress" class="wallet-address">Loading wallet address...</code>
-    </aside>
-  </section>
-
-  <section class="wallet-grid">
-    <article class="wallet-panel" id="walletGenerator">
-      <p class="wallet-kicker">Coin Generator</p>
-      <h2>Generate 1 to 99 HI coin.</h2>
-      <p>
-        This is a local identity coin for your HI system. It is not legal tender, not INR,
-        and not a public blockchain asset.
-      </p>
-
-      <form id="walletMintForm" class="wallet-form">
-        <div class="wallet-field">
-          <label for="walletMintAmount">Coin amount</label>
-          <input id="walletMintAmount" type="number" min="1" max="99" step="1" placeholder="Example: 25" required />
-        </div>
-        <div class="wallet-range-row">
-          <span>Minimum: 1 HI</span>
-          <span>Maximum total: 99 HI</span>
-        </div>
-        <button class="wallet-submit" id="walletMintSubmit" type="submit">Generate HI Coin</button>
-        <p class="wallet-status" id="walletStatus" aria-live="polite"></p>
-      </form>
-    </article>
-
-    <article class="wallet-panel" aria-label="Identity binding">
-      <p class="wallet-kicker">Saved Binding</p>
-      <h2>HI ID and device proof.</h2>
-      <div class="wallet-meta-grid">
-        <div class="wallet-meta">
-          <span>Owner</span>
-          <strong id="walletOwner">Loading</strong>
-        </div>
-        <div class="wallet-meta">
-          <span>HI ID / HDI</span>
-          <code id="walletHdi">Loading</code>
-        </div>
-        <div class="wallet-meta">
-          <span>Device ID</span>
-          <code id="walletDevice">Loading</code>
-        </div>
-        <div class="wallet-meta">
-          <span>Fingerprint Hash</span>
-          <code id="walletFingerprint">Loading</code>
-        </div>
-      </div>
-    </article>
-  </section>
-
-  <section class="wallet-panel wallet-ledger-panel" aria-label="Wallet ledger">
-    <p class="wallet-kicker">Ledger</p>
-    <h2>Coin generation history.</h2>
-    <div id="walletLedger" class="wallet-ledger"></div>
-  </section>
-</main>
-
-<footer class="site-footer glass">
-  <div class="footer-inner">
-    <div class="footer-enquiry">
-      <p class="footer-title">Enquiry</p>
-      <p class="footer-text">
-        Amit Ku Yadav<br />
-        Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
-        Office: Bhagalpur, India<br />
-        Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
-      </p>
-      <div class="social-icons" id="socialLinks"></div>
-    </div>
-    <div class="footer-right">
-      <div id="footerClock">--:--</div>
-      <div>Bhagalpur, India</div>
-      <div id="status">STATUS: --</div>
-      <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
-    </div>
-  </div>
-  <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All rights reserved</div>
-</footer>
-
-<button id="backToTop" aria-label="Back to top">
-  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
-</button>
-
-<script src="/js/script.js?v=hi-1" defer></script>
-<script src="/js/hi-storage.js?v=hi-wallet-1"></script>
-<script src="/js/hi-app.js?v=hi-1" defer></script>
-<script src="/js/hi-wallet.js?v=hi-wallet-1" defer></script>
-</body>
+    <script src="/js/script.js?v=footer-pro-1" defer></script>
+    <script src="/js/hi-storage.js?v=hi-wallet-1"></script>
+    <script src="/js/hi-app.js?v=hi-1" defer></script>
+    <script src="/js/hi-wallet.js?v=hi-wallet-1" defer></script>
+  </body>
 </html>

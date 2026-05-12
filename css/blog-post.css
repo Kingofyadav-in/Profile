@@ -36,7 +36,7 @@
 .elite-article h1 {
   font-size: clamp(1.9rem, 3.5vw, 2.9rem);
   font-weight: 800;
-  letter-spacing: -0.4px;
+  letter-spacing: 0;
   line-height: 1.15;
   margin-bottom: 18px;
 }
@@ -144,13 +144,124 @@
 
 
 /* ======================================================
-   4. INLINE STAT GRIDS — responsive collapse
+   4. ARTICLE COMPONENTS
 ====================================================== */
 
-/* Target the inline 3-column data grids inside articles */
 .elite-article > div,
 .elite-article div {
   box-sizing: border-box;
+}
+
+.blog-back-link {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(128,128,128,0.12);
+}
+
+.article-author-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.article-author-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--brand-green-soft);
+}
+
+.article-author-name {
+  font-size: .88rem;
+  font-weight: 600;
+}
+
+.article-date {
+  font-size: .82rem;
+  opacity: .5;
+}
+
+.article-read-time {
+  padding: 3px 10px;
+  border: 1px solid var(--brand-green-soft);
+  border-radius: 999px;
+  color: var(--brand-green);
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.article-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+.article-stat-card {
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid rgba(128,128,128,0.12);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.02);
+  text-align: center;
+}
+
+.article-stat-value {
+  display: block;
+  margin-bottom: .4rem;
+  background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.article-stat-label {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  opacity: .5;
+}
+
+.article-takeaway {
+  margin: 2.5rem 0;
+  padding: 2rem 2.5rem;
+  border: 1px solid var(--brand-green-soft);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(4,106,56,0.08), rgba(255,103,31,0.05));
+}
+
+.article-takeaway-label {
+  display: block;
+  margin-bottom: .75rem;
+  color: var(--brand-green);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.article-takeaway-text {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.75;
+  opacity: 1;
 }
 
 
@@ -207,6 +318,55 @@
   color: var(--brand-green);
   opacity: 1;
   font-weight: 600;
+}
+
+.sidebar-author-block {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(128,128,128,0.12);
+}
+
+.sidebar-eyebrow {
+  margin-bottom: 1rem;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: .5;
+}
+
+.sidebar-author-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-author-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--brand-green-soft);
+}
+
+.sidebar-author-name {
+  display: block;
+  font-size: .88rem;
+}
+
+.sidebar-author-role {
+  font-size: .76rem;
+  opacity: .55;
+}
+
+.sidebar-all-posts {
+  margin-top: 2rem;
+}
+
+.sidebar-all-posts-link {
+  display: block;
+  text-align: center;
+  font-size: .82rem;
 }
 
 
@@ -354,7 +514,7 @@
 
   .elite-article h1 {
     font-size: clamp(1.65rem, 5.5vw, 2.1rem);
-    letter-spacing: -0.2px;
+    letter-spacing: 0;
   }
 
   .article-subtitle {
@@ -422,16 +582,20 @@
     font-size: 0.92rem;
   }
 
-  /* Collapse 3-column stat grids on small mobile */
-  .elite-article [style*="repeat(3,1fr)"],
-  .elite-article [style*="repeat(3, 1fr)"] {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
+  .article-meta {
+    gap: 12px;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
   }
 
-  /* Collapse 3-column key-takeaway grids */
-  .elite-article [style*="grid-template-columns:repeat(3"] {
-    grid-template-columns: 1fr !important;
+  .article-stat-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .article-takeaway {
+    padding: 1.35rem;
+    border-radius: 16px;
   }
 
   .related-grid {

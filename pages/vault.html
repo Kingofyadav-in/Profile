@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HI Vault — Amit Ku Yadav</title>
+    <meta
+      name="description"
+      content="HI Vault for encrypted local backup, recovery key flow, and IndexedDB restore for HI Wallet ecosystem data."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon/favicon.ico" />
+    <meta name="theme-color" content="#046A38" />
+    <link rel="stylesheet" href="/css/base.css?v=hi-1" />
+    <link rel="stylesheet" href="/css/components.css?v=footer-bright-1" />
+<link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+    <link rel="stylesheet" href="/css/personal.css?v=header-pro-1" />
+    <link rel="stylesheet" href="/css/auth.css?v=header-pro-1" />
+    <link rel="stylesheet" href="/css/hi-app.css?v=hi-1" />
+    <link rel="stylesheet" href="/css/hi-vault.css?v=hi-vault-1" />
+  </head>
+
+  <body class="theme-dark personal-page vault-page">
+    <script>
+      try {
+        var _t = localStorage.getItem('theme')
+        if (_t) {
+          document.body.classList.remove('theme-dark', 'theme-light')
+          document.body.classList.add(_t)
+        }
+      } catch (e) {}
+    </script>
+    <script src="/js/auth.js?v=hi-1"></script>
+    <script>
+      requireAuth()
+      document.documentElement.style.visibility = ''
+    </script>
+
+    <div id="scrollProgress"></div>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <header class="personal-header glass">
+      <div class="personal-header-inner">
+        <a href="/pages/personal.html" class="personal-brand">
+          <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
+          <div class="personal-brand-text">
+            <span class="personal-name">Amit Ku Yadav</span>
+            <span class="personal-tagline">HI Vault</span>
+          </div>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="personal-nav">
+          <a href="/pages/wallet.html">WALLET</a>
+          <a href="/pages/vault.html" class="active" aria-current="page">VAULT</a>
+          <a href="/pages/merchant.html">MERCHANT</a>
+          <a href="/marketplace/">MARKETPLACE</a>
+          <a href="/wallet/">DIGITAL COIN</a>
+        </nav>
+        <div class="auth-bar">
+          <span>Hi, <strong id="authUserDisplay"></strong></span>
+          <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="vault-main" id="main-content">
+      <section id="vaultLocked" class="vault-locked" aria-live="polite">
+        <p class="vault-kicker">Identity Required</p>
+        <h2>Create HDI before exporting a trusted vault.</h2>
+        <p>
+          HI Vault can inspect local records now, but backup identity proof is strongest after HDI
+          and HI Wallet exist.
+        </p>
+        <div class="vault-actions">
+          <a class="vault-action primary" href="/pages/personal.html#create-identity"
+            >Create Identity</a
+          >
+          <a class="vault-action" href="/pages/wallet.html">Open HI Wallet</a>
+        </div>
+      </section>
+
+      <section class="vault-hero" aria-label="HI Vault overview">
+        <div class="vault-hero-copy">
+          <p class="vault-kicker">HI Vault</p>
+          <h1>Encrypted backup and recovery for HI Wallet.</h1>
+          <p>
+            HI Vault protects the local-first ecosystem: HDI identity, wallet ledger, merchant
+            profile, marketplace history, and license records. Data remains in IndexedDB until you
+            export an encrypted backup.
+          </p>
+          <div class="vault-actions">
+            <a class="vault-action primary" href="#vaultExportForm">Export Backup</a>
+            <a class="vault-action" href="#vaultImportForm">Restore Backup</a>
+            <a class="vault-action" href="/pages/wallet.html">Open Wallet</a>
+          </div>
+        </div>
+
+        <aside class="vault-card" aria-label="Vault status">
+          <p class="vault-kicker">Vault Status</p>
+          <div class="vault-grid" style="grid-template-columns: 1fr">
+            <div class="vault-metric">
+              <span>HDI</span><strong id="vaultIdentity">Loading</strong>
+            </div>
+            <div class="vault-metric">
+              <span>Recovery</span><strong id="vaultRecoveryStatus">Loading</strong>
+            </div>
+            <div class="vault-metric">
+              <span>Last Export</span><strong id="vaultLastExport">Loading</strong>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="vault-grid" aria-label="Vault metrics">
+        <div class="vault-metric"><span>Encrypted</span><strong>AES-GCM</strong></div>
+        <div class="vault-metric"><span>Key Derivation</span><strong>PBKDF2 SHA-256</strong></div>
+        <div class="vault-metric"><span>Stores</span><strong id="vaultStoreCount">0</strong></div>
+        <div class="vault-metric"><span>Records</span><strong id="vaultRecordCount">0</strong></div>
+      </section>
+
+      <section class="vault-split">
+        <article class="vault-panel">
+          <p class="vault-kicker">Recovery Key</p>
+          <h2>Generate a key before export.</h2>
+          <p>
+            Your backup needs both passphrase and recovery key. The recovery key is shown for this
+            session; keep it offline. The app stores only a hash for status.
+          </p>
+          <code class="vault-key" id="vaultRecoveryKey">Generate a recovery key</code>
+          <div class="vault-actions">
+            <button class="vault-action primary" id="vaultGenerateKey" type="button">
+              Generate Key
+            </button>
+            <button class="vault-action" id="vaultCopyKey" type="button">Copy Key</button>
+          </div>
+          <p class="vault-status" id="vaultKeyStatus" aria-live="polite"></p>
+        </article>
+
+        <article class="vault-panel">
+          <p class="vault-kicker">Offline Cache</p>
+          <h2>IndexedDB stores included.</h2>
+          <div id="vaultStoreList" class="vault-list"></div>
+        </article>
+      </section>
+
+      <section class="vault-split">
+        <article class="vault-panel">
+          <p class="vault-kicker">Export</p>
+          <h2>Create encrypted HI Vault backup.</h2>
+          <form id="vaultExportForm" class="vault-form">
+            <div class="vault-field">
+              <label for="vaultExportPassphrase">Backup passphrase</label>
+              <input
+                id="vaultExportPassphrase"
+                type="password"
+                minlength="8"
+                autocomplete="new-password"
+                placeholder="Minimum 8 characters"
+                required
+              />
+            </div>
+            <button class="vault-action primary" type="submit">Export Encrypted Backup</button>
+            <p class="vault-status" id="vaultExportStatus" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <article class="vault-panel">
+          <p class="vault-kicker">Restore</p>
+          <h2>Import backup into IndexedDB.</h2>
+          <form id="vaultImportForm" class="vault-form">
+            <div class="vault-field">
+              <label for="vaultImportFile">HI Vault file</label>
+              <input
+                id="vaultImportFile"
+                type="file"
+                accept=".json,.hivault,.hivault.json,application/json"
+                required
+              />
+            </div>
+            <div class="vault-field">
+              <label for="vaultImportPassphrase">Backup passphrase</label>
+              <input
+                id="vaultImportPassphrase"
+                type="password"
+                autocomplete="current-password"
+                required
+              />
+            </div>
+            <div class="vault-field">
+              <label for="vaultImportRecoveryKey">Recovery key</label>
+              <textarea
+                id="vaultImportRecoveryKey"
+                placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"
+                required
+              ></textarea>
+            </div>
+            <button class="vault-action primary" type="submit">Restore Backup</button>
+            <p class="vault-status" id="vaultImportStatus" aria-live="polite"></p>
+          </form>
+        </article>
+      </section>
+
+      <section class="vault-panel" aria-label="Vault architecture">
+        <p class="vault-kicker">Phase 2 Bridge</p>
+        <h2>Local-first now, cloud-ready later.</h2>
+        <p>
+          HI Vault keeps IndexedDB as the offline cache today. The same encrypted payload shape can
+          later be synced to Supabase/Postgres as HI Vault cloud storage without changing the
+          wallet, merchant, or marketplace UI.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer glass">
+      <div class="footer-inner">
+        <div class="footer-enquiry">
+          <p class="footer-title">HI Vault</p>
+          <p class="footer-text">
+            Encrypted local backup, recovery key flow, and offline IndexedDB restore for HI Wallet
+            ecosystem data.
+          </p>
+        </div>
+        <div class="footer-right">
+          <div id="footerClock">--:--</div>
+          <div>Bhagalpur, India</div>
+          <div id="status">STATUS: --</div>
+          <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
+        </div>
+      </div>
+      <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All rights reserved</div>
+    </footer>
+
+    <button id="backToTop" aria-label="Back to top">
+      <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+    </button>
+
+    <script src="/js/script.js?v=footer-pro-1" defer></script>
+    <script src="/js/hi-storage.js?v=hi-vault-1"></script>
+    <script src="/js/hi-app.js?v=hi-1" defer></script>
+    <script src="/js/hi-vault.js?v=hi-vault-1" defer></script>
+  </body>
+</html>

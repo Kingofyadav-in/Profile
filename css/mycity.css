@@ -62,7 +62,7 @@
 .city-hero h1 {
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   font-weight: 800;
-  letter-spacing: -1.2px;
+  letter-spacing: 0;
   margin-bottom: 18px;
   color: var(--india-green);
   line-height: 1.1;
@@ -159,7 +159,7 @@
   font-size: clamp(1.7rem, 3vw, 2.2rem);
   font-weight: 700;
   text-align: center;
-  letter-spacing: -0.4px;
+  letter-spacing: 0;
   margin-bottom: 8px;
   color: var(--india-green);
 }

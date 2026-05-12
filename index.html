@@ -48,18 +48,14 @@
     <!-- Base (critical) -->
     <link rel="stylesheet" href="css/base.css?v=20260502-pro" />
     <noscript><link rel="stylesheet" href="css/base.css?v=20260502-pro" /></noscript>
-
     <!-- Components (critical UI) -->
-    <link
-      rel="preload"
-      href="css/components.css?v=20260502-pro"
-      as="style"
-      onload="this.rel = 'stylesheet'"
-    />
-    <noscript><link rel="stylesheet" href="css/components.css?v=20260502-pro" /></noscript>
+    <link rel="stylesheet" href="css/components.css?v=20260511-cssfix" />
 
     <!-- Page-specific -->
+    <link rel="stylesheet" href="css/layout.css?v=layout-1" />
     <link rel="stylesheet" href="css/index.css?v=20260502-pro" />
+    <link rel="stylesheet" href="css/personal.css?v=header-pro-1" />
+    <link rel="stylesheet" href="css/auth.css?v=header-pro-1" />
 
     <!-- ================= ICONS ================= -->
     <link rel="icon" href="favicon/favicon.ico" />
@@ -106,6 +102,21 @@
         }
       } catch (e) {}
     </script>
+    <script src="js/auth.js?v=hi-1"></script>
+    <script>
+      ;(function () {
+        if (typeof isAuthenticated === 'function' && isAuthenticated()) {
+          document.addEventListener('DOMContentLoaded', function () {
+            var bar = document.getElementById('homeAuthBar')
+            if (bar) bar.hidden = false
+            var el = document.getElementById('authUserDisplay')
+            if (el && typeof getAuthUser === 'function') el.textContent = getAuthUser() || ''
+            var btn = document.getElementById('logoutBtn')
+            if (btn && typeof logout === 'function') btn.addEventListener('click', logout)
+          })
+        }
+      })()
+    </script>
 
     <div id="scrollProgress"></div>
 
@@ -115,41 +126,34 @@
     <!-- ==================================================
        HEADER
   ================================================== -->
-    <header class="site-header glass">
-      <div class="header-inner">
-        <!-- Brand -->
-        <div class="brand">
-          <a href="/" class="brand-link" aria-label="Amit Ku Yadav home">
-            <img
-              fetchpriority="high"
-              decoding="async"
-              id="siteLogo"
-              class="logo"
-              src="logo/day-logo.png"
-              alt="Amit Ku Yadav personal profile"
-              width="50"
-              height="50"
-            />
-            <div class="brand-text">
-              <span class="brand-name">Amit Ku Yadav</span>
-              <span class="brand-tagline">Profile</span>
-            </div>
-          </a>
-        </div>
-
-        <!-- Navigation -->
+    <header class="personal-header glass">
+      <div class="personal-header-inner">
+        <a href="/" class="personal-brand">
+          <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
+          <div class="personal-brand-text">
+            <span class="personal-name">Amit Ku Yadav</span>
+            <span class="personal-tagline">HI Life OS</span>
+          </div>
+        </a>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-        <nav aria-label="Main navigation">
-          <ul class="nav-list">
-            <li><a href="/" aria-current="page">Home</a></li>
-            <li><a href="pages/blog.html">Blog</a></li><li><a href="pages/gallery.html">Gallery</a></li>
-            <li><a href="pages/services.html">Services</a></li>
-            <li><a href="pages/contact.html">Contact</a></li>
-            <li><a href="pages/collaboration.html">Collaboration</a></li>
-          </ul>
+        <nav class="personal-nav">
+          <a href="/" aria-current="page">Home</a>
+          <a href="/pages/blog.html">Blog</a>
+          <a href="/pages/services.html">Services</a>
+          <a href="/pages/contact.html">Contact</a>
+          <a href="/pages/collaboration.html">Collaboration</a>
+          <a href="/pages/wallet.html">WALLET</a>
+          <a href="/pages/vault.html">VAULT</a>
+          <a href="/pages/merchant.html">MERCHANT</a>
+          <a href="/marketplace/">MARKETPLACE</a>
+          <a href="/pages/hi-license.html" class="hi-nav-license">&#x1F5AA; License</a>
         </nav>
+        <div class="auth-bar" id="homeAuthBar" hidden>
+          <span>Hi, <strong id="authUserDisplay"></strong></span>
+          <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+        </div>
       </div>
     </header>
 
@@ -344,12 +348,6 @@
         </div>
       </section>
 
-      <!-- ================= BOTTOM QUOTE ================= -->
-      <section class="footer-quote home-bottom-quote" aria-label="Bottom page quote">
-        <p class="footer-quote-label">Principle</p>
-        <blockquote>“Clarity creates trust. Consistency protects it.”</blockquote>
-        <p class="footer-quote-by">Amit Ku Yadav</p>
-      </section>
     </main>
 
     <!-- ==================================================
@@ -357,7 +355,6 @@
   ================================================== -->
     <footer class="site-footer glass">
       <div class="footer-inner">
-        <!-- LEFT: ENQUIRY -->
         <div class="footer-enquiry">
           <p class="footer-title">Enquiry</p>
           <p class="footer-text">
@@ -367,29 +364,17 @@
             Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
           </p>
 
-          <!-- Social icons now logically belong here -->
           <div class="social-icons" id="socialLinks"></div>
         </div>
 
-        <!-- RIGHT: STATUS + TOGGLE -->
         <div class="footer-right">
           <div id="footerClock">--:--</div>
           <div>Bhagalpur, India</div>
           <div id="status">STATUS: --</div>
 
-          <!-- Toggle now logically belongs here -->
-          <button
-            id="themeToggle"
-            class="theme-toggle"
-            aria-label="Toggle theme"
-            title="Toggle theme"
-          >
-            🌙
-          </button>
         </div>
       </div>
-
-      <div class="footer-bottom">© <span id="year"></span> · All rights reserved</div>
+      <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All rights reserved</div>
     </footer>
 
     <!-- PWA Install Popup -->
@@ -412,7 +397,7 @@
     </button>
 
     <!-- ================= SCRIPT ================= -->
-    <script src="js/script.js?v=20260510-installbar" defer></script>
+    <script src="js/script.js?v=20260512-logotheme" defer></script>
 
     <script
       src="/api-static/jarvis-widget.js?v=20260501-clean-header"

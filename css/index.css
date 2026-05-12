@@ -39,7 +39,7 @@
 .home-intro h1 {
   font-size: clamp(3.4rem, 6.5vw, 5.6rem);
   line-height: 1.0;
-  letter-spacing: -3px;
+  letter-spacing: 0;
   font-weight: 800;
   margin-bottom: 28px;
 }
@@ -314,7 +314,7 @@ body.theme-dark .hero-proof span {
 
   .home-intro h1 {
     font-size: clamp(2.4rem, 8vw, 3.2rem);
-    letter-spacing: -1.5px;
+    letter-spacing: 0;
   }
 
   .hero-description {
@@ -398,7 +398,7 @@ body.theme-dark .hero-proof span {
 .home-about-name {
   font-size: clamp(1.7rem, 3.5vw, 2.2rem);
   font-weight: 800;
-  letter-spacing: -0.8px;
+  letter-spacing: 0;
   line-height: 1.1;
   margin: 0;
 }
@@ -454,7 +454,7 @@ body.theme-dark .hero-proof span {
 .about-stat-num {
   font-size: 1.6rem;
   font-weight: 800;
-  letter-spacing: -1px;
+  letter-spacing: 0;
   background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -522,7 +522,7 @@ body.theme-dark .hero-proof span {
   text-align: center;
   font-size: clamp(1.9rem, 3.5vw, 2.8rem);
   font-weight: 700;
-  letter-spacing: -0.8px;
+  letter-spacing: 0;
   margin-bottom: 0;
 }
 
@@ -548,5 +548,89 @@ body.theme-dark .hero-proof span {
 
   .home-section .life-grid {
     padding-top: 1rem;
+  }
+}
+
+/* ======================================================
+   MOBILE — WORLD-CLASS PRO REFINEMENTS
+====================================================== */
+
+@keyframes navSlideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  /* Slide-in animation when mobile nav opens */
+  .personal-nav.open {
+    animation: navSlideDown 0.22s ease forwards;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Hero & about CTA buttons: stretch full width, center text */
+  .hero-actions {
+    align-items: stretch;
+  }
+
+  .hero-actions a {
+    text-align: center;
+  }
+
+  /* Proof chips: 2-col grid looks premium vs stacked full-width boxes */
+  .hero-proof {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .hero-proof span {
+    width: auto;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 540px) {
+  /* Cards: trim padding on narrow screens */
+  .life-card {
+    padding: 22px 20px;
+    gap: 14px;
+  }
+
+  /* CTA section: full-width action buttons */
+  .home-cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .home-cta-actions a {
+    text-align: center;
+  }
+
+  /* About stats: compact on small phones */
+  .about-stat-num {
+    font-size: 1.35rem;
+  }
+
+  .about-stat-label {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 380px) {
+  /* Very small phones: proof chips collapse to 1 col */
+  .hero-proof {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tighten hero vertical space */
+  .home-intro {
+    padding-top: 96px;
+    padding-bottom: 72px;
+  }
+
+  /* Compact CTA */
+  .home-cta {
+    padding: 20px;
   }
 }

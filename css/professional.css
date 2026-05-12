@@ -14,7 +14,7 @@
   font-size: clamp(2.6rem, 5vw, 4rem);
   line-height: 1.08;
   font-weight: 800;
-  letter-spacing: -1.5px;
+  letter-spacing: 0;
   margin-bottom: 20px;
 }
 
@@ -126,7 +126,7 @@
 .pro-stat-num {
   font-size: clamp(2.2rem, 4vw, 3rem);
   font-weight: 800;
-  letter-spacing: -1.5px;
+  letter-spacing: 0;
   background: linear-gradient(135deg, var(--brand-green), var(--brand-orange));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -176,7 +176,7 @@
 .professional-values h2 {
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: 0;
   margin-bottom: 40px;
 }
 
@@ -201,7 +201,7 @@
 .capability-statement h2 {
   font-size: clamp(1.4rem, 2.5vw, 1.9rem);
   font-weight: 700;
-  letter-spacing: -0.4px;
+  letter-spacing: 0;
   margin-bottom: 16px;
 }
 
@@ -238,7 +238,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 12px;
-  letter-spacing: -0.2px;
+  letter-spacing: 0;
 }
 
 .pro-card p {
@@ -340,7 +340,7 @@
 
   .professional-hero h1 {
     font-size: 2.2rem;
-    letter-spacing: -0.8px;
+    letter-spacing: 0;
   }
 
   .professional-hero .hero-actions {
@@ -427,7 +427,7 @@
 .professional-timeline h2 {
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: 0;
   margin-bottom: 40px;
 }
 

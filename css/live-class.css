@@ -278,7 +278,7 @@
   font-size: clamp(1.6rem, 3.5vw, 2.8rem);
   font-weight: 900;
   line-height: 1.1;
-  letter-spacing: -.02em;
+  letter-spacing: 0;
   color: var(--lc-dark-text);
 }
 
@@ -518,7 +518,7 @@
   font-size: clamp(1.5rem, 3.2vw, 2.8rem);
   font-weight: 900;
   line-height: 1.12;
-  letter-spacing: -.01em;
+  letter-spacing: 0;
 }
 
 .lc-page[data-board-theme="light"] .board-heading {

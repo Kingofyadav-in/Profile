@@ -317,7 +317,7 @@ async function login(username, password, remember = true) {
     if (!matches) { recordFailedAttempt(); return { ok: false, error: "Incorrect username or password." }; }
 
     clearRateLimit();
-    saveToken(username, true);
+    saveToken(username, remember);
     await syncLocalAdminUser(user, "login");
     return { ok: true };
   } catch (err) {

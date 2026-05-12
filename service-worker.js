@@ -6,7 +6,7 @@
    Author: Amit Ku Yadav
 ====================================================== */
 
-const VERSION = "v17";
+const VERSION = "v19";
 const STATIC_CACHE = `ak-static-${VERSION}`;
 const DYNAMIC_CACHE = `ak-dynamic-${VERSION}`;
 const MAX_DYNAMIC_ITEMS = 80;
@@ -14,13 +14,21 @@ const MAX_DYNAMIC_ITEMS = 80;
 const STATIC_ASSETS = [
   "/",
   "/index.html",
-  "/pages/gallery.html",
   "/offline.html",
   "/manifest.json",
 
+  /* Protected app pages */
+  "/pages/personal.html",
+  "/pages/wallet.html",
+  "/pages/vault.html",
+  "/pages/blog.html",
+  "/pages/gallery.html",
+  "/pages/services.html",
+  "/pages/contact.html",
+
   /* CSS */
   "/css/base.css?v=20260502-pro",
-  "/css/components.css?v=20260502-translate2",
+  "/css/components.css?v=20260511-cssfix",
   "/css/index.css?v=20260502-pro",
   "/css/blog.css?v=20260502-pro",
   "/css/services.css?v=20260502-pro",
@@ -38,7 +46,7 @@ const STATIC_ASSETS = [
   "/css/auth.css?v=20260502-pro",
 
   /* JS */
-  "/js/script.js?v=20260508-install",
+  "/js/script.js?v=20260512-logotheme",
   "/js/personal-data.js?v=20260502-pro",
   "/js/profile-renderer.js?v=20260502-pro",
   "/js/auth.js?v=20260502-pro",
@@ -149,14 +157,11 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
-function limitCacheSize(name, size) {
-  caches.open(name).then(cache => {
-    cache.keys().then(keys => {
-      if (keys.length > size) {
-        cache.delete(keys[0]).then(() => limitCacheSize(name, size));
-      }
-    });
-  });
+async function limitCacheSize(name, size) {
+  const cache = await caches.open(name);
+  const keys = await cache.keys();
+  const excess = keys.slice(0, Math.max(0, keys.length - size));
+  await Promise.all(excess.map(k => cache.delete(k)));
 }
 
 self.addEventListener("message", (event) => {

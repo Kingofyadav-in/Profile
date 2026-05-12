@@ -37,7 +37,7 @@
 .personal-section h1 {
   font-size: clamp(2.6rem, 5vw, 3.6rem);
   font-weight: 800;
-  letter-spacing: -1.2px;
+  letter-spacing: 0;
   margin-bottom: 20px;
   line-height: 1.1;
 }
@@ -45,7 +45,7 @@
 .personal-section h2 {
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   font-weight: 700;
-  letter-spacing: -0.4px;
+  letter-spacing: 0;
   margin-bottom: 8px;
   position: relative;
   padding-bottom: 14px;
@@ -151,7 +151,7 @@
   font-size: 1.05rem;
   font-weight: 700;
   margin-bottom: 6px;
-  letter-spacing: -0.1px;
+  letter-spacing: 0;
 }
 
 .timeline p {

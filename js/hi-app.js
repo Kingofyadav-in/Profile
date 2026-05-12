@@ -232,6 +232,13 @@ function hiCloseIdentityModal() {
 }
 
 async function hiSaveIdentityModal() {
+  var saveBtn = document.getElementById("hiIdentityModalSave");
+  var errEl    = document.getElementById("hiIdentityModalErr");
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Saving...";
+  }
+  try {
   var name     = (document.getElementById("hi-id-name").value     || "").trim();
   var username = (document.getElementById("hi-id-username").value || "").trim();
   var email    = (document.getElementById("hi-id-email").value    || "").trim();
@@ -241,7 +248,6 @@ async function hiSaveIdentityModal() {
   var rolesRaw = (document.getElementById("hi-id-roles").value    || "").trim();
   var mission  = (document.getElementById("hi-id-mission").value  || "").trim();
   var location = (document.getElementById("hi-id-location").value || "").trim();
-  var errEl    = document.getElementById("hiIdentityModalErr");
 
   if (!name) {
     if (errEl) errEl.textContent = "Name is required.";
@@ -288,6 +294,18 @@ async function hiSaveIdentityModal() {
     window.pdSyncIdentityDetails(saved);
   }
   hiCloseIdentityModal();
+  } catch (err) {
+    if (errEl) {
+      errEl.textContent = err && err.message
+        ? "Identity save failed: " + err.message
+        : "Identity save failed. Close other HI tabs, reload, and try again.";
+    }
+  } finally {
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save Identity";
+    }
+  }
 }
 
 /* ── Today Header ── */

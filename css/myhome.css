@@ -105,7 +105,7 @@
 .personal-section h1 {
   font-size: clamp(2.4rem, 5vw, 3.4rem);
   font-weight: 800;
-  letter-spacing: -1.2px;
+  letter-spacing: 0;
   line-height: 1.1;
   margin-bottom: 6px;
 }
@@ -123,7 +123,7 @@
 .personal-section h2 {
   font-size: clamp(1.5rem, 2.5vw, 1.9rem);
   font-weight: 700;
-  letter-spacing: -0.3px;
+  letter-spacing: 0;
   margin-bottom: 8px;
   position: relative;
   padding-bottom: 14px;
@@ -285,6 +285,10 @@
   border-radius: 24px;
 }
 
+body[data-profile-page="myHome"] .hero-home {
+  margin-top: 18px;
+}
+
 .personal-page .hero-home h1 {
   font-size: clamp(2.8rem, 6vw, 4.8rem);
   letter-spacing: 0;
@@ -317,6 +321,10 @@ body.theme-light .personal-page .life-card {
 @media (max-width: 520px) {
   .home-snapshot {
     grid-template-columns: 1fr;
+  }
+
+  body[data-profile-page="myHome"] .hero-home {
+    margin-top: 12px;
   }
 
   .home-snapshot div,

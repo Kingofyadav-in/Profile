@@ -12,6 +12,14 @@
 const $ = (id) => document.getElementById(id);
 const $$ = (selector) => document.querySelectorAll(selector);
 
+function escHtml(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 /* ======================================================
    THEME SYSTEM
 ====================================================== */
@@ -43,6 +51,23 @@ function setupThemeToggle() {
 
     localStorage.setItem("theme", next);
     applyTheme(next);
+  });
+}
+
+function setupLogoThemeToggle() {
+  document.querySelectorAll(".personal-logo, #siteLogo, .logo").forEach(logo => {
+    logo.title = "Toggle theme";
+    logo.addEventListener("click", e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const next = document.body.classList.contains("theme-dark") ? "light" : "dark";
+      localStorage.setItem("theme", next);
+      applyTheme(next);
+      logo.classList.remove("logo-theme-switching");
+      void logo.offsetWidth;
+      logo.classList.add("logo-theme-switching");
+      logo.addEventListener("animationend", () => logo.classList.remove("logo-theme-switching"), { once: true });
+    });
   });
 }
 
@@ -349,10 +374,9 @@ const FOOTER_QUOTES = [
 
 function getFooterQuoteIndex() {
   const now = new Date();
-  const dayKey = Number(
-    `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`
-  );
-  return dayKey % FOOTER_QUOTES.length;
+  const start = new Date(now.getFullYear(), 0, 1);
+  const dayOfYear = Math.floor((now - start) / 86400000) + 1;
+  return dayOfYear % FOOTER_QUOTES.length;
 }
 
 function renderFooterQuote(section, quote) {
@@ -379,10 +403,125 @@ function initDynamicQuoteBand() {
   if (!footer) return;
 
   const quote = FOOTER_QUOTES[getFooterQuoteIndex()];
-  const section = document.querySelector(".footer-quote") || document.createElement("section");
+  const section = document.createElement("section");
   renderFooterQuote(section, quote);
+  footer.parentNode.insertBefore(section, footer);
+}
 
-  if (!section.parentNode) footer.parentNode.insertBefore(section, footer);
+/* ======================================================
+   GLOBAL PRO FOOTER ENHANCEMENT
+====================================================== */
+
+function createFooterLink(href, label, note) {
+  const a = document.createElement("a");
+  a.href = href;
+  a.innerHTML = `<span>${label}</span>${note ? `<small>${note}</small>` : ""}`;
+  return a;
+}
+
+function createFooterGroup(title, links) {
+  const group = document.createElement("nav");
+  group.className = "footer-pro-group";
+  group.setAttribute("aria-label", title);
+
+  const h = document.createElement("h3");
+  h.textContent = title;
+
+  const list = document.createElement("div");
+  list.className = "footer-pro-links";
+  links.forEach(link => list.appendChild(createFooterLink(link.href, link.label, link.note)));
+
+  group.append(h, list);
+  return group;
+}
+
+function initProFooter() {
+  const footers = document.querySelectorAll(".site-footer");
+  if (!footers.length) return;
+
+  const groups = [
+    {
+      title: "Website",
+      links: [
+        { href: "/", label: "Home", note: "Main gateway" },
+        { href: "/pages/blog.html", label: "Blog", note: "Ideas and essays" },
+        { href: "/pages/gallery.html", label: "Gallery", note: "Visual archive" },
+        { href: "/pages/services.html", label: "Services", note: "Work with Amit" },
+        { href: "/pages/contact.html", label: "Contact", note: "Direct enquiry" },
+        { href: "/pages/collaboration.html", label: "Collaboration", note: "Build together" }
+      ]
+    },
+    {
+      title: "HI Ecosystem",
+      links: [
+        { href: "/pages/personal.html", label: "HI Life OS", note: "Private command center" },
+        { href: "/pages/wallet.html", label: "HI Wallet", note: "Human trust layer" },
+        { href: "/pages/vault.html", label: "HI Vault", note: "Encrypted backup" },
+        { href: "/pages/merchant.html", label: "Merchant", note: "Payment simulation" },
+        { href: "/marketplace/", label: "Marketplace", note: "Service economy" },
+        { href: "/wallet/", label: "Digital Coin", note: "Value layer concept" }
+      ]
+    },
+    {
+      title: "Identity",
+      links: [
+        { href: "/pages/about-me.html", label: "About Me", note: "Profile and work" },
+        { href: "/pages/origin.html", label: "Origin", note: "Roots and story" },
+        { href: "/pages/haven.html", label: "Haven", note: "Private foundation" },
+        { href: "/pages/bhagalpur.html", label: "Bhagalpur", note: "Local signal" },
+        { href: "/pages/my-city.html", label: "My City", note: "Place and context" },
+        { href: "/pages/social.html", label: "Social", note: "Network links" }
+      ]
+    },
+    {
+      title: "Work",
+      links: [
+        { href: "/pages/order.html", label: "Order", note: "Start purchase" },
+        { href: "/pages/professional.html", label: "Professional", note: "Career profile" },
+        { href: "/brands/royal-heritage-resort.html", label: "Royal Heritage", note: "Brand page" },
+        { href: "/brands/national-youth-force.html", label: "National Youth Force", note: "Community brand" },
+        { href: "/brands/jhon-aamit-llp.html", label: "Jhon Aamit LLP", note: "Business brand" },
+        { href: "/pages/hi-license.html", label: "HI License", note: "Ownership proof" }
+      ]
+    }
+  ];
+
+  footers.forEach(footer => {
+    if (footer.querySelector(".footer-pro")) return;
+
+    const section = document.createElement("section");
+    section.className = "footer-pro";
+    section.setAttribute("aria-label", "Website gateway and ecosystem links");
+
+    const head = document.createElement("div");
+    head.className = "footer-pro-head";
+    head.innerHTML =
+      '<div>' +
+        '<p class="footer-pro-kicker">KingOfYadav.in</p>' +
+        '<h2>Identity, services, writing, and HI ecosystem in one place.</h2>' +
+        '<p>Navigate the public website, private HI tools, service economy, merchant layer, and Digital Coin concept from this organized gateway.</p>' +
+      '</div>' +
+      '<div class="footer-pro-badges" aria-label="Site pillars">' +
+        '<span>Identity</span><span>Services</span><span>HI Wallet</span><span>Trust</span>' +
+      '</div>';
+
+    const grid = document.createElement("div");
+    grid.className = "footer-pro-grid";
+    groups.forEach(group => grid.appendChild(createFooterGroup(group.title, group.links)));
+
+    const strip = document.createElement("div");
+    strip.className = "footer-pro-strip";
+    strip.innerHTML =
+      '<span>Based in Bhagalpur, India</span>' +
+      '<span>Local-first HI prototypes</span>' +
+      '<span>Human identity before value systems</span>';
+
+    section.append(head, grid, strip);
+
+    const bottom = footer.querySelector(".footer-bottom");
+    if (bottom) footer.insertBefore(section, bottom);
+    else footer.appendChild(section);
+  });
 }
 
 /* ======================================================
@@ -402,7 +541,7 @@ function loadSocials() {
 
   box.innerHTML = links
     .map(({ name, url }) => `
-      <a href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${name}">
+      <a href="${escHtml(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escHtml(name)}">
         ${getSVGIcon(name)}
       </a>`)
     .join("");
@@ -675,6 +814,8 @@ function triggerInstallPrompt() {
     _installEvent = null;
     const bar = document.getElementById("pwaInstallBar");
     if (bar) bar.hidden = true;
+  }).catch(() => {
+    _installEvent = null;
   });
 }
 
@@ -696,7 +837,12 @@ function initContactForm() {
   const status    = document.getElementById("cf-status");
   const formId    = form.dataset.formspreeId;
 
-  if (!formId || formId === "YOUR_FORM_ID") {
+  if (!formId) {
+    console.warn("Contact form: missing data-formspree-id attribute.");
+    if (submitBtn) submitBtn.disabled = true;
+    return;
+  }
+  if (formId === "YOUR_FORM_ID") {
     console.warn("Contact form: replace YOUR_FORM_ID with your Formspree ID.");
   }
 
@@ -838,10 +984,10 @@ async function initHomeBlogPreview() {
   }
 
   grid.innerHTML = posts.slice(0, 3).map(post => `
-    <a href="${post.url}" class="life-card glass">
-      <span class="blog-category">${post.category}</span>
-      <h3>${post.title}</h3>
-      <p>${post.excerpt}</p>
+    <a href="${escHtml(post.url)}" class="life-card glass">
+      <span class="blog-category">${escHtml(post.category)}</span>
+      <h3>${escHtml(post.title)}</h3>
+      <p>${escHtml(post.excerpt)}</p>
       <span class="life-action">Read →</span>
     </a>
   `).join("");
@@ -887,15 +1033,15 @@ async function initBlogRenderer() {
 
   grid.innerHTML = posts.map(post => `
     <article class="blog-card blog-card--in">
-      <img src="${post.image}" alt="${post.title}" loading="lazy" width="640" height="360">
+      <img src="${escHtml(post.image)}" alt="${escHtml(post.title)}" loading="lazy" width="640" height="360">
       <div class="blog-card-content">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-          <span class="blog-category">${post.category}</span>
-          <time style="font-size:0.72rem;opacity:0.45;font-weight:500;letter-spacing:0.3px;">${formatDate(post.date)}</time>
+          <span class="blog-category">${escHtml(post.category)}</span>
+          <time style="font-size:0.72rem;opacity:0.45;font-weight:500;letter-spacing:0.3px;">${escHtml(formatDate(post.date))}</time>
         </div>
-        <h3>${post.title}</h3>
-        <p>${post.excerpt}</p>
-        <a href="${post.url}" class="blog-read">Read Article →</a>
+        <h3>${escHtml(post.title)}</h3>
+        <p>${escHtml(post.excerpt)}</p>
+        <a href="${escHtml(post.url)}" class="blog-read">Read Article →</a>
       </div>
     </article>
   `).join("");
@@ -1165,11 +1311,9 @@ function _jarvisSaveOriginal(nodes) {
 }
 
 function _jarvisApplyTranslation(map) {
-  const article = document.getElementById("article");
-  if (!article) return;
-  const nodes = _jarvisGetTranslatableNodes(article);
-  nodes.forEach((n, i) => {
-    if (map[i] !== undefined) n.textContent = map[i];
+  document.querySelectorAll("[data-jarvis-idx]").forEach(n => {
+    const idx = n.dataset.jarvisIdx;
+    if (map[idx] !== undefined) n.textContent = map[idx];
   });
 }
 
@@ -1177,6 +1321,8 @@ function _jarvisApplyCached(lang) {
   const cacheKey = `${JARVIS_TRANSLATE_CACHE}:${location.pathname}:${lang}`;
   const cached = _jarvisGetCache(cacheKey);
   if (cached) {
+    const article = document.getElementById("article");
+    if (article) _jarvisSaveOriginal(_jarvisGetTranslatableNodes(article));
     _jarvisApplyTranslation(cached);
     updateJarvisTranslateStatus(`Translated to ${lang}. Select English to reset.`);
   }
@@ -1197,69 +1343,14 @@ function _jarvisSetCache(key, data) {
 }
 
 /* ======================================================
-   GLOBAL HI COIN HEADER BALANCE
-====================================================== */
-
-function ensureHeaderCoinBadges() {
-  const headers = document.querySelectorAll(".site-header .header-inner, .personal-header-inner");
-  headers.forEach(header => {
-    if (header.querySelector(".header-coin-balance")) return;
-
-    const badge = document.createElement("a");
-    badge.className = "header-coin-balance";
-    badge.href = "/pages/wallet.html";
-    badge.setAttribute("aria-label", "Open HI Wallet");
-    badge.innerHTML = '<span>HI Coin</span><strong class="headerCoinBalanceValue">0</strong>';
-
-    const authBar = header.querySelector(".auth-bar");
-    if (authBar) header.insertBefore(badge, authBar);
-    else header.appendChild(badge);
-  });
-}
-
-function updateHeaderCoinBadges(total) {
-  document.querySelectorAll(".header-coin-balance strong, .headerCoinBalanceValue").forEach(el => {
-    el.textContent = String(total || 0);
-  });
-}
-
-function initHeaderCoinBalance() {
-  ensureHeaderCoinBadges();
-  updateHeaderCoinBadges(0);
-  if (!window.indexedDB) return;
-
-  const req = indexedDB.open("hi_app");
-  req.onsuccess = event => {
-    const db = event.target.result;
-    if (!db.objectStoreNames.contains("wallet")) {
-      db.close();
-      return;
-    }
-    const tx = db.transaction("wallet", "readonly");
-    const getAll = tx.objectStore("wallet").getAll();
-    getAll.onsuccess = () => {
-      const total = (getAll.result || []).reduce((sum, wallet) => {
-        return sum + Number((wallet && wallet.balance) || 0);
-      }, 0);
-      updateHeaderCoinBadges(total);
-    };
-    tx.oncomplete = () => db.close();
-    tx.onerror = () => {
-      try { db.close(); } catch {}
-    };
-  };
-}
-
-
-/* ======================================================
    INIT
 ====================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   setupThemeToggle();
+  setupLogoThemeToggle();
   initActiveNav();
-  initHeaderCoinBalance();
   startFooterUpdates();
   loadSocials();
   initHamburger();
@@ -1279,6 +1370,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initReadingTime();
   initJarvisTranslator();
   initDynamicQuoteBand();
+  initProFooter();
 
   const year = $("year");
   if (year) year.textContent = new Date().getFullYear();

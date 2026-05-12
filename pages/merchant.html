@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HI Merchant — Amit Ku Yadav</title>
+    <meta
+      name="description"
+      content="HI Merchant dashboard for merchant HDI, merchant wallet, QR payment simulation, local payment logs, and settlement prototype."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon/favicon.ico" />
+    <meta name="theme-color" content="#046A38" />
+    <link rel="stylesheet" href="/css/base.css?v=hi-1" />
+    <link rel="stylesheet" href="/css/components.css?v=footer-bright-1" />
+<link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+    <link rel="stylesheet" href="/css/personal.css?v=header-pro-1" />
+    <link rel="stylesheet" href="/css/auth.css?v=header-pro-1" />
+    <link rel="stylesheet" href="/css/hi-app.css?v=hi-1" />
+    <link rel="stylesheet" href="/css/hi-ecosystem.css?v=hi-ecosystem-1" />
+  </head>
+
+  <body class="theme-dark personal-page ecosystem-page merchant-page">
+    <script>
+      try {
+        var _t = localStorage.getItem('theme')
+        if (_t) {
+          document.body.classList.remove('theme-dark', 'theme-light')
+          document.body.classList.add(_t)
+        }
+      } catch (e) {}
+    </script>
+    <script src="/js/auth.js?v=hi-1"></script>
+    <script>
+      requireAuth()
+      document.documentElement.style.visibility = ''
+    </script>
+
+    <div id="scrollProgress"></div>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <header class="personal-header glass">
+      <div class="personal-header-inner">
+        <a href="/pages/personal.html" class="personal-brand">
+          <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
+          <div class="personal-brand-text">
+            <span class="personal-name">Amit Ku Yadav</span>
+            <span class="personal-tagline">HI Merchant</span>
+          </div>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="personal-nav">
+          <a href="/pages/wallet.html">WALLET</a>
+          <a href="/pages/vault.html">VAULT</a>
+          <a href="/pages/merchant.html" class="active" aria-current="page">MERCHANT</a>
+          <a href="/marketplace/">MARKETPLACE</a>
+          <a href="/wallet/">DIGITAL COIN</a>
+        </nav>
+        <div class="auth-bar">
+          <span>Hi, <strong id="authUserDisplay"></strong></span>
+          <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="ecosystem-main" id="main-content">
+      <section id="ecosystemLocked" class="ecosystem-locked" aria-live="polite">
+        <p class="ecosystem-kicker">Identity Required</p>
+        <h2>Create HDI before merchant onboarding.</h2>
+        <p>
+          Merchant wallets are linked to the owner HDI, so the system needs your Human Digital
+          Identity first.
+        </p>
+        <div class="ecosystem-actions">
+          <a class="ecosystem-action primary" href="/pages/personal.html#create-identity"
+            >Create Identity</a
+          >
+          <a class="ecosystem-action" href="/pages/wallet.html">Open HI Wallet</a>
+        </div>
+      </section>
+
+      <section class="ecosystem-hero" aria-label="HI Merchant overview">
+        <div class="ecosystem-hero-copy">
+          <p class="ecosystem-kicker">Merchant Ecosystem</p>
+          <h1>Merchant onboarding for HI Wallet.</h1>
+          <p>
+            Create a merchant HDI, merchant wallet, QR payment string, local payment logs, and
+            simulated settlement metrics. This is the real-world adoption layer for HI Wallet.
+          </p>
+          <div class="ecosystem-actions">
+            <a class="ecosystem-action primary" href="#merchantOnboardForm">Onboard Merchant</a>
+            <a class="ecosystem-action" href="/marketplace/">Open Marketplace</a>
+            <a class="ecosystem-action" href="/pages/wallet.html">Open Wallet</a>
+          </div>
+        </div>
+
+        <aside class="ecosystem-summary" aria-label="Merchant summary">
+          <p class="ecosystem-kicker">Merchant Profile</p>
+          <h2 id="merchantNameView">Not onboarded</h2>
+          <div class="ecosystem-metric-grid">
+            <div class="ecosystem-metric">
+              <span>Merchant HDI</span><strong id="merchantHdiView">Pending</strong>
+            </div>
+            <div class="ecosystem-metric">
+              <span>Category</span><strong id="merchantCategoryView">Service</strong>
+            </div>
+            <div class="ecosystem-metric">
+              <span>Wallet</span><strong id="merchantWalletView">Pending</strong>
+            </div>
+            <div class="ecosystem-metric">
+              <span>Settlement</span><strong id="merchantSettlementView">Simulated INR</strong>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="ecosystem-grid" aria-label="Merchant metrics">
+        <article class="ecosystem-card">
+          <span>Sales</span>
+          <h3 id="merchantSalesView">0</h3>
+          <p>Local payment records saved for merchant simulation.</p>
+        </article>
+        <article class="ecosystem-card">
+          <span>Customers</span>
+          <h3 id="merchantCustomersView">0</h3>
+          <p>Unique customer HDI or wallet identifiers recorded in the demo.</p>
+        </article>
+        <article class="ecosystem-card">
+          <span>HI Received</span>
+          <h3 id="merchantReceivedView">0 HI</h3>
+          <p>Prototype HI received before future compliant settlement.</p>
+        </article>
+      </section>
+
+      <section class="ecosystem-split">
+        <article class="ecosystem-panel">
+          <p class="ecosystem-kicker">Onboarding</p>
+          <h2>Create merchant identity.</h2>
+          <form id="merchantOnboardForm" class="ecosystem-form">
+            <div class="ecosystem-field">
+              <label for="merchantName">Merchant name</label>
+              <input id="merchantName" type="text" placeholder="Yadav Digital Store" required />
+            </div>
+            <div class="ecosystem-field">
+              <label for="merchantCategory">Category</label>
+              <select id="merchantCategory">
+                <option value="Digital Services">Digital Services</option>
+                <option value="Education">Education</option>
+                <option value="Creator">Creator</option>
+                <option value="Local Business">Local Business</option>
+                <option value="Community">Community</option>
+              </select>
+            </div>
+            <div class="ecosystem-field">
+              <label for="merchantUpi">Settlement UPI ID</label>
+              <input id="merchantUpi" type="text" placeholder="demo@upi" />
+            </div>
+            <button class="ecosystem-action primary" type="submit">Save Merchant</button>
+            <p class="ecosystem-status" id="merchantStatus" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <article class="ecosystem-panel">
+          <p class="ecosystem-kicker">Merchant QR</p>
+          <h2>Payment simulation string.</h2>
+          <div class="ecosystem-field">
+            <label for="merchantQrAmount">QR amount</label>
+            <input id="merchantQrAmount" type="number" min="1" step="1" placeholder="499" />
+          </div>
+          <div class="ecosystem-qr">
+            <span>PAY WITH HI WALLET</span>
+            <strong>HI</strong>
+            <code id="merchantQrCode">Create merchant profile</code>
+          </div>
+        </article>
+      </section>
+
+      <section class="ecosystem-split">
+        <article class="ecosystem-panel">
+          <p class="ecosystem-kicker">Payment Log</p>
+          <h2>Record demo customer payment.</h2>
+          <form id="merchantPaymentForm" class="ecosystem-form">
+            <div class="ecosystem-field">
+              <label for="merchantCustomer">Customer HDI / wallet</label>
+              <input id="merchantCustomer" type="text" placeholder="AKY-2026-23185D" />
+            </div>
+            <div class="ecosystem-field">
+              <label for="merchantPaymentAmount">Amount</label>
+              <input
+                id="merchantPaymentAmount"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="499"
+                required
+              />
+            </div>
+            <button class="ecosystem-action primary" type="submit">Record Payment</button>
+            <p class="ecosystem-status" id="merchantPaymentStatus" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <article class="ecosystem-panel">
+          <p class="ecosystem-kicker">Local Ledger</p>
+          <h2>Merchant payment history.</h2>
+          <div id="merchantPaymentLog" class="ecosystem-list"></div>
+        </article>
+      </section>
+
+      <section class="ecosystem-panel" aria-label="Merchant architecture">
+        <p class="ecosystem-kicker">Phase 3 Direction</p>
+        <h2>Merchant receives INR in the real system.</h2>
+        <div class="ecosystem-layers">
+          <div class="ecosystem-layer">
+            <span>01</span><strong>Customer pays HI</strong>
+            <p>Customer experiences HI Wallet payment.</p>
+          </div>
+          <div class="ecosystem-layer">
+            <span>02</span><strong>Settlement bridge</strong>
+            <p>Future Cashfree, Razorpay, or Setu-style rail.</p>
+          </div>
+          <div class="ecosystem-layer">
+            <span>03</span><strong>Merchant receives INR</strong>
+            <p>Merchant never needs crypto knowledge.</p>
+          </div>
+          <div class="ecosystem-layer">
+            <span>04</span><strong>Proof remains</strong>
+            <p>HI ledger preserves trust, identity, and receipt history.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer glass">
+      <div class="footer-inner">
+        <div class="footer-enquiry">
+          <p class="footer-title">HI Merchant</p>
+          <p class="footer-text">
+            Merchant onboarding, QR payment simulation, settlement logs, and HI Wallet ecosystem
+            proof.
+          </p>
+        </div>
+        <div class="footer-right">
+          <div id="footerClock">--:--</div>
+          <div>Bhagalpur, India</div>
+          <div id="status">STATUS: --</div>
+          <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
+        </div>
+      </div>
+      <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All rights reserved</div>
+    </footer>
+
+    <button id="backToTop" aria-label="Back to top">
+      <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+    </button>
+
+    <script src="/js/script.js?v=footer-pro-1" defer></script>
+    <script src="/js/hi-storage.js?v=hi-ecosystem-1"></script>
+    <script src="/js/hi-app.js?v=hi-1" defer></script>
+    <script src="/js/hi-wallet.js?v=hi-wallet-1" defer></script>
+    <script src="/js/hi-ecosystem.js?v=hi-ecosystem-1" defer></script>
+  </body>
+</html>
