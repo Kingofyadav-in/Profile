@@ -112,6 +112,84 @@ function updateLogo() {
 }
 
 /* ======================================================
+   GLOBAL NAV MENUS
+====================================================== */
+
+const PUBLIC_NAV_ITEMS = [
+  { href: "/", label: "Home" },
+  { href: "/pages/blog.html", label: "Blog" },
+  { href: "/pages/gallery.html", label: "Gallery" },
+  { href: "/pages/services.html", label: "Services" },
+  { href: "/pages/contact.html", label: "Contact" },
+  { href: "/pages/collaboration.html", label: "Collaboration" },
+  { href: "/pages/professional.html", label: "Professional" },
+  { href: "/pages/social.html", label: "Social" },
+  { href: "/pages/order.html", label: "Order" },
+  { href: "/pages/coin.html", label: "Digital Coin" }
+];
+
+const PERSONAL_NAV_ITEMS = [
+  { href: "/pages/personal.html", label: "HI Life OS" },
+  { href: "/pages/about.html", label: "About Me" },
+  { href: "/pages/origin.html", label: "Origin" },
+  { href: "/pages/haven.html", label: "Haven" },
+  { href: "/pages/bhagalpur.html", label: "Bhagalpur" },
+  { href: "/pages/wallet.html", label: "Wallet" },
+  { href: "/pages/vault.html", label: "Vault" },
+  { href: "/pages/merchant.html", label: "Merchant" },
+  { href: "/marketplace/", label: "Marketplace" },
+  { href: "/pages/hi-license.html", label: "License" }
+];
+
+function getNavFamily() {
+  const pathname = window.location.pathname.replace(/\/$/, "") || "/";
+  const personalRoutes = [
+    "/pages/personal.html",
+    "/pages/about.html",
+    "/pages/origin.html",
+    "/pages/haven.html",
+    "/pages/bhagalpur.html",
+    "/pages/wallet.html",
+    "/pages/vault.html",
+    "/pages/merchant.html",
+    "/pages/hi-license.html",
+    "/marketplace"
+  ];
+
+  return personalRoutes.some(route => pathname === route || pathname.startsWith(route + "/"))
+    ? "personal"
+    : "public";
+}
+
+function renderNavLinks(nav, items) {
+  const current = window.location.pathname.replace(/\/$/, "") || "/";
+
+  if (nav.classList.contains("personal-nav")) {
+    nav.innerHTML = items.map(item => {
+      const target = item.href.replace(/\/$/, "") || "/";
+      const active = current === target || current.startsWith(target + "/");
+      return `<a href="${item.href}"${active ? ' class="active" aria-current="page"' : ""}>${item.label}</a>`;
+    }).join("");
+    return;
+  }
+
+  nav.innerHTML = `<ul class="nav-list">${items.map(item => {
+    const target = item.href.replace(/\/$/, "") || "/";
+    const active = current === target || current.startsWith(target + "/");
+    return `<li><a href="${item.href}"${active ? ' class="active" aria-current="page"' : ""}>${item.label}</a></li>`;
+  }).join("")}</ul>`;
+}
+
+function initGlobalNavMenus() {
+  const family = getNavFamily();
+  const items = family === "personal" ? PERSONAL_NAV_ITEMS : PUBLIC_NAV_ITEMS;
+
+  document.querySelectorAll(".site-header nav, .personal-header nav").forEach(nav => {
+    renderNavLinks(nav, items);
+  });
+}
+
+/* ======================================================
    ACTIVE NAV (SMART MATCH)
 ====================================================== */
 
@@ -1365,6 +1443,7 @@ document.addEventListener("DOMContentLoaded", () => {
   removeFooterThemeToggles();
   setupThemeToggle();
   setupLogoThemeToggle();
+  initGlobalNavMenus();
   initActiveNav();
   startFooterUpdates();
   loadSocials();
