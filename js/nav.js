@@ -17,7 +17,8 @@
     { label: "Services",      href: "/pages/services.html" },
     { label: "Contact",       href: "/pages/contact.html" },
     { label: "Collaboration", href: "/pages/collaboration.html" },
-    { label: "Coins",         href: "/wallet/index.html" },
+    { label: "Order",         href: "/pages/order.html" },
+    { label: "Digital Coin",  href: "/pages/coin.html" },
     { label: "Marketplace",   href: "/marketplace/" },
     { label: "&#x1F534; Live Class", href: "/pages/live-class.html", cls: "live-class-link" }
   ];
@@ -33,16 +34,19 @@
     { label: "Merchant",    href: "/pages/merchant.html" },
     { label: "Marketplace", href: "/marketplace/" },
     { label: "Dashboard",     href: "/pages/dashboard.html" },
-    { label: "&#x1F510; IP Vault", href: "/pages/hi-license.html", cls: "license-link" }
+    { label: "&#x1F5AA; License", href: "/pages/hi-license.html", cls: "license-link" }
   ];
 
   function isActive(href) {
-    // cleanUrls:true strips .html — normalize both sides
-    var path = window.location.pathname.replace(/\.html$/, "");
-    var h = href.replace(/\.html$/, "");
+    var path = window.location.pathname.replace(/\/$/, "") || "/";
+    var h = href.replace(/\/$/, "") || "/";
+
+    // Normalize .html
+    path = path.replace(/\.html$/, "");
+    h = h.replace(/\.html$/, "");
+
     if (h === "/") return path === "/" || path === "/index";
-    if (h.endsWith("/")) return path === h || path === h + "index";
-    return path === h;
+    return path === h || path.startsWith(h + "/");
   }
 
   function buildLink(link) {
@@ -57,22 +61,33 @@
     return a;
   }
 
-  var nav = document.querySelector("[data-nav]");
-  if (!nav) return;
+  var navs = document.querySelectorAll("[data-nav]");
+  navs.forEach(function(nav) {
+    var type  = nav.getAttribute("data-nav");
+    var links = (type === "personal" || type === "about" || type === "origin" || type === "haven" || type === "bhagalpur" || type === "wallet" || type === "vault" || type === "merchant" || type === "hi-license") ? PERSONAL_NAV : INDEX_NAV;
 
-  var type  = nav.getAttribute("data-nav");
-  var links = type === "personal" ? PERSONAL_NAV : INDEX_NAV;
+    // Force personal nav items if the current page is a personal page even if data-nav is "index" (failsafe)
+    var isPersonalPage = [
+      "/pages/personal", "/pages/about", "/pages/origin", "/pages/haven",
+      "/pages/bhagalpur", "/pages/wallet", "/pages/vault", "/pages/merchant",
+      "/pages/hi-license", "/marketplace", "/pages/dashboard"
+    ].some(function(p) { return window.location.pathname.startsWith(p); });
 
-  if (nav.classList.contains("personal-nav")) {
-    links.forEach(function (link) { nav.appendChild(buildLink(link)); });
-  } else {
-    var ul = document.createElement("ul");
-    ul.className = "nav-list";
-    links.forEach(function (link) {
-      var li = document.createElement("li");
-      li.appendChild(buildLink(link));
-      ul.appendChild(li);
-    });
-    nav.appendChild(ul);
-  }
+    if (isPersonalPage) links = PERSONAL_NAV;
+
+    nav.innerHTML = ""; // Clear existing
+
+    if (nav.classList.contains("personal-nav")) {
+      links.forEach(function (link) { nav.appendChild(buildLink(link)); });
+    } else {
+      var ul = document.createElement("ul");
+      ul.className = "nav-list";
+      links.forEach(function (link) {
+        var li = document.createElement("li");
+        li.appendChild(buildLink(link));
+        ul.appendChild(li);
+      });
+      nav.appendChild(ul);
+    }
+  });
 })();

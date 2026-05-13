@@ -151,6 +151,10 @@ function hiWalletRenderLocked() {
   hiWalletSetText("walletDevice", hiWalletDeviceId());
   hiWalletSetText("walletFingerprint", "Pending");
   hiWalletSetText("walletAddress", "Create your HI identity first.");
+  hiWalletSetText("statBalance", "0 HI");
+  hiWalletSetText("statTrust", "0/100");
+  hiWalletSetText("statTxCount", "0");
+  hiWalletSetText("statGenesis", "Pending");
 }
 
 function hiWalletRenderLedger(wallet) {
@@ -202,6 +206,11 @@ function hiWalletRender(identity, wallet) {
   if (remaining <= 0) {
     hiWalletSetStatus("This identity/device wallet reached the " + HI_WALLET_MAX_SUPPLY + " HI ecosystem demo cap.", "");
   }
+  var txs = Array.isArray(wallet.transactions) ? wallet.transactions : [];
+  hiWalletSetText("statBalance", String(balance) + " HI");
+  hiWalletSetText("statTrust", String(hiWalletTrustScore(identity, wallet)) + "/100");
+  hiWalletSetText("statTxCount", String(txs.length));
+  hiWalletSetText("statGenesis", wallet.genesisIssued ? "Issued ✓" : "Pending");
   hiWalletRenderLedger(wallet);
 }
 

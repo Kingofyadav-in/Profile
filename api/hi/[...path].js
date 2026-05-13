@@ -10,7 +10,10 @@ const pool = new Pool({
 
 function checkAuth(req, res) {
   const key = process.env.HI_API_KEY;
-  if (!key) return true;
+  if (!key) {
+    res.status(500).json({ ok: false, error: 'HI_API_KEY is not configured on the server.' });
+    return false;
+  }
   if (req.headers['authorization'] === `Bearer ${key}`) return true;
   res.status(401).json({ ok: false, error: 'Unauthorized' });
   return false;

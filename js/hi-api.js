@@ -124,6 +124,29 @@ async function _hiApiPush(store, record) {
     const sid = record.id || `session-${new Date().toISOString().slice(0,10)}`;
     return hiApiFetch('chat', 'POST', { session_id: sid, messages: record.messages || [] });
   }
+
+  if (store === 'licenses') {
+    const body = {
+      claim_id: record.licenseId,
+      content_hash: record.contentHash,
+      status: 'active',
+      metadata: {
+        title: record.title,
+        type: record.contentType,
+        license: record.licenseType,
+        author: record.ownerName,
+        hdi_code: record.ownerHDI,
+        created: record.createdAtStr
+      }
+    };
+    if (isNew) {
+      const r = await hiApiFetch('licenses', 'POST', body);
+      if (r?.data?.id) hiApiSetId(record.id, r.data.id, 'licenses');
+    } else {
+      hiApiFetch(`licenses?id=${apiId}`, 'PUT', body);
+    }
+    return;
+  }
 }
 
 // ─── Delete record from API ──────────────────────────────────────────────────
@@ -232,6 +255,27 @@ async function hiApiPull() {
     const chat = await hiApiFetch(`chat?id=session-${today}`);
     if (chat?.data?.messages?.length) {
       await hiPut('chat', { id: `session-${today}`, messages: chat.data.messages, updatedAt: Date.now() });
+    }
+
+    // Licenses
+    const licenses = await hiApiFetch('licenses');
+    if (licenses?.data) {
+      for (const l of licenses.data) {
+        hiApiSetId(l.id, l.id, 'licenses');
+        const m = l.metadata || {};
+        await hiPut('licenses', {
+          id: l.id,
+          licenseId: l.claim_id,
+          title: m.title || 'Untitled',
+          contentType: m.type || 'Data',
+          licenseType: m.license || 'personal',
+          contentHash: l.content_hash,
+          ownerName: m.author || '',
+          ownerHDI: m.hdi_code || '',
+          createdAtStr: m.created || '',
+          updatedAt: Date.now()
+        });
+      }
     }
 
     console.log('[HI API] Sync complete ✓');
