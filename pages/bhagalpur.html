@@ -50,14 +50,7 @@
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <nav class="personal-nav">
-      <a href="/pages/about.html">ABOUT ME</a>
-      <a href="/pages/origin.html">ORIGIN</a>
-      <a href="/pages/haven.html">HAVEN</a>
-      <a href="/pages/bhagalpur.html" class="active">BHAGALPUR</a>
-      <a href="/pages/wallet.html">WALLET</a>
-      <a href="/pages/hi-license.html" class="license-link">&#x1F5AA; License</a>
-    </nav>
+    <nav class="personal-nav" data-nav="personal"></nav>
     <div class="auth-bar">
       <span>Hi, <strong id="authUserDisplay"></strong></span>
       <button class="auth-logout-btn" id="logoutBtn">Logout</button>
@@ -283,39 +276,15 @@
 
 </main>
 
-<footer class="site-footer glass">
-  <div class="footer-inner">
-
-    <div class="footer-enquiry">
-      <p class="footer-title">Enquiry</p>
-      <p class="footer-text">
-        Amit Ku Yadav<br>
-        Phone: <a href="tel:+919523528114">+91 95235 28114</a><br>
-        Office: Bhagalpur, India<br>
-        Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
-      </p>
-      <div class="social-icons" id="socialLinks"></div>
-    </div>
-
-    <div class="footer-right">
-      <div id="footerClock">--:--</div>
-      <div>Bhagalpur, India</div>
-      <div id="status">STATUS: --</div>
-
-      </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © <span id="year"></span> · All rights reserved
-  </div>
-</footer>
+<footer class="site-footer glass" data-footer></footer>
 
     <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
   <script src="/js/auth.js?v=auth-otp-1"></script>
   <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
+  <script src="/js/footer.js" defer></script>
+  <script src="/js/nav.js" defer></script>
   <script src="/js/script.js?v=footer-clean-1" defer></script>
   <script>
     var _u = document.getElementById("authUserDisplay");

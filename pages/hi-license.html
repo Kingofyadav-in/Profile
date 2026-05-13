@@ -41,14 +41,7 @@
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <nav class="personal-nav">
-      <a href="/pages/about.html">ABOUT ME</a>
-      <a href="/pages/origin.html">ORIGIN</a>
-      <a href="/pages/haven.html">HAVEN</a>
-      <a href="/pages/bhagalpur.html">BHAGALPUR</a>
-      <a href="/pages/wallet.html">WALLET</a>
-      <a href="/pages/hi-license.html" class="license-link active">&#x1F5AA; License</a>
-    </nav>
+    <nav class="personal-nav" data-nav="personal"></nav>
     <div class="auth-bar">
       <span>Hi, <strong id="authUserDisplay"></strong></span>
       <button class="auth-logout-btn" id="logoutBtn">Logout</button>
@@ -310,7 +303,8 @@
   <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All content ownership protected</div>
 </footer>
 
-<script src="/js/script.js?v=footer-clean-1" defer></script>
+<script src="/js/nav.js" defer></script>
+  <script src="/js/script.js?v=footer-clean-1" defer></script>
 <script src="/js/hi-storage.js?v=hi-1"></script>
 <script src="/js/hi-api.js?v=hi-1"></script>
 <script src="/js/hi-app.js?v=hi-1"      defer></script>

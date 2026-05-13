@@ -138,16 +138,7 @@
         <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-        <nav class="personal-nav">
-          <a href="/" aria-current="page">Home</a>
-          <a href="/pages/blog.html">Blog</a>
-          <a href="/pages/gallery.html">Gallery</a>
-          <a href="/pages/services.html">Services</a>
-          <a href="/pages/contact.html">Contact</a>
-          <a href="/pages/collaboration.html">Collaboration</a>
-          <a href="/wallet/index.html">Coins</a>
-          <a href="/marketplace/index.html">Marketplace</a>
-        </nav>
+        <nav class="personal-nav" data-nav="index"></nav>
         <div class="auth-bar" id="homeAuthBar" hidden>
           <span>Hi, <strong id="authUserDisplay"></strong></span>
           <button class="auth-logout-btn" id="logoutBtn">Logout</button>
@@ -350,28 +341,7 @@
     <!-- ==================================================
        FOOTER
   ================================================== -->
-    <footer class="site-footer glass">
-      <div class="footer-inner">
-        <div class="footer-enquiry">
-          <p class="footer-title">Enquiry</p>
-          <p class="footer-text">
-            Amit Ku Yadav<br />
-            Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
-            Office: Bhagalpur, India<br />
-            Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
-          </p>
-
-          <div class="social-icons" id="socialLinks"></div>
-        </div>
-
-        <div class="footer-right">
-          <div id="footerClock">--:--</div>
-          <div>Bhagalpur, India</div>
-          <div id="status">STATUS: --</div>
-        </div>
-      </div>
-      <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All rights reserved</div>
-    </footer>
+    <footer class="site-footer glass" data-footer></footer>
 
     <!-- PWA Install Popup -->
     <div id="pwaInstallBar" role="dialog" aria-label="Install app" hidden>
@@ -393,6 +363,8 @@
     </button>
 
     <!-- ================= SCRIPT ================= -->
+    <script src="/js/footer.js" defer></script>
+  <script src="/js/nav.js" defer></script>
     <script src="js/script.js?v=footer-clean-1" defer></script>
 
     <script

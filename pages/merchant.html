@@ -51,13 +51,7 @@
         <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-        <nav class="personal-nav">
-          <a href="/pages/wallet.html">WALLET</a>
-          <a href="/pages/vault.html">VAULT</a>
-          <a href="/pages/merchant.html" class="active" aria-current="page">MERCHANT</a>
-          <a href="/marketplace/">MARKETPLACE</a>
-          <a href="/wallet/">DIGITAL COIN</a>
-        </nav>
+        <nav class="personal-nav" data-nav="personal"></nav>
         <div class="auth-bar">
           <span>Hi, <strong id="authUserDisplay"></strong></span>
           <button class="auth-logout-btn" id="logoutBtn">Logout</button>
@@ -233,29 +227,15 @@
       </section>
     </main>
 
-    <footer class="site-footer glass">
-      <div class="footer-inner">
-        <div class="footer-enquiry">
-          <p class="footer-title">HI Merchant</p>
-          <p class="footer-text">
-            Merchant onboarding, QR payment simulation, settlement logs, and HI Wallet ecosystem
-            proof.
-          </p>
-        </div>
-        <div class="footer-right">
-          <div id="footerClock">--:--</div>
-          <div>Bhagalpur, India</div>
-          <div id="status">STATUS: --</div>
-          </div>
-      </div>
-      <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All rights reserved</div>
-    </footer>
+    <footer class="site-footer glass" data-footer></footer>
 
     <button id="backToTop" aria-label="Back to top">
       <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
     </button>
 
-    <script src="/js/script.js?v=footer-clean-1" defer></script>
+    <script src="/js/footer.js" defer></script>
+  <script src="/js/nav.js" defer></script>
+  <script src="/js/script.js?v=footer-clean-1" defer></script>
     <script src="/js/hi-storage.js?v=hi-ecosystem-1"></script>
     <script src="/js/hi-app.js?v=hi-1" defer></script>
     <script src="/js/hi-wallet.js?v=hi-wallet-1" defer></script>

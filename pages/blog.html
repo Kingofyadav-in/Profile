@@ -103,16 +103,7 @@
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <nav aria-label="Main navigation">
-      <ul class="nav-list">
-        <li><a href="/">Home</a></li>
-        <li><a href="/pages/blog.html" aria-current="page">Blog</a></li>
-        <li><a href="/pages/gallery.html">Gallery</a></li>
-        <li><a href="/pages/services.html">Services</a></li>
-        <li><a href="/pages/contact.html">Contact</a></li>
-        <li><a href="/pages/collaboration.html">Collaboration</a></li>
-      </ul>
-    </nav>
+    <nav aria-label="Main navigation" data-nav="index"></nav>
 
   </div>
 </header>
@@ -472,40 +463,13 @@
 <!-- ==================================================
      FOOTER
 ================================================== -->
-<footer class="site-footer glass">
-  <div class="footer-inner">
-
-    <!-- LEFT: ENQUIRY -->
-    <div class="footer-enquiry">
-      <p class="footer-title">Enquiry</p>
-      <p class="footer-text">
-        Amit Ku Yadav<br />
-        Phone: <a href="tel:+919523528114">+91 95235 28114</a><br />
-        Office: Bhagalpur, India<br />
-        Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
-      </p>
-
-      <div class="social-icons" id="socialLinks"></div>
-    </div>
-
-    <!-- RIGHT: STATUS + TOGGLE -->
-    <div class="footer-right">
-      <div id="footerClock">--:--</div>
-      <div>Bhagalpur, India</div>
-      <div id="status">STATUS: --</div>
-
-      </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © <span id="year"></span> · All rights reserved
-  </div>
-</footer>
+<footer class="site-footer glass" data-footer></footer>
 
   <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
+  <script src="/js/footer.js" defer></script>
+  <script src="/js/nav.js" defer></script>
   <script src="/js/script.js?v=footer-clean-1" defer></script>
 
   <script src="/api-static/jarvis-widget.js?v=hi-jarvis-20260507" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-fallback-endpoint="/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
