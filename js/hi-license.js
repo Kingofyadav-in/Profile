@@ -142,7 +142,7 @@ function hiLicensePrefix(identity) {
 
 function hiLicenseTypeLabel(type) {
   var meta = HI_LICENSE_TYPES[type] || null;
-  return meta ? meta.label : (type || "HI License");
+  return meta ? meta.label : (type || "License");
 }
 
 function hiHashChunks(hash, size, limit) {
@@ -560,7 +560,7 @@ async function hiRenderLicenses() {
   }
 
   list.innerHTML = licenses.map(function(lic) {
-    var lt = HI_LICENSE_TYPES[lic.licenseType] || { label: lic.licenseType || "HI License", desc: "" };
+    var lt = HI_LICENSE_TYPES[lic.licenseType] || { label: lic.licenseType || "License", desc: "" };
     var fullHash = lic.contentHash || "";
     return '<div class="hi-lic-card glass" data-license-id="' + hiLicenseEsc(lic.licenseId) + '">' +
       '<div class="hi-lic-top">' +

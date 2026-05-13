@@ -47,11 +47,13 @@
 }
 
 .personal-header .personal-nav a:hover,
-.personal-header .personal-nav a.active {
+.personal-header .personal-nav a.active,
+.personal-header .personal-nav a[aria-current="page"] {
   opacity: 1;
   color: var(--brand-green);
 }
 
+.personal-header .personal-nav a.license-link,
 .personal-header .personal-nav a.hi-nav-license {
   color: var(--brand-orange);
   opacity: .9;

@@ -3333,6 +3333,7 @@ body.theme-light .hi-hdi-claims {
 }
 
 /* nav license link */
+.license-link,
 .hi-nav-license { color: var(--brand-orange) !important; opacity: .85 !important; }
 .hi-nav-identity { color: var(--brand-green) !important; opacity: .95 !important; }
 

@@ -116,28 +116,27 @@ function updateLogo() {
 ====================================================== */
 
 function initActiveNav() {
-
   const current = window.location.pathname.replace(/\/$/, "");
-
-  $$(".nav-list a").forEach(link => {
-
+  document.querySelectorAll(".site-header nav a, .personal-header nav a").forEach(link => {
     const target = link.pathname.replace(/\/$/, "");
-
-    /* Home page exact match */
+    link.removeAttribute("aria-current");
     if (target === "" || target === "/") {
       if (current === "" || current === "/") {
         link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.classList.remove("active");
       }
       return;
     }
 
-    /* Other pages */
     if (current === target || current.startsWith(target + "/")) {
       link.classList.add("active");
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.classList.remove("active");
     }
-
   });
-
 }
 
 /* ======================================================
@@ -486,7 +485,7 @@ function initProFooter() {
         { href: "/brands/royal-heritage-resort.html", label: "Royal Heritage", note: "Brand page" },
         { href: "/brands/national-youth-force.html", label: "National Youth Force", note: "Community brand" },
         { href: "/brands/jhon-aamit-llp.html", label: "Jhon Aamit LLP", note: "Business brand" },
-        { href: "/pages/hi-license.html", label: "HI License", note: "Ownership proof" }
+        { href: "/pages/hi-license.html", label: "License", note: "Ownership proof" }
       ]
     }
   ];
@@ -575,6 +574,7 @@ function initHamburger() {
     : document.querySelector(".site-header nav, .personal-header nav");
 
   if (!nav) return;
+  if (!nav.getAttribute("aria-label")) nav.setAttribute("aria-label", "Main navigation");
 
   function close() {
     btn.classList.remove("open");
@@ -595,6 +595,14 @@ function initHamburger() {
   document.addEventListener("click", e => {
     if (!btn.contains(e.target) && !nav.contains(e.target)) close();
   });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") close();
+  });
+
+  window.addEventListener("resize", () => {
+    if (btn.classList.contains("open")) close();
+  });
 }
 
 /* ======================================================
@@ -607,8 +615,9 @@ function initMobileHeader() {
   window.addEventListener("scroll", () => {
     if (window.innerWidth > 768) return;
 
-    const header = document.querySelector(".site-header");
+    const header = document.querySelector(".site-header, .personal-header");
     if (!header) return;
+    if (header.querySelector(".hamburger.open, nav.open")) return;
 
     const current = window.scrollY;
     header.classList.toggle("hide", current > lastScroll && current > 100);
