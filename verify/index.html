@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>License Verify — kingofyadav.in</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <link rel="stylesheet" href="/css/base.css?v=1" />
+  <style>
+    /* ── Theme-aware tokens ── */
+    body.theme-dark {
+      --pg-card:         rgba(255,255,255,0.03);
+      --pg-border:       rgba(255,255,255,0.1);
+      --pg-border-soft:  rgba(255,255,255,0.06);
+      --pg-muted:        rgba(255,255,255,0.45);
+      --pg-faint:        rgba(255,255,255,0.25);
+      --pg-hash-bg:      rgba(255,255,255,0.04);
+      --pg-hash-color:   rgba(255,255,255,0.5);
+      --pg-btn-sec-bg:   rgba(255,255,255,0.06);
+      --pg-btn-sec-fg:   rgba(255,255,255,0.75);
+      --pg-btn-sec-bdr:  rgba(255,255,255,0.12);
+      --pg-badge-loading-bg:  rgba(255,255,255,0.06);
+      --pg-badge-loading-fg:  rgba(255,255,255,0.45);
+      --pg-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(4,106,56,0.15);
+    }
+    body.theme-light {
+      --pg-card:         #ffffff;
+      --pg-border:       rgba(0,0,0,0.1);
+      --pg-border-soft:  rgba(0,0,0,0.07);
+      --pg-muted:        rgba(0,0,0,0.5);
+      --pg-faint:        rgba(0,0,0,0.35);
+      --pg-hash-bg:      #f4f4f5;
+      --pg-hash-color:   rgba(0,0,0,0.5);
+      --pg-btn-sec-bg:   rgba(0,0,0,0.05);
+      --pg-btn-sec-fg:   rgba(0,0,0,0.65);
+      --pg-btn-sec-bdr:  rgba(0,0,0,0.12);
+      --pg-badge-loading-bg:  rgba(0,0,0,0.05);
+      --pg-badge-loading-fg:  rgba(0,0,0,0.45);
+      --pg-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    body { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ── Top bar ── */
+    .vfy-bar {
+      padding: 0.85rem 1.75rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      border-bottom: 1px solid var(--pg-border-soft);
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(16px);
+    }
+    body.theme-dark .vfy-bar { background: rgba(0,0,0,0.6); }
+    body.theme-light .vfy-bar { background: rgba(255,255,255,0.85); }
+
+    .vfy-bar-back { color: var(--brand-green); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .vfy-bar-back:hover { color: var(--brand-orange); }
+    .vfy-bar-title { font-size: 0.8rem; color: var(--pg-muted); margin-left: auto; }
+
+    #themeToggle {
+      background: none; border: 1px solid var(--pg-border); border-radius: 8px;
+      padding: 0.3rem 0.6rem; font-size: 1rem; cursor: pointer;
+      line-height: 1; transition: border-color .2s;
+    }
+    #themeToggle:hover { border-color: var(--brand-green); }
+
+    /* ── Main ── */
+    .vfy-wrap {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 3rem clamp(1rem,5vw,2rem) 5rem;
+    }
+
+    /* ── Certificate card ── */
+    .cert {
+      width: 100%; max-width: 680px;
+      background: var(--pg-card);
+      border: 1px solid var(--pg-border);
+      border-radius: 20px;
+      box-shadow: var(--pg-shadow);
+      overflow: hidden;
+    }
+
+    .cert-stripe {
+      height: 5px;
+      background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
+    }
+
+    .cert-body { padding: 2.5rem clamp(1.5rem,5vw,3rem); }
+
+    /* Badge */
+    .cert-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.35rem 1rem; border-radius: 99px; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .cert-badge.verified  { background: rgba(4,106,56,0.12); color: #16a34a; border: 1px solid rgba(4,106,56,0.3); }
+    .cert-badge.not-found { background: rgba(255,103,31,0.1); color: var(--brand-orange); border: 1px solid rgba(255,103,31,0.3); }
+    .cert-badge.loading   { background: var(--pg-badge-loading-bg); color: var(--pg-badge-loading-fg); border: 1px solid var(--pg-border); }
+    .cert-badge svg { width: 14px; height: 14px; }
+
+    .cert-title { font-size: clamp(1.1rem,3vw,1.5rem); font-weight: 700; margin-bottom: 0.25rem; }
+    .cert-type  { font-size: 0.78rem; color: var(--pg-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 2rem; }
+
+    .cert-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; margin-bottom: 2rem; }
+    @media(max-width:500px){ .cert-grid { grid-template-columns: 1fr; } }
+
+    .cert-field label {
+      display: block; font-size: 0.65rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--pg-faint); margin-bottom: 0.3rem;
+    }
+    .cert-field span { font-size: 0.88rem; word-break: break-all; }
+    .cert-field a { color: var(--brand-green); text-decoration: none; }
+    .cert-field a:hover { color: var(--brand-orange); }
+
+    .cert-hash {
+      font-family: monospace; font-size: 0.75rem;
+      background: var(--pg-hash-bg); border: 1px solid var(--pg-border);
+      border-radius: 10px; padding: 0.75rem 1rem;
+      color: var(--pg-hash-color); word-break: break-all; margin-bottom: 2rem;
+    }
+    .cert-hash label {
+      display: block; font-size: 0.62rem; letter-spacing:.1em; text-transform:uppercase;
+      color: var(--pg-faint); margin-bottom: 0.35rem;
+    }
+
+    .cert-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .btn-cert {
+      padding: 0.65rem 1.4rem; border-radius: 10px; font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; border: none; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem; transition: background .15s;
+    }
+    .btn-cert.primary   { background: var(--brand-green); color: #fff; }
+    .btn-cert.primary:hover { background: var(--brand-green-deep); }
+    .btn-cert.secondary { background: var(--pg-btn-sec-bg); color: var(--pg-btn-sec-fg); border: 1px solid var(--pg-btn-sec-bdr); }
+    .btn-cert.secondary:hover { border-color: var(--brand-green); }
+    .btn-cert.danger    { background: rgba(255,103,31,0.1); color: var(--brand-orange); border: 1px solid rgba(255,103,31,0.25); }
+    .btn-cert.danger:hover { background: rgba(255,103,31,0.18); }
+
+    .cert-footer {
+      padding: 1.1rem clamp(1.5rem,5vw,3rem);
+      border-top: 1px solid var(--pg-border-soft);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      font-size: 0.72rem; color: var(--pg-faint); flex-wrap: wrap;
+    }
+    .cert-footer a { color: var(--brand-green); text-decoration: none; }
+
+    @media print {
+      .vfy-bar, .cert-actions, .cert-footer, #themeToggle { display: none; }
+      body { background: #fff !important; }
+      .cert { border: 2px solid #046A38; box-shadow: none; background: #fff; color: #111; }
+      .cert-field label, .cert-type { color: #555; }
+      .cert-hash { background: #f4f4f5; border-color: #ddd; color: #555; }
+      .cert-badge.verified { background: #e6f4ed; color: #046A38; border-color: #046A38; }
+    }
+  </style>
+</head>
+<body class="theme-dark">
+<script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
+
+<div class="vfy-bar">
+  <a href="/" class="vfy-bar-back">← kingofyadav.in</a>
+  <span class="vfy-bar-title">Content License Verification</span>
+  <button id="themeToggle" aria-label="Toggle theme">🌙</button>
+</div>
+
+<div class="vfy-wrap">
+  <div class="cert" id="cert">
+    <div class="cert-stripe"></div>
+    <div class="cert-body" id="certBody">
+      <span class="cert-badge loading">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Verifying…
+      </span>
+      <div class="cert-title">Looking up license</div>
+      <div class="cert-type">Please wait</div>
+    </div>
+    <div class="cert-footer" id="certFooter">
+      <span>kingofyadav.in · Content Licensing System</span>
+    </div>
+  </div>
+</div>
+
+<script src="/js/script.js?v=1" defer></script>
+<script>
+(async function () {
+  var id = window.location.pathname.replace(/\/$/, '').split('/').pop();
+  if (!id || id === 'verify') { showNotFound('No license ID in URL'); return; }
+
+  try {
+    var r = await fetch('/api/verify?id=' + encodeURIComponent(id));
+    var d = await r.json();
+    if (!d.ok) { showNotFound(id); return; }
+    showVerified(d.license);
+  } catch(e) {
+    showNotFound(id);
+  }
+
+  function showVerified(lic) {
+    var created = lic.created ? new Date(lic.created).toLocaleDateString('en-IN', { year:'numeric', month:'long', day:'numeric' }) : '—';
+    var licenseLabel = { 'CC-BY-NC-ND-4.0': 'Creative Commons BY-NC-ND 4.0' }[lic.license] || lic.license;
+    document.title = 'VERIFIED — ' + lic.title + ' · kingofyadav.in';
+
+    document.getElementById('certBody').innerHTML =
+      '<span class="cert-badge verified">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>' +
+        'Verified' +
+      '</span>' +
+      '<div class="cert-title">' + esc(lic.title) + '</div>' +
+      '<div class="cert-type">' + esc(lic.type) + '</div>' +
+      '<div class="cert-grid">' +
+        field('Author',     lic.author) +
+        field('License ID', '<span style="font-family:monospace;font-size:0.82rem">' + esc(lic.id) + '</span>') +
+        field('Date',       created) +
+        field('License',    licenseLabel) +
+        (lic.url    ? field('Source URL', '<a href="' + esc(lic.url) + '" target="_blank" rel="noopener">' + esc(lic.url) + '</a>') : '') +
+        (lic.hdi_code ? field('HDI Code', lic.hdi_code) : '') +
+        '<div class="cert-field" style="grid-column:1/-1"><label>Status</label><span style="color:var(--brand-green);font-weight:600">Active ✓</span></div>' +
+      '</div>' +
+      (lic.hash ? '<div class="cert-hash"><label>Content Fingerprint (SHA-256)</label>' + esc(lic.hash) + '</div>' : '') +
+      '<div class="cert-actions">' +
+        '<a class="btn-cert primary" href="' + esc(lic.url || '/') + '" target="_blank" rel="noopener">View Original</a>' +
+        '<button class="btn-cert secondary" onclick="window.print()">Print Certificate</button>' +
+        '<a class="btn-cert danger" href="/claim/' + esc(lic.id) + '">Report Violation</a>' +
+      '</div>';
+
+    document.getElementById('certFooter').innerHTML =
+      '<span>Licensed under ' + licenseLabel + '</span>' +
+      '<a href="https://kingofyadav.in">kingofyadav.in</a>';
+  }
+
+  function showNotFound(id) {
+    document.title = 'Not Found — License Verify';
+    document.getElementById('certBody').innerHTML =
+      '<span class="cert-badge not-found">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>' +
+        'Not Found' +
+      '</span>' +
+      '<div class="cert-title">License Not Found</div>' +
+      '<div class="cert-type" style="margin-bottom:1.5rem">ID: ' + esc(String(id)) + '</div>' +
+      '<p style="color:var(--pg-muted);font-size:0.88rem;margin-bottom:1.5rem">This license ID does not exist or is not active. Contact the author if you believe this is an error.</p>' +
+      '<a class="btn-cert primary" href="/">← Go Home</a>';
+  }
+
+  function field(label, value) {
+    return '<div class="cert-field"><label>' + label + '</label><span>' + value + '</span></div>';
+  }
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+}());
+</script>
+</body>
+</html>

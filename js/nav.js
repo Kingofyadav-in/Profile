@@ -33,7 +33,7 @@
     { label: "Merchant",    href: "/pages/merchant.html" },
     { label: "Marketplace", href: "/marketplace/" },
     { label: "Dashboard",     href: "/pages/dashboard.html" },
-    { label: "&#x1F5AA; License", href: "/pages/hi-license.html", cls: "license-link" }
+    { label: "&#x1F510; IP Vault", href: "/pages/hi-license.html", cls: "license-link" }
   ];
 
   function isActive(href) {

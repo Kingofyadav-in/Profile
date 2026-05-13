@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Violation — kingofyadav.in</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <link rel="stylesheet" href="/css/base.css?v=1" />
+  <style>
+    /* ── Theme-aware tokens ── */
+    body.theme-dark {
+      --pg-card:         rgba(255,255,255,0.03);
+      --pg-border:       rgba(255,255,255,0.1);
+      --pg-border-soft:  rgba(255,255,255,0.06);
+      --pg-muted:        rgba(255,255,255,0.45);
+      --pg-faint:        rgba(255,255,255,0.25);
+      --pg-field-bg:     rgba(255,255,255,0.05);
+      --pg-field-border: rgba(255,255,255,0.1);
+      --pg-field-color:  #e5e5e5;
+      --pg-select-bg:    #1c1c1e;
+      --pg-pre-color:    rgba(255,255,255,0.55);
+      --pg-pre-bg:       rgba(255,255,255,0.03);
+      --pg-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+    body.theme-light {
+      --pg-card:         #ffffff;
+      --pg-border:       rgba(0,0,0,0.1);
+      --pg-border-soft:  rgba(0,0,0,0.07);
+      --pg-muted:        rgba(0,0,0,0.5);
+      --pg-faint:        rgba(0,0,0,0.35);
+      --pg-field-bg:     #f4f4f5;
+      --pg-field-border: rgba(0,0,0,0.12);
+      --pg-field-color:  #1a1a1a;
+      --pg-select-bg:    #ffffff;
+      --pg-pre-color:    rgba(0,0,0,0.6);
+      --pg-pre-bg:       #f4f4f5;
+      --pg-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    body { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ── Top bar ── */
+    .clm-bar {
+      padding: 0.85rem 1.75rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      border-bottom: 1px solid var(--pg-border-soft);
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(16px);
+    }
+    body.theme-dark .clm-bar { background: rgba(0,0,0,0.6); }
+    body.theme-light .clm-bar { background: rgba(255,255,255,0.85); }
+
+    .clm-bar-back { color: var(--brand-green); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .clm-bar-back:hover { color: var(--brand-orange); }
+    .clm-bar-title { font-size: 0.8rem; color: var(--pg-muted); margin-left: auto; }
+
+    #themeToggle {
+      background: none; border: 1px solid var(--pg-border); border-radius: 8px;
+      padding: 0.3rem 0.6rem; font-size: 1rem; cursor: pointer;
+      line-height: 1; transition: border-color .2s;
+    }
+    #themeToggle:hover { border-color: var(--brand-green); }
+
+    /* ── Main ── */
+    .clm-wrap {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; padding: 3rem clamp(1rem,5vw,2rem) 5rem;
+    }
+
+    /* ── Card ── */
+    .clm-card {
+      width: 100%; max-width: 640px;
+      background: var(--pg-card);
+      border: 1px solid var(--pg-border);
+      border-radius: 20px;
+      box-shadow: var(--pg-shadow);
+      overflow: hidden;
+    }
+    .clm-stripe {
+      height: 5px;
+      background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
+    }
+    .clm-body { padding: 2.5rem clamp(1.5rem,5vw,2.5rem); }
+
+    .clm-icon    { font-size: 2rem; margin-bottom: 0.75rem; }
+    .clm-heading { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .clm-sub     { font-size: 0.85rem; color: var(--pg-muted); margin-bottom: 2rem; line-height: 1.6; }
+
+    /* Form */
+    .field { margin-bottom: 1.2rem; }
+    .field label {
+      display: block; font-size: 0.7rem; font-weight: 700; letter-spacing:.09em;
+      text-transform: uppercase; color: var(--pg-faint); margin-bottom: 0.4rem;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.88rem;
+      background: var(--pg-field-bg); border: 1px solid var(--pg-field-border);
+      color: var(--pg-field-color); outline: none; font-family: inherit;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--pg-muted); }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--brand-green); box-shadow: 0 0 0 3px rgba(4,106,56,0.15);
+    }
+    .field textarea { min-height: 90px; resize: vertical; }
+    .field select option { background: var(--pg-select-bg); color: var(--pg-field-color); }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:500px){ .field-row { grid-template-columns: 1fr; } }
+
+    .btn-submit {
+      width: 100%; padding: 0.85rem; border-radius: 12px; font-size: 0.92rem; font-weight: 700;
+      background: var(--brand-orange); color: #fff; border: none; cursor: pointer;
+      transition: background .2s, transform .1s; margin-top: 0.5rem;
+    }
+    .btn-submit:hover   { background: var(--brand-orange-deep); }
+    .btn-submit:active  { transform: scale(0.99); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* DMCA preview */
+    .dmca-preview {
+      display: none; margin-top: 1.5rem;
+      background: var(--pg-pre-bg); border: 1px solid var(--pg-border);
+      border-radius: 12px; padding: 1.25rem;
+    }
+    .dmca-preview.show { display: block; }
+    .dmca-preview label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing:.1em; text-transform: uppercase;
+      color: var(--pg-faint); display: block; margin-bottom: 0.5rem;
+    }
+    .dmca-preview pre { font-size: 0.75rem; color: var(--pg-pre-color); white-space: pre-wrap; line-height: 1.7; }
+    .dmca-copy {
+      margin-top: 0.75rem; font-size: 0.78rem; font-weight: 600; color: var(--brand-green);
+      background: none; border: none; cursor: pointer; padding: 0;
+    }
+    .dmca-copy:hover { color: var(--brand-orange); }
+
+    /* Success */
+    .clm-success { display: none; text-align: center; padding: 1rem 0; }
+    .clm-success.show { display: block; }
+    .clm-success .tick { font-size: 3rem; margin-bottom: 1rem; }
+    .clm-success h2  { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .clm-success p   { font-size: 0.85rem; color: var(--pg-muted); line-height: 1.7; }
+
+    .clm-footer {
+      padding: 1.1rem clamp(1.5rem,5vw,2.5rem);
+      border-top: 1px solid var(--pg-border-soft);
+      font-size: 0.72rem; color: var(--pg-faint);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem;
+    }
+    .clm-footer a { color: var(--brand-green); text-decoration: none; }
+    .clm-footer a:hover { color: var(--brand-orange); }
+  </style>
+</head>
+<body class="theme-dark">
+<script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
+
+<div class="clm-bar">
+  <a href="/" class="clm-bar-back">← kingofyadav.in</a>
+  <span class="clm-bar-title">Copyright Violation Report</span>
+  <button id="themeToggle" aria-label="Toggle theme">🌙</button>
+</div>
+
+<div class="clm-wrap">
+  <div class="clm-card">
+    <div class="clm-stripe"></div>
+    <div class="clm-body">
+
+      <div id="formSection">
+        <div class="clm-icon">⚠️</div>
+        <div class="clm-heading">Report a Copyright Violation</div>
+        <div class="clm-sub" id="clmSub">
+          Use this form to report unauthorized use of licensed content from kingofyadav.in.
+          A DMCA takedown notice will be auto-generated for your use.
+        </div>
+
+        <form id="claimForm" novalidate>
+          <div class="field">
+            <label>License ID *</label>
+            <input type="text" id="fLicenseId" placeholder="KOY-2026-05-A3F9B2" required />
+          </div>
+          <div class="field">
+            <label>Infringing URL *</label>
+            <input type="url" id="fInfrUrl" placeholder="https://example.com/stolen-content" required />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Platform</label>
+              <select id="fPlatform">
+                <option value="">Select platform</option>
+                <option>YouTube</option>
+                <option>Instagram</option>
+                <option>Facebook</option>
+                <option>Twitter / X</option>
+                <option>LinkedIn</option>
+                <option>Medium</option>
+                <option>WordPress</option>
+                <option>Other Website</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Violation Type</label>
+              <select id="fViolationType">
+                <option value="">Select type</option>
+                <option value="Unauthorized reproduction">Copied without credit</option>
+                <option value="Plagiarism">Plagiarism</option>
+                <option value="Commercial misuse">Commercial misuse</option>
+                <option value="Derivative work without permission">Derivative work</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Your Name</label>
+              <input type="text" id="fName" placeholder="Your full name" />
+            </div>
+            <div class="field">
+              <label>Your Email *</label>
+              <input type="email" id="fEmail" placeholder="your@email.com" required />
+            </div>
+          </div>
+          <div class="field">
+            <label>Additional Details</label>
+            <textarea id="fContact" placeholder="Describe the violation in detail (optional)"></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">Generate DMCA Notice &amp; Submit</button>
+        </form>
+
+        <div class="dmca-preview" id="dmcaPreview">
+          <label>Auto-Generated DMCA Notice</label>
+          <pre id="dmcaText"></pre>
+          <button class="dmca-copy" onclick="copyDmca()">Copy to clipboard</button>
+        </div>
+      </div>
+
+      <div class="clm-success" id="successSection">
+        <div class="tick">✅</div>
+        <h2>Report Submitted</h2>
+        <p>Your violation report has been logged and the DMCA notice has been generated.<br>
+        Copy the notice above and send it to the platform's legal/DMCA team.</p>
+        <p style="margin-top:1rem">
+          <a href="/" style="color:var(--brand-green);text-decoration:none;font-weight:600">← Return Home</a>
+        </p>
+      </div>
+
+    </div>
+    <div class="clm-footer">
+      <span>Content protected under CC-BY-NC-ND-4.0</span>
+      <a href="/pages/hi-license.html">License Registry</a>
+    </div>
+  </div>
+</div>
+
+<script src="/js/script.js?v=1" defer></script>
+<script>
+(function () {
+  var pathId = window.location.pathname.replace(/\/$/, '').split('/').pop();
+  if (pathId && pathId !== 'claim') {
+    document.getElementById('fLicenseId').value = pathId;
+    document.getElementById('clmSub').textContent =
+      'Reporting a violation for license ' + pathId + '. Fill in the details below.';
+  }
+
+  document.getElementById('claimForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var licenseId     = document.getElementById('fLicenseId').value.trim();
+    var infrUrl       = document.getElementById('fInfrUrl').value.trim();
+    var platform      = document.getElementById('fPlatform').value;
+    var violationType = document.getElementById('fViolationType').value;
+    var name          = document.getElementById('fName').value.trim();
+    var email         = document.getElementById('fEmail').value.trim();
+    var contact       = document.getElementById('fContact').value.trim();
+    var btn           = document.getElementById('submitBtn');
+
+    if (!licenseId || !infrUrl || !email) {
+      alert('Please fill in License ID, Infringing URL, and your Email.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    try {
+      var r = await fetch('/api/claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ license_id: licenseId, infringing_url: infrUrl,
+          platform, violation_type: violationType,
+          reporter_name: name, reporter_email: email, reporter_contact: contact })
+      });
+      var d = await r.json();
+      if (!d.ok) throw new Error(d.error || 'Submission failed');
+
+      document.getElementById('dmcaText').textContent = d.dmca;
+      document.getElementById('dmcaPreview').classList.add('show');
+      document.getElementById('successSection').classList.add('show');
+      btn.style.display = 'none';
+    } catch (err) {
+      alert('Error: ' + err.message);
+      btn.disabled = false;
+      btn.textContent = 'Generate DMCA Notice & Submit';
+    }
+  });
+}());
+
+function copyDmca() {
+  navigator.clipboard.writeText(document.getElementById('dmcaText').textContent).then(function () {
+    var btn = document.querySelector('.dmca-copy');
+    btn.textContent = 'Copied!';
+    setTimeout(function () { btn.textContent = 'Copy to clipboard'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>

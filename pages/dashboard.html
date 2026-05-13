@@ -4,104 +4,241 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HDI Dashboard — Amit Ku Yadav</title>
+  <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon/favicon.ico" />
   <link rel="stylesheet" href="/css/base.css?v=1" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+  <link rel="stylesheet" href="/css/components.css?v=1" />
+  <link rel="stylesheet" href="/css/layout.css?v=1" />
+  <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
-    :root {
-      --bg: #0b1e0e; --card: #111c13; --border: #1e3320;
-      --text: #e8f5e9; --muted: #6b8f6e; --accent: #22c55e;
-      --amber: #f59e0b; --red: #ef4444; --blue: #3b82f6; --purple: #a855f7;
+    /* ── Layout ── */
+    .dash-wrap { max-width: 1400px; margin: 0 auto; padding: 2rem clamp(1rem,4vw,2.5rem) 5rem; }
+
+    /* ── HDI Hero ── */
+    .hdi-hero {
+      text-align: center;
+      padding: clamp(2.5rem,6vw,5rem) 1rem clamp(2rem,5vw,4rem);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; min-height: 100vh; }
+    .hdi-score-ring {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 1.5rem;
+    }
+    .hdi-score-ring svg { width: 160px; height: 160px; transform: rotate(-90deg); }
+    .hdi-score-ring circle { fill: none; stroke-width: 8; stroke-linecap: round; }
+    .hdi-ring-track { stroke: rgba(255,255,255,0.07); }
+    .hdi-ring-fill  { stroke: url(#ringGrad); stroke-dasharray: 440; stroke-dashoffset: 440; transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1); }
+    .hdi-score-num  {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .hdi-score-num strong { font-size: 3rem; font-weight: 800; line-height: 1; background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hdi-score-num span   { font-size: 0.75rem; color: rgba(255,255,255,0.4); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
+    .hdi-grade   { font-size: 1.25rem; font-weight: 700; letter-spacing: .06em; margin-bottom: 0.25rem; }
+    .hdi-label   { font-size: 0.75rem; color: rgba(255,255,255,0.35); letter-spacing: .1em; text-transform: uppercase; }
+    .hdi-chips   { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; }
+    .hdi-chip    {
+      padding: 0.3rem 0.85rem; border-radius: 99px; font-size: 0.72rem; font-weight: 600;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);
+    }
+    .hdi-chip strong { color: var(--brand-green); margin-right: 4px; }
+    .hdi-ts { font-size: 0.72rem; color: rgba(255,255,255,0.25); margin-top: 0.75rem; }
 
-    .dash-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1rem; }
-    .dash-header h1 { font-size: 1.1rem; font-weight: 600; }
-    .dash-header .back { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
-    .dash-header .back:hover { color: var(--accent); }
+    /* ── Grid ── */
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .dash-card {
+      background: var(--card-bg, rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      backdrop-filter: blur(18px);
+    }
+    .card-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+    .card-title {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
+    }
+    .card-badge {
+      font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.6rem;
+      border-radius: 99px; background: var(--brand-green-soft); color: var(--brand-green);
+    }
+    .dash-card canvas { max-height: 200px; }
 
-    .hdi-hero { padding: 2rem; text-align: center; border-bottom: 1px solid var(--border); }
-    .hdi-score { font-size: 5rem; font-weight: 800; line-height: 1; color: var(--accent); }
-    .hdi-grade { font-size: 1.8rem; font-weight: 700; opacity: .7; margin-top: 0.25rem; }
-    .hdi-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; letter-spacing: .06em; text-transform: uppercase; }
-    .hdi-bar-wrap { max-width: 500px; margin: 1.5rem auto 0; }
-    .hdi-bar-bg { background: var(--border); border-radius: 99px; height: 10px; overflow: hidden; }
-    .hdi-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #22c55e, #16a34a); transition: width .8s ease; }
-    .hdi-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.2rem; }
-    .hdi-chip { padding: 0.3rem 0.75rem; border-radius: 99px; font-size: 0.75rem; font-weight: 600; border: 1px solid; }
+    /* ── Habits list ── */
+    .habit-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem; gap: 0.75rem;
+    }
+    .habit-row:last-child { border: none; }
+    .habit-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .habit-dots { display: flex; gap: 3px; flex-shrink: 0; }
+    .habit-dot  { width: 7px; height: 7px; border-radius: 2px; background: rgba(255,255,255,0.08); }
+    .habit-dot.on { background: var(--brand-green); }
+    .habit-status { font-size: 1rem; flex-shrink: 0; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.25rem; padding: 1.5rem 2rem; max-width: 1400px; margin: 0 auto; }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; }
-    .card-title { font-size: 0.75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
-    .card canvas { max-height: 220px; }
+    /* ── Tasks doughnut center label ── */
+    .tasks-wrap { position: relative; }
+    .tasks-center {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; pointer-events: none; gap: 2px;
+    }
+    .tasks-center strong { font-size: 1.6rem; font-weight: 800; color: var(--brand-green); }
+    .tasks-center span   { font-size: 0.7rem; color: rgba(255,255,255,0.35); letter-spacing:.06em; text-transform:uppercase; }
 
-    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
-    .stat-row:last-child { border: none; }
-    .stat-val { font-weight: 700; }
-    .stat-bar { display: flex; gap: 2px; }
-    .stat-bar span { width: 8px; height: 8px; border-radius: 2px; background: var(--border); }
-    .stat-bar span.on { background: var(--accent); }
+    /* ── Loading / Error ── */
+    .dash-loading { opacity: 0.4; font-size: 0.85rem; text-align: center; padding: 2.5rem 1rem; }
+    .dash-error   { color: var(--brand-orange); font-size: 0.82rem; padding: 0.75rem; border-radius: 10px;
+                    background: rgba(255,103,31,0.08); border: 1px solid rgba(255,103,31,0.2); margin-top: 1rem; }
 
-    .loading { opacity: .5; font-size: 0.85rem; text-align: center; padding: 3rem; }
-    .error   { color: var(--red); font-size: 0.85rem; text-align: center; padding: 1rem; }
+    /* ── Responsive ── */
+    @media(max-width:600px) {
+      .dash-grid { grid-template-columns: 1fr; }
+      .hdi-score-ring { width: 130px; height: 130px; }
+      .hdi-score-ring svg { width: 130px; height: 130px; }
+      .hdi-score-num strong { font-size: 2.2rem; }
+      .hdi-ring-fill { stroke-dasharray: 360; stroke-dashoffset: 360; }
+    }
 
-    @media(max-width:600px) { .grid { padding: 1rem; grid-template-columns: 1fr; } .hdi-score { font-size: 3.5rem; } }
+    body.theme-light .dash-card {
+      background: #fff;
+      border-color: rgba(0,0,0,0.08);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+    body.theme-light .card-title { color: rgba(0,0,0,0.4); }
+    body.theme-light .habit-row  { border-color: rgba(0,0,0,0.06); }
+    body.theme-light .habit-dot  { background: rgba(0,0,0,0.1); }
+    body.theme-light .hdi-label, body.theme-light .hdi-ts { color: rgba(0,0,0,0.35); }
+    body.theme-light .hdi-chip   { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.6); }
+    body.theme-light .hdi-hero   { border-color: rgba(0,0,0,0.07); }
+    body.theme-light .tasks-center span { color: rgba(0,0,0,0.35); }
+    body.theme-light .hdi-ring-track { stroke: rgba(0,0,0,0.08); }
   </style>
 </head>
-<body>
+<body class="theme-dark personal-page">
 
-<header class="dash-header">
-  <a href="/" class="back">← Home</a>
-  <h1>HDI Dashboard</h1>
-  <span style="margin-left:auto;font-size:0.78rem;color:var(--muted)" id="computedAt"></span>
+<script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
+<script src="/js/auth.js?v=auth-otp-1"></script>
+<script>requireAuth(); document.documentElement.style.visibility="";</script>
+<script src="/js/nav.js?v=2" defer></script>
+
+<!-- Header -->
+<header class="personal-header glass">
+  <div class="personal-header-inner">
+    <a href="/pages/personal.html" class="personal-brand">
+      <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
+      <div class="personal-brand-text">
+        <span class="personal-name">Amit Ku Yadav</span>
+        <span class="personal-tagline">HDI Dashboard</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="personal-nav" data-nav="personal"></nav>
+  </div>
 </header>
 
 <!-- HDI Hero -->
 <div class="hdi-hero">
-  <div class="hdi-score" id="hdiScore">—</div>
+  <div class="hdi-score-ring">
+    <svg viewBox="0 0 160 160">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#046A38"/>
+          <stop offset="100%" stop-color="#FF671F"/>
+        </linearGradient>
+      </defs>
+      <circle class="hdi-ring-track" cx="80" cy="80" r="70"/>
+      <circle class="hdi-ring-fill" id="hdiRingFill" cx="80" cy="80" r="70"/>
+    </svg>
+    <div class="hdi-score-num">
+      <strong id="hdiScore">—</strong>
+      <span>HDI</span>
+    </div>
+  </div>
   <div class="hdi-grade" id="hdiGrade">Loading…</div>
   <div class="hdi-label">Human Development Index</div>
-  <div class="hdi-bar-wrap">
-    <div class="hdi-bar-bg"><div class="hdi-bar-fill" id="hdiBarFill" style="width:0%"></div></div>
-  </div>
   <div class="hdi-chips" id="hdiChips"></div>
+  <div class="hdi-ts" id="computedAt"></div>
 </div>
 
-<!-- Charts Grid -->
-<div class="grid">
-  <div class="card">
-    <div class="card-title">Mood (last 30 days)</div>
-    <canvas id="moodChart"></canvas>
-  </div>
-  <div class="card">
-    <div class="card-title">Energy (last 30 days)</div>
-    <canvas id="energyChart"></canvas>
-  </div>
-  <div class="card">
-    <div class="card-title">Goals Progress</div>
-    <canvas id="goalsChart"></canvas>
-  </div>
-  <div class="card">
-    <div class="card-title">Habits Breakdown</div>
-    <div id="habitsStats" class="loading">Loading…</div>
-  </div>
-  <div class="card">
-    <div class="card-title">Tasks Completion</div>
-    <canvas id="tasksChart"></canvas>
-  </div>
-  <div class="card">
-    <div class="card-title">HDI Breakdown</div>
-    <canvas id="hdiBreakChart"></canvas>
+<!-- Dashboard Grid -->
+<div class="dash-wrap">
+  <div class="dash-grid">
+
+    <div class="dash-card">
+      <div class="card-head">
+        <span class="card-title">Mood · last 30 days</span>
+      </div>
+      <canvas id="moodChart"></canvas>
+    </div>
+
+    <div class="dash-card">
+      <div class="card-head">
+        <span class="card-title">Energy · last 30 days</span>
+      </div>
+      <canvas id="energyChart"></canvas>
+    </div>
+
+    <div class="dash-card">
+      <div class="card-head">
+        <span class="card-title">Goals Progress</span>
+      </div>
+      <canvas id="goalsChart"></canvas>
+    </div>
+
+    <div class="dash-card">
+      <div class="card-head">
+        <span class="card-title">Habits · Today</span>
+        <span class="card-badge" id="habitsBadge">—</span>
+      </div>
+      <div id="habitsStats" class="dash-loading">Loading…</div>
+    </div>
+
+    <div class="dash-card">
+      <div class="card-head">
+        <span class="card-title">Tasks Completion</span>
+      </div>
+      <div class="tasks-wrap">
+        <canvas id="tasksChart"></canvas>
+        <div class="tasks-center">
+          <strong id="tasksDone">—</strong>
+          <span>Done</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="card-head">
+        <span class="card-title">HDI Breakdown</span>
+      </div>
+      <canvas id="hdiBreakChart"></canvas>
+    </div>
+
   </div>
 </div>
 
+<script src="/js/script.js?v=dash-1" defer></script>
 <script>
 (async function () {
   var KEY  = "YX9vS6oyQC1RdXJLAhr-GAObhoZzrCKCcleNlTRqN2c";
   var BASE = "/api/hi";
-
   var auth = { "Authorization": "Bearer " + KEY };
+
+  var isDark = document.body.classList.contains("theme-dark");
 
   async function get(path) {
     var r = await fetch(BASE + "/" + path, { headers: auth });
@@ -109,35 +246,69 @@
     return r.json();
   }
 
-  /* Chart defaults */
-  Chart.defaults.color = "#6b8f6e";
-  Chart.defaults.borderColor = "#1e3320";
-  var ACCENT = "#22c55e", AMBER = "#f59e0b", RED = "#ef4444", BLUE = "#3b82f6", PURPLE = "#a855f7";
+  /* ── Chart palette ── */
+  var GREEN  = "#046A38";
+  var ORANGE = "#FF671F";
+  var BLUE   = "#3b82f6";
+  var PURPLE = "#a855f7";
+  var GRID   = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
+  var LABEL  = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.4)";
+
+  Chart.defaults.color = LABEL;
+  Chart.defaults.borderColor = GRID;
+  Chart.defaults.font.family = "system-ui, sans-serif";
 
   function lineChart(id, labels, datasets) {
     return new Chart(document.getElementById(id), {
       type: "line",
       data: { labels, datasets },
-      options: { responsive: true, plugins: { legend: { display: datasets.length > 1 } },
-        scales: { y: { min: 0, max: 10, grid: { color: "#1e3320" } }, x: { grid: { display: false } } } }
+      options: {
+        responsive: true,
+        plugins: { legend: { display: datasets.length > 1, labels: { color: LABEL, boxWidth: 12 } } },
+        scales: {
+          y: { min: 0, max: 10, grid: { color: GRID }, ticks: { color: LABEL } },
+          x: { grid: { display: false }, ticks: { color: LABEL } }
+        }
+      }
     });
   }
 
   function barChart(id, labels, data, color) {
     return new Chart(document.getElementById(id), {
       type: "bar",
-      data: { labels, datasets: [{ data, backgroundColor: color + "99", borderColor: color, borderWidth: 1.5, borderRadius: 6 }] },
-      options: { responsive: true, plugins: { legend: { display: false } },
-        scales: { y: { min: 0, max: 100, grid: { color: "#1e3320" } }, x: { grid: { display: false } } } }
+      data: { labels, datasets: [{ data, backgroundColor: color + "55", borderColor: color, borderWidth: 1.5, borderRadius: 8 }] },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { min: 0, max: 100, grid: { color: GRID }, ticks: { color: LABEL } },
+          x: { grid: { display: false }, ticks: { color: LABEL, maxRotation: 30 } }
+        }
+      }
     });
   }
 
   function radarChart(id, labels, data) {
     return new Chart(document.getElementById(id), {
       type: "radar",
-      data: { labels, datasets: [{ data, backgroundColor: ACCENT + "33", borderColor: ACCENT, borderWidth: 2, pointBackgroundColor: ACCENT }] },
-      options: { responsive: true, plugins: { legend: { display: false } },
-        scales: { r: { min: 0, max: 100, grid: { color: "#1e3320" }, pointLabels: { color: "#6b8f6e", font: { size: 11 } }, ticks: { display: false } } } }
+      data: { labels, datasets: [{ data,
+        backgroundColor: GREEN + "28",
+        borderColor: GREEN,
+        borderWidth: 2,
+        pointBackgroundColor: ORANGE,
+        pointRadius: 4
+      }]},
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { r: {
+          min: 0, max: 100,
+          grid: { color: GRID },
+          angleLines: { color: GRID },
+          pointLabels: { color: LABEL, font: { size: 11 } },
+          ticks: { display: false }
+        }}
+      }
     });
   }
 
@@ -146,72 +317,104 @@
       get("hdi"), get("mood"), get("goals"), get("habits"), get("tasks")
     ]);
 
-    /* ── HDI Hero ── */
+    /* ── HDI Ring ── */
     var hdi   = hdiRes.data || {};
     var score = hdi.hdi || 0;
     var grade = hdi.grade || "?";
     var bd    = hdi.breakdown || {};
+
     document.getElementById("hdiScore").textContent = score;
-    document.getElementById("hdiGrade").textContent = "Grade: " + grade;
-    document.getElementById("hdiBarFill").style.width = score + "%";
-    document.getElementById("computedAt").textContent = hdi.computed_at ? "Updated " + new Date(hdi.computed_at).toLocaleTimeString() : "";
 
-    var chipColors = { S: ACCENT, A: ACCENT, B: AMBER, C: AMBER, D: RED, F: RED };
-    var chipColor  = chipColors[grade] || ACCENT;
-    var chips = Object.entries(bd).map(function(e) {
-      return '<span class="hdi-chip" style="color:' + ACCENT + ';border-color:' + ACCENT + '33">' + e[0] + ': ' + e[1] + '</span>';
-    });
-    document.getElementById("hdiChips").innerHTML = chips.join("");
+    var gradeColor = { S: GREEN, A: GREEN, B: GREEN, C: ORANGE, D: ORANGE, F: "#ef4444" };
+    document.getElementById("hdiGrade").style.color = gradeColor[grade] || GREEN;
+    document.getElementById("hdiGrade").textContent  = "Grade " + grade;
 
-    /* ── Mood & Energy Charts ── */
-    var moods  = (moodRes.data || []).slice().reverse();
+    var circumference = 2 * Math.PI * 70; // 439.8
+    var offset = circumference - (score / 100) * circumference;
+    var ring = document.getElementById("hdiRingFill");
+    ring.style.strokeDasharray  = circumference;
+    ring.style.strokeDashoffset = circumference;
+    setTimeout(function() { ring.style.strokeDashoffset = offset; }, 100);
+
+    if (hdi.computed_at) {
+      document.getElementById("computedAt").textContent =
+        "Updated " + new Date(hdi.computed_at).toLocaleString();
+    }
+
+    var chipLabels = { goals: "Goals", habits: "Habits", mood: "Mood", energy: "Energy", tasks: "Tasks" };
+    document.getElementById("hdiChips").innerHTML = Object.entries(bd).map(function(e) {
+      return '<span class="hdi-chip"><strong>' + (chipLabels[e[0]] || e[0]) + '</strong>' + e[1] + '</span>';
+    }).join("");
+
+    /* ── Mood & Energy ── */
+    var moods   = (moodRes.data || []).slice().reverse();
     var mLabels = moods.map(function(m) { return m.logged_on ? m.logged_on.slice(5,10) : ""; });
+
     lineChart("moodChart", mLabels, [{
       label: "Mood", data: moods.map(function(m) { return m.mood; }),
-      borderColor: ACCENT, backgroundColor: ACCENT + "22", tension: 0.4, fill: true, pointRadius: 3
+      borderColor: GREEN, backgroundColor: GREEN + "18", tension: 0.45, fill: true, pointRadius: 3,
+      pointBackgroundColor: GREEN
     }]);
     lineChart("energyChart", mLabels, [{
       label: "Energy", data: moods.map(function(m) { return m.energy; }),
-      borderColor: BLUE, backgroundColor: BLUE + "22", tension: 0.4, fill: true, pointRadius: 3
+      borderColor: ORANGE, backgroundColor: ORANGE + "18", tension: 0.45, fill: true, pointRadius: 3,
+      pointBackgroundColor: ORANGE
     }]);
 
-    /* ── Goals Chart ── */
+    /* ── Goals ── */
     var goals = (goalsRes.data || []).filter(function(g) { return g.status === "active"; }).slice(0, 8);
     barChart("goalsChart",
-      goals.map(function(g) { return (g.title || "").slice(0, 20); }),
+      goals.map(function(g) { return (g.title || "").slice(0, 18); }),
       goals.map(function(g) { return g.progress || 0; }),
       PURPLE
     );
 
-    /* ── Habits Stats ── */
-    var habits   = habitsRes.habits || [];
-    var logs     = habitsRes.logs   || [];
-    var today    = new Date().toISOString().slice(0, 10);
-    var doneToday = new Set(logs.filter(function(l) { return l.completed_on && l.completed_on.slice(0,10) === today; }).map(function(l) { return l.habit_id; }));
-    var html = habits.map(function(h) {
+    /* ── Habits ── */
+    var habits    = habitsRes.habits || [];
+    var logs      = habitsRes.logs   || [];
+    var today     = new Date().toISOString().slice(0, 10);
+    var doneToday = new Set(logs
+      .filter(function(l) { return l.completed_on && l.completed_on.slice(0,10) === today; })
+      .map(function(l) { return l.habit_id; })
+    );
+    var doneCount = habits.filter(function(h) { return doneToday.has(h.id); }).length;
+    document.getElementById("habitsBadge").textContent = doneCount + " / " + habits.length;
+
+    var habitsHtml = habits.map(function(h) {
       var done = doneToday.has(h.id);
       var cnt  = logs.filter(function(l) { return l.habit_id === h.id; }).length;
-      var bars = Array.from({length: 30}, function(_, i) { return '<span class="' + (i < cnt ? "on" : "") + '"></span>'; }).join("");
-      return '<div class="stat-row"><span>' + (h.title || "").slice(0, 24) + '</span>'
-           + '<div style="display:flex;align-items:center;gap:8px">'
-           + '<div class="stat-bar">' + bars + '</div>'
-           + '<span class="stat-val" style="color:' + (done ? ACCENT : RED) + '">' + (done ? "✓" : "○") + '</span></div></div>';
+      var dots = Array.from({length: 30}, function(_, i) {
+        return '<span class="habit-dot' + (i < cnt ? " on" : "") + '"></span>';
+      }).join("");
+      return '<div class="habit-row">'
+        + '<span class="habit-name">' + (h.title || "").slice(0, 26) + '</span>'
+        + '<div class="habit-dots">' + dots + '</div>'
+        + '<span class="habit-status">' + (done ? "✅" : "⬜") + '</span>'
+        + '</div>';
     }).join("");
-    document.getElementById("habitsStats").innerHTML = html || '<span class="loading">No habits yet.</span>';
+    document.getElementById("habitsStats").innerHTML =
+      habitsHtml || '<span class="dash-loading">No habits yet.</span>';
 
-    /* ── Tasks Chart ── */
-    var tasks = tasksRes.data || [];
-    var done  = tasks.filter(function(t) { return t.done; }).length;
-    var open  = tasks.length - done;
+    /* ── Tasks Doughnut ── */
+    var tasks    = tasksRes.data || [];
+    var taskDone = tasks.filter(function(t) { return t.done; }).length;
+    var taskOpen = tasks.length - taskDone;
+    document.getElementById("tasksDone").textContent = taskDone;
     new Chart(document.getElementById("tasksChart"), {
       type: "doughnut",
-      data: { labels: ["Done", "Open"], datasets: [{ data: [done, open],
-        backgroundColor: [ACCENT + "cc", RED + "44"], borderColor: [ACCENT, RED],
-        borderWidth: 2, hoverOffset: 6 }] },
-      options: { responsive: true, cutout: "70%", plugins: {
-        legend: { position: "bottom", labels: { padding: 16 } },
-        tooltip: { callbacks: { label: function(c) { return " " + c.label + ": " + c.raw; } } }
-      }}
+      data: { labels: ["Done", "Open"], datasets: [{
+        data: [taskDone, taskOpen],
+        backgroundColor: [GREEN + "cc", ORANGE + "44"],
+        borderColor: [GREEN, ORANGE],
+        borderWidth: 2, hoverOffset: 6
+      }]},
+      options: {
+        responsive: true, cutout: "72%",
+        plugins: {
+          legend: { position: "bottom", labels: { color: LABEL, padding: 16, boxWidth: 12 } },
+          tooltip: { callbacks: { label: function(c) { return " " + c.label + ": " + c.raw; } } }
+        }
+      }
     });
 
     /* ── HDI Radar ── */
@@ -222,7 +425,9 @@
 
   } catch (e) {
     console.error(e);
-    document.querySelector(".hdi-hero").innerHTML += '<p class="error">Failed to load data: ' + e.message + '</p>';
+    document.querySelector(".hdi-hero").insertAdjacentHTML("beforeend",
+      '<div class="dash-error">Failed to load: ' + e.message + '</div>'
+    );
   }
 }());
 </script>

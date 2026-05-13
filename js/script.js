@@ -125,7 +125,8 @@ const PUBLIC_NAV_ITEMS = [
   { href: "/pages/professional.html", label: "Professional" },
   { href: "/pages/social.html", label: "Social" },
   { href: "/pages/order.html", label: "Order" },
-  { href: "/pages/coin.html", label: "Digital Coin" }
+  { href: "/pages/coin.html", label: "Digital Coin" },
+  { href: "/pages/live-class.html", label: "&#x1F534; Live Class", cls: "live-class-link" }
 ];
 
 const PERSONAL_NAV_ITEMS = [
@@ -138,7 +139,8 @@ const PERSONAL_NAV_ITEMS = [
   { href: "/pages/vault.html", label: "Vault" },
   { href: "/pages/merchant.html", label: "Merchant" },
   { href: "/marketplace/", label: "Marketplace" },
-  { href: "/pages/hi-license.html", label: "License" }
+  { href: "/pages/dashboard.html", label: "Dashboard" },
+  { href: "/pages/hi-license.html", label: "&#x1F510; IP Vault", cls: "license-link" }
 ];
 
 function getNavFamily() {
@@ -169,7 +171,8 @@ function renderNavLinks(nav, items) {
     nav.innerHTML = items.map(item => {
       const target = (item.href.replace(/\/$/, "") || "/").replace(/\.html$/, "");
       const active = current === target || current.startsWith(target + "/");
-      return `<a href="${item.href}"${active ? ' class="active" aria-current="page"' : ""}>${item.label}</a>`;
+      const cls = [item.cls, active ? "active" : ""].filter(Boolean).join(" ");
+      return `<a href="${item.href}"${cls ? ` class="${cls}"` : ""}${active ? ' aria-current="page"' : ""}>${item.label}</a>`;
     }).join("");
     return;
   }
@@ -177,7 +180,8 @@ function renderNavLinks(nav, items) {
   nav.innerHTML = `<ul class="nav-list">${items.map(item => {
     const target = (item.href.replace(/\/$/, "") || "/").replace(/\.html$/, "");
     const active = current === target || current.startsWith(target + "/");
-    return `<li><a href="${item.href}"${active ? ' class="active" aria-current="page"' : ""}>${item.label}</a></li>`;
+    const cls = [item.cls, active ? "active" : ""].filter(Boolean).join(" ");
+    return `<li><a href="${item.href}"${cls ? ` class="${cls}"` : ""}${active ? ' aria-current="page"' : ""}>${item.label}</a></li>`;
   }).join("")}</ul>`;
 }
 

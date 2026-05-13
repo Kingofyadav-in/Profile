@@ -1,4 +1,8 @@
 {
+  "rewrites": [
+    { "source": "/verify/:id", "destination": "/verify" },
+    { "source": "/claim/:id",  "destination": "/claim"  }
+  ],
   "headers": [
     {
       "source": "/service-worker.js",

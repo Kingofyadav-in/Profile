@@ -2,25 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>License — Digital Identity</title>
+  <title>IP Vault — Amit Ku Yadav</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon/favicon.ico" />
-  <!-- PWA -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="HI App" />
-  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
   <meta name="theme-color" content="#046A38" />
-  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
-  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
-<link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/css/base.css?v=1" />
+  <link rel="stylesheet" href="/css/components.css?v=1" />
+  <link rel="stylesheet" href="/css/layout.css?v=1" />
   <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
   <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
   <link rel="stylesheet" href="/css/hi-app.css?v=hi-3" />
-</head>
+  <style>
+    /* ── Page layout ── */
+    .ipv-wrap { max-width: 1200px; margin: 0 auto; padding: 2rem clamp(1rem,4vw,2.5rem) 5rem; }
 
+    /* ── Hero strip ── */
+    .ipv-hero {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+      padding: 2rem clamp(1rem,4vw,2.5rem) 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      max-width: 1200px; margin: 0 auto;
+    }
+    body.theme-light .ipv-hero { border-color: rgba(0,0,0,0.08); }
+    .ipv-hero-left h1 { font-size: clamp(1.4rem,3vw,2rem); font-weight: 800; line-height: 1.2; }
+    .ipv-hero-left h1 span { background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .ipv-hero-left p  { font-size: 0.85rem; color: rgba(255,255,255,0.45); margin-top: 0.35rem; }
+    body.theme-light .ipv-hero-left p { color: rgba(0,0,0,0.45); }
+
+    .ipv-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .ipv-stat  { text-align: center; }
+    .ipv-stat-num { font-size: 1.6rem; font-weight: 800; background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+    .ipv-stat-lbl { font-size: 0.65rem; font-weight: 600; letter-spacing:.08em; text-transform:uppercase; color: rgba(255,255,255,0.4); margin-top: 2px; }
+    body.theme-light .ipv-stat-lbl { color: rgba(0,0,0,0.4); }
+
+    /* ── Section headings ── */
+    .ipv-section { margin-bottom: 2.5rem; }
+    .ipv-section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;
+    }
+    .ipv-section-title {
+      font-size: 0.68rem; font-weight: 700; letter-spacing:.1em; text-transform:uppercase;
+      color: rgba(255,255,255,0.35); display: flex; align-items: center; gap: 0.5rem;
+    }
+    body.theme-light .ipv-section-title { color: rgba(0,0,0,0.4); }
+    .ipv-section-title::before { content:""; display:inline-block; width:3px; height:14px; border-radius:2px; background: var(--gradient-brand); }
+
+    /* ── Filter + search bar ── */
+    .ipv-toolbar { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .ipv-filter-btn {
+      padding: 0.3rem 0.85rem; border-radius: 99px; font-size: 0.75rem; font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.1); background: none; cursor: pointer;
+      color: rgba(255,255,255,0.55); transition: all .15s;
+    }
+    body.theme-light .ipv-filter-btn { border-color: rgba(0,0,0,0.12); color: rgba(0,0,0,0.55); }
+    .ipv-filter-btn:hover  { border-color: var(--brand-green); color: var(--brand-green); }
+    .ipv-filter-btn.active { background: var(--brand-green); border-color: var(--brand-green); color: #fff; }
+
+    .ipv-search {
+      margin-left: auto; padding: 0.35rem 0.85rem; border-radius: 99px; font-size: 0.8rem;
+      border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
+      color: inherit; outline: none; width: 200px; transition: border-color .2s;
+    }
+    body.theme-light .ipv-search { border-color: rgba(0,0,0,0.12); background: rgba(0,0,0,0.03); }
+    .ipv-search:focus { border-color: var(--brand-green); }
+    .ipv-search::placeholder { color: rgba(255,255,255,0.3); }
+    body.theme-light .ipv-search::placeholder { color: rgba(0,0,0,0.35); }
+
+    /* ── License cards grid ── */
+    .ipv-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1rem;
+    }
+    @media(max-width:600px){ .ipv-grid { grid-template-columns: 1fr; } }
+
+    .ipv-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 1.25rem; position: relative; overflow: hidden;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    body.theme-light .ipv-card { background: #fff; border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+    .ipv-card:hover { border-color: rgba(4,106,56,0.35); box-shadow: 0 4px 20px rgba(4,106,56,0.08); }
+    .ipv-card::before {
+      content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+      background: linear-gradient(180deg, var(--brand-green), var(--brand-orange));
+    }
+
+    .ipv-card-top  { display:flex; align-items:flex-start; justify-content:space-between; gap:0.75rem; margin-bottom:0.6rem; }
+    .ipv-card-id   { font-size:0.62rem; font-weight:800; letter-spacing:1.5px; color:var(--brand-green); font-family:monospace; margin-bottom:3px; }
+    .ipv-card-title{ font-size:0.9rem; font-weight:700; line-height:1.3; }
+    .ipv-card-type {
+      font-size:0.6rem; font-weight:800; letter-spacing:.5px; text-transform:uppercase;
+      color:var(--brand-orange); background:rgba(255,103,31,.1);
+      border:1px solid rgba(255,103,31,.25); border-radius:99px; padding:2px 8px; white-space:nowrap; flex-shrink:0;
+    }
+    .ipv-card-meta { font-size:0.72rem; color:rgba(255,255,255,0.38); margin-bottom:0.9rem; display:flex; gap:0.75rem; flex-wrap:wrap; }
+    body.theme-light .ipv-card-meta { color:rgba(0,0,0,0.4); }
+
+    .ipv-card-actions { display:flex; gap:0.5rem; flex-wrap:wrap; }
+    .ipv-btn {
+      padding:0.28rem 0.75rem; border-radius:8px; font-size:0.72rem; font-weight:600;
+      text-decoration:none; border:1px solid; cursor:pointer; background:none; display:inline-flex; align-items:center; gap:4px;
+      transition: background .15s;
+    }
+    .ipv-btn-verify  { color:var(--brand-green); border-color:rgba(4,106,56,.3); }
+    .ipv-btn-verify:hover  { background:rgba(4,106,56,.1); }
+    .ipv-btn-post    { color:rgba(255,255,255,0.6); border-color:rgba(255,255,255,.12); }
+    body.theme-light .ipv-btn-post { color:rgba(0,0,0,0.55); border-color:rgba(0,0,0,.12); }
+    .ipv-btn-post:hover    { border-color:var(--brand-green); color:var(--brand-green); }
+    .ipv-btn-report  { color:var(--brand-orange); border-color:rgba(255,103,31,.25); }
+    .ipv-btn-report:hover  { background:rgba(255,103,31,.1); }
+    .ipv-btn-copy    { color:rgba(255,255,255,0.5); border-color:rgba(255,255,255,.1); }
+    body.theme-light .ipv-btn-copy { color:rgba(0,0,0,0.45); border-color:rgba(0,0,0,.1); }
+    .ipv-btn-copy:hover    { border-color:var(--brand-green); }
+
+    /* ── Claim form ── */
+    .ipv-claim-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 1.75rem clamp(1.25rem,4vw,2rem);
+    }
+    body.theme-light .ipv-claim-card { background:#fff; border-color:rgba(0,0,0,0.08); }
+
+    /* ── Manual claims (local) ── */
+    .ipv-local-note {
+      font-size: 0.78rem; color: rgba(255,255,255,0.35); padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px; margin-bottom: 1rem;
+    }
+    body.theme-light .ipv-local-note { background:rgba(0,0,0,0.03); border-color:rgba(0,0,0,0.08); color:rgba(0,0,0,0.45); }
+
+    /* ── Empty / loading ── */
+    .ipv-empty { text-align:center; padding:3rem 1rem; color:rgba(255,255,255,0.3); font-size:0.85rem; }
+    body.theme-light .ipv-empty { color:rgba(0,0,0,0.35); }
+
+    /* ── Backup ── */
+    .ipv-tools { display:flex; gap:0.75rem; flex-wrap:wrap; }
+  </style>
+</head>
 <body class="theme-dark personal-page">
 
 <script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
@@ -35,7 +159,7 @@
       <img id="personalLogo" src="/logo/day-logo.png" alt="HI App" class="personal-logo" />
       <div class="personal-brand-text">
         <span class="personal-name">Amit Ku Yadav</span>
-        <span class="personal-tagline">LICENSE</span>
+        <span class="personal-tagline">IP Vault</span>
       </div>
     </a>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -49,284 +173,302 @@
   </div>
 </header>
 
-<main class="site-main personal-main hi-license-main" id="main-content">
+<main id="main-content">
 
-  <section class="hi-license-hero glass profile-hero" aria-label="License overview">
-    <div class="hi-license-hero-brand profile-hero-copy">
-      <img src="/logo/day-logo.png" alt="HI App" class="hi-license-hero-logo" id="hiLicenseHeroLogo" />
-      <div>
-        <p class="hi-license-kicker">Human Intelligence App</p>
-        <h1>License System</h1>
-        <p class="hi-license-hero-copy">
-          Human Digital Identity, content claims, certificates, and local-first ownership records for kingofyadav.in.
-        </p>
-        <div class="profile-hero-actions">
-          <a class="profile-hero-action primary" href="#hi-claim-title">Claim Content</a>
-          <a class="profile-hero-action" href="#hi-license-certificate-section">Certificate</a>
-          <a class="profile-hero-action" href="/pages/personal.html">HI App</a>
+  <!-- Hero strip -->
+  <div class="ipv-hero">
+    <div class="ipv-hero-left">
+      <h1>🔐 <span>IP Vault</span></h1>
+      <p>Content licensing, ownership proof &amp; DMCA protection for kingofyadav.in</p>
+    </div>
+    <div class="ipv-stats">
+      <div class="ipv-stat"><div class="ipv-stat-num" id="statPublished">—</div><div class="ipv-stat-lbl">Published</div></div>
+      <div class="ipv-stat"><div class="ipv-stat-num" id="statBlogPosts">—</div><div class="ipv-stat-lbl">Blog Posts</div></div>
+      <div class="ipv-stat"><div class="ipv-stat-num" id="statLocal">—</div><div class="ipv-stat-lbl">Manual Claims</div></div>
+    </div>
+  </div>
+
+  <div class="ipv-wrap">
+
+    <!-- ── Registry ── -->
+    <div class="ipv-section">
+      <div class="ipv-section-head">
+        <span class="ipv-section-title">Published Registry</span>
+        <div class="ipv-toolbar">
+          <button class="ipv-filter-btn active" data-type="">All</button>
+          <button class="ipv-filter-btn" data-type="blog-post">Blog Posts</button>
+          <button class="ipv-filter-btn" data-type="website">Website</button>
+          <button class="ipv-filter-btn" data-type="page">Pages</button>
+          <input class="ipv-search" id="licSearch" type="search" placeholder="Search…" />
         </div>
       </div>
-    </div>
-    <aside class="profile-hero-panel" aria-label="License live status">
-      <p class="profile-panel-title">License Stack</p>
-      <div class="profile-panel-list">
-        <div><span>Identity</span><strong>HDI certificate</strong></div>
-        <div><span>Claim</span><strong>Content ownership record</strong></div>
-        <div><span>Proof</span><strong>Hash certificate</strong></div>
-        <div><span>Backup</span><strong>Portable JSON vault</strong></div>
+      <div class="ipv-grid" id="ipvGrid">
+        <div class="ipv-empty">Loading registry…</div>
       </div>
-      <p class="profile-panel-note">Local-first records stay in the browser unless exported or synced by the HI system.</p>
-    </aside>
-  </section>
+    </div>
 
-  <section class="personal-section glass hi-license-section hi-license-flow-section" aria-label="Register generate claim guide">
-    <div class="hi-license-section-head">
-      <img src="/logo/day-logo.png" alt="" class="hi-section-logo" />
-      <div>
-        <p class="hi-license-kicker">Step-by-Step</p>
-        <h2>Register, Generate, Claim, Verify</h2>
-        <p>Follow this order when testing the full License flow on a fresh browser.</p>
+    <!-- ── Claim new content ── -->
+    <div class="ipv-section">
+      <div class="ipv-section-head">
+        <span class="ipv-section-title">Claim New Content</span>
+      </div>
+      <div class="ipv-claim-card">
+        <form id="hi-claim-form" class="hi-claim-form">
+          <div class="hi-field">
+            <label for="hi-claim-title">Title <span class="hi-req">*</span></label>
+            <input id="hi-claim-title" type="text" maxlength="200" autocomplete="off" placeholder="What did you create?" />
+          </div>
+          <div class="hi-claim-row">
+            <div class="hi-field">
+              <label for="hi-claim-content-type">Content Type</label>
+              <select id="hi-claim-content-type" class="hi-priority-select" style="width:100%">
+                <option value="Idea">Idea</option>
+                <option value="Blog Post">Blog Post</option>
+                <option value="Project">Project</option>
+                <option value="Goal">Goal</option>
+                <option value="Note">Note</option>
+                <option value="Design">Design</option>
+                <option value="Code">Code</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="hi-field">
+              <label for="hi-claim-license-type">License Type</label>
+              <select id="hi-claim-license-type" class="hi-priority-select" style="width:100%"><!-- populated by hi-license.js --></select>
+            </div>
+          </div>
+          <div class="hi-field">
+            <label for="hi-claim-content">Content / Description <small>(used for fingerprint)</small></label>
+            <textarea id="hi-claim-content" rows="3" maxlength="2000" placeholder="Paste content or describe it — generates a unique SHA-256 fingerprint"></textarea>
+          </div>
+          <div id="hi-claim-err" class="hi-modal-err"></div>
+          <button type="submit" class="hi-btn-primary">Claim &amp; Generate License ⚡</button>
+        </form>
+        <div id="hi-claim-success" hidden></div>
       </div>
     </div>
-    <ol class="hi-license-flow">
-      <li>
-        <span>01</span>
-        <div>
-          <strong>Register local access</strong>
-          <a href="/pages/login.html?next=%2Fpages%2Fpersonal.html">Open setup →</a>
+
+    <!-- ── From HI App data ── -->
+    <div class="ipv-section">
+      <div class="ipv-section-head">
+        <span class="ipv-section-title">Claim from HI App Data</span>
+      </div>
+      <div class="ipv-claim-card">
+        <div class="hi-claim-row">
+          <div class="hi-field">
+            <label for="hi-existing-source">Content Area</label>
+            <select id="hi-existing-source" class="hi-priority-select">
+              <option value="personal:note">Personal Notes</option>
+              <option value="personal:goal">Personal Goals</option>
+              <option value="professional:project">Projects</option>
+              <option value="tasks:task">Today Tasks</option>
+              <option value="social:event">Events</option>
+            </select>
+          </div>
+          <div class="hi-field">
+            <label for="hi-existing-record">Saved Content</label>
+            <select id="hi-existing-record" class="hi-priority-select"><option value="">Loading…</option></select>
+          </div>
         </div>
-      </li>
-      <li>
-        <span>02</span>
-        <div>
-          <strong>Generate your HDI</strong>
+        <div class="hi-claim-row">
+          <div class="hi-field">
+            <label for="hi-existing-license-type">License Type</label>
+            <select id="hi-existing-license-type" class="hi-priority-select"><!-- populated by hi-license.js --></select>
+          </div>
+          <div class="hi-field hi-existing-actions">
+            <label>&nbsp;</label>
+            <button type="button" class="hi-btn-primary" id="hiClaimExistingBtn">Generate Certificate</button>
+          </div>
         </div>
-      </li>
-      <li>
-        <span>03</span>
-        <div>
-          <strong>Create or select content</strong>
-        </div>
-      </li>
-      <li>
-        <span>04</span>
-        <div>
-          <strong>Claim and generate license</strong>
-        </div>
-      </li>
-      <li>
-        <span>05</span>
-        <div>
-          <strong>Verify and export</strong>
-        </div>
-      </li>
-    </ol>
-  </section>
-
-  <!-- HDI Certificate -->
-  <section class="personal-section hi-license-section" aria-label="Your HDI Certificate">
-    <div class="hi-license-section-head">
-      <img src="/logo/day-logo.png" alt="" class="hi-section-logo" />
-      <div>
-        <p class="hi-license-kicker">Identity Layer</p>
-        <h2>Your Digital Identity Certificate</h2>
-      </div>
-    </div>
-    <div id="hi-hdi-certificate" class="hi-hdi-cert-wrapper">
-      <!-- rendered by hi-license.js -->
-    </div>
-  </section>
-
-  <!-- Claim Content -->
-  <section class="personal-section glass hi-license-section" aria-label="Claim content">
-    <div class="hi-license-section-head">
-      <img src="/logo/day-logo.png" alt="" class="hi-section-logo" />
-      <div>
-        <p class="hi-license-kicker">Manual Claim</p>
-        <h2>Claim Content</h2>
-        <p>Every idea, post, or project you create can be claimed with your HDI. A tamper-evident license is generated instantly.</p>
+        <div id="hi-existing-claim-status" class="hi-sync-status" role="status" aria-live="polite"></div>
       </div>
     </div>
 
-    <form id="hi-claim-form" class="hi-claim-form">
-      <div class="hi-field">
-        <label for="hi-claim-title">Title <span class="hi-req">*</span></label>
-        <input id="hi-claim-title" type="text" maxlength="200" autocomplete="off" placeholder="What did you create?" />
+    <!-- ── Manual claims (local) ── -->
+    <div class="ipv-section">
+      <div class="ipv-section-head">
+        <span class="ipv-section-title">Manual Claims (Local)</span>
       </div>
-      <div class="hi-claim-row">
-        <div class="hi-field">
-          <label for="hi-claim-content-type">Content Type</label>
-          <select id="hi-claim-content-type" class="hi-priority-select" style="width:100%">
-            <option value="Idea">Idea</option>
-            <option value="Blog Post">Blog Post</option>
-            <option value="Project">Project</option>
-            <option value="Goal">Goal</option>
-            <option value="Note">Note</option>
-            <option value="Design">Design</option>
-            <option value="Code">Code</option>
-            <option value="Data">Data</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div class="hi-field">
-          <label for="hi-claim-license-type">License Type</label>
-          <select id="hi-claim-license-type" class="hi-priority-select" style="width:100%">
-            <!-- populated by hi-license.js -->
-          </select>
-        </div>
+      <div class="ipv-local-note">
+        These licenses are stored in this browser's IndexedDB. Export a backup to keep them permanently.
       </div>
-      <div class="hi-field">
-        <label for="hi-claim-content">Content / Description <small>(used for hash)</small></label>
-        <textarea id="hi-claim-content" rows="4" maxlength="2000" placeholder="Paste your content or describe it — used to generate a unique fingerprint"></textarea>
-      </div>
-      <div id="hi-claim-err" class="hi-modal-err"></div>
-      <button type="submit" class="hi-btn-primary">Claim &amp; Generate License &#x26A1;</button>
-    </form>
+      <div id="hi-license-list" class="hi-license-list"></div>
+    </div>
 
-    <div id="hi-claim-success" hidden></div>
-  </section>
+    <!-- ── HDI Certificate ── -->
+    <div class="ipv-section">
+      <div class="ipv-section-head">
+        <span class="ipv-section-title">Digital Identity Certificate</span>
+      </div>
+      <div id="hi-hdi-certificate" class="hi-hdi-cert-wrapper"></div>
+    </div>
 
-  <!-- Claim Existing Content -->
-  <section class="personal-section glass hi-license-section" aria-label="Claim existing HI content">
-    <div class="hi-license-section-head">
-      <img src="/logo/day-logo.png" alt="" class="hi-section-logo" />
-      <div>
-        <p class="hi-license-kicker">Existing HI Data</p>
-        <h2>Select Content</h2>
-        <p>Generate a certificate from content already saved inside HI App.</p>
+    <!-- Certificate viewer (shown on demand) -->
+    <section id="hi-license-certificate-section" aria-label="License certificate" hidden>
+      <div class="ipv-section-head">
+        <span class="ipv-section-title">Certificate</span>
       </div>
-    </div>
-    <div class="hi-claim-row">
-      <div class="hi-field">
-        <label for="hi-existing-source">Content Area</label>
-        <select id="hi-existing-source" class="hi-priority-select">
-          <option value="personal:note">Personal Notes</option>
-          <option value="personal:goal">Personal Goals</option>
-          <option value="professional:project">Projects</option>
-          <option value="professional:protask">Project Tasks</option>
-          <option value="tasks:task">Today Tasks</option>
-          <option value="social:event">Events</option>
-        </select>
-      </div>
-      <div class="hi-field">
-        <label for="hi-existing-record">Saved Content</label>
-        <select id="hi-existing-record" class="hi-priority-select">
-          <option value="">Loading...</option>
-        </select>
-      </div>
-    </div>
-    <div class="hi-claim-row">
-      <div class="hi-field">
-        <label for="hi-existing-license-type">License Type</label>
-        <select id="hi-existing-license-type" class="hi-priority-select">
-          <!-- populated by hi-license.js -->
-        </select>
-      </div>
-      <div class="hi-field hi-existing-actions">
-        <label>&nbsp;</label>
-        <button type="button" class="hi-btn-primary" id="hiClaimExistingBtn">Generate Certificate</button>
-      </div>
-    </div>
-    <div id="hi-existing-claim-status" class="hi-sync-status" role="status" aria-live="polite"></div>
-  </section>
+      <div id="hi-license-certificate" class="hi-license-certificate-wrap"></div>
+    </section>
 
-  <!-- License History -->
-  <section class="personal-section hi-license-section" aria-label="License history">
-    <div class="hi-license-section-head">
-      <img src="/logo/day-logo.png" alt="" class="hi-section-logo" />
-      <div>
-        <p class="hi-license-kicker">Claim Ledger</p>
-        <h2>My Licenses</h2>
+    <!-- ── Backup ── -->
+    <div class="ipv-section">
+      <div class="ipv-section-head">
+        <span class="ipv-section-title">Backup &amp; Restore</span>
       </div>
-    </div>
-    <div id="hi-license-list" class="hi-license-list">
-      <!-- rendered by hi-license.js -->
-    </div>
-  </section>
-
-  <!-- Certificate Viewer -->
-  <section class="personal-section hi-license-section" id="hi-license-certificate-section" aria-label="License certificate" hidden>
-    <div class="hi-license-section-head">
-      <img src="/logo/day-logo.png" alt="" class="hi-section-logo" />
-      <div>
-        <p class="hi-license-kicker">Certificate View</p>
-        <h2>Certificate</h2>
+      <div class="ipv-tools">
+        <button type="button" class="hi-btn-primary" id="hiExportAllBtn">Export HI Backup</button>
+        <label class="hi-contact-btn hi-import-label" for="hiImportFile" style="cursor:pointer">Import Backup</label>
+        <input id="hiImportFile" type="file" accept="application/json,.json" hidden />
       </div>
+      <div id="hi-sync-status" class="hi-sync-status" role="status" aria-live="polite" style="margin-top:0.75rem"></div>
     </div>
-    <div id="hi-license-certificate" class="hi-license-certificate-wrap">
-      <!-- rendered by hi-license.js -->
-    </div>
-  </section>
 
-  <!-- Backup / Restore -->
-  <section class="personal-section glass hi-license-section" aria-label="HI backup and restore">
-    <div class="hi-license-section-head">
-      <img src="/logo/day-logo.png" alt="" class="hi-section-logo" />
-      <div>
-        <p class="hi-license-kicker">Local Vault</p>
-        <h2>Backup &amp; Restore</h2>
-        <p>Export your full HI App data as a JSON backup, or restore a previous backup on this browser.</p>
-      </div>
-    </div>
-    <div class="hi-sync-actions">
-      <button type="button" class="hi-btn-primary" id="hiExportAllBtn">Export HI Backup</button>
-      <label class="hi-contact-btn hi-import-label" for="hiImportFile">Import Backup</label>
-      <input id="hiImportFile" type="file" accept="application/json,.json" hidden />
-    </div>
-    <div id="hi-sync-status" class="hi-sync-status" role="status" aria-live="polite"></div>
-  </section>
-
+  </div><!-- /ipv-wrap -->
 </main>
 
-<footer class="site-footer glass hi-license-footer">
+<footer class="site-footer glass">
   <div class="footer-inner">
     <div class="footer-enquiry">
-      <div class="hi-footer-brand">
-        <img src="/logo/day-logo.png" alt="Amit Ku Yadav" id="hiLicenseFooterLogo" />
-        <div>
-          <p class="footer-title">License System</p>
-          <p class="footer-text">
-            Amit Ku Yadav<br />
-            Human Digital Identity &middot; Content Ownership &middot; Auto Licensing<br />
-            Mail: <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
-          </p>
-        </div>
-      </div>
-      <div class="social-icons" id="socialLinks"></div>
+      <p class="footer-title">IP Vault</p>
+      <p class="footer-text">
+        Amit Ku Yadav · Bhagalpur, India<br />
+        Human Digital Identity · Content Ownership · CC-BY-NC-ND-4.0<br />
+        <a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a>
+      </p>
     </div>
     <div class="footer-right">
       <div id="footerClock">--:--</div>
       <div>Bhagalpur, India</div>
-      <div id="status">STATUS: --</div>
-      </div>
+    </div>
   </div>
-  <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All content ownership protected</div>
+  <div class="footer-bottom">© <span id="year"></span> · All content ownership protected under CC-BY-NC-ND-4.0</div>
 </footer>
 
 <script src="/js/nav.js" defer></script>
-  <script src="/js/script.js?v=footer-clean-1" defer></script>
+<script src="/js/script.js?v=1" defer></script>
 <script src="/js/hi-storage.js?v=hi-1"></script>
 <script src="/js/hi-api.js?v=hi-1"></script>
-<script src="/js/hi-app.js?v=hi-1"      defer></script>
-<script src="/js/hi-license.js?v=hi-1"  defer></script>
-<script src="/js/hi-sync.js?v=hi-1"     defer></script>
+<script src="/js/hi-app.js?v=hi-1" defer></script>
+<script src="/js/hi-license.js?v=hi-1" defer></script>
+<script src="/js/hi-sync.js?v=hi-1" defer></script>
 <script>
+  /* Auth UI */
   var _u = document.getElementById("authUserDisplay");
   if (_u) _u.textContent = getAuthUser() || "";
   var _lb = document.getElementById("logoutBtn");
   if (_lb) _lb.addEventListener("click", logout);
-  (function() {
-    var logoSrc = document.body.classList.contains("theme-light") ? "/logo/day-logo.png" : "/logo/night-logo.png";
-    ["hiLicenseHeroLogo", "hiLicenseFooterLogo"].forEach(function(id) {
-      var img = document.getElementById(id);
-      if (img) img.src = logoSrc;
-    });
-  })();
+
+  /* API key */
+  if (!hiApiGetKey()) hiApiSetKey("YX9vS6oyQC1RdXJLAhr-GAObhoZzrCKCcleNlTRqN2c");
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", hiApiInit);
   } else {
     hiApiInit();
   }
+
+  /* ── Cloud Registry ── */
+  (async function () {
+    var KEY  = "YX9vS6oyQC1RdXJLAhr-GAObhoZzrCKCcleNlTRqN2c";
+    var grid = document.getElementById("ipvGrid");
+    var all  = [];
+    var activeType = "";
+    var activeQuery = "";
+
+    try {
+      var r = await fetch("/api/hi/licenses", { headers: { "Authorization": "Bearer " + KEY } });
+      var d = await r.json();
+      all = (d.data || []).sort(function(a, b) {
+        var ta = (a.metadata && a.metadata.title) || "";
+        var tb = (b.metadata && b.metadata.title) || "";
+        return ta.localeCompare(tb);
+      });
+
+      /* Stats */
+      document.getElementById("statPublished").textContent = all.length;
+      document.getElementById("statBlogPosts").textContent = all.filter(function(l) {
+        return l.metadata && l.metadata.type === "blog-post";
+      }).length;
+
+      render();
+    } catch(e) {
+      grid.innerHTML = '<div class="ipv-empty">Failed to load: ' + esc(e.message) + '</div>';
+    }
+
+    /* Filter buttons */
+    document.querySelectorAll(".ipv-filter-btn").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll(".ipv-filter-btn").forEach(function(b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        activeType = btn.dataset.type;
+        render();
+      });
+    });
+
+    /* Search */
+    document.getElementById("licSearch").addEventListener("input", function(e) {
+      activeQuery = e.target.value.toLowerCase();
+      render();
+    });
+
+    function render() {
+      var items = all.filter(function(l) {
+        var meta = l.metadata || {};
+        var matchType = !activeType || meta.type === activeType;
+        var matchQ    = !activeQuery || (meta.title || "").toLowerCase().includes(activeQuery) || (l.claim_id || "").toLowerCase().includes(activeQuery);
+        return matchType && matchQ;
+      });
+
+      if (!items.length) {
+        grid.innerHTML = '<div class="ipv-empty">No licenses match.</div>';
+        return;
+      }
+
+      grid.innerHTML = items.map(function(row) {
+        var meta  = row.metadata || {};
+        var cid   = row.claim_id || "—";
+        var title = meta.title   || cid;
+        var type  = meta.type    || "content";
+        var date  = meta.created ? new Date(meta.created).toLocaleDateString("en-IN", { year:"numeric", month:"short", day:"numeric" }) : "—";
+        var url   = meta.url || null;
+
+        return '<div class="ipv-card">' +
+          '<div class="ipv-card-top">' +
+            '<div><div class="ipv-card-id">' + esc(cid) + '</div><div class="ipv-card-title">' + esc(title) + '</div></div>' +
+            '<span class="ipv-card-type">' + esc(type) + '</span>' +
+          '</div>' +
+          '<div class="ipv-card-meta"><span>' + esc(date) + '</span><span>CC-BY-NC-ND-4.0</span><span>Amit Ku Yadav</span></div>' +
+          '<div class="ipv-card-actions">' +
+            '<a class="ipv-btn ipv-btn-verify" href="/verify/' + esc(cid) + '" target="_blank" rel="noopener">✓ Verify</a>' +
+            (url ? '<a class="ipv-btn ipv-btn-post" href="' + esc(url) + '" target="_blank" rel="noopener">↗ View</a>' : '') +
+            '<a class="ipv-btn ipv-btn-report" href="/claim/' + esc(cid) + '" target="_blank" rel="noopener">⚠ DMCA</a>' +
+            '<button class="ipv-btn ipv-btn-copy" data-copy="' + esc(cid) + '">Copy ID</button>' +
+          '</div>' +
+        '</div>';
+      }).join("");
+
+      grid.querySelectorAll(".ipv-btn-copy").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          navigator.clipboard.writeText(btn.dataset.copy).then(function() {
+            btn.textContent = "Copied!";
+            setTimeout(function() { btn.textContent = "Copy ID"; }, 1500);
+          });
+        });
+      });
+    }
+
+    function esc(s) {
+      return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+  }());
+
+  /* Local claim count (after hi-license.js loads) */
+  window.addEventListener("load", async function() {
+    try {
+      var lics = await hiGetAll("licenses");
+      document.getElementById("statLocal").textContent = lics.length;
+    } catch(e) {}
+  });
 </script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
