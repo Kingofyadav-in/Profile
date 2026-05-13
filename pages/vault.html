@@ -112,7 +112,19 @@
         <div class="vault-metric"><span>Key Derivation</span><strong>PBKDF2 SHA-256</strong></div>
         <div class="vault-metric"><span>Stores</span><strong id="vaultStoreCount">0</strong></div>
         <div class="vault-metric"><span>Records</span><strong id="vaultRecordCount">0</strong></div>
+        <div class="vault-metric"><span>Local Licenses</span><strong id="vaultLicenseLocal">—</strong></div>
+        <div class="vault-metric"><span>Cloud Licenses</span><strong id="vaultLicenseCloud">—</strong></div>
       </section>
+
+      <!-- IP Vault cross-link banner -->
+      <div id="vaultIpBridge" class="vault-ip-bridge" style="display:none">
+        <div class="vault-ip-bridge-icon">🔐</div>
+        <div>
+          <strong>IP Vault is included in this backup.</strong>
+          <p id="vaultIpBridgeMsg">Loading license data…</p>
+        </div>
+        <a class="vault-action" href="/pages/hi-license.html" style="margin-left:auto;white-space:nowrap">Open IP Vault →</a>
+      </div>
 
       <section class="vault-split">
         <article class="vault-panel">
@@ -219,5 +231,39 @@
     <script src="/js/hi-storage.js?v=hi-vault-1"></script>
     <script src="/js/hi-app.js?v=hi-1" defer></script>
     <script src="/js/hi-vault.js?v=hi-vault-1" defer></script>
+    <script>
+    /* ── IP Vault bridge: pull live license data into vault page ── */
+    var HI_API_KEY_VAULT = "YX9vS6oyQC1RdXJLAhr-GAObhoZzrCKCcleNlTRqN2c";
+    window.addEventListener("DOMContentLoaded", async function () {
+      try { await hiOpenDB(); } catch(e) {}
+
+      /* Local license count from IndexedDB */
+      var localLics = 0;
+      try { localLics = (await hiGetAll("licenses")).length; } catch(e) {}
+      var localEl = document.getElementById("vaultLicenseLocal");
+      if (localEl) localEl.textContent = String(localLics);
+
+      /* Cloud license count from API */
+      var cloudLics = 0;
+      try {
+        var r = await fetch("/api/hi/licenses", { headers: { "Authorization": "Bearer " + HI_API_KEY_VAULT } });
+        var d = await r.json();
+        cloudLics = (d.data || []).length;
+      } catch(e) {}
+      var cloudEl = document.getElementById("vaultLicenseCloud");
+      if (cloudEl) cloudEl.textContent = String(cloudLics);
+
+      /* Bridge banner */
+      var bridge = document.getElementById("vaultIpBridge");
+      var bridgeMsg = document.getElementById("vaultIpBridgeMsg");
+      if (bridge && bridgeMsg) {
+        bridge.style.display = "flex";
+        bridgeMsg.textContent =
+          localLics + " local license" + (localLics !== 1 ? "s" : "") +
+          " · " + cloudLics + " cloud license" + (cloudLics !== 1 ? "s" : "") +
+          " · All included in encrypted backup.";
+      }
+    });
+    </script>
   </body>
 </html>
