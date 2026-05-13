@@ -337,6 +337,67 @@ body.theme-dark .footer-pro-strip span {
 }
 
 /* ======================================================
+   AUTH BAR — universal (injected by nav.js on all pages)
+====================================================== */
+
+.auth-bar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: max-content;
+  font-size: .78rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.auth-bar span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.auth-bar strong {
+  color: var(--brand-green);
+  font-weight: 850;
+}
+
+.auth-logout-btn {
+  min-height: 28px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(4,106,56,.42);
+  background: rgba(4,106,56,.12);
+  color: var(--brand-green);
+  font-size: .72rem;
+  font-weight: 850;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+  white-space: nowrap;
+}
+
+.auth-logout-btn.is-login {
+  border-color: rgba(4,106,56,.42);
+  background: rgba(4,106,56,.12);
+  color: var(--brand-green);
+}
+
+.auth-logout-btn.is-logout {
+  border-color: rgba(255,103,31,.48);
+  background: rgba(255,103,31,.1);
+  color: var(--brand-orange);
+}
+
+.auth-logout-btn:hover {
+  border-color: rgba(255,103,31,.6);
+  background: var(--brand-orange);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ======================================================
    MOBILE FOOTER STACK
 ====================================================== */
 

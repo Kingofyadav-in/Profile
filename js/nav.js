@@ -90,4 +90,46 @@
       nav.appendChild(ul);
     }
   });
+
+  /* ── Auto-inject auth bar on pages that don't have one ── */
+  if (!document.getElementById("logoutBtn")) {
+    var inner = document.querySelector(".personal-header-inner, .header-inner");
+    if (inner) {
+      /* Minimal token read — mirrors auth.js getToken without depending on it */
+      var _token = null;
+      try {
+        var _raw = sessionStorage.getItem("ak_auth_token") || localStorage.getItem("ak_auth_token");
+        if (_raw) { var _t = JSON.parse(_raw); if (Date.now() < _t.exp) _token = _t; }
+      } catch (e) {}
+
+      var _authed   = !!_token;
+      var _username = _token ? (_token.username || "") : "";
+
+      var _bar = document.createElement("div");
+      _bar.className = "auth-bar";
+      _bar.innerHTML =
+        (_authed
+          ? '<span>Hi, <strong>' + _username + '</strong></span>'
+          : "") +
+        '<button class="auth-logout-btn ' + (_authed ? "is-logout" : "is-login") + '" id="logoutBtn">' +
+        (_authed ? "Logout" : "Login") +
+        "</button>";
+
+      inner.appendChild(_bar);
+
+      document.getElementById("logoutBtn").addEventListener("click", function () {
+        if (_authed) {
+          try {
+            sessionStorage.removeItem("ak_auth_token");
+            localStorage.removeItem("ak_auth_token");
+          } catch (e) {}
+          window.location.replace("/pages/login.html");
+        } else {
+          window.location.href =
+            "/pages/login.html?next=" +
+            encodeURIComponent(window.location.pathname + window.location.search);
+        }
+      });
+    }
+  }
 })();
