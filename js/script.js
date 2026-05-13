@@ -557,7 +557,8 @@ function initProFooter() {
         { href: "/pages/origin.html", label: "Origin", note: "Roots and story" },
         { href: "/pages/haven.html", label: "Haven", note: "Private foundation" },
         { href: "/pages/bhagalpur.html", label: "Bhagalpur", note: "Local signal" },
-        { href: "/pages/social.html", label: "Social", note: "Network links" }
+        { href: "/pages/social.html", label: "Social", note: "Network links" },
+        { href: "/pages/personal.html#create-identity", label: "Edit Identity", note: "Update your HDI" }
       ]
     },
     {
