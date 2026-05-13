@@ -142,17 +142,18 @@ const PERSONAL_NAV_ITEMS = [
 ];
 
 function getNavFamily() {
-  const pathname = window.location.pathname.replace(/\/$/, "") || "/";
+  // cleanUrls:true strips .html from pathname, so normalize both sides
+  const pathname = (window.location.pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
   const personalRoutes = [
-    "/pages/personal.html",
-    "/pages/about.html",
-    "/pages/origin.html",
-    "/pages/haven.html",
-    "/pages/bhagalpur.html",
-    "/pages/wallet.html",
-    "/pages/vault.html",
-    "/pages/merchant.html",
-    "/pages/hi-license.html",
+    "/pages/personal",
+    "/pages/about",
+    "/pages/origin",
+    "/pages/haven",
+    "/pages/bhagalpur",
+    "/pages/wallet",
+    "/pages/vault",
+    "/pages/merchant",
+    "/pages/hi-license",
     "/marketplace"
   ];
 
@@ -162,11 +163,11 @@ function getNavFamily() {
 }
 
 function renderNavLinks(nav, items) {
-  const current = window.location.pathname.replace(/\/$/, "") || "/";
+  const current = (window.location.pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
 
   if (nav.classList.contains("personal-nav")) {
     nav.innerHTML = items.map(item => {
-      const target = item.href.replace(/\/$/, "") || "/";
+      const target = (item.href.replace(/\/$/, "") || "/").replace(/\.html$/, "");
       const active = current === target || current.startsWith(target + "/");
       return `<a href="${item.href}"${active ? ' class="active" aria-current="page"' : ""}>${item.label}</a>`;
     }).join("");
@@ -174,7 +175,7 @@ function renderNavLinks(nav, items) {
   }
 
   nav.innerHTML = `<ul class="nav-list">${items.map(item => {
-    const target = item.href.replace(/\/$/, "") || "/";
+    const target = (item.href.replace(/\/$/, "") || "/").replace(/\.html$/, "");
     const active = current === target || current.startsWith(target + "/");
     return `<li><a href="${item.href}"${active ? ' class="active" aria-current="page"' : ""}>${item.label}</a></li>`;
   }).join("")}</ul>`;
@@ -194,9 +195,9 @@ function initGlobalNavMenus() {
 ====================================================== */
 
 function initActiveNav() {
-  const current = window.location.pathname.replace(/\/$/, "");
+  const current = window.location.pathname.replace(/\/$/, "").replace(/\.html$/, "");
   document.querySelectorAll(".site-header nav a, .personal-header nav a").forEach(link => {
-    const target = link.pathname.replace(/\/$/, "");
+    const target = link.pathname.replace(/\/$/, "").replace(/\.html$/, "");
     link.removeAttribute("aria-current");
     if (target === "" || target === "/") {
       if (current === "" || current === "/") {

@@ -35,10 +35,12 @@
   ];
 
   function isActive(href) {
-    var path = window.location.pathname;
-    if (href === "/") return path === "/" || path === "/index.html";
-    if (href.endsWith("/")) return path === href || path === href + "index.html";
-    return path === href;
+    // cleanUrls:true strips .html — normalize both sides
+    var path = window.location.pathname.replace(/\.html$/, "");
+    var h = href.replace(/\.html$/, "");
+    if (h === "/") return path === "/" || path === "/index";
+    if (h.endsWith("/")) return path === h || path === h + "index";
+    return path === h;
   }
 
   function buildLink(link) {
