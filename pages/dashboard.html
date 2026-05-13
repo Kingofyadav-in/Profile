@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HDI Dashboard — Amit Ku Yadav</title>
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <link rel="stylesheet" href="/css/base.css?v=1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+  <style>
+    :root {
+      --bg: #0b1e0e; --card: #111c13; --border: #1e3320;
+      --text: #e8f5e9; --muted: #6b8f6e; --accent: #22c55e;
+      --amber: #f59e0b; --red: #ef4444; --blue: #3b82f6; --purple: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; min-height: 100vh; }
+
+    .dash-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1rem; }
+    .dash-header h1 { font-size: 1.1rem; font-weight: 600; }
+    .dash-header .back { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+    .dash-header .back:hover { color: var(--accent); }
+
+    .hdi-hero { padding: 2rem; text-align: center; border-bottom: 1px solid var(--border); }
+    .hdi-score { font-size: 5rem; font-weight: 800; line-height: 1; color: var(--accent); }
+    .hdi-grade { font-size: 1.8rem; font-weight: 700; opacity: .7; margin-top: 0.25rem; }
+    .hdi-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; letter-spacing: .06em; text-transform: uppercase; }
+    .hdi-bar-wrap { max-width: 500px; margin: 1.5rem auto 0; }
+    .hdi-bar-bg { background: var(--border); border-radius: 99px; height: 10px; overflow: hidden; }
+    .hdi-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #22c55e, #16a34a); transition: width .8s ease; }
+    .hdi-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.2rem; }
+    .hdi-chip { padding: 0.3rem 0.75rem; border-radius: 99px; font-size: 0.75rem; font-weight: 600; border: 1px solid; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.25rem; padding: 1.5rem 2rem; max-width: 1400px; margin: 0 auto; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; }
+    .card-title { font-size: 0.75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+    .card canvas { max-height: 220px; }
+
+    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+    .stat-row:last-child { border: none; }
+    .stat-val { font-weight: 700; }
+    .stat-bar { display: flex; gap: 2px; }
+    .stat-bar span { width: 8px; height: 8px; border-radius: 2px; background: var(--border); }
+    .stat-bar span.on { background: var(--accent); }
+
+    .loading { opacity: .5; font-size: 0.85rem; text-align: center; padding: 3rem; }
+    .error   { color: var(--red); font-size: 0.85rem; text-align: center; padding: 1rem; }
+
+    @media(max-width:600px) { .grid { padding: 1rem; grid-template-columns: 1fr; } .hdi-score { font-size: 3.5rem; } }
+  </style>
+</head>
+<body>
+
+<header class="dash-header">
+  <a href="/" class="back">← Home</a>
+  <h1>HDI Dashboard</h1>
+  <span style="margin-left:auto;font-size:0.78rem;color:var(--muted)" id="computedAt"></span>
+</header>
+
+<!-- HDI Hero -->
+<div class="hdi-hero">
+  <div class="hdi-score" id="hdiScore">—</div>
+  <div class="hdi-grade" id="hdiGrade">Loading…</div>
+  <div class="hdi-label">Human Development Index</div>
+  <div class="hdi-bar-wrap">
+    <div class="hdi-bar-bg"><div class="hdi-bar-fill" id="hdiBarFill" style="width:0%"></div></div>
+  </div>
+  <div class="hdi-chips" id="hdiChips"></div>
+</div>
+
+<!-- Charts Grid -->
+<div class="grid">
+  <div class="card">
+    <div class="card-title">Mood (last 30 days)</div>
+    <canvas id="moodChart"></canvas>
+  </div>
+  <div class="card">
+    <div class="card-title">Energy (last 30 days)</div>
+    <canvas id="energyChart"></canvas>
+  </div>
+  <div class="card">
+    <div class="card-title">Goals Progress</div>
+    <canvas id="goalsChart"></canvas>
+  </div>
+  <div class="card">
+    <div class="card-title">Habits Breakdown</div>
+    <div id="habitsStats" class="loading">Loading…</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Tasks Completion</div>
+    <canvas id="tasksChart"></canvas>
+  </div>
+  <div class="card">
+    <div class="card-title">HDI Breakdown</div>
+    <canvas id="hdiBreakChart"></canvas>
+  </div>
+</div>
+
+<script>
+(async function () {
+  var KEY  = "YX9vS6oyQC1RdXJLAhr-GAObhoZzrCKCcleNlTRqN2c";
+  var BASE = "/api/hi";
+
+  var auth = { "Authorization": "Bearer " + KEY };
+
+  async function get(path) {
+    var r = await fetch(BASE + "/" + path, { headers: auth });
+    if (!r.ok) throw new Error(r.status);
+    return r.json();
+  }
+
+  /* Chart defaults */
+  Chart.defaults.color = "#6b8f6e";
+  Chart.defaults.borderColor = "#1e3320";
+  var ACCENT = "#22c55e", AMBER = "#f59e0b", RED = "#ef4444", BLUE = "#3b82f6", PURPLE = "#a855f7";
+
+  function lineChart(id, labels, datasets) {
+    return new Chart(document.getElementById(id), {
+      type: "line",
+      data: { labels, datasets },
+      options: { responsive: true, plugins: { legend: { display: datasets.length > 1 } },
+        scales: { y: { min: 0, max: 10, grid: { color: "#1e3320" } }, x: { grid: { display: false } } } }
+    });
+  }
+
+  function barChart(id, labels, data, color) {
+    return new Chart(document.getElementById(id), {
+      type: "bar",
+      data: { labels, datasets: [{ data, backgroundColor: color + "99", borderColor: color, borderWidth: 1.5, borderRadius: 6 }] },
+      options: { responsive: true, plugins: { legend: { display: false } },
+        scales: { y: { min: 0, max: 100, grid: { color: "#1e3320" } }, x: { grid: { display: false } } } }
+    });
+  }
+
+  function radarChart(id, labels, data) {
+    return new Chart(document.getElementById(id), {
+      type: "radar",
+      data: { labels, datasets: [{ data, backgroundColor: ACCENT + "33", borderColor: ACCENT, borderWidth: 2, pointBackgroundColor: ACCENT }] },
+      options: { responsive: true, plugins: { legend: { display: false } },
+        scales: { r: { min: 0, max: 100, grid: { color: "#1e3320" }, pointLabels: { color: "#6b8f6e", font: { size: 11 } }, ticks: { display: false } } } }
+    });
+  }
+
+  try {
+    var [hdiRes, moodRes, goalsRes, habitsRes, tasksRes] = await Promise.all([
+      get("hdi"), get("mood"), get("goals"), get("habits"), get("tasks")
+    ]);
+
+    /* ── HDI Hero ── */
+    var hdi   = hdiRes.data || {};
+    var score = hdi.hdi || 0;
+    var grade = hdi.grade || "?";
+    var bd    = hdi.breakdown || {};
+    document.getElementById("hdiScore").textContent = score;
+    document.getElementById("hdiGrade").textContent = "Grade: " + grade;
+    document.getElementById("hdiBarFill").style.width = score + "%";
+    document.getElementById("computedAt").textContent = hdi.computed_at ? "Updated " + new Date(hdi.computed_at).toLocaleTimeString() : "";
+
+    var chipColors = { S: ACCENT, A: ACCENT, B: AMBER, C: AMBER, D: RED, F: RED };
+    var chipColor  = chipColors[grade] || ACCENT;
+    var chips = Object.entries(bd).map(function(e) {
+      return '<span class="hdi-chip" style="color:' + ACCENT + ';border-color:' + ACCENT + '33">' + e[0] + ': ' + e[1] + '</span>';
+    });
+    document.getElementById("hdiChips").innerHTML = chips.join("");
+
+    /* ── Mood & Energy Charts ── */
+    var moods  = (moodRes.data || []).slice().reverse();
+    var mLabels = moods.map(function(m) { return m.logged_on ? m.logged_on.slice(5,10) : ""; });
+    lineChart("moodChart", mLabels, [{
+      label: "Mood", data: moods.map(function(m) { return m.mood; }),
+      borderColor: ACCENT, backgroundColor: ACCENT + "22", tension: 0.4, fill: true, pointRadius: 3
+    }]);
+    lineChart("energyChart", mLabels, [{
+      label: "Energy", data: moods.map(function(m) { return m.energy; }),
+      borderColor: BLUE, backgroundColor: BLUE + "22", tension: 0.4, fill: true, pointRadius: 3
+    }]);
+
+    /* ── Goals Chart ── */
+    var goals = (goalsRes.data || []).filter(function(g) { return g.status === "active"; }).slice(0, 8);
+    barChart("goalsChart",
+      goals.map(function(g) { return (g.title || "").slice(0, 20); }),
+      goals.map(function(g) { return g.progress || 0; }),
+      PURPLE
+    );
+
+    /* ── Habits Stats ── */
+    var habits   = habitsRes.habits || [];
+    var logs     = habitsRes.logs   || [];
+    var today    = new Date().toISOString().slice(0, 10);
+    var doneToday = new Set(logs.filter(function(l) { return l.completed_on && l.completed_on.slice(0,10) === today; }).map(function(l) { return l.habit_id; }));
+    var html = habits.map(function(h) {
+      var done = doneToday.has(h.id);
+      var cnt  = logs.filter(function(l) { return l.habit_id === h.id; }).length;
+      var bars = Array.from({length: 30}, function(_, i) { return '<span class="' + (i < cnt ? "on" : "") + '"></span>'; }).join("");
+      return '<div class="stat-row"><span>' + (h.title || "").slice(0, 24) + '</span>'
+           + '<div style="display:flex;align-items:center;gap:8px">'
+           + '<div class="stat-bar">' + bars + '</div>'
+           + '<span class="stat-val" style="color:' + (done ? ACCENT : RED) + '">' + (done ? "✓" : "○") + '</span></div></div>';
+    }).join("");
+    document.getElementById("habitsStats").innerHTML = html || '<span class="loading">No habits yet.</span>';
+
+    /* ── Tasks Chart ── */
+    var tasks = tasksRes.data || [];
+    var done  = tasks.filter(function(t) { return t.done; }).length;
+    var open  = tasks.length - done;
+    new Chart(document.getElementById("tasksChart"), {
+      type: "doughnut",
+      data: { labels: ["Done", "Open"], datasets: [{ data: [done, open],
+        backgroundColor: [ACCENT + "cc", RED + "44"], borderColor: [ACCENT, RED],
+        borderWidth: 2, hoverOffset: 6 }] },
+      options: { responsive: true, cutout: "70%", plugins: {
+        legend: { position: "bottom", labels: { padding: 16 } },
+        tooltip: { callbacks: { label: function(c) { return " " + c.label + ": " + c.raw; } } }
+      }}
+    });
+
+    /* ── HDI Radar ── */
+    radarChart("hdiBreakChart",
+      ["Goals", "Habits", "Mood", "Tasks", "Energy"],
+      [bd.goals || 0, bd.habits || 0, bd.mood || 0, bd.tasks || 0, bd.energy || 0]
+    );
+
+  } catch (e) {
+    console.error(e);
+    document.querySelector(".hdi-hero").innerHTML += '<p class="error">Failed to load data: ' + e.message + '</p>';
+  }
+}());
+</script>
+</body>
+</html>

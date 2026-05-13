@@ -1,0 +1,411 @@
+#!/usr/bin/env bash
+# lc — Live Classroom CLI (teacher tool)  v3.0
+# Usage: lc [--room NAME] [command] [args...]
+
+set -euo pipefail
+
+BOARD_URL="https://kingofyadav.in/pages/live-class.html"
+API_BASE="https://kingofyadav.in/api"
+TOKEN_FILE="$HOME/.lc_token"
+DEFAULT_TOKEN="nlTklzKW1QEkYOHExlEV1kDMdM5WX5Dfp2dl0Bqa"
+
+# ── Room & token resolution ───────────────────────────────────────────────────
+ROOM="${LIVE_CLASS_ROOM:-main}"
+if [[ "${1:-}" == "--room" ]]; then shift; ROOM="${1:-main}"; shift; fi
+
+TOKEN="${LIVE_CLASS_TOKEN:-}"
+if [[ -z "$TOKEN" && -f "$TOKEN_FILE" ]]; then TOKEN=$(cat "$TOKEN_FILE" | tr -d '[:space:]'); fi
+if [[ -z "$TOKEN" ]]; then TOKEN="$DEFAULT_TOKEN"; fi
+
+API="$API_BASE/live-class?room=$ROOM"
+RAILWAY_API="https://jarvis.kingofyadav.in/api/live-class"
+HI_API="$API_BASE/hi"
+HI_KEY_FILE="$HOME/.hi_api_key"
+HI_KEY="${HI_API_KEY:-}"
+if [[ -z "$HI_KEY" && -f "$HI_KEY_FILE" ]]; then HI_KEY=$(cat "$HI_KEY_FILE" | tr -d '[:space:]'); fi
+
+# ── Core helpers ──────────────────────────────────────────────────────────────
+post() {
+  # Primary: Vercel/PostgreSQL (source of truth)
+  local result
+  result=$(curl -s -X POST "$API" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $TOKEN" \
+    -d "$1")
+  # Secondary: Railway/WebSocket (real-time broadcast — fire and forget)
+  curl -s -X POST "$RAILWAY_API" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $TOKEN" \
+    -d "$1" > /dev/null 2>&1 &
+  echo "$result"
+}
+
+json_post() { python3 -c "import json,sys; print(json.dumps(sys.argv[1]))" "$1" 2>/dev/null || echo "\"$1\""; }
+
+get_state() { curl -s "$API"; }
+
+py() { python3 -c "$1" 2>/dev/null; }
+
+ok_msg() {
+  local r="$1"; local msg="$2"
+  echo "$r" | py "
+import sys,json
+try:
+    d=json.load(sys.stdin)
+    b=len(d.get('blocks',[]))
+    print(f'  OK — $msg ({b} blocks on board)')
+except: print('  OK — $msg')
+"
+}
+
+# ── Display helpers ───────────────────────────────────────────────────────────
+status() {
+  local r; r=$(get_state)
+  echo ""
+  echo "$r" | py "
+import sys,json,datetime
+d=json.load(sys.stdin)
+title   = d.get('title','?')
+teacher = d.get('teacher','—')
+viewers = len(d.get('viewers',[]))
+blocks  = len(d.get('blocks',[]))
+qs      = sum(1 for q in d.get('questions',[]) if not q.get('answered'))
+rev     = d.get('revision',0)
+theme   = d.get('theme','blackboard')
+print(f'  Room       : \$ROOM')
+print(f'  Title      : {title}')
+print(f'  Teacher    : {teacher}')
+print(f'  Theme      : {theme}')
+print(f'  Viewers    : {viewers} online')
+print(f'  Blocks     : {blocks} on board')
+print(f'  Questions  : {qs} unanswered')
+print(f'  Revision   : {rev}')
+" 2>/dev/null
+  echo "  Board      : $BOARD_URL?room=$ROOM"
+  echo ""
+}
+
+board() {
+  get_state | py "
+import sys,json
+d=json.load(sys.stdin)
+blocks=d.get('blocks',[])
+if not blocks: print('  (board is empty)')
+else:
+  fid=d.get('focusId','')
+  for i,b in enumerate(blocks):
+    t=b.get('type','text')
+    txt=(b.get('text') or b.get('content') or '')[:65]
+    star='*' if b.get('id')==fid else ' '
+    print(f'  {star}{str(i+1).zfill(2)} [{t:8s}] {txt}')
+" 2>/dev/null
+  echo ""
+}
+
+questions() {
+  get_state | py "
+import sys,json
+d=json.load(sys.stdin)
+qs=[q for q in d.get('questions',[]) if not q.get('answered')]
+if not qs: print('  No pending questions.')
+else:
+  for q in qs:
+    name=q.get('viewer_name','?')[:15]
+    text=q.get('question','')[:70]
+    qid=(q.get('id') or '')[:8]
+    print(f'  [{qid}] {name}: {text}')
+" 2>/dev/null
+  echo ""
+}
+
+reactions() {
+  get_state | py "
+import sys,json
+d=json.load(sys.stdin)
+vs=d.get('viewers',[])
+if not vs: print('  No active viewers.')
+else:
+  for v in vs:
+    name=(v.get('name') or '?')[:20]
+    rx=v.get('reaction') or '  '
+    device=(v.get('device') or '')[:12]
+    print(f'  {rx}  {name:<20} {device}')
+" 2>/dev/null
+  echo ""
+}
+
+replay() {
+  curl -s "${API}&replay=1" | py "
+import sys,json,datetime
+d=json.load(sys.stdin)
+blocks=d.get('replay',[])
+if not blocks: print('  No recorded blocks.')
+else:
+  print(f'  Session replay — room: \$ROOM')
+  print(f'  ─────────────────────────────────────────')
+  for i,b in enumerate(blocks):
+    t=b.get('type','text')
+    txt=(b.get('text') or b.get('content') or '')[:60]
+    ts=b.get('createdAt')
+    timestr=datetime.datetime.fromtimestamp(ts/1000).strftime('%H:%M:%S') if ts else '?'
+    print(f'  [{timestr}] {str(i+1).zfill(2)} [{t:8s}] {txt}')
+" 2>/dev/null
+  echo ""
+}
+
+rooms() {
+  python3 - <<'PYEOF'
+import urllib.request, json, sys
+try:
+    r = urllib.request.urlopen("https://kingofyadav.in/api/live-class?room=main")
+    print("  Connected. Active room: main")
+    print("  Tip: use --room NAME to switch rooms (e.g.: lc --room math)")
+    print("  Any room name is valid — it's created automatically on first use.")
+except Exception as e:
+    print(f"  Error: {e}")
+PYEOF
+}
+
+hdi() {
+  if [[ -z "$HI_KEY" ]]; then echo "  No HI_API_KEY. Set it in $HI_KEY_FILE or env."; return; fi
+  curl -s "$HI_API/hdi" -H "Authorization: Bearer $HI_KEY" | py "
+import sys,json
+d=json.load(sys.stdin).get('data',{})
+hdi=d.get('hdi',0)
+grade=d.get('grade','?')
+bd=d.get('breakdown',{})
+bar='█'*int(hdi//5) + '░'*(20-int(hdi//5))
+print(f'')
+print(f'  HDI Score : {hdi}/100  Grade: {grade}')
+print(f'  [{bar}]')
+print(f'')
+print(f'  Goals    : {bd.get(\"goals\",0):>3}  (30% weight)')
+print(f'  Habits   : {bd.get(\"habits\",0):>3}  (25% weight)')
+print(f'  Mood     : {bd.get(\"mood\",0):>3}  (20% weight)')
+print(f'  Tasks    : {bd.get(\"tasks\",0):>3}  (15% weight)')
+print(f'  Energy   : {bd.get(\"energy\",0):>3}  (10% weight)')
+print(f'')
+" 2>/dev/null
+}
+
+watch() {
+  echo "  Watching room '$ROOM' live (Ctrl+C to stop)..."
+  while true; do
+    local r; r=$(get_state)
+    clear
+    printf "  Live Classroom  room:%-10s  %s\n" "$ROOM" "$(date '+%H:%M:%S')"
+    echo "  $BOARD_URL?room=$ROOM"
+    echo "  ══════════════════════════════════════════════════════════"
+
+    echo "  BOARD:"
+    echo "$r" | py "
+import sys,json
+d=json.load(sys.stdin)
+blocks=d.get('blocks',[])
+fid=d.get('focusId','')
+if not blocks: print('    (empty)')
+else:
+  for i,b in enumerate(blocks):
+    t=b.get('type','text')
+    txt=(b.get('text') or b.get('content') or '')[:55]
+    star='►' if b.get('id')==fid else ' '
+    print(f'  {star} {str(i+1).zfill(2)} [{t:8s}] {txt}')
+" 2>/dev/null
+
+    echo ""
+    echo "  VIEWERS:"
+    echo "$r" | py "
+import sys,json
+d=json.load(sys.stdin)
+vs=d.get('viewers',[])
+if not vs: print('    (no one joined yet)')
+else:
+  for v in vs:
+    name=(v.get('name') or '?')[:20]
+    rx=v.get('reaction') or '  '
+    device=(v.get('device') or '')[:12]
+    print(f'    {rx}  {name:<22} {device}')
+" 2>/dev/null
+
+    echo ""
+    echo "  QUESTIONS:"
+    echo "$r" | py "
+import sys,json
+d=json.load(sys.stdin)
+qs=[q for q in d.get('questions',[]) if not q.get('answered')]
+if not qs: print('    (none)')
+else:
+  for q in qs:
+    name=(q.get('viewer_name') or '?')[:15]
+    text=(q.get('question') or '')[:50]
+    print(f'    ❓ {name}: {text}')
+" 2>/dev/null
+
+    echo ""
+    echo "  lc answer \"text\" | lc q | lc focus 3 | lc ai \"topic\" | Ctrl+C stop"
+    sleep 2
+  done
+}
+
+help() {
+  cat <<EOF
+
+  lc — Live Classroom CLI  v3.0
+  ─────────────────────────────────────────────────────
+  ROOM CONTROL
+    lc                            Interactive REPL (room: $ROOM)
+    lc --room math [cmd]          Switch to room 'math'
+    lc rooms                      List info about rooms
+    LIVE_CLASS_ROOM=math lc       Set default room via env
+
+  WRITE BLOCKS
+    lc write  "text"              Plain text
+    lc h      "heading"           Heading
+    lc code   "code"              Code (syntax highlighted)
+    lc list   "item"              List item
+    lc quote  "text"              Quote
+    lc hw     "task"              Homework
+    lc link   "label" "url"       Link
+    lc div                        Divider
+    lc answer "text"              Answer a student question
+
+  AI ASSISTANT
+    lc ai "explain recursion"     AI generates 4-6 blocks on topic
+
+  FOCUS & CONTROL
+    lc focus  3                   Spotlight block #3 for students
+    lc unfocus                    Remove spotlight
+    lc undo                       Remove last block
+    lc clear                      Clear all blocks
+    lc reset                      Full session reset
+
+  SESSION
+    lc title   "text"             Set class title
+    lc sub     "text"             Set subtitle
+    lc teacher "name"             Set your name
+    lc theme   dark|light         Blackboard / Whiteboard
+    lc status  "text"             Set status label
+
+  STUDENTS & ANALYTICS
+    lc q                          Show pending questions
+    lc reactions                  Show viewer reactions (✋ ✅ ❓)
+    lc notify "class starting!"   Push notification to all subscribed students
+    lc status                     Live stats overview
+    lc replay                     Show session recording (timestamped)
+    lc hdi                        Your HDI score from goals/habits/mood
+
+  VIEW
+    lc board                      Print current board
+    lc watch                      Live dashboard (refreshes every 2s)
+
+  TOKEN SETUP
+    echo "your-token" > ~/.lc_token   Save token permanently
+
+  BOARD URL: $BOARD_URL?room=$ROOM
+EOF
+}
+
+# ── Command handler ───────────────────────────────────────────────────────────
+run_cmd() {
+  local cmd="${1:-}"; [[ -n "${1:-}" ]] && shift || true
+  case "$cmd" in
+    write|text)    r=$(post "{\"action\":\"text\",\"text\":$(json_post "$1")}");  ok_msg "$r" "text added" ;;
+    h|heading)     r=$(post "{\"action\":\"heading\",\"text\":$(json_post "$1")}"); ok_msg "$r" "heading added" ;;
+    code)          r=$(post "{\"action\":\"code\",\"text\":$(json_post "$1")}");   ok_msg "$r" "code added" ;;
+    list)          r=$(post "{\"action\":\"list\",\"text\":$(json_post "$1")}");   ok_msg "$r" "list item added" ;;
+    quote)         r=$(post "{\"action\":\"quote\",\"text\":$(json_post "$1")}");  ok_msg "$r" "quote added" ;;
+    hw|homework)   r=$(post "{\"action\":\"homework\",\"text\":$(json_post "$1")}"); ok_msg "$r" "homework posted" ;;
+    link)          r=$(post "{\"action\":\"link\",\"text\":$(json_post "$1"),\"url\":$(json_post "${2:-}")}"); ok_msg "$r" "link added" ;;
+    div|divider)   r=$(post '{"action":"divider","text":""}'); ok_msg "$r" "divider added" ;;
+    answer)        r=$(post "{\"action\":\"answer\",\"text\":$(json_post "$1")}"); ok_msg "$r" "answer posted to board" ;;
+
+    focus)
+      # lc focus 3 → resolve block #3 to its ID then post focus
+      local num="${1:-}"; local bid=""
+      bid=$(get_state | py "
+import sys,json
+d=json.load(sys.stdin)
+blocks=d.get('blocks',[])
+idx=int('$num')-1
+if 0<=idx<len(blocks): print(blocks[idx].get('id',''))
+" 2>/dev/null)
+      if [[ -z "$bid" ]]; then echo "  Block #$num not found."; return 0; fi
+      r=$(post "{\"action\":\"focus\",\"text\":\"$bid\"}"); ok_msg "$r" "block #$num highlighted" ;;
+
+    unfocus)       r=$(post '{"action":"focus","text":""}'); ok_msg "$r" "spotlight removed" ;;
+
+    ai)
+      local topic="${1:-}"; [[ -z "$topic" ]] && { echo "  Usage: lc ai \"topic\""; return 0; }
+      echo "  Generating blocks for: $topic ..."
+      r=$(post "{\"action\":\"ai\",\"text\":$(json_post "$topic")}")
+      echo "$r" | py "
+import sys,json
+d=json.load(sys.stdin)
+n=d.get('generated',0)
+b=len(d.get('blocks',[]))
+if d.get('error'): print('  AI error:', d['error'])
+else: print(f'  OK — {n} blocks generated ({b} total on board)')
+" 2>/dev/null ;;
+
+    title)         r=$(post "{\"action\":\"title\",\"text\":$(json_post "$1")}"); ok_msg "$r" "title set" ;;
+    sub|subtitle)  r=$(post "{\"action\":\"subtitle\",\"text\":$(json_post "$1")}"); ok_msg "$r" "subtitle set" ;;
+    teacher)       r=$(post "{\"action\":\"teacher\",\"text\":$(json_post "$1")}"); ok_msg "$r" "teacher set" ;;
+    theme)         r=$(post "{\"action\":\"theme\",\"text\":\"${1:-dark}\"}"); ok_msg "$r" "theme: ${1:-dark}" ;;
+    status)
+      if [[ -n "${1:-}" ]]; then
+        r=$(post "{\"action\":\"status\",\"text\":$(json_post "$1")}"); ok_msg "$r" "status set"
+      else status; fi ;;
+    undo)          r=$(post '{"action":"undo","text":""}'); ok_msg "$r" "last block removed" ;;
+    clear)         r=$(post '{"action":"clear","text":""}'); ok_msg "$r" "board cleared" ;;
+    reset)         r=$(post '{"action":"reset","text":""}'); ok_msg "$r" "board reset" ;;
+
+    q|questions)   questions ;;
+    reactions)     reactions ;;
+    replay)        replay ;;
+    board)         board ;;
+    watch)         watch ;;
+    rooms)         rooms ;;
+    hdi)           hdi ;;
+
+    notify)
+      local msg="${1:-Class is starting now!}"
+      local result
+      result=$(curl -s -X POST "$API_BASE/push" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $TOKEN" \
+        -d "{\"action\":\"notify\",\"title\":\"Live Class\",\"body\":$(json_post "$msg"),\"url\":\"/pages/live-class.html?room=$ROOM\"}")
+      echo "$result" | py "
+import sys,json
+d=json.load(sys.stdin)
+if d.get('ok'): print(f'  OK — push sent to {d.get(\"sent\",0)} devices ({d.get(\"failed\",0)} failed)')
+else: print('  Error:', d.get('error','unknown'))
+" 2>/dev/null ;;
+
+    help|--help|-h) help ;;
+    ""|quit|exit|q) return 1 ;;
+    *) echo "  Unknown: '$cmd'  (type 'help')" ;;
+  esac
+  return 0
+}
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+if [[ $# -gt 0 ]]; then
+  run_cmd "$@"
+  exit 0
+fi
+
+echo ""
+echo "  Live Classroom — Teacher CLI  (room: $ROOM)"
+echo "  $BOARD_URL?room=$ROOM"
+echo "  Token: ${TOKEN:0:8}…  |  Type 'help' or 'watch' or 'quit'"
+status
+
+while true; do
+  printf "  lc:%s> " "$ROOM"
+  IFS= read -r line || break
+  [[ -z "$line" ]] && continue
+  read -ra args <<< "$line"
+  run_cmd "${args[@]}" || break
+done
+
+echo "  Session ended."

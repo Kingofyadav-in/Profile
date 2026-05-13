@@ -237,6 +237,89 @@ module.exports = async (req, res) => {
       if (method === 'DELETE' && id) { await db.query('DELETE FROM chat_sessions WHERE id=$1', [id]); return res.json({ ok: true }); }
     }
 
+    // ── LICENSES ──────────────────────────────────────────────────
+    if (resource === 'licenses') {
+      if (method === 'GET') {
+        const { rows } = await db.query('SELECT * FROM hdi_licenses ORDER BY claim_date DESC');
+        return res.json({ ok: true, data: rows });
+      }
+      if (method === 'POST') {
+        const { claim_id, content_hash, status, metadata } = req.body;
+        const { rows } = await db.query(
+          'INSERT INTO hdi_licenses (claim_id,content_hash,status,metadata) VALUES ($1,$2,$3,$4) RETURNING *',
+          [claim_id, content_hash, status || 'active', JSON.stringify(metadata || {})]);
+        return res.status(201).json({ ok: true, data: rows[0] });
+      }
+      if (method === 'PUT' && id) {
+        const { claim_id, content_hash, status, metadata } = req.body;
+        const { rows } = await db.query(
+          'UPDATE hdi_licenses SET claim_id=$2,content_hash=$3,status=$4,metadata=$5 WHERE id=$1 RETURNING *',
+          [id, claim_id, content_hash, status, JSON.stringify(metadata || {})]);
+        return res.json({ ok: true, data: rows[0] });
+      }
+      if (method === 'DELETE' && id) { await db.query('DELETE FROM hdi_licenses WHERE id=$1', [id]); return res.json({ ok: true }); }
+    }
+
+    // ── HDI SCORE ─────────────────────────────────────────────────
+    if (resource === 'hdi') {
+      if (method === 'GET') {
+        const [goals, habits, habitLogs, mood, tasks] = await Promise.all([
+          db.query("SELECT progress, status FROM goals"),
+          db.query("SELECT id FROM habits WHERE active=true"),
+          db.query("SELECT habit_id FROM habit_logs WHERE completed_on >= CURRENT_DATE - 30"),
+          db.query("SELECT mood, energy FROM mood_logs WHERE logged_on >= CURRENT_DATE - 30"),
+          db.query("SELECT done FROM tasks WHERE created_at >= NOW() - INTERVAL '30 days'")
+        ]);
+
+        // Goals score: avg progress of active goals (0-100)
+        const activeGoals = goals.rows.filter(g => g.status === 'active');
+        const goalScore = activeGoals.length
+          ? Math.round(activeGoals.reduce((s, g) => s + (Number(g.progress) || 0), 0) / activeGoals.length)
+          : 50;
+
+        // Habits score: completion rate last 30 days (0-100)
+        const habitCount = habits.rows.length;
+        const logCount   = habitLogs.rows.length;
+        const habitScore = habitCount
+          ? Math.min(100, Math.round((logCount / (habitCount * 30)) * 100))
+          : 50;
+
+        // Mood score: avg mood (1-10 → 0-100)
+        const moodRows  = mood.rows;
+        const moodScore = moodRows.length
+          ? Math.round((moodRows.reduce((s, m) => s + (Number(m.mood) || 5), 0) / moodRows.length) * 10)
+          : 50;
+
+        // Energy score: avg energy (1-10 → 0-100)
+        const energyScore = moodRows.length
+          ? Math.round((moodRows.reduce((s, m) => s + (Number(m.energy) || 5), 0) / moodRows.length) * 10)
+          : 50;
+
+        // Task score: completion rate (0-100)
+        const taskRows  = tasks.rows;
+        const taskScore = taskRows.length
+          ? Math.round((taskRows.filter(t => t.done).length / taskRows.length) * 100)
+          : 50;
+
+        // HDI = weighted average
+        const hdi = Math.round(
+          goalScore   * 0.30 +
+          habitScore  * 0.25 +
+          moodScore   * 0.20 +
+          taskScore   * 0.15 +
+          energyScore * 0.10
+        );
+
+        const grade = hdi >= 90 ? 'S' : hdi >= 80 ? 'A' : hdi >= 70 ? 'B' : hdi >= 60 ? 'C' : hdi >= 50 ? 'D' : 'F';
+
+        return res.json({ ok: true, data: {
+          hdi, grade,
+          breakdown: { goals: goalScore, habits: habitScore, mood: moodScore, energy: energyScore, tasks: taskScore },
+          computed_at: new Date().toISOString()
+        }});
+      }
+    }
+
     res.status(404).json({ ok: false, error: `Unknown resource: ${resource}` });
   } catch (err) {
     console.error(err);

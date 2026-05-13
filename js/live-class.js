@@ -1,7 +1,8 @@
 "use strict";
 
 (function () {
-  var stateUrl      = "/api/live-class";
+  var _roomParam    = new URLSearchParams(window.location.search).get("room") || "main";
+  var stateUrl      = "/api/live-class?room=" + encodeURIComponent(_roomParam);
   var lastRevision  = 0;
   var lastBlockCount = 0;
   var manuallySelectedTheme = false;
@@ -104,6 +105,24 @@
       .map(function (p) { return p.charAt(0).toUpperCase(); }).join("") || "G";
   }
 
+  /* ── Sound Ping ── */
+  var audioCtx = null;
+  function playPing() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var osc  = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = "sine";
+      osc.frequency.value = 660;
+      gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.45);
+    } catch (e) {}
+  }
+
   /* ── Toast ── */
   function showToast(msg, icon) {
     if (!els.toastArea) return;
@@ -162,6 +181,7 @@
     if (block.type === "quote")    return '<blockquote class="board-block board-quote' + focusCls + '">' + idx + text + "</blockquote>";
     if (block.type === "homework") return '<div class="board-block board-homework' + focusCls + '">' + idx + "<strong>Homework</strong><p>" + text + "</p></div>";
     if (block.type === "divider")  return '<div class="board-block board-divider'  + focusCls + '" aria-hidden="true"></div>';
+    if (block.type === "answer")   return '<div class="board-block board-answer'   + focusCls + '">' + idx + "<strong>Answer</strong><p>" + text + "</p></div>";
     if (block.type === "link") {
       var url = esc(block.url || block.text || "#");
       return '<div class="board-block board-link' + focusCls + '">' + idx +
@@ -234,17 +254,23 @@
         if (focus) focus.scrollIntoView({ behavior: "smooth", block: "end" });
       }
 
-      /* Toast on new content */
+      /* Syntax highlight code blocks */
+      if (window.hljs) {
+        els.board.querySelectorAll("pre code").forEach(function (el) { window.hljs.highlightElement(el); });
+      }
+
+      /* Toast + sound on new content */
       if (hadContent && newCount > lastBlockCount) {
+        playPing();
         var newBlock = blocks[blocks.length - 1];
         var typeLabel = {
           heading: "New heading", code: "Code block", list: "New list",
           quote: "New quote", homework: "Homework posted", link: "New link",
-          image: "Image added", divider: "Divider"
+          image: "Image added", divider: "Divider", answer: "Answer posted"
         }[newBlock.type] || "New content";
         var icon = {
           heading: "📢", code: "💻", list: "📋", quote: "💬",
-          homework: "📝", link: "🔗", image: "🖼️", divider: "—"
+          homework: "📝", link: "🔗", image: "🖼️", divider: "—", answer: "💡"
         }[newBlock.type] || "📌";
         showToast(typeLabel + " added to the board", icon);
       }
@@ -254,15 +280,43 @@
     lastBlockCount = newCount;
   }
 
-  /* ── Data Loading ── */
+  /* ── WebSocket (real-time via Railway) ── */
+  var _ws = null;
+  var _wsRetryTimer = null;
+  var _wsConnected = false;
+
+  function connectWebSocket() {
+    if (_ws && (_ws.readyState === 0 || _ws.readyState === 1)) return;
+    try {
+      _ws = new WebSocket("wss://jarvis.kingofyadav.in/api/ws/live-class");
+      _ws.onopen = function () {
+        _wsConnected = true;
+        if (els.statusText) els.statusText.textContent = "Connected (real-time)";
+      };
+      _ws.onmessage = function (evt) {
+        try {
+          var data = JSON.parse(evt.data);
+          if (data && !data.ping) render(data);
+        } catch (e) {}
+      };
+      _ws.onclose = function () {
+        _wsConnected = false;
+        _ws = null;
+        _wsRetryTimer = setTimeout(connectWebSocket, 4000);
+      };
+      _ws.onerror = function () { _wsConnected = false; };
+    } catch (e) {}
+  }
+
+  /* ── Data Loading (polling fallback) ── */
   async function load() {
     try {
-      var res   = await fetch(stateUrl + "?t=" + Date.now(), { headers: { "Accept": "application/json" } });
+      var res   = await fetch(stateUrl + "&t=" + Date.now(), { headers: { "Accept": "application/json" } });
       if (!res.ok) throw new Error("HTTP " + res.status);
       var state = await res.json();
       render(state);
     } catch (err) {
-      setConnectionState(hasConnectedOnce ? "connecting" : "connecting");
+      setConnectionState("connecting");
       if (els.connection) els.connection.textContent = hasConnectedOnce ? "Reconnecting…" : "Connecting…";
       if (els.status)     els.status.textContent     = hasConnectedOnce ? "Reconnecting…" : "Connecting…";
       if (els.statusText) els.statusText.textContent = hasConnectedOnce ? "Reconnecting…" : "Connecting to classroom…";
@@ -294,7 +348,7 @@
       var res = await fetch(stateUrl, {
         method: "POST",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "join", name: cleanName, deviceId: getDeviceId(), device: deviceLabel() })
+        body: JSON.stringify({ action: "join", room: _roomParam, name: cleanName, deviceId: getDeviceId(), device: deviceLabel() })
       });
       if (!res.ok) throw new Error("HTTP " + res.status);
       joined = true;
@@ -400,9 +454,65 @@
 
   if (els.copyInvite) els.copyInvite.addEventListener("click", copyInviteLink);
 
+  /* ── Reactions ── */
+  var currentReaction = "";
+  document.querySelectorAll(".lc-reaction-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var emoji = btn.dataset.emoji || "";
+      var isToggle = emoji === currentReaction;
+      var next = isToggle ? "" : emoji;
+      currentReaction = next;
+      document.querySelectorAll(".lc-reaction-btn").forEach(function (b) {
+        b.classList.toggle("is-active", b.dataset.emoji === next && next !== "");
+      });
+      var status = document.getElementById("reactionStatus");
+      if (status) status.textContent = next ? "Sent: " + next : "Tap to let the teacher know.";
+      fetch(stateUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "react",
+          text: next,
+          name: getStoredName() || "Student",
+          deviceId: getDeviceId()
+        })
+      }).catch(function () {});
+    });
+  });
+
+  /* ── Q&A ── */
+  var questionForm = document.getElementById("questionForm");
+  if (questionForm) {
+    questionForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var input  = document.getElementById("questionInput");
+      var status = document.getElementById("questionStatus");
+      var q = (input ? input.value : "").trim();
+      if (!q) return;
+      if (status) status.textContent = "Sending…";
+      fetch(stateUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "question",
+          text: q,
+          name: getStoredName() || "Student",
+          deviceId: getDeviceId()
+        })
+      }).then(function () {
+        if (input)  input.value = "";
+        if (status) status.textContent = "Question sent! Teacher will answer live.";
+        showToast("Question sent to teacher", "❓");
+      }).catch(function () {
+        if (status) status.textContent = "Failed to send. Try again.";
+      });
+    });
+  }
+
   document.addEventListener("keydown", function (e) {
     if (/input|textarea|select/i.test((e.target || {}).tagName || "")) return;
     if (e.key === "t") setTheme(document.body.dataset.boardTheme === "light" ? "dark" : "light", true);
+    if (e.key === "a" && els.autoScroll) els.autoScroll.click();
     if (e.key === "f" && els.fullscreen) els.fullscreen.click();
     if (e.key === "j") {
       if (els.joinName) els.joinName.focus();
@@ -411,14 +521,39 @@
     if (e.key === "Escape") closeDrawer();
   });
 
+  /* ── Push Subscription ── */
+  async function subscribePush() {
+    try {
+      if (!("serviceWorker" in navigator) || !("PushManager" in window)) return;
+      var reg = await navigator.serviceWorker.ready;
+      var keyRes = await fetch("/api/push");
+      var keyData = await keyRes.json();
+      if (!keyData.publicKey) return;
+      var sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: keyData.publicKey
+      });
+      var json = sub.toJSON();
+      await fetch("/api/push", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "subscribe", endpoint: json.endpoint, keys: json.keys, deviceId: getDeviceId() })
+      });
+    } catch (e) {}
+  }
+
   /* ── Init ── */
   setTheme(document.body.dataset.boardTheme || "dark");
   var savedName = getStoredName();
   if (els.joinName && savedName) els.joinName.value = savedName;
   if (els.drawerName && savedName) els.drawerName.value = savedName;
   if (savedName) { scheduleJoinRetry(savedName); }
+  connectWebSocket();
+  subscribePush();
   load();
   if (savedName) joinClass(savedName, true);
-  setInterval(load, 1500);
+  /* Poll as fallback — less frequent when WS is alive */
+  setInterval(function () { if (!_wsConnected) load(); }, 1500);
+  setInterval(load, 8000); /* periodic sync regardless, catches WS drift */
 
 }());

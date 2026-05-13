@@ -168,3 +168,24 @@ self.addEventListener("message", (event) => {
     self.skipWaiting();
   }
 });
+
+/* ── Push Notifications ── */
+self.addEventListener("push", (event) => {
+  let data = { title: "Live Class", body: "Class update", url: "/pages/live-class.html", icon: "/favicon/android-chrome-192x192.png" };
+  try { if (event.data) data = { ...data, ...event.data.json() }; } catch (e) {}
+  event.waitUntil(
+    self.registration.showNotification(data.title, {
+      body:  data.body,
+      icon:  data.icon,
+      badge: "/favicon/favicon-32x32.png",
+      data:  { url: data.url },
+      vibrate: [200, 100, 200]
+    })
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const url = (event.notification.data && event.notification.data.url) || "/";
+  event.waitUntil(clients.openWindow(url));
+});

@@ -18,7 +18,8 @@
     { label: "Contact",       href: "/pages/contact.html" },
     { label: "Collaboration", href: "/pages/collaboration.html" },
     { label: "Coins",         href: "/wallet/index.html" },
-    { label: "Marketplace",   href: "/marketplace/" }
+    { label: "Marketplace",   href: "/marketplace/" },
+    { label: "&#x1F534; Live Class", href: "/pages/live-class.html", cls: "live-class-link" }
   ];
 
   var PERSONAL_NAV = [
@@ -31,6 +32,7 @@
     { label: "Vault",       href: "/pages/vault.html" },
     { label: "Merchant",    href: "/pages/merchant.html" },
     { label: "Marketplace", href: "/marketplace/" },
+    { label: "Dashboard",     href: "/pages/dashboard.html" },
     { label: "&#x1F5AA; License", href: "/pages/hi-license.html", cls: "license-link" }
   ];
 

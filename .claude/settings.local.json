@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/kingofyadav/dev/projects/Profile add js/script.js js/nav.js)",
+      "Bash(git -C /home/kingofyadav/dev/projects/Profile commit -m ' *)",
+      "Bash(git -C /home/kingofyadav/dev/projects/Profile push)",
+      "Bash(git -C /home/kingofyadav/dev/projects/Profile add pages/coin.html)"
+    ]
+  }
+}
