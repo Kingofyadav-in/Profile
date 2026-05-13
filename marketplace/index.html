@@ -1,213 +1,227 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>HI Marketplace — Amit Ku Yadav</title>
-    <meta
-      name="description"
-      content="HI Marketplace prototype for service economy, HI rewards, service payments, and identity-powered trust."
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex, nofollow" />
-    <link rel="icon" href="/favicon/favicon.ico" />
-    <meta name="theme-color" content="#046A38" />
-    <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
-    <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
-    <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-    <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
-    <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
-    <link rel="stylesheet" href="/css/hi-app.css?v=hi-1" />
-    <link rel="stylesheet" href="/css/hi-ecosystem.css?v=hi-ecosystem-1" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>HI Marketplace — Amit Ku Yadav</title>
+  <meta name="description" content="HI Marketplace prototype for service economy, HI rewards, service payments, and identity-powered trust." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <meta name="theme-color" content="#046A38" />
+  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
+  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
+  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+  <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
+  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
+  <link rel="stylesheet" href="/css/hi-app.css?v=hi-1" />
+  <link rel="stylesheet" href="/css/hi-ecosystem.css?v=eco-pro-1" />
+</head>
+<body class="theme-dark personal-page ecosystem-page marketplace-page">
+<script>
+  try { var _t = localStorage.getItem('theme'); if (_t) { document.body.classList.remove('theme-dark','theme-light'); document.body.classList.add(_t); } } catch(e) {}
+</script>
+<script src="/js/auth.js?v=auth-otp-1"></script>
+<script>requireAuth(); document.documentElement.style.visibility = '';</script>
 
-  <body class="theme-dark personal-page ecosystem-page marketplace-page">
-    <script>
-      try {
-        var _t = localStorage.getItem('theme')
-        if (_t) {
-          document.body.classList.remove('theme-dark', 'theme-light')
-          document.body.classList.add(_t)
-        }
-      } catch (e) {}
-    </script>
-    <script src="/js/auth.js?v=auth-otp-1"></script>
-    <script>
-      requireAuth()
-      document.documentElement.style.visibility = ''
-    </script>
+<div id="scrollProgress"></div>
+<a href="#main-content" class="skip-link">Skip to content</a>
 
-    <div id="scrollProgress"></div>
-    <a href="#main-content" class="skip-link">Skip to content</a>
-
-    <header class="personal-header glass">
-      <div class="personal-header-inner">
-        <a href="/pages/personal.html" class="personal-brand">
-          <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
-          <div class="personal-brand-text">
-            <span class="personal-name">Amit Ku Yadav</span>
-            <span class="personal-tagline">HI Marketplace</span>
-          </div>
-        </a>
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-        <nav class="personal-nav">
-          <a href="/wallet/">DIGITAL COIN</a>
-          <a href="/pages/wallet.html">WALLET</a>
-          <a href="/pages/vault.html">VAULT</a>
-          <a href="/pages/merchant.html">MERCHANT</a>
-          <a href="/marketplace/" class="active" aria-current="page">MARKETPLACE</a>
-        </nav>
-        <div class="auth-bar">
-          <span>Hi, <strong id="authUserDisplay"></strong></span>
-          <button class="auth-logout-btn" id="logoutBtn">Logout</button>
-        </div>
+<header class="personal-header glass">
+  <div class="personal-header-inner">
+    <a href="/pages/personal.html" class="personal-brand">
+      <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
+      <div class="personal-brand-text">
+        <span class="personal-name">Amit Ku Yadav</span>
+        <span class="personal-tagline">HI Marketplace</span>
       </div>
-    </header>
-
-    <main class="ecosystem-main" id="main-content">
-      <section id="ecosystemLocked" class="ecosystem-locked" aria-live="polite">
-        <p class="ecosystem-kicker">Identity Required</p>
-        <h2>Create HDI before using the marketplace.</h2>
-        <p>The service economy uses your HDI, wallet, local ledger, and trust score.</p>
-        <div class="ecosystem-actions">
-          <a class="ecosystem-action primary" href="/pages/personal.html#create-identity"
-            >Create Identity</a
-          >
-          <a class="ecosystem-action" href="/pages/wallet.html">Open HI Wallet</a>
-        </div>
-      </section>
-
-      <section class="ecosystem-hero" aria-label="HI Marketplace overview">
-        <div class="ecosystem-hero-copy">
-          <p class="ecosystem-kicker">Service Economy</p>
-          <h1>Use HI for work, learning, and services.</h1>
-          <p>
-            The marketplace turns HI Wallet into a usable identity-powered economy: earn HI through
-            contribution, spend HI on services, and build trust through ledger history.
-          </p>
-          <div class="ecosystem-actions">
-            <a class="ecosystem-action primary" href="#marketplaceGrid">Explore Services</a>
-            <a class="ecosystem-action" href="/pages/merchant.html">Merchant Dashboard</a>
-            <a class="ecosystem-action" href="/pages/wallet.html">Open Wallet</a>
-          </div>
-        </div>
-
-        <aside class="ecosystem-summary" aria-label="Wallet summary">
-          <p class="ecosystem-kicker">Your Economy Status</p>
-          <div class="ecosystem-metric-grid">
-            <div class="ecosystem-metric">
-              <span>Balance</span><strong id="marketWalletBalance">Locked</strong>
-            </div>
-            <div class="ecosystem-metric">
-              <span>Trust Score</span><strong><span id="marketTrustScore">0</span>/100</strong>
-            </div>
-            <div class="ecosystem-metric">
-              <span>HDI</span><strong id="marketHdi">Identity required</strong>
-            </div>
-            <div class="ecosystem-metric"><span>Rule</span><strong>Use, not trade</strong></div>
-          </div>
-        </aside>
-      </section>
-
-      <section class="ecosystem-panel" aria-label="Marketplace rule">
-        <p class="ecosystem-kicker">Big Rule</p>
-        <h2>Phase 3 is real-world usefulness, not speculative crypto.</h2>
-        <div class="ecosystem-layers">
-          <div class="ecosystem-layer">
-            <span>Earn</span><strong>Work and contribution</strong>
-            <p>Users earn HI through verified service, learning, and community actions.</p>
-          </div>
-          <div class="ecosystem-layer">
-            <span>Use</span><strong>Services and access</strong>
-            <p>HI is spent inside the ecosystem for practical value.</p>
-          </div>
-          <div class="ecosystem-layer">
-            <span>Trust</span><strong>Reputation proof</strong>
-            <p>Identity age, payments, and service history build trust.</p>
-          </div>
-          <div class="ecosystem-layer">
-            <span>Settle</span><strong>Future UPI layer</strong>
-            <p>Merchants can later receive compliant INR settlement.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="ecosystem-split">
-        <article class="ecosystem-panel">
-          <p class="ecosystem-kicker">Verified Contribution</p>
-          <h2>Add earned HI.</h2>
-          <form id="marketEarnForm" class="ecosystem-form">
-            <div class="ecosystem-field">
-              <label for="marketEarnReason">Reason</label>
-              <select id="marketEarnReason">
-                <option value="Website work">Website work</option>
-                <option value="Referral">Referral</option>
-                <option value="Bug report">Bug report</option>
-                <option value="Education">Education</option>
-                <option value="Community help">Community help</option>
-              </select>
-            </div>
-            <div class="ecosystem-field">
-              <label for="marketEarnAmount">Amount</label>
-              <input
-                id="marketEarnAmount"
-                type="number"
-                min="1"
-                max="10000"
-                step="1"
-                placeholder="Example: 200"
-                required
-              />
-            </div>
-            <button class="ecosystem-action primary" type="submit">Record Earning</button>
-            <p class="ecosystem-status" id="marketEarnStatus" aria-live="polite"></p>
-          </form>
-        </article>
-
-        <article class="ecosystem-panel">
-          <p class="ecosystem-kicker">Marketplace Status</p>
-          <h2>Service actions write to your wallet ledger.</h2>
-          <p>
-            Payment and reward actions are local prototype records. They are not legal tender, not
-            INR, and not real payment settlement.
-          </p>
-          <p class="ecosystem-status" id="marketplaceStatus" aria-live="polite"></p>
-        </article>
-      </section>
-
-      <section
-        class="ecosystem-grid"
-        id="marketplaceGrid"
-        aria-label="Marketplace services"
-      ></section>
-    </main>
-
-    <footer class="site-footer glass">
-      <div class="footer-inner">
-        <div class="footer-enquiry">
-          <p class="footer-title">HI Marketplace</p>
-          <p class="footer-text">
-            Service economy, contribution rewards, merchant readiness, and identity-powered trust.
-          </p>
-        </div>
-        <div class="footer-right">
-          <div id="footerClock">--:--</div>
-          <div>Bhagalpur, India</div>
-          <div id="status">STATUS: --</div>
-          </div>
-      </div>
-      <div class="footer-bottom">&#x00A9; <span id="year"></span> &middot; All rights reserved</div>
-    </footer>
-
-    <button id="backToTop" aria-label="Back to top">
-      <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
     </button>
+    <nav class="personal-nav" data-nav="personal"></nav>
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+</header>
 
-    <script src="/js/script.js?v=footer-clean-1" defer></script>
-    <script src="/js/hi-storage.js?v=hi-ecosystem-1"></script>
-    <script src="/js/hi-app.js?v=hi-1" defer></script>
-    <script src="/js/hi-wallet.js?v=hi-wallet-1" defer></script>
-    <script src="/js/hi-ecosystem.js?v=hi-ecosystem-1" defer></script>
-  </body>
+<div class="eco-stripe"></div>
+
+<main class="eco-main" id="main-content">
+
+  <!-- LOCKED -->
+  <div id="ecosystemLocked" class="ecosystem-locked">
+    <p class="eco-kicker">Identity Required</p>
+    <h2>Create HDI before using the marketplace.</h2>
+    <p>The service economy uses your HDI, wallet, local ledger, and trust score.</p>
+    <div class="ecosystem-actions" style="margin-top:1.25rem">
+      <a class="ecosystem-action primary" href="/pages/personal.html#create-identity">Create Identity</a>
+      <a class="ecosystem-action" href="/pages/wallet.html">Open HI Wallet</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="eco-hero">
+    <div class="eco-hero-copy">
+      <p class="eco-kicker">Service Economy — Phase 2 Prototype</p>
+      <h1>Use HI for work,<br>learning, and services.</h1>
+      <p class="eco-hero-desc">The marketplace turns HI Wallet into a usable identity-powered economy: earn HI through contribution, spend HI on services, and build trust through ledger history.</p>
+      <div class="ecosystem-actions">
+        <a class="ecosystem-action primary" href="#marketplaceGrid">Explore Services</a>
+        <a class="ecosystem-action" href="/pages/merchant.html">Merchant Dashboard</a>
+        <a class="ecosystem-action" href="/pages/wallet.html">Open Wallet</a>
+      </div>
+    </div>
+
+    <div class="eco-market-card" aria-label="Economy status">
+      <div class="eco-market-card-inner">
+        <p class="eco-kicker">Your Economy Status</p>
+        <div class="eco-market-metrics">
+          <div class="eco-market-metric">
+            <span>Balance</span>
+            <strong id="marketWalletBalance">Locked</strong>
+          </div>
+          <div class="eco-market-metric">
+            <span>Trust Score</span>
+            <strong><span id="marketTrustScore">0</span>/100</strong>
+          </div>
+          <div class="eco-market-metric eco-market-metric--wide">
+            <span>HDI</span>
+            <strong id="marketHdi">Identity required</strong>
+          </div>
+          <div class="eco-market-metric">
+            <span>Rule</span>
+            <strong>Use, not trade</strong>
+          </div>
+        </div>
+        <p class="ecosystem-status" id="marketplaceStatus" aria-live="polite" style="margin-top:.75rem"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="eco-stats">
+    <div class="eco-stat">
+      <span>Earn HI</span>
+      <strong>Work &amp; Contribution</strong>
+    </div>
+    <div class="eco-stat">
+      <span>Use HI</span>
+      <strong>Services &amp; Access</strong>
+    </div>
+    <div class="eco-stat">
+      <span>Build Trust</span>
+      <strong>Reputation Proof</strong>
+    </div>
+    <div class="eco-stat">
+      <span>Future</span>
+      <strong>UPI Settlement</strong>
+    </div>
+  </div>
+
+  <!-- RULE SECTION -->
+  <section class="eco-panel eco-rule-panel">
+    <p class="eco-kicker">Big Rule</p>
+    <h2>Phase 3 is real-world usefulness, not speculative crypto.</h2>
+    <div class="eco-layers">
+      <div>
+        <span>Earn</span>
+        <strong>Work and contribution</strong>
+        <p>Users earn HI through verified service, learning, and community actions.</p>
+      </div>
+      <div>
+        <span>Use</span>
+        <strong>Services and access</strong>
+        <p>HI is spent inside the ecosystem for practical value, not traded.</p>
+      </div>
+      <div>
+        <span>Trust</span>
+        <strong>Reputation proof</strong>
+        <p>Identity age, payments, and service history build ledger-backed trust.</p>
+      </div>
+      <div>
+        <span>Settle</span>
+        <strong>Future UPI layer</strong>
+        <p>Merchants can later receive compliant INR settlement via payment rails.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EARN FORM -->
+  <section class="eco-grid eco-earn-grid">
+
+    <article class="eco-panel">
+      <p class="eco-kicker">Verified Contribution</p>
+      <h2>Add earned HI.</h2>
+      <p class="eco-hero-desc" style="margin-bottom:0">Record verified work or contribution directly to your local wallet ledger.</p>
+      <form id="marketEarnForm" class="eco-form ecosystem-form">
+        <div class="eco-field">
+          <label for="marketEarnReason">Reason</label>
+          <select id="marketEarnReason">
+            <option value="Website work">Website work</option>
+            <option value="Referral">Referral</option>
+            <option value="Bug report">Bug report</option>
+            <option value="Education">Education</option>
+            <option value="Community help">Community help</option>
+          </select>
+        </div>
+        <div class="eco-field">
+          <label for="marketEarnAmount">Amount (1–99 HI)</label>
+          <input id="marketEarnAmount" type="number" min="1" max="99" step="1" placeholder="e.g. 5" required />
+        </div>
+        <button class="eco-submit" type="submit">Record Earning</button>
+        <p class="ecosystem-status" id="marketEarnStatus" aria-live="polite"></p>
+      </form>
+    </article>
+
+    <article class="eco-panel eco-earn-info">
+      <p class="eco-kicker">How It Works</p>
+      <h2>Earn → Use → Trust → Settle.</h2>
+      <div class="eco-earn-steps">
+        <div>
+          <strong>1. Identity first</strong>
+          <p>Your HDI is required to link any HI to your ledger.</p>
+        </div>
+        <div>
+          <strong>2. Earn through contribution</strong>
+          <p>Record work, learning, referrals, or community help.</p>
+        </div>
+        <div>
+          <strong>3. Spend on services</strong>
+          <p>Use HI to access services in the grid below.</p>
+        </div>
+        <div>
+          <strong>4. Build trust score</strong>
+          <p>More ledger activity → higher trust → more access.</p>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- SERVICE GRID -->
+  <section class="eco-services-section">
+    <div class="eco-services-header">
+      <p class="eco-kicker">Service Catalogue</p>
+      <h2>Available services and contribution rewards.</h2>
+    </div>
+    <div class="eco-services-grid" id="marketplaceGrid"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer glass" data-footer></footer>
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+</button>
+
+<script src="/js/footer.js" defer></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/script.js?v=footer-clean-1" defer></script>
+<script src="/js/hi-storage.js?v=hi-ecosystem-1"></script>
+<script src="/js/hi-app.js?v=hi-1" defer></script>
+<script src="/js/hi-wallet.js?v=hi-wallet-1" defer></script>
+<script src="/js/hi-ecosystem.js?v=hi-ecosystem-1" defer></script>
+</body>
 </html>

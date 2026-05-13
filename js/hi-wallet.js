@@ -6,7 +6,7 @@
    Depends on: auth.js, hi-storage.js, hi-app.js
 ====================================================== */
 
-var HI_WALLET_MAX_SUPPLY = 10000;
+var HI_WALLET_MAX_SUPPLY = 99;
 var HI_WALLET_GENESIS_AMOUNT = 1;
 
 function hiWalletDeviceId() {

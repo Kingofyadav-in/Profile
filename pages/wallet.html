@@ -150,7 +150,7 @@
       <form id="walletMintForm" class="wlt-form wallet-form">
         <div class="wlt-field">
           <label for="walletMintAmount">Contribution reward (HI)</label>
-          <input id="walletMintAmount" type="number" min="1" max="10000" step="1" placeholder="e.g. 5" required />
+          <input id="walletMintAmount" type="number" min="1" max="99" step="1" placeholder="e.g. 5" required />
         </div>
         <div class="wlt-field">
           <label for="walletMintReason">Reward reason</label>
@@ -162,7 +162,7 @@
             <option value="Service Work">Service Work</option>
           </select>
         </div>
-        <p class="wlt-form-note">Genesis is automatic · Ecosystem demo cap: 10,000 HI</p>
+        <p class="wlt-form-note">Genesis is automatic · Ecosystem demo cap: 99 HI per transaction</p>
         <button class="wlt-submit" id="walletMintSubmit" type="submit">Add Earned HI</button>
         <p class="wallet-status" id="walletStatus" aria-live="polite"></p>
       </form>
