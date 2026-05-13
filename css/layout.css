@@ -70,13 +70,13 @@
 
   .site-header nav[aria-label="Main navigation"] {
     min-width: 0;
-    justify-self: end;
+    justify-self: center;
   }
 
   .nav-list {
     display: flex !important;
     flex-wrap: wrap !important;
-    justify-content: flex-end !important;
+    justify-content: center !important;
     align-items: center !important;
     gap: 7px !important;
   }
@@ -352,10 +352,7 @@ body.theme-dark .footer-pro-strip span {
 }
 
 .auth-bar span {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
+  display: none;
 }
 
 .auth-bar strong {

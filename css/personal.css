@@ -169,9 +169,11 @@ body.theme-light .personal-header {
   display: flex;
   gap: 22px;
   align-items: center;
+  justify-content: center;
   font-size: inherit;
   font-weight: inherit;
   flex-wrap: nowrap;
+  flex: 1;
 }
 
 .personal-header .personal-nav a {
