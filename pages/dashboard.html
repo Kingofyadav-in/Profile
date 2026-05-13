@@ -3,235 +3,590 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HDI Dashboard — Amit Ku Yadav</title>
+  <title>Life Monitor — Amit Ku Yadav</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon/favicon.ico" />
   <link rel="stylesheet" href="/css/base.css?v=1" />
   <link rel="stylesheet" href="/css/components.css?v=1" />
   <link rel="stylesheet" href="/css/layout.css?v=1" />
   <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
+  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
-    /* ── Layout ── */
-    .dash-wrap { max-width: 1400px; margin: 0 auto; padding: 2rem clamp(1rem,4vw,2.5rem) 5rem; }
+    /* ── CSS variables (dual-mode) ── */
+    :root {
+      --dm-muted:  rgba(255,255,255,.36);
+      --dm-subtle: rgba(255,255,255,.055);
+      --dm-border: rgba(255,255,255,.09);
+      --dm-card:   rgba(255,255,255,.03);
+      --dm-grid:   rgba(255,255,255,.07);
+      --dm-label:  rgba(255,255,255,.36);
+    }
 
-    /* ── HDI Hero ── */
-    .hdi-hero {
-      text-align: center;
-      padding: clamp(2.5rem,6vw,5rem) 1rem clamp(2rem,5vw,4rem);
-      border-bottom: 1px solid rgba(255,255,255,0.07);
+    body.theme-light {
+      --dm-muted:  rgba(0,0,0,.44);
+      --dm-subtle: rgba(0,0,0,.03);
+      --dm-border: rgba(0,0,0,.09);
+      --dm-card:   #fff;
+      --dm-grid:   rgba(0,0,0,.07);
+      --dm-label:  rgba(0,0,0,.44);
     }
-    .hdi-score-ring {
-      position: relative;
-      width: 160px;
-      height: 160px;
-      margin: 0 auto 1.5rem;
-    }
-    .hdi-score-ring svg { width: 160px; height: 160px; transform: rotate(-90deg); }
-    .hdi-score-ring circle { fill: none; stroke-width: 8; stroke-linecap: round; }
-    .hdi-ring-track { stroke: rgba(255,255,255,0.07); }
-    .hdi-ring-fill  { stroke: url(#ringGrad); stroke-dasharray: 440; stroke-dashoffset: 440; transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1); }
-    .hdi-score-num  {
-      position: absolute; inset: 0; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-    }
-    .hdi-score-num strong { font-size: 3rem; font-weight: 800; line-height: 1; background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hdi-score-num span   { font-size: 0.75rem; color: rgba(255,255,255,0.4); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
-    .hdi-grade   { font-size: 1.25rem; font-weight: 700; letter-spacing: .06em; margin-bottom: 0.25rem; }
-    .hdi-label   { font-size: 0.75rem; color: rgba(255,255,255,0.35); letter-spacing: .1em; text-transform: uppercase; }
-    .hdi-chips   { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; }
-    .hdi-chip    {
-      padding: 0.3rem 0.85rem; border-radius: 99px; font-size: 0.72rem; font-weight: 600;
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);
-    }
-    .hdi-chip strong { color: var(--brand-green); margin-right: 4px; }
-    .hdi-ts { font-size: 0.72rem; color: rgba(255,255,255,0.25); margin-top: 0.75rem; }
 
-    /* ── Grid ── */
-    .dash-grid {
+    /* ── Tricolour stripe ── */
+    .dm-stripe {
+      height: 4px;
+      background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
+    }
+
+    /* ── Status bar ── */
+    .dm-statusbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px clamp(1rem,4vw,2.5rem);
+      border-bottom: 1px solid var(--dm-border);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    .dm-live {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--brand-green);
+      font-size: .72rem;
+      letter-spacing: .1em;
+    }
+
+    .dm-live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--brand-green);
+      box-shadow: 0 0 0 0 rgba(4,106,56,.5);
+      animation: dm-pulse 2.2s infinite;
+    }
+
+    @keyframes dm-pulse {
+      0%   { box-shadow: 0 0 0 0   rgba(4,106,56,.5); }
+      70%  { box-shadow: 0 0 0 7px rgba(4,106,56,0); }
+      100% { box-shadow: 0 0 0 0   rgba(4,106,56,0); }
+    }
+
+    .dm-statusbar-title {
+      font-size: .88rem;
+      font-weight: 800;
+      color: var(--text-color);
+    }
+
+    .dm-statusbar-ts {
+      margin-left: auto;
+      color: var(--dm-muted);
+      font-weight: 600;
+      font-size: .72rem;
+    }
+
+    /* ── Main wrap ── */
+    .dm-wrap {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 1.5rem clamp(1rem,4vw,2.5rem) 5rem;
+    }
+
+    /* ── KPI strip ── */
+    .dm-kpi-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 1.25rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(6, minmax(0,1fr));
+      gap: 10px;
+      margin-bottom: 1.25rem;
     }
-    .dash-card {
-      background: var(--card-bg, rgba(255,255,255,0.03));
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+
+    .dm-kpi {
+      padding: 14px 16px;
+      border: 1px solid var(--dm-border);
+      border-radius: 12px;
+      background: var(--dm-card);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 2px 12px rgba(0,0,0,.14);
+    }
+
+    .dm-kpi-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--brand-orange);
+      font-size: .64rem;
+      font-weight: 850;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+    }
+
+    .dm-kpi-value {
+      display: block;
+      font-size: clamp(1.3rem,2.4vw,1.9rem);
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-color);
+    }
+
+    .dm-kpi-sub {
+      display: block;
+      margin-top: 5px;
+      font-size: .65rem;
+      color: var(--dm-muted);
+    }
+
+    /* ── Layout ── */
+    .dm-layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 12px;
+    }
+
+    .dm-left {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ── Cards ── */
+    .dm-card {
+      border: 1px solid var(--dm-border);
+      border-radius: 14px;
+      background: var(--dm-card);
       backdrop-filter: blur(18px);
+      box-shadow: 0 4px 24px rgba(0,0,0,.18);
+      padding: 18px;
     }
-    .card-head {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 1.2rem;
-    }
-    .card-title {
-      font-size: 0.7rem; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; color: rgba(255,255,255,0.35);
-    }
-    .card-badge {
-      font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.6rem;
-      border-radius: 99px; background: var(--brand-green-soft); color: var(--brand-green);
-    }
-    .dash-card canvas { max-height: 200px; }
 
-    /* ── Habits list ── */
-    .habit-row {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-      font-size: 0.85rem; gap: 0.75rem;
+    .dm-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
     }
-    .habit-row:last-child { border: none; }
-    .habit-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .habit-dots { display: flex; gap: 3px; flex-shrink: 0; }
-    .habit-dot  { width: 7px; height: 7px; border-radius: 2px; background: rgba(255,255,255,0.08); }
-    .habit-dot.on { background: var(--brand-green); }
-    .habit-status { font-size: 1rem; flex-shrink: 0; }
 
-    /* ── Tasks doughnut center label ── */
-    .tasks-wrap { position: relative; }
-    .tasks-center {
-      position: absolute; inset: 0; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; pointer-events: none; gap: 2px;
+    .dm-card-title {
+      font-size: .67rem;
+      font-weight: 850;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--dm-muted);
     }
-    .tasks-center strong { font-size: 1.6rem; font-weight: 800; color: var(--brand-green); }
-    .tasks-center span   { font-size: 0.7rem; color: rgba(255,255,255,0.35); letter-spacing:.06em; text-transform:uppercase; }
 
-    /* ── Loading / Error ── */
-    .dash-loading { opacity: 0.4; font-size: 0.85rem; text-align: center; padding: 2.5rem 1rem; }
-    .dash-error   { color: var(--brand-orange); font-size: 0.82rem; padding: 0.75rem; border-radius: 10px;
-                    background: rgba(255,103,31,0.08); border: 1px solid rgba(255,103,31,0.2); margin-top: 1rem; }
+    .dm-badge {
+      padding: .2rem .65rem;
+      border-radius: 99px;
+      font-size: .67rem;
+      font-weight: 700;
+      background: rgba(4,106,56,.12);
+      color: var(--brand-green);
+      border: 1px solid rgba(4,106,56,.22);
+    }
+
+    .dm-badge.warn {
+      background: rgba(255,103,31,.1);
+      color: var(--brand-orange);
+      border-color: rgba(255,103,31,.22);
+    }
+
+    /* ── HDI Ring ── */
+    .dm-ring-wrap { text-align: center; }
+
+    .dm-ring {
+      position: relative;
+      width: 148px;
+      height: 148px;
+      margin: 0 auto 14px;
+    }
+
+    .dm-ring svg { width: 148px; height: 148px; transform: rotate(-90deg); }
+    .dm-ring circle { fill: none; stroke-width: 8; stroke-linecap: round; }
+
+    .dm-ring-track { stroke: var(--dm-border); }
+    .dm-ring-fill {
+      stroke: url(#ringGrad);
+      stroke-dasharray: 408;
+      stroke-dashoffset: 408;
+      transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);
+    }
+
+    .dm-ring-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .dm-ring-score {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .dm-ring-lbl {
+      font-size: .66rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--dm-muted);
+      margin-top: 2px;
+    }
+
+    .dm-grade {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      margin-bottom: 4px;
+    }
+
+    .dm-grade-sub {
+      font-size: .7rem;
+      color: var(--dm-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .dm-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    .dm-chip {
+      padding: .26rem .72rem;
+      border-radius: 99px;
+      font-size: .67rem;
+      font-weight: 700;
+      background: var(--dm-subtle);
+      border: 1px solid var(--dm-border);
+      color: var(--text-color);
+    }
+
+    .dm-chip strong {
+      color: var(--brand-green);
+      margin-right: 3px;
+    }
+
+    .dm-ts {
+      font-size: .66rem;
+      color: var(--dm-muted);
+      margin-top: 10px;
+    }
+
+    /* ── Right chart grid ── */
+    .dm-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .dm-card canvas { max-height: 200px; }
+
+    /* Tasks doughnut */
+    .dm-tasks-wrap { position: relative; }
+
+    .dm-tasks-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      gap: 2px;
+    }
+
+    .dm-tasks-center strong {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--brand-green);
+    }
+
+    .dm-tasks-center span {
+      font-size: .67rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--dm-muted);
+    }
+
+    /* ── Habits ── */
+    .dm-habits-section { margin-top: 12px; }
+
+    .dm-habit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .54rem 0;
+      border-bottom: 1px solid var(--dm-border);
+      font-size: .84rem;
+      gap: .75rem;
+    }
+
+    .dm-habit-row:last-child { border: none; }
+
+    .dm-habit-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .dm-habit-dots { display: flex; gap: 3px; flex-shrink: 0; }
+
+    .dm-habit-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+      background: var(--dm-subtle);
+      border: 1px solid var(--dm-border);
+    }
+
+    .dm-habit-dot.on {
+      background: var(--brand-green);
+      border-color: var(--brand-green);
+    }
+
+    .dm-habit-status { font-size: .95rem; flex-shrink: 0; }
+
+    /* ── States ── */
+    .dm-loading {
+      font-size: .84rem;
+      color: var(--dm-muted);
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+
+    .dm-error {
+      color: var(--brand-orange);
+      font-size: .83rem;
+      padding: .75rem 1rem;
+      border-radius: 10px;
+      background: rgba(255,103,31,.08);
+      border: 1px solid rgba(255,103,31,.22);
+      margin-bottom: 1.25rem;
+    }
 
     /* ── Responsive ── */
-    @media(max-width:600px) {
-      .dash-grid { grid-template-columns: 1fr; }
-      .hdi-score-ring { width: 130px; height: 130px; }
-      .hdi-score-ring svg { width: 130px; height: 130px; }
-      .hdi-score-num strong { font-size: 2.2rem; }
-      .hdi-ring-fill { stroke-dasharray: 360; stroke-dashoffset: 360; }
+    @media (max-width: 1100px) {
+      .dm-layout      { grid-template-columns: 250px 1fr; }
+      .dm-kpi-strip   { grid-template-columns: repeat(3,1fr); }
     }
 
-    body.theme-light .dash-card {
-      background: #fff;
-      border-color: rgba(0,0,0,0.08);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    @media (max-width: 800px) {
+      .dm-layout      { grid-template-columns: 1fr; }
+      .dm-right       { grid-template-columns: 1fr; }
+      .dm-kpi-strip   { grid-template-columns: repeat(2,1fr); }
     }
-    body.theme-light .card-title { color: rgba(0,0,0,0.4); }
-    body.theme-light .habit-row  { border-color: rgba(0,0,0,0.06); }
-    body.theme-light .habit-dot  { background: rgba(0,0,0,0.1); }
-    body.theme-light .hdi-label, body.theme-light .hdi-ts { color: rgba(0,0,0,0.35); }
-    body.theme-light .hdi-chip   { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.6); }
-    body.theme-light .hdi-hero   { border-color: rgba(0,0,0,0.07); }
-    body.theme-light .tasks-center span { color: rgba(0,0,0,0.35); }
-    body.theme-light .hdi-ring-track { stroke: rgba(0,0,0,0.08); }
+
+    @media (max-width: 480px) {
+      .dm-kpi-strip   { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
-<body class="theme-dark personal-page">
 
+<body class="theme-dark personal-page">
 <script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
 <script src="/js/auth.js?v=auth-otp-1"></script>
 <script>requireAuth(); document.documentElement.style.visibility="";</script>
-<script src="/js/nav.js?v=2" defer></script>
 
-<!-- Header -->
+<div id="scrollProgress"></div>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
 <header class="personal-header glass">
   <div class="personal-header-inner">
     <a href="/pages/personal.html" class="personal-brand">
       <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
       <div class="personal-brand-text">
         <span class="personal-name">Amit Ku Yadav</span>
-        <span class="personal-tagline">HDI Dashboard</span>
+        <span class="personal-tagline">Life Monitor</span>
       </div>
     </a>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <nav class="personal-nav" data-nav="personal"></nav>
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
   </div>
 </header>
 
-<!-- HDI Hero -->
-<div class="hdi-hero">
-  <div class="hdi-score-ring">
-    <svg viewBox="0 0 160 160">
-      <defs>
-        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%"   stop-color="#046A38"/>
-          <stop offset="100%" stop-color="#FF671F"/>
-        </linearGradient>
-      </defs>
-      <circle class="hdi-ring-track" cx="80" cy="80" r="70"/>
-      <circle class="hdi-ring-fill" id="hdiRingFill" cx="80" cy="80" r="70"/>
-    </svg>
-    <div class="hdi-score-num">
-      <strong id="hdiScore">—</strong>
-      <span>HDI</span>
-    </div>
+<div class="dm-stripe"></div>
+
+<div class="dm-statusbar">
+  <div class="dm-live">
+    <div class="dm-live-dot"></div>
+    LIVE
   </div>
-  <div class="hdi-grade" id="hdiGrade">Loading…</div>
-  <div class="hdi-label">Human Development Index</div>
-  <div class="hdi-chips" id="hdiChips"></div>
-  <div class="hdi-ts" id="computedAt"></div>
+  <span class="dm-statusbar-title">HDI Life Monitor</span>
+  <span class="dm-statusbar-ts" id="dmLastRefresh">Connecting…</span>
 </div>
 
-<!-- Dashboard Grid -->
-<div class="dash-wrap">
-  <div class="dash-grid">
+<main class="dm-wrap" id="main-content">
 
-    <div class="dash-card">
-      <div class="card-head">
-        <span class="card-title">Mood · last 30 days</span>
-      </div>
-      <canvas id="moodChart"></canvas>
+  <div id="dmError"></div>
+
+  <!-- ── KPI Strip ── -->
+  <div class="dm-kpi-strip">
+    <div class="dm-kpi">
+      <span class="dm-kpi-label">HDI Score</span>
+      <span class="dm-kpi-value" id="kpiHdi">—</span>
+      <span class="dm-kpi-sub">Human Development Index</span>
     </div>
-
-    <div class="dash-card">
-      <div class="card-head">
-        <span class="card-title">Energy · last 30 days</span>
-      </div>
-      <canvas id="energyChart"></canvas>
+    <div class="dm-kpi">
+      <span class="dm-kpi-label">Mood Avg</span>
+      <span class="dm-kpi-value" id="kpiMood">—</span>
+      <span class="dm-kpi-sub">Last 30 days / 10</span>
     </div>
-
-    <div class="dash-card">
-      <div class="card-head">
-        <span class="card-title">Goals Progress</span>
-      </div>
-      <canvas id="goalsChart"></canvas>
+    <div class="dm-kpi">
+      <span class="dm-kpi-label">Energy Avg</span>
+      <span class="dm-kpi-value" id="kpiEnergy">—</span>
+      <span class="dm-kpi-sub">Last 30 days / 10</span>
     </div>
-
-    <div class="dash-card">
-      <div class="card-head">
-        <span class="card-title">Habits · Today</span>
-        <span class="card-badge" id="habitsBadge">—</span>
-      </div>
-      <div id="habitsStats" class="dash-loading">Loading…</div>
+    <div class="dm-kpi">
+      <span class="dm-kpi-label">Goals Active</span>
+      <span class="dm-kpi-value" id="kpiGoals">—</span>
+      <span class="dm-kpi-sub">Avg progress %</span>
     </div>
+    <div class="dm-kpi">
+      <span class="dm-kpi-label">Habits Today</span>
+      <span class="dm-kpi-value" id="kpiHabits">—</span>
+      <span class="dm-kpi-sub">Completed today</span>
+    </div>
+    <div class="dm-kpi">
+      <span class="dm-kpi-label">Tasks Done</span>
+      <span class="dm-kpi-value" id="kpiTasks">—</span>
+      <span class="dm-kpi-sub">Of total tasks</span>
+    </div>
+  </div>
 
-    <div class="dash-card">
-      <div class="card-head">
-        <span class="card-title">Tasks Completion</span>
-      </div>
-      <div class="tasks-wrap">
-        <canvas id="tasksChart"></canvas>
-        <div class="tasks-center">
-          <strong id="tasksDone">—</strong>
-          <span>Done</span>
+  <!-- ── Main layout ── -->
+  <div class="dm-layout">
+
+    <!-- Left sidebar: HDI ring + radar -->
+    <div class="dm-left">
+      <div class="dm-card">
+        <div class="dm-card-head">
+          <span class="dm-card-title">HDI Score</span>
+          <span class="dm-badge" id="dmGradeBadge">—</span>
+        </div>
+        <div class="dm-ring-wrap">
+          <div class="dm-ring">
+            <svg viewBox="0 0 148 148">
+              <defs>
+                <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%"   stop-color="#046A38"/>
+                  <stop offset="100%" stop-color="#FF671F"/>
+                </linearGradient>
+              </defs>
+              <circle class="dm-ring-track" cx="74" cy="74" r="65"/>
+              <circle class="dm-ring-fill" id="hdiRingFill" cx="74" cy="74" r="65"/>
+            </svg>
+            <div class="dm-ring-center">
+              <span class="dm-ring-score" id="hdiScore">—</span>
+              <span class="dm-ring-lbl">HDI</span>
+            </div>
+          </div>
+          <div class="dm-grade" id="hdiGrade">Loading…</div>
+          <div class="dm-grade-sub">Human Development Index</div>
+          <div class="dm-chips" id="hdiChips"></div>
+          <div class="dm-ts" id="computedAt"></div>
         </div>
       </div>
-    </div>
 
-    <div class="dash-card">
-      <div class="card-head">
-        <span class="card-title">HDI Breakdown</span>
+      <div class="dm-card">
+        <div class="dm-card-head">
+          <span class="dm-card-title">HDI Breakdown</span>
+        </div>
+        <canvas id="hdiBreakChart" style="max-height:210px"></canvas>
       </div>
-      <canvas id="hdiBreakChart"></canvas>
     </div>
 
-  </div>
-</div>
+    <!-- Right: chart grid -->
+    <div class="dm-right">
 
-<script src="/js/script.js?v=dash-1" defer></script>
+      <div class="dm-card">
+        <div class="dm-card-head">
+          <span class="dm-card-title">Mood · 30 days</span>
+          <span class="dm-badge" id="moodBadge">—</span>
+        </div>
+        <canvas id="moodChart"></canvas>
+      </div>
+
+      <div class="dm-card">
+        <div class="dm-card-head">
+          <span class="dm-card-title">Energy · 30 days</span>
+          <span class="dm-badge" id="energyBadge">—</span>
+        </div>
+        <canvas id="energyChart"></canvas>
+      </div>
+
+      <div class="dm-card" style="grid-column:1/-1">
+        <div class="dm-card-head">
+          <span class="dm-card-title">Goals Progress</span>
+          <span class="dm-badge" id="goalsBadge">—</span>
+        </div>
+        <canvas id="goalsChart" style="max-height:175px"></canvas>
+      </div>
+
+      <div class="dm-card">
+        <div class="dm-card-head">
+          <span class="dm-card-title">Tasks Completion</span>
+          <span class="dm-badge" id="tasksBadge">—</span>
+        </div>
+        <div class="dm-tasks-wrap">
+          <canvas id="tasksChart"></canvas>
+          <div class="dm-tasks-center">
+            <strong id="tasksDone">—</strong>
+            <span>Done</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dm-card">
+        <div class="dm-card-head">
+          <span class="dm-card-title">Mood vs Energy</span>
+        </div>
+        <canvas id="moodEnergyChart"></canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Habits full-width ── -->
+  <div class="dm-card dm-habits-section">
+    <div class="dm-card-head">
+      <span class="dm-card-title">Habits Tracker · Today</span>
+      <span class="dm-badge" id="habitsBadge">—</span>
+    </div>
+    <div id="habitsStats" class="dm-loading">Loading…</div>
+  </div>
+
+</main>
+
+<footer class="site-footer glass" data-footer></footer>
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script src="/js/nav.js?v=2" defer></script>
+<script src="/js/footer.js" defer></script>
+<script src="/js/script.js?v=dash-2" defer></script>
 <script>
 (async function () {
   var KEY  = "YX9vS6oyQC1RdXJLAhr-GAObhoZzrCKCcleNlTRqN2c";
@@ -240,43 +595,131 @@
 
   var isDark = document.body.classList.contains("theme-dark");
 
+  var GREEN  = "#046A38";
+  var ORANGE = "#FF671F";
+  var PURPLE = "#a855f7";
+  var GRID   = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
+  var LABEL  = isDark ? "rgba(255,255,255,0.38)" : "rgba(0,0,0,0.44)";
+
+  Chart.defaults.color       = LABEL;
+  Chart.defaults.borderColor = GRID;
+  Chart.defaults.font.family = "system-ui, -apple-system, sans-serif";
+  Chart.defaults.font.size   = 11;
+
   async function get(path) {
     var r = await fetch(BASE + "/" + path, { headers: auth });
     if (!r.ok) throw new Error(r.status);
     return r.json();
   }
 
-  /* ── Chart palette ── */
-  var GREEN  = "#046A38";
-  var ORANGE = "#FF671F";
-  var BLUE   = "#3b82f6";
-  var PURPLE = "#a855f7";
-  var GRID   = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
-  var LABEL  = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.4)";
-
-  Chart.defaults.color = LABEL;
-  Chart.defaults.borderColor = GRID;
-  Chart.defaults.font.family = "system-ui, sans-serif";
-
-  function lineChart(id, labels, datasets) {
-    return new Chart(document.getElementById(id), {
-      type: "line",
-      data: { labels, datasets },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: datasets.length > 1, labels: { color: LABEL, boxWidth: 12 } } },
-        scales: {
-          y: { min: 0, max: 10, grid: { color: GRID }, ticks: { color: LABEL } },
-          x: { grid: { display: false }, ticks: { color: LABEL } }
-        }
+  function lineOpts(min, max, multi) {
+    return {
+      responsive: true,
+      plugins: { legend: { display: !!multi, labels: { color: LABEL, boxWidth: 10 } } },
+      scales: {
+        y: { min: min, max: max, grid: { color: GRID }, ticks: { color: LABEL } },
+        x: { grid: { display: false }, ticks: { color: LABEL } }
       }
-    });
+    };
   }
 
-  function barChart(id, labels, data, color) {
-    return new Chart(document.getElementById(id), {
+  try {
+    var [hdiRes, moodRes, goalsRes, habitsRes, tasksRes] = await Promise.all([
+      get("hdi"), get("mood"), get("goals"), get("habits"), get("tasks")
+    ]);
+
+    /* ── HDI ── */
+    var hdi   = hdiRes.data || {};
+    var score = hdi.hdi || 0;
+    var grade = hdi.grade || "?";
+    var bd    = hdi.breakdown || {};
+
+    document.getElementById("hdiScore").textContent = score;
+    document.getElementById("kpiHdi").textContent   = score;
+
+    var gradeColor = { S: GREEN, A: GREEN, B: GREEN, C: ORANGE, D: ORANGE, F: "#ef4444" };
+    var gc = gradeColor[grade] || GREEN;
+    document.getElementById("hdiGrade").style.color        = gc;
+    document.getElementById("hdiGrade").textContent        = "Grade " + grade;
+    document.getElementById("dmGradeBadge").textContent    = "Grade " + grade;
+    document.getElementById("dmGradeBadge").style.color    = gc;
+    document.getElementById("dmGradeBadge").style.borderColor = gc + "55";
+    document.getElementById("dmGradeBadge").style.background  = gc + "18";
+
+    var circ = 2 * Math.PI * 65; // ≈ 408.4
+    var ring = document.getElementById("hdiRingFill");
+    ring.style.strokeDasharray  = circ;
+    ring.style.strokeDashoffset = circ;
+    setTimeout(function () {
+      ring.style.strokeDashoffset = circ - (score / 100) * circ;
+    }, 100);
+
+    if (hdi.computed_at) {
+      document.getElementById("computedAt").textContent =
+        "Updated " + new Date(hdi.computed_at).toLocaleString();
+    }
+
+    var chipLabels = { goals:"Goals", habits:"Habits", mood:"Mood", energy:"Energy", tasks:"Tasks" };
+    document.getElementById("hdiChips").innerHTML = Object.entries(bd).map(function (e) {
+      return '<span class="dm-chip"><strong>' + (chipLabels[e[0]] || e[0]) + '</strong>' + e[1] + '</span>';
+    }).join("");
+
+    /* ── Mood & Energy ── */
+    var moods      = (moodRes.data || []).slice().reverse();
+    var mLabels    = moods.map(function (m) { return m.logged_on ? m.logged_on.slice(5,10) : ""; });
+    var moodVals   = moods.map(function (m) { return m.mood; });
+    var energyVals = moods.map(function (m) { return m.energy; });
+    var moodAvg    = moodVals.length   ? (moodVals.reduce(function(a,b){return a+b;},0)/moodVals.length).toFixed(1)   : "—";
+    var energyAvg  = energyVals.length ? (energyVals.reduce(function(a,b){return a+b;},0)/energyVals.length).toFixed(1) : "—";
+
+    document.getElementById("kpiMood").textContent     = moodAvg;
+    document.getElementById("kpiEnergy").textContent   = energyAvg;
+    document.getElementById("moodBadge").textContent   = "avg " + moodAvg;
+    document.getElementById("energyBadge").textContent = "avg " + energyAvg;
+
+    new Chart(document.getElementById("moodChart"), {
+      type: "line",
+      data: { labels: mLabels, datasets: [{
+        data: moodVals, borderColor: GREEN, backgroundColor: GREEN + "18",
+        tension: 0.45, fill: true, pointRadius: 2, pointBackgroundColor: GREEN
+      }]},
+      options: lineOpts(0, 10)
+    });
+
+    new Chart(document.getElementById("energyChart"), {
+      type: "line",
+      data: { labels: mLabels, datasets: [{
+        data: energyVals, borderColor: ORANGE, backgroundColor: ORANGE + "18",
+        tension: 0.45, fill: true, pointRadius: 2, pointBackgroundColor: ORANGE
+      }]},
+      options: lineOpts(0, 10)
+    });
+
+    /* Mood vs Energy overlay */
+    new Chart(document.getElementById("moodEnergyChart"), {
+      type: "line",
+      data: { labels: mLabels, datasets: [
+        { label: "Mood",   data: moodVals,   borderColor: GREEN,  backgroundColor: GREEN + "12",  tension: 0.4, fill: false, pointRadius: 2 },
+        { label: "Energy", data: energyVals, borderColor: ORANGE, backgroundColor: ORANGE + "12", tension: 0.4, fill: false, pointRadius: 2 }
+      ]},
+      options: lineOpts(0, 10, true)
+    });
+
+    /* ── Goals ── */
+    var goals    = (goalsRes.data || []).filter(function (g) { return g.status === "active"; }).slice(0, 8);
+    var goalsAvg = goals.length
+      ? Math.round(goals.reduce(function(a,g){return a+(g.progress||0);},0)/goals.length)
+      : 0;
+    document.getElementById("kpiGoals").textContent  = goalsAvg + "%";
+    document.getElementById("goalsBadge").textContent = goals.length + " active";
+
+    new Chart(document.getElementById("goalsChart"), {
       type: "bar",
-      data: { labels, datasets: [{ data, backgroundColor: color + "55", borderColor: color, borderWidth: 1.5, borderRadius: 8 }] },
+      data: {
+        labels: goals.map(function (g) { return (g.title || "").slice(0,18); }),
+        datasets: [{ data: goals.map(function (g) { return g.progress || 0; }),
+          backgroundColor: PURPLE + "55", borderColor: PURPLE, borderWidth: 1.5, borderRadius: 8 }]
+      },
       options: {
         responsive: true,
         plugins: { legend: { display: false } },
@@ -286,17 +729,69 @@
         }
       }
     });
-  }
 
-  function radarChart(id, labels, data) {
-    return new Chart(document.getElementById(id), {
+    /* ── Habits ── */
+    var habits    = habitsRes.habits || [];
+    var logs      = habitsRes.logs   || [];
+    var today     = new Date().toISOString().slice(0, 10);
+    var doneToday = new Set(logs
+      .filter(function (l) { return l.completed_on && l.completed_on.slice(0,10) === today; })
+      .map(function (l) { return l.habit_id; })
+    );
+    var doneCount = habits.filter(function (h) { return doneToday.has(h.id); }).length;
+
+    document.getElementById("kpiHabits").textContent   = doneCount + "/" + habits.length;
+    document.getElementById("habitsBadge").textContent = doneCount + " / " + habits.length + " today";
+
+    var habitsHtml = habits.map(function (h) {
+      var done = doneToday.has(h.id);
+      var cnt  = logs.filter(function (l) { return l.habit_id === h.id; }).length;
+      var dots = Array.from({length: 30}, function (_, i) {
+        return '<span class="dm-habit-dot' + (i < cnt ? " on" : "") + '"></span>';
+      }).join("");
+      return '<div class="dm-habit-row">'
+        + '<span class="dm-habit-name">' + (h.title || "").slice(0,36) + '</span>'
+        + '<div class="dm-habit-dots">' + dots + '</div>'
+        + '<span class="dm-habit-status">' + (done ? "✅" : "⬜") + '</span>'
+        + '</div>';
+    }).join("");
+
+    document.getElementById("habitsStats").innerHTML =
+      habitsHtml || '<span class="dm-loading">No habits tracked yet.</span>';
+
+    /* ── Tasks ── */
+    var tasks    = tasksRes.data || [];
+    var taskDone = tasks.filter(function (t) { return t.done; }).length;
+    var taskOpen = tasks.length - taskDone;
+
+    document.getElementById("kpiTasks").textContent    = taskDone + "/" + tasks.length;
+    document.getElementById("tasksDone").textContent   = taskDone;
+    document.getElementById("tasksBadge").textContent  = taskDone + " done";
+
+    new Chart(document.getElementById("tasksChart"), {
+      type: "doughnut",
+      data: { labels: ["Done", "Open"], datasets: [{
+        data: [taskDone, taskOpen],
+        backgroundColor: [GREEN + "cc", ORANGE + "44"],
+        borderColor: [GREEN, ORANGE],
+        borderWidth: 2, hoverOffset: 6
+      }]},
+      options: {
+        responsive: true, cutout: "72%",
+        plugins: {
+          legend: { position: "bottom", labels: { color: LABEL, padding: 14, boxWidth: 10 } },
+          tooltip: { callbacks: { label: function (c) { return " " + c.label + ": " + c.raw; } } }
+        }
+      }
+    });
+
+    /* ── HDI Radar ── */
+    new Chart(document.getElementById("hdiBreakChart"), {
       type: "radar",
-      data: { labels, datasets: [{ data,
-        backgroundColor: GREEN + "28",
-        borderColor: GREEN,
-        borderWidth: 2,
-        pointBackgroundColor: ORANGE,
-        pointRadius: 4
+      data: { labels: ["Goals","Habits","Mood","Tasks","Energy"], datasets: [{
+        data: [bd.goals||0, bd.habits||0, bd.mood||0, bd.tasks||0, bd.energy||0],
+        backgroundColor: GREEN + "28", borderColor: GREEN, borderWidth: 2,
+        pointBackgroundColor: ORANGE, pointRadius: 4
       }]},
       options: {
         responsive: true,
@@ -310,124 +805,15 @@
         }}
       }
     });
-  }
 
-  try {
-    var [hdiRes, moodRes, goalsRes, habitsRes, tasksRes] = await Promise.all([
-      get("hdi"), get("mood"), get("goals"), get("habits"), get("tasks")
-    ]);
-
-    /* ── HDI Ring ── */
-    var hdi   = hdiRes.data || {};
-    var score = hdi.hdi || 0;
-    var grade = hdi.grade || "?";
-    var bd    = hdi.breakdown || {};
-
-    document.getElementById("hdiScore").textContent = score;
-
-    var gradeColor = { S: GREEN, A: GREEN, B: GREEN, C: ORANGE, D: ORANGE, F: "#ef4444" };
-    document.getElementById("hdiGrade").style.color = gradeColor[grade] || GREEN;
-    document.getElementById("hdiGrade").textContent  = "Grade " + grade;
-
-    var circumference = 2 * Math.PI * 70; // 439.8
-    var offset = circumference - (score / 100) * circumference;
-    var ring = document.getElementById("hdiRingFill");
-    ring.style.strokeDasharray  = circumference;
-    ring.style.strokeDashoffset = circumference;
-    setTimeout(function() { ring.style.strokeDashoffset = offset; }, 100);
-
-    if (hdi.computed_at) {
-      document.getElementById("computedAt").textContent =
-        "Updated " + new Date(hdi.computed_at).toLocaleString();
-    }
-
-    var chipLabels = { goals: "Goals", habits: "Habits", mood: "Mood", energy: "Energy", tasks: "Tasks" };
-    document.getElementById("hdiChips").innerHTML = Object.entries(bd).map(function(e) {
-      return '<span class="hdi-chip"><strong>' + (chipLabels[e[0]] || e[0]) + '</strong>' + e[1] + '</span>';
-    }).join("");
-
-    /* ── Mood & Energy ── */
-    var moods   = (moodRes.data || []).slice().reverse();
-    var mLabels = moods.map(function(m) { return m.logged_on ? m.logged_on.slice(5,10) : ""; });
-
-    lineChart("moodChart", mLabels, [{
-      label: "Mood", data: moods.map(function(m) { return m.mood; }),
-      borderColor: GREEN, backgroundColor: GREEN + "18", tension: 0.45, fill: true, pointRadius: 3,
-      pointBackgroundColor: GREEN
-    }]);
-    lineChart("energyChart", mLabels, [{
-      label: "Energy", data: moods.map(function(m) { return m.energy; }),
-      borderColor: ORANGE, backgroundColor: ORANGE + "18", tension: 0.45, fill: true, pointRadius: 3,
-      pointBackgroundColor: ORANGE
-    }]);
-
-    /* ── Goals ── */
-    var goals = (goalsRes.data || []).filter(function(g) { return g.status === "active"; }).slice(0, 8);
-    barChart("goalsChart",
-      goals.map(function(g) { return (g.title || "").slice(0, 18); }),
-      goals.map(function(g) { return g.progress || 0; }),
-      PURPLE
-    );
-
-    /* ── Habits ── */
-    var habits    = habitsRes.habits || [];
-    var logs      = habitsRes.logs   || [];
-    var today     = new Date().toISOString().slice(0, 10);
-    var doneToday = new Set(logs
-      .filter(function(l) { return l.completed_on && l.completed_on.slice(0,10) === today; })
-      .map(function(l) { return l.habit_id; })
-    );
-    var doneCount = habits.filter(function(h) { return doneToday.has(h.id); }).length;
-    document.getElementById("habitsBadge").textContent = doneCount + " / " + habits.length;
-
-    var habitsHtml = habits.map(function(h) {
-      var done = doneToday.has(h.id);
-      var cnt  = logs.filter(function(l) { return l.habit_id === h.id; }).length;
-      var dots = Array.from({length: 30}, function(_, i) {
-        return '<span class="habit-dot' + (i < cnt ? " on" : "") + '"></span>';
-      }).join("");
-      return '<div class="habit-row">'
-        + '<span class="habit-name">' + (h.title || "").slice(0, 26) + '</span>'
-        + '<div class="habit-dots">' + dots + '</div>'
-        + '<span class="habit-status">' + (done ? "✅" : "⬜") + '</span>'
-        + '</div>';
-    }).join("");
-    document.getElementById("habitsStats").innerHTML =
-      habitsHtml || '<span class="dash-loading">No habits yet.</span>';
-
-    /* ── Tasks Doughnut ── */
-    var tasks    = tasksRes.data || [];
-    var taskDone = tasks.filter(function(t) { return t.done; }).length;
-    var taskOpen = tasks.length - taskDone;
-    document.getElementById("tasksDone").textContent = taskDone;
-    new Chart(document.getElementById("tasksChart"), {
-      type: "doughnut",
-      data: { labels: ["Done", "Open"], datasets: [{
-        data: [taskDone, taskOpen],
-        backgroundColor: [GREEN + "cc", ORANGE + "44"],
-        borderColor: [GREEN, ORANGE],
-        borderWidth: 2, hoverOffset: 6
-      }]},
-      options: {
-        responsive: true, cutout: "72%",
-        plugins: {
-          legend: { position: "bottom", labels: { color: LABEL, padding: 16, boxWidth: 12 } },
-          tooltip: { callbacks: { label: function(c) { return " " + c.label + ": " + c.raw; } } }
-        }
-      }
-    });
-
-    /* ── HDI Radar ── */
-    radarChart("hdiBreakChart",
-      ["Goals", "Habits", "Mood", "Tasks", "Energy"],
-      [bd.goals || 0, bd.habits || 0, bd.mood || 0, bd.tasks || 0, bd.energy || 0]
-    );
+    document.getElementById("dmLastRefresh").textContent =
+      "Last refreshed " + new Date().toLocaleTimeString();
 
   } catch (e) {
     console.error(e);
-    document.querySelector(".hdi-hero").insertAdjacentHTML("beforeend",
-      '<div class="dash-error">Failed to load: ' + e.message + '</div>'
-    );
+    document.getElementById("dmError").innerHTML =
+      '<div class="dm-error">Failed to load dashboard data: ' + e.message + '</div>';
+    document.getElementById("dmLastRefresh").textContent = "Error — check console";
   }
 }());
 </script>
