@@ -3,30 +3,641 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Self | Amit Ku Yadav | Private Identity System</title>
-  <meta name="description" content="Private identity page for Amit Ku Yadav: values, skills, personal direction, interests, and self-organization." />
+  <title>Origin · Self | Amit Ku Yadav</title>
+  <meta name="description" content="Private identity origin page for Amit Ku Yadav — HDI system, personal standards, skills, philosophy, and direction." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
-<link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
   <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
   <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
-  <link rel="stylesheet" href="/css/myself.css?v=20260502-pro" />
-<link rel="canonical" href="https://kingofyadav.in/pages/origin.html" />
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Amit Ku Yadav",
-  "url": "https://kingofyadav.in",
-  "jobTitle": "Builder and Digital Systems Worker",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Bhagalpur",
-    "addressCountry": "India"
+  <link rel="canonical" href="https://kingofyadav.in/pages/origin.html" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Amit Ku Yadav",
+    "url": "https://kingofyadav.in",
+    "jobTitle": "Builder and Digital Systems Worker",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bhagalpur",
+      "addressCountry": "India"
+    }
   }
-}
-</script>
+  </script>
+  <style>
+    /* ── ORI design system ── */
+    :root {
+      --ori-green:  #046A38;
+      --ori-orange: #FF671F;
+      --ori-white:  #f4f4f4;
+      --ori-border: rgba(255,255,255,.09);
+      --ori-card:   rgba(255,255,255,.04);
+      --ori-card2:  rgba(255,255,255,.07);
+      --ori-muted:  rgba(255,255,255,.5);
+      --ori-label:  rgba(255,255,255,.38);
+      --ori-radius: 16px;
+      --ori-rad-sm: 10px;
+      --ori-pad:    clamp(20px, 3vw, 44px);
+    }
+    body.theme-light {
+      --ori-border: rgba(0,0,0,.1);
+      --ori-card:   rgba(0,0,0,.03);
+      --ori-card2:  rgba(0,0,0,.06);
+      --ori-muted:  rgba(0,0,0,.55);
+      --ori-label:  rgba(0,0,0,.4);
+    }
+
+    /* ── Stripe ── */
+    .ori-stripe {
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
+      flex-shrink: 0;
+    }
+
+    /* ── Page wrapper ── */
+    .ori-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--ori-pad) 60px;
+    }
+
+    /* ── Hero ── */
+    .ori-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: center;
+      padding: 48px 0 36px;
+      border-bottom: 1px solid var(--ori-border);
+      margin-bottom: 40px;
+    }
+    .ori-hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--ori-orange);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+    .ori-hero-kicker::before {
+      content: "";
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--ori-orange);
+      border-radius: 2px;
+    }
+    .ori-hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+    }
+    .ori-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--ori-green), #0a9a54);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .ori-hero-sub {
+      max-width: 520px;
+      margin: 0 0 24px;
+      color: var(--ori-muted);
+      font-size: .96rem;
+      line-height: 1.7;
+    }
+    .ori-hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .ori-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .5px;
+      text-decoration: none;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      cursor: pointer;
+    }
+    .ori-btn-primary {
+      background: var(--ori-green);
+      color: #fff;
+      border: 1px solid var(--ori-green);
+    }
+    .ori-btn-primary:hover { transform: translateY(-2px); background: #035e31; }
+    .ori-btn-outline {
+      background: transparent;
+      color: inherit;
+      border: 1px solid var(--ori-border);
+    }
+    .ori-btn-outline:hover {
+      border-color: rgba(4,106,56,.4);
+      background: rgba(4,106,56,.1);
+      transform: translateY(-2px);
+    }
+
+    /* Hero panel */
+    .ori-hero-panel {
+      display: grid;
+      gap: 10px;
+      min-width: 220px;
+      padding: 20px;
+      border: 1px solid var(--ori-border);
+      border-radius: var(--ori-radius);
+      background: var(--ori-card2);
+    }
+    .ori-hero-panel-title {
+      margin: 0 0 4px;
+      color: var(--ori-green);
+      font-size: .65rem;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+    .ori-panel-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: var(--ori-card);
+    }
+    .ori-panel-row span {
+      color: var(--ori-label);
+      font-size: .64rem;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+    .ori-panel-row strong {
+      font-size: .82rem;
+      font-weight: 780;
+      line-height: 1.3;
+    }
+
+    /* ── Section header ── */
+    .ori-section { margin-bottom: 48px; }
+    .ori-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .ori-section-head h2 {
+      margin: 0;
+      font-size: clamp(1.15rem, 2.5vw, 1.7rem);
+      font-weight: 900;
+      letter-spacing: -.01em;
+    }
+    .ori-section-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(4,106,56,.12);
+      color: var(--ori-green);
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .ori-section-tag.orange {
+      background: rgba(255,103,31,.12);
+      color: var(--ori-orange);
+    }
+
+    /* ── HDI Journey ── */
+    .ori-hdi-section {
+      margin-bottom: 52px;
+      padding: 32px;
+      border: 1px solid rgba(4,106,56,.22);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(4,106,56,.08), rgba(255,103,31,.05)), var(--ori-card);
+      position: relative;
+      overflow: hidden;
+    }
+    .ori-hdi-section::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--ori-green), var(--ori-orange));
+    }
+    .ori-hdi-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 28px;
+    }
+    .ori-hdi-head h2 {
+      margin: 0 0 6px;
+      font-size: clamp(1.2rem, 2.8vw, 1.9rem);
+      font-weight: 900;
+    }
+    .ori-hdi-head p {
+      margin: 0;
+      color: var(--ori-muted);
+      font-size: .88rem;
+      line-height: 1.65;
+      max-width: 520px;
+    }
+    .ori-hdi-code-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 20px;
+      border: 1px solid rgba(4,106,56,.3);
+      border-radius: var(--ori-rad-sm);
+      background: rgba(4,106,56,.1);
+      min-width: 160px;
+      text-align: center;
+    }
+    .ori-hdi-code {
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--ori-green);
+      letter-spacing: 2px;
+    }
+    .ori-hdi-code-label {
+      color: var(--ori-label);
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* 4-step pipeline */
+    .ori-pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .ori-pipeline::before {
+      content: "";
+      position: absolute;
+      top: 36px;
+      left: calc(12.5% + 2px);
+      right: calc(12.5% + 2px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--ori-green) 0%, rgba(4,106,56,.3) 60%, var(--ori-orange) 100%);
+      pointer-events: none;
+    }
+    .ori-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 10px;
+      text-align: center;
+    }
+    .ori-step-num {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 2px solid var(--ori-border);
+      background: var(--ori-card2);
+      font-size: .78rem;
+      font-weight: 900;
+      color: var(--ori-muted);
+      margin-bottom: 14px;
+      z-index: 1;
+      flex-shrink: 0;
+      transition: border-color .2s ease, color .2s ease, background .2s ease;
+    }
+    .ori-step.active .ori-step-num {
+      border-color: var(--ori-green);
+      color: #fff;
+      background: var(--ori-green);
+    }
+    .ori-step.prove .ori-step-num {
+      border-color: var(--ori-orange);
+      color: #fff;
+      background: var(--ori-orange);
+    }
+    .ori-step-title {
+      font-size: .76rem;
+      font-weight: 900;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .ori-step-body {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--ori-border);
+      border-radius: var(--ori-rad-sm);
+      background: var(--ori-card);
+      font-size: .77rem;
+      line-height: 1.55;
+      color: var(--ori-muted);
+      text-align: left;
+    }
+    .ori-step.active .ori-step-body {
+      border-color: rgba(4,106,56,.22);
+      background: rgba(4,106,56,.07);
+    }
+    .ori-step.prove .ori-step-body {
+      border-color: rgba(255,103,31,.22);
+      background: rgba(255,103,31,.07);
+    }
+    .ori-step-body ul {
+      margin: 6px 0 0;
+      padding-left: 14px;
+    }
+    .ori-step-body li { margin-bottom: 3px; }
+    .ori-step-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+      color: var(--ori-green);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .5px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .ori-step-link:hover { text-decoration: underline; }
+    .ori-step-link.orange { color: var(--ori-orange); }
+
+    /* HDI formula strip */
+    .ori-formula {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 28px;
+      padding: 16px;
+      border: 1px dashed rgba(4,106,56,.25);
+      border-radius: var(--ori-rad-sm);
+      background: rgba(4,106,56,.04);
+    }
+    .ori-formula-part {
+      padding: 5px 12px;
+      border-radius: 6px;
+      background: var(--ori-card2);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .4px;
+      font-family: 'Courier New', monospace;
+    }
+    .ori-formula-op {
+      color: var(--ori-label);
+      font-size: .82rem;
+      font-weight: 700;
+    }
+    .ori-formula-result {
+      padding: 5px 14px;
+      border-radius: 6px;
+      background: var(--ori-green);
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      font-family: 'Courier New', monospace;
+    }
+    .ori-formula-note {
+      width: 100%;
+      margin-top: 6px;
+      text-align: center;
+      color: var(--ori-label);
+      font-size: .66rem;
+      letter-spacing: .5px;
+    }
+
+    /* Ecosystem use grid */
+    .ori-eco-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .ori-eco-card {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 12px;
+      border: 1px solid var(--ori-border);
+      border-radius: var(--ori-rad-sm);
+      background: var(--ori-card);
+      text-decoration: none;
+      color: inherit;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .ori-eco-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(4,106,56,.3);
+      background: rgba(4,106,56,.1);
+    }
+    .ori-eco-icon {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .ori-eco-name {
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .3px;
+    }
+    .ori-eco-desc {
+      color: var(--ori-label);
+      font-size: .64rem;
+      line-height: 1.4;
+    }
+
+    /* Proof badges */
+    .ori-proof-grid {
+      display: grid;
+      gap: 7px;
+      margin-top: 8px;
+    }
+    .ori-proof-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 9px 10px;
+      border-radius: 8px;
+      background: rgba(255,103,31,.06);
+      border: 1px solid rgba(255,103,31,.14);
+    }
+    .ori-proof-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--ori-orange);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .ori-proof-text { font-size: .72rem; line-height: 1.5; }
+    .ori-proof-text strong { display: block; font-size: .74rem; margin-bottom: 1px; }
+
+    /* ── 4-col card grid ── */
+    .ori-grid4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .ori-grid2 { grid-template-columns: repeat(2, 1fr); }
+    .ori-card {
+      padding: 20px;
+      border: 1px solid var(--ori-border);
+      border-radius: var(--ori-radius);
+      background: var(--ori-card);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .ori-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(4,106,56,.22);
+      background: var(--ori-card2);
+    }
+    .ori-card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    .ori-card h3 {
+      margin: 0 0 8px;
+      font-size: .86rem;
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+    .ori-card p {
+      margin: 0;
+      color: var(--ori-muted);
+      font-size: .78rem;
+      line-height: 1.6;
+    }
+
+    /* ── Direction block ── */
+    .ori-direction {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 28px;
+      border: 1px solid var(--ori-border);
+      border-radius: var(--ori-radius);
+      background: var(--ori-card);
+      margin-bottom: 48px;
+    }
+    .ori-direction p {
+      margin: 0;
+      color: var(--ori-muted);
+      font-size: .9rem;
+      line-height: 1.75;
+    }
+
+    /* ── Philosophy block ── */
+    .ori-philosophy {
+      padding: 28px;
+      border: 1px solid var(--ori-border);
+      border-radius: var(--ori-radius);
+      background: linear-gradient(135deg, rgba(4,106,56,.06), rgba(255,103,31,.04)), var(--ori-card);
+      margin-bottom: 48px;
+    }
+    .ori-philosophy p {
+      margin: 0 0 12px;
+      color: var(--ori-muted);
+      font-size: .92rem;
+      line-height: 1.75;
+      max-width: 720px;
+    }
+    .ori-philosophy p:last-child { margin-bottom: 0; }
+
+    /* ── Facts strip ── */
+    .ori-facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 48px;
+    }
+    .ori-fact {
+      padding: 18px;
+      border: 1px solid var(--ori-border);
+      border-radius: var(--ori-radius);
+      background: var(--ori-card);
+      text-align: center;
+    }
+    .ori-fact-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ori-green);
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+    }
+    .ori-fact-value {
+      font-size: .88rem;
+      font-weight: 780;
+      line-height: 1.4;
+    }
+
+    /* ── CTA ── */
+    .ori-cta {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 32px;
+      border: 1px solid rgba(4,106,56,.24);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(4,106,56,.12), rgba(255,103,31,.08)), var(--ori-card);
+    }
+    .ori-cta h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-weight: 900;
+    }
+    .ori-cta p {
+      margin: 0;
+      color: var(--ori-muted);
+      font-size: .88rem;
+      line-height: 1.6;
+    }
+    .ori-cta-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 160px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .ori-pipeline { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .ori-pipeline::before { display: none; }
+      .ori-grid4 { grid-template-columns: repeat(2, 1fr); }
+      .ori-eco-grid { grid-template-columns: repeat(2, 1fr); }
+      .ori-facts { grid-template-columns: repeat(2, 1fr); }
+      .ori-hero { grid-template-columns: 1fr; }
+      .ori-hero-panel { min-width: 0; }
+      .ori-hdi-head { grid-template-columns: 1fr; }
+      .ori-hdi-code-box { align-self: start; }
+      .ori-direction { grid-template-columns: 1fr; }
+      .ori-cta { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .ori-pipeline { grid-template-columns: 1fr; }
+      .ori-grid4 { grid-template-columns: 1fr; }
+      .ori-eco-grid { grid-template-columns: repeat(2, 1fr); }
+      .ori-facts { grid-template-columns: 1fr 1fr; }
+      .ori-hdi-section { padding: 22px 18px; }
+    }
+  </style>
 </head>
 
 <body class="theme-dark" data-profile-page="mySelf">
@@ -43,7 +654,6 @@
         <span class="personal-tagline">ORIGIN</span>
       </div>
     </a>
-
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -55,181 +665,372 @@
   </div>
 </header>
 
-<main class="personal-main personal-page page-intro" id="main-content">
+<div class="ori-stripe"></div>
 
-  <section class="life-card glass profile-hero">
-    <div class="profile-hero-copy">
-      <p class="hero-label">Origin · Self</p>
-      <h1>Who I Am Becoming</h1>
-      <p class="personal-intro">
-        A private identity page for the person behind the work: standards, skills,
-        interests, operating principles, and the direction I want my life to follow.
+<main class="personal-main" id="main-content">
+<div class="ori-page">
+
+  <!-- ── HERO ── -->
+  <section class="ori-hero" aria-label="Identity hero">
+    <div>
+      <p class="ori-hero-kicker">Origin · Self · Identity</p>
+      <h1>Who I Am<br /><em>Becoming</em></h1>
+      <p class="ori-hero-sub">
+        A private reference point for standards, skills, personal direction,
+        and the HDI system that anchors my digital identity across the HI ecosystem.
       </p>
-      <div class="profile-hero-actions">
-        <a class="profile-hero-action primary" href="#standards">Standards</a>
-        <a class="profile-hero-action" href="#skills">Skills</a>
-        <a class="profile-hero-action" href="/pages/about.html">About</a>
+      <div class="ori-hero-btns">
+        <a class="ori-btn ori-btn-primary" href="#hdi-journey">HDI Journey</a>
+        <a class="ori-btn ori-btn-outline" href="#standards">Standards</a>
+        <a class="ori-btn ori-btn-outline" href="#skills">Skills</a>
+        <a class="ori-btn ori-btn-outline" href="/pages/about.html">About</a>
       </div>
     </div>
-    <aside class="profile-hero-panel" aria-label="Origin identity summary">
-      <p class="profile-panel-title">Self System</p>
-      <div class="profile-panel-list">
-        <div><span>Identity</span><strong>Builder · Learner · Coordinator</strong></div>
-        <div><span>Base</span><strong>Bhagalpur, Bihar</strong></div>
-        <div><span>Direction</span><strong>Systems, service, and disciplined growth</strong></div>
-        <div><span>Measure</span><strong>Dependability over attention</strong></div>
+    <aside class="ori-hero-panel" aria-label="Origin identity summary">
+      <p class="ori-hero-panel-title">Identity Summary</p>
+      <div class="ori-panel-row">
+        <span>Roles</span>
+        <strong>Builder · Learner · Coordinator</strong>
+      </div>
+      <div class="ori-panel-row">
+        <span>Base</span>
+        <strong>Bhagalpur, Bihar</strong>
+      </div>
+      <div class="ori-panel-row">
+        <span>Direction</span>
+        <strong>Systems, service, disciplined growth</strong>
+      </div>
+      <div class="ori-panel-row">
+        <span>Measure</span>
+        <strong>Dependability over attention</strong>
+      </div>
+      <div class="ori-panel-row">
+        <span>Identity Layer</span>
+        <strong style="font-family:'Courier New',monospace;color:var(--ori-green);letter-spacing:1.5px">AKY-2026-3F8A2C</strong>
       </div>
     </aside>
   </section>
 
-  <section class="private-snapshot" aria-label="Private self snapshot">
-    <div><span>Identity</span><strong>Builder</strong></div>
-    <div><span>Direction</span><strong>Systems + Service</strong></div>
-    <div><span>Standard</span><strong>Discipline</strong></div>
-    <div><span>Base</span><strong>Bhagalpur</strong></div>
-  </section>
-
-  <section class="life-card glass" id="direction">
-    <h2>My Direction</h2>
-    <p>
-      To become dependable in every space where I work: family, business,
-      technology, community, and public life. Dependability is the real measure.
-    </p>
-    <p>
-      I am not trying to build a loud identity. I am building a clear one — a person
-      whose work, communication, and record stay consistent when checked closely.
-    </p>
-  </section>
-
-  <section class="life-card glass" id="standards">
-    <h2>Personal Standards</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <h2>Clarity</h2>
-        <p>Say what is real, what is planned, and what still needs work.</p>
+  <!-- ── HDI JOURNEY ── -->
+  <section class="ori-hdi-section" id="hdi-journey" aria-label="HDI end-to-end journey">
+    <div class="ori-hdi-head">
+      <div>
+        <div class="ori-section-head" style="margin-bottom:10px">
+          <h2>HDI — Human Digital Identity</h2>
+          <span class="ori-section-tag">End-to-End</span>
+        </div>
+        <p>
+          HDI is your permanent, device-bound cryptographic identifier inside the HI ecosystem.
+          Created once from your name and device fingerprint, it follows you across Wallet, Vault,
+          Marketplace, and License — without any server storing your private data.
+        </p>
       </div>
-      <div class="service-card">
-        <h2>Discipline</h2>
-        <p>Keep routine, delivery, communication, and health structured.</p>
-      </div>
-      <div class="service-card">
-        <h2>Responsibility</h2>
-        <p>Own the outcome when my name, system, or promise is attached.</p>
-      </div>
-      <div class="service-card">
-        <h2>Respect</h2>
-        <p>Respect people, time, privacy, commitments, and the work itself.</p>
+      <div class="ori-hdi-code-box">
+        <span class="ori-hdi-code">AKY-2026-3F8A2C</span>
+        <span class="ori-hdi-code-label">Sample HDI Code</span>
       </div>
     </div>
+
+    <!-- 4-step pipeline -->
+    <div class="ori-pipeline" aria-label="HDI lifecycle steps">
+
+      <!-- Step 1: Create -->
+      <div class="ori-step active">
+        <div class="ori-step-num">01</div>
+        <p class="ori-step-title" style="color:var(--ori-green)">Create</p>
+        <div class="ori-step-body">
+          <strong style="display:block;margin-bottom:6px;font-size:.74rem">Fill Identity Form</strong>
+          Required fields:
+          <ul>
+            <li>Full Name</li>
+            <li>Username</li>
+            <li>Email &amp; Phone</li>
+            <li>Tagline · Roles</li>
+            <li>Location · Mission</li>
+          </ul>
+          <a class="ori-step-link" href="/pages/personal.html">Open Form &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Step 2: Generate -->
+      <div class="ori-step active">
+        <div class="ori-step-num">02</div>
+        <p class="ori-step-title" style="color:var(--ori-green)">Generate</p>
+        <div class="ori-step-body">
+          <strong style="display:block;margin-bottom:6px;font-size:.74rem">HDI Code Born</strong>
+          Your name + this device's fingerprint are hashed via SHA-256.
+          The result is compressed into a permanent 6-char code locked to your device.
+          <br /><br />
+          <span style="font-family:'Courier New',monospace;font-size:.68rem;color:var(--ori-green);letter-spacing:1px">INITIALS-YEAR-HEX6</span>
+          <br />
+          <span style="font-size:.64rem;color:var(--ori-label)">Cannot be regenerated on another device</span>
+        </div>
+      </div>
+
+      <!-- Step 3: Use -->
+      <div class="ori-step active">
+        <div class="ori-step-num">03</div>
+        <p class="ori-step-title" style="color:var(--ori-green)">Use</p>
+        <div class="ori-step-body">
+          <strong style="display:block;margin-bottom:8px;font-size:.74rem">Across the Ecosystem</strong>
+          <div class="ori-eco-grid" style="grid-template-columns:1fr 1fr">
+            <a class="ori-eco-card" href="/pages/wallet.html">
+              <span class="ori-eco-icon">💳</span>
+              <span class="ori-eco-name">Wallet</span>
+              <span class="ori-eco-desc">HDI-tagged transactions</span>
+            </a>
+            <a class="ori-eco-card" href="/pages/vault.html">
+              <span class="ori-eco-icon">🔐</span>
+              <span class="ori-eco-name">Vault</span>
+              <span class="ori-eco-desc">Encrypted backup owner</span>
+            </a>
+            <a class="ori-eco-card" href="/marketplace/">
+              <span class="ori-eco-icon">🏪</span>
+              <span class="ori-eco-name">Market</span>
+              <span class="ori-eco-desc">Seller identity proof</span>
+            </a>
+            <a class="ori-eco-card" href="/pages/hi-license.html">
+              <span class="ori-eco-icon">📜</span>
+              <span class="ori-eco-name">License</span>
+              <span class="ori-eco-desc">Content claim author</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Prove -->
+      <div class="ori-step prove">
+        <div class="ori-step-num">04</div>
+        <p class="ori-step-title" style="color:var(--ori-orange)">Prove</p>
+        <div class="ori-step-body">
+          <strong style="display:block;margin-bottom:8px;font-size:.74rem">Trust &amp; Proof Layer</strong>
+          <div class="ori-proof-grid">
+            <div class="ori-proof-item">
+              <div class="ori-proof-dot"></div>
+              <div class="ori-proof-text">
+                <strong>Content Fingerprints</strong>
+                SHA-256 hash of every claim you register
+              </div>
+            </div>
+            <div class="ori-proof-item">
+              <div class="ori-proof-dot"></div>
+              <div class="ori-proof-text">
+                <strong>Vault Backup</strong>
+                AES-GCM encrypted, key from PBKDF2
+              </div>
+            </div>
+            <div class="ori-proof-item">
+              <div class="ori-proof-dot"></div>
+              <div class="ori-proof-text">
+                <strong>Ledger History</strong>
+                Immutable timestamp record per action
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /pipeline -->
+
+    <!-- Formula strip -->
+    <div class="ori-formula" aria-label="HDI generation formula">
+      <span class="ori-formula-part">Full Name</span>
+      <span class="ori-formula-op">+</span>
+      <span class="ori-formula-part">Device Fingerprint</span>
+      <span class="ori-formula-op">&rarr;</span>
+      <span class="ori-formula-part">SHA-256</span>
+      <span class="ori-formula-op">&rarr;</span>
+      <span class="ori-formula-result">AKY-2026-3F8A2C</span>
+      <span class="ori-formula-note">Device-locked · One-time generation · Zero server storage</span>
+    </div>
   </section>
 
-  <section class="life-card glass" id="skills">
-    <h2>Skills &amp; Working Strengths</h2>
-    <div class="services-grid">
-    <div class="service-card">
-      <h2>Digital Systems</h2>
-      <p>Websites, automation, structured profiles, and performance-focused public presence.</p>
+  <!-- ── MY DIRECTION ── -->
+  <section class="ori-section" id="direction" aria-label="Personal direction">
+    <div class="ori-section-head">
+      <h2>My Direction</h2>
+      <span class="ori-section-tag">North Star</span>
     </div>
-
-    <div class="service-card">
-      <h2>Identity Structure</h2>
-      <p>Clear positioning, consistent presentation, and trust-building communication.</p>
-    </div>
-
-    <div class="service-card">
-      <h2>Decision Discipline</h2>
-      <p>Thinking in priorities, systems, timing, and long-term consequences.</p>
-    </div>
-
-    <div class="service-card">
-      <h2>Public Communication</h2>
-      <p>Structured growth across writing, social platforms, and community channels.</p>
-    </div>
+    <div class="ori-direction">
+      <p>
+        To become dependable in every space where I work: family, business,
+        technology, community, and public life. Dependability is the real measure —
+        not how loud the presence, but how consistent the record.
+      </p>
+      <p>
+        I am not trying to build a loud identity. I am building a clear one — a person
+        whose work, communication, and record stay consistent when checked closely.
+        The goal is to be someone others can rely on without needing explanation.
+      </p>
     </div>
   </section>
 
-  <section class="life-card glass">
-    <h2>My Philosophy</h2>
-    <p>
-      Discipline creates stability. Clarity protects energy. Consistency builds
-      identity. A person becomes strong by doing the right things repeatedly.
-    </p>
-    <p>
-      I prefer practical improvement over public noise. The work should become
-      strong enough that explanation becomes simple.
-    </p>
+  <!-- ── STANDARDS ── -->
+  <section class="ori-section" id="standards" aria-label="Personal standards">
+    <div class="ori-section-head">
+      <h2>Personal Standards</h2>
+      <span class="ori-section-tag">Non-Negotiable</span>
+    </div>
+    <div class="ori-grid4">
+      <div class="ori-card">
+        <div class="ori-card-icon">🎯</div>
+        <h3>Clarity</h3>
+        <p>Say what is real, what is planned, and what still needs work. No ambiguity in commitments.</p>
+      </div>
+      <div class="ori-card">
+        <div class="ori-card-icon">⚙️</div>
+        <h3>Discipline</h3>
+        <p>Keep routine, delivery, communication, and health structured — especially when motivation fades.</p>
+      </div>
+      <div class="ori-card">
+        <div class="ori-card-icon">🛡️</div>
+        <h3>Responsibility</h3>
+        <p>Own the outcome when my name, system, or promise is attached. No blame shifting.</p>
+      </div>
+      <div class="ori-card">
+        <div class="ori-card-icon">🤝</div>
+        <h3>Respect</h3>
+        <p>Respect people, time, privacy, commitments, and the work itself as first principles.</p>
+      </div>
+    </div>
   </section>
 
-  <section class="life-card glass">
-    <h2>Personal Interests</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <h2>Community Work</h2>
+  <!-- ── SKILLS ── -->
+  <section class="ori-section" id="skills" aria-label="Skills and strengths">
+    <div class="ori-section-head">
+      <h2>Skills &amp; Working Strengths</h2>
+      <span class="ori-section-tag orange">Core Capabilities</span>
+    </div>
+    <div class="ori-grid4">
+      <div class="ori-card">
+        <div class="ori-card-icon">🖥️</div>
+        <h3>Digital Systems</h3>
+        <p>Websites, automation, structured profiles, and performance-focused public digital presence.</p>
+      </div>
+      <div class="ori-card">
+        <div class="ori-card-icon">🪪</div>
+        <h3>Identity Structure</h3>
+        <p>Clear positioning, consistent presentation, and trust-building through the HDI system.</p>
+      </div>
+      <div class="ori-card">
+        <div class="ori-card-icon">🧠</div>
+        <h3>Decision Discipline</h3>
+        <p>Thinking in priorities, systems, timing, and long-term consequences over short-term comfort.</p>
+      </div>
+      <div class="ori-card">
+        <div class="ori-card-icon">📢</div>
+        <h3>Public Communication</h3>
+        <p>Structured growth across writing, social platforms, and community channels.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PHILOSOPHY ── -->
+  <section class="ori-section" aria-label="Personal philosophy">
+    <div class="ori-section-head">
+      <h2>Philosophy</h2>
+      <span class="ori-section-tag">Core Belief</span>
+    </div>
+    <div class="ori-philosophy">
+      <p>
+        Discipline creates stability. Clarity protects energy. Consistency builds
+        identity. A person becomes strong by doing the right things repeatedly —
+        not by doing dramatic things occasionally.
+      </p>
+      <p>
+        I prefer practical improvement over public noise. The work should become
+        strong enough that explanation becomes simple. Reputation is a by-product
+        of sustained, verifiable action — not an object to be managed.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── INTERESTS ── -->
+  <section class="ori-section" aria-label="Personal interests">
+    <div class="ori-section-head">
+      <h2>Personal Interests</h2>
+      <span class="ori-section-tag orange">What Drives Me</span>
+    </div>
+    <div class="ori-grid4">
+      <div class="ori-card">
+        <div class="ori-card-icon">🏘️</div>
+        <h3>Community Work</h3>
         <p>Actively involved in grassroots engagement, public service, and social initiatives in Bhagalpur.</p>
       </div>
-      <div class="service-card">
-        <h2>Digital Systems</h2>
+      <div class="ori-card">
+        <div class="ori-card-icon">⚡</div>
+        <h3>Digital Systems</h3>
         <p>Building structured digital platforms that represent real identity, authority, and long-term value.</p>
       </div>
-      <div class="service-card">
-        <h2>Reading &amp; Research</h2>
+      <div class="ori-card">
+        <div class="ori-card-icon">📚</div>
+        <h3>Reading &amp; Research</h3>
         <p>Daily study of leadership, governance, technology, and long-term systems thinking.</p>
       </div>
-      <div class="service-card">
-        <h2>Youth Mentorship</h2>
+      <div class="ori-card">
+        <div class="ori-card-icon">🌱</div>
+        <h3>Youth Mentorship</h3>
         <p>Guiding young individuals toward discipline, clarity, and purposeful structured growth.</p>
       </div>
     </div>
   </section>
 
-  <section class="life-card glass">
-    <h2>Quick Facts</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <h2>Born</h2>
-        <p>25 December 1999 · Bhagalpur, Bihar</p>
-      </div>
-      <div class="service-card">
-        <h2>Age</h2>
-        <p>26 Years</p>
-      </div>
-      <div class="service-card">
-        <h2>Ventures</h2>
-        <p>3 Active Businesses · 1 National NGO</p>
-      </div>
-      <div class="service-card">
-        <h2>Experience</h2>
-        <p>Building trust through work across multiple fields</p>
-      </div>
+  <!-- ── QUICK FACTS ── -->
+  <div class="ori-facts" aria-label="Quick facts">
+    <div class="ori-fact">
+      <span class="ori-fact-label">Born</span>
+      <span class="ori-fact-value">25 Dec 1999<br />Bhagalpur, Bihar</span>
+    </div>
+    <div class="ori-fact">
+      <span class="ori-fact-label">Age</span>
+      <span class="ori-fact-value">26 Years</span>
+    </div>
+    <div class="ori-fact">
+      <span class="ori-fact-label">Ventures</span>
+      <span class="ori-fact-value">3 Active Businesses<br />1 National NGO</span>
+    </div>
+    <div class="ori-fact">
+      <span class="ori-fact-label">Mission</span>
+      <span class="ori-fact-value">Build trust through consistent, verifiable work</span>
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <section class="ori-cta" aria-label="Identity setup CTA">
+    <div>
+      <h2>Set Up Your Identity</h2>
+      <p>
+        Open the identity form on your Personal page to generate your HDI code —
+        your permanent cryptographic anchor in the HI ecosystem.
+        One-time setup, device-bound, zero server dependency.
+      </p>
+    </div>
+    <div class="ori-cta-actions">
+      <a class="ori-btn ori-btn-primary" href="/pages/personal.html">Open Identity Form</a>
+      <a class="ori-btn ori-btn-outline" href="/pages/personal.html">Back to Personal</a>
     </div>
   </section>
 
-  <section class="life-card glass">
-    <h2>Keep The Direction Clear</h2>
-    <p>This page is a private reference point for identity, standards, and personal growth.</p>
-    <a href="/pages/personal.html" class="btn-primary">Back To Personal</a>
-  </section>
-
+</div><!-- /ori-page -->
 </main>
 
 <footer class="site-footer glass" data-footer></footer>
 
-    <button id="backToTop" aria-label="Back to top">
-    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
-  </button>
-  <script src="/js/auth.js?v=auth-otp-1"></script>
-  <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
-  <script src="/js/footer.js" defer></script>
-  <script src="/js/nav.js" defer></script>
-  <script src="/js/script.js?v=footer-clean-1" defer></script>
-  <script>
-    var _u = document.getElementById("authUserDisplay");
-    if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
-    var _lb = document.getElementById("logoutBtn");
-    if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
-  </script>
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
-  <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
+<script src="/js/auth.js?v=auth-otp-1"></script>
+<script src="/js/footer.js" defer></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/script.js?v=footer-clean-1" defer></script>
+<script>
+  var _u = document.getElementById("authUserDisplay");
+  if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
+  var _lb = document.getElementById("logoutBtn");
+  if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
+</script>
+<script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
