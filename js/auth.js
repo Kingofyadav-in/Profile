@@ -313,15 +313,24 @@ function getAuthApiBase() {
 }
 
 async function authApi(path, payload) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
   let response;
   try {
     response = await fetch(getAuthApiBase() + path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload || {})
+      body: JSON.stringify(payload || {}),
+      signal: controller.signal
     });
   } catch (err) {
-    throw new Error("OTP service unavailable. Check the Railway proxy or OTP_API_BASE.");
+    throw new Error(
+      err.name === "AbortError"
+        ? "OTP request timed out. Check your connection and try again."
+        : "OTP service unavailable. Check the Railway proxy or OTP_API_BASE."
+    );
+  } finally {
+    clearTimeout(timeout);
   }
   const data = await response.json().catch(() => ({}));
   if (!response.ok || !data.ok) {

@@ -25,17 +25,23 @@ function hiApiForgetId(lid)  { const m = _idMap(); delete m[lid]; localStorage.s
 async function hiApiFetch(path, method = 'GET', body = null) {
   const key = hiApiGetKey();
   if (!key) return null;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
   try {
     const res = await fetch(`${_HI_API_BASE}/${path}`, {
       method,
       headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: body != null ? JSON.stringify(body) : undefined
+      body: body != null ? JSON.stringify(body) : undefined,
+      signal: controller.signal
     });
     const json = await res.json();
     return json.ok ? json : null;
   } catch (e) {
-    console.warn('[HI API]', path, e.message);
+    if (e.name !== 'AbortError') console.warn('[HI API]', path, e.message);
+    else console.warn('[HI API] Timeout:', path);
     return null;
+  } finally {
+    clearTimeout(timeout);
   }
 }
 

@@ -201,11 +201,12 @@ function hiRenderHeroDots(containerId, value) {
   var el = document.getElementById(containerId);
   if (!el) return;
   var count = Math.max(0, Math.min(5, parseInt(value || 0, 10)));
-  var html = "";
+  el.textContent = "";
   for (var i = 1; i <= 5; i++) {
-    html += '<i class="' + (i <= count ? "active" : "") + '"></i>';
+    var dot = document.createElement("i");
+    if (i <= count) dot.className = "active";
+    el.appendChild(dot);
   }
-  el.innerHTML = html;
 }
 
 async function hiRenderHeroIdentity(identity) {
@@ -240,29 +241,21 @@ function hiOpenIdentityModal(identity) {
   var modal = document.getElementById("hi-identity-modal");
   if (!modal) return;
 
-  document.getElementById("hiIdentityModalTitle").textContent =
-    identity ? "Edit Identity" : "Create Your Identity";
+  function _setVal(id, val) { var el = document.getElementById(id); if (el) el.value = val; }
+  var titleEl = document.getElementById("hiIdentityModalTitle");
+  if (titleEl) titleEl.textContent = identity ? "Edit Identity" : "Create Your Identity";
 
-  document.getElementById("hi-id-name").value =
-    identity ? (identity.name || "") : "Amit Ku Yadav";
-  document.getElementById("hi-id-username").value =
-    identity ? (identity.username || hiBuildUsername(identity.name)) : "kingofyadav";
-  document.getElementById("hi-id-email").value =
-    identity ? (identity.email || "") : "";
-  document.getElementById("hi-id-phone-code").value =
-    identity ? (identity.phoneCode || "+91") : "+91";
-  document.getElementById("hi-id-phone").value =
-    identity ? (identity.phone || "") : "";
-  document.getElementById("hi-id-tagline").value =
-    identity ? (identity.tagline || "") : "";
-  document.getElementById("hi-id-roles").value =
-    identity
-      ? (Array.isArray(identity.roles) ? identity.roles.join(", ") : (identity.roles || ""))
-      : "Founder · Builder · Creator";
-  document.getElementById("hi-id-mission").value =
-    identity ? (identity.mission || "") : "";
-  document.getElementById("hi-id-location").value =
-    identity ? (identity.location || "") : "Bhagalpur, India";
+  _setVal("hi-id-name",       identity ? (identity.name || "") : "Amit Ku Yadav");
+  _setVal("hi-id-username",   identity ? (identity.username || hiBuildUsername(identity.name)) : "kingofyadav");
+  _setVal("hi-id-email",      identity ? (identity.email || "") : "");
+  _setVal("hi-id-phone-code", identity ? (identity.phoneCode || "+91") : "+91");
+  _setVal("hi-id-phone",      identity ? (identity.phone || "") : "");
+  _setVal("hi-id-tagline",    identity ? (identity.tagline || "") : "");
+  _setVal("hi-id-roles",      identity
+    ? (Array.isArray(identity.roles) ? identity.roles.join(", ") : (identity.roles || ""))
+    : "Founder · Builder · Creator");
+  _setVal("hi-id-mission",    identity ? (identity.mission || "") : "");
+  _setVal("hi-id-location",   identity ? (identity.location || "") : "Bhagalpur, India");
 
   var errEl = document.getElementById("hiIdentityModalErr");
   if (errEl) errEl.textContent = "";
@@ -293,15 +286,17 @@ async function hiSaveIdentityModal() {
     saveBtn.textContent = "Saving...";
   }
   try {
-  var name     = (document.getElementById("hi-id-name").value     || "").trim();
-  var username = (document.getElementById("hi-id-username").value || "").trim();
-  var email    = (document.getElementById("hi-id-email").value    || "").trim();
-  var phoneCode= (document.getElementById("hi-id-phone-code").value || "").trim();
-  var phone    = (document.getElementById("hi-id-phone").value    || "").trim();
-  var tagline  = (document.getElementById("hi-id-tagline").value  || "").trim();
-  var rolesRaw = (document.getElementById("hi-id-roles").value    || "").trim();
-  var mission  = (document.getElementById("hi-id-mission").value  || "").trim();
-  var location = (document.getElementById("hi-id-location").value || "").trim();
+  var nameEl     = document.getElementById("hi-id-name");
+  if (!nameEl) { hiCloseIdentityModal(); return; }
+  var name     = (nameEl.value                                                  || "").trim();
+  var username = ((document.getElementById("hi-id-username")  || {}).value     || "").trim();
+  var email    = ((document.getElementById("hi-id-email")     || {}).value     || "").trim();
+  var phoneCode= ((document.getElementById("hi-id-phone-code")|| {}).value     || "").trim();
+  var phone    = ((document.getElementById("hi-id-phone")     || {}).value     || "").trim();
+  var tagline  = ((document.getElementById("hi-id-tagline")   || {}).value     || "").trim();
+  var rolesRaw = ((document.getElementById("hi-id-roles")     || {}).value     || "").trim();
+  var mission  = ((document.getElementById("hi-id-mission")   || {}).value     || "").trim();
+  var location = ((document.getElementById("hi-id-location")  || {}).value     || "").trim();
 
   if (!name) {
     if (errEl) errEl.textContent = "Name is required.";

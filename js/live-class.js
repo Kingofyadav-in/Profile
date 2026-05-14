@@ -304,22 +304,27 @@
         _ws = null;
         _wsRetryTimer = setTimeout(connectWebSocket, 4000);
       };
-      _ws.onerror = function () { _wsConnected = false; };
-    } catch (e) {}
+      _ws.onerror = function (e) { _wsConnected = false; console.warn("[LiveClass WS] Socket error", e); };
+    } catch (e) { console.warn("[LiveClass WS] Connection failed:", e); }
   }
 
   /* ── Data Loading (polling fallback) ── */
   async function load() {
+    var ctl = new AbortController();
+    var tid = setTimeout(function() { ctl.abort(); }, 8000);
     try {
-      var res   = await fetch(stateUrl + "&t=" + Date.now(), { headers: { "Accept": "application/json" } });
+      var res   = await fetch(stateUrl + "&t=" + Date.now(), { headers: { "Accept": "application/json" }, signal: ctl.signal });
       if (!res.ok) throw new Error("HTTP " + res.status);
       var state = await res.json();
       render(state);
     } catch (err) {
+      if (err.name !== "AbortError") { /* normal network gap — handled below */ }
       setConnectionState("connecting");
       if (els.connection) els.connection.textContent = hasConnectedOnce ? "Reconnecting…" : "Connecting…";
       if (els.status)     els.status.textContent     = hasConnectedOnce ? "Reconnecting…" : "Connecting…";
       if (els.statusText) els.statusText.textContent = hasConnectedOnce ? "Reconnecting…" : "Connecting to classroom…";
+    } finally {
+      clearTimeout(tid);
     }
   }
 
@@ -344,11 +349,14 @@
       if (els.joinStatus)   els.joinStatus.textContent   = "Registering this device…";
       if (els.drawerStatus) els.drawerStatus.textContent = "Registering…";
     }
+    var joinCtl = new AbortController();
+    var joinTid = setTimeout(function() { joinCtl.abort(); }, 10000);
     try {
       var res = await fetch(stateUrl, {
         method: "POST",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "join", room: _roomParam, name: cleanName, deviceId: getDeviceId(), device: deviceLabel() })
+        body: JSON.stringify({ action: "join", room: _roomParam, name: cleanName, deviceId: getDeviceId(), device: deviceLabel() }),
+        signal: joinCtl.signal
       });
       if (!res.ok) throw new Error("HTTP " + res.status);
       joined = true;
@@ -362,11 +370,14 @@
       scheduleJoinRetry(cleanName);
       closeDrawer();
     } catch (err) {
+      if (err.name !== "AbortError") console.warn("[LiveClass] Join failed:", err.message);
       scheduleJoinRetry(cleanName);
       if (!silent) {
         if (els.joinStatus)   els.joinStatus.textContent   = "Connecting… retrying automatically.";
         if (els.drawerStatus) els.drawerStatus.textContent = "Connecting… retrying.";
       }
+    } finally {
+      clearTimeout(joinTid);
     }
   }
 
@@ -490,6 +501,8 @@
       var q = (input ? input.value : "").trim();
       if (!q) return;
       if (status) status.textContent = "Sending…";
+      var qCtl = new AbortController();
+      var qTid = setTimeout(function() { qCtl.abort(); }, 8000);
       fetch(stateUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -498,14 +511,15 @@
           text: q,
           name: getStoredName() || "Student",
           deviceId: getDeviceId()
-        })
+        }),
+        signal: qCtl.signal
       }).then(function () {
         if (input)  input.value = "";
         if (status) status.textContent = "Question sent! Teacher will answer live.";
         showToast("Question sent to teacher", "❓");
-      }).catch(function () {
-        if (status) status.textContent = "Failed to send. Try again.";
-      });
+      }).catch(function (err) {
+        if (status) status.textContent = err.name === "AbortError" ? "Timed out. Try again." : "Failed to send. Try again.";
+      }).finally(function() { clearTimeout(qTid); });
     });
   }
 

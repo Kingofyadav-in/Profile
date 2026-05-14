@@ -156,11 +156,17 @@ function hiRenderMessages() {
   if (!container) return;
 
   if (!_hiChatHistory.length) {
-    container.innerHTML =
-      '<div class="hi-chat-welcome">' +
-        '<div class="hi-chat-welcome-icon">&#x1F9E0;</div>' +
-        '<p>I know your identity, tasks, goals, and projects.<br>Ask me anything about your life and work.</p>' +
-      '</div>';
+    var welcome = document.createElement("div");
+    welcome.className = "hi-chat-welcome";
+    var icon = document.createElement("div");
+    icon.className = "hi-chat-welcome-icon";
+    icon.textContent = "🧠";
+    var msg = document.createElement("p");
+    msg.textContent = "I know your identity, tasks, goals, and projects. Ask me anything about your life and work.";
+    welcome.appendChild(icon);
+    welcome.appendChild(msg);
+    container.textContent = "";
+    container.appendChild(welcome);
     return;
   }
 
@@ -192,7 +198,14 @@ function hiShowTyping() {
   var el = document.createElement("div");
   el.className = "hi-chat-bubble assistant hi-typing-indicator";
   el.id = "hi-typing-bubble";
-  el.innerHTML = '<div class="hi-bubble-content"><span class="hi-dot"></span><span class="hi-dot"></span><span class="hi-dot"></span></div>';
+  var bubble = document.createElement("div");
+  bubble.className = "hi-bubble-content";
+  ["hi-dot", "hi-dot", "hi-dot"].forEach(function(cls) {
+    var s = document.createElement("span");
+    s.className = cls;
+    bubble.appendChild(s);
+  });
+  el.appendChild(bubble);
   container.appendChild(el);
   container.scrollTop = container.scrollHeight;
 }
@@ -246,11 +259,14 @@ async function hiSendMessage(userText) {
     return { role: m.role, content: m.content };
   });
 
+  var _chatController = new AbortController();
+  var _chatTimeout = setTimeout(function() { _chatController.abort(); }, 30000);
   try {
     var response = await fetch(HI_CHAT_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: messageToSend, history: apiHistory })
+      body: JSON.stringify({ message: messageToSend, history: apiHistory }),
+      signal: _chatController.signal
     });
 
     hiHideTyping();
@@ -261,7 +277,14 @@ async function hiSendMessage(userText) {
     hiAppendMessage("assistant", reply);
   } catch(err) {
     hiHideTyping();
+    if (err.name === "AbortError") {
+      console.warn("[HI Chat] Request timed out after 30s");
+    } else {
+      console.warn("[HI Chat] Backend unavailable:", err.message || err);
+    }
     hiAppendMessage("assistant", hiLocalOperatorReply(userText));
+  } finally {
+    clearTimeout(_chatTimeout);
   }
 
   await hiSaveChatHistory();

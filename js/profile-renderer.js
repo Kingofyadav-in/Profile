@@ -22,9 +22,15 @@
   }
 
   async function fetchJson(url) {
-    const res = await fetch(url, { headers: { "Accept": "application/json" } });
-    if (!res.ok) throw new Error(`${url} returned ${res.status}`);
-    return res.json();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    try {
+      const res = await fetch(url, { headers: { "Accept": "application/json" }, signal: controller.signal });
+      if (!res.ok) throw new Error(`${url} returned ${res.status}`);
+      return res.json();
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
   async function loadProfile() {
@@ -65,6 +71,7 @@
 
   function renderAbout(main, profile) {
     const data = profile.aboutMe;
+    if (!data || !data.hero) { console.warn("[profile-renderer] aboutMe.hero missing"); return; }
     main.className = "about-page";
     main.innerHTML = `
       <section class="personal-section glass" id="people">
@@ -102,6 +109,7 @@
 
   function renderSelf(main, profile) {
     const data = profile.mySelf;
+    if (!data || !data.hero) { console.warn("[profile-renderer] mySelf.hero missing"); return; }
     main.className = "site-main page-intro";
     main.innerHTML = `
       <section class="life-card">
@@ -134,6 +142,7 @@
 
   function renderHome(main, profile) {
     const data = profile.myHome;
+    if (!data || !data.hero) { console.warn("[profile-renderer] myHome.hero missing"); return; }
     main.className = "site-main personal-page";
     main.innerHTML = `
       <section class="personal-section glass hero-home">
@@ -168,6 +177,7 @@
 
   function renderCity(main, profile) {
     const data = profile.myCity;
+    if (!data || !data.hero) { console.warn("[profile-renderer] myCity.hero missing"); return; }
     main.className = "city-page";
     main.innerHTML = `
       <section class="city-hero glass">

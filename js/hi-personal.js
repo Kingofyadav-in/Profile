@@ -108,7 +108,7 @@ async function hiEnsurePersonalSeedData() {
     }
   }
 
-  if (!hasMood) {
+  if (!hasMood && typeof hiSaveMoodEnergy === "function") {
     await hiSaveMoodEnergy(4, 4);
   }
 }
@@ -237,11 +237,16 @@ function hiCloseGoalModal() {
 
 async function hiSaveGoalModal() {
   var modal    = document.getElementById("hi-goal-modal");
-  var title    = (document.getElementById("hi-goal-f-title").value    || "").trim();
-  var note     = (document.getElementById("hi-goal-f-note").value     || "").trim();
-  var progress = parseInt(document.getElementById("hi-goal-f-progress").value || "0", 10);
-  var deadline = (document.getElementById("hi-goal-f-deadline").value || "").trim();
+  var titleEl  = document.getElementById("hi-goal-f-title");
+  var noteEl   = document.getElementById("hi-goal-f-note");
+  var progressEl = document.getElementById("hi-goal-f-progress");
+  var deadlineEl = document.getElementById("hi-goal-f-deadline");
   var errEl    = document.getElementById("hiGoalModalErr");
+  if (!titleEl || !errEl) return;
+  var title    = (titleEl.value    || "").trim();
+  var note     = (noteEl   ? noteEl.value     : "").trim();
+  var progress = parseInt((progressEl ? progressEl.value : "0") || "0", 10);
+  var deadline = (deadlineEl ? deadlineEl.value : "").trim();
   if (!title) { errEl.textContent = "Goal title is required."; return; }
   errEl.textContent = "";
   var data = { title: title, note: note, progress: progress, deadline: deadline };
@@ -341,10 +346,13 @@ function hiCloseNoteModal() {
 }
 
 async function hiSaveNoteModal() {
-  var modal = document.getElementById("hi-note-modal");
-  var title = (document.getElementById("hi-note-f-title").value || "").trim();
-  var body  = (document.getElementById("hi-note-f-body").value  || "").trim();
-  var errEl = document.getElementById("hiNoteModalErr");
+  var modal   = document.getElementById("hi-note-modal");
+  var titleEl = document.getElementById("hi-note-f-title");
+  var bodyEl  = document.getElementById("hi-note-f-body");
+  var errEl   = document.getElementById("hiNoteModalErr");
+  if (!bodyEl || !errEl) return;
+  var title = (titleEl ? titleEl.value : "").trim();
+  var body  = (bodyEl.value || "").trim();
   if (!body) { errEl.textContent = "Write something first."; return; }
   errEl.textContent = "";
   var data = { title: title, body: body };
@@ -408,6 +416,7 @@ function hiAddHabitRow() {
 
 async function hiSaveHabitModal() {
   var editor = document.getElementById("hi-habit-list-editor");
+  if (!editor) return;
   var rows   = editor.querySelectorAll(".hi-habit-edit-row");
   var habits = [];
   rows.forEach(function(row) {
