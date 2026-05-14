@@ -1278,3 +1278,14 @@ body.theme-light .collab-cta {
     border-radius: 16px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .collab-submit-btn .spin { animation: none; }
+  .collab-type-card,
+  .connect-card,
+  .collab-cert-card { transition: none; }
+  .collab-type-card:hover,
+  .collab-type-card:focus-visible,
+  .connect-card:hover,
+  .collab-cert-card:hover { transform: none; }
+}

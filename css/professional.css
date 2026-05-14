@@ -436,3 +436,11 @@
     padding-bottom: 60px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pro-card,
+  .pro-value-card,
+  .pro-btn { transition: none; }
+  .pro-card:hover,
+  .pro-value-card:hover { transform: none; }
+}

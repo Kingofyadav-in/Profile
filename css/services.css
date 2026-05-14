@@ -643,3 +643,13 @@ body.theme-light .hosting-card {
 }
 
 /* services-faq inherits zero horizontal padding from parent */
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card,
+  .services-alt-card,
+  .services-featured-card,
+  .services-quick-link { transition: none; }
+  .service-card:hover,
+  .services-alt-card:hover,
+  .services-featured-card:hover { transform: none; }
+}

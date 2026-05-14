@@ -634,3 +634,11 @@ body.theme-dark .hero-proof span {
     padding: 20px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content { animation: none; }
+  .personal-nav.open { animation: none; }
+  .hero-btn,
+  .home-stat { transition: none; }
+  .hero-btn:hover { transform: none; }
+}

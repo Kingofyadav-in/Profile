@@ -417,3 +417,10 @@ body.theme-dark .footer-pro-strip span {
     background: rgba(128,128,128,0.2);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-pro-links a,
+  .auth-logout-btn { transition: none; }
+  .footer-pro-links a:hover,
+  .auth-logout-btn:hover { transform: none; }
+}

@@ -41,7 +41,11 @@
 }
 
 .hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 12px 26px;
+  min-height: 44px;
   border-radius: 999px;
   font-size: 0.82rem;
   font-weight: 600;
@@ -480,4 +484,14 @@ body.theme-light .blog-library-item {
 
 body.theme-light .blog-hero::before {
   background: radial-gradient(circle, rgba(4,106,56,0.08), transparent 70%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-hero-content,
+  .blog-card { animation: none; }
+  .hero-btn,
+  .blog-card,
+  .blog-library-item { transition: none; }
+  .hero-btn:hover,
+  .blog-card:hover { transform: none; }
 }

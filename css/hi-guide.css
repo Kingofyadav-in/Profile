@@ -22,11 +22,16 @@
   transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 
-.hi-intro-banner:hover,
+.hi-intro-banner:hover {
+  border-color: var(--brand-green, #046A38);
+  box-shadow: 0 14px 34px rgba(4,106,56,.14);
+}
+
 .hi-intro-banner:focus-visible {
   border-color: var(--brand-green, #046A38);
   box-shadow: 0 14px 34px rgba(4,106,56,.14);
-  outline: none;
+  outline: 2px solid var(--brand-green, #046A38);
+  outline-offset: 3px;
 }
 
 .hi-intro-banner.hi-guide-dismissed {
@@ -54,6 +59,14 @@
   50% { opacity: .5; transform: scale(1.25); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .hi-intro-banner-dot { animation: none; }
+  .hi-intro-banner,
+  .hi-guide-body,
+  .hi-guide-panel { transition: none; }
+  .hi-guide-chevron { transition: none; }
+}
+
 .hi-intro-banner-text {
   min-width: 0;
   color: inherit;
@@ -79,7 +92,7 @@
 }
 
 .hi-guide-toggle-btn {
-  min-height: 34px;
+  min-height: 44px;
   padding: 7px 12px;
   border-radius: 8px;
   border: 1px solid var(--brand-green, #046A38);
@@ -96,8 +109,8 @@
 }
 
 .hi-guide-dismiss-btn {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border: 0;
   border-radius: 8px;
   background: transparent;
@@ -250,7 +263,7 @@ body.theme-light .hi-guide-panel-inner {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 38px;
+  min-height: 44px;
   margin-top: 10px;
   padding: 8px 14px;
   border-radius: 8px;

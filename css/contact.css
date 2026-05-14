@@ -531,3 +531,13 @@ body.theme-light .form-group textarea:focus {
   background: var(--brand-green);
   color: #fff;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-card,
+  .contact-card-alt,
+  .contact-form-field,
+  .contact-submit-btn { transition: none; }
+  .contact-card:hover,
+  .contact-card-alt:hover { transform: none; }
+  .site-header.scrolled { transition: none; }
+}

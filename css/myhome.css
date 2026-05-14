@@ -341,3 +341,12 @@ body.theme-light .personal-page .life-card {
     border-bottom: none;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .personal-section.glass,
+  .home-feature-card,
+  .home-quick-link { transition: none; }
+  .personal-section.glass:hover,
+  .home-feature-card:hover,
+  .home-quick-link:hover { transform: none; }
+}

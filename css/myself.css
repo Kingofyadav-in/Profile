@@ -378,3 +378,10 @@ body.theme-light .page-intro .service-card {
     max-width: 1280px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .life-card,
+  .service-card { animation: none; opacity: 1; transform: none; transition: none; }
+  .life-card:hover,
+  .service-card:hover { transform: none; }
+}

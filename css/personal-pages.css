@@ -338,3 +338,10 @@
     width: 100%;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .personal-page-nav a,
+  .personal-page-nav button { transition: none; }
+  .personal-page-nav a:hover,
+  .personal-page-nav button:hover { transform: none; }
+}

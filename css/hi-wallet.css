@@ -5,7 +5,7 @@
 /* ── Stripe ── */
 .wlt-stripe {
   height: 5px;
-  background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
+  background: linear-gradient(90deg, var(--brand-green) 33.3%, #e5e5e5 33.3% 66.6%, var(--brand-orange) 66.6%);
 }
 
 /* ── Main container ── */
@@ -518,7 +518,7 @@ body.theme-dark .wlt-form-note { color: rgba(255,255,255,.4); }
 }
 
 .wlt-device-row button {
-  min-height: 34px;
+  min-height: 44px;
   padding: .35rem .75rem;
   border-radius: 999px;
   border: 1px solid rgba(128,128,128,.2);
@@ -753,4 +753,11 @@ body.theme-dark .wallet-empty { color: rgba(255,255,255,.4); }
   .wlt-device-row { grid-template-columns: 1fr; }
   .wallet-tx { grid-template-columns: 1fr; }
   .wallet-tx-amount { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wlt-btn,
+  .wlt-submit { transition: none; }
+  .wlt-btn:hover { transform: none; }
+  .wlt-submit:hover:not(:disabled) { transform: none; }
 }

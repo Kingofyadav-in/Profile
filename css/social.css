@@ -682,3 +682,15 @@ body.theme-light .social-feed-card {
   }
 
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .social-platform-card,
+  .social-stat-card,
+  .social-platform-btn,
+  .hero-btn { transition: none; }
+  .social-platform-card:hover,
+  .social-stat-card:hover,
+  .social-platform-btn:hover,
+  .hero-btn:hover { transform: none; }
+  .social-skeleton { animation: none; opacity: 0.4; }
+}

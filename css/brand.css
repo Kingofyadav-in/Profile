@@ -251,6 +251,7 @@ background:rgba(0,0,0,0.05);
 
 .hero-btn{
 padding:14px 28px;
+min-height:44px;
 border-radius:999px;
 
 font-weight:600;
@@ -591,7 +592,15 @@ transition:border .25s ease;
 
 outline:none;
 border-color:var(--brand-green);
+box-shadow:0 0 0 3px rgba(4,106,56,.15);
 
+}
+
+.brand-form input:focus-visible,
+.brand-form select:focus-visible,
+.brand-form textarea:focus-visible{
+outline:2px solid var(--brand-green);
+outline-offset:2px;
 }
 
 .brand-form textarea{
@@ -758,4 +767,15 @@ border-bottom:1px solid rgba(128,128,128,0.14);
 border-bottom:none;
 }
 
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-hero-content,
+  .brand-hero-media { animation: none; }
+  .hero-btn,
+  .brand-card,
+  .brand-hero-media img { transition: none; }
+  .hero-btn:hover,
+  .brand-card:hover { transform: none; }
+  .brand-hero-media img:hover { transform: none; }
 }

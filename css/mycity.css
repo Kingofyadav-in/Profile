@@ -454,3 +454,13 @@ body.theme-light .city-section.glass {
     max-width: 1280px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .city-page::before { animation: none; }
+  .city-card,
+  .city-section { animation: none; opacity: 1; transform: none; }
+  .city-card,
+  .city-service-card { transition: none; }
+  .city-card:hover,
+  .city-service-card:hover { transform: none; }
+}

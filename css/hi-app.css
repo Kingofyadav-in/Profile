@@ -1714,7 +1714,7 @@ body.theme-light .hi-priority-select option {
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.8px;
-  color: #FF671F;
+  color: var(--brand-orange);
   background: rgba(255,103,31,0.12);
   border: 1px solid rgba(255,103,31,0.3);
   border-radius: 999px;
@@ -2217,7 +2217,7 @@ body.theme-light .hi-chat-bubble.assistant .hi-bubble-content {
 }
 
 .hi-chat-bubble.user .hi-bubble-content {
-  background: linear-gradient(135deg, #046A38, #0a7a46);
+  background: linear-gradient(135deg, var(--brand-green), #0a7a46);
   border: 1px solid rgba(255,255,255,.14);
 }
 
@@ -3460,4 +3460,26 @@ body.theme-light .hi-hdi-claims {
 .hi-btn-add-inline:hover {
   background: rgba(255,255,255,0.15);
   border-color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hi-typing-indicator .hi-dot { animation: none; }
+  .hi-ai-fab { transition: none; }
+  .hi-ai-fab:hover { transform: none; }
+  .hi-modal-overlay,
+  .hi-modal { transition: none; }
+  .hi-chat-panel { transition: none; }
+  .hi-note-card,
+  .hi-person-card,
+  .hi-habit-btn,
+  .hi-proj-card,
+  .hi-btn-primary,
+  .hi-progress-fill { transition: none; }
+  .hi-note-card:hover,
+  .hi-person-card:hover,
+  .hi-habit-btn:hover,
+  .hi-proj-card:hover,
+  .hi-btn-primary:hover { transform: none; }
+  .hi-dot { transition: none; }
+  .hi-dot:hover { transform: none; }
 }

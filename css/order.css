@@ -784,3 +784,11 @@ body.theme-light .upi-utr-input {
     justify-content: center;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .order-tab,
+  .order-plan-card,
+  .order-submit-btn { transition: none; }
+  .order-tab:hover,
+  .order-plan-card:hover { transform: none; }
+}

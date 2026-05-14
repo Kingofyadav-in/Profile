@@ -1332,6 +1332,15 @@ body.theme-light .contact-library-item {
 .delay-2 { transition-delay: 180ms; }
 .delay-3 { transition-delay: 270ms; }
 
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .modal-content { animation: none; }
+}
+
 /* ======================================================
    RESPONSIVE ADDITIONS
 ====================================================== */
@@ -1565,11 +1574,12 @@ body.theme-light .pwa-install-banner {
 .pwa-install-actions { flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
 
 .pwa-btn-install {
-  background: #046A38;
+  background: var(--brand-green);
   color: #fff;
   border: none;
   border-radius: 8px;
   padding: 8px 18px;
+  min-height: 44px;
   font-size: .84rem;
   font-weight: 700;
   cursor: pointer;
@@ -1577,7 +1587,7 @@ body.theme-light .pwa-install-banner {
   transition: background .2s;
   white-space: nowrap;
 }
-.pwa-btn-install:hover { background: #057a42; }
+.pwa-btn-install:hover { background: color-mix(in srgb, var(--brand-green) 80%, #000); }
 
 .pwa-btn-dismiss {
   background: transparent;

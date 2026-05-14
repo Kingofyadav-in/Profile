@@ -788,7 +788,7 @@ body.theme-light .auth-user-item {
   height: 480px;
   top: -120px;
   left: -140px;
-  background: radial-gradient(circle, #046a38 30%, transparent 70%);
+  background: radial-gradient(circle, var(--brand-green) 30%, transparent 70%);
   animation: orbFloat1 16s ease-in-out infinite;
 }
 
@@ -797,7 +797,7 @@ body.theme-light .auth-user-item {
   height: 400px;
   bottom: -80px;
   right: -100px;
-  background: radial-gradient(circle, #ff671f 30%, transparent 70%);
+  background: radial-gradient(circle, var(--brand-orange) 30%, transparent 70%);
   animation: orbFloat2 20s ease-in-out infinite;
   opacity: 0.15;
 }
@@ -903,3 +903,14 @@ body.theme-light .otp-digit {
 .auth-attempts.visible { opacity: 0.6; }
 .auth-attempts.warn    { opacity: 1; color: #ff9900; }
 .auth-attempts.danger  { opacity: 1; color: #ff4d4d; font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-container { animation: none; }
+  .auth-card { animation: none; }
+  .auth-orb--1,
+  .auth-orb--2 { animation: none; }
+  .auth-submit .spin { animation: none; }
+  .auth-field input,
+  .otp-digit,
+  .auth-submit { transition: none; }
+}

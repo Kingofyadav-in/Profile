@@ -280,3 +280,8 @@ body.theme-dark .vault-panel p {
 }
 
 body.theme-dark .vault-ip-bridge p { color: rgba(255,255,255,.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  .vault-product-card { transition: none; }
+  .vault-product-card:hover { transform: none; }
+}

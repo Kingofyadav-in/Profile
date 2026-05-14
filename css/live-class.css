@@ -218,7 +218,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 38px;
+  height: 44px;
   padding: 0 14px;
   border-radius: 8px;
   border: 1px solid var(--lc-dark-border);
@@ -1046,8 +1046,8 @@ kbd {
 }
 
 .lc-drawer-close {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   border: 1px solid var(--lc-dark-border);
@@ -1237,3 +1237,18 @@ kbd {
 .lc-page[data-board-theme="light"] .idx-web-card:hover { border-color: #046A38; background: rgba(4,106,56,.05); }
 .lc-page[data-board-theme="light"] .idx-web-title { color: #111; }
 .lc-page[data-board-theme="light"] .idx-web-desc { color: rgba(0,0,0,.4); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lc-live-dot.is-live { animation: none; }
+  .lc-connecting-spinner { animation: none; }
+  .board-block { animation: none; }
+  .lc-toast { animation: none; }
+  .lc-toast.lc-toast--out { animation: none; }
+  .lc-drawer-backdrop { animation: none; }
+  .lc-drawer { animation: none; }
+  .lc-ctrl-btn,
+  .lc-join-form button,
+  .lc-reaction-btn { transition: none; }
+  .lc-join-form button:hover { transform: none; }
+  .lc-reaction-btn.is-active { transform: none; }
+}

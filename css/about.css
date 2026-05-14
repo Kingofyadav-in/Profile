@@ -336,3 +336,11 @@ body.theme-light .about-page .life-card.glass {
     max-width: 1280px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page::before { animation: none; }
+  .life-card.glass { transition: none; }
+  .life-card.glass:hover { transform: none; }
+  .personal-header,
+  .site-header { transition: none; }
+}

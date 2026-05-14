@@ -398,6 +398,7 @@
 
 .share-buttons button {
   padding: 9px 18px;
+  min-height: 44px;
   border-radius: 50px;
   border: 1px solid var(--brand-green-soft);
   background: transparent;
@@ -639,4 +640,11 @@ body.theme-light .elite-article code {
 body.theme-light .elite-article pre {
   background: #f7f7f7;
   border-color: rgba(0,0,0,0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .share-buttons button,
+  .related-card { transition: none; }
+  .share-buttons button:hover,
+  .related-card:hover { transform: none; }
 }
