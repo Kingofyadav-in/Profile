@@ -1,5 +1,5 @@
 /* ============================================================
-   Blog Translate — Jarvis AI powered, no external dependency
+   Blog Translate — MyMemory API, no key required
    Injects a language bar into every .elite-article page
    ============================================================ */
 (function () {
@@ -8,18 +8,19 @@
   var article = document.getElementById('article');
   if (!article) return;
 
-  var ENDPOINT  = 'https://jarvis.kingofyadav.in/api/jarvis-chat';
-  var PAR_LIMIT = 3; // parallel requests at once
+  var MM_BASE  = 'https://api.mymemory.translated.net/get';
+  var MM_EMAIL = 'circle.onelife@gmail.com'; // increases daily quota to 10 000 words
+  var PAR      = 3;                           // parallel requests per group
 
   var LANGS = [
-    { code: 'hi', label: 'हिन्दी', name: 'Hindi' },
-    { code: 'bn', label: 'বাংলা',  name: 'Bengali' },
-    { code: 'ta', label: 'தமிழ்', name: 'Tamil' },
-    { code: 'ur', label: 'اردو',  name: 'Urdu' },
-    { code: 'es', label: 'Español', name: 'Spanish' },
-    { code: 'fr', label: 'Français', name: 'French' },
-    { code: 'ar', label: 'العربية', name: 'Arabic' },
-    { code: 'zh', label: '中文',  name: 'Chinese (Simplified)' }
+    { code: 'hi', label: 'हिन्दी',   name: 'Hindi',               mm: 'hi'    },
+    { code: 'bn', label: 'বাংলা',    name: 'Bengali',             mm: 'bn'    },
+    { code: 'ta', label: 'தமிழ்',   name: 'Tamil',               mm: 'ta'    },
+    { code: 'ur', label: 'اردو',     name: 'Urdu',                mm: 'ur'    },
+    { code: 'es', label: 'Español',  name: 'Spanish',             mm: 'es'    },
+    { code: 'fr', label: 'Français', name: 'French',              mm: 'fr'    },
+    { code: 'ar', label: 'العربية',  name: 'Arabic',              mm: 'ar'    },
+    { code: 'zh', label: '中文',     name: 'Chinese (Simplified)', mm: 'zh-CN' }
   ];
 
   /* ── CSS ─────────────────────────────────────────────── */
@@ -65,7 +66,7 @@
   LANGS.forEach(function (l) {
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'bp-lb';
-    b.dataset.lang = l.code; b.dataset.name = l.name;
+    b.dataset.code = l.code; b.dataset.mm = l.mm; b.dataset.name = l.name;
     b.textContent = l.label; b.title = l.name;
     langsWrap.appendChild(b);
   });
@@ -80,36 +81,30 @@
   status.className = 'bp-tr-status'; status.setAttribute('aria-live', 'polite');
   bar.appendChild(status);
 
-  /* Insert after .article-meta, before first h2 */
   var meta   = article.querySelector('.article-meta');
   var anchor = (meta && meta.nextSibling) ? meta.nextSibling : article.querySelector('h2');
   article.insertBefore(bar, anchor || article.firstChild);
 
   /* ── Collect translatable elements ───────────────────── */
   function getEls() {
-    var SKIP_SELECTORS = [
+    var SKIP = [
       '.bp-tr', '.article-meta', '.license-badge',
       '.article-stat-grid', '.article-stat-value',
       'pre', 'code', '.blog-back-link', '.blog-category'
     ];
-    var skipRoots = article.querySelectorAll(SKIP_SELECTORS.join(','));
-    var excluded = new Set();
+    var skipRoots = article.querySelectorAll(SKIP.join(','));
+    var excluded  = new Set();
     skipRoots.forEach(function (r) {
       excluded.add(r);
       r.querySelectorAll('*').forEach(function (c) { excluded.add(c); });
     });
-
-    return Array.from(article.querySelectorAll(
-      'h1, h2, h3, p, li, blockquote'
-    )).filter(function (el) {
-      if (excluded.has(el)) return false;
-      var p = el.parentNode;
-      while (p && p !== article) {
-        if (excluded.has(p)) return false;
-        p = p.parentNode;
-      }
-      return el.textContent.trim().length > 2;
-    });
+    return Array.from(article.querySelectorAll('h1,h2,h3,p,li,blockquote'))
+      .filter(function (el) {
+        if (excluded.has(el)) return false;
+        var p = el.parentNode;
+        while (p && p !== article) { if (excluded.has(p)) return false; p = p.parentNode; }
+        return el.textContent.trim().length > 2;
+      });
   }
 
   /* ── State ───────────────────────────────────────────── */
@@ -134,31 +129,30 @@
 
   function applyLangButtons(code) {
     langsWrap.querySelectorAll('.bp-lb').forEach(function (b) {
-      b.classList.toggle('active', b.dataset.lang === code);
+      b.classList.toggle('active', b.dataset.code === code);
     });
   }
 
-  /* ── Single-element Jarvis call ──────────────────────── */
-  function jarvisOne(text, langName) {
-    var sid    = 'tr-' + Math.random().toString(36).slice(2, 8);
-    var prompt =
-      'Translate the following text to ' + langName + '.\n' +
-      'Rules: output ONLY the translated text. No introduction, no explanation, no quotation marks around the output.\n\n' +
-      text;
+  /* ── MyMemory single-element call ────────────────────── */
+  function mmTranslate(text, mmCode) {
+    var url = MM_BASE
+      + '?q='        + encodeURIComponent(text.slice(0, 500))
+      + '&langpair=' + encodeURIComponent('en|' + mmCode)
+      + '&de='       + MM_EMAIL;
 
-    return fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: prompt, session_id: sid })
-    })
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (d) { return (d.response || d.reply || d.message || d.text || '').trim(); });
+    return fetch(url)
+      .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+      .then(function (d) {
+        if (d.responseStatus !== 200) throw new Error('mm-status ' + d.responseStatus);
+        var t = d.responseData && d.responseData.translatedText;
+        if (!t || t.indexOf('MYMEMORY WARNING') === 0) throw new Error('mm-limit');
+        return t.trim();
+      });
   }
 
-  /* ── Translate flow — PAR_LIMIT elements in parallel ─── */
-  function translateTo(code, name) {
+  /* ── Translate flow — PAR elements in parallel per group */
+  function translateTo(code, mmCode, name) {
     if (busy) return;
-
     if (activeLang === code) { restore(); return; }
 
     var els = getEls();
@@ -179,13 +173,9 @@
     applyLangButtons(code);
 
     var translated = new Array(els.length);
-    var done       = 0;
 
-    /* Process groups of PAR_LIMIT in parallel, groups sequentially */
     var groups = [];
-    for (var g = 0; g < els.length; g += PAR_LIMIT) {
-      groups.push(g);
-    }
+    for (var g = 0; g < els.length; g += PAR) groups.push(g);
 
     function processGroup(gi) {
       if (gi >= groups.length) {
@@ -199,20 +189,25 @@
       }
 
       var start  = groups[gi];
-      var end    = Math.min(start + PAR_LIMIT, els.length);
-      var subset = els.slice(start, end);
-
+      var end    = Math.min(start + PAR, els.length);
       status.textContent = 'Translating… ' + Math.round(start / els.length * 100) + '%';
 
-      var promises = subset.map(function (el, j) {
-        var idx = start + j;
-        return jarvisOne(el.textContent.trim(), name)
-          .then(function (val) {
-            if (val) { el.textContent = val; translated[idx] = val; }
-            else       { translated[idx] = el.textContent; }
-          })
-          .catch(function () { translated[idx] = el.textContent; });
-      });
+      var promises = [];
+      for (var k = start; k < end; k++) {
+        (function (idx) {
+          var el = els[idx];
+          promises.push(
+            mmTranslate(el.textContent.trim(), mmCode)
+              .then(function (val) {
+                el.textContent = val;
+                translated[idx] = val;
+              })
+              .catch(function () {
+                translated[idx] = el.textContent;
+              })
+          );
+        })(k);
+      }
 
       Promise.all(promises).then(function () { processGroup(gi + 1); });
     }
@@ -223,7 +218,7 @@
   /* ── Events ──────────────────────────────────────────── */
   langsWrap.addEventListener('click', function (e) {
     var b = e.target.closest('.bp-lb');
-    if (b) translateTo(b.dataset.lang, b.dataset.name);
+    if (b) translateTo(b.dataset.code, b.dataset.mm, b.dataset.name);
   });
 
   restoreBtn.addEventListener('click', restore);
