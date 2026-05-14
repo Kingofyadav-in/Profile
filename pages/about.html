@@ -3,33 +3,745 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Amit Ku Yadav | Builder, Ventures & Social Impact</title>
-  <meta name="description" content="About Amit Ku Yadav: a Bhagalpur-based digital systems builder working across ventures, community leadership, and social impact." />
+  <title>About Amit Ku Yadav | Builder · AI Systems · Digital Coin</title>
+  <meta name="description" content="About Amit Ku Yadav: the person, the machine & AI layer, products & community work, and the Digital Coin reward system — a complete story." />
   <meta name="robots" content="noindex, nofollow" />
 
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
-<link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
   <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
   <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
-  <link rel="stylesheet" href="/css/about.css?v=20260502-pro" />
-
   <link rel="icon" href="/favicon/favicon.ico" />
-<link rel="canonical" href="https://kingofyadav.in/pages/about.html" />
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Amit Ku Yadav",
-  "url": "https://kingofyadav.in",
-  "jobTitle": "Builder and Digital Systems Worker",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Bhagalpur",
-    "addressCountry": "India"
+  <link rel="canonical" href="https://kingofyadav.in/pages/about.html" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Amit Ku Yadav",
+    "url": "https://kingofyadav.in",
+    "jobTitle": "Builder and Digital Systems Worker",
+    "address": { "@type": "PostalAddress", "addressLocality": "Bhagalpur", "addressCountry": "India" }
   }
-}
-</script>
+  </script>
+  <style>
+    /* ── ABT design system ── */
+    :root {
+      --abt-green:  #046A38;
+      --abt-orange: #FF671F;
+      --abt-blue:   #3b82f6;
+      --abt-gold:   #c89b3c;
+      --abt-border: rgba(255,255,255,.09);
+      --abt-card:   rgba(255,255,255,.04);
+      --abt-card2:  rgba(255,255,255,.07);
+      --abt-muted:  rgba(255,255,255,.52);
+      --abt-label:  rgba(255,255,255,.36);
+      --abt-radius: 16px;
+      --abt-rad-sm: 10px;
+      --abt-pad:    clamp(20px, 3vw, 44px);
+    }
+    body.theme-light {
+      --abt-border: rgba(0,0,0,.1);
+      --abt-card:   rgba(0,0,0,.03);
+      --abt-card2:  rgba(0,0,0,.06);
+      --abt-muted:  rgba(0,0,0,.55);
+      --abt-label:  rgba(0,0,0,.4);
+    }
+
+    .abt-stripe {
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
+    }
+    .abt-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--abt-pad) 0;
+    }
+
+    /* ── Hero ── */
+    .abt-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: center;
+      padding: 48px 0 36px;
+      border-bottom: 1px solid var(--abt-border);
+      margin-bottom: 40px;
+    }
+    .abt-hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--abt-orange);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+    .abt-hero-kicker::before {
+      content: "";
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--abt-orange);
+      border-radius: 2px;
+    }
+    .abt-hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+    }
+    .abt-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--abt-green), #0a9a54);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .abt-hero-sub {
+      max-width: 520px;
+      margin: 0 0 24px;
+      color: var(--abt-muted);
+      font-size: .96rem;
+      line-height: 1.72;
+    }
+    .abt-hero-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+    .abt-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .5px;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .abt-btn-green  { background: var(--abt-green);  color: #fff; border-color: var(--abt-green); }
+    .abt-btn-green:hover  { transform: translateY(-2px); background: #035e31; }
+    .abt-btn-blue   { background: rgba(59,130,246,.15); color: #60a5fa; border-color: rgba(59,130,246,.3); }
+    .abt-btn-blue:hover   { transform: translateY(-2px); background: rgba(59,130,246,.25); }
+    .abt-btn-orange { background: rgba(255,103,31,.14); color: var(--abt-orange); border-color: rgba(255,103,31,.3); }
+    .abt-btn-orange:hover { transform: translateY(-2px); background: rgba(255,103,31,.24); }
+    .abt-btn-gold   { background: rgba(200,155,60,.14); color: var(--abt-gold);   border-color: rgba(200,155,60,.3); }
+    .abt-btn-gold:hover   { transform: translateY(-2px); background: rgba(200,155,60,.24); }
+    .abt-btn-outline { background: transparent; color: inherit; border-color: var(--abt-border); }
+    .abt-btn-outline:hover { border-color: rgba(4,106,56,.4); background: rgba(4,106,56,.1); transform: translateY(-2px); }
+
+    /* Hero panel */
+    .abt-hero-panel {
+      display: grid;
+      gap: 10px;
+      min-width: 230px;
+      padding: 20px;
+      border: 1px solid var(--abt-border);
+      border-radius: var(--abt-radius);
+      background: var(--abt-card2);
+    }
+    .abt-hero-panel-title { margin: 0 0 4px; color: var(--abt-green); font-size: .65rem; font-weight: 900; letter-spacing: 1.4px; text-transform: uppercase; }
+    .abt-panel-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border-radius: 8px; background: var(--abt-card); }
+    .abt-panel-row span { color: var(--abt-label); font-size: .63rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+    .abt-panel-row strong { font-size: .81rem; font-weight: 780; line-height: 1.3; }
+
+    /* ── 4-Section pipeline (nav strip) ── */
+    .abt-pipeline-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-bottom: 56px;
+      border: 1px solid var(--abt-border);
+      border-radius: var(--abt-radius);
+      overflow: hidden;
+      background: var(--abt-border);
+    }
+    .abt-pipeline-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 22px 16px;
+      background: var(--abt-card2);
+      text-decoration: none;
+      color: inherit;
+      text-align: center;
+      transition: background .18s ease;
+      position: relative;
+    }
+    .abt-pipeline-tab::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      opacity: 0;
+      transition: opacity .18s ease;
+    }
+    .abt-pipeline-tab:hover::after { opacity: 1; }
+    .abt-pipeline-tab:hover { background: var(--abt-card); }
+    .abt-pipeline-tab.t-green::after  { background: var(--abt-green); }
+    .abt-pipeline-tab.t-blue::after   { background: var(--abt-blue); }
+    .abt-pipeline-tab.t-orange::after { background: var(--abt-orange); }
+    .abt-pipeline-tab.t-gold::after   { background: var(--abt-gold); }
+    .abt-pipeline-tab-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .78rem;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .abt-pipeline-tab.t-green  .abt-pipeline-tab-num { background: rgba(4,106,56,.15);   color: var(--abt-green); }
+    .abt-pipeline-tab.t-blue   .abt-pipeline-tab-num { background: rgba(59,130,246,.15);  color: #60a5fa; }
+    .abt-pipeline-tab.t-orange .abt-pipeline-tab-num { background: rgba(255,103,31,.15); color: var(--abt-orange); }
+    .abt-pipeline-tab.t-gold   .abt-pipeline-tab-num { background: rgba(200,155,60,.15); color: var(--abt-gold); }
+    .abt-pipeline-tab-label {
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+    .abt-pipeline-tab.t-green  .abt-pipeline-tab-label { color: var(--abt-green); }
+    .abt-pipeline-tab.t-blue   .abt-pipeline-tab-label { color: #60a5fa; }
+    .abt-pipeline-tab.t-orange .abt-pipeline-tab-label { color: var(--abt-orange); }
+    .abt-pipeline-tab.t-gold   .abt-pipeline-tab-label { color: var(--abt-gold); }
+    .abt-pipeline-tab-desc { color: var(--abt-label); font-size: .65rem; line-height: 1.4; }
+
+    /* ── Section wrapper ── */
+    .abt-section {
+      margin-bottom: 64px;
+      padding-bottom: 64px;
+      border-bottom: 1px solid var(--abt-border);
+    }
+    .abt-section:last-of-type { border-bottom: none; }
+    .abt-section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-size: .64rem;
+      font-weight: 900;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+    .abt-section-label::before {
+      content: "";
+      display: block;
+      width: 28px; height: 2px;
+      border-radius: 2px;
+    }
+    .abt-section-label.sl-green  { color: var(--abt-green); }
+    .abt-section-label.sl-green::before  { background: var(--abt-green); }
+    .abt-section-label.sl-blue   { color: #60a5fa; }
+    .abt-section-label.sl-blue::before   { background: var(--abt-blue); }
+    .abt-section-label.sl-orange { color: var(--abt-orange); }
+    .abt-section-label.sl-orange::before { background: var(--abt-orange); }
+    .abt-section-label.sl-gold   { color: var(--abt-gold); }
+    .abt-section-label.sl-gold::before   { background: var(--abt-gold); }
+
+    .abt-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .abt-section-head h2 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-weight: 900;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+    .abt-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .abt-tag-green  { background: rgba(4,106,56,.12);   color: var(--abt-green); }
+    .abt-tag-blue   { background: rgba(59,130,246,.12);  color: #60a5fa; }
+    .abt-tag-orange { background: rgba(255,103,31,.12);  color: var(--abt-orange); }
+    .abt-tag-gold   { background: rgba(200,155,60,.12);  color: var(--abt-gold); }
+    .abt-tag-red    { background: rgba(239,68,68,.12);   color: #f87171; }
+
+    .abt-section-intro {
+      max-width: 720px;
+      margin: 0 0 32px;
+      color: var(--abt-muted);
+      font-size: .95rem;
+      line-height: 1.78;
+    }
+
+    /* ── Grid cards ── */
+    .abt-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .abt-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .abt-grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .abt-card {
+      padding: 20px;
+      border: 1px solid var(--abt-border);
+      border-radius: var(--abt-radius);
+      background: var(--abt-card);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .abt-card:hover { transform: translateY(-2px); border-color: rgba(4,106,56,.22); background: var(--abt-card2); }
+    .abt-card-icon { font-size: 1.4rem; margin-bottom: 10px; line-height: 1; }
+    .abt-card h3 { margin: 0 0 8px; font-size: .88rem; font-weight: 900; }
+    .abt-card p  { margin: 0; color: var(--abt-muted); font-size: .78rem; line-height: 1.6; }
+    .abt-card-tag {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+
+    /* ── Journey timeline ── */
+    .abt-timeline { display: grid; gap: 0; }
+    .abt-tl-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--abt-border);
+      position: relative;
+    }
+    .abt-tl-row:last-child { border-bottom: none; }
+    .abt-tl-year {
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--abt-green);
+      padding-top: 3px;
+    }
+    .abt-tl-body h4 { margin: 0 0 5px; font-size: .9rem; font-weight: 900; }
+    .abt-tl-body p  { margin: 0; color: var(--abt-muted); font-size: .8rem; line-height: 1.65; }
+
+    /* ── Values strip ── */
+    .abt-values {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      border: 1px solid var(--abt-border);
+      border-radius: var(--abt-radius);
+      overflow: hidden;
+      background: var(--abt-border);
+      margin-bottom: 32px;
+    }
+    .abt-value {
+      padding: 18px;
+      background: var(--abt-card2);
+      text-align: center;
+    }
+    .abt-value-icon { font-size: 1.2rem; margin-bottom: 6px; }
+    .abt-value-name { font-size: .78rem; font-weight: 900; margin-bottom: 4px; }
+    .abt-value-desc { font-size: .68rem; color: var(--abt-label); line-height: 1.4; }
+
+    /* ── AI Stack ── */
+    .abt-ai-stack {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .abt-ai-card {
+      padding: 22px;
+      border: 1px solid rgba(59,130,246,.18);
+      border-radius: var(--abt-radius);
+      background: rgba(59,130,246,.05);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .abt-ai-card:hover { transform: translateY(-2px); border-color: rgba(59,130,246,.32); }
+    .abt-ai-card-icon { font-size: 1.5rem; margin-bottom: 10px; line-height: 1; }
+    .abt-ai-card h3 { margin: 0 0 8px; font-size: .88rem; font-weight: 900; color: #60a5fa; }
+    .abt-ai-card p  { margin: 0; color: var(--abt-muted); font-size: .78rem; line-height: 1.6; }
+    .abt-ai-card-tag {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(59,130,246,.12);
+      color: #60a5fa;
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+
+    /* AI philosophy block */
+    .abt-ai-philosophy {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 24px;
+      border: 1px solid rgba(59,130,246,.16);
+      border-radius: var(--abt-radius);
+      background: rgba(59,130,246,.04);
+    }
+    .abt-ai-philosophy p { margin: 0; color: var(--abt-muted); font-size: .88rem; line-height: 1.75; }
+
+    /* ── Ventures ── */
+    .abt-venture {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 20px;
+      padding: 22px;
+      border: 1px solid var(--abt-border);
+      border-radius: var(--abt-radius);
+      background: var(--abt-card);
+      margin-bottom: 12px;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .abt-venture:hover { transform: translateY(-2px); border-color: rgba(255,103,31,.22); }
+    .abt-venture-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .abt-venture-icon.vi-resort  { background: rgba(200,155,60,.12); }
+    .abt-venture-icon.vi-biz     { background: rgba(4,106,56,.12); }
+    .abt-venture-icon.vi-ngo     { background: rgba(255,103,31,.12); }
+    .abt-venture-icon.vi-digital { background: rgba(59,130,246,.12); }
+    .abt-venture h3 { margin: 0 0 5px; font-size: .92rem; font-weight: 900; }
+    .abt-venture p  { margin: 0; color: var(--abt-muted); font-size: .8rem; line-height: 1.6; }
+    .abt-venture-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .abt-venture-meta span {
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--abt-card2);
+      border: 1px solid var(--abt-border);
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--abt-label);
+    }
+
+    /* Community contribution */
+    .abt-community {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+    .abt-community-card {
+      padding: 20px;
+      border: 1px solid rgba(255,103,31,.16);
+      border-radius: var(--abt-radius);
+      background: rgba(255,103,31,.05);
+      transition: transform .18s ease;
+    }
+    .abt-community-card:hover { transform: translateY(-2px); }
+    .abt-community-card-icon { font-size: 1.3rem; margin-bottom: 8px; }
+    .abt-community-card h3 { margin: 0 0 7px; font-size: .86rem; font-weight: 900; color: var(--abt-orange); }
+    .abt-community-card p  { margin: 0; color: var(--abt-muted); font-size: .77rem; line-height: 1.6; }
+
+    /* ── DIGITAL COIN section ── */
+    .abt-coin-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: start;
+      padding: 32px;
+      border: 1px solid rgba(200,155,60,.24);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(200,155,60,.1), rgba(4,106,56,.07)), var(--abt-card);
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .abt-coin-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--abt-gold), var(--abt-green), var(--abt-orange));
+    }
+    .abt-coin-hero h3 { margin: 0 0 10px; font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 900; }
+    .abt-coin-hero p  { margin: 0 0 14px; color: var(--abt-muted); font-size: .88rem; line-height: 1.7; max-width: 560px; }
+    .abt-coin-hero p:last-child { margin-bottom: 0; }
+    .abt-coin-symbol {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 120px;
+      text-align: center;
+    }
+    .abt-coin-circle {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 3px solid rgba(200,155,60,.5);
+      background: linear-gradient(135deg, rgba(200,155,60,.2), rgba(4,106,56,.15));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    .abt-coin-ticker {
+      font-family: 'Courier New', monospace;
+      font-size: .9rem;
+      font-weight: 900;
+      color: var(--abt-gold);
+      letter-spacing: 2px;
+    }
+    .abt-coin-sub {
+      font-size: .62rem;
+      color: var(--abt-label);
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    /* Coin security pipeline */
+    .abt-coin-security {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .abt-coin-sec-card {
+      padding: 18px;
+      border: 1px solid rgba(200,155,60,.16);
+      border-radius: var(--abt-rad-sm);
+      background: rgba(200,155,60,.05);
+    }
+    .abt-coin-sec-card-icon { font-size: 1.2rem; margin-bottom: 8px; }
+    .abt-coin-sec-card h4 { margin: 0 0 6px; font-size: .78rem; font-weight: 900; color: var(--abt-gold); }
+    .abt-coin-sec-card p  { margin: 0; color: var(--abt-muted); font-size: .72rem; line-height: 1.55; }
+
+    /* Coin flow */
+    .abt-coin-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px;
+      border: 1px dashed rgba(200,155,60,.25);
+      border-radius: var(--abt-rad-sm);
+      background: rgba(200,155,60,.04);
+      margin-bottom: 28px;
+    }
+    .abt-coin-flow-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .abt-coin-flow-node .ico  { font-size: 1.1rem; }
+    .abt-coin-flow-node .lbl  { font-size: .65rem; font-weight: 900; letter-spacing: .5px; text-transform: uppercase; }
+    .abt-coin-flow-node.fn-green  { background: rgba(4,106,56,.12);   border: 1px solid rgba(4,106,56,.22);   color: var(--abt-green); }
+    .abt-coin-flow-node.fn-gold   { background: rgba(200,155,60,.12); border: 1px solid rgba(200,155,60,.22); color: var(--abt-gold); }
+    .abt-coin-flow-node.fn-orange { background: rgba(255,103,31,.12); border: 1px solid rgba(255,103,31,.22); color: var(--abt-orange); }
+    .abt-coin-flow-node.fn-blue   { background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.22); color: #60a5fa; }
+    .abt-coin-flow-arrow { color: var(--abt-label); font-size: .9rem; }
+
+    /* World change */
+    .abt-coin-world {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .abt-coin-world-card {
+      padding: 22px;
+      border: 1px solid var(--abt-border);
+      border-radius: var(--abt-radius);
+      background: var(--abt-card);
+      transition: transform .18s ease;
+    }
+    .abt-coin-world-card:hover { transform: translateY(-2px); }
+    .abt-coin-world-card-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .abt-coin-world-card h3 { margin: 0 0 8px; font-size: .9rem; font-weight: 900; }
+    .abt-coin-world-card p  { margin: 0; color: var(--abt-muted); font-size: .8rem; line-height: 1.65; }
+
+    /* Coin stats */
+    .abt-coin-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .abt-coin-stat {
+      padding: 16px;
+      border: 1px solid rgba(200,155,60,.16);
+      border-radius: var(--abt-rad-sm);
+      background: rgba(200,155,60,.06);
+      text-align: center;
+    }
+    .abt-coin-stat-value { font-size: 1.2rem; font-weight: 900; color: var(--abt-gold); letter-spacing: -.01em; line-height: 1; margin-bottom: 5px; }
+    .abt-coin-stat-label { font-size: .6rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--abt-label); }
+
+    /* ── SOCIAL section ── */
+    .abt-social-section {
+      margin-bottom: 60px;
+      padding: 36px;
+      border: 1px solid var(--abt-border);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(4,106,56,.07), rgba(255,103,31,.05), rgba(59,130,246,.05)), var(--abt-card);
+      position: relative;
+      overflow: hidden;
+    }
+    .abt-social-section::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
+    }
+    .abt-social-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 32px;
+    }
+    .abt-social-head h2 { margin: 0 0 8px; font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 900; }
+    .abt-social-head p  { margin: 0; color: var(--abt-muted); font-size: .9rem; line-height: 1.7; max-width: 580px; }
+    .abt-social-binding {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 150px;
+      padding: 16px;
+      border: 1px solid var(--abt-border);
+      border-radius: var(--abt-rad-sm);
+      background: var(--abt-card2);
+      text-align: center;
+    }
+    .abt-social-binding-icon { font-size: 1.6rem; }
+    .abt-social-binding-label { font-size: .65rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: var(--abt-green); }
+
+    /* 3-layer social grid */
+    .abt-social-layers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .abt-social-layer {
+      padding: 20px;
+      border: 1px solid var(--abt-border);
+      border-radius: var(--abt-radius);
+      background: var(--abt-card);
+    }
+    .abt-social-layer-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+    }
+    .abt-social-layer.sl-pub    .abt-social-layer-title { color: var(--abt-green); }
+    .abt-social-layer.sl-comm   .abt-social-layer-title { color: var(--abt-orange); }
+    .abt-social-layer.sl-digital .abt-social-layer-title { color: #60a5fa; }
+    .abt-social-links { display: grid; gap: 6px; }
+    .abt-social-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      color: inherit;
+      font-size: .76rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .15s ease, border-color .15s ease, transform .15s ease;
+    }
+    .abt-social-link:hover {
+      background: var(--abt-card2);
+      border-color: var(--abt-border);
+      transform: translateX(3px);
+    }
+    .abt-social-link-note {
+      font-size: .62rem;
+      color: var(--abt-label);
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: var(--abt-card2);
+      white-space: nowrap;
+    }
+
+    /* Philosophy loop */
+    .abt-loop {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 18px;
+      border: 1px dashed var(--abt-border);
+      border-radius: var(--abt-rad-sm);
+      background: var(--abt-card);
+    }
+    .abt-loop-node {
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .4px;
+      white-space: nowrap;
+    }
+    .abt-loop-arrow { color: var(--abt-label); font-size: .85rem; }
+    .abt-loop-node.ln-green  { background: rgba(4,106,56,.12);   border: 1px solid rgba(4,106,56,.22);   color: var(--abt-green); }
+    .abt-loop-node.ln-blue   { background: rgba(59,130,246,.12);  border: 1px solid rgba(59,130,246,.22);  color: #60a5fa; }
+    .abt-loop-node.ln-orange { background: rgba(255,103,31,.12); border: 1px solid rgba(255,103,31,.22); color: var(--abt-orange); }
+    .abt-loop-node.ln-gold   { background: rgba(200,155,60,.12); border: 1px solid rgba(200,155,60,.22); color: var(--abt-gold); }
+
+    /* ── Responsive ── */
+    @media (max-width: 960px) {
+      .abt-pipeline-nav { grid-template-columns: repeat(2, 1fr); }
+      .abt-grid4, .abt-coin-security, .abt-coin-stats { grid-template-columns: repeat(2, 1fr); }
+      .abt-ai-stack, .abt-community { grid-template-columns: repeat(2, 1fr); }
+      .abt-social-layers { grid-template-columns: 1fr; }
+      .abt-coin-world { grid-template-columns: 1fr; }
+      .abt-values { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 760px) {
+      .abt-hero { grid-template-columns: 1fr; }
+      .abt-hero-panel { min-width: 0; }
+      .abt-pipeline-nav { grid-template-columns: 1fr 1fr; }
+      .abt-grid3, .abt-ai-stack { grid-template-columns: 1fr; }
+      .abt-tl-row { grid-template-columns: 1fr; gap: 4px; }
+      .abt-tl-year { border-bottom: 1px solid var(--abt-border); padding-bottom: 4px; }
+      .abt-coin-hero { grid-template-columns: 1fr; }
+      .abt-social-head { grid-template-columns: 1fr; }
+      .abt-ai-philosophy { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 540px) {
+      .abt-pipeline-nav { grid-template-columns: 1fr; }
+      .abt-grid4, .abt-coin-security, .abt-coin-stats, .abt-values { grid-template-columns: 1fr 1fr; }
+      .abt-community { grid-template-columns: 1fr; }
+      .abt-social-section { padding: 24px 18px; }
+    }
+  </style>
 </head>
 
 <body class="theme-dark" data-profile-page="aboutMe">
@@ -38,10 +750,8 @@
 <div id="scrollProgress"></div>
 <a href="#main-content" class="skip-link">Skip to content</a>
 
-<!-- ================= HEADER ================= -->
 <header class="personal-header glass">
   <div class="personal-header-inner">
-
     <a href="/pages/personal.html" class="personal-brand">
       <img id="personalLogo" src="/logo/day-logo.png" alt="HI App" class="personal-logo" />
       <div class="personal-brand-text">
@@ -49,7 +759,6 @@
         <span class="personal-tagline">ABOUT ME</span>
       </div>
     </a>
-
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -61,233 +770,627 @@
   </div>
 </header>
 
-<!-- ================= MAIN ================= -->
-<main class="about-page" id="main-content">
+<div class="abt-stripe"></div>
 
-  <!-- HERO -->
-  <section class="personal-section glass profile-hero" id="people">
-    <div class="profile-hero-copy">
-      <p class="hero-label">Private Profile · About</p>
-      <h1>About Amit Ku Yadav</h1>
-      <p class="personal-intro">
-        Origin, values, journey, ventures, and the working philosophy behind a
-        life being built through consistent, visible, honest work.
+<main id="main-content" class="personal-main">
+<div class="abt-page">
+
+  <!-- ── HERO ── -->
+  <section class="abt-hero" aria-label="About hero">
+    <div>
+      <p class="abt-hero-kicker">About · Builder · Digital Systems · Community</p>
+      <h1>Amit Ku<br /><em>Yadav</em></h1>
+      <p class="abt-hero-sub">
+        One story — four chapters: the person who started from Bhagalpur, the AI and machine layer that
+        amplifies the work, the products and services built for real communities, and the Digital Coin
+        that rewards contribution and changes how value moves.
       </p>
-      <div class="profile-hero-actions">
-        <a class="profile-hero-action primary" href="#journey">View Journey</a>
-        <a class="profile-hero-action" href="#ventures">Active Ventures</a>
-        <a class="profile-hero-action" href="/pages/personal.html">HI App</a>
+      <div class="abt-hero-btns">
+        <a class="abt-btn abt-btn-green"  href="#me">I — The Person</a>
+        <a class="abt-btn abt-btn-blue"   href="#machine">Machine + AI</a>
+        <a class="abt-btn abt-btn-orange" href="#product">Products &amp; Work</a>
+        <a class="abt-btn abt-btn-gold"   href="#coin">Digital Coin</a>
       </div>
     </div>
-    <aside class="profile-hero-panel" aria-label="About profile summary">
-      <p class="profile-panel-title">Identity Snapshot</p>
-      <div class="profile-panel-list">
-        <div><span>Born</span><strong>25 December 1999</strong></div>
-        <div><span>Base</span><strong>Bhagalpur, Bihar</strong></div>
-        <div><span>Work</span><strong>Digital Systems · Business · Social Impact</strong></div>
-        <div><span>Standard</span><strong>Trust through work, not title</strong></div>
+    <aside class="abt-hero-panel" aria-label="Identity snapshot">
+      <p class="abt-hero-panel-title">Identity Snapshot</p>
+      <div class="abt-panel-row">
+        <span>Born</span>
+        <strong>25 December 1999 · Bhagalpur</strong>
+      </div>
+      <div class="abt-panel-row">
+        <span>Work</span>
+        <strong>Digital Systems · Business · Social Impact</strong>
+      </div>
+      <div class="abt-panel-row">
+        <span>AI Layer</span>
+        <strong>Jarvis AI · HDI System · HI Life OS</strong>
+      </div>
+      <div class="abt-panel-row">
+        <span>Ventures</span>
+        <strong>3 Businesses · 1 National NGO</strong>
+      </div>
+      <div class="abt-panel-row">
+        <span>Standard</span>
+        <strong>Trust through work, not title</strong>
       </div>
     </aside>
   </section>
 
-  <section class="about-snapshot" aria-label="Profile snapshot">
-    <div>
-      <span>Origin</span>
-      <strong>Bhagalpur, Bihar</strong>
+  <!-- ── 4-SECTION PIPELINE NAV ── -->
+  <nav class="abt-pipeline-nav" aria-label="Four chapter navigation">
+    <a class="abt-pipeline-tab t-green" href="#me">
+      <div class="abt-pipeline-tab-num">01</div>
+      <div class="abt-pipeline-tab-label">I — The Person</div>
+      <div class="abt-pipeline-tab-desc">Origin, values, journey, and operating philosophy</div>
+    </a>
+    <a class="abt-pipeline-tab t-blue" href="#machine">
+      <div class="abt-pipeline-tab-num">02</div>
+      <div class="abt-pipeline-tab-label">Machine + AI</div>
+      <div class="abt-pipeline-tab-desc">Jarvis AI, HDI system, digital infrastructure</div>
+    </a>
+    <a class="abt-pipeline-tab t-orange" href="#product">
+      <div class="abt-pipeline-tab-num">03</div>
+      <div class="abt-pipeline-tab-label">Products &amp; Work</div>
+      <div class="abt-pipeline-tab-desc">Ventures, services, community contribution</div>
+    </a>
+    <a class="abt-pipeline-tab t-gold" href="#coin">
+      <div class="abt-pipeline-tab-num">04</div>
+      <div class="abt-pipeline-tab-label">Reward — HI Coin</div>
+      <div class="abt-pipeline-tab-desc">Digital Coin, security, world and people impact</div>
+    </a>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       SECTION 01 — I, THE PERSON
+  ══════════════════════════════════════ -->
+  <section class="abt-section" id="me" aria-label="The person">
+    <p class="abt-section-label sl-green">01 — The Person</p>
+    <div class="abt-section-head">
+      <h2>I</h2>
+      <span class="abt-tag abt-tag-green">Origin · Values · Journey</span>
     </div>
-    <div>
-      <span>Work</span>
-      <strong>Digital Systems</strong>
+    <p class="abt-section-intro">
+      Born 25 December 1999 in Bhagalpur, Bihar. I work at the intersection of digital systems,
+      business building, community leadership, and social impact. I do not come from a background
+      of formal institutional power or inherited networks. What I have built has been built step
+      by step — through learning, coordination, visible accountability, and long-term consistency.
+      My identity is not a title. It is a record.
+    </p>
+
+    <!-- Values -->
+    <div class="abt-values" aria-label="Personal values">
+      <div class="abt-value">
+        <div class="abt-value-icon">🎯</div>
+        <div class="abt-value-name">Clarity</div>
+        <div class="abt-value-desc">Say what is real, what is planned, what is not done yet</div>
+      </div>
+      <div class="abt-value">
+        <div class="abt-value-icon">⚙️</div>
+        <div class="abt-value-name">Discipline</div>
+        <div class="abt-value-desc">Structure in routine, delivery, communication, and health</div>
+      </div>
+      <div class="abt-value">
+        <div class="abt-value-icon">🛡️</div>
+        <div class="abt-value-name">Responsibility</div>
+        <div class="abt-value-desc">Own the outcome when my name or promise is attached</div>
+      </div>
+      <div class="abt-value">
+        <div class="abt-value-icon">🤝</div>
+        <div class="abt-value-name">Respect</div>
+        <div class="abt-value-desc">Given to people, time, privacy, and the work itself</div>
+      </div>
     </div>
-    <div>
-      <span>Ventures</span>
-      <strong>Business + NGO</strong>
+
+    <!-- Journey -->
+    <div class="abt-section-head" style="margin-bottom:18px">
+      <h2 style="font-size:1.3rem">Journey</h2>
+      <span class="abt-tag abt-tag-green">1999 — Present</span>
     </div>
-    <div>
-      <span>Standard</span>
-      <strong>Trust Through Work</strong>
+    <div class="abt-timeline" role="list">
+      <div class="abt-tl-row">
+        <div class="abt-tl-year">1999</div>
+        <div class="abt-tl-body">
+          <h4>Born in Bhagalpur, Bihar</h4>
+          <p>Born 25 December 1999. Early years shaped by family values, Bhagalpur's deep cultural roots, Angika heritage, and the discipline of a community-first upbringing.</p>
+        </div>
+      </div>
+      <div class="abt-tl-row">
+        <div class="abt-tl-year">2015–2019</div>
+        <div class="abt-tl-body">
+          <h4>Academic Foundation</h4>
+          <p>Completed school and early higher education in Bhagalpur. Began developing awareness of real community problems, economic gaps, and the distance between what institutions say and ground-level reality.</p>
+        </div>
+      </div>
+      <div class="abt-tl-row">
+        <div class="abt-tl-year">2019–2021</div>
+        <div class="abt-tl-body">
+          <h4>Ground-Level Learning</h4>
+          <p>Left formal learning to understand people directly. Spent time in community coordination, observing how problems are actually solved, building real relationships, and learning how trust is earned versus assumed.</p>
+        </div>
+      </div>
+      <div class="abt-tl-row">
+        <div class="abt-tl-year">2021–2023</div>
+        <div class="abt-tl-body">
+          <h4>Business Systems &amp; Digital Work</h4>
+          <p>Began building digital systems — websites, business profiles, service platforms. Learned how planning, communication, delivery, and accountability connect to build credible, functional operations.</p>
+        </div>
+      </div>
+      <div class="abt-tl-row">
+        <div class="abt-tl-year">2023–Present</div>
+        <div class="abt-tl-body">
+          <h4>Ventures &amp; Social Initiatives</h4>
+          <p>Launched three active ventures: Royal Heritage Resort (hospitality), Jhon Aamit LLP (registered brokerage), and National Youth Force (national NGO — children, women, youth, environment). Structured public communication begins.</p>
+        </div>
+      </div>
+      <div class="abt-tl-row">
+        <div class="abt-tl-year">2024–Present</div>
+        <div class="abt-tl-body">
+          <h4>kingofyadav.in · HI Ecosystem · Digital Coin</h4>
+          <p>Built and launched a full digital identity platform: personal, professional, and social dimensions — HI App (private Life OS), Jarvis AI assistant, HDI identity system, Digital Coin ecosystem, and this About story.</p>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════
+       SECTION 02 — MACHINE + AI
+  ══════════════════════════════════════ -->
+  <section class="abt-section" id="machine" aria-label="Machine and AI layer">
+    <p class="abt-section-label sl-blue">02 — Machine + AI</p>
+    <div class="abt-section-head">
+      <h2>The Machine</h2>
+      <span class="abt-tag abt-tag-blue">AI · Systems · Infrastructure</span>
+    </div>
+    <p class="abt-section-intro">
+      The work I do is amplified by a digital layer — AI tools, identity systems, and private
+      infrastructure that handle memory, coordination, security, and decision support.
+      The machine does not replace the human; it removes the friction so the human
+      can focus on what actually matters: judgment, relationships, and accountable action.
+    </p>
 
-  <section class="personal-section glass">
-    <h2>Who I Am</h2>
-    <p class="personal-intro">
-      Born 25 December 1999 in Bhagalpur, Bihar. I work at the intersection of
-      digital systems, business building, community leadership, and social impact.
-      I do not come from a background of formal institutional power or inherited
-      networks. What I have built has been built step by step — through learning,
-      coordination, visible accountability, and long-term consistency.
-    </p>
-    <p class="personal-intro">
-      My identity is not a title. It is a record. The work either supports it or it doesn't.
-    </p>
+    <!-- AI stack -->
+    <div class="abt-ai-stack">
+      <div class="abt-ai-card">
+        <div class="abt-ai-card-icon">🤖</div>
+        <h3>Jarvis AI</h3>
+        <p>Personal AI assistant embedded across kingofyadav.in. Handles public enquiries, explains identity, services, ventures, and the digital ecosystem — available 24/7 without needing my direct time.</p>
+        <span class="abt-ai-card-tag">Live on Site</span>
+      </div>
+      <div class="abt-ai-card">
+        <div class="abt-ai-card-icon">🪪</div>
+        <h3>HDI System</h3>
+        <p>Human Digital Identity — your name + device fingerprint hashed via SHA-256 into a permanent cryptographic code (e.g. AKY-2026-3F8A2C). Device-bound, one-time, zero server dependency.</p>
+        <span class="abt-ai-card-tag">SHA-256 · Device-Locked</span>
+      </div>
+      <div class="abt-ai-card">
+        <div class="abt-ai-card-icon">📱</div>
+        <h3>HI Life OS</h3>
+        <p>Private personal management system — dashboard, wallet, vault, habits, goals, tasks, mood tracking, and identity management all in one private authenticated environment.</p>
+        <span class="abt-ai-card-tag">Private · Encrypted</span>
+      </div>
+      <div class="abt-ai-card">
+        <div class="abt-ai-card-icon">🔐</div>
+        <h3>Vault — AES-GCM</h3>
+        <p>End-to-end encrypted data backup using AES-GCM with PBKDF2 key derivation from a user passphrase. No plaintext ever stored. Backup/restore across device changes.</p>
+        <span class="abt-ai-card-tag">AES-GCM · PBKDF2</span>
+      </div>
+      <div class="abt-ai-card">
+        <div class="abt-ai-card-icon">⚡</div>
+        <h3>kingofyadav.in Platform</h3>
+        <p>Full-stack public + private digital presence: portfolio, blog, services, social pages, live class, marketplace, collaboration portal, and the complete HI private ecosystem — one domain.</p>
+        <span class="abt-ai-card-tag">Full-Stack · Vercel</span>
+      </div>
+      <div class="abt-ai-card">
+        <div class="abt-ai-card-icon">🧠</div>
+        <h3>AI Work Tools</h3>
+        <p>AI-assisted writing, planning, code generation, research synthesis, and decision support — not to automate judgment, but to compress the time between idea and execution.</p>
+        <span class="abt-ai-card-tag">Claude · GPT · Tools</span>
+      </div>
+    </div>
+
+    <!-- Philosophy -->
+    <div class="abt-ai-philosophy">
+      <p>
+        <strong style="display:block;margin-bottom:6px;color:#60a5fa">Human — the authority, the judgment, the accountability</strong>
+        The machine handles volume, speed, memory, and pattern recognition. Every decision that
+        matters — that affects a person, a community, a promise — remains with the human.
+        AI is not a replacement for responsibility. It is a tool that makes a responsible person faster.
+      </p>
+      <p>
+        <strong style="display:block;margin-bottom:6px;color:#60a5fa">Machine — the amplifier, the memory, the guard</strong>
+        The HDI system, vault encryption, auth guards, and Jarvis AI collectively ensure that
+        every interaction in this ecosystem is verifiable, private, and anchored to a real
+        identity — not an anonymous actor with no accountability to anything.
+      </p>
+    </div>
   </section>
 
-
-  <!-- VISION -->
-  <section class="personal-section glass" id="vision">
-    <h2>What I Am Building</h2>
-    <p class="personal-intro">
-      A structured life — not a brand, not a persona. A life with strong local
-      relationships, credible digital presence, practical business systems, youth
-      participation, and community problem-solving that can work beyond one person.
+  <!-- ══════════════════════════════════════
+       SECTION 03 — PRODUCTS & WORK
+  ══════════════════════════════════════ -->
+  <section class="abt-section" id="product" aria-label="Products services and work">
+    <p class="abt-section-label sl-orange">03 — Products &amp; Work</p>
+    <div class="abt-section-head">
+      <h2>The Output</h2>
+      <span class="abt-tag abt-tag-orange">Ventures · Services · Community</span>
+    </div>
+    <p class="abt-section-intro">
+      Work is the only honest proof of direction. Below are the active ventures and community
+      contributions that constitute the real record — not a resume, not a profile, but operating,
+      accountable, verifiable work.
     </p>
-    <p class="personal-intro">
-      The goal is not to be known everywhere. The goal is to be trusted where it
-      matters — by the people closest to the work, by the community I am part of,
-      and over time, by anyone who examines the record and finds it consistent.
-    </p>
-  </section>
 
+    <!-- Ventures -->
+    <div class="abt-section-head" style="margin-bottom:16px">
+      <h2 style="font-size:1.15rem">Active Ventures</h2>
+      <span class="abt-tag abt-tag-orange">3 Businesses · 1 NGO</span>
+    </div>
 
-  <!-- JOURNEY -->
-  <section class="personal-section glass" id="journey">
-    <h2>My Journey</h2>
-
-    <ul class="timeline">
-      <li>
-        <strong>1999 — Born in Bhagalpur, Bihar</strong>
-        <p>Born on 25 December 1999. Early years shaped by family values, local culture, and the discipline of a Bhagalpur upbringing — a city with deep historical roots and a strong community identity.</p>
-      </li>
-      <li>
-        <strong>2015–2019 — Academic Foundation</strong>
-        <p>Completed school and early higher education in Bhagalpur. Began developing awareness of real community problems, economic gaps, and the distance between what institutions say and what ground-level reality looks like.</p>
-      </li>
-      <li>
-        <strong>2019–2021 — Ground-Level Learning</strong>
-        <p>Left formal learning to understand people directly. Spent time in community coordination, observing how problems are actually solved (or not), building real relationships, and learning how trust is earned versus assumed.</p>
-      </li>
-      <li>
-        <strong>2021–2023 — Business Systems &amp; Digital Work</strong>
-        <p>Began building digital systems — websites, business profiles, service platforms. Learned how planning, communication, delivery, and accountability connect to build credible, functional operations.</p>
-      </li>
-      <li>
-        <strong>2023–Present — Ventures &amp; Social Initiatives</strong>
-        <p>Launched three active ventures: Royal Heritage Resort (hospitality), Jhon Aamit LLP (registered brokerage firm), and National Youth Force (national NGO focused on children, women, youth, and environment). Began structured public communication.</p>
-      </li>
-      <li>
-        <strong>2024–Present — kingofyadav.in Digital Platform</strong>
-        <p>Built and launched a structured digital identity platform covering personal, professional, and social dimensions — including the HI App (private Life OS), Jarvis AI assistant, and HDI identity system.</p>
-      </li>
-    </ul>
-  </section>
-
-  <section class="personal-section" id="ventures">
-    <h2>Active Ventures</h2>
-    <div class="life-grid">
-      <div class="life-card glass">
+    <div class="abt-venture">
+      <div class="abt-venture-icon vi-resort">🏰</div>
+      <div>
         <h3>Royal Heritage Resort</h3>
-        <p>Hospitality venture — cultural experience, comfort, and responsible tourism in Bihar.</p>
+        <p>Hospitality venture offering cultural experience, comfort, and responsible tourism in Bihar. Built on the idea that local heritage has global value when presented with quality and consistency.</p>
+        <div class="abt-venture-meta">
+          <span>Hospitality</span><span>Bihar Tourism</span><span>Cultural Experience</span><span>Active</span>
+        </div>
       </div>
-      <div class="life-card glass">
+    </div>
+
+    <div class="abt-venture">
+      <div class="abt-venture-icon vi-biz">💼</div>
+      <div>
         <h3>Jhon Aamit LLP</h3>
-        <p>Registered brokerage firm — structured, compliant, growth-oriented financial solutions.</p>
+        <p>Registered brokerage firm — structured, compliant, growth-oriented financial solutions. A legal entity built with full compliance and accountability as the operating standard from day one.</p>
+        <div class="abt-venture-meta">
+          <span>Registered LLP</span><span>Brokerage</span><span>Financial Services</span><span>Active</span>
+        </div>
       </div>
-      <div class="life-card glass">
+    </div>
+
+    <div class="abt-venture">
+      <div class="abt-venture-icon vi-ngo">🌱</div>
+      <div>
         <h3>National Youth Force</h3>
-        <p>National NGO — children, women, youth development, and environmental responsibility.</p>
+        <p>National NGO working across children, women, youth development, and environmental responsibility. Registered nationally; operates through grassroots coordination and structured local leadership programs.</p>
+        <div class="abt-venture-meta">
+          <span>National NGO</span><span>Children</span><span>Women</span><span>Youth</span><span>Environment</span>
+        </div>
       </div>
     </div>
-  </section>
 
-
-  <!-- EDUCATION -->
-  <section class="personal-section glass" id="education">
-    <h2>Education</h2>
-    <ul class="timeline">
-      <li>
-        <strong>School Education — Bhagalpur</strong>
-        <p>Completed foundational schooling in Bhagalpur, Bihar — building academic discipline and a structured approach to learning.</p>
-      </li>
-      <li>
-        <strong>Higher Education</strong>
-        <p>Pursued higher studies focused on leadership, systems, and practical knowledge applicable to real-world community and business challenges.</p>
-      </li>
-    </ul>
-  </section>
-
-  <!-- PERSONAL PHILOSOPHY -->
-  <section class="personal-section glass">
-    <h2>Personal Philosophy</h2>
-    <p class="personal-intro">
-      Discipline creates stability. Stability creates progress. Progress creates trust.
-    </p>
-    <ul class="timeline">
-      <li>
-        <strong>Do the work before explaining it</strong>
-      </li>
-      <li>
-        <strong>Be reachable, responsible, and honest about what you can and cannot deliver</strong>
-      </li>
-      <li>
-        <strong>Build for the long run — consistency over years matters more than attention in months</strong>
-      </li>
-    </ul>
-  </section>
-
-
-  <!-- IMPACT -->
-  <section class="personal-section" id="impact">
-    <h2>Where I Contribute</h2>
-
-    <div class="life-grid">
-
-      <div class="life-card glass">
-        <h3>Community Development</h3>
-        <p>Supporting initiatives that focus on real and measurable improvement.</p>
+    <div class="abt-venture">
+      <div class="abt-venture-icon vi-digital">🌐</div>
+      <div>
+        <h3>kingofyadav.in Digital Platform</h3>
+        <p>Full public + private digital presence: portfolio, services, blog, collaboration, live class, marketplace, HI App, Jarvis AI, and the Digital Coin ecosystem — built and maintained as a living system.</p>
+        <div class="abt-venture-meta">
+          <span>Digital Platform</span><span>AI Integrated</span><span>HI Ecosystem</span><span>Live</span>
+        </div>
       </div>
+    </div>
 
-      <div class="life-card glass">
-        <h3>Youth Motivation</h3>
-        <p>Encouraging responsible and disciplined leadership among young minds.</p>
+    <!-- Community -->
+    <div class="abt-section-head" style="margin:32px 0 16px">
+      <h2 style="font-size:1.15rem">Community Contribution</h2>
+      <span class="abt-tag abt-tag-orange">Where the Work Goes</span>
+    </div>
+    <div class="abt-community">
+      <div class="abt-community-card">
+        <div class="abt-community-card-icon">🏘️</div>
+        <h3>Grassroots Engagement</h3>
+        <p>Active involvement in Bhagalpur — community problem-solving, public service coordination, local initiative support, and direct participation in civic life.</p>
       </div>
-
-      <div class="life-card glass">
+      <div class="abt-community-card">
+        <div class="abt-community-card-icon">🎓</div>
+        <h3>Youth Mentorship</h3>
+        <p>Guiding young individuals toward discipline, structured thinking, and purposeful work — through direct engagement, not broadcast inspiration.</p>
+      </div>
+      <div class="abt-community-card">
+        <div class="abt-community-card-icon">📢</div>
         <h3>Public Dialogue</h3>
-        <p>Maintaining open communication to understand genuine concerns.</p>
+        <p>Maintaining open, structured communication across digital channels and in-person forums — making real information accessible to the community that needs it.</p>
       </div>
-
     </div>
   </section>
 
-
-  <!-- CONNECT -->
-  <section class="personal-section glass" id="connect">
-    <h2>Private Direction</h2>
-    <p class="personal-intro">
-      This page should work as a reference point: where I came from, what I value,
-      and what kind of person I am trying to become through consistent work.
+  <!-- ══════════════════════════════════════
+       SECTION 04 — DIGITAL COIN (REWARD)
+  ══════════════════════════════════════ -->
+  <section class="abt-section" id="coin" aria-label="Digital Coin reward system">
+    <p class="abt-section-label sl-gold">04 — Reward</p>
+    <div class="abt-section-head">
+      <h2>HI Digital Coin</h2>
+      <span class="abt-tag abt-tag-gold">Community Currency · Secure · World-Changing</span>
+    </div>
+    <p class="abt-section-intro">
+      The Digital Coin is the reward layer of the HI ecosystem. When a person builds identity,
+      contributes work, creates verified content, or serves the community — they earn HI Coin.
+      It is not speculation. It is recognition made transferable, cryptographically secured,
+      and tied to real identity so every coin has an accountable human behind it.
     </p>
 
-    <div class="personal-actions">
-      <a href="/pages/origin.html" class="life-card glass">Origin</a>
-      <a href="/pages/personal.html" class="life-card glass">Personal Hub</a>
+    <!-- Coin hero card -->
+    <div class="abt-coin-hero">
+      <div>
+        <h3>What Is HI Coin?</h3>
+        <p>
+          HI Coin is the native digital currency of the kingofyadav.in ecosystem. Unlike speculative
+          cryptocurrencies, it is backed by real identity (HDI), real actions (wallet transactions,
+          content claims, marketplace activity), and a community trust model — not anonymous mining
+          or pure market speculation.
+        </p>
+        <p>
+          Every coin is issued to a verified HDI-holder. Every transaction is logged in an
+          immutable ledger. Every spend happens within the ecosystem's wallet, marketplace, or
+          merchant network — creating a closed-loop value system that rewards genuine participation.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <a class="abt-btn abt-btn-gold" href="/pages/coin.html">Explore HI Coin</a>
+          <a class="abt-btn abt-btn-outline" href="/pages/wallet.html">Open Wallet</a>
+        </div>
+      </div>
+      <div class="abt-coin-symbol">
+        <div class="abt-coin-circle">🪙</div>
+        <div class="abt-coin-ticker">HI COIN</div>
+        <div class="abt-coin-sub">Human Identity Token</div>
+      </div>
+    </div>
+
+    <!-- Coin stats -->
+    <div class="abt-coin-stats" aria-label="HI Coin key metrics">
+      <div class="abt-coin-stat">
+        <div class="abt-coin-stat-value">99</div>
+        <div class="abt-coin-stat-label">Max Cap (Ecosystem)</div>
+      </div>
+      <div class="abt-coin-stat">
+        <div class="abt-coin-stat-value">HDI</div>
+        <div class="abt-coin-stat-label">Identity-Bound</div>
+      </div>
+      <div class="abt-coin-stat">
+        <div class="abt-coin-stat-value">SHA-256</div>
+        <div class="abt-coin-stat-label">Security Layer</div>
+      </div>
+      <div class="abt-coin-stat">
+        <div class="abt-coin-stat-value">0</div>
+        <div class="abt-coin-stat-label">Anonymous Holders</div>
+      </div>
+    </div>
+
+    <!-- Security pipeline -->
+    <div class="abt-section-head" style="margin-bottom:16px">
+      <h2 style="font-size:1.15rem">How It Is Secured</h2>
+      <span class="abt-tag abt-tag-gold">Cryptographic Stack</span>
+    </div>
+    <div class="abt-coin-security">
+      <div class="abt-coin-sec-card">
+        <div class="abt-coin-sec-card-icon">🪪</div>
+        <h4>HDI Binding</h4>
+        <p>Every coin is issued only to a verified HDI holder. No HDI, no coin. The identity cannot be forged — it is SHA-256 hashed and device-locked at creation.</p>
+      </div>
+      <div class="abt-coin-sec-card">
+        <div class="abt-coin-sec-card-icon">#️⃣</div>
+        <h4>SHA-256 Fingerprint</h4>
+        <p>Every transaction is fingerprinted with SHA-256. The hash of sender HDI + receiver HDI + amount + timestamp creates an irreversible, auditable record.</p>
+      </div>
+      <div class="abt-coin-sec-card">
+        <div class="abt-coin-sec-card-icon">🔐</div>
+        <h4>AES-GCM Vault</h4>
+        <p>Coin balances and transaction history can be backed up in the encrypted vault using AES-GCM encryption with PBKDF2 key derivation — no plaintext, no server storage.</p>
+      </div>
+      <div class="abt-coin-sec-card">
+        <div class="abt-coin-sec-card-icon">📜</div>
+        <h4>Immutable Ledger</h4>
+        <p>Every earn, spend, and transfer is recorded with a timestamp, action type, and HDI reference. The ledger cannot be edited — it is append-only by design.</p>
+      </div>
+    </div>
+
+    <!-- Coin flow -->
+    <div class="abt-section-head" style="margin-bottom:16px">
+      <h2 style="font-size:1.15rem">How It Flows</h2>
+      <span class="abt-tag abt-tag-gold">Earn → Use → Transfer → Prove</span>
+    </div>
+    <div class="abt-coin-flow" aria-label="HI Coin lifecycle flow">
+      <div class="abt-coin-flow-node fn-green">
+        <span class="ico">🌱</span>
+        <span class="lbl">Contribute</span>
+      </div>
+      <span class="abt-coin-flow-arrow">→</span>
+      <div class="abt-coin-flow-node fn-gold">
+        <span class="ico">🪙</span>
+        <span class="lbl">Earn Coin</span>
+      </div>
+      <span class="abt-coin-flow-arrow">→</span>
+      <div class="abt-coin-flow-node fn-blue">
+        <span class="ico">💳</span>
+        <span class="lbl">Wallet</span>
+      </div>
+      <span class="abt-coin-flow-arrow">→</span>
+      <div class="abt-coin-flow-node fn-orange">
+        <span class="ico">🏪</span>
+        <span class="lbl">Spend / Transfer</span>
+      </div>
+      <span class="abt-coin-flow-arrow">→</span>
+      <div class="abt-coin-flow-node fn-green">
+        <span class="ico">📜</span>
+        <span class="lbl">Ledger Proof</span>
+      </div>
+      <span class="abt-coin-flow-arrow">→</span>
+      <div class="abt-coin-flow-node fn-gold">
+        <span class="ico">🔐</span>
+        <span class="lbl">Vault Backup</span>
+      </div>
+    </div>
+
+    <!-- How it changes the world & people -->
+    <div class="abt-section-head" style="margin-bottom:16px">
+      <h2 style="font-size:1.15rem">How It Changes People &amp; the World</h2>
+      <span class="abt-tag abt-tag-gold">Real-World Impact</span>
+    </div>
+    <div class="abt-coin-world">
+      <div class="abt-coin-world-card">
+        <div class="abt-coin-world-card-icon">🌍</div>
+        <h3>How It Changes the World</h3>
+        <p>
+          Most digital currencies are anonymous, speculative, and disconnected from real-world
+          contribution. HI Coin is the opposite — every unit represents a verified action by a
+          real identity. This creates a new model: <strong>value that traces back to human work,
+          not computational mining or market emotion</strong>.
+        </p>
+        <p style="margin-top:10px;color:var(--abt-muted);font-size:.8rem;line-height:1.65">
+          In a world where trust is broken between institutions and people, a community currency
+          anchored to verifiable identity restores the connection between contribution and reward —
+          at the individual level, not the institutional one.
+        </p>
+      </div>
+      <div class="abt-coin-world-card">
+        <div class="abt-coin-world-card-icon">🧑‍🤝‍🧑</div>
+        <h3>How It Changes People</h3>
+        <p>
+          For the first time, a person's consistent contribution — mentoring youth, creating
+          content, participating in community work, running a marketplace shop — is tracked,
+          verified, and rewarded with transferable value. <strong>Dignity through verifiable
+          work history</strong>, not just a title or a certificate that can be forged.
+        </p>
+        <p style="margin-top:10px;color:var(--abt-muted);font-size:.8rem;line-height:1.65">
+          A community member in Bhagalpur who consistently contributes earns the same
+          cryptographically-secured reward as someone in a major city — identity-bound,
+          tamper-proof, and completely theirs.
+        </p>
+      </div>
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════
+       SOCIAL SECTION — THE BINDING LAYER
+  ══════════════════════════════════════ -->
+  <section class="abt-social-section" id="social" aria-label="Social binding layer">
+    <div class="abt-social-head">
+      <div>
+        <p class="abt-section-label sl-green" style="margin-bottom:10px">Everything Bound Together</p>
+        <h2>The Social Layer</h2>
+        <p>
+          Person + Machine + Product + Coin — these four chapters only mean something when they
+          connect to a real community. The social layer is where all of it becomes visible,
+          accessible, and open for engagement. Choose the channel that works for you.
+        </p>
+      </div>
+      <div class="abt-social-binding">
+        <div class="abt-social-binding-icon">🔗</div>
+        <div class="abt-social-binding-label">One Identity<br />All Channels</div>
+      </div>
+    </div>
+
+    <!-- 3-layer grid -->
+    <div class="abt-social-layers">
+      <div class="abt-social-layer sl-pub">
+        <p class="abt-social-layer-title">🌐 Public Presence</p>
+        <div class="abt-social-links">
+          <a class="abt-social-link" href="/" >
+            kingofyadav.in <span class="abt-social-link-note">Main Site</span>
+          </a>
+          <a class="abt-social-link" href="/pages/professional.html">
+            Professional Page <span class="abt-social-link-note">Portfolio</span>
+          </a>
+          <a class="abt-social-link" href="/pages/blog.html">
+            Blog <span class="abt-social-link-note">Writing</span>
+          </a>
+          <a class="abt-social-link" href="/pages/social.html">
+            Social Hub <span class="abt-social-link-note">All Links</span>
+          </a>
+          <a class="abt-social-link" href="/pages/contact.html">
+            Contact <span class="abt-social-link-note">Direct</span>
+          </a>
+          <a class="abt-social-link" href="/pages/services.html">
+            Services <span class="abt-social-link-note">What I Offer</span>
+          </a>
+        </div>
+      </div>
+      <div class="abt-social-layer sl-comm">
+        <p class="abt-social-layer-title">🏘️ Community Work</p>
+        <div class="abt-social-links">
+          <a class="abt-social-link" href="/pages/collaboration.html">
+            Collaboration <span class="abt-social-link-note">Work Together</span>
+          </a>
+          <a class="abt-social-link" href="/pages/bhagalpur.html">
+            Bhagalpur City <span class="abt-social-link-note">Local Base</span>
+          </a>
+          <a class="abt-social-link" href="/pages/services.html">
+            Community Services <span class="abt-social-link-note">NGO + Ventures</span>
+          </a>
+          <a class="abt-social-link" href="/pages/live-class.html">
+            Live Class <span class="abt-social-link-note">Learning</span>
+          </a>
+          <a class="abt-social-link" href="/pages/gallery.html">
+            Gallery <span class="abt-social-link-note">Visual Record</span>
+          </a>
+          <a class="abt-social-link" href="/pages/order.html">
+            Order Services <span class="abt-social-link-note">Work With Me</span>
+          </a>
+        </div>
+      </div>
+      <div class="abt-social-layer sl-digital">
+        <p class="abt-social-layer-title">💻 Digital Ecosystem</p>
+        <div class="abt-social-links">
+          <a class="abt-social-link" href="/pages/personal.html">
+            HI Life OS <span class="abt-social-link-note">Private Hub</span>
+          </a>
+          <a class="abt-social-link" href="/pages/coin.html">
+            HI Digital Coin <span class="abt-social-link-note">Community Currency</span>
+          </a>
+          <a class="abt-social-link" href="/marketplace/">
+            Marketplace <span class="abt-social-link-note">Buy · Sell</span>
+          </a>
+          <a class="abt-social-link" href="/pages/wallet.html">
+            Wallet <span class="abt-social-link-note">Transactions</span>
+          </a>
+          <a class="abt-social-link" href="/pages/hi-license.html">
+            HI License <span class="abt-social-link-note">Content Claims</span>
+          </a>
+          <a class="abt-social-link" href="/pages/vault.html">
+            Vault <span class="abt-social-link-note">Encrypted Backup</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Philosophy loop -->
+    <div class="abt-loop" aria-label="Philosophy cycle">
+      <div class="abt-loop-node ln-green">🧑 Person</div>
+      <span class="abt-loop-arrow">+</span>
+      <div class="abt-loop-node ln-blue">🤖 Machine</div>
+      <span class="abt-loop-arrow">→</span>
+      <div class="abt-loop-node ln-orange">📦 Product &amp; Work</div>
+      <span class="abt-loop-arrow">→</span>
+      <div class="abt-loop-node ln-gold">🪙 Reward</div>
+      <span class="abt-loop-arrow">→</span>
+      <div class="abt-loop-node ln-green">🏘️ Community</div>
+      <span class="abt-loop-arrow">→</span>
+      <div class="abt-loop-node ln-green">🧑 Stronger Person</div>
+    </div>
+  </section>
+
+</div><!-- /abt-page -->
 </main>
 
-
-<!-- ================= FOOTER ================= -->
 <footer class="site-footer glass" data-footer></footer>
 
-  <button id="backToTop" aria-label="Back to top">
-    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
-  </button>
-  <script src="/js/auth.js?v=auth-otp-1"></script>
-  <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
-  <script src="/js/footer.js" defer></script>
-  <script src="/js/nav.js" defer></script>
-  <script src="/js/script.js?v=footer-clean-1" defer></script>
-  <script>
-    var _u = document.getElementById("authUserDisplay");
-    if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
-    var _lb = document.getElementById("logoutBtn");
-    if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
-  </script>
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
-  <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
+<script src="/js/auth.js?v=auth-otp-1"></script>
+<script src="/js/footer.js" defer></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/script.js?v=footer-clean-1" defer></script>
+<script>
+  var _u = document.getElementById("authUserDisplay");
+  if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
+  var _lb = document.getElementById("logoutBtn");
+  if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
+</script>
+<script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
