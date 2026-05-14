@@ -294,6 +294,44 @@
 
   </div>
 
+  <!-- ── WEB: Connected Pages ── -->
+  <style>
+    .idx-web { padding: clamp(1.5rem,4vw,2.5rem) clamp(1rem,4vw,2rem); max-width: 960px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,.07); }
+    .idx-web-label { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: .9rem; }
+    .idx-web-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: .85rem; }
+    .idx-web-card { display: flex; flex-direction: column; gap: 5px; padding: 1rem 1.15rem; border: 1px solid rgba(255,255,255,.07); border-radius: 10px; background: rgba(255,255,255,.025); text-decoration: none; transition: border-color .2s, background .2s; }
+    .idx-web-card:hover { border-color: #046A38; background: rgba(4,106,56,.08); }
+    .idx-web-icon { font-size: 1.25rem; }
+    .idx-web-title { font-size: .92rem; font-weight: 700; color: #fff; }
+    .idx-web-desc { font-size: .78rem; color: rgba(255,255,255,.4); line-height: 1.55; }
+    body.theme-light .idx-web { border-top-color: rgba(0,0,0,.09); }
+    body.theme-light .idx-web-label { color: rgba(0,0,0,.4); }
+    body.theme-light .idx-web-card { border-color: rgba(0,0,0,.09); background: rgba(0,0,0,.025); }
+    body.theme-light .idx-web-card:hover { border-color: #046A38; background: rgba(4,106,56,.05); }
+    body.theme-light .idx-web-title { color: #111; }
+    body.theme-light .idx-web-desc { color: rgba(0,0,0,.4); }
+  </style>
+  <section class="idx-web" aria-label="Connected pages">
+    <div class="idx-web-label">Connected Pages</div>
+    <div class="idx-web-grid">
+      <a class="idx-web-card" href="/pages/blog.html">
+        <span class="idx-web-icon">✍️</span>
+        <span class="idx-web-title">Blog — Read My Thinking</span>
+        <span class="idx-web-desc">Articles on leadership, systems, and long-term strategy</span>
+      </a>
+      <a class="idx-web-card" href="/pages/live-class.html">
+        <span class="idx-web-icon">🔴</span>
+        <span class="idx-web-title">Live Class — Join a Session</span>
+        <span class="idx-web-desc">Join live or catch the next scheduled class</span>
+      </a>
+      <a class="idx-web-card" href="/pages/contact.html">
+        <span class="idx-web-icon">📬</span>
+        <span class="idx-web-title">Contact — Reach Me</span>
+        <span class="idx-web-desc">Direct message, enquiry, or proposal</span>
+      </a>
+    </div>
+  </section>
+
 </main>
 
 
