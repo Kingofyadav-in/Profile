@@ -8,8 +8,8 @@
   var article = document.getElementById('article');
   if (!article) return;
 
-  var ENDPOINT = 'https://jarvis.kingofyadav.in/api/jarvis-chat';
-  var SPLIT    = '<<<P>>>';
+  var ENDPOINT  = 'https://jarvis.kingofyadav.in/api/jarvis-chat';
+  var PAR_LIMIT = 3; // parallel requests at once
 
   var LANGS = [
     { code: 'hi', label: 'हिन्दी', name: 'Hindi' },
@@ -81,7 +81,7 @@
   bar.appendChild(status);
 
   /* Insert after .article-meta, before first h2 */
-  var meta = article.querySelector('.article-meta');
+  var meta   = article.querySelector('.article-meta');
   var anchor = (meta && meta.nextSibling) ? meta.nextSibling : article.querySelector('h2');
   article.insertBefore(bar, anchor || article.firstChild);
 
@@ -113,8 +113,8 @@
   }
 
   /* ── State ───────────────────────────────────────────── */
-  var originals  = null;   // array of innerHTML strings
-  var cache      = {};     // { langCode: [translated strings] }
+  var originals  = null;
+  var cache      = {};
   var activeLang = null;
   var busy       = false;
 
@@ -138,14 +138,13 @@
     });
   }
 
-  /* ── Jarvis API call ─────────────────────────────────── */
-  function jarvis(text, langName) {
-    var sid = 'tr-' + Math.random().toString(36).slice(2, 8);
+  /* ── Single-element Jarvis call ──────────────────────── */
+  function jarvisOne(text, langName) {
+    var sid    = 'tr-' + Math.random().toString(36).slice(2, 8);
     var prompt =
-      'Translate each text block below into ' + langName + '. ' +
-      'The blocks are separated by the delimiter ' + SPLIT + '. ' +
-      'Return ONLY the translated blocks in the same order, separated by ' + SPLIT + '. ' +
-      'No explanations, no extra text, no markdown:\n\n' + text;
+      'Translate the following text to ' + langName + '.\n' +
+      'Rules: output ONLY the translated text. No introduction, no explanation, no quotation marks around the output.\n\n' +
+      text;
 
     return fetch(ENDPOINT, {
       method: 'POST',
@@ -153,20 +152,18 @@
       body: JSON.stringify({ message: prompt, session_id: sid })
     })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (d) { return d.response || d.reply || d.message || d.text || ''; });
+    .then(function (d) { return (d.response || d.reply || d.message || d.text || '').trim(); });
   }
 
-  /* ── Translate flow ──────────────────────────────────── */
+  /* ── Translate flow — PAR_LIMIT elements in parallel ─── */
   function translateTo(code, name) {
     if (busy) return;
 
-    /* Toggle off */
     if (activeLang === code) { restore(); return; }
 
     var els = getEls();
     saveOriginals(els);
 
-    /* Serve from cache */
     if (cache[code]) {
       els.forEach(function (el, i) { if (cache[code][i]) el.textContent = cache[code][i]; });
       activeLang = code;
@@ -176,33 +173,22 @@
       return;
     }
 
-    /* Fresh translation — batch into ~700-char chunks */
     busy = true;
     article.classList.add('bp-working');
     status.textContent = 'Translating…';
     applyLangButtons(code);
 
-    var chunks  = [];           // [{ indices:[n,n,...], texts:[str,...] }]
-    var cur     = { indices: [], texts: [] };
-    var curLen  = 0;
-
-    els.forEach(function (el, i) {
-      var t = el.textContent.trim();
-      if (curLen + t.length > 700 && cur.indices.length) {
-        chunks.push(cur);
-        cur = { indices: [], texts: [] };
-        curLen = 0;
-      }
-      cur.indices.push(i); cur.texts.push(t); curLen += t.length + SPLIT.length;
-    });
-    if (cur.indices.length) chunks.push(cur);
-
     var translated = new Array(els.length);
-    var done = 0;
+    var done       = 0;
 
-    function next(ci) {
-      if (ci >= chunks.length) {
-        /* All done */
+    /* Process groups of PAR_LIMIT in parallel, groups sequentially */
+    var groups = [];
+    for (var g = 0; g < els.length; g += PAR_LIMIT) {
+      groups.push(g);
+    }
+
+    function processGroup(gi) {
+      if (gi >= groups.length) {
         cache[code] = translated;
         activeLang  = code;
         busy        = false;
@@ -212,32 +198,26 @@
         return;
       }
 
-      status.textContent = 'Translating… ' + Math.round(ci / chunks.length * 100) + '%';
-      var chunk = chunks[ci];
-      var body  = chunk.texts.join('\n' + SPLIT + '\n');
+      var start  = groups[gi];
+      var end    = Math.min(start + PAR_LIMIT, els.length);
+      var subset = els.slice(start, end);
 
-      jarvis(body, name)
-        .then(function (resp) {
-          var parts = resp.split(SPLIT);
-          chunk.indices.forEach(function (elIdx, j) {
-            var val = (parts[j] || '').trim();
-            if (val) {
-              els[elIdx].textContent = val;
-              translated[elIdx] = val;
-            } else {
-              translated[elIdx] = els[elIdx].textContent; // keep original on miss
-            }
-          });
-        })
-        .catch(function () {
-          chunk.indices.forEach(function (elIdx) {
-            translated[elIdx] = els[elIdx].textContent;
-          });
-        })
-        .then(function () { next(ci + 1); });
+      status.textContent = 'Translating… ' + Math.round(start / els.length * 100) + '%';
+
+      var promises = subset.map(function (el, j) {
+        var idx = start + j;
+        return jarvisOne(el.textContent.trim(), name)
+          .then(function (val) {
+            if (val) { el.textContent = val; translated[idx] = val; }
+            else       { translated[idx] = el.textContent; }
+          })
+          .catch(function () { translated[idx] = el.textContent; });
+      });
+
+      Promise.all(promises).then(function () { processGroup(gi + 1); });
     }
 
-    next(0);
+    processGroup(0);
   }
 
   /* ── Events ──────────────────────────────────────────── */
