@@ -1,36 +1,621 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My City - Bhagalpur | Amit Ku Yadav | Private Roots Page</title>
-  <meta name="description" content="Private city roots page for Amit Ku Yadav: Bhagalpur, Bihar, Silk City heritage, personal connection, culture, education, and local identity.">
-  <meta name="robots" content="noindex, nofollow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bhagalpur · Silk City | Bihar, India</title>
+  <meta name="description" content="Bhagalpur, Bihar — Silk City of India. Heritage, culture, Vikramshila, Ganga wildlife, official government services guide, and city sitemap." />
+  <meta name="robots" content="noindex, nofollow" />
 
-  <link rel="stylesheet" href="/css/base.css?v=form-suite-1">
-  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1">
-<link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3">
-  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1">
-  <link rel="stylesheet" href="/css/mycity.css?v=20260502-pro">
-
+  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
+  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
+  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+  <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
+  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
   <link rel="icon" href="/favicon/favicon.ico" />
-
-<link rel="canonical" href="https://kingofyadav.in/pages/bhagalpur.html" />
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Amit Ku Yadav",
-  "url": "https://kingofyadav.in",
-  "birthPlace": "Bhagalpur",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Bhagalpur",
-    "addressCountry": "India"
+  <link rel="canonical" href="https://kingofyadav.in/pages/bhagalpur.html" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "City",
+    "name": "Bhagalpur",
+    "description": "Bhagalpur is known as the Silk City of India, located on the banks of the Ganga river in Bihar.",
+    "containedInPlace": { "@type": "State", "name": "Bihar, India" }
   }
-}
-</script>
+  </script>
+  <style>
+    /* ── BHP design system ── */
+    :root {
+      --bhp-green:  #046A38;
+      --bhp-orange: #FF671F;
+      --bhp-gold:   #c89b3c;
+      --bhp-border: rgba(255,255,255,.09);
+      --bhp-card:   rgba(255,255,255,.04);
+      --bhp-card2:  rgba(255,255,255,.07);
+      --bhp-muted:  rgba(255,255,255,.52);
+      --bhp-label:  rgba(255,255,255,.36);
+      --bhp-radius: 16px;
+      --bhp-rad-sm: 10px;
+      --bhp-pad:    clamp(20px, 3vw, 44px);
+    }
+    body.theme-light {
+      --bhp-border: rgba(0,0,0,.1);
+      --bhp-card:   rgba(0,0,0,.03);
+      --bhp-card2:  rgba(0,0,0,.06);
+      --bhp-muted:  rgba(0,0,0,.55);
+      --bhp-label:  rgba(0,0,0,.4);
+    }
+
+    /* ── Tricolour stripe ── */
+    .bhp-stripe {
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
+      flex-shrink: 0;
+    }
+
+    /* ── Page ── */
+    .bhp-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--bhp-pad) 60px;
+    }
+
+    /* ── Hero ── */
+    .bhp-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: center;
+      padding: 48px 0 36px;
+      border-bottom: 1px solid var(--bhp-border);
+      margin-bottom: 0;
+    }
+    .bhp-hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--bhp-gold);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+    .bhp-hero-kicker::before {
+      content: "";
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--bhp-gold);
+      border-radius: 2px;
+    }
+    .bhp-hero h1 {
+      margin: 0 0 6px;
+      font-size: clamp(2rem, 5.5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -.025em;
+    }
+    .bhp-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--bhp-green), #0a9a54);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .bhp-hero-city-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0 18px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(200,155,60,.3);
+      background: rgba(200,155,60,.1);
+      color: var(--bhp-gold);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .8px;
+    }
+    .bhp-hero-sub {
+      max-width: 520px;
+      margin: 0 0 24px;
+      color: var(--bhp-muted);
+      font-size: .95rem;
+      line-height: 1.72;
+    }
+    .bhp-hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .bhp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .5px;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      cursor: pointer;
+    }
+    .bhp-btn-primary { background: var(--bhp-green); color: #fff; border-color: var(--bhp-green); }
+    .bhp-btn-primary:hover { transform: translateY(-2px); background: #035e31; }
+    .bhp-btn-gold { background: rgba(200,155,60,.15); color: var(--bhp-gold); border-color: rgba(200,155,60,.3); }
+    .bhp-btn-gold:hover { transform: translateY(-2px); background: rgba(200,155,60,.25); }
+    .bhp-btn-outline { background: transparent; color: inherit; border-color: var(--bhp-border); }
+    .bhp-btn-outline:hover { border-color: rgba(4,106,56,.4); background: rgba(4,106,56,.1); transform: translateY(-2px); }
+
+    /* Hero panel */
+    .bhp-hero-panel {
+      display: grid;
+      gap: 10px;
+      min-width: 240px;
+      padding: 20px;
+      border: 1px solid var(--bhp-border);
+      border-radius: var(--bhp-radius);
+      background: var(--bhp-card2);
+    }
+    .bhp-hero-panel-title {
+      margin: 0 0 4px;
+      color: var(--bhp-gold);
+      font-size: .65rem;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+    .bhp-panel-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: var(--bhp-card);
+    }
+    .bhp-panel-row span { color: var(--bhp-label); font-size: .63rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+    .bhp-panel-row strong { font-size: .81rem; font-weight: 780; line-height: 1.3; }
+
+    /* ── Stats strip ── */
+    .bhp-stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      margin: 0;
+      border: 1px solid var(--bhp-border);
+      border-radius: var(--bhp-radius);
+      overflow: hidden;
+      background: var(--bhp-border);
+    }
+    .bhp-stat {
+      padding: 18px 16px;
+      background: var(--bhp-card2);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .bhp-stat-value {
+      font-size: clamp(.9rem, 2vw, 1.4rem);
+      font-weight: 900;
+      color: var(--bhp-green);
+      line-height: 1;
+      letter-spacing: -.01em;
+    }
+    .bhp-stat-label {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--bhp-label);
+    }
+
+    /* ── Section header ── */
+    .bhp-section { margin-bottom: 48px; }
+    .bhp-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .bhp-section-head h2 {
+      margin: 0;
+      font-size: clamp(1.15rem, 2.5vw, 1.75rem);
+      font-weight: 900;
+      letter-spacing: -.01em;
+    }
+    .bhp-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .bhp-tag-green  { background: rgba(4,106,56,.12);  color: var(--bhp-green); }
+    .bhp-tag-orange { background: rgba(255,103,31,.12); color: var(--bhp-orange); }
+    .bhp-tag-gold   { background: rgba(200,155,60,.12); color: var(--bhp-gold); }
+    .bhp-tag-blue   { background: rgba(59,130,246,.12); color: #60a5fa; }
+    .bhp-tag-red    { background: rgba(239,68,68,.12);  color: #f87171; }
+
+    /* ── NIC SITEMAP GUIDE ── */
+    .bhp-sitemap-section {
+      margin: 32px 0 52px;
+      padding: 32px;
+      border: 1px solid rgba(200,155,60,.22);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(200,155,60,.07), rgba(4,106,56,.06)), var(--bhp-card);
+      position: relative;
+      overflow: hidden;
+    }
+    .bhp-sitemap-section::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--bhp-green), var(--bhp-gold), var(--bhp-orange));
+    }
+    .bhp-sitemap-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 28px;
+    }
+    .bhp-sitemap-head h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.8vw, 1.9rem); font-weight: 900; }
+    .bhp-sitemap-head p  { margin: 0; color: var(--bhp-muted); font-size: .88rem; line-height: 1.65; max-width: 540px; }
+    .bhp-sitemap-nic-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(200,155,60,.15);
+      border: 1px solid rgba(200,155,60,.3);
+      color: var(--bhp-gold);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .5px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform .18s ease, background .18s ease;
+    }
+    .bhp-sitemap-nic-link:hover { transform: translateY(-2px); background: rgba(200,155,60,.25); }
+
+    /* Sitemap groups */
+    .bhp-sitemap-groups {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .bhp-sitemap-group {
+      padding: 18px;
+      border: 1px solid var(--bhp-border);
+      border-radius: var(--bhp-rad-sm);
+      background: var(--bhp-card);
+    }
+    .bhp-sitemap-group-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 12px;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .bhp-sitemap-group-title .ico { font-size: 1rem; }
+    .bhp-sitemap-group.g-green  .bhp-sitemap-group-title { color: var(--bhp-green); }
+    .bhp-sitemap-group.g-gold   .bhp-sitemap-group-title { color: var(--bhp-gold); }
+    .bhp-sitemap-group.g-blue   .bhp-sitemap-group-title { color: #60a5fa; }
+    .bhp-sitemap-group.g-orange .bhp-sitemap-group-title { color: var(--bhp-orange); }
+    .bhp-sitemap-group.g-purple .bhp-sitemap-group-title { color: #a78bfa; }
+    .bhp-sitemap-group.g-green  { border-left: 3px solid var(--bhp-green); }
+    .bhp-sitemap-group.g-gold   { border-left: 3px solid var(--bhp-gold); }
+    .bhp-sitemap-group.g-blue   { border-left: 3px solid #3b82f6; }
+    .bhp-sitemap-group.g-orange { border-left: 3px solid var(--bhp-orange); }
+    .bhp-sitemap-group.g-purple { border-left: 3px solid #8b5cf6; }
+
+    .bhp-sitemap-links { display: grid; gap: 5px; }
+    .bhp-sitemap-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 7px 9px;
+      border-radius: 7px;
+      color: inherit;
+      font-size: .76rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .15s ease, transform .15s ease;
+      border: 1px solid transparent;
+    }
+    .bhp-sitemap-link:hover {
+      background: var(--bhp-card2);
+      border-color: var(--bhp-border);
+      transform: translateX(3px);
+    }
+    .bhp-sitemap-link span { color: var(--bhp-muted); font-size: .68rem; font-weight: 600; }
+    .bhp-sitemap-link-note {
+      font-size: .63rem;
+      color: var(--bhp-label);
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: var(--bhp-card2);
+      white-space: nowrap;
+    }
+
+    /* Emergency strip */
+    .bhp-emergency {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      padding: 20px;
+      border: 1px solid rgba(239,68,68,.2);
+      border-radius: var(--bhp-rad-sm);
+      background: rgba(239,68,68,.04);
+      margin-top: 14px;
+    }
+    .bhp-emergency-title {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      color: #f87171;
+      font-size: .65rem;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .bhp-emg {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(239,68,68,.07);
+      border: 1px solid rgba(239,68,68,.14);
+      text-align: center;
+    }
+    .bhp-emg-num {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #f87171;
+      letter-spacing: .5px;
+      line-height: 1;
+    }
+    .bhp-emg-label {
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--bhp-label);
+    }
+
+    /* ── City identity pillars ── */
+    .bhp-pillars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 48px;
+    }
+    .bhp-pillar {
+      padding: 24px 20px;
+      border: 1px solid var(--bhp-border);
+      border-radius: var(--bhp-radius);
+      background: var(--bhp-card);
+      position: relative;
+      overflow: hidden;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .bhp-pillar:hover { transform: translateY(-3px); border-color: rgba(4,106,56,.25); }
+    .bhp-pillar::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .bhp-pillar:nth-child(1)::before { background: var(--bhp-gold); }
+    .bhp-pillar:nth-child(2)::before { background: var(--bhp-green); }
+    .bhp-pillar:nth-child(3)::before { background: #3b82f6; }
+    .bhp-pillar:nth-child(4)::before { background: var(--bhp-orange); }
+    .bhp-pillar-icon { font-size: 1.8rem; margin-bottom: 12px; line-height: 1; }
+    .bhp-pillar h3 { margin: 0 0 6px; font-size: 1rem; font-weight: 900; }
+    .bhp-pillar p  { margin: 0; color: var(--bhp-muted); font-size: .78rem; line-height: 1.6; }
+
+    /* ── General card grid ── */
+    .bhp-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .bhp-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .bhp-grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+    .bhp-card {
+      padding: 20px;
+      border: 1px solid var(--bhp-border);
+      border-radius: var(--bhp-radius);
+      background: var(--bhp-card);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .bhp-card:hover { transform: translateY(-2px); border-color: rgba(4,106,56,.22); background: var(--bhp-card2); }
+    .bhp-card-icon { font-size: 1.4rem; margin-bottom: 10px; line-height: 1; }
+    .bhp-card h3   { margin: 0 0 8px; font-size: .86rem; font-weight: 900; }
+    .bhp-card p    { margin: 0; color: var(--bhp-muted); font-size: .78rem; line-height: 1.6; }
+    .bhp-card-stat {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--bhp-border);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .5px;
+      color: var(--bhp-green);
+      text-transform: uppercase;
+    }
+
+    /* ── History text blocks ── */
+    .bhp-text-block {
+      padding: 28px;
+      border: 1px solid var(--bhp-border);
+      border-radius: var(--bhp-radius);
+      background: var(--bhp-card);
+    }
+    .bhp-text-block p { margin: 0 0 14px; color: var(--bhp-muted); font-size: .9rem; line-height: 1.78; }
+    .bhp-text-block p:last-child { margin-bottom: 0; }
+
+    /* ── Timeline (history) ── */
+    .bhp-timeline {
+      display: grid;
+      gap: 0;
+    }
+    .bhp-era {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--bhp-border);
+    }
+    .bhp-era:last-child { border-bottom: none; }
+    .bhp-era-period {
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .5px;
+      color: var(--bhp-gold);
+      padding-top: 2px;
+      text-transform: uppercase;
+    }
+    .bhp-era-body h4 { margin: 0 0 5px; font-size: .88rem; font-weight: 900; }
+    .bhp-era-body p  { margin: 0; color: var(--bhp-muted); font-size: .78rem; line-height: 1.6; }
+
+    /* ── Wildlife cards ── */
+    .bhp-wildlife {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .bhp-wildlife-card {
+      padding: 24px;
+      border: 1px solid var(--bhp-border);
+      border-radius: var(--bhp-radius);
+      background: var(--bhp-card);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .bhp-wildlife-card:hover { transform: translateY(-2px); border-color: rgba(4,106,56,.22); }
+    .bhp-wildlife-card-icon { font-size: 2rem; margin-bottom: 12px; }
+    .bhp-wildlife-card h3 { margin: 0 0 8px; font-size: 1rem; font-weight: 900; }
+    .bhp-wildlife-card p  { margin: 0 0 10px; color: var(--bhp-muted); font-size: .82rem; line-height: 1.65; }
+    .bhp-wildlife-card p:last-child { margin-bottom: 0; }
+    .bhp-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: .65rem;
+      font-weight: 900;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+    .bhp-status-protected { background: rgba(4,106,56,.15); color: var(--bhp-green); }
+    .bhp-status-endangered { background: rgba(255,103,31,.12); color: var(--bhp-orange); }
+
+    /* ── Culture grid ── */
+    .bhp-culture-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    /* ── Personal connection ── */
+    .bhp-personal {
+      padding: 32px;
+      border: 1px solid rgba(200,155,60,.22);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(200,155,60,.08), rgba(4,106,56,.06)), var(--bhp-card);
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .bhp-personal::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--bhp-gold), var(--bhp-green));
+    }
+    .bhp-personal h2 { margin: 0 0 16px; font-size: clamp(1.2rem, 2.5vw, 1.7rem); font-weight: 900; }
+    .bhp-personal p  { margin: 0 0 14px; color: var(--bhp-muted); font-size: .9rem; line-height: 1.78; max-width: 800px; }
+    .bhp-personal p:last-child { margin-bottom: 0; }
+    .bhp-personal-fact {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(200,155,60,.12);
+      border: 1px solid rgba(200,155,60,.25);
+      color: var(--bhp-gold);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    /* ── CTA ── */
+    .bhp-cta {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 32px;
+      border: 1px solid rgba(4,106,56,.24);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(4,106,56,.12), rgba(255,103,31,.08)), var(--bhp-card);
+    }
+    .bhp-cta h2 { margin: 0 0 8px; font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 900; }
+    .bhp-cta p  { margin: 0; color: var(--bhp-muted); font-size: .88rem; line-height: 1.6; }
+    .bhp-cta-actions { display: flex; flex-direction: column; gap: 8px; min-width: 160px; }
+
+    /* ── Divider ── */
+    .bhp-divider {
+      height: 1px;
+      background: var(--bhp-border);
+      margin: 48px 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 980px) {
+      .bhp-sitemap-groups { grid-template-columns: repeat(2, 1fr); }
+      .bhp-stats { grid-template-columns: repeat(3, 1fr); }
+      .bhp-pillars { grid-template-columns: repeat(2, 1fr); }
+      .bhp-grid4 { grid-template-columns: repeat(2, 1fr); }
+      .bhp-emergency { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 760px) {
+      .bhp-hero { grid-template-columns: 1fr; }
+      .bhp-hero-panel { min-width: 0; }
+      .bhp-sitemap-head { grid-template-columns: 1fr; }
+      .bhp-sitemap-groups { grid-template-columns: 1fr; }
+      .bhp-stats { grid-template-columns: repeat(2, 1fr); }
+      .bhp-wildlife { grid-template-columns: 1fr; }
+      .bhp-culture-grid { grid-template-columns: 1fr; }
+      .bhp-grid3 { grid-template-columns: 1fr 1fr; }
+      .bhp-era { grid-template-columns: 1fr; gap: 4px; }
+      .bhp-era-period { border-bottom: 1px solid var(--bhp-border); padding-bottom: 4px; }
+      .bhp-cta { grid-template-columns: 1fr; }
+      .bhp-emergency { grid-template-columns: repeat(2, 1fr); }
+      .bhp-sitemap-section { padding: 22px 18px; }
+    }
+    @media (max-width: 500px) {
+      .bhp-pillars { grid-template-columns: 1fr; }
+      .bhp-grid4, .bhp-grid3, .bhp-grid2 { grid-template-columns: 1fr; }
+      .bhp-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 
 <body class="theme-dark" data-profile-page="myCity">
@@ -38,6 +623,7 @@
 
 <div id="scrollProgress"></div>
 <a href="#main-content" class="skip-link">Skip to content</a>
+
 <header class="personal-header glass">
   <div class="personal-header-inner">
     <a href="/pages/personal.html" class="personal-brand">
@@ -58,242 +644,629 @@
   </div>
 </header>
 
-<main class="city-page" id="main-content">
+<div class="bhp-stripe"></div>
 
-  <section class="city-hero glass profile-hero">
-    <div class="profile-hero-copy">
-      <p class="hero-label">My City · Roots</p>
-      <h1>Bhagalpur, Bihar</h1>
-      <p class="city-intro">
-        Born here on 25 December 1999. Bhagalpur — Champa Nagari, the Silk City
-        of India — shaped my discipline, public awareness, and understanding of
-        what real communities need.
+<main id="main-content" class="personal-main">
+<div class="bhp-page">
+
+  <!-- ── HERO ── -->
+  <section class="bhp-hero" aria-label="Bhagalpur hero">
+    <div>
+      <p class="bhp-hero-kicker">Bihar · India · Ancient Anga Kingdom</p>
+      <h1>Bhagalpur<br /><em>Silk City</em></h1>
+      <div class="bhp-hero-city-tag">
+        🏅 GI-Tagged Tussar Silk &nbsp;·&nbsp; 🐬 Gangetic Dolphin Sanctuary &nbsp;·&nbsp; 🏛️ Smart City Mission
+      </div>
+      <p class="bhp-hero-sub">
+        One of India's oldest living cities — capital of the ancient Anga Mahajanapada,
+        home of Vikramshila University, birthplace of GI-tagged Tussar silk, and the last
+        major sanctuary of the Gangetic dolphin. This is Bhagalpur.
       </p>
-      <div class="profile-hero-actions">
-        <a class="profile-hero-action primary" href="#silk-city">Silk Legacy</a>
-        <a class="profile-hero-action" href="#vikramshila">Vikramshila</a>
-        <a class="profile-hero-action" href="#ganga-wildlife">Ganga</a>
+      <div class="bhp-hero-btns">
+        <a class="bhp-btn bhp-btn-gold" href="#sitemap">Official Services</a>
+        <a class="bhp-btn bhp-btn-primary" href="#explore">Explore City</a>
+        <a class="bhp-btn bhp-btn-outline" href="#vikramshila">Vikramshila</a>
+        <a class="bhp-btn bhp-btn-outline" href="#ganga">Ganga &amp; Wildlife</a>
       </div>
     </div>
-    <aside class="profile-hero-panel" aria-label="Bhagalpur quick facts">
-      <p class="profile-panel-title">City Signal</p>
-      <div class="profile-panel-list">
-        <div><span>Known As</span><strong>Silk City of India</strong></div>
-        <div><span>Ancient Name</span><strong>Champa Nagari</strong></div>
-        <div><span>River</span><strong>Ganga, southern bank</strong></div>
-        <div><span>Identity</span><strong>Angika culture · trade · learning</strong></div>
+    <aside class="bhp-hero-panel" aria-label="Bhagalpur quick facts">
+      <p class="bhp-hero-panel-title">City Signal</p>
+      <div class="bhp-panel-row">
+        <span>Known As</span>
+        <strong>Silk City of India · Champa Nagari</strong>
+      </div>
+      <div class="bhp-panel-row">
+        <span>Founded</span>
+        <strong>Anga Mahajanapada, 6th century BCE</strong>
+      </div>
+      <div class="bhp-panel-row">
+        <span>River</span>
+        <strong>Ganga — Southern Bank</strong>
+      </div>
+      <div class="bhp-panel-row">
+        <span>Status</span>
+        <strong>Smart City Mission · GI Tag · Sanctuary</strong>
+      </div>
+      <div class="bhp-panel-row">
+        <span>Culture</span>
+        <strong>Angika · Buddhist · Hindu · Sufi</strong>
       </div>
     </aside>
   </section>
 
-  <section class="city-snapshot" aria-label="City roots snapshot">
-    <div><span>Known As</span><strong>Silk City of India</strong></div>
-    <div><span>Founded</span><strong>Ancient Anga Kingdom, 6th century BCE</strong></div>
-    <div><span>River</span><strong>Ganga (Southern Bank)</strong></div>
-    <div><span>Status</span><strong>Smart City Mission, Govt. of India</strong></div>
+  <!-- ── STATS STRIP ── -->
+  <div class="bhp-stats" aria-label="Bhagalpur district key figures" style="margin:24px 0 52px">
+    <div class="bhp-stat">
+      <span class="bhp-stat-value">3.03M</span>
+      <span class="bhp-stat-label">Population</span>
+    </div>
+    <div class="bhp-stat">
+      <span class="bhp-stat-value">2,569</span>
+      <span class="bhp-stat-label">Area (sq km)</span>
+    </div>
+    <div class="bhp-stat">
+      <span class="bhp-stat-value">16</span>
+      <span class="bhp-stat-label">Blocks</span>
+    </div>
+    <div class="bhp-stat">
+      <span class="bhp-stat-value">1,515</span>
+      <span class="bhp-stat-label">Villages</span>
+    </div>
+    <div class="bhp-stat">
+      <span class="bhp-stat-value">200+</span>
+      <span class="bhp-stat-label">Years of Silk</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       NIC SITEMAP GUIDE — the centerpiece
+  ══════════════════════════════════════════════════════ -->
+  <section class="bhp-sitemap-section" id="sitemap" aria-label="Official government services guide">
+    <div class="bhp-sitemap-head">
+      <div>
+        <div class="bhp-section-head" style="margin-bottom:10px">
+          <h2>Official Services — Guided Map</h2>
+          <span class="bhp-tag bhp-tag-gold">bhagalpur.nic.in</span>
+        </div>
+        <p>
+          The district government website has everything you need — but finding it isn't easy.
+          This guide maps every important section with direct links so you get to the right
+          service in one click, without navigating the cluttered interface.
+        </p>
+      </div>
+      <a class="bhp-sitemap-nic-link" href="https://bhagalpur.nic.in/" target="_blank" rel="noopener">
+        🌐 Open Official Site
+      </a>
+    </div>
+
+    <!-- Group grid -->
+    <div class="bhp-sitemap-groups">
+
+      <!-- Administration -->
+      <div class="bhp-sitemap-group g-green">
+        <p class="bhp-sitemap-group-title"><span class="ico">🏛️</span> Administration</p>
+        <div class="bhp-sitemap-links">
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/about-district/history/" target="_blank" rel="noopener">
+            History of District <span class="bhp-sitemap-link-note">About</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/about-district/who-is-who/" target="_blank" rel="noopener">
+            Who's Who <span class="bhp-sitemap-link-note">Officers</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/about-district/administrative-setup/" target="_blank" rel="noopener">
+            Administrative Setup <span class="bhp-sitemap-link-note">Blocks</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/about-district/demography/" target="_blank" rel="noopener">
+            Demography &amp; Census <span class="bhp-sitemap-link-note">Data</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/about-district/economy/" target="_blank" rel="noopener">
+            Economy <span class="bhp-sitemap-link-note">Overview</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/about-district/maps/" target="_blank" rel="noopener">
+            Maps of District <span class="bhp-sitemap-link-note">Geography</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Citizen Services -->
+      <div class="bhp-sitemap-group g-blue">
+        <p class="bhp-sitemap-group-title"><span class="ico">📋</span> Citizen Services</p>
+        <div class="bhp-sitemap-links">
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/citizen-services/" target="_blank" rel="noopener">
+            All Services Portal <span class="bhp-sitemap-link-note">Start Here</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://serviceonline.bihar.gov.in/" target="_blank" rel="noopener">
+            Caste / Income / Residence Certificate <span class="bhp-sitemap-link-note">Online</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/citizen-services/" target="_blank" rel="noopener">
+            Birth Certificate <span class="bhp-sitemap-link-note">Apply</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://biharbhumi.bihar.gov.in/" target="_blank" rel="noopener">
+            Land Records (Jamabandi) <span class="bhp-sitemap-link-note">Bihar Bhumi</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://elabharthi.bih.nic.in/" target="_blank" rel="noopener">
+            E-Labharthi — Pension &amp; Benefits <span class="bhp-sitemap-link-note">Welfare</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/documents/" target="_blank" rel="noopener">
+            Forms &amp; Documents <span class="bhp-sitemap-link-note">Download</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Tourism -->
+      <div class="bhp-sitemap-group g-gold">
+        <p class="bhp-sitemap-group-title"><span class="ico">🗺️</span> Tourism</p>
+        <div class="bhp-sitemap-links">
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/tourism/places-of-interest/" target="_blank" rel="noopener">
+            Places of Interest <span class="bhp-sitemap-link-note">Explore</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/tourism/how-to-reach/" target="_blank" rel="noopener">
+            How to Reach <span class="bhp-sitemap-link-note">Travel</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/shravani-mela/" target="_blank" rel="noopener">
+            Shravani Mela <span class="bhp-sitemap-link-note">Festival</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://biharetourism.gov.in/" target="_blank" rel="noopener">
+            Bihar Tourism — State Portal <span class="bhp-sitemap-link-note">Official</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/media-gallery/" target="_blank" rel="noopener">
+            Media Gallery <span class="bhp-sitemap-link-note">Photos</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Directory & Utilities -->
+      <div class="bhp-sitemap-group g-purple">
+        <p class="bhp-sitemap-group-title"><span class="ico">📁</span> Directory &amp; Utilities</p>
+        <div class="bhp-sitemap-links">
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/directory/hospitals/" target="_blank" rel="noopener">
+            Hospitals &amp; PHC <span class="bhp-sitemap-link-note">Health</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/directory/colleges-universities/" target="_blank" rel="noopener">
+            Colleges &amp; Universities <span class="bhp-sitemap-link-note">Education</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/directory/banks/" target="_blank" rel="noopener">
+            Banks <span class="bhp-sitemap-link-note">Finance</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/directory/ngos/" target="_blank" rel="noopener">
+            NGOs &amp; Organizations <span class="bhp-sitemap-link-note">Community</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/directory/std-pin-codes/" target="_blank" rel="noopener">
+            STD &amp; PIN Codes <span class="bhp-sitemap-link-note">Codes</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/directory/electricity/" target="_blank" rel="noopener">
+            Electricity Utility <span class="bhp-sitemap-link-note">Power</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Government Schemes -->
+      <div class="bhp-sitemap-group g-orange">
+        <p class="bhp-sitemap-group-title"><span class="ico">📜</span> Schemes &amp; RTI</p>
+        <div class="bhp-sitemap-links">
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/schemes/" target="_blank" rel="noopener">
+            Government Schemes <span class="bhp-sitemap-link-note">Benefits</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/rti/" target="_blank" rel="noopener">
+            Right to Information (RTI) <span class="bhp-sitemap-link-note">Transparency</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/election/" target="_blank" rel="noopener">
+            Election Information <span class="bhp-sitemap-link-note">Voting</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/notices/" target="_blank" rel="noopener">
+            Public Notices <span class="bhp-sitemap-link-note">Official</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://grievance.bihar.gov.in/" target="_blank" rel="noopener">
+            Public Grievance Portal <span class="bhp-sitemap-link-note">Complaint</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/departments/" target="_blank" rel="noopener">
+            All Departments <span class="bhp-sitemap-link-note">List</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Disaster & Notices -->
+      <div class="bhp-sitemap-group g-green" style="border-left-color:#f87171">
+        <p class="bhp-sitemap-group-title" style="color:#f87171"><span class="ico">🚨</span> Disaster &amp; Help</p>
+        <div class="bhp-sitemap-links">
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/directory/disaster-management/" target="_blank" rel="noopener">
+            Disaster Management <span class="bhp-sitemap-link-note">Emergency</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/directory/helpline/" target="_blank" rel="noopener">
+            Helpline Numbers <span class="bhp-sitemap-link-note">Directory</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/irad/" target="_blank" rel="noopener">
+            Road Accident Database (iRAD) <span class="bhp-sitemap-link-note">Safety</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/documents/cause-list/" target="_blank" rel="noopener">
+            Court Cause Lists <span class="bhp-sitemap-link-note">Legal</span>
+          </a>
+          <a class="bhp-sitemap-link" href="https://bhagalpur.nic.in/documents/office-orders/" target="_blank" rel="noopener">
+            Office Orders <span class="bhp-sitemap-link-note">Govt Orders</span>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /sitemap groups -->
+
+    <!-- Emergency strip -->
+    <div class="bhp-emergency" aria-label="Emergency helpline numbers">
+      <div class="bhp-emergency-title">
+        🚨 Emergency Helplines — Call Anytime
+      </div>
+      <div class="bhp-emg">
+        <span class="bhp-emg-num">100</span>
+        <span class="bhp-emg-label">Police</span>
+      </div>
+      <div class="bhp-emg">
+        <span class="bhp-emg-num">102</span>
+        <span class="bhp-emg-label">Ambulance</span>
+      </div>
+      <div class="bhp-emg">
+        <span class="bhp-emg-num">108</span>
+        <span class="bhp-emg-label">Emergency</span>
+      </div>
+      <div class="bhp-emg">
+        <span class="bhp-emg-num">1091</span>
+        <span class="bhp-emg-label">Women Help</span>
+      </div>
+      <div class="bhp-emg">
+        <span class="bhp-emg-num">1098</span>
+        <span class="bhp-emg-label">Child Line</span>
+      </div>
+    </div>
   </section>
 
-  <nav class="profile-quick-nav" aria-label="Bhagalpur section navigation">
-    <a href="#history">History</a>
-    <a href="#vikramshila">Vikramshila</a>
-    <a href="#silk-city">Silk</a>
-    <a href="#ganga-wildlife">Ganga</a>
-    <a href="#culture">Culture</a>
-    <a href="#connectivity">Connectivity</a>
-  </nav>
-
-  <section class="city-section" id="history">
-    <h2>A City Written in History</h2>
-    <p>
-      Bhagalpur derives its name from Bhagdatpuram — meaning "City of Good Luck."
-      Historically known as Champa Nagari, it was the capital of the ancient Anga
-      Mahajanapada (6th century BCE), referenced in both the Ramayana and the
-      Mahabharata. The city flourished under the Gupta Empire, the Pala dynasty,
-      and the Mughal era before becoming a significant administrative centre during
-      British rule.
-    </p>
-    <p>
-      Chinese travellers Fa-Hien and Hieun-Tsang recorded Bhagalpur as an indispensable
-      trade centre in eastern India during the 7th century — one of the few Indian
-      cities documented in both ancient Indian texts and foreign historical records.
-    </p>
+  <!-- ── EXPLORE: 4 IDENTITY PILLARS ── -->
+  <section class="bhp-section" id="explore" aria-label="City identity pillars">
+    <div class="bhp-section-head">
+      <h2>What Makes Bhagalpur</h2>
+      <span class="bhp-tag bhp-tag-gold">City Identity</span>
+    </div>
+    <div class="bhp-pillars">
+      <div class="bhp-pillar">
+        <div class="bhp-pillar-icon">🧵</div>
+        <h3>Silk Capital</h3>
+        <p>GI-tagged Tussar silk, 35,000+ weavers, exported to Europe, USA, Japan, and West Asia. Over 200 years of craft heritage.</p>
+      </div>
+      <div class="bhp-pillar">
+        <div class="bhp-pillar-icon">🏛️</div>
+        <h3>Ancient Learning</h3>
+        <p>Vikramshila Mahavihara — one of the greatest Buddhist universities in the ancient world, rivalling Nalanda at its peak.</p>
+      </div>
+      <div class="bhp-pillar">
+        <div class="bhp-pillar-icon">🐬</div>
+        <h3>Living Nature</h3>
+        <p>Vikramshila Gangetic Dolphin Sanctuary — India's only freshwater dolphin habitat. Also home to the rare Greater Adjutant Stork.</p>
+      </div>
+      <div class="bhp-pillar">
+        <div class="bhp-pillar-icon">🎓</div>
+        <h3>Knowledge Hub</h3>
+        <p>IIIT Bhagalpur, TMBU, Bihar Agricultural University, JNMC — one of Bihar's richest higher education corridors outside Patna.</p>
+      </div>
+    </div>
   </section>
 
-  <section class="city-section" id="vikramshila">
-    <h2>Vikramshila — Where Knowledge Lived</h2>
-    <p>
-      Established by Emperor Dharmapala of the Pala Empire in the 8th century CE,
-      Vikramshila Mahavihara was one of the greatest centres of Buddhist learning
-      in the ancient world — rivalling Nalanda University at its peak. It drew scholars
-      from across Asia and focused on multiple fields including Tantricism, logic,
-      and philosophy. It was destroyed by Bakhtiyar Khilji in 1203 CE. Today, the
-      ruins at Antichak village in Bhagalpur district are a protected archaeological
-      site, and Vikramshila Central University is currently under construction nearby.
-    </p>
-    <div class="city-grid">
-      <div class="city-card">
+  <!-- ── HISTORY ── -->
+  <section class="bhp-section" id="history" aria-label="Bhagalpur history">
+    <div class="bhp-section-head">
+      <h2>A City Written in History</h2>
+      <span class="bhp-tag bhp-tag-gold">6th Century BCE — Present</span>
+    </div>
+    <div class="bhp-text-block" style="margin-bottom:20px">
+      <p>
+        Bhagalpur derives its name from <em>Bhagdatpuram</em> — "City of Good Luck." Known through history as
+        Champa Nagari, it served as the capital of the ancient Anga Mahajanapada, referenced in both
+        the Ramayana and the Mahabharata. Chinese travellers Fa-Hien and Hieun-Tsang recorded it as
+        an indispensable trade centre in eastern India during the 7th century CE.
+      </p>
+    </div>
+    <div class="bhp-timeline" role="list">
+      <div class="bhp-era" role="listitem">
+        <div class="bhp-era-period">6th century BCE</div>
+        <div class="bhp-era-body">
+          <h4>Anga Mahajanapada</h4>
+          <p>Capital of the ancient Anga kingdom — one of the 16 Mahajanapadas. Referenced in both Ramayana and Mahabharata as Champapuri.</p>
+        </div>
+      </div>
+      <div class="bhp-era" role="listitem">
+        <div class="bhp-era-period">7th–8th century CE</div>
+        <div class="bhp-era-body">
+          <h4>Gupta &amp; Pala Empires</h4>
+          <p>Flourished as a trade and learning centre. Emperor Dharmapala of the Pala dynasty founded Vikramshila Mahavihara here.</p>
+        </div>
+      </div>
+      <div class="bhp-era" role="listitem">
+        <div class="bhp-era-period">1203 CE</div>
+        <div class="bhp-era-body">
+          <h4>Vikramshila Destroyed</h4>
+          <p>Bakhtiyar Khilji's forces destroyed the Mahavihara, ending one of the world's greatest centres of Buddhist learning.</p>
+        </div>
+      </div>
+      <div class="bhp-era" role="listitem">
+        <div class="bhp-era-period">Mughal &amp; British Era</div>
+        <div class="bhp-era-body">
+          <h4>Administrative Centre</h4>
+          <p>Became a significant administrative and trade centre. The silk industry expanded significantly under British era infrastructure.</p>
+        </div>
+      </div>
+      <div class="bhp-era" role="listitem">
+        <div class="bhp-era-period">2013</div>
+        <div class="bhp-era-body">
+          <h4>GI Tag for Tussar Silk</h4>
+          <p>Bhagalpuri silk granted Geographical Indication status — the same legal protection as Darjeeling tea and Basmati rice.</p>
+        </div>
+      </div>
+      <div class="bhp-era" role="listitem">
+        <div class="bhp-era-period">Present</div>
+        <div class="bhp-era-body">
+          <h4>Smart City &amp; New University</h4>
+          <p>Included in India's Smart City Mission. Vikramshila Central University under construction at Antichak — reviving the ancient legacy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── VIKRAMSHILA ── -->
+  <section class="bhp-section" id="vikramshila" aria-label="Vikramshila university">
+    <div class="bhp-section-head">
+      <h2>Vikramshila — Where Knowledge Lived</h2>
+      <span class="bhp-tag bhp-tag-green">8th Century CE</span>
+    </div>
+    <div class="bhp-text-block" style="margin-bottom:20px">
+      <p>
+        Founded by Emperor Dharmapala of the Pala Empire in the 8th century CE, Vikramshila Mahavihara was
+        one of the greatest centres of Buddhist learning in the ancient world — rivalling Nalanda University
+        at its peak. It drew scholars from Tibet, China, and across South Asia, specialising in Tantricism,
+        logic, grammar, and metaphysics. Destroyed in 1203 CE, its ruins at Antichak village remain a
+        protected archaeological site. Vikramshila Central University is now rising nearby — a new
+        institution honouring the ancient legacy.
+      </p>
+    </div>
+    <div class="bhp-grid3">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🏛️</div>
         <h3>Founded</h3>
-        <p>8th century CE by Emperor Dharmapala, Pala Empire.</p>
+        <p>8th century CE by Emperor Dharmapala, Pala Empire — one of the world's great universities of antiquity.</p>
       </div>
-      <div class="city-card">
-        <h3>Scale</h3>
-        <p>International centre of learning, rivalled Nalanda.</p>
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🌏</div>
+        <h3>International Scale</h3>
+        <p>Drew scholars from Tibet, China, Nepal, and across Asia. Rivalled Nalanda at its height in Buddhist scholarship.</p>
       </div>
-      <div class="city-card">
-        <h3>Today</h3>
-        <p>Ruins at Antichak, UNESCO-nominated, new university under construction.</p>
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🏗️</div>
+        <h3>Today — Revival</h3>
+        <p>Ruins at Antichak are a protected ASI site. Vikramshila Central University is under construction — legacy reborn.</p>
       </div>
     </div>
   </section>
 
-  <section class="city-section" id="silk-city">
-    <h2>The Silk City — A GI-Tagged Legacy</h2>
-    <p>
-      Bhagalpur's Tussar silk is one of India's most iconic fabrics — internationally
-      recognized for its natural lustre, robustness, and airy texture. The silk industry
-      here is over 200 years old, supporting more than 35,000 weavers on 25,000 looms.
-      In 2013, Bhagalpur silk was granted Geographical Indication (GI) status — the
-      same protection as Darjeeling tea and Basmati rice. It now reaches markets in
-      West Asia, Europe, the US, and Japan.
-    </p>
-    <div class="city-grid">
-      <div class="city-card">
+  <!-- ── SILK CITY ── -->
+  <section class="bhp-section" id="silk" aria-label="Silk city heritage">
+    <div class="bhp-section-head">
+      <h2>Silk City — A GI-Tagged Global Legacy</h2>
+      <span class="bhp-tag bhp-tag-gold">Tussar Silk · GI 2013</span>
+    </div>
+    <div class="bhp-text-block" style="margin-bottom:20px">
+      <p>
+        Bhagalpur's Tussar silk is one of India's most iconic fabrics — internationally recognized for its
+        natural lustre, robustness, and airy texture. The industry is over 200 years old, supporting more
+        than 35,000 weavers across 25,000 looms. In 2013, Bhagalpuri Tussar silk was granted Geographical
+        Indication (GI) status — placing it alongside Darjeeling tea and Basmati rice as a legally
+        protected regional product. It now reaches markets in West Asia, Europe, the United States, and Japan.
+      </p>
+    </div>
+    <div class="bhp-grid4">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🏅</div>
         <h3>GI Status</h3>
-        <p>Granted 2013 — unique regional recognition.</p>
+        <p>Granted 2013 — unique regional legal protection.</p>
+        <div class="bhp-card-stat">Same Status as Darjeeling Tea</div>
       </div>
-      <div class="city-card">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">👨‍🏭</div>
         <h3>Industry Scale</h3>
-        <p>35,000+ weavers, 25,000 looms.</p>
+        <p>35,000+ weavers operating 25,000 looms across the district.</p>
+        <div class="bhp-card-stat">200+ Years of Craft</div>
       </div>
-      <div class="city-card">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">📦</div>
         <h3>Annual Output</h3>
-        <p>~2 million metres of Tussar silk per year.</p>
+        <p>~2 million metres of Tussar silk fabric per year from district looms.</p>
+        <div class="bhp-card-stat">Natural Fibre · Wild Silk</div>
       </div>
-      <div class="city-card">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🌍</div>
         <h3>Global Reach</h3>
-        <p>West Asia, Europe, USA, Japan.</p>
+        <p>Exported to West Asia, Europe, the USA, Japan, and Southeast Asia.</p>
+        <div class="bhp-card-stat">Premium International Market</div>
       </div>
     </div>
   </section>
 
-  <section class="city-section" id="education">
-    <h2>Education &amp; Institutions</h2>
-    <p>
-      Bhagalpur is one of only two districts in Bihar — after capital Patna — to house
-      three major higher educational institutions in one city:
+  <!-- ── GANGA & WILDLIFE ── -->
+  <section class="bhp-section" id="ganga" aria-label="Ganga and wildlife">
+    <div class="bhp-section-head">
+      <h2>The Ganga &amp; Living Wildlife</h2>
+      <span class="bhp-tag bhp-tag-green">Conservation · Sanctuary</span>
+    </div>
+    <div class="bhp-wildlife">
+      <div class="bhp-wildlife-card">
+        <div class="bhp-wildlife-card-icon">🐬</div>
+        <h3>Vikramshila Gangetic Dolphin Sanctuary</h3>
+        <span class="bhp-status-pill bhp-status-protected" style="margin-bottom:12px;display:inline-flex">🛡️ Protected Zone</span>
+        <p>
+          The Ganga around Bhagalpur is one of the last significant habitats of the Gangetic dolphin —
+          India's national aquatic animal. The <strong>Vikramshila Gangetic Dolphin Sanctuary</strong>,
+          established across a 60 km stretch, is India's only dedicated freshwater dolphin conservation zone.
+          The sanctuary makes Bhagalpur one of the most important conservation sites in the country.
+        </p>
+        <p>
+          Dolphins are spotted year-round. Local guides offer river-watch boats for visitors.
+        </p>
+      </div>
+      <div class="bhp-wildlife-card">
+        <div class="bhp-wildlife-card-icon">🦅</div>
+        <h3>Greater Adjutant Stork — Garuda Bird</h3>
+        <span class="bhp-status-pill bhp-status-endangered" style="margin-bottom:12px;display:inline-flex">⚠️ Endangered Species</span>
+        <p>
+          Bhagalpur is one of only <strong>three places in the world</strong> — alongside Cambodia and Assam
+          — where the endangered Greater Adjutant Stork (locally called the Garuda bird) nests and breeds.
+          The local population has grown from <strong>78 birds in 2007 to over 500 today</strong> due to
+          community-led conservation efforts.
+        </p>
+        <p>
+          This makes Bhagalpur a globally significant biodiversity site — rare even by world standards.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CULTURE ── -->
+  <section class="bhp-section" id="culture" aria-label="Culture and festivals">
+    <div class="bhp-section-head">
+      <h2>Culture, Language &amp; Festivals</h2>
+      <span class="bhp-tag bhp-tag-orange">Angika Heritage</span>
+    </div>
+    <div class="bhp-culture-grid">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🪔</div>
+        <h3>Kali Puja — 71 Years of Shobhayatra</h3>
+        <p>The most important festival in Bhagalpur. The post-puja procession (Shobhayatra) celebrated its 71st year in 2024 — lasting 36 hours and drawing hundreds of thousands of participants. One of the longest processions in Bihar.</p>
+      </div>
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🌊</div>
+        <h3>Chhath Puja on the Ganga</h3>
+        <p>The Ganga ghats come alive with Chhath — one of the most spiritually significant festivals celebrated along the southern banks. Thousands gather at dawn and dusk across multiple ghats throughout the city.</p>
+      </div>
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🎭</div>
+        <h3>Bishari Puja &amp; Angika Arts</h3>
+        <p>Bishari Puja (Manasa festival) originates from Champapuri — the ancient capital of Anga Mahajanapada. Angika is the regional language. Folk art forms include Manjusha paintings, Madhubani, Kashida handloom, and Chhau dance.</p>
+      </div>
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🕌</div>
+        <h3>Shravani Mela &amp; Multi-Faith Heritage</h3>
+        <p>Bhagalpur blends Hindu, Muslim, Buddhist, and Jain traditions across centuries. The annual Shravani Mela is a major pilgrimage event. The city's Sufi dargahs and Buddhist ruins coexist with Hindu temples and mosques.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ── -->
+  <section class="bhp-section" aria-label="Education and institutions">
+    <div class="bhp-section-head">
+      <h2>Education &amp; Institutions</h2>
+      <span class="bhp-tag bhp-tag-blue">Knowledge Corridor</span>
+    </div>
+    <p style="color:var(--bhp-muted);font-size:.9rem;line-height:1.7;margin:0 0 20px">
+      Bhagalpur is one of only two districts in Bihar — after capital Patna — to host three major
+      higher educational institutions within the city itself.
     </p>
-    <div class="city-grid">
-      <div class="city-card">
+    <div class="bhp-grid3">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">💻</div>
         <h3>IIIT Bhagalpur</h3>
-        <p>Indian Institute of Information Technology.</p>
+        <p>Indian Institute of Information Technology — a national institute of importance under MoE, Government of India.</p>
       </div>
-      <div class="city-card">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">📚</div>
         <h3>TMBU</h3>
-        <p>Tilka Manjhi Bhagalpur University (est. 1960).</p>
+        <p>Tilka Manjhi Bhagalpur University (est. 1960) — one of Bihar's oldest and largest affiliating universities.</p>
       </div>
-      <div class="city-card">
-        <h3>BAU</h3>
-        <p>Bihar Agricultural University.</p>
-      </div>
-    </div>
-    <p>
-      Also: Jawaharlal Nehru Medical College, Bhagalpur College of Engineering,
-      400+ government schools, ITI, and polytechnic institutes.
-    </p>
-  </section>
-
-  <section class="city-section" id="ganga-wildlife">
-    <h2>The Ganga &amp; the Gangetic Dolphin</h2>
-    <p>
-      The Ganga flows along the southern edge of the city — shaping its agriculture,
-      trade, spiritual culture, and daily life. The river around Bhagalpur is one of
-      the last habitats of the Gangetic dolphin, the national aquatic animal of India.
-      The Vikramshila Gangetic Dolphin Sanctuary is established here — a protected zone
-      that makes Bhagalpur one of the most important conservation sites in the country.
-    </p>
-    <p>
-      Bhagalpur is also one of only three places in the world — along with Cambodia
-      and Assam — where the endangered Greater Adjutant Stork (Garuda bird) nests and
-      breeds, growing from 78 to over 500 birds since 2007.
-    </p>
-  </section>
-
-  <section class="city-section" id="culture">
-    <h2>Culture, Language &amp; Festivals</h2>
-    <p>
-      The Angika culture defines the cultural identity of this region. The city blends
-      Hindu, Muslim, Buddhist, and Jain traditions across its history and present life.
-    </p>
-    <div class="city-grid">
-      <div class="city-card">
-        <h3>Kali Puja</h3>
-        <p>The most important festival; Shobhayatra celebrated its 71st year in 2024. The post-puja procession takes 36 hours to complete — one of the longest in Bihar.</p>
-      </div>
-      <div class="city-card">
-        <h3>Bishari Puja (Manasa)</h3>
-        <p>A folk festival originating from Champapuri, ancient capital of Anga Mahajanapada.</p>
-      </div>
-      <div class="city-card">
-        <h3>Major Festivals</h3>
-        <p>Chhath Puja, Durga Puja, Eid, and Shravani Mela.</p>
-      </div>
-      <div class="city-card">
-        <h3>Art Forms</h3>
-        <p>Manjusha paintings, Madhubani paintings, Kashida handloom work, terracotta crafts, and Chhau dance.</p>
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🌾</div>
+        <h3>BAU — Bihar Agricultural University</h3>
+        <p>A premier agricultural research and teaching institution serving the Ganga plains region.</p>
       </div>
     </div>
+    <p style="color:var(--bhp-muted);font-size:.82rem;line-height:1.65;margin:16px 0 0;padding:14px 16px;border:1px solid var(--bhp-border);border-radius:10px;background:var(--bhp-card)">
+      Also: Jawaharlal Nehru Medical College, Bhagalpur College of Engineering, 400+ government schools, 41 ITI units, Vikramshila Central University (under construction), and polytechnic institutes.
+    </p>
   </section>
 
-  <section class="city-section" id="connectivity">
-    <h2>Connectivity</h2>
-    <div class="city-grid">
-      <div class="city-card">
+  <!-- ── CONNECTIVITY ── -->
+  <section class="bhp-section" aria-label="Connectivity">
+    <div class="bhp-section-head">
+      <h2>Connectivity</h2>
+      <span class="bhp-tag bhp-tag-green">Rail · Road · Smart City</span>
+    </div>
+    <div class="bhp-grid3">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🚂</div>
         <h3>Rail</h3>
-        <p>Bhagalpur Junction — major station connecting to Kolkata, Delhi, Patna.</p>
+        <p>Bhagalpur Junction — major station on the Eastern Railway connecting Kolkata, Delhi, Patna, Mumbai, and across India.</p>
       </div>
-      <div class="city-card">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🛣️</div>
         <h3>Road</h3>
-        <p>NH-80, NH-131; Vikramshila Setu connects to the northern bank of the Ganga.</p>
+        <p>NH-80 and NH-131 pass through the district. Vikramshila Setu (bridge) connects the northern and southern banks of the Ganga.</p>
       </div>
-      <div class="city-card">
+      <div class="bhp-card">
+        <div class="bhp-card-icon">🏙️</div>
         <h3>Smart City</h3>
-        <p>Listed under Government of India's Smart Cities Mission for planned infrastructure upgrades.</p>
+        <p>Bhagalpur is included in the Government of India's Smart Cities Mission — with planned upgrades to infrastructure, public services, and urban systems.</p>
       </div>
     </div>
   </section>
 
-  <section class="city-section glass">
+  <div class="bhp-divider"></div>
+
+  <!-- ── PERSONAL CONNECTION ── -->
+  <section class="bhp-personal" aria-label="Personal connection to Bhagalpur">
     <h2>My Personal Connection</h2>
     <p>
-      Born on 25 December 1999 in Bhagalpur. This city gave me my earliest
-      understanding of discipline, local responsibility, community dynamics, and
-      what it means to build something real for real people. The Ganga, the silk
-      markets, the old quarters of Champanagar, the university culture — all of
-      this is part of who I am before any digital system or title ever was.
+      Born on 25 December 1999 in Bhagalpur. This city gave me my earliest understanding of discipline,
+      local responsibility, community dynamics, and what it means to build something real for real people.
+      The Ganga, the silk markets, the old quarters of Champanagar, the university culture — all of this
+      is part of who I am before any digital system or title ever was.
     </p>
-    <p>Age: 26 · Native: Bhagalpur, Bihar, India</p>
+    <p>
+      The decision to work from here — to build digital systems from a city that most people outside
+      Bihar don't look at closely enough — is deliberate. Bhagalpur has ancient institutional knowledge,
+      living crafts, documented biodiversity, and a community tradition that most Indian cities would
+      envy. It deserves to be seen clearly by the world.
+    </p>
+    <div>
+      <span class="bhp-personal-fact">📍 Born Here · 25 Dec 1999</span>
+      <span class="bhp-personal-fact" style="margin-left:8px">🏗️ Building Here · 2026</span>
+    </div>
   </section>
 
+  <!-- ── CTA ── -->
+  <section class="bhp-cta" aria-label="Explore more">
+    <div>
+      <h2>Explore the Full System</h2>
+      <p>
+        Visit the official district portal for live government data, notices, and services.
+        All major sections are mapped in the guide above — no need to navigate the cluttered menu.
+      </p>
+    </div>
+    <div class="bhp-cta-actions">
+      <a class="bhp-btn bhp-btn-gold" href="https://bhagalpur.nic.in/" target="_blank" rel="noopener">Official Portal</a>
+      <a class="bhp-btn bhp-btn-outline" href="/pages/personal.html">HI Life OS</a>
+    </div>
+  </section>
+
+</div><!-- /bhp-page -->
 </main>
 
 <footer class="site-footer glass" data-footer></footer>
 
-    <button id="backToTop" aria-label="Back to top">
-    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
-  </button>
-  <script src="/js/auth.js?v=auth-otp-1"></script>
-  <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
-  <script src="/js/footer.js" defer></script>
-  <script src="/js/nav.js" defer></script>
-  <script src="/js/script.js?v=footer-clean-1" defer></script>
-  <script>
-    var _u = document.getElementById("authUserDisplay");
-    if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
-    var _lb = document.getElementById("logoutBtn");
-    if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
-  </script>
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
-  <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
+<script src="/js/auth.js?v=auth-otp-1"></script>
+<script src="/js/footer.js" defer></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/script.js?v=footer-clean-1" defer></script>
+<script>
+  var _u = document.getElementById("authUserDisplay");
+  if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
+  var _lb = document.getElementById("logoutBtn");
+  if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
+</script>
+<script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
