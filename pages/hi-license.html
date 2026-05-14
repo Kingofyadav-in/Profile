@@ -388,11 +388,19 @@
 
     try {
       if (!KEY) {
-        var countRes = await fetch("/api/public/license-count", { headers: { "Accept": "application/json" } });
-        var countData = await countRes.json();
-        document.getElementById("statPublished").textContent = Number(countData.count || 0);
-        document.getElementById("statBlogPosts").textContent = "—";
-        grid.innerHTML = '<div class="ipv-empty">Public registry count is available. Private registry details require owner API access.</div>';
+        var publicRes = await fetch("/api/public/licenses", { headers: { "Accept": "application/json" } });
+        var publicData = await publicRes.json();
+        all = (publicData.data || []).sort(function(a, b) {
+          var ta = (a.metadata && a.metadata.title) || "";
+          var tb = (b.metadata && b.metadata.title) || "";
+          return ta.localeCompare(tb);
+        });
+
+        document.getElementById("statPublished").textContent = all.length;
+        document.getElementById("statBlogPosts").textContent = all.filter(function(l) {
+          return l.metadata && l.metadata.type === "blog-post";
+        }).length;
+        render();
         return;
       }
 
