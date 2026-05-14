@@ -27,7 +27,7 @@
   <meta name="theme-color" content="#0b1e0e" />
 
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
-  <link rel="stylesheet" href="/css/live-class.css?v=hi-7" />
+  <link rel="stylesheet" href="/css/live-class.css?v=hi-8" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
@@ -125,6 +125,7 @@
       </div>
     </div>
   </div>
+  <div class="lc-identity-stripe" aria-hidden="true"></div>
 
   <!-- Board + Sidebar -->
   <div class="lc-workspace">
@@ -156,6 +157,31 @@
     <!-- ── SIDEBAR ── -->
     <aside class="lc-sidebar" id="lcSidebar" aria-label="Class controls and participants">
 
+      <!-- About Card -->
+      <div class="lc-card">
+        <div class="lc-card-head">
+          <span class="lc-card-kicker">This Session</span>
+          <strong class="lc-card-title">About the Class</strong>
+        </div>
+        <div class="lc-info-rows">
+          <div class="lc-info-row">
+            <span>Subject</span><strong>AI · Computers · Intelligence</strong>
+          </div>
+          <div class="lc-info-row">
+            <span>Format</span><strong>Live · Interactive</strong>
+          </div>
+          <div class="lc-info-row">
+            <span>Language</span><strong>Hindi &amp; English</strong>
+          </div>
+          <div class="lc-info-row">
+            <span>Level</span><strong>Beginner — Advanced</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ Participation ─ -->
+      <p class="lc-sidebar-sep">Participation</p>
+
       <!-- Join Card -->
       <div class="lc-card lc-join-card" id="joinClassPanel">
         <div class="lc-card-head">
@@ -186,6 +212,9 @@
         </div>
       </div>
 
+      <!-- ─ Engagement ─ -->
+      <p class="lc-sidebar-sep">Engagement</p>
+
       <!-- Reactions Card -->
       <div class="lc-card lc-reactions-card">
         <div class="lc-card-head">
@@ -209,8 +238,8 @@
         <form id="questionForm" class="lc-join-form" novalidate>
           <label for="questionInput">Your question</label>
           <textarea id="questionInput" name="question" rows="2"
-            maxlength="300" placeholder="Type your question…" required
-            style="resize:vertical;font-family:inherit;font-size:0.93rem;padding:0.5rem 0.75rem;border-radius:8px;border:1px solid var(--lc-border,#333);background:var(--lc-input-bg,#111);color:inherit;width:100%;box-sizing:border-box;"></textarea>
+            class="lc-textarea"
+            maxlength="300" placeholder="Type your question…" required></textarea>
           <button type="submit" id="questionSubmitBtn">
             <span>Send Question</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -218,6 +247,9 @@
         </form>
         <p class="lc-hint" id="questionStatus">Questions go to the teacher directly.</p>
       </div>
+
+      <!-- ─ Tools ─ -->
+      <p class="lc-sidebar-sep">Tools</p>
 
       <!-- Share Card -->
       <div class="lc-card lc-share-card">
@@ -259,12 +291,6 @@
     .idx-web-icon { font-size: 1.25rem; }
     .idx-web-title { font-size: .92rem; font-weight: 700; color: #fff; }
     .idx-web-desc { font-size: .78rem; color: rgba(255,255,255,.4); line-height: 1.55; }
-    body.theme-light .idx-web { border-top-color: rgba(0,0,0,.09); }
-    body.theme-light .idx-web-label { color: rgba(0,0,0,.4); }
-    body.theme-light .idx-web-card { border-color: rgba(0,0,0,.09); background: rgba(0,0,0,.025); }
-    body.theme-light .idx-web-card:hover { border-color: #046A38; background: rgba(4,106,56,.05); }
-    body.theme-light .idx-web-title { color: #111; }
-    body.theme-light .idx-web-desc { color: rgba(0,0,0,.4); }
   </style>
   <section class="idx-web" aria-label="Connected pages">
     <div class="idx-web-label">Connected Pages</div>
