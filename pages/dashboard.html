@@ -833,8 +833,8 @@
   } catch (e) {
     console.error(e);
     document.getElementById("dmError").innerHTML =
-      '<div class="dm-error">Failed to load dashboard data: ' + e.message + '</div>';
-    document.getElementById("dmLastRefresh").textContent = "Error — check console";
+      '<div class="dm-error">Dashboard data is temporarily unavailable.</div>';
+    document.getElementById("dmLastRefresh").textContent = "Dashboard unavailable";
   }
 }());
 </script>
