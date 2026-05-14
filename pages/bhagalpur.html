@@ -1247,6 +1247,42 @@
     </div>
   </section>
 
+
+  <!-- ── WEB: Connected Pages ── -->
+  <style>
+    .bhp-web { padding: clamp(1.5rem,4vw,2.5rem) clamp(1rem,4vw,2.5rem); max-width: 960px; margin: 0 auto; }
+    .bhp-web-label { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--bhp-muted); margin-bottom: .9rem; }
+    .bhp-web-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: .85rem; }
+    .bhp-web-card { display: flex; flex-direction: column; gap: 5px; padding: 1rem 1.15rem; border: 1px solid rgba(255,255,255,.07); border-radius: 10px; background: rgba(255,255,255,.025); text-decoration: none; transition: border-color .2s, background .2s; }
+    .bhp-web-card:hover { border-color: var(--bhp-gold); background: rgba(200,155,60,.07); }
+    .bhp-web-icon { font-size: 1.25rem; }
+    .bhp-web-title { font-size: .92rem; font-weight: 700; color: #fff; }
+    .bhp-web-desc { font-size: .78rem; color: var(--bhp-muted); line-height: 1.55; }
+    body.theme-light .bhp-web-card { border-color: rgba(0,0,0,.09); background: rgba(0,0,0,.025); }
+    body.theme-light .bhp-web-card:hover { border-color: var(--bhp-gold); background: rgba(200,155,60,.06); }
+    body.theme-light .bhp-web-title { color: #111; }
+  </style>
+  <section class="bhp-web" aria-label="Connected pages">
+    <div class="bhp-web-label">Connected Pages</div>
+    <div class="bhp-web-grid">
+      <a class="bhp-web-card" href="/pages/about.html">
+        <span class="bhp-web-icon">🧑</span>
+        <span class="bhp-web-title">About — My Full Story</span>
+        <span class="bhp-web-desc">4-chapter story: the person from Bhagalpur, the machine built, the work done</span>
+      </a>
+      <a class="bhp-web-card" href="/pages/origin.html">
+        <span class="bhp-web-icon">🪪</span>
+        <span class="bhp-web-title">Origin — Identity System</span>
+        <span class="bhp-web-desc">The HDI digital identity — designed with Bhagalpur roots at its core</span>
+      </a>
+      <a class="bhp-web-card" href="/pages/haven.html">
+        <span class="bhp-web-icon">🔐</span>
+        <span class="bhp-web-title">Haven — Security Layer</span>
+        <span class="bhp-web-desc">The cryptographic auth infrastructure protecting everything built from this city</span>
+      </a>
+    </div>
+  </section>
+
 </div><!-- /bhp-page -->
 </main>
 

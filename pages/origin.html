@@ -6,6 +6,7 @@
   <title>Origin · Self | Amit Ku Yadav</title>
   <meta name="description" content="Private identity origin page for Amit Ku Yadav — HDI system, personal standards, skills, philosophy, and direction." />
   <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon/favicon.ico" />
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
   <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
@@ -1008,6 +1009,42 @@
     <div class="ori-cta-actions">
       <a class="ori-btn ori-btn-primary" href="/pages/personal.html">Open Identity Form</a>
       <a class="ori-btn ori-btn-outline" href="/pages/personal.html">Back to Personal</a>
+    </div>
+  </section>
+
+
+  <!-- ── WEB: Connected Pages ── -->
+  <style>
+    .ori-web { padding: clamp(1.5rem,4vw,2.5rem) clamp(1rem,4vw,2.5rem); max-width: 960px; margin: 0 auto; }
+    .ori-web-label { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--ori-muted); margin-bottom: .9rem; }
+    .ori-web-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: .85rem; }
+    .ori-web-card { display: flex; flex-direction: column; gap: 5px; padding: 1rem 1.15rem; border: 1px solid rgba(255,255,255,.07); border-radius: 10px; background: rgba(255,255,255,.025); text-decoration: none; transition: border-color .2s, background .2s; }
+    .ori-web-card:hover { border-color: var(--brand-green); background: rgba(4,106,56,.08); }
+    .ori-web-icon { font-size: 1.25rem; }
+    .ori-web-title { font-size: .92rem; font-weight: 700; color: #fff; }
+    .ori-web-desc { font-size: .78rem; color: var(--ori-muted); line-height: 1.55; }
+    body.theme-light .ori-web-card { border-color: rgba(0,0,0,.09); background: rgba(0,0,0,.025); }
+    body.theme-light .ori-web-card:hover { border-color: var(--brand-green); background: rgba(4,106,56,.05); }
+    body.theme-light .ori-web-title { color: #111; }
+  </style>
+  <section class="ori-web" aria-label="Connected pages">
+    <div class="ori-web-label">Connected Pages</div>
+    <div class="ori-web-grid">
+      <a class="ori-web-card" href="/pages/haven.html">
+        <span class="ori-web-icon">🔐</span>
+        <span class="ori-web-title">Haven — Auth Layer</span>
+        <span class="ori-web-desc">See how your device fingerprint becomes a SHA-256 session auth token</span>
+      </a>
+      <a class="ori-web-card" href="/pages/about.html">
+        <span class="ori-web-icon">🧑</span>
+        <span class="ori-web-title">About — Full Story</span>
+        <span class="ori-web-desc">The 4-chapter story: who I am, the machine I built, what we ship, and the reward</span>
+      </a>
+      <a class="ori-web-card" href="/pages/bhagalpur.html">
+        <span class="ori-web-icon">🏙️</span>
+        <span class="ori-web-title">Bhagalpur — Root City</span>
+        <span class="ori-web-desc">Where this identity was born — Silk City, Bihar, India</span>
+      </a>
     </div>
   </section>
 

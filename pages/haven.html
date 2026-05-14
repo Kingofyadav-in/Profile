@@ -1139,6 +1139,42 @@
     </div>
   </section>
 
+
+  <!-- ── WEB: Connected Pages ── -->
+  <style>
+    .hav-web { padding: clamp(1.5rem,4vw,2.5rem) clamp(1rem,4vw,2.5rem); max-width: 960px; margin: 0 auto; }
+    .hav-web-label { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--hav-muted); margin-bottom: .9rem; }
+    .hav-web-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: .85rem; }
+    .hav-web-card { display: flex; flex-direction: column; gap: 5px; padding: 1rem 1.15rem; border: 1px solid rgba(255,255,255,.07); border-radius: 10px; background: rgba(255,255,255,.025); text-decoration: none; transition: border-color .2s, background .2s; }
+    .hav-web-card:hover { border-color: var(--brand-green); background: rgba(4,106,56,.08); }
+    .hav-web-icon { font-size: 1.25rem; }
+    .hav-web-title { font-size: .92rem; font-weight: 700; color: #fff; }
+    .hav-web-desc { font-size: .78rem; color: var(--hav-muted); line-height: 1.55; }
+    body.theme-light .hav-web-card { border-color: rgba(0,0,0,.09); background: rgba(0,0,0,.025); }
+    body.theme-light .hav-web-card:hover { border-color: var(--brand-green); background: rgba(4,106,56,.05); }
+    body.theme-light .hav-web-title { color: #111; }
+  </style>
+  <section class="hav-web" aria-label="Connected pages">
+    <div class="hav-web-label">Connected Pages</div>
+    <div class="hav-web-grid">
+      <a class="hav-web-card" href="/pages/origin.html">
+        <span class="hav-web-icon">🪪</span>
+        <span class="hav-web-title">Origin — HDI System</span>
+        <span class="hav-web-desc">Where the device fingerprint starts — the Human Digital Identity creation flow</span>
+      </a>
+      <a class="hav-web-card" href="/pages/about.html">
+        <span class="hav-web-icon">🤖</span>
+        <span class="hav-web-title">About — Machine Chapter</span>
+        <span class="hav-web-desc">Chapter 02 explains the AI + auth philosophy behind this entire security layer</span>
+      </a>
+      <a class="hav-web-card" href="/pages/vault.html">
+        <span class="hav-web-icon">🗄️</span>
+        <span class="hav-web-title">Vault — AES-GCM Store</span>
+        <span class="hav-web-desc">The encrypted vault this auth pipeline protects — all data guarded by the same token</span>
+      </a>
+    </div>
+  </section>
+
 </div><!-- /hav-page -->
 </main>
 
