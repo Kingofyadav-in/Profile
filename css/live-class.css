@@ -683,8 +683,13 @@
 .lc-sidebar {
   position: sticky;
   top: calc(var(--lc-status-h) + var(--lc-header-h) + 18px);
+  max-height: calc(100vh - var(--lc-status-h) - var(--lc-header-h) - 36px);
+  overflow-y: auto;
   display: grid;
   gap: 12px;
+  /* Scrollbar: subtle track to not distract from the board */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128,128,128,0.25) transparent;
 }
 
 /* ── Cards ── */

@@ -651,3 +651,35 @@ body.theme-light :where(form) select option {
 }
 
 /* Mobile nav handled by hamburger in components.css */
+
+/* ======================================================
+   GLOBAL FOCUS-VISIBLE — keyboard accessibility system
+   Single rule covers every interactive element site-wide.
+   :focus-visible fires for keyboard only (not mouse/touch).
+====================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Remove default outline when :focus-visible is supported */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Tighter radius on pill/round elements */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  border-radius: 6px;
+}
+
+/* Inputs keep a field-level ring instead of the global outline */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(4, 106, 56, 0.22);
+}

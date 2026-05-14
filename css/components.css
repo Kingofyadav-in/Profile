@@ -184,6 +184,16 @@ body.theme-light .site-header {
     0 8px 20px rgba(255,103,31,0.25);
 }
 
+.btn-primary:focus-visible,
+.btn-signup:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 4px var(--brand-green),
+    0 10px 25px rgba(4,106,56,0.25);
+  border-radius: 999px;
+}
+
 .btn-login {
   font-size: 0.8rem;
   font-weight: 600;
@@ -195,6 +205,12 @@ body.theme-light .site-header {
 .btn-login:hover {
   border-color: var(--brand-green);
   color: var(--brand-green);
+}
+
+.btn-login:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 3px;
+  border-radius: 999px;
 }
 
 /* ======================================================
@@ -747,6 +763,12 @@ body.theme-light .site-footer {
 .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.hamburger:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
 
 /* ======================================================
    MOBILE SYSTEM
