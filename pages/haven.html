@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>My Home | Amit Ku Yadav | Private Foundation Page</title>
-<meta name="description" content="Private home foundation page for Amit Ku Yadav: values, environment, daily structure, roots, and personal stability." />
+<title>Haven · Home | Amit Ku Yadav | Private Foundation</title>
+<meta name="description" content="Private home foundation page — device identity fingerprint, SHA-256 authentication, and personal foundation system." />
 <meta name="robots" content="noindex, nofollow" />
 
 <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
@@ -12,8 +12,6 @@
 <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
 <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
 <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
-<link rel="stylesheet" href="/css/myhome.css?v=20260502-pro" />
-
 <link rel="icon" href="/favicon/favicon.ico" />
 <link rel="canonical" href="https://kingofyadav.in/pages/haven.html" />
 <script type="application/ld+json">
@@ -30,6 +28,661 @@
   }
 }
 </script>
+<style>
+  /* ── HAV design system ── */
+  :root {
+    --hav-green:   #046A38;
+    --hav-orange:  #FF671F;
+    --hav-border:  rgba(255,255,255,.09);
+    --hav-card:    rgba(255,255,255,.04);
+    --hav-card2:   rgba(255,255,255,.07);
+    --hav-muted:   rgba(255,255,255,.52);
+    --hav-label:   rgba(255,255,255,.36);
+    --hav-code-bg: rgba(4,106,56,.1);
+    --hav-radius:  16px;
+    --hav-rad-sm:  10px;
+    --hav-pad:     clamp(20px, 3vw, 44px);
+  }
+  body.theme-light {
+    --hav-border: rgba(0,0,0,.1);
+    --hav-card:   rgba(0,0,0,.03);
+    --hav-card2:  rgba(0,0,0,.06);
+    --hav-muted:  rgba(0,0,0,.55);
+    --hav-label:  rgba(0,0,0,.4);
+    --hav-code-bg:rgba(4,106,56,.08);
+  }
+
+  /* ── Stripe ── */
+  .hav-stripe {
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
+    flex-shrink: 0;
+  }
+
+  /* ── Page wrapper ── */
+  .hav-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--hav-pad) 60px;
+  }
+
+  /* ── Hero ── */
+  .hav-hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+    padding: 48px 0 36px;
+    border-bottom: 1px solid var(--hav-border);
+    margin-bottom: 40px;
+  }
+  .hav-hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    color: var(--hav-orange);
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+  }
+  .hav-hero-kicker::before {
+    content: "";
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--hav-orange);
+    border-radius: 2px;
+  }
+  .hav-hero h1 {
+    margin: 0 0 12px;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+  }
+  .hav-hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--hav-green), #0a9a54);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hav-hero-sub {
+    max-width: 520px;
+    margin: 0 0 24px;
+    color: var(--hav-muted);
+    font-size: .96rem;
+    line-height: 1.7;
+  }
+  .hav-hero-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-decoration: none;
+    transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .hav-btn-primary {
+    background: var(--hav-green);
+    color: #fff;
+    border-color: var(--hav-green);
+  }
+  .hav-btn-primary:hover { transform: translateY(-2px); background: #035e31; }
+  .hav-btn-outline {
+    background: transparent;
+    color: inherit;
+    border-color: var(--hav-border);
+  }
+  .hav-btn-outline:hover {
+    border-color: rgba(4,106,56,.4);
+    background: rgba(4,106,56,.1);
+    transform: translateY(-2px);
+  }
+
+  /* Hero panel */
+  .hav-hero-panel {
+    display: grid;
+    gap: 10px;
+    min-width: 230px;
+    padding: 20px;
+    border: 1px solid var(--hav-border);
+    border-radius: var(--hav-radius);
+    background: var(--hav-card2);
+  }
+  .hav-hero-panel-title {
+    margin: 0 0 4px;
+    color: var(--hav-green);
+    font-size: .65rem;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+  }
+  .hav-panel-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--hav-card);
+  }
+  .hav-panel-row span {
+    color: var(--hav-label);
+    font-size: .63rem;
+    font-weight: 700;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+  }
+  .hav-panel-row strong {
+    font-size: .81rem;
+    font-weight: 780;
+    line-height: 1.3;
+  }
+  .hav-panel-row .hav-mono {
+    font-family: 'Courier New', monospace;
+    font-size: .7rem;
+    color: var(--hav-green);
+    letter-spacing: 1.2px;
+    word-break: break-all;
+  }
+
+  /* ── Section header ── */
+  .hav-section { margin-bottom: 48px; }
+  .hav-section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .hav-section-head h2 {
+    margin: 0;
+    font-size: clamp(1.15rem, 2.5vw, 1.7rem);
+    font-weight: 900;
+    letter-spacing: -.01em;
+  }
+  .hav-tag {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: .62rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hav-tag-green { background: rgba(4,106,56,.12); color: var(--hav-green); }
+  .hav-tag-orange { background: rgba(255,103,31,.12); color: var(--hav-orange); }
+  .hav-tag-blue { background: rgba(59,130,246,.12); color: #60a5fa; }
+
+  /* ── AUTH JOURNEY ── */
+  .hav-auth-section {
+    margin-bottom: 52px;
+    padding: 32px;
+    border: 1px solid rgba(4,106,56,.22);
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(4,106,56,.08), rgba(255,103,31,.05)), var(--hav-card);
+    position: relative;
+    overflow: hidden;
+  }
+  .hav-auth-section::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--hav-green), #3b82f6, var(--hav-orange));
+  }
+  .hav-auth-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 28px;
+  }
+  .hav-auth-head h2 {
+    margin: 0 0 6px;
+    font-size: clamp(1.2rem, 2.8vw, 1.9rem);
+    font-weight: 900;
+  }
+  .hav-auth-head p {
+    margin: 0;
+    color: var(--hav-muted);
+    font-size: .88rem;
+    line-height: 1.65;
+    max-width: 520px;
+  }
+  .hav-auth-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 18px;
+    border: 1px solid rgba(4,106,56,.3);
+    border-radius: var(--hav-rad-sm);
+    background: rgba(4,106,56,.1);
+    min-width: 140px;
+    text-align: center;
+  }
+  .hav-auth-badge-icon { font-size: 1.6rem; line-height: 1; }
+  .hav-auth-badge-text {
+    color: var(--hav-green);
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hav-auth-badge-sub {
+    color: var(--hav-label);
+    font-size: .6rem;
+    letter-spacing: .5px;
+  }
+
+  /* 4-step pipeline */
+  .hav-pipeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .hav-pipeline::before {
+    content: "";
+    position: absolute;
+    top: 36px;
+    left: calc(12.5% + 2px);
+    right: calc(12.5% + 2px);
+    height: 2px;
+    background: linear-gradient(90deg, var(--hav-green) 0%, #3b82f6 50%, var(--hav-orange) 100%);
+    pointer-events: none;
+  }
+  .hav-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px;
+    text-align: center;
+  }
+  .hav-step-num {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--hav-border);
+    background: var(--hav-card2);
+    font-size: .78rem;
+    font-weight: 900;
+    color: var(--hav-muted);
+    margin-bottom: 14px;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+  .hav-step.s-green .hav-step-num  { border-color: var(--hav-green); color:#fff; background: var(--hav-green); }
+  .hav-step.s-blue  .hav-step-num  { border-color: #3b82f6;          color:#fff; background: #3b82f6; }
+  .hav-step.s-purple .hav-step-num { border-color: #8b5cf6;          color:#fff; background: #8b5cf6; }
+  .hav-step.s-orange .hav-step-num { border-color: var(--hav-orange); color:#fff; background: var(--hav-orange); }
+
+  .hav-step-title {
+    font-size: .76rem;
+    font-weight: 900;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .hav-step.s-green  .hav-step-title { color: var(--hav-green); }
+  .hav-step.s-blue   .hav-step-title { color: #60a5fa; }
+  .hav-step.s-purple .hav-step-title { color: #a78bfa; }
+  .hav-step.s-orange .hav-step-title { color: var(--hav-orange); }
+
+  .hav-step-body {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--hav-border);
+    border-radius: var(--hav-rad-sm);
+    background: var(--hav-card);
+    font-size: .77rem;
+    line-height: 1.55;
+    color: var(--hav-muted);
+    text-align: left;
+  }
+  .hav-step.s-green  .hav-step-body { border-color: rgba(4,106,56,.22);   background: rgba(4,106,56,.07); }
+  .hav-step.s-blue   .hav-step-body { border-color: rgba(59,130,246,.22); background: rgba(59,130,246,.06); }
+  .hav-step.s-purple .hav-step-body { border-color: rgba(139,92,246,.22); background: rgba(139,92,246,.06); }
+  .hav-step.s-orange .hav-step-body { border-color: rgba(255,103,31,.22); background: rgba(255,103,31,.06); }
+
+  .hav-step-body ul {
+    margin: 6px 0 0;
+    padding-left: 14px;
+  }
+  .hav-step-body li { margin-bottom: 3px; }
+  .hav-code-pill {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: var(--hav-code-bg);
+    font-family: 'Courier New', monospace;
+    font-size: .64rem;
+    font-weight: 800;
+    color: var(--hav-green);
+    letter-spacing: .8px;
+    word-break: break-all;
+  }
+
+  /* ── Device fingerprint signals ── */
+  .hav-fp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 28px;
+    margin-bottom: 20px;
+  }
+  .hav-fp-card {
+    padding: 14px;
+    border: 1px solid var(--hav-border);
+    border-radius: var(--hav-rad-sm);
+    background: var(--hav-card);
+  }
+  .hav-fp-card-label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--hav-label);
+    font-size: .6rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hav-fp-card-value {
+    font-family: 'Courier New', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--hav-green);
+    line-height: 1.4;
+    word-break: break-all;
+  }
+  .hav-fp-card-value.dim { color: var(--hav-muted); }
+
+  /* ── SHA-256 flow ── */
+  .hav-sha-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0;
+    margin-top: 20px;
+    border: 1px solid var(--hav-border);
+    border-radius: var(--hav-radius);
+    overflow: hidden;
+  }
+  .hav-sha-box {
+    flex: 1;
+    min-width: 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .hav-sha-box + .hav-sha-box { border-left: 1px solid var(--hav-border); }
+  .hav-sha-box-label {
+    font-size: .6rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--hav-label);
+    margin-bottom: 2px;
+  }
+  .hav-sha-box-value {
+    font-family: 'Courier New', monospace;
+    font-size: .7rem;
+    font-weight: 700;
+    line-height: 1.5;
+    word-break: break-all;
+  }
+  .hav-sha-box.input  .hav-sha-box-value { color: #60a5fa; }
+  .hav-sha-box.fn     {
+    background: rgba(4,106,56,.08);
+    border-left: 1px solid rgba(4,106,56,.22) !important;
+    border-right: 1px solid rgba(4,106,56,.22) !important;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 120px;
+    flex: 0 0 120px;
+  }
+  .hav-sha-box.fn .hav-sha-box-label { color: var(--hav-green); }
+  .hav-sha-box.fn .hav-sha-box-value {
+    font-size: 1rem;
+    color: var(--hav-green);
+    letter-spacing: .5px;
+  }
+  .hav-sha-box.output .hav-sha-box-value { color: var(--hav-green); }
+
+  /* ── Token anatomy ── */
+  .hav-token-box {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid rgba(139,92,246,.22);
+    border-radius: var(--hav-radius);
+    background: rgba(139,92,246,.06);
+  }
+  .hav-token-box pre {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    font-size: .75rem;
+    line-height: 1.8;
+    color: var(--hav-muted);
+    overflow-x: auto;
+  }
+  .hav-token-box pre .k { color: #60a5fa; }
+  .hav-token-box pre .s { color: #a78bfa; }
+  .hav-token-box pre .n { color: var(--hav-orange); }
+  .hav-token-box pre .b { color: #34d399; }
+
+  /* ── Session guard flow ── */
+  .hav-guard-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+    padding: 18px;
+    border: 1px dashed rgba(4,106,56,.25);
+    border-radius: var(--hav-rad-sm);
+    background: rgba(4,106,56,.04);
+  }
+  .hav-guard-node {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .5px;
+    white-space: nowrap;
+  }
+  .hav-guard-node.gn  { background: var(--hav-card2); border: 1px solid var(--hav-border); }
+  .hav-guard-node.gg  { background: rgba(4,106,56,.15); border: 1px solid rgba(4,106,56,.3); color: var(--hav-green); }
+  .hav-guard-node.go  { background: rgba(255,103,31,.12); border: 1px solid rgba(255,103,31,.3); color: var(--hav-orange); }
+  .hav-guard-node.gb  { background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.3); color: #60a5fa; }
+  .hav-guard-arrow { color: var(--hav-label); font-size: .85rem; }
+
+  /* ── 4-col card grid ── */
+  .hav-grid4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .hav-grid3 { grid-template-columns: repeat(3, 1fr); }
+  .hav-grid5 { grid-template-columns: repeat(5, 1fr); }
+
+  .hav-card {
+    padding: 20px;
+    border: 1px solid var(--hav-border);
+    border-radius: var(--hav-radius);
+    background: var(--hav-card);
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .hav-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(4,106,56,.22);
+    background: var(--hav-card2);
+  }
+  .hav-card-icon { font-size: 1.4rem; margin-bottom: 10px; line-height: 1; }
+  .hav-card h3   { margin: 0 0 8px; font-size: .86rem; font-weight: 900; letter-spacing: .2px; }
+  .hav-card p    { margin: 0; color: var(--hav-muted); font-size: .78rem; line-height: 1.6; }
+
+  /* ── Daily structure timeline ── */
+  .hav-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 0;
+  }
+  .hav-tl-block {
+    padding: 20px;
+    border: 1px solid var(--hav-border);
+    border-radius: var(--hav-radius);
+    background: var(--hav-card);
+    position: relative;
+    overflow: hidden;
+  }
+  .hav-tl-block::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .hav-tl-block:nth-child(1)::before { background: var(--hav-orange); }
+  .hav-tl-block:nth-child(2)::before { background: var(--hav-green); }
+  .hav-tl-block:nth-child(3)::before { background: #3b82f6; }
+  .hav-tl-block:nth-child(4)::before { background: #8b5cf6; }
+  .hav-tl-time {
+    display: block;
+    margin-bottom: 8px;
+    font-size: .64rem;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--hav-label);
+  }
+  .hav-tl-block strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: .9rem;
+    font-weight: 900;
+  }
+  .hav-tl-block p { margin: 0; color: var(--hav-muted); font-size: .78rem; line-height: 1.6; }
+
+  /* ── Direction ── */
+  .hav-direction {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 28px;
+    border: 1px solid var(--hav-border);
+    border-radius: var(--hav-radius);
+    background: var(--hav-card);
+    margin-bottom: 48px;
+  }
+  .hav-direction p { margin: 0; color: var(--hav-muted); font-size: .9rem; line-height: 1.75; }
+
+  /* ── Location ── */
+  .hav-location {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 28px;
+    border: 1px solid var(--hav-border);
+    border-radius: var(--hav-radius);
+    background: var(--hav-card);
+    margin-bottom: 48px;
+  }
+  .hav-location p { margin: 0 0 12px; color: var(--hav-muted); font-size: .9rem; line-height: 1.75; }
+  .hav-location p:last-child { margin-bottom: 0; }
+  .hav-location-stats {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+  }
+  .hav-loc-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 12px;
+    border: 1px solid var(--hav-border);
+    border-radius: 10px;
+    background: var(--hav-card2);
+  }
+  .hav-loc-stat span { color: var(--hav-label); font-size: .6rem; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; }
+  .hav-loc-stat strong { font-size: .84rem; font-weight: 780; }
+
+  /* ── CTA ── */
+  .hav-cta {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 32px;
+    border: 1px solid rgba(4,106,56,.24);
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(4,106,56,.12), rgba(255,103,31,.08)), var(--hav-card);
+  }
+  .hav-cta h2  { margin: 0 0 8px; font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 900; }
+  .hav-cta p   { margin: 0; color: var(--hav-muted); font-size: .88rem; line-height: 1.6; }
+  .hav-cta-actions { display: flex; flex-direction: column; gap: 8px; min-width: 160px; }
+
+  /* ── Security note ── */
+  .hav-sec-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: rgba(255,103,31,.07);
+    border: 1px solid rgba(255,103,31,.18);
+    font-size: .75rem;
+    color: var(--hav-muted);
+    line-height: 1.55;
+  }
+  .hav-sec-note-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .hav-pipeline { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .hav-pipeline::before { display: none; }
+    .hav-grid4 { grid-template-columns: repeat(2, 1fr); }
+    .hav-grid3 { grid-template-columns: repeat(2, 1fr); }
+    .hav-grid5 { grid-template-columns: repeat(3, 1fr); }
+    .hav-fp-grid { grid-template-columns: repeat(2, 1fr); }
+    .hav-timeline { grid-template-columns: repeat(2, 1fr); }
+    .hav-hero { grid-template-columns: 1fr; }
+    .hav-hero-panel { min-width: 0; }
+    .hav-auth-head { grid-template-columns: 1fr; }
+    .hav-direction { grid-template-columns: 1fr; }
+    .hav-location { grid-template-columns: 1fr; }
+    .hav-sha-box.fn { max-width: none; flex: 0 0 80px; }
+    .hav-cta { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .hav-pipeline { grid-template-columns: 1fr; }
+    .hav-grid4 { grid-template-columns: 1fr; }
+    .hav-grid5 { grid-template-columns: repeat(2, 1fr); }
+    .hav-fp-grid { grid-template-columns: 1fr; }
+    .hav-timeline { grid-template-columns: 1fr; }
+    .hav-auth-section { padding: 22px 18px; }
+    .hav-sha-flow { flex-direction: column; }
+    .hav-sha-box.fn { max-width: none; flex: none; border-left: none !important; border-right: none !important; border-top: 1px solid rgba(4,106,56,.22); border-bottom: 1px solid rgba(4,106,56,.22); }
+    .hav-sha-box + .hav-sha-box { border-left: none; border-top: 1px solid var(--hav-border); }
+  }
+</style>
 </head>
 
 <body class="theme-dark" data-profile-page="myHome">
@@ -38,7 +691,6 @@
 <div id="scrollProgress"></div>
 <a href="#main-content" class="skip-link">Skip to content</a>
 
-<!-- ================= HEADER ================= -->
 <header class="personal-header glass">
   <div class="personal-header-inner">
     <a href="/pages/personal.html" class="personal-brand">
@@ -59,168 +711,509 @@
   </div>
 </header>
 
-<!-- ================= MAIN ================= -->
-<main id="main-content" class="personal-main personal-page">
+<div class="hav-stripe"></div>
 
-  <section class="personal-section glass hero-home profile-hero">
-    <header class="profile-hero-copy">
-      <p class="hero-label">Foundation · Home</p>
-      <h1>My Home</h1>
-      <p class="personal-intro">
-        The first system I ever learned: values, discipline, people, routine, and
-        the foundation that supports every public and digital responsibility.
+<main id="main-content" class="personal-main">
+<div class="hav-page">
+
+  <!-- ── HERO ── -->
+  <section class="hav-hero" aria-label="Haven hero">
+    <div>
+      <p class="hav-hero-kicker">Foundation · Home · Security</p>
+      <h1>My <em>Haven</em></h1>
+      <p class="hav-hero-sub">
+        The private foundation behind all public work — built on family, discipline,
+        and a cryptographic security layer that binds every digital action to a verified
+        device identity using SHA-256.
       </p>
-      <div class="profile-hero-actions">
-        <a class="profile-hero-action primary" href="#core-values">Core Values</a>
-        <a class="profile-hero-action" href="#digital-home">Digital System</a>
-        <a class="profile-hero-action" href="#location">Location</a>
+      <div class="hav-hero-btns">
+        <a class="hav-btn hav-btn-primary" href="#auth-journey">Auth System</a>
+        <a class="hav-btn hav-btn-outline" href="#fingerprint">Fingerprint</a>
+        <a class="hav-btn hav-btn-outline" href="#foundation">Foundation</a>
+        <a class="hav-btn hav-btn-outline" href="#values">Values</a>
       </div>
-    </header>
-    <aside class="profile-hero-panel" aria-label="Home foundation system">
-      <p class="profile-panel-title">Foundation System</p>
-      <div class="profile-panel-list">
-        <div><span>Base</span><strong>Bhagalpur, Bihar</strong></div>
-        <div><span>Values</span><strong>Family · Discipline · Respect</strong></div>
-        <div><span>Routine</span><strong>Plan · Work · Review · Rest</strong></div>
-        <div><span>Digital Layer</span><strong>Records · Privacy · Coordination</strong></div>
+    </div>
+    <aside class="hav-hero-panel" aria-label="Haven system summary">
+      <p class="hav-hero-panel-title">Haven System</p>
+      <div class="hav-panel-row">
+        <span>Base</span>
+        <strong>Bhagalpur, Bihar, India</strong>
+      </div>
+      <div class="hav-panel-row">
+        <span>Auth Layer</span>
+        <strong>SHA-256 + Device Fingerprint</strong>
+      </div>
+      <div class="hav-panel-row">
+        <span>Token Store</span>
+        <strong>sessionStorage / localStorage</strong>
+      </div>
+      <div class="hav-panel-row">
+        <span>Device ID</span>
+        <span class="hav-mono" id="havDeviceId">computing…</span>
+      </div>
+      <div class="hav-panel-row">
+        <span>Values</span>
+        <strong>Family · Discipline · Respect</strong>
       </div>
     </aside>
   </section>
 
-  <section class="home-snapshot" aria-label="Home foundation snapshot">
-    <div><span>Location</span><strong>Bhagalpur, Bihar, India</strong></div>
-    <div><span>Foundation</span><strong>Family · Discipline · Respect</strong></div>
-    <div><span>Work Base</span><strong>Digital &amp; Community Work</strong></div>
-    <div><span>Principle</span><strong>Home shapes the person before the world does</strong></div>
+  <!-- ── AUTH JOURNEY ── -->
+  <section class="hav-auth-section" id="auth-journey" aria-label="Authentication end-to-end journey">
+    <div class="hav-auth-head">
+      <div>
+        <div class="hav-section-head" style="margin-bottom:10px">
+          <h2>Authentication — End to End</h2>
+          <span class="hav-tag hav-tag-green">Security System</span>
+        </div>
+        <p>
+          Every private page in the HI ecosystem is protected by a four-layer auth pipeline.
+          Your device generates a stable fingerprint, SHA-256 hashes it into a bound ID,
+          a signed token carries your session, and <code style="font-size:.82em">requireAuth()</code>
+          guards every page load — with zero passwords stored in clear text.
+        </p>
+      </div>
+      <div class="hav-auth-badge">
+        <span class="hav-auth-badge-icon">🔐</span>
+        <span class="hav-auth-badge-text">Zero Clear-Text</span>
+        <span class="hav-auth-badge-sub">SHA-256 · AES-GCM · PBKDF2</span>
+      </div>
+    </div>
+
+    <!-- 4-step pipeline -->
+    <div class="hav-pipeline" aria-label="Authentication lifecycle steps">
+
+      <!-- Step 1: Device Fingerprint -->
+      <div class="hav-step s-green">
+        <div class="hav-step-num">01</div>
+        <p class="hav-step-title">Fingerprint</p>
+        <div class="hav-step-body">
+          <strong style="display:block;margin-bottom:6px;font-size:.74rem">Browser Signals Collected</strong>
+          Your device is silently profiled by reading:
+          <ul>
+            <li>User Agent string</li>
+            <li>Screen resolution &amp; color depth</li>
+            <li>Timezone &amp; language</li>
+            <li>Canvas pixel render</li>
+            <li>WebGL GPU renderer</li>
+            <li>Platform (OS type)</li>
+          </ul>
+          <span class="hav-code-pill">localStorage → ak_device_id</span>
+        </div>
+      </div>
+
+      <!-- Step 2: SHA-256 -->
+      <div class="hav-step s-blue">
+        <div class="hav-step-num">02</div>
+        <p class="hav-step-title">SHA-256 Hash</p>
+        <div class="hav-step-body">
+          <strong style="display:block;margin-bottom:6px;font-size:.74rem">One-Way Transformation</strong>
+          All collected signals are concatenated and passed through the Web Crypto API:
+          <ul>
+            <li><code style="font-size:.7em">crypto.subtle.digest("SHA-256",...)</code></li>
+            <li>256-bit output → 64 hex chars</li>
+            <li>Avalanche effect: 1 bit change → 50% output flip</li>
+            <li>Irreversible — cannot be reversed to source data</li>
+          </ul>
+          <span class="hav-code-pill">9f3a2c8b…d41e7f12</span>
+        </div>
+      </div>
+
+      <!-- Step 3: Token -->
+      <div class="hav-step s-purple">
+        <div class="hav-step-num">03</div>
+        <p class="hav-step-title">Auth Token</p>
+        <div class="hav-step-body">
+          <strong style="display:block;margin-bottom:6px;font-size:.74rem">Session Credential Issued</strong>
+          After login, server returns a signed JSON token stored in:
+          <ul>
+            <li><strong>sessionStorage</strong> — tab-only (default)</li>
+            <li><strong>localStorage</strong> — persistent (remember me)</li>
+          </ul>
+          Token carries: username, expiry timestamp, role.
+          <br />
+          <span class="hav-code-pill">ak_auth_token</span>
+        </div>
+      </div>
+
+      <!-- Step 4: Guard -->
+      <div class="hav-step s-orange">
+        <div class="hav-step-num">04</div>
+        <p class="hav-step-title">Page Guard</p>
+        <div class="hav-step-body">
+          <strong style="display:block;margin-bottom:6px;font-size:.74rem">requireAuth() on Every Page</strong>
+          Every private page runs a guard on load:
+          <ul>
+            <li>Read token from sessionStorage/localStorage</li>
+            <li>Parse JSON → check <code style="font-size:.7em">Date.now() &lt; exp</code></li>
+            <li>Valid → show page, display username</li>
+            <li>Expired/missing → redirect to login</li>
+          </ul>
+          <span class="hav-code-pill" style="color:var(--hav-orange);background:rgba(255,103,31,.1)">→ /pages/login.html?next=…</span>
+        </div>
+      </div>
+
+    </div><!-- /pipeline -->
   </section>
 
-  <section class="personal-section glass" id="foundation">
-    <header>
+  <!-- ── DEVICE FINGERPRINT DEEP DIVE ── -->
+  <section class="hav-section" id="fingerprint" aria-label="Device fingerprint deep dive">
+    <div class="hav-section-head">
+      <h2>Device Identity Fingerprint</h2>
+      <span class="hav-tag hav-tag-blue">How It Works</span>
+    </div>
+
+    <p style="color:var(--hav-muted);font-size:.9rem;line-height:1.7;margin:0 0 4px">
+      A device fingerprint is a stable, unique identifier derived entirely from your browser's
+      environment — no hardware chip, no server call, no cookie. Below are the signals
+      collected on <em>this</em> device right now:
+    </p>
+
+    <div class="hav-fp-grid" id="havFpGrid">
+      <div class="hav-fp-card">
+        <span class="hav-fp-card-label">User Agent</span>
+        <span class="hav-fp-card-value dim" id="fpUA">—</span>
+      </div>
+      <div class="hav-fp-card">
+        <span class="hav-fp-card-label">Screen Resolution</span>
+        <span class="hav-fp-card-value" id="fpScreen">—</span>
+      </div>
+      <div class="hav-fp-card">
+        <span class="hav-fp-card-label">Color Depth</span>
+        <span class="hav-fp-card-value" id="fpColor">—</span>
+      </div>
+      <div class="hav-fp-card">
+        <span class="hav-fp-card-label">Timezone</span>
+        <span class="hav-fp-card-value" id="fpTZ">—</span>
+      </div>
+      <div class="hav-fp-card">
+        <span class="hav-fp-card-label">Language</span>
+        <span class="hav-fp-card-value" id="fpLang">—</span>
+      </div>
+      <div class="hav-fp-card">
+        <span class="hav-fp-card-label">Platform</span>
+        <span class="hav-fp-card-value" id="fpPlatform">—</span>
+      </div>
+    </div>
+
+    <!-- SHA-256 flow -->
+    <div class="hav-section-head" style="margin-bottom:12px">
+      <h2 style="font-size:1.1rem">SHA-256 Transformation</h2>
+      <span class="hav-tag hav-tag-green">Cryptographic Pipeline</span>
+    </div>
+    <div class="hav-sha-flow" aria-label="SHA-256 hash transformation">
+      <div class="hav-sha-box input">
+        <span class="hav-sha-box-label">Raw Input (signals joined)</span>
+        <span class="hav-sha-box-value" id="shaInput">UA + Screen + Depth + TZ + Lang + Platform</span>
+      </div>
+      <div class="hav-sha-box fn">
+        <span class="hav-sha-box-label">Function</span>
+        <span class="hav-sha-box-value">SHA-256</span>
+      </div>
+      <div class="hav-sha-box output">
+        <span class="hav-sha-box-label">Device ID (64 hex chars)</span>
+        <span class="hav-sha-box-value" id="shaOutput" style="font-size:.62rem">computing…</span>
+      </div>
+    </div>
+
+    <div class="hav-sec-note">
+      <span class="hav-sec-note-icon">⚠️</span>
+      <span>
+        <strong>Device-locked by design.</strong> If you clear browser data, switch browser,
+        or use a different device, a new fingerprint is generated. This is why HDI codes
+        are one-time — they bind identity to a specific device fingerprint at creation time.
+        Vault backups exist for this reason: to safely restore on a new device.
+      </span>
+    </div>
+  </section>
+
+  <!-- ── TOKEN ANATOMY ── -->
+  <section class="hav-section" aria-label="Auth token anatomy">
+    <div class="hav-section-head">
+      <h2>Auth Token Anatomy</h2>
+      <span class="hav-tag hav-tag-blue">ak_auth_token</span>
+    </div>
+    <p style="color:var(--hav-muted);font-size:.9rem;line-height:1.7;margin:0 0 4px">
+      The token stored in <code style="font-size:.82em">sessionStorage</code> (or <code style="font-size:.82em">localStorage</code>
+      when "remember me" is active) is a JSON object with these fields:
+    </p>
+    <div class="hav-token-box">
+      <pre><span class="k">{</span>
+  <span class="s">"username"</span>: <span class="b">"amitky"</span>,          <span style="color:var(--hav-label);font-size:.7em">// display name across all pages</span>
+  <span class="s">"exp"</span>:      <span class="n">1747234567890</span>,    <span style="color:var(--hav-label);font-size:.7em">// Unix ms — checked on every page load</span>
+  <span class="s">"role"</span>:     <span class="b">"owner"</span>,           <span style="color:var(--hav-label);font-size:.7em">// access level (owner / member / guest)</span>
+  <span class="s">"issued"</span>:   <span class="n">1747148167890</span>    <span style="color:var(--hav-label);font-size:.7em">// creation timestamp (audit trail)</span>
+<span class="k">}</span></pre>
+    </div>
+
+    <!-- Session guard flow -->
+    <div class="hav-section-head" style="margin-top:28px;margin-bottom:12px">
+      <h2 style="font-size:1.1rem">Session Guard Flow</h2>
+      <span class="hav-tag hav-tag-orange">requireAuth()</span>
+    </div>
+    <div class="hav-guard-flow" aria-label="Session guard flow diagram">
+      <span class="hav-guard-node gn">Page Load</span>
+      <span class="hav-guard-arrow">→</span>
+      <span class="hav-guard-node gb">Read Token</span>
+      <span class="hav-guard-arrow">→</span>
+      <span class="hav-guard-node gb">Parse JSON</span>
+      <span class="hav-guard-arrow">→</span>
+      <span class="hav-guard-node gn">Check exp</span>
+      <span class="hav-guard-arrow">→</span>
+      <span class="hav-guard-node gg">✓ Valid → Show Page</span>
+      <span style="color:var(--hav-label);font-size:.85rem;padding:0 4px">|</span>
+      <span class="hav-guard-node go">✗ Expired → Login</span>
+    </div>
+  </section>
+
+  <!-- ── FOUNDATION ── -->
+  <section class="hav-section" id="foundation" aria-label="Foundation section">
+    <div class="hav-section-head">
       <h2>What Home Means to Me</h2>
-    </header>
-    <p>
-      Home is where standard is set. Before public work, before business, before
-      digital presence — there is home. The relationships here are the ones that
-      remain honest when nothing else has to be. The structure here is the one
-      that holds when external pressure builds.
-    </p>
-    <p>
-      I have learned more about accountability, patience, communication, and
-      long-term thinking from home than from any formal system. That is not
-      sentiment — it is the foundation of how I work.
-    </p>
+      <span class="hav-tag hav-tag-green">Foundation</span>
+    </div>
+    <div class="hav-direction">
+      <p>
+        Home is where standard is set. Before public work, before business, before
+        digital presence — there is home. The relationships here are the ones that
+        remain honest when nothing else has to be. The structure here is the one
+        that holds when external pressure builds.
+      </p>
+      <p>
+        I have learned more about accountability, patience, communication, and
+        long-term thinking from home than from any formal system. That is not
+        sentiment — it is the foundation of how I work. The discipline required
+        to maintain a secure digital system mirrors the discipline required to
+        maintain a dependable home.
+      </p>
+    </div>
   </section>
 
-  <section class="personal-section" id="core-values">
-    <header>
+  <!-- ── CORE VALUES ── -->
+  <section class="hav-section" id="values" aria-label="Core values">
+    <div class="hav-section-head">
       <h2>Core Values</h2>
-    </header>
-    <div class="life-grid">
-      <article class="life-card glass">
+      <span class="hav-tag hav-tag-green">Non-Negotiable</span>
+    </div>
+    <div class="hav-grid4" style="grid-template-columns:repeat(5,1fr)">
+      <div class="hav-card">
+        <div class="hav-card-icon">⚙️</div>
         <h3>Discipline</h3>
-        <p>Structure is not restriction — it is the foundation of all reliable work.</p>
-      </article>
-      <article class="life-card glass">
+        <p>Structure is not restriction — it is the foundation of all reliable work and trust.</p>
+      </div>
+      <div class="hav-card">
+        <div class="hav-card-icon">🤝</div>
         <h3>Respect</h3>
-        <p>Given to people, to time, and to the work itself — not just to titles.</p>
-      </article>
-      <article class="life-card glass">
+        <p>Given to people, to time, and to the work itself — not just to titles or rank.</p>
+      </div>
+      <div class="hav-card">
+        <div class="hav-card-icon">🛡️</div>
         <h3>Accountability</h3>
-        <p>If something has my name on it, I am responsible for it.</p>
-      </article>
-      <article class="life-card glass">
+        <p>If something has my name on it, I am responsible for it — no exceptions.</p>
+      </div>
+      <div class="hav-card">
+        <div class="hav-card-icon">🌱</div>
         <h3>Service</h3>
         <p>Useful work for real people is more important than visible work for approval.</p>
-      </article>
-      <article class="life-card glass">
+      </div>
+      <div class="hav-card">
+        <div class="hav-card-icon">⏳</div>
         <h3>Patience</h3>
-        <p>Long-term improvement is more trustworthy than short-term attention.</p>
-      </article>
+        <p>Long-term, verifiable improvement is more trustworthy than short-term attention.</p>
+      </div>
     </div>
   </section>
 
-  <section class="personal-section glass">
-    <header>
+  <!-- ── DAILY STRUCTURE ── -->
+  <section class="hav-section" aria-label="Daily structure">
+    <div class="hav-section-head">
       <h2>Daily Structure</h2>
-    </header>
-
-    <ul class="timeline">
-      <li>
+      <span class="hav-tag hav-tag-orange">Routine System</span>
+    </div>
+    <div class="hav-timeline">
+      <div class="hav-tl-block">
+        <span class="hav-tl-time">06:00 – 09:00</span>
         <strong>Morning</strong>
-        <p>Planning, health, physical discipline, and setting the day's priorities clearly.</p>
-      </li>
-      <li>
+        <p>Planning, health, physical discipline, and setting the day's priorities with clarity.</p>
+      </div>
+      <div class="hav-tl-block">
+        <span class="hav-tl-time">09:00 – 17:00</span>
         <strong>Daytime</strong>
         <p>Community engagement, project work, communication, and external coordination.</p>
-      </li>
-      <li>
+      </div>
+      <div class="hav-tl-block">
+        <span class="hav-tl-time">17:00 – 21:00</span>
         <strong>Evening</strong>
-        <p>Review, reading, learning from the day — what worked, what didn't, what to adjust.</p>
-      </li>
-      <li>
+        <p>Review, reading, learning — what worked, what didn't, what needs adjustment.</p>
+      </div>
+      <div class="hav-tl-block">
+        <span class="hav-tl-time">21:00 – 06:00</span>
         <strong>Night</strong>
         <p>Rest with intention — protecting sleep as a non-negotiable system requirement.</p>
-      </li>
-    </ul>
-  </section>
-
-  <section class="personal-section" id="digital-home">
-    <header>
-      <h2>Digital Home Infrastructure</h2>
-    </header>
-    <p>Home in 2026 is also a digital environment. Mine is built around:</p>
-    <div class="life-grid">
-      <article class="life-card glass">
-        <h3>Connectivity</h3>
-        <p>Reliable access for work, learning, research, and family coordination.</p>
-      </article>
-      <article class="life-card glass">
-        <h3>Information System</h3>
-        <p>Organized personal records, project files, and communication channels.</p>
-      </article>
-      <article class="life-card glass">
-        <h3>Privacy &amp; Security</h3>
-        <p>Privacy-first habits, controlled data access, careful handling of personal and professional information.</p>
-      </article>
+      </div>
     </div>
   </section>
 
-  <section class="personal-section glass" id="location">
-    <header>
-      <h2>Location &amp; Environment</h2>
-    </header>
-    <p>
-      Bhagalpur, Bihar, India — the city that is both my origin and my operating base.
-      Working from here is a deliberate choice. The people I serve are here. The
-      community I am part of is here. The context I understand most clearly is here.
+  <!-- ── DIGITAL HOME INFRASTRUCTURE ── -->
+  <section class="hav-section" aria-label="Digital home infrastructure">
+    <div class="hav-section-head">
+      <h2>Digital Home Infrastructure</h2>
+      <span class="hav-tag hav-tag-blue">Security Layer</span>
+    </div>
+    <p style="color:var(--hav-muted);font-size:.9rem;line-height:1.7;margin:0 0 20px">
+      In 2026, home is also a digital environment. The same values that govern the physical
+      home — discipline, privacy, accountability — govern the digital one.
     </p>
-    <p>
-      Strong local roots are not a limitation — they are a competitive advantage
-      for anyone building long-term trust.
-    </p>
+    <div class="hav-grid3">
+      <div class="hav-card">
+        <div class="hav-card-icon">📡</div>
+        <h3>Connectivity</h3>
+        <p>Reliable access for work, learning, research, and family coordination — treated as essential infrastructure.</p>
+      </div>
+      <div class="hav-card">
+        <div class="hav-card-icon">🗂️</div>
+        <h3>Information System</h3>
+        <p>Organized personal records, project files, and communication channels — each in its own structured layer.</p>
+      </div>
+      <div class="hav-card">
+        <div class="hav-card-icon">🔒</div>
+        <h3>Privacy &amp; Security</h3>
+        <p>SHA-256 hashing, AES-GCM vault encryption, device-bound identity, and privacy-first data handling habits.</p>
+      </div>
+    </div>
   </section>
 
+  <!-- ── LOCATION ── -->
+  <section class="hav-section" id="location" aria-label="Location and environment">
+    <div class="hav-section-head">
+      <h2>Location &amp; Environment</h2>
+      <span class="hav-tag hav-tag-orange">Operating Base</span>
+    </div>
+    <div class="hav-location">
+      <div>
+        <p>
+          Bhagalpur, Bihar, India — the city that is both my origin and my operating base.
+          Working from here is a deliberate choice. The people I serve are here.
+          The community I am part of is here. The context I understand most clearly is here.
+        </p>
+        <p>
+          Strong local roots are not a limitation — they are a competitive advantage
+          for anyone building long-term trust. Digital tools extend reach; local depth
+          provides the understanding that makes that reach meaningful.
+        </p>
+      </div>
+      <div class="hav-location-stats">
+        <div class="hav-loc-stat">
+          <span>City</span>
+          <strong>Bhagalpur, Bihar</strong>
+        </div>
+        <div class="hav-loc-stat">
+          <span>Country</span>
+          <strong>India</strong>
+        </div>
+        <div class="hav-loc-stat">
+          <span>Timezone</span>
+          <strong>IST · UTC+5:30</strong>
+        </div>
+        <div class="hav-loc-stat">
+          <span>Work Mode</span>
+          <strong>Local-first, Digital-enabled</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="hav-cta" aria-label="Navigation CTA">
+    <div>
+      <h2>Explore the Full System</h2>
+      <p>
+        The Haven is the security foundation. From here, every private page —
+        Wallet, Vault, Dashboard, Merchant — operates behind the same auth pipeline
+        explained above.
+      </p>
+    </div>
+    <div class="hav-cta-actions">
+      <a class="hav-btn hav-btn-primary" href="/pages/personal.html">HI Life OS</a>
+      <a class="hav-btn hav-btn-outline" href="/pages/vault.html">Open Vault</a>
+    </div>
+  </section>
+
+</div><!-- /hav-page -->
 </main>
 
-<!-- ================= FOOTER ================= -->
 <footer class="site-footer glass" data-footer></footer>
 
-    <button id="backToTop" aria-label="Back to top">
-    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
-  </button>
-  <script src="/js/auth.js?v=auth-otp-1"></script>
-  <script src="/js/profile-renderer.js?v=20260502-pro" defer></script>
-  <script src="/js/footer.js" defer></script>
-  <script src="/js/nav.js" defer></script>
-  <script src="/js/script.js?v=footer-clean-1" defer></script>
-  <script>
-    var _u = document.getElementById("authUserDisplay");
-    if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
-    var _lb = document.getElementById("logoutBtn");
-    if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
-  </script>
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
-  <script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
+<script src="/js/auth.js?v=auth-otp-1"></script>
+<script src="/js/footer.js" defer></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/script.js?v=footer-clean-1" defer></script>
+<script>
+  var _u = document.getElementById("authUserDisplay");
+  if (_u && typeof getAuthUser === "function") _u.textContent = getAuthUser() || "";
+  var _lb = document.getElementById("logoutBtn");
+  if (_lb && typeof logout === "function") _lb.addEventListener("click", logout);
+</script>
+
+<!-- Live device fingerprint + SHA-256 display -->
+<script>
+(function() {
+  /* Collect signals */
+  var ua       = navigator.userAgent || "";
+  var screen_  = (screen.width || 0) + "x" + (screen.height || 0);
+  var depth    = String(screen.colorDepth || "");
+  var tz       = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+  var lang     = navigator.language || "";
+  var platform = navigator.platform || navigator.userAgentData?.platform || "";
+
+  /* Display raw signals */
+  function setText(id, val) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = val || "—";
+  }
+  setText("fpUA",       ua.substring(0, 72) + (ua.length > 72 ? "…" : ""));
+  setText("fpScreen",   screen_);
+  setText("fpColor",    depth + " bit");
+  setText("fpTZ",       tz);
+  setText("fpLang",     lang);
+  setText("fpPlatform", platform);
+
+  /* Show raw input string */
+  var raw = [ua, screen_, depth, tz, lang, platform].join("|");
+  var shaInputEl = document.getElementById("shaInput");
+  if (shaInputEl) shaInputEl.textContent = raw.substring(0, 90) + "…";
+
+  /* SHA-256 via Web Crypto */
+  if (window.crypto && crypto.subtle) {
+    var enc = new TextEncoder();
+    crypto.subtle.digest("SHA-256", enc.encode(raw)).then(function(buf) {
+      var hex = Array.from(new Uint8Array(buf))
+        .map(function(b) { return b.toString(16).padStart(2, "0"); })
+        .join("");
+      var outputEl = document.getElementById("shaOutput");
+      if (outputEl) outputEl.textContent = hex;
+
+      /* Store and display as device ID */
+      var stored = localStorage.getItem("ak_device_id");
+      var deviceId = stored || hex.substring(0, 16) + "…";
+      var el = document.getElementById("havDeviceId");
+      if (el) el.textContent = deviceId.substring(0, 20) + (deviceId.length > 20 ? "…" : "");
+    }).catch(function() {
+      var el = document.getElementById("shaOutput");
+      if (el) el.textContent = "Web Crypto not available in this context";
+    });
+  } else {
+    var el = document.getElementById("shaOutput");
+    if (el) el.textContent = "Web Crypto API not supported";
+  }
+})();
+</script>
+
+<script src="/api-static/jarvis-widget.js?v=20260501-clean-header" data-endpoint="https://jarvis.kingofyadav.in/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
