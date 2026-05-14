@@ -372,8 +372,6 @@
   var _lb = document.getElementById("logoutBtn");
   if (_lb) _lb.addEventListener("click", logout);
 
-  /* API key */
-  if (!hiApiGetKey()) hiApiSetKey("YX9vS6oyQC1RdXJLAhr-GAObhoZzrCKCcleNlTRqN2c");
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", hiApiInit);
   } else {
@@ -382,13 +380,22 @@
 
   /* ── Cloud Registry ── */
   (async function () {
-    var KEY  = "YX9vS6oyQC1RdXJLAhr-GAObhoZzrCKCcleNlTRqN2c";
+    var KEY  = hiApiGetKey();
     var grid = document.getElementById("ipvGrid");
     var all  = [];
     var activeType = "";
     var activeQuery = "";
 
     try {
+      if (!KEY) {
+        var countRes = await fetch("/api/public/license-count", { headers: { "Accept": "application/json" } });
+        var countData = await countRes.json();
+        document.getElementById("statPublished").textContent = Number(countData.count || 0);
+        document.getElementById("statBlogPosts").textContent = "—";
+        grid.innerHTML = '<div class="ipv-empty">Public registry count is available. Private registry details require owner API access.</div>';
+        return;
+      }
+
       var r = await fetch("/api/hi/licenses", { headers: { "Authorization": "Bearer " + KEY } });
       var d = await r.json();
       all = (d.data || []).sort(function(a, b) {

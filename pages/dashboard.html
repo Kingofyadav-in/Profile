@@ -589,7 +589,8 @@
 <script src="/js/script.js?v=dash-2" defer></script>
 <script>
 (async function () {
-  var KEY  = "YX9vS6oyQC1RdXJLAhr-GAObhoZzrCKCcleNlTRqN2c";
+  var KEY  = "";
+  try { KEY = localStorage.getItem("hi_api_key") || ""; } catch(e) {}
   var BASE = "/api/hi";
   var auth = { "Authorization": "Bearer " + KEY };
 
@@ -607,6 +608,7 @@
   Chart.defaults.font.size   = 11;
 
   async function get(path) {
+    if (!KEY) throw new Error("HI API key is not configured in this browser.");
     var r = await fetch(BASE + "/" + path, { headers: auth });
     if (!r.ok) throw new Error(r.status);
     return r.json();
