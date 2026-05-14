@@ -354,6 +354,80 @@ async function hiSaveNoteModal() {
   hiCloseNoteModal();
 }
 
+/* ── Habit Config ── */
+
+function hiOpenHabitModal() {
+  var modal = document.getElementById("hi-habit-modal");
+  if (!modal) return;
+  hiLoadHabitsConfig().then(function(habits) {
+    hiRenderHabitEditor(habits);
+    document.getElementById("hiHabitModalErr").textContent = "";
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  });
+}
+
+function hiCloseHabitModal() {
+  var modal = document.getElementById("hi-habit-modal");
+  if (modal) {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+}
+
+function hiRenderHabitEditor(habits) {
+  var editor = document.getElementById("hi-habit-list-editor");
+  if (!editor) return;
+  editor.innerHTML = habits.map(function(h, i) {
+    return '<div class="hi-habit-edit-row" data-index="' + i + '">' +
+      '<input type="text" class="hi-habit-edit-icon" value="' + hiEsc(h.icon) + '" placeholder="Icon" />' +
+      '<input type="text" class="hi-habit-edit-name" value="' + hiEsc(h.name) + '" placeholder="Habit Name" />' +
+      '<button type="button" class="hi-habit-edit-del" aria-label="Remove">&times;</button>' +
+    '</div>';
+  }).join("");
+
+  editor.querySelectorAll(".hi-habit-edit-del").forEach(function(btn) {
+    btn.onclick = function() { btn.closest(".hi-habit-edit-row").remove(); };
+  });
+}
+
+function hiAddHabitRow() {
+  var editor = document.getElementById("hi-habit-list-editor");
+  if (!editor) return;
+  var div = document.createElement("div");
+  div.className = "hi-habit-edit-row";
+  div.innerHTML = '<input type="text" class="hi-habit-edit-icon" value="✨" placeholder="Icon" />' +
+                  '<input type="text" class="hi-habit-edit-name" value="" placeholder="Habit Name" />' +
+                  '<button type="button" class="hi-habit-edit-del" aria-label="Remove">&times;</button>';
+  div.querySelector(".hi-habit-edit-del").onclick = function() { div.remove(); };
+  editor.appendChild(div);
+  div.querySelector(".hi-habit-edit-name").focus();
+}
+
+async function hiSaveHabitModal() {
+  var editor = document.getElementById("hi-habit-list-editor");
+  var rows   = editor.querySelectorAll(".hi-habit-edit-row");
+  var habits = [];
+  rows.forEach(function(row) {
+    var icon = (row.querySelector(".hi-habit-edit-icon").value || "").trim();
+    var name = (row.querySelector(".hi-habit-edit-name").value || "").trim();
+    if (name) {
+      habits.push({ id: name.toLowerCase().replace(/[^\w]/g, "-"), name: name, icon: icon || "✨" });
+    }
+  });
+
+  if (!habits.length) {
+    document.getElementById("hiHabitModalErr").textContent = "Add at least one habit.";
+    return;
+  }
+
+  await hiPut("personal", { id: "habits-config", habits: habits });
+  hiRenderHabits();
+  hiCloseHabitModal();
+}
+
 /* ── INIT ── */
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -370,6 +444,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var addNoteBtn = document.getElementById("hiAddNoteBtn");
   if (addNoteBtn) addNoteBtn.addEventListener("click", function() { hiOpenNoteModal(null); });
+
+  var configHabitBtn = document.getElementById("hiHabitConfigBtn");
+  if (configHabitBtn) configHabitBtn.addEventListener("click", hiOpenHabitModal);
 
   /* Goal modal */
   var gSave    = document.getElementById("hiGoalModalSave");
@@ -398,7 +475,19 @@ document.addEventListener("DOMContentLoaded", function() {
   if (nClose)   nClose.addEventListener("click", hiCloseNoteModal);
   if (nOverlay) nOverlay.addEventListener("click", function(e) { if (e.target === nOverlay) hiCloseNoteModal(); });
 
+  /* Habit modal */
+  var hSave    = document.getElementById("hiHabitModalSave");
+  var hCancel  = document.getElementById("hiHabitModalCancel");
+  var hClose   = document.getElementById("hiHabitModalClose");
+  var hAdd     = document.getElementById("hiHabitAddRowBtn");
+  var hOverlay = document.getElementById("hi-habit-modal");
+  if (hSave)    hSave.addEventListener("click", hiSaveHabitModal);
+  if (hCancel)  hCancel.addEventListener("click", hiCloseHabitModal);
+  if (hClose)   hClose.addEventListener("click", hiCloseHabitModal);
+  if (hAdd)     hAdd.addEventListener("click", hiAddHabitRow);
+  if (hOverlay) hOverlay.addEventListener("click", function(e) { if (e.target === hOverlay) hiCloseHabitModal(); });
+
   document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape") { hiCloseGoalModal(); hiCloseNoteModal(); }
+    if (e.key === "Escape") { hiCloseGoalModal(); hiCloseNoteModal(); hiCloseHabitModal(); }
   });
 });

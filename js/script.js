@@ -1010,6 +1010,9 @@ function initEnquiryForm() {
     };
 
     try {
+      const submitBtn = this.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+
       const response = await fetch("https://formspree.io/f/xwvaodjy", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -1017,14 +1020,18 @@ function initEnquiryForm() {
       });
 
       if (response.ok) {
-        alert("Enquiry submitted. I'll reply within 24–48 hours.");
-        this.reset();
-        closeEnquiry();
+        if (submitBtn) submitBtn.textContent = "Sent ✓";
+        setTimeout(() => {
+          this.reset();
+          closeEnquiry();
+          if (submitBtn) { submitBtn.textContent = "Send Message"; submitBtn.disabled = false; }
+        }, 2000);
       } else {
-        alert("Submission failed. Please email kingofyadav.in@gmail.com directly.");
+        if (submitBtn) { submitBtn.textContent = "Failed. Email directly."; submitBtn.disabled = false; }
       }
     } catch {
-      alert("Network error. Please email kingofyadav.in@gmail.com directly.");
+      const submitBtn = this.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.textContent = "Error. Email directly."; submitBtn.disabled = false; }
     }
   });
 }

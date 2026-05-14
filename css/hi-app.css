@@ -3411,3 +3411,53 @@ body.theme-light .hi-hdi-claims {
     max-width: 1280px;
   }
 }
+
+/* Habit Editor */
+.hi-habit-list-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.hi-habit-edit-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: rgba(255,255,255,0.05);
+  padding: 8px;
+  border-radius: 8px;
+}
+.hi-habit-edit-icon {
+  width: 50px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+.hi-habit-edit-name {
+  flex: 1;
+}
+.hi-habit-edit-del {
+  background: none;
+  border: none;
+  color: #ff4444;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 8px;
+  line-height: 1;
+}
+.hi-btn-add-inline {
+  width: 100%;
+  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  border: 1px dashed rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hi-btn-add-inline:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: #fff;
+}

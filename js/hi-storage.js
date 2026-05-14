@@ -137,8 +137,7 @@ function hiPut(store, item) {
       req.onerror  = function() { reject(req.error); };
     });
   }).then(function(result) {
-    hiFallbackPut(store, item).catch(function() {});
-    return result;
+    return hiFallbackPut(store, item).then(function() { return result; }).catch(function() { return result; });
   }).catch(function() {
     return hiFallbackPut(store, item);
   });

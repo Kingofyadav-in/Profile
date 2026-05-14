@@ -646,7 +646,10 @@
   <div class="hi-tab-content" data-tab="personal">
 
     <section class="personal-section">
-      <h2>Habits Today</h2>
+      <div class="pd-section-head">
+        <h2>Habits Today</h2>
+        <button type="button" class="pd-add-btn" id="hiHabitConfigBtn">Configure</button>
+      </div>
       <div id="hi-habits-grid" class="hi-habits-grid"></div>
     </section>
 
@@ -688,8 +691,8 @@
       <div class="personal-actions">
         <a href="/pages/hi-license.html" class="life-card glass">&#x1F5AA; My License &amp; HDI</a>
         <a href="/pages/wallet.html" class="life-card glass">HI Wallet &amp; Coin</a>
+        <a href="/pages/dashboard.html" class="life-card glass">HDI Life Monitor</a>
         <a href="/pages/login.html?next=%2Fpages%2Fpersonal.html" class="life-card glass">Login / Setup</a>
-        <a href="http://127.0.0.1:8501" class="life-card glass" target="_blank" rel="noopener noreferrer">Jarvis Control</a>
       </div>
     </section>
 
@@ -857,6 +860,28 @@
   </div>
 </div>
 
+<!-- Habits Configuration -->
+<div id="hi-habit-modal" class="hi-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="hiHabitModalTitle">
+  <div class="hi-modal">
+    <div class="hi-modal-header">
+      <h3 id="hiHabitModalTitle">Configure Habits</h3>
+      <button class="hi-modal-close" id="hiHabitModalClose">&#x2715;</button>
+    </div>
+    <div class="hi-modal-body">
+      <p class="hi-modal-intro">Manage your daily discipline habits. Your AI assistant uses these to track your progress.</p>
+      <div id="hi-habit-list-editor" class="hi-habit-list-editor">
+        <!-- js/hi-personal.js -->
+      </div>
+      <button type="button" class="hi-btn-add-inline" id="hiHabitAddRowBtn">+ Add New Habit</button>
+      <div id="hiHabitModalErr" class="hi-modal-err"></div>
+    </div>
+    <div class="hi-modal-footer">
+      <button class="hi-btn-cancel" id="hiHabitModalCancel">Cancel</button>
+      <button class="hi-btn-primary" id="hiHabitModalSave">Save Configuration</button>
+    </div>
+  </div>
+</div>
+
 <!-- Project -->
 <div id="hi-project-modal" class="hi-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="hiProjectModalTitle">
   <div class="hi-modal">
@@ -961,6 +986,7 @@
 <script src="/js/hi-professional.js?v=hi-1"  defer></script>
 <script src="/js/hi-social.js?v=hi-1"        defer></script>
 <script src="/js/hi-context.js?v=hi-1"       defer></script>
+<script src="/js/hi-search.js?v=hi-1"        defer></script>
 <script src="/js/hi-assistant.js?v=hi-1"    defer></script>
 <script src="/js/hi-license.js?v=hi-1"       defer></script>
 <script src="/js/personal-data.js?v=hi-1"    defer></script>

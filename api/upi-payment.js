@@ -18,11 +18,6 @@ module.exports = async function handler(req, res) {
   console.log(JSON.stringify({
     event: isQuote ? "order_quote_request" : "upi_payment_received",
     orderId: body.orderId,
-    planLabel: body.planLabel || "",
-    amount: body.amount || "",
-    customerName: body.customerName || "",
-    utr: body.utr || "",
-    upiId: body.upiId || "",
     ts: new Date().toISOString()
   }));
 

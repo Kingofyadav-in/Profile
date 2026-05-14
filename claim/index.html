@@ -275,8 +275,11 @@
     var contact       = document.getElementById('fContact').value.trim();
     var btn           = document.getElementById('submitBtn');
 
+    var errDiv = document.getElementById('dmcaText'); // We can reuse this or add a new span. Let's just update button text for simplicity like we did in script.js.
+
     if (!licenseId || !infrUrl || !email) {
-      alert('Please fill in License ID, Infringing URL, and your Email.');
+      btn.textContent = 'Missing Required Fields';
+      setTimeout(function() { btn.textContent = 'Submit Claim'; }, 2000);
       return;
     }
 
@@ -299,9 +302,9 @@
       document.getElementById('successSection').classList.add('show');
       btn.style.display = 'none';
     } catch (err) {
-      alert('Error: ' + err.message);
+      btn.textContent = 'Error: ' + err.message;
       btn.disabled = false;
-      btn.textContent = 'Generate DMCA Notice & Submit';
+      setTimeout(function() { btn.textContent = 'Submit Claim'; }, 3000);
     }
   });
 }());

@@ -214,10 +214,28 @@ async function hiSendMessage(userText) {
   if (sendBtn) sendBtn.disabled = true;
   hiAutoResizeInput();
 
+  /* Local RAG: Retrieve context from Vault */
+  var searchContext = "";
+  if (typeof window.hiSearch === "function") {
+    try {
+      var results = await window.hiSearch(userText);
+      if (results && results.length) {
+        searchContext = "\n\n--- LOCAL VAULT SEARCH RESULTS ---\n";
+        results.forEach(function(r) {
+          searchContext += "[" + r.type + "] " + r.title + (r.date ? " (" + r.date.split("T")[0] + ")" : "") + "\n" + r.snippet + "...\n\n";
+        });
+      }
+    } catch (e) {
+      console.warn("Search failed", e);
+    }
+  }
+
   /* Build the message — inject context on first message of session */
   var messageToSend = userText;
   if (_hiContextLoaded && _hiContextStr && _hiChatHistory.length === 0) {
-    messageToSend = _hiContextStr + "\n\nUser question: " + userText;
+    messageToSend = _hiContextStr + searchContext + "\n\nUser question: " + userText;
+  } else if (searchContext) {
+    messageToSend = searchContext + "User question: " + userText;
   }
 
   hiAppendMessage("user", userText);  /* show clean text to user */

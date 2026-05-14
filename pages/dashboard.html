@@ -87,6 +87,19 @@
       font-size: .72rem;
     }
 
+    .dm-refresh-btn {
+      background: none;
+      border: none;
+      color: var(--dm-muted);
+      cursor: pointer;
+      display: flex;
+      padding: 4px;
+      margin-left: 8px;
+      transition: color .2s, transform .2s;
+    }
+    .dm-refresh-btn:hover { color: var(--brand-green); transform: rotate(30deg); }
+    .dm-refresh-btn:active { transform: rotate(180deg); }
+
     /* ── Main wrap ── */
     .dm-wrap {
       max-width: 1440px;
@@ -345,6 +358,8 @@
       color: var(--text-color);
     }
 
+    .dm-habit-icon { font-size: 1.1rem; flex-shrink: 0; }
+
     .dm-habit-dots { display: flex; gap: 3px; flex-shrink: 0; }
 
     .dm-habit-dot {
@@ -446,6 +461,9 @@
     LIVE
   </div>
   <span class="dm-statusbar-title">HDI Life Monitor</span>
+  <button type="button" class="dm-refresh-btn" onclick="location.reload()" title="Refresh Data">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"></path></svg>
+  </button>
   <span class="dm-statusbar-ts" id="dmLastRefresh">Connecting…</span>
 </div>
 
@@ -599,6 +617,11 @@
 <script src="/js/nav.js?v=2" defer></script>
 <script src="/js/footer.js" defer></script>
 <script src="/js/script.js?v=dash-2" defer></script>
+
+<script src="/js/hi-storage.js?v=hi-1"></script>
+<script src="/js/hi-personal.js?v=hi-1"></script>
+<script src="/js/hi-app.js?v=hi-1"></script>
+
 <script>
 (async function () {
   var KEY  = "";
@@ -607,7 +630,6 @@
   var auth = { "Authorization": "Bearer " + KEY };
 
   var isDark = document.body.classList.contains("theme-dark");
-
   var GREEN  = "#046A38";
   var ORANGE = "#FF671F";
   var PURPLE = "#a855f7";
@@ -619,38 +641,89 @@
   Chart.defaults.font.family = "system-ui, -apple-system, sans-serif";
   Chart.defaults.font.size   = 11;
 
-  if (!KEY) {
-    document.getElementById("dmError").innerHTML =
-      '<div class="dm-error dm-locked"><strong>Private Life Monitor</strong>This dashboard is locked to the owner browser. Public website services remain online.</div>';
-    document.getElementById("dmLastRefresh").textContent = "Private dashboard locked";
-    document.getElementById("habitsStats").innerHTML = '<span class="dm-loading">Owner access required.</span>';
-    return;
-  }
-
   async function get(path) {
     var r = await fetch(BASE + "/" + path, { headers: auth });
     if (!r.ok) throw new Error(r.status);
     return r.json();
   }
 
-  function lineOpts(min, max, multi) {
-    return {
-      responsive: true,
-      plugins: { legend: { display: !!multi, labels: { color: LABEL, boxWidth: 10 } } },
-      scales: {
-        y: { min: min, max: max, grid: { color: GRID }, ticks: { color: LABEL } },
-        x: { grid: { display: false }, ticks: { color: LABEL } }
-      }
-    };
+  async function getLocalMetrics() {
+    if (typeof hiGetAll !== "function") return null;
+    try {
+      await hiOpenDB();
+      var [goals, tasks, moodRecords, habits, personalAll] = await Promise.all([
+        hiGetAll("personal").then(all => (all||[]).filter(r => r.type === "goal")),
+        hiGetAll("tasks"),
+        hiGetAll("personal").then(all => (all||[]).filter(r => r.id && r.id.startsWith("mood-"))),
+        hiLoadHabitsConfig ? hiLoadHabitsConfig() : [],
+        hiGetAll("personal")
+      ]);
+
+      var today = new Date().toISOString().slice(0, 10);
+      var activeGoals = (goals||[]).filter(g => g.status !== "completed");
+      var goalAvg = activeGoals.length ? Math.round(activeGoals.reduce((s, g) => s + (Number(g.progress) || 0), 0) / activeGoals.length) : 0;
+      
+      var taskDone = (tasks||[]).filter(t => t.done).length;
+      var moodAvg = (moodRecords||[]).length ? (moodRecords.reduce((s, m) => s + (m.mood || 0), 0) / moodRecords.length).toFixed(1) : 0;
+      var energyAvg = (moodRecords||[]).length ? (moodRecords.reduce((s, m) => s + (m.energy || 0), 0) / moodRecords.length).toFixed(1) : 0;
+
+      var habitLogs = (personalAll||[]).filter(r => r.id && r.id.startsWith("habits-"));
+      var todayHabitRecord = habitLogs.find(r => r.date === today);
+      var checks = todayHabitRecord ? (todayHabitRecord.checks || {}) : {};
+      var doneCount = (habits||[]).filter(h => !!checks[h.id]).length;
+
+      return {
+        hdi: { hdi: 75, grade: "A", breakdown: { goals: goalAvg, habits: Math.round((doneCount/Math.max(1,(habits||[]).length))*100), mood: Math.round(moodAvg*10), energy: Math.round(energyAvg*10), tasks: Math.round((taskDone/Math.max(1,(tasks||[]).length))*100) } },
+        mood: { data: (moodRecords||[]).map(m => ({ logged_on: m.date, mood: m.mood, energy: m.energy })) },
+        goals: { data: activeGoals },
+        habits: { habits: (habits||[]), logs: habitLogs.flatMap(r => Object.keys(r.checks || {}).filter(k => r.checks[k]).map(k => ({ habit_id: k, completed_on: r.date }))) },
+        tasks: { data: tasks }
+      };
+    } catch (e) { console.error("Local fallback failed", e); return null; }
   }
 
-  try {
-    var [hdiRes, moodRes, goalsRes, habitsRes, tasksRes] = await Promise.all([
-      get("hdi"), get("mood"), get("goals"), get("habits"), get("tasks")
-    ]);
+  async function init() {
+    var data = null;
+    var isLocal = false;
 
+    if (KEY) {
+      try {
+        var [hdiRes, moodRes, goalsRes, habitsRes, tasksRes] = await Promise.all([
+          get("hdi"), get("mood"), get("goals"), get("habits"), get("tasks")
+        ]);
+        data = { hdi: hdiRes.data, mood: moodRes, goals: goalsRes, habits: habitsRes, tasks: tasksRes };
+      } catch (e) { console.warn("API failed, trying local fallback..."); }
+    }
+
+    if (!data) {
+      data = await getLocalMetrics();
+      if (data) isLocal = true;
+    }
+
+    if (!data) {
+      document.getElementById("dmError").innerHTML = 
+        '<div class="dm-error dm-locked">' +
+          '<strong>Private Life Monitor Locked</strong>' +
+          '<p>This dashboard requires a server-side API connection. To unlock:</p>' +
+          '<ul style="margin: 10px 0 0 18px; font-size: 0.8rem; line-height: 1.4;">' +
+            '<li>Set <code>HI_API_KEY</code> in your environment variables.</li>' +
+            '<li>Add that same key to your browser localStorage as <code>hi_api_key</code>.</li>' +
+          '</ul>' +
+        '</div>';
+      return;
+    }
+
+    if (isLocal) {
+      document.getElementById("dmError").innerHTML = '<div class="dm-error dm-locked" style="background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.22); color: #a855f7;"><strong>Local-First Mode Active</strong>Showing metrics from your browser vault. Connect to server for cloud sync.</div>';
+      document.getElementById("dmLastRefresh").textContent = "Running on Local Vault";
+    }
+
+    render(data);
+  }
+
+  function render(res) {
     /* ── HDI ── */
-    var hdi   = hdiRes.data || {};
+    var hdi   = res.hdi || {};
     var score = hdi.hdi || 0;
     var grade = hdi.grade || "?";
     var bd    = hdi.breakdown || {};
@@ -686,7 +759,7 @@
     }).join("");
 
     /* ── Mood & Energy ── */
-    var moods      = (moodRes.data || []).slice().reverse();
+    var moods      = (res.mood.data || []).slice().reverse();
     var mLabels    = moods.map(function (m) { return m.logged_on ? m.logged_on.slice(5,10) : ""; });
     var moodVals   = moods.map(function (m) { return m.mood; });
     var energyVals = moods.map(function (m) { return m.energy; });
@@ -697,6 +770,17 @@
     document.getElementById("kpiEnergy").textContent   = energyAvg;
     document.getElementById("moodBadge").textContent   = "avg " + moodAvg;
     document.getElementById("energyBadge").textContent = "avg " + energyAvg;
+
+    function lineOpts(min, max, multi) {
+      return {
+        responsive: true,
+        plugins: { legend: { display: !!multi, labels: { color: LABEL, boxWidth: 10 } } },
+        scales: {
+          y: { min: min, max: max, grid: { color: GRID }, ticks: { color: LABEL } },
+          x: { grid: { display: false }, ticks: { color: LABEL } }
+        }
+      };
+    }
 
     new Chart(document.getElementById("moodChart"), {
       type: "line",
@@ -727,7 +811,7 @@
     });
 
     /* ── Goals ── */
-    var goals    = (goalsRes.data || []).filter(function (g) { return g.status === "active"; }).slice(0, 8);
+    var goals    = (res.goals.data || []).filter(function (g) { return g.status !== "completed"; }).slice(0, 8);
     var goalsAvg = goals.length
       ? Math.round(goals.reduce(function(a,g){return a+(g.progress||0);},0)/goals.length)
       : 0;
@@ -752,8 +836,8 @@
     });
 
     /* ── Habits ── */
-    var habits    = habitsRes.habits || [];
-    var logs      = habitsRes.logs   || [];
+    var habits    = res.habits.habits || [];
+    var logs      = res.habits.logs   || [];
     var today     = new Date().toISOString().slice(0, 10);
     var doneToday = new Set(logs
       .filter(function (l) { return l.completed_on && l.completed_on.slice(0,10) === today; })
@@ -767,11 +851,14 @@
     var habitsHtml = habits.map(function (h) {
       var done = doneToday.has(h.id);
       var cnt  = logs.filter(function (l) { return l.habit_id === h.id; }).length;
+      var name = h.title || h.name || "Unnamed Habit";
+      var icon = h.icon || "✨";
       var dots = Array.from({length: 30}, function (_, i) {
         return '<span class="dm-habit-dot' + (i < cnt ? " on" : "") + '"></span>';
       }).join("");
       return '<div class="dm-habit-row">'
-        + '<span class="dm-habit-name">' + (h.title || "").slice(0,36) + '</span>'
+        + '<span class="dm-habit-icon">' + icon + '</span>'
+        + '<span class="dm-habit-name">' + name.slice(0,36) + '</span>'
         + '<div class="dm-habit-dots">' + dots + '</div>'
         + '<span class="dm-habit-status">' + (done ? "✅" : "⬜") + '</span>'
         + '</div>';
@@ -781,7 +868,7 @@
       habitsHtml || '<span class="dm-loading">No habits tracked yet.</span>';
 
     /* ── Tasks ── */
-    var tasks    = tasksRes.data || [];
+    var tasks    = res.tasks.data || [];
     var taskDone = tasks.filter(function (t) { return t.done; }).length;
     var taskOpen = tasks.length - taskDone;
 
@@ -827,15 +914,12 @@
       }
     });
 
-    document.getElementById("dmLastRefresh").textContent =
-      "Last refreshed " + new Date().toLocaleTimeString();
-
-  } catch (e) {
-    console.error(e);
-    document.getElementById("dmError").innerHTML =
-      '<div class="dm-error">Dashboard data is temporarily unavailable.</div>';
-    document.getElementById("dmLastRefresh").textContent = "Dashboard unavailable";
+    if (document.getElementById("dmLastRefresh").textContent.indexOf("Vault") === -1) {
+      document.getElementById("dmLastRefresh").textContent = "Last refreshed " + new Date().toLocaleTimeString();
+    }
   }
+
+  init();
 }());
 </script>
 </body>
