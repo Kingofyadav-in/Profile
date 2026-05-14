@@ -128,18 +128,18 @@
 
       <section class="vault-split">
         <article class="vault-panel">
-          <p class="vault-kicker">Recovery Key</p>
-          <h2>Generate a key before export.</h2>
+          <p class="vault-kicker">Recovery Phrase</p>
+          <h2>Generate phrase before export.</h2>
           <p>
-            Your backup needs both passphrase and recovery key. The recovery key is shown for this
+            Your backup needs both passphrase and recovery phrase. The phrase is shown for this
             session; keep it offline. The app stores only a hash for status.
           </p>
-          <code class="vault-key" id="vaultRecoveryKey">Generate a recovery key</code>
+          <code class="vault-key" id="vaultRecoveryKey">Generate a recovery phrase</code>
           <div class="vault-actions">
             <button class="vault-action primary" id="vaultGenerateKey" type="button">
-              Generate Key
+              Generate Phrase
             </button>
-            <button class="vault-action" id="vaultCopyKey" type="button">Copy Key</button>
+            <button class="vault-action" id="vaultCopyKey" type="button">Copy Phrase</button>
           </div>
           <p class="vault-status" id="vaultKeyStatus" aria-live="polite"></p>
         </article>
@@ -195,10 +195,10 @@
               />
             </div>
             <div class="vault-field">
-              <label for="vaultImportRecoveryKey">Recovery key</label>
+              <label for="vaultImportRecoveryKey">Recovery phrase</label>
               <textarea
                 id="vaultImportRecoveryKey"
-                placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"
+                placeholder="twelve words or more"
                 required
               ></textarea>
             </div>
@@ -227,8 +227,9 @@
 
     <script src="/js/footer.js" defer></script>
   <script src="/js/nav.js" defer></script>
-  <script src="/js/script.js?v=footer-clean-1" defer></script>
+    <script src="/js/script.js?v=footer-clean-1" defer></script>
     <script src="/js/hi-storage.js?v=hi-vault-1"></script>
+    <script src="/js/hi-identity-crypto.js?v=phase-1a" defer></script>
     <script src="/js/hi-app.js?v=hi-1" defer></script>
     <script src="/js/hi-vault.js?v=hi-vault-1" defer></script>
     <script>

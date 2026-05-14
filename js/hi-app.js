@@ -99,13 +99,34 @@ async function hiGenerateHDI(name) {
 /* ── Identity ── */
 
 async function hiLoadIdentity() {
-  try { return await hiGet("identity", HI_IDENTITY_ID); }
+  try {
+    var identity = await hiGet("identity", HI_IDENTITY_ID);
+    if (identity && typeof hiCryptoEnsureIdentityKey === "function" && !identity.identityPublicKey) {
+      return await hiSaveIdentity(identity);
+    }
+    return identity;
+  }
   catch (e) { return null; }
 }
 
 async function hiSaveIdentity(data) {
-  if (!data.hdi && data.name) {
+  var cryptoKey = null;
+  if (typeof hiCryptoEnsureIdentityKey === "function") {
+    cryptoKey = await hiCryptoEnsureIdentityKey(data);
+  }
+  if (cryptoKey && cryptoKey.hdi) {
+    if (data.hdi && data.hdi !== cryptoKey.hdi && !data.legacyHdi) {
+      data.legacyHdi = data.hdi;
+      data.migratedToCryptoHdiAt = Date.now();
+    }
+    data.hdi = cryptoKey.hdi;
+    data.identityKeyVersion = cryptoKey.version;
+    data.identityAlgorithm = cryptoKey.algorithm;
+    data.identityPublicKey = cryptoKey.publicKeySpki;
+    data.hdiMode = "public-key-derived";
+  } else if (!data.hdi && data.name) {
     data.hdi = await hiGenerateHDI(data.name);
+    data.hdiMode = "legacy-device-derived";
   }
   data.id        = HI_IDENTITY_ID;
   data.updatedAt = Date.now();

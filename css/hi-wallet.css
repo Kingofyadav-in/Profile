@@ -378,6 +378,21 @@ body.theme-dark .wlt-field label { color: rgba(255,255,255,.55); }
   transition: border-color .18s, box-shadow .18s;
 }
 
+.wlt-field textarea {
+  width: 100%;
+  min-height: 110px;
+  padding: .75rem .9rem;
+  border: 1px solid rgba(128,128,128,.2);
+  border-radius: 10px;
+  background: rgba(128,128,128,.07);
+  color: inherit;
+  font: inherit;
+  font-size: .88rem;
+  outline: none;
+  resize: vertical;
+  transition: border-color .18s, box-shadow .18s;
+}
+
 .wlt-field select {
   padding-right: 36px;
   appearance: none;
@@ -392,13 +407,15 @@ body.theme-dark .wlt-field label { color: rgba(255,255,255,.55); }
 }
 
 .wlt-field input:focus,
-.wlt-field select:focus {
+.wlt-field select:focus,
+.wlt-field textarea:focus {
   border-color: rgba(4,106,56,.5);
   box-shadow: 0 0 0 3px rgba(4,106,56,.12);
 }
 
 body.theme-dark .wlt-field input,
-body.theme-dark .wlt-field select { background-color: rgba(255,255,255,.055); }
+body.theme-dark .wlt-field select,
+body.theme-dark .wlt-field textarea { background-color: rgba(255,255,255,.055); }
 
 body.theme-dark .wlt-field select option { color: #f7f7f7; background: #111; }
 body.theme-light .wlt-field select option { color: #111; background: #fff; }
@@ -437,6 +454,95 @@ body.theme-dark .wlt-form-note { color: rgba(255,255,255,.4); }
 
 .wallet-status.error { color: #ff6b6b; }
 .wallet-status.success { color: var(--brand-green); }
+
+/* ── Security + devices ── */
+.wlt-security-state {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: .65rem;
+  margin-top: 1rem;
+}
+
+.wlt-security-state div,
+.wlt-device-row {
+  padding: .85rem .95rem;
+  border: 1px solid rgba(128,128,128,.14);
+  border-radius: 10px;
+  background: rgba(128,128,128,.055);
+}
+
+.wlt-security-state span,
+.wlt-device-row span {
+  display: block;
+  margin-bottom: .25rem;
+  color: var(--brand-orange);
+  font-size: .62rem;
+  font-weight: 850;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.wlt-security-state strong,
+.wlt-device-row strong {
+  font-size: .82rem;
+}
+
+.wlt-device-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin: 1rem 0;
+}
+
+.wlt-device-list {
+  display: grid;
+  gap: .65rem;
+}
+
+.wlt-device-row {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: .75rem;
+  align-items: center;
+}
+
+.wlt-device-row code {
+  display: block;
+  max-width: 100%;
+  margin-top: .2rem;
+  color: var(--text-muted);
+  font-size: .68rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wlt-device-row button {
+  min-height: 34px;
+  padding: .35rem .75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(128,128,128,.2);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.wlt-recovery-phrase {
+  display: block;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px dashed rgba(128,128,128,.22);
+  background: rgba(128,128,128,.04);
+  white-space: normal;
+  line-height: 1.65;
+  word-break: break-word;
+  font-size: .86rem;
+  color: var(--text-muted);
+}
 
 /* ── Binding grid ── */
 .wlt-binding-grid {
@@ -633,6 +739,7 @@ body.theme-dark .wallet-empty { color: rgba(255,255,255,.4); }
   .wlt-hero { grid-template-columns: 1fr; }
   .wlt-card { max-width: 420px; }
   .wlt-grid { grid-template-columns: 1fr; }
+  .wlt-security-state { grid-template-columns: 1fr; }
   .wlt-principles { grid-template-columns: repeat(2,1fr); }
   .wlt-layer-grid { grid-template-columns: repeat(2,1fr); }
 }
@@ -643,6 +750,7 @@ body.theme-dark .wallet-empty { color: rgba(255,255,255,.4); }
   .wlt-principles { grid-template-columns: 1fr; }
   .wlt-binding-grid { grid-template-columns: 1fr; }
   .wlt-layer-grid { grid-template-columns: 1fr; }
+  .wlt-device-row { grid-template-columns: 1fr; }
   .wallet-tx { grid-template-columns: 1fr; }
   .wallet-tx-amount { text-align: left; }
 }

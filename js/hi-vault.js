@@ -6,7 +6,7 @@
    Depends on: auth.js, hi-storage.js, hi-app.js
 ====================================================== */
 
-var HI_VAULT_STORE_LIST = ["identity", "wallet", "merchant", "marketplace", "licenses", "personal", "professional", "social", "tasks"];
+var HI_VAULT_STORE_LIST = ["identity", "identityKeys", "deviceTrust", "wallet", "merchant", "marketplace", "licenses", "personal", "professional", "social", "tasks"];
 var HI_VAULT_META_ID = "primary";
 var HI_VAULT_ITERATIONS = 250000;
 
@@ -50,6 +50,9 @@ function hiVaultRandomBytes(length) {
 }
 
 function hiVaultRecoveryKey() {
+  if (typeof hiCryptoGenerateRecoveryPhrase === "function") {
+    return hiCryptoGenerateRecoveryPhrase(12);
+  }
   var alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   var bytes = hiVaultRandomBytes(24);
   var chars = [];
@@ -235,19 +238,19 @@ async function hiVaultInit() {
       recoveryKeyCreatedAt: Date.now()
     });
     await hiVaultRender(identity);
-    hiVaultStatus("vaultKeyStatus", "Recovery key generated. Store it offline before exporting backup.", "success");
+    hiVaultStatus("vaultKeyStatus", "Recovery phrase generated. Store it offline before exporting backup.", "success");
   });
 
   var copyBtn = document.getElementById("vaultCopyKey");
   if (copyBtn) copyBtn.addEventListener("click", async function() {
     var key = document.getElementById("vaultRecoveryKey");
-    if (!key || !key.textContent || key.textContent === "Generate a recovery key") {
-      hiVaultStatus("vaultKeyStatus", "Generate a recovery key first.", "error");
+    if (!key || !key.textContent || key.textContent === "Generate a recovery phrase") {
+      hiVaultStatus("vaultKeyStatus", "Generate a recovery phrase first.", "error");
       return;
     }
     try {
       await navigator.clipboard.writeText(key.textContent);
-      hiVaultStatus("vaultKeyStatus", "Recovery key copied.", "success");
+      hiVaultStatus("vaultKeyStatus", "Recovery phrase copied.", "success");
     } catch (e) {
       hiVaultStatus("vaultKeyStatus", "Copy failed. Select and copy the key manually.", "error");
     }
@@ -265,8 +268,8 @@ async function hiVaultInit() {
       hiVaultStatus("vaultExportStatus", "Use a passphrase with at least 8 characters.", "error");
       return;
     }
-    if (!recoveryKey || recoveryKey === "Generate a recovery key") {
-      hiVaultStatus("vaultExportStatus", "Generate a recovery key before exporting.", "error");
+    if (!recoveryKey || recoveryKey === "Generate a recovery phrase") {
+      hiVaultStatus("vaultExportStatus", "Generate a recovery phrase before exporting.", "error");
       return;
     }
     try {
@@ -316,7 +319,7 @@ async function hiVaultInit() {
       await hiVaultRender(await hiLoadIdentity());
       hiVaultStatus("vaultImportStatus", "Restored " + restored + " records into IndexedDB offline cache.", "success");
     } catch (err) {
-      hiVaultStatus("vaultImportStatus", "Import failed. Check file, passphrase, and recovery key.", "error");
+      hiVaultStatus("vaultImportStatus", "Import failed. Check file, passphrase, and recovery phrase.", "error");
     }
   });
 }

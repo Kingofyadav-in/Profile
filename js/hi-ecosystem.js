@@ -71,6 +71,31 @@ function hiEcoStatus(id, message, type) {
   el.className = "ecosystem-status" + (type ? " " + type : "");
 }
 
+async function hiEcoSecurityState(identity, wallet) {
+  if (typeof hiWalletCurrentSecurityState === "function") {
+    return await hiWalletCurrentSecurityState(identity, wallet);
+  }
+  return {
+    trusted: true,
+    canUse: !!(identity && wallet)
+  };
+}
+
+async function hiEcoBuildReceipt(identity, wallet, payload) {
+  var receipt = {
+    createdAt: new Date().toISOString(),
+    identityHdi: identity && identity.hdi ? identity.hdi : "",
+    merchantHdi: "",
+    deviceTrustId: wallet && wallet.currentDeviceTrustId ? wallet.currentDeviceTrustId : "",
+    trustScore: wallet && typeof hiWalletTrustScore === "function" ? hiWalletTrustScore(identity, wallet) : 0,
+    payload: payload
+  };
+  if (typeof hiCryptoSignPayload === "function") {
+    receipt.signatureProof = await hiCryptoSignPayload(receipt.payload);
+  }
+  return receipt;
+}
+
 function hiEcoSlug(value) {
   return String(value || "")
     .trim()
@@ -163,8 +188,11 @@ function hiEcoRenderMerchant(merchant) {
     var d = new Date(payment.createdAt || Date.now()).toLocaleString("en-IN", {
       day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
     });
+    var proofState = payment.signedReceipt && payment.signedReceipt.signature ? "Signed receipt" : "Local log";
+    var proofHash = payment.signedReceipt && payment.signedReceipt.signature ? String(payment.signedReceipt.signature).slice(0, 14) : "";
     return '<article class="ecosystem-row"><div><strong>' + hiEsc(payment.customer || "Customer") + '</strong><small>' +
-      hiEsc(d + " - " + (payment.status || "SIMULATED_SETTLED")) + '</small></div><div class="ecosystem-amount">+' +
+      hiEsc(d + " - " + (payment.status || "SIMULATED_SETTLED")) + '</small><small>' +
+      hiEsc(proofState + (proofHash ? " · " + proofHash : "")) + '</small></div><div class="ecosystem-amount">+' +
       hiEsc(payment.amountHi) + ' HI</div></article>';
   }).join("");
 }
@@ -180,6 +208,15 @@ async function hiEcoInitMerchant() {
   var merchant = await hiEcoLoadMerchant();
   hiEcoRenderMerchant(merchant);
 
+  async function merchantSecurityGate(statusId) {
+    var security = await hiEcoSecurityState(state.identity, state.wallet);
+    if (!security.canUse) {
+      hiEcoStatus(statusId, "Unlock and trust the identity key before merchant actions.", "error");
+      return null;
+    }
+    return security;
+  }
+
   var form = document.getElementById("merchantOnboardForm");
   if (form) form.addEventListener("submit", async function(e) {
     e.preventDefault();
@@ -192,6 +229,8 @@ async function hiEcoInitMerchant() {
       hiEcoStatus("merchantStatus", "Enter a merchant name.", "error");
       return;
     }
+    var security = await merchantSecurityGate("merchantStatus");
+    if (!security) return;
     merchant = merchant || { payments: [] };
     merchant.name = name;
     merchant.category = categoryEl ? categoryEl.value : "Service";
@@ -211,6 +250,8 @@ async function hiEcoInitMerchant() {
   if (payForm) payForm.addEventListener("submit", async function(e) {
     e.preventDefault();
     hiEcoStatus("merchantPaymentStatus", "", "");
+    var security = await merchantSecurityGate("merchantPaymentStatus");
+    if (!security) return;
     if (!merchant || !merchant.merchantHdi) {
       hiEcoStatus("merchantPaymentStatus", "Create merchant profile first.", "error");
       return;
@@ -223,17 +264,31 @@ async function hiEcoInitMerchant() {
       return;
     }
     merchant.payments = Array.isArray(merchant.payments) ? merchant.payments : [];
-    merchant.payments.push({
-      id: "mp_" + hiGenId(),
+    var receiptPayload = {
+      type: "merchant-payment",
+      merchantHdi: merchant.merchantHdi,
+      merchantName: merchant.name,
       customer: customerEl && customerEl.value.trim() ? customerEl.value.trim() : state.identity.hdi,
       amountHi: amount,
       status: "SIMULATED_SETTLED",
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      trustScore: state.wallet ? hiWalletTrustScore(state.identity, state.wallet) : 0
+    };
+    var receipt = await hiEcoBuildReceipt(state.identity, state.wallet, receiptPayload);
+    merchant.payments.push({
+      id: "mp_" + hiGenId(),
+      customer: receiptPayload.customer,
+      amountHi: amount,
+      status: "SIMULATED_SETTLED",
+      createdAt: receiptPayload.createdAt,
+      trustScore: receiptPayload.trustScore,
+      signedReceipt: receipt.signatureProof || null,
+      receiptPayload: receiptPayload
     });
     merchant = await hiEcoSaveMerchant(merchant);
     if (amountEl) amountEl.value = "";
     hiEcoRenderMerchant(merchant);
-    hiEcoStatus("merchantPaymentStatus", "Merchant payment recorded. No real INR moved.", "success");
+    hiEcoStatus("merchantPaymentStatus", receipt.signatureProof ? "Merchant payment recorded with signed receipt." : "Merchant payment recorded. No real INR moved.", "success");
   });
 }
 
@@ -272,12 +327,21 @@ async function hiEcoInitMarketplace() {
 
   var wallet = state.wallet;
   hiEcoRenderMarketplace(state.identity, wallet);
+  var security = await hiEcoSecurityState(state.identity, wallet);
+  if (!security.canUse) {
+    hiEcoStatus("marketplaceStatus", "Unlock and trust the identity key before marketplace payments.", "error");
+  }
 
   var grid = document.getElementById("marketplaceGrid");
   if (grid) grid.addEventListener("click", async function(e) {
     var btn = e.target.closest("[data-market-service]");
     if (!btn) return;
     hiEcoStatus("marketplaceStatus", "", "");
+    var paymentSecurity = await hiEcoSecurityState(state.identity, wallet);
+    if (!paymentSecurity.canUse) {
+      hiEcoStatus("marketplaceStatus", "Unlock and trust the identity key before marketplace payments.", "error");
+      return;
+    }
     var service = HI_MARKETPLACE_SERVICES.filter(function(item) { return item.id === btn.getAttribute("data-market-service"); })[0];
     if (!service) return;
     var isReward = service.hi < 0;
@@ -286,6 +350,16 @@ async function hiEcoInitMarketplace() {
       hiEcoStatus("marketplaceStatus", "Insufficient HI balance for this service payment.", "error");
       return;
     }
+    var receiptPayload = {
+      type: isReward ? "service-reward" : "service-payment",
+      serviceId: service.id,
+      serviceTitle: service.title,
+      amountHi: amount,
+      direction: isReward ? "credit" : "debit",
+      createdAt: Date.now(),
+      trustScore: hiWalletTrustScore(state.identity, wallet)
+    };
+    var receipt = await hiEcoBuildReceipt(state.identity, wallet, receiptPayload);
     wallet = await hiWalletAddTransaction(state.identity, wallet, {
       type: isReward ? "Service Economy Reward" : "Service Marketplace Payment",
       direction: isReward ? "credit" : "debit",
@@ -294,7 +368,7 @@ async function hiEcoInitMarketplace() {
       note: isReward ? "Earned through HI service economy" : "Prototype HI service payment"
     });
     hiEcoRenderMarketplace(state.identity, wallet);
-    hiEcoStatus("marketplaceStatus", isReward ? "Reward added to your HI ledger." : "Service payment recorded in your HI ledger.", "success");
+    hiEcoStatus("marketplaceStatus", receipt.signatureProof ? (isReward ? "Reward added with signed proof." : "Service payment recorded with signed proof.") : (isReward ? "Reward added to your HI ledger." : "Service payment recorded in your HI ledger."), "success");
   });
 
   var earnForm = document.getElementById("marketEarnForm");
@@ -317,7 +391,7 @@ async function hiEcoInitMarketplace() {
     });
     if (amountEl) amountEl.value = "";
     hiEcoRenderMarketplace(state.identity, wallet);
-    hiEcoStatus("marketEarnStatus", "Contribution reward saved to your ledger.", "success");
+    hiEcoStatus("marketEarnStatus", "Contribution reward saved to your ledger with the current trust state.", "success");
   });
 }
 

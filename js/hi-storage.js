@@ -7,9 +7,9 @@
 ====================================================== */
 
 const HI_DB_NAME    = "hi_app";
-const HI_DB_VERSION = 4;
+const HI_DB_VERSION = 5;
 const HI_STORES     = ["identity","personal","professional","social","chat","tasks","licenses","wallet"];
-HI_STORES.push("merchant", "marketplace", "vault");
+HI_STORES.push("merchant", "marketplace", "vault", "identityKeys", "deviceTrust");
 
 var _hiDb = null;
 var _hiDbUnavailable = false;

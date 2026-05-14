@@ -58,6 +58,7 @@
     <p>HI coin generation unlocks only after your Human Digital Identity is saved. The wallet binds coins to your HDI and this browser device identity.</p>
     <div class="wlt-action-row" style="margin-top:1.25rem">
       <a class="wlt-btn primary" href="/pages/personal.html#create-identity">Create Identity</a>
+      <a class="wlt-btn" href="/pages/vault.html#vaultImportForm">Restore Backup</a>
       <a class="wlt-btn" href="/pages/hi-license.html">IP Vault</a>
     </div>
   </div>
@@ -139,6 +140,76 @@
     <div><span>Value</span><strong>Earned, not traded</strong></div>
     <div><span>Phase 1</span><strong>Prototype only</strong></div>
   </div>
+
+  <section class="wlt-grid">
+    <article class="wlt-panel wlt-security-panel">
+      <p class="wlt-kicker">Key Security</p>
+      <h2>Unlock identity key.</h2>
+      <div class="wlt-security-state">
+        <div><span>Private Key</span><strong id="walletKeyProtection">Checking</strong></div>
+        <div><span>Session</span><strong id="walletKeySession">Locked</strong></div>
+        <div><span>Risk</span><strong id="walletRiskState">Checking</strong></div>
+      </div>
+      <form id="walletSecurityForm" class="wlt-form">
+        <div class="wlt-field">
+          <label for="walletPassphrase">Wallet passphrase</label>
+          <input id="walletPassphrase" type="password" minlength="8" autocomplete="current-password" placeholder="Minimum 8 characters" required />
+        </div>
+        <div class="wlt-action-row">
+          <button class="wlt-submit" id="walletProtectKey" type="button">Protect Key</button>
+          <button class="wlt-submit" id="walletUnlockKey" type="submit">Unlock</button>
+          <button class="wlt-btn" id="walletLockKey" type="button">Lock</button>
+        </div>
+        <p class="wallet-status" id="walletSecurityStatus" aria-live="polite"></p>
+      </form>
+    </article>
+
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Known Devices</p>
+      <h2>Trust this environment.</h2>
+      <div class="wlt-device-actions">
+        <button class="wlt-btn primary" id="walletTrustDevice" type="button">Trust Current Device</button>
+        <button class="wlt-btn" id="walletRefreshDevices" type="button">Refresh</button>
+      </div>
+      <div id="walletDeviceList" class="wlt-device-list"></div>
+      <p class="wallet-status" id="walletDeviceStatus" aria-live="polite"></p>
+    </article>
+  </section>
+
+  <section class="wlt-grid">
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Recovery Phrase</p>
+      <h2>Generate root backup words.</h2>
+      <p>Use this phrase with your backup passphrase to restore the same identity on a new device.</p>
+      <code id="walletRecoveryPhrase" class="wlt-recovery-phrase">Generate a recovery phrase</code>
+      <div class="wlt-device-actions">
+        <button class="wlt-btn primary" id="walletGenerateRecoveryPhrase" type="button">Generate Phrase</button>
+        <button class="wlt-btn" id="walletCopyRecoveryPhrase" type="button">Copy Phrase</button>
+      </div>
+      <p class="wallet-status" id="walletRecoveryStatus" aria-live="polite"></p>
+    </article>
+
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Restore</p>
+      <h2>Recover identity from backup.</h2>
+      <form id="walletRestoreForm" class="wlt-form">
+        <div class="wlt-field">
+          <label for="walletRestoreFile">HI Vault backup</label>
+          <input id="walletRestoreFile" type="file" accept=".json,.hivault,.hivault.json,application/json" required />
+        </div>
+        <div class="wlt-field">
+          <label for="walletRestorePassphrase">Backup passphrase</label>
+          <input id="walletRestorePassphrase" type="password" autocomplete="current-password" required />
+        </div>
+        <div class="wlt-field">
+          <label for="walletRestoreRecoveryPhrase">Recovery phrase</label>
+          <textarea id="walletRestoreRecoveryPhrase" placeholder="twelve words or more" required></textarea>
+        </div>
+        <button class="wlt-submit" type="submit">Restore Identity + Vault</button>
+        <p class="wallet-status" id="walletRestoreStatus" aria-live="polite"></p>
+      </form>
+    </article>
+  </section>
 
   <!-- GRID: Genesis + Identity -->
   <section class="wlt-grid">
@@ -291,7 +362,9 @@
 <script src="/js/nav.js" defer></script>
 <script src="/js/script.js?v=footer-clean-1" defer></script>
 <script src="/js/hi-storage.js?v=hi-wallet-1"></script>
+<script src="/js/hi-identity-crypto.js?v=phase-1a" defer></script>
 <script src="/js/hi-app.js?v=hi-1" defer></script>
+<script src="/js/hi-vault.js?v=hi-vault-1" defer></script>
 <script src="/js/hi-wallet.js?v=wallet-pro-1" defer></script>
 </body>
 </html>
