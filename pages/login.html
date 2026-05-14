@@ -44,6 +44,9 @@ if (isAuthenticated()) {
 }
 </script>
 
+<div class="auth-orb auth-orb--1" aria-hidden="true"></div>
+<div class="auth-orb auth-orb--2" aria-hidden="true"></div>
+
 <main class="auth-shell" aria-labelledby="authTitle">
 
 <section class="auth-intro" aria-label="Personal section overview">
@@ -55,10 +58,10 @@ if (isAuthenticated()) {
     </div>
   </a>
 
-  <p class="auth-kicker">HI Access</p>
-  <h1 id="authTitle">Enter the private workspace.</h1>
+  <p class="auth-kicker">Internet Door</p>
+  <h1 id="authTitle">Your door to the internet.</h1>
   <p class="auth-copy">
-    Sign in to manage identity records, private tools, wallet data, and local admin controls from one protected browser session.
+    One protected gateway to your identity, tools, wallet, and private workspace. Only you hold the key.
   </p>
 
   <div class="auth-access-grid" aria-label="Access features">
@@ -112,6 +115,12 @@ if (isAuthenticated()) {
   <!-- LOGIN PANEL -->
   <div class="auth-panel active" id="panel-login" role="tabpanel" aria-labelledby="tab-login">
 
+    <!-- Lockout countdown (shown when rate limited) -->
+    <div class="auth-lockout" id="lockoutDisplay" style="display:none;" role="alert" aria-live="polite">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span>Locked out. Try again in <strong class="auth-lockout-time" id="lockoutCountdown">15:00</strong></span>
+    </div>
+
     <!-- Hint shown when no account exists yet -->
     <div class="auth-hint" id="noAccountHint" style="display:none;">
       <span>No local admin yet?</span>
@@ -148,6 +157,7 @@ if (isAuthenticated()) {
       </label>
 
       <button type="submit" class="auth-submit" id="loginBtn">Login</button>
+      <div class="auth-attempts" id="loginAttempts" aria-live="polite"></div>
       <div class="auth-status" id="loginStatus" role="alert" aria-live="polite"></div>
 
     </form>
@@ -169,13 +179,16 @@ if (isAuthenticated()) {
 
     <form id="otpVerifyForm" class="auth-otp-verify" novalidate autocomplete="one-time-code" hidden>
       <div class="auth-field">
-        <label for="otp-code">Enter OTP</label>
-        <input id="otp-code" name="otp" type="text"
-          placeholder="6 digit code"
-          inputmode="numeric"
-          autocomplete="one-time-code"
-          maxlength="9"
-          spellcheck="false" required />
+        <label>Enter OTP</label>
+        <div class="otp-grid" id="otpGrid" role="group" aria-label="6-digit OTP code">
+          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="one-time-code" id="otp-code-0" aria-label="Digit 1" />
+          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-1" aria-label="Digit 2" />
+          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-2" aria-label="Digit 3" />
+          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-3" aria-label="Digit 4" />
+          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-4" aria-label="Digit 5" />
+          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-5" aria-label="Digit 6" />
+        </div>
+        <input type="hidden" id="otp-code" name="otp" />
       </div>
       <button type="submit" class="auth-submit" id="otpVerifyBtn">Verify & Continue</button>
       <button type="button" class="auth-link-btn" id="otpChangePhoneBtn">Change number</button>
@@ -509,7 +522,8 @@ otpRequestForm.addEventListener("submit", function(e) {
     setStatus("otpStatus", "OTP sent. Check your phone.", "success");
     otpRequestForm.hidden = true;
     otpVerifyForm.hidden = false;
-    otpCodeInput.focus();
+    var firstDigit = document.getElementById("otp-code-0");
+    if (firstDigit) firstDigit.focus();
   }).catch(function(err) {
     setStatus("otpStatus", err.message || "Could not send OTP.", "error");
   }).finally(function() {
@@ -540,10 +554,117 @@ otpVerifyForm.addEventListener("submit", function(e) {
 otpChangePhoneBtn.addEventListener("click", function() {
   otpVerifyForm.hidden = true;
   otpRequestForm.hidden = false;
+  document.querySelectorAll(".otp-digit").forEach(function(d) { d.value = ""; d.classList.remove("filled"); });
   otpCodeInput.value = "";
   setStatus("otpStatus", "", "");
   otpPhoneInput.focus();
 });
+
+/* ── OTP digit grid ── */
+(function() {
+  var digits = Array.from(document.querySelectorAll(".otp-digit"));
+  var hiddenCode = document.getElementById("otp-code");
+
+  function syncHidden() {
+    if (hiddenCode) hiddenCode.value = digits.map(function(d) { return d.value; }).join("");
+  }
+
+  digits.forEach(function(input, i) {
+    input.addEventListener("input", function() {
+      input.value = input.value.replace(/\D/g, "").slice(-1);
+      input.classList.toggle("filled", input.value !== "");
+      syncHidden();
+      if (input.value && i < digits.length - 1) digits[i + 1].focus();
+      if (digits.every(function(d) { return d.value !== ""; })) {
+        setTimeout(function() {
+          otpVerifyForm.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+        }, 150);
+      }
+    });
+
+    input.addEventListener("keydown", function(e) {
+      if (e.key === "Backspace" && !input.value && i > 0) {
+        digits[i - 1].value = "";
+        digits[i - 1].classList.remove("filled");
+        digits[i - 1].focus();
+        syncHidden();
+      }
+      if (e.key === "ArrowLeft"  && i > 0)              digits[i - 1].focus();
+      if (e.key === "ArrowRight" && i < digits.length - 1) digits[i + 1].focus();
+    });
+
+    input.addEventListener("paste", function(e) {
+      e.preventDefault();
+      var pasted = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "");
+      pasted.slice(0, 6).split("").forEach(function(ch, j) {
+        if (digits[i + j]) { digits[i + j].value = ch; digits[i + j].classList.add("filled"); }
+      });
+      var nextEmpty = digits.findIndex(function(d) { return !d.value; });
+      (nextEmpty !== -1 ? digits[nextEmpty] : digits[digits.length - 1]).focus();
+      syncHidden();
+    });
+
+    input.addEventListener("focus", function() { input.select(); });
+  });
+})();
+
+/* ── Lockout countdown ── */
+(function() {
+  var lockoutDisplay = document.getElementById("lockoutDisplay");
+  var countdownEl    = document.getElementById("lockoutCountdown");
+  if (!lockoutDisplay || !countdownEl) return;
+
+  function fmt(ms) {
+    var s = Math.max(0, Math.ceil(ms / 1000));
+    return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2);
+  }
+
+  function update() {
+    try {
+      var raw = sessionStorage.getItem("ak_login_attempts");
+      if (!raw) { lockoutDisplay.style.display = "none"; return; }
+      var data = JSON.parse(raw);
+      if (data.attempts < 5) { lockoutDisplay.style.display = "none"; return; }
+      var remaining = data.resetAt - Date.now();
+      if (remaining <= 0) {
+        lockoutDisplay.style.display = "none";
+        sessionStorage.removeItem("ak_login_attempts");
+        clearInterval(timer);
+        return;
+      }
+      countdownEl.textContent = fmt(remaining);
+      lockoutDisplay.style.display = "flex";
+    } catch(e) { lockoutDisplay.style.display = "none"; }
+  }
+
+  update();
+  var timer = setInterval(update, 1000);
+})();
+
+/* ── Attempt counter ── */
+(function() {
+  var attemptsEl = document.getElementById("loginAttempts");
+  if (!attemptsEl) return;
+
+  function updateCounter() {
+    try {
+      var raw = sessionStorage.getItem("ak_login_attempts");
+      if (!raw) { attemptsEl.textContent = ""; attemptsEl.className = "auth-attempts"; return; }
+      var data = JSON.parse(raw);
+      if (Date.now() > data.resetAt || data.attempts === 0) { attemptsEl.textContent = ""; attemptsEl.className = "auth-attempts"; return; }
+      var left = Math.max(0, 5 - data.attempts);
+      if (left >= 5) { attemptsEl.textContent = ""; attemptsEl.className = "auth-attempts"; return; }
+      attemptsEl.textContent = left + " of 5 attempts remaining";
+      attemptsEl.className = "auth-attempts" +
+        (left === 0 ? " danger" : left <= 2 ? " warn" : " visible");
+    } catch(e) {}
+  }
+
+  updateCounter();
+  document.getElementById("loginForm").addEventListener("submit", function() {
+    setTimeout(updateCounter, 600);
+  });
+})();
 
 /* ── SIGN UP FORM ── */
 document.getElementById("signupForm").addEventListener("submit", function(e) {
