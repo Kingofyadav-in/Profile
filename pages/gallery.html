@@ -14,7 +14,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Gallery | Amit Ku Yadav" />
   <meta property="og:description" content="A curated photo gallery from Amit Ku Yadav's personal visual archive." />
-  <meta property="og:image" content="https://kingofyadav.in/images/gallery/Screenshot_20250511_203439_Snapchat.jpg" />
+  <meta property="og:image" content="https://kingofyadav.in/images/gallery/IMG_20250718_175939_991.converted.jpg" />
   <meta property="og:url" content="https://kingofyadav.in/pages/gallery.html" />
   <meta property="og:site_name" content="Amit Ku Yadav" />
 
@@ -36,12 +36,12 @@
     }
 
     .gallery-hero {
-      min-height: calc(82vh - 80px);
+      min-height: calc(74vh - 80px);
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(320px, 460px);
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
       gap: clamp(28px, 5vw, 70px);
       align-items: center;
-      padding: clamp(54px, 8vw, 112px) 0 clamp(34px, 5vw, 68px);
+      padding: clamp(40px, 7vw, 86px) 0 clamp(30px, 5vw, 56px);
     }
 
     .gallery-hero h1 {
@@ -59,9 +59,9 @@
 
     .gallery-hero-card {
       position: relative;
-      min-height: clamp(460px, 58vw, 620px);
+      min-height: clamp(430px, 52vw, 620px);
       border: 1px solid var(--gallery-border);
-      border-radius: 18px;
+      border-radius: 8px;
       overflow: hidden;
       background:
         radial-gradient(circle at 18% 12%, rgba(255,103,31,.18), transparent 34%),
@@ -76,7 +76,7 @@
       min-height: inherit;
       display: block;
       object-fit: cover;
-      object-position: center top;
+      object-position: center;
       -webkit-mask-image:
         linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
         linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
@@ -101,7 +101,7 @@
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
-      margin-bottom: 42px;
+      margin-bottom: 30px;
     }
 
     .gallery-proof div,
@@ -113,9 +113,9 @@
     }
 
     .gallery-proof div {
-      min-height: 110px;
-      padding: 18px;
-      border-radius: 12px;
+      min-height: 92px;
+      padding: 14px;
+      border-radius: 8px;
     }
 
     .gallery-proof span,
@@ -137,7 +137,7 @@
     }
 
     .gallery-section {
-      padding: clamp(34px, 6vw, 78px) 0;
+      padding: clamp(26px, 5vw, 58px) 0;
     }
 
     .gallery-section-head {
@@ -153,19 +153,19 @@
 
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
     }
 
     .gallery-card {
       overflow: hidden;
-      border-radius: 14px;
+      border-radius: 8px;
     }
 
     .gallery-card figure {
       position: relative;
       margin: 0;
-      aspect-ratio: 3 / 4;
+      aspect-ratio: 4 / 5;
       overflow: hidden;
       background: var(--gallery-soft);
     }
@@ -184,18 +184,18 @@
     }
 
     .gallery-card-content {
-      padding: 18px;
+      padding: 12px;
     }
 
     .gallery-card h3 {
-      margin: 0 0 8px;
-      font-size: 1.05rem;
+      margin: 0 0 5px;
+      font-size: .92rem;
     }
 
     .gallery-card p {
       margin: 0;
-      font-size: .92rem;
-      line-height: 1.58;
+      font-size: .76rem;
+      line-height: 1.45;
     }
 
     .gallery-feature {
@@ -204,7 +204,7 @@
       gap: 18px;
       align-items: stretch;
       padding: clamp(18px, 3vw, 28px);
-      border-radius: 16px;
+      border-radius: 8px;
       background:
         linear-gradient(135deg, rgba(4,106,56,.13), rgba(255,103,31,.09)),
         var(--card-bg);
@@ -212,7 +212,7 @@
 
     .gallery-feature-media {
       min-height: 360px;
-      border-radius: 14px;
+      border-radius: 8px;
       overflow: hidden;
       background: rgba(128,128,128,.08);
     }
@@ -252,6 +252,153 @@
       font-weight: 800;
     }
 
+    .gallery-rail {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .gallery-rail img {
+      width: 100%;
+      aspect-ratio: 1;
+      display: block;
+      object-fit: cover;
+      border: 1px solid var(--gallery-border);
+      border-radius: 8px;
+      background: var(--gallery-soft);
+    }
+
+    .gallery-card-button {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .gallery-card-button:focus-visible {
+      outline: 2px solid var(--brand-green);
+      outline-offset: 3px;
+    }
+
+    .gallery-card.is-tall {
+      grid-row: span 2;
+    }
+
+    .gallery-card.is-wide {
+      grid-column: span 2;
+    }
+
+    .gallery-card.is-wide figure {
+      aspect-ratio: 16 / 10;
+    }
+
+    .gallery-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(14px, 3vw, 36px);
+      background: rgba(0,0,0,.88);
+      backdrop-filter: blur(14px);
+    }
+
+    .gallery-lightbox.open {
+      display: flex;
+    }
+
+    .gallery-lightbox-inner {
+      position: relative;
+      width: min(1120px, 100%);
+      max-height: 92vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .gallery-lightbox-media {
+      min-height: 0;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255,255,255,.05);
+    }
+
+    .gallery-lightbox-media img {
+      width: 100%;
+      height: min(92vh, 780px);
+      display: block;
+      object-fit: contain;
+    }
+
+    .gallery-lightbox-panel {
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 8px;
+      background: rgba(12,12,12,.78);
+      color: #fff;
+      align-self: start;
+    }
+
+    .gallery-lightbox-panel span {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--brand-orange);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .gallery-lightbox-panel h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .gallery-lightbox-panel p {
+      margin: 0;
+      color: rgba(255,255,255,.7);
+      font-size: .82rem;
+      line-height: 1.55;
+    }
+
+    .gallery-lightbox-close,
+    .gallery-lightbox-nav {
+      position: absolute;
+      z-index: 2;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      background: rgba(0,0,0,.58);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .gallery-lightbox-close {
+      top: -12px;
+      right: -12px;
+      width: 38px;
+      height: 38px;
+      font-size: 1.2rem;
+    }
+
+    .gallery-lightbox-nav {
+      top: 50%;
+      width: 40px;
+      height: 50px;
+      transform: translateY(-50%);
+      font-size: 1.4rem;
+    }
+
+    .gallery-lightbox-prev { left: 10px; }
+    .gallery-lightbox-next { right: 284px; }
+
     body.theme-dark .gallery-page p {
       color: #aaa;
     }
@@ -268,6 +415,18 @@
 
       .gallery-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .gallery-rail {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .gallery-lightbox-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-lightbox-next {
+        right: 10px;
       }
     }
 
@@ -290,11 +449,25 @@
         grid-template-columns: 1fr;
       }
 
+      .gallery-card.is-wide,
+      .gallery-card.is-tall {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
       .gallery-hero-card,
       .gallery-hero-card img,
       .gallery-feature-media,
       .gallery-feature-media img {
         min-height: 420px;
+      }
+
+      .gallery-lightbox {
+        padding: 10px;
+      }
+
+      .gallery-lightbox-panel {
+        padding: 12px;
       }
     }
   </style>
@@ -328,10 +501,10 @@
   <section class="gallery-hero">
     <div>
       <p class="hero-label">VISUAL ARCHIVE</p>
-      <h1>Gallery of digital work.</h1>
+      <h1>Gallery of personal moments.</h1>
       <p>
-        A clean visual archive from the local gallery collection, presented with
-        the same light and dark theme language used across kingofyadav.in.
+        A sharper visual archive from the dedicated gallery folder, arranged as
+        a polished portrait collection with clean browsing and full-image viewing.
       </p>
       <div class="hero-actions">
         <a href="#gallery-library" class="btn-primary">Explore Gallery</a>
@@ -339,34 +512,43 @@
       </div>
     </div>
     <figure class="gallery-hero-card" aria-label="Featured gallery photo">
-      <img src="/images/gallery/Screenshot_20250511_203439_Snapchat.jpg" alt="Featured portrait from Amit Ku Yadav gallery" />
+      <img src="/images/gallery/IMG_20250718_175939_991.converted.jpg" alt="Featured portrait from Amit Ku Yadav gallery" />
     </figure>
   </section>
 
   <section class="gallery-proof" aria-label="Gallery focus">
-    <div><span>Theme</span><strong>Personal</strong></div>
+    <div><span>Photos</span><strong>12</strong></div>
+    <div><span>Source</span><strong>Local</strong></div>
     <div><span>Format</span><strong>Portrait</strong></div>
-    <div><span>Archive</span><strong>Gallery</strong></div>
-    <div><span>Style</span><strong>Clean</strong></div>
+    <div><span>Viewer</span><strong>Full</strong></div>
   </section>
 
   <section class="gallery-section">
     <article class="gallery-feature">
       <div class="gallery-feature-media">
-        <img src="/images/gallery/Screenshot_20250511_203646_Snapchat.jpg" alt="Second portrait from Amit Ku Yadav gallery" loading="lazy" />
+        <img src="/images/gallery/IMG_20250718_175940_099.converted.jpg" alt="Second featured portrait from Amit Ku Yadav gallery" loading="lazy" />
       </div>
       <div class="gallery-feature-copy">
-        <span class="gallery-section-label">Featured Photo</span>
-        <h2>Personal gallery, polished for the website.</h2>
+        <span class="gallery-section-label">Featured Set</span>
+        <h2>A complete local archive, upgraded for web.</h2>
         <p>
-          The gallery now uses the images from the dedicated local gallery
-          folder, with portrait framing, depth, and responsive spacing.
+          The page now uses every browser-ready image from the gallery folder,
+          including converted JPEG copies for the phone photos that were stored
+          as HEIC files.
         </p>
         <div class="gallery-tags" aria-label="Gallery categories">
           <span>Portrait</span>
           <span>Personal</span>
           <span>Archive</span>
           <span>Gallery</span>
+        </div>
+        <div class="gallery-rail" aria-label="Gallery preview strip">
+          <img src="/images/gallery/Screenshot_20250511_203439_Snapchat.jpg" alt="Gallery preview portrait" loading="lazy" />
+          <img src="/images/gallery/cf1d78dbf928c2ea8056f67e69818593.jpg" alt="Gallery preview portrait" loading="lazy" />
+          <img src="/images/gallery/63939ef317e5de5fb080b6724808a6cd.jpg" alt="Gallery preview portrait" loading="lazy" />
+          <img src="/images/gallery/3447e2a493aab93ed1066fe2d96e7791.jpg" alt="Gallery preview portrait" loading="lazy" />
+          <img src="/images/gallery/a08527dfb3502b4572931982940bcc65.jpg" alt="Gallery preview portrait" loading="lazy" />
+          <img src="/images/gallery/f1b4f59e874689769cc888bc1b557a85.jpg" alt="Gallery preview portrait" loading="lazy" />
         </div>
       </div>
     </article>
@@ -375,21 +557,85 @@
   <section class="gallery-section" id="gallery-library" aria-label="Gallery library">
     <header class="gallery-section-head">
       <span class="gallery-section-label">Library</span>
-      <h2>Curated visuals</h2>
+      <h2>Curated visual archive</h2>
       <p>
-        Selected images from the dedicated gallery folder, arranged with
-        consistent portrait cards and site-matched visual depth.
+        Twelve images from the dedicated gallery folder, arranged for fast
+        scanning on desktop and clean single-column browsing on mobile.
       </p>
     </header>
 
     <div class="gallery-grid">
-      <article class="gallery-card">
-        <figure><img src="/images/gallery/Screenshot_20250511_203439_Snapchat.jpg" alt="Portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
-        <div class="gallery-card-content"><span>Photo 01</span><h3>Gallery Portrait</h3><p>Local gallery image framed for a clean website presentation.</p></div>
+      <article class="gallery-card is-tall">
+        <button class="gallery-card-button" type="button" data-gallery-index="0">
+          <figure><img src="/images/gallery/IMG_20250718_175939_991.converted.jpg" alt="Portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 01</span><h3>July Portrait</h3><p>High-resolution phone portrait converted for stable web display.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card is-tall">
+        <button class="gallery-card-button" type="button" data-gallery-index="1">
+          <figure><img src="/images/gallery/IMG_20250718_175940_099.converted.jpg" alt="Second portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 02</span><h3>July Portrait</h3><p>Second high-resolution phone portrait prepared as JPEG.</p></div>
+        </button>
       </article>
       <article class="gallery-card">
-        <figure><img src="/images/gallery/Screenshot_20250511_203646_Snapchat.jpg" alt="Second portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
-        <div class="gallery-card-content"><span>Photo 02</span><h3>Gallery Portrait</h3><p>Second local gallery image with matching responsive portrait layout.</p></div>
+        <button class="gallery-card-button" type="button" data-gallery-index="2">
+          <figure><img src="/images/gallery/Screenshot_20250511_203439_Snapchat.jpg" alt="Snapchat portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 03</span><h3>Snap Portrait</h3><p>Personal portrait from the gallery archive.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card">
+        <button class="gallery-card-button" type="button" data-gallery-index="3">
+          <figure><img src="/images/gallery/Screenshot_20250511_203646_Snapchat.jpg" alt="Second Snapchat portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 04</span><h3>Snap Portrait</h3><p>Second portrait from the saved gallery set.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card">
+        <button class="gallery-card-button" type="button" data-gallery-index="4">
+          <figure><img src="/images/gallery/cf1d78dbf928c2ea8056f67e69818593.jpg" alt="Vertical portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 05</span><h3>Vertical Frame</h3><p>Tall portrait crop with clean card treatment.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card">
+        <button class="gallery-card-button" type="button" data-gallery-index="5">
+          <figure><img src="/images/gallery/63939ef317e5de5fb080b6724808a6cd.jpg" alt="Portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 06</span><h3>Archive Frame</h3><p>Local gallery photo balanced for portrait viewing.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card">
+        <button class="gallery-card-button" type="button" data-gallery-index="6">
+          <figure><img src="/images/gallery/14ea2eb9c92ca18abfffd0c06c43a810.jpg" alt="Personal gallery portrait" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 07</span><h3>Gallery Frame</h3><p>Compact portrait from the imported collection.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card">
+        <button class="gallery-card-button" type="button" data-gallery-index="7">
+          <figure><img src="/images/gallery/a08527dfb3502b4572931982940bcc65.jpg" alt="Personal gallery image" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 08</span><h3>Soft Frame</h3><p>Personal archive image with consistent site depth.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card is-wide">
+        <button class="gallery-card-button" type="button" data-gallery-index="8">
+          <figure><img src="/images/gallery/1a2197335ac6f395557a3445b9443eca.jpg" alt="Square gallery image" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 09</span><h3>Square Frame</h3><p>Square image displayed as a wider feature card.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card">
+        <button class="gallery-card-button" type="button" data-gallery-index="9">
+          <figure><img src="/images/gallery/3447e2a493aab93ed1066fe2d96e7791.jpg" alt="Square portrait from gallery" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 10</span><h3>Square Portrait</h3><p>Balanced square frame from the local folder.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card">
+        <button class="gallery-card-button" type="button" data-gallery-index="10">
+          <figure><img src="/images/gallery/4b0ec8d2e225645d1b5b3f8db2c6c09b.jpg" alt="Square personal gallery image" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 11</span><h3>Archive Square</h3><p>Clean square image from the updated gallery set.</p></div>
+        </button>
+      </article>
+      <article class="gallery-card">
+        <button class="gallery-card-button" type="button" data-gallery-index="11">
+          <figure><img src="/images/gallery/f1b4f59e874689769cc888bc1b557a85.jpg" alt="Compact square gallery image" loading="lazy" /></figure>
+          <div class="gallery-card-content"><span>Photo 12</span><h3>Compact Square</h3><p>Small archive image presented with matching polish.</p></div>
+        </button>
       </article>
     </div>
   </section>
@@ -434,11 +680,92 @@
 
 </main>
 
+<div class="gallery-lightbox" id="galleryLightbox" aria-modal="true" role="dialog" aria-label="Gallery image viewer">
+  <div class="gallery-lightbox-inner">
+    <button class="gallery-lightbox-close" type="button" id="galleryClose" aria-label="Close gallery viewer">×</button>
+    <button class="gallery-lightbox-nav gallery-lightbox-prev" type="button" id="galleryPrev" aria-label="Previous image">‹</button>
+    <div class="gallery-lightbox-media">
+      <img id="galleryLightboxImage" src="/images/gallery/IMG_20250718_175939_991.converted.jpg" alt="Expanded gallery image" />
+    </div>
+    <aside class="gallery-lightbox-panel">
+      <span id="galleryLightboxCount">Photo 01</span>
+      <h3 id="galleryLightboxTitle">July Portrait</h3>
+      <p id="galleryLightboxText">High-resolution phone portrait converted for stable web display.</p>
+    </aside>
+    <button class="gallery-lightbox-nav gallery-lightbox-next" type="button" id="galleryNext" aria-label="Next image">›</button>
+  </div>
+</div>
+
 <footer class="site-footer glass" data-footer></footer>
 
 <button id="backToTop" aria-label="Back to top">
   <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
 </button>
+<script>
+  (function () {
+    var galleryItems = [
+      { src: "/images/gallery/IMG_20250718_175939_991.converted.jpg", title: "July Portrait", text: "High-resolution phone portrait converted for stable web display." },
+      { src: "/images/gallery/IMG_20250718_175940_099.converted.jpg", title: "July Portrait", text: "Second high-resolution phone portrait prepared as JPEG." },
+      { src: "/images/gallery/Screenshot_20250511_203439_Snapchat.jpg", title: "Snap Portrait", text: "Personal portrait from the gallery archive." },
+      { src: "/images/gallery/Screenshot_20250511_203646_Snapchat.jpg", title: "Snap Portrait", text: "Second portrait from the saved gallery set." },
+      { src: "/images/gallery/cf1d78dbf928c2ea8056f67e69818593.jpg", title: "Vertical Frame", text: "Tall portrait crop with clean card treatment." },
+      { src: "/images/gallery/63939ef317e5de5fb080b6724808a6cd.jpg", title: "Archive Frame", text: "Local gallery photo balanced for portrait viewing." },
+      { src: "/images/gallery/14ea2eb9c92ca18abfffd0c06c43a810.jpg", title: "Gallery Frame", text: "Compact portrait from the imported collection." },
+      { src: "/images/gallery/a08527dfb3502b4572931982940bcc65.jpg", title: "Soft Frame", text: "Personal archive image with consistent site depth." },
+      { src: "/images/gallery/1a2197335ac6f395557a3445b9443eca.jpg", title: "Square Frame", text: "Square image displayed as a wider feature card." },
+      { src: "/images/gallery/3447e2a493aab93ed1066fe2d96e7791.jpg", title: "Square Portrait", text: "Balanced square frame from the local folder." },
+      { src: "/images/gallery/4b0ec8d2e225645d1b5b3f8db2c6c09b.jpg", title: "Archive Square", text: "Clean square image from the updated gallery set." },
+      { src: "/images/gallery/f1b4f59e874689769cc888bc1b557a85.jpg", title: "Compact Square", text: "Small archive image presented with matching polish." }
+    ];
+
+    var activeIndex = 0;
+    var lightbox = document.getElementById("galleryLightbox");
+    var image = document.getElementById("galleryLightboxImage");
+    var count = document.getElementById("galleryLightboxCount");
+    var title = document.getElementById("galleryLightboxTitle");
+    var text = document.getElementById("galleryLightboxText");
+
+    function render(index) {
+      activeIndex = (index + galleryItems.length) % galleryItems.length;
+      var item = galleryItems[activeIndex];
+      image.src = item.src;
+      image.alt = item.title + " from Amit Ku Yadav gallery";
+      count.textContent = "Photo " + String(activeIndex + 1).padStart(2, "0");
+      title.textContent = item.title;
+      text.textContent = item.text;
+    }
+
+    function open(index) {
+      render(index);
+      lightbox.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function close() {
+      lightbox.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll("[data-gallery-index]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        open(Number(button.getAttribute("data-gallery-index")) || 0);
+      });
+    });
+
+    document.getElementById("galleryClose").addEventListener("click", close);
+    document.getElementById("galleryPrev").addEventListener("click", function () { render(activeIndex - 1); });
+    document.getElementById("galleryNext").addEventListener("click", function () { render(activeIndex + 1); });
+    lightbox.addEventListener("click", function (event) {
+      if (event.target === lightbox) close();
+    });
+    document.addEventListener("keydown", function (event) {
+      if (!lightbox.classList.contains("open")) return;
+      if (event.key === "Escape") close();
+      if (event.key === "ArrowLeft") render(activeIndex - 1);
+      if (event.key === "ArrowRight") render(activeIndex + 1);
+    });
+  }());
+</script>
 <script src="/js/footer.js" defer></script>
   <script src="/js/nav.js" defer></script>
   <script src="/js/script.js?v=footer-clean-1" defer></script>

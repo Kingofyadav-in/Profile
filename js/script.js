@@ -493,10 +493,169 @@ function initDynamicQuoteBand() {
    GLOBAL PRO FOOTER ENHANCEMENT
 ====================================================== */
 
+const FOOTER_GROUP_SIZE = 9;
+
+const FOOTER_EXTERNAL_LINKS = {
+  "Start Here": [
+    { href: "https://en.wikipedia.org/wiki/Amitabh_Bachchan", label: "Wikipedia", note: "Reference-style knowledge hub" },
+    { href: "https://news.google.com/topstories?hl=en-IN&gl=IN&ceid=IN:en", label: "Top News", note: "Current headlines in India" },
+    { href: "https://www.bbc.com/news/world/asia/india", label: "India News", note: "BBC world coverage" },
+    { href: "https://www.timeanddate.com/worldclock/india", label: "India Time", note: "Current time and calendar" },
+    { href: "https://www.google.com/search?q=weather+Bhagalpur", label: "Weather", note: "Bhagalpur forecast" },
+    { href: "https://www.google.com/maps/place/Bhagalpur,+Bihar", label: "Map", note: "Bhagalpur on Google Maps" },
+    { href: "https://trends.google.com/trends/explore?geo=IN", label: "Trends", note: "What people search in India" },
+    { href: "https://www.youtube.com/results?search_query=digital+identity+india", label: "Video Search", note: "Digital identity videos" },
+    { href: "https://www.reddit.com/search/?q=digital%20identity%20india", label: "Discussions", note: "Public conversations" }
+  ],
+  "HI Ecosystem": [
+    { href: "https://en.wikipedia.org/wiki/Digital_identity", label: "Digital Identity", note: "Wikipedia concept overview" },
+    { href: "https://www.w3.org/TR/did-core/", label: "DID Standard", note: "W3C decentralized identity" },
+    { href: "https://en.wikipedia.org/wiki/Digital_wallet", label: "Digital Wallet", note: "Wallet concept reference" },
+    { href: "https://en.wikipedia.org/wiki/Blockchain", label: "Blockchain", note: "Distributed ledger basics" },
+    { href: "https://www.coindesk.com/", label: "CoinDesk", note: "Crypto and token news" },
+    { href: "https://www.technologyreview.com/", label: "MIT Tech Review", note: "Technology analysis" },
+    { href: "https://www.producthunt.com/", label: "Product Hunt", note: "New tools and products" },
+    { href: "https://github.com/topics/digital-identity", label: "GitHub Topics", note: "Open-source identity projects" },
+    { href: "https://www.npci.org.in/what-we-do/upi/product-overview", label: "UPI", note: "India payment infrastructure" }
+  ],
+  "Identity": [
+    { href: "https://en.wikipedia.org/wiki/Bhagalpur", label: "Bhagalpur", note: "City reference and history" },
+    { href: "https://en.wikipedia.org/wiki/Bihar", label: "Bihar", note: "State reference and context" },
+    { href: "https://www.britannica.com/place/Bhagalpur", label: "Britannica", note: "Bhagalpur reference" },
+    { href: "https://tourism.bihar.gov.in/", label: "Bihar Tourism", note: "Official tourism portal" },
+    { href: "https://www.google.com/search?q=Bhagalpur+news", label: "Local News", note: "Bhagalpur latest updates" },
+    { href: "https://www.google.com/search?q=Bhagalpur+weather", label: "Local Weather", note: "Bhagalpur forecast" },
+    { href: "https://www.openstreetmap.org/search?query=Bhagalpur", label: "OpenStreetMap", note: "Open map reference" },
+    { href: "https://archive.org/", label: "Archive", note: "Public digital archive" },
+    { href: "https://creativecommons.org/licenses/by-nc-nd/4.0/", label: "CC License", note: "License terms reference" }
+  ],
+  "Work With Me": [
+    { href: "https://www.startupindia.gov.in/", label: "Startup India", note: "Official startup portal" },
+    { href: "https://www.mca.gov.in/", label: "MCA India", note: "Company registry portal" },
+    { href: "https://www.india.gov.in/", label: "India Portal", note: "Government services index" },
+    { href: "https://www.reuters.com/business/", label: "Business News", note: "Reuters business coverage" },
+    { href: "https://hbr.org/", label: "HBR", note: "Business and leadership ideas" },
+    { href: "https://www.shopify.com/blog", label: "Commerce Ideas", note: "Store and business learning" },
+    { href: "https://developers.google.com/search/docs", label: "SEO Docs", note: "Google search guidance" },
+    { href: "https://pagespeed.web.dev/", label: "PageSpeed", note: "Check website performance" },
+    { href: "https://www.canva.com/", label: "Canva", note: "Design and content tool" }
+  ]
+};
+
+function normalizeFooterPath(href) {
+  const url = new URL(href, window.location.origin);
+  const path = (url.pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
+  if (url.origin !== window.location.origin) return url.origin + path + url.search;
+  return path;
+}
+
+function isExternalFooterLink(href) {
+  return new URL(href, window.location.origin).origin !== window.location.origin;
+}
+
+function isFooterLinkActive(href) {
+  const current = (window.location.pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
+  const target = normalizeFooterPath(href);
+  if (target === "/") return current === "/" || current === "/index";
+  return current === target || current.startsWith(target + "/");
+}
+
+function getCurrentHeaderLinks() {
+  const nav =
+    document.querySelector("[data-nav]") ||
+    document.querySelector("header nav[aria-label='Main navigation']") ||
+    document.querySelector(".personal-header nav, .header-inner nav");
+  const anchors = nav ? Array.from(nav.querySelectorAll("a[href]")) : [];
+  const links = anchors
+    .map(a => ({
+      href: a.getAttribute("href"),
+      label: a.textContent.replace(/\s+/g, " ").trim()
+    }))
+    .filter(link => link.href && link.label && !link.href.startsWith("#"));
+
+  return links;
+}
+
+function getFooterContext() {
+  const nav = document.querySelector("[data-nav]");
+  const navType = nav ? nav.getAttribute("data-nav") : "";
+  const path = window.location.pathname;
+  const personalPrefixes = [
+    "/pages/personal",
+    "/pages/dashboard",
+    "/pages/about",
+    "/pages/origin",
+    "/pages/haven",
+    "/pages/bhagalpur",
+    "/pages/hi-license",
+    "/pages/wallet",
+    "/pages/vault",
+    "/pages/merchant",
+    "/marketplace"
+  ];
+
+  if (navType === "personal" || personalPrefixes.some(prefix => path.startsWith(prefix))) {
+    return "personal";
+  }
+
+  return "public";
+}
+
+function removeFooterDuplicates(links, hiddenPaths) {
+  return links.filter(link => !hiddenPaths.has(normalizeFooterPath(link.href)));
+}
+
+function fillFooterGroupLinks(title, links, hiddenPaths) {
+  const filtered = removeFooterDuplicates(links, hiddenPaths);
+  const used = new Set(filtered.map(link => normalizeFooterPath(link.href)));
+  const fillers = FOOTER_EXTERNAL_LINKS[title] || [];
+
+  fillers.some(link => {
+    const key = normalizeFooterPath(link.href);
+    if (!used.has(key)) {
+      filtered.push(link);
+      used.add(key);
+    }
+
+    return filtered.length >= FOOTER_GROUP_SIZE;
+  });
+
+  return filtered.slice(0, FOOTER_GROUP_SIZE);
+}
+
+function orderFooterGroups(groups, context) {
+  const order = context === "personal"
+    ? ["Start Here", "Work With Me", "Identity", "HI Ecosystem"]
+    : ["HI Ecosystem", "Identity", "Work With Me", "Start Here"];
+  const rank = new Map(order.map((title, index) => [title, index]));
+  return groups.slice().sort((a, b) => rank.get(a.title) - rank.get(b.title));
+}
+
 function createFooterLink(href, label, note) {
   const a = document.createElement("a");
   a.href = href;
-  a.innerHTML = `<span>${label}</span>${note ? `<small>${note}</small>` : ""}`;
+
+  if (isExternalFooterLink(href)) {
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.classList.add("is-external");
+  }
+
+  if (isFooterLinkActive(href)) {
+    a.classList.add("is-active");
+    a.setAttribute("aria-current", "page");
+  }
+
+  const text = document.createElement("span");
+  text.textContent = label;
+  a.appendChild(text);
+
+  if (note) {
+    const small = document.createElement("small");
+    small.textContent = note;
+    a.appendChild(small);
+  }
+
   return a;
 }
 
@@ -520,84 +679,77 @@ function initProFooter() {
   const footers = document.querySelectorAll(".site-footer");
   if (!footers.length) return;
 
-  const groups = [
+  const footerContext = getFooterContext();
+  const hiddenPaths = new Set(getCurrentHeaderLinks().map(link => normalizeFooterPath(link.href)));
+  hiddenPaths.add(normalizeFooterPath(window.location.href));
+
+  const groups = orderFooterGroups([
     {
-      title: "Website",
+      title: "Start Here",
       links: [
-        { href: "/", label: "Home", note: "Main gateway" },
-        { href: "/pages/blog.html", label: "Blog", note: "Ideas and essays" },
-        { href: "/pages/gallery.html", label: "Gallery", note: "Visual archive" },
-        { href: "/pages/services.html", label: "Services", note: "Work with Amit" },
-        { href: "/pages/contact.html", label: "Contact", note: "Direct enquiry" },
-        { href: "/pages/collaboration.html", label: "Collaboration", note: "Build together" }
+        { href: "/", label: "Home", note: "Main profile and gateway" },
+        { href: "/pages/professional.html", label: "Professional", note: "Career and public profile" },
+        { href: "/pages/social.html", label: "Social", note: "Official channels and updates" },
+        { href: "/pages/live-class.html", label: "Live Class", note: "Classes, sessions, and access" },
+        { href: "/pages/blog.html", label: "Blog", note: "Essays, systems, and ideas" },
+        { href: "/pages/gallery.html", label: "Gallery", note: "Visual proof and archive" }
       ]
     },
     {
       title: "HI Ecosystem",
       links: [
         { href: "/pages/personal.html", label: "HI Life OS", note: "Private command center" },
-        { href: "/pages/wallet.html", label: "HI Wallet", note: "Human trust layer" },
-        { href: "/pages/vault.html", label: "HI Vault", note: "Encrypted backup" },
-        { href: "/pages/merchant.html", label: "Merchant", note: "Payment simulation" },
-        { href: "/marketplace/", label: "Marketplace", note: "Service economy" },
-        { href: "/wallet/", label: "Digital Coin", note: "Value layer concept" }
+        { href: "/pages/dashboard.html", label: "Dashboard", note: "Manage core HI tools" },
+        { href: "/pages/wallet.html", label: "HI Wallet", note: "Human identity wallet" },
+        { href: "/pages/vault.html", label: "HI Vault", note: "Protected digital backup" },
+        { href: "/pages/merchant.html", label: "Merchant", note: "Payment and merchant layer" },
+        { href: "/marketplace/", label: "Marketplace", note: "Service economy gateway" },
+        { href: "/pages/login.html?next=%2Fpages%2Fpersonal.html", label: "Login / Setup", note: "Access or create workspace" },
+        { href: "/wallet/", label: "Digital Coin", note: "Public coin movement page" },
+        { href: "/pages/coin.html", label: "HI Coin", note: "Coin concept and roadmap" }
       ]
     },
     {
       title: "Identity",
       links: [
-        { href: "/pages/about.html", label: "About Me", note: "Profile and work" },
-        { href: "/pages/origin.html", label: "Origin", note: "Roots and story" },
-        { href: "/pages/haven.html", label: "Haven", note: "Private foundation" },
-        { href: "/pages/bhagalpur.html", label: "Bhagalpur", note: "Local signal" },
-        { href: "/pages/social.html", label: "Social", note: "Network links" },
-        { href: "/pages/personal.html#create-identity", label: "Edit Identity", note: "Update your HDI" }
+        { href: "/pages/about.html", label: "About Me", note: "Profile, work, and identity" },
+        { href: "/pages/origin.html", label: "Origin", note: "Roots and personal story" },
+        { href: "/pages/haven.html", label: "Haven", note: "Private foundation page" },
+        { href: "/pages/bhagalpur.html", label: "Bhagalpur", note: "Local identity and presence" },
+        { href: "/pages/hi-license.html", label: "License", note: "Ownership and license proof" },
+        { href: "/verify/", label: "Verify", note: "Check public certificate" },
+        { href: "/claim/", label: "Claim", note: "Report misuse or violation" }
       ]
     },
     {
-      title: "Work",
+      title: "Work With Me",
       links: [
-        { href: "/pages/order.html", label: "Order", note: "Start purchase" },
-        { href: "/pages/professional.html", label: "Professional", note: "Career profile" },
-        { href: "/brands/royal-heritage-resort.html", label: "Royal Heritage", note: "Brand page" },
-        { href: "/brands/national-youth-force.html", label: "National Youth Force", note: "Community brand" },
-        { href: "/brands/jhon-aamit-llp.html", label: "Jhon Aamit LLP", note: "Business brand" },
-        { href: "/pages/hi-license.html", label: "License", note: "Ownership proof" }
+        { href: "/pages/services.html", label: "Services", note: "See available services" },
+        { href: "/pages/contact.html", label: "Contact", note: "Send a direct enquiry" },
+        { href: "/pages/collaboration.html", label: "Collaboration", note: "Build or partner together" },
+        { href: "/pages/order.html", label: "Order", note: "Start a purchase request" },
+        { href: "/brands/royal-heritage-resort.html", label: "Royal Heritage", note: "Hospitality brand page" },
+        { href: "/brands/national-youth-force.html", label: "National Youth Force", note: "Community brand page" },
+        { href: "/brands/jhon-aamit-llp.html", label: "Jhon Aamit LLP", note: "Business brand page" }
       ]
     }
-  ];
+  ].map(group => ({
+    title: group.title,
+    links: fillFooterGroupLinks(group.title, group.links, hiddenPaths)
+  })).filter(group => group.links.length), footerContext);
 
   footers.forEach(footer => {
     if (footer.querySelector(".footer-pro")) return;
 
     const section = document.createElement("section");
     section.className = "footer-pro";
-    section.setAttribute("aria-label", "Website gateway and ecosystem links");
-
-    const head = document.createElement("div");
-    head.className = "footer-pro-head";
-    head.innerHTML =
-      '<div>' +
-        '<p class="footer-pro-kicker">KingOfYadav.in</p>' +
-        '<h2>Identity, services, writing, and HI ecosystem in one place.</h2>' +
-        '<p>Navigate the public website, private HI tools, service economy, merchant layer, and Digital Coin concept from this organized gateway.</p>' +
-      '</div>' +
-      '<div class="footer-pro-badges" aria-label="Site pillars">' +
-        '<span>Identity</span><span>Services</span><span>HI Wallet</span><span>Trust</span>' +
-      '</div>';
+    section.setAttribute("aria-label", "Explore important website links");
 
     const grid = document.createElement("div");
     grid.className = "footer-pro-grid";
     groups.forEach(group => grid.appendChild(createFooterGroup(group.title, group.links)));
 
-    const strip = document.createElement("div");
-    strip.className = "footer-pro-strip";
-    strip.innerHTML =
-      '<span>Based in Bhagalpur, India</span>' +
-      '<span>Local-first HI prototypes</span>' +
-      '<span>Human identity before value systems</span>';
-
-    section.append(head, grid, strip);
+    section.append(grid);
 
     const bottom = footer.querySelector(".footer-bottom");
     if (bottom) footer.insertBefore(section, bottom);

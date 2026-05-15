@@ -152,7 +152,7 @@
   width: 100%;
   max-width: none;
   margin: 0 auto;
-  padding: 0 clamp(22px, 3vw, 48px) 34px;
+  padding: 0 clamp(18px, 2.4vw, 38px) 20px;
 }
 
 .footer-pro-head {
@@ -224,22 +224,22 @@ body.theme-dark .footer-pro-head p {
 .footer-pro-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 14px;
+  gap: 10px;
+  margin-top: 8px;
 }
 
 .footer-pro-group {
   min-width: 0;
-  padding: 18px;
+  padding: 12px;
   border: 1px solid rgba(128,128,128,.14);
-  border-radius: 14px;
+  border-radius: 8px;
   background: rgba(128,128,128,.075);
 }
 
 .footer-pro-group h3 {
-  margin: 0 0 14px;
+  margin: 0 0 8px;
   color: var(--brand-green);
-  font-size: .76rem;
+  font-size: .68rem;
   font-weight: 900;
   letter-spacing: 1.1px;
   text-transform: uppercase;
@@ -247,32 +247,43 @@ body.theme-dark .footer-pro-head p {
 
 .footer-pro-links {
   display: grid;
-  gap: 7px;
+  gap: 4px;
 }
 
 .footer-pro-links a {
   display: grid;
-  gap: 2px;
-  min-height: 46px;
-  padding: 9px 10px;
+  gap: 1px;
+  min-height: 35px;
+  padding: 5px 8px;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 8px;
   color: inherit;
   transition: transform .18s ease, border-color .18s ease, background .18s ease;
 }
 
-.footer-pro-links a:hover {
+.footer-pro-links a:hover,
+.footer-pro-links a.is-active {
   transform: translateY(-1px);
   border-color: rgba(4,106,56,.22);
   background: rgba(4,106,56,.13);
+}
+
+.footer-pro-links a.is-active {
+  box-shadow: inset 3px 0 0 var(--brand-green);
 }
 
 .footer-pro-links a span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: .88rem;
+  font-size: .78rem;
   font-weight: 780;
+}
+
+.footer-pro-links a.is-external span::before {
+  content: "-- ";
+  color: var(--brand-orange);
+  font-weight: 900;
 }
 
 .footer-pro-links a small {
@@ -280,8 +291,8 @@ body.theme-dark .footer-pro-head p {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--text-muted);
-  font-size: .72rem;
-  line-height: 1.25;
+  font-size: .65rem;
+  line-height: 1.12;
 }
 
 body.theme-dark .footer-pro-links a small {
