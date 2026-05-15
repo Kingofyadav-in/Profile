@@ -71,6 +71,18 @@
   .site-header nav[aria-label="Main navigation"] {
     min-width: 0;
     justify-self: center;
+    overflow: hidden;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .site-header nav[aria-label="Main navigation"]::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-header .auth-bar {
+    justify-self: end;
+    white-space: nowrap;
   }
 
   .nav-list {
