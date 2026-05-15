@@ -7,7 +7,12 @@
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon/favicon.ico" />
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
+  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
+  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
   <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
+  <style>
+    body.auth-page { padding-top: 76px !important; }
+  </style>
 </head>
 
 <body class="theme-dark auth-page">
@@ -44,20 +49,42 @@ if (isAuthenticated()) {
 }
 </script>
 
+<header class="site-header glass">
+  <div class="header-inner">
+
+    <!-- Brand -->
+    <div class="brand">
+      <a href="/" class="brand-link" aria-label="Amit Ku Yadav home">
+        <img
+          id="siteLogo"
+          class="logo"
+          src="/logo/night-logo.png"
+          alt="Amit Ku Yadav personal profile"
+          width="50"
+          height="50"
+        />
+        <div class="brand-text">
+          <span class="brand-name">Amit Ku Yadav</span>
+          <span class="brand-tagline">HI Access</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Navigation -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav aria-label="Main navigation" data-nav="index"></nav>
+
+  </div>
+</header>
+
 <div class="auth-orb auth-orb--1" aria-hidden="true"></div>
 <div class="auth-orb auth-orb--2" aria-hidden="true"></div>
 
 <main class="auth-shell" aria-labelledby="authTitle">
 
 <section class="auth-intro" aria-label="Personal section overview">
-  <a href="/" class="auth-brand auth-brand--intro">
-    <img id="authLogo" src="/logo/night-logo.png" alt="Amit Ku Yadav" />
-    <div>
-      <div class="auth-brand-name">Amit Ku Yadav</div>
-      <div class="auth-brand-sub">Dynamic Personal Workspace</div>
-    </div>
-  </a>
-
   <p class="auth-kicker">Internet Door</p>
   <h1 id="authTitle">Your door to the internet.</h1>
   <p class="auth-copy">
@@ -84,15 +111,6 @@ if (isAuthenticated()) {
 </section>
 
 <section class="auth-card" aria-label="Login and sign up form">
-
-  <!-- Brand -->
-  <a href="/" class="auth-brand auth-brand--card">
-    <img id="authLogoCard" src="/logo/night-logo.png" alt="Amit Ku Yadav" />
-    <div>
-      <div class="auth-brand-name">Amit Ku Yadav</div>
-      <div class="auth-brand-sub">Personal Access</div>
-    </div>
-  </a>
 
   <div class="auth-route-note" id="authRouteNote">Continue securely</div>
 
@@ -263,27 +281,11 @@ if (isAuthenticated()) {
 /* ── Logo sync and theme toggle ── */
 function syncAuthLogos() {
   var isDark = document.body.classList.contains("theme-dark");
-  ["authLogo", "authLogoCard"].forEach(function(id) {
-    var logo = document.getElementById(id);
-    if (logo) logo.src = isDark ? "/logo/night-logo.png" : "/logo/day-logo.png";
-  });
+  var logo = document.getElementById("siteLogo");
+  if (logo) logo.src = isDark ? "/logo/night-logo.png" : "/logo/day-logo.png";
 }
 
 syncAuthLogos();
-
-["authLogo", "authLogoCard"].forEach(function(id) {
-  var logo = document.getElementById(id);
-  if (!logo) return;
-  logo.title = "Toggle theme";
-  logo.addEventListener("click", function(event) {
-    event.preventDefault();
-    var next = document.body.classList.contains("theme-dark") ? "theme-light" : "theme-dark";
-    document.body.classList.remove("theme-dark", "theme-light");
-    document.body.classList.add(next);
-    try { localStorage.setItem("theme", next); } catch(e) {}
-    syncAuthLogos();
-  });
-});
 
 /* ── Destination note ── */
 (function() {
@@ -709,6 +711,9 @@ document.getElementById("signupForm").addEventListener("submit", function(e) {
   });
 });
 </script>
+
+<script src="/js/nav.js" defer></script>
+<script src="/js/script.js?v=footer-clean-1" defer></script>
 
 </body>
 </html>

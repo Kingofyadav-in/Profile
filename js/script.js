@@ -122,24 +122,17 @@ const PUBLIC_NAV_ITEMS = [
   { href: "/pages/services.html", label: "Services" },
   { href: "/pages/contact.html", label: "Contact" },
   { href: "/pages/collaboration.html", label: "Collaboration" },
-  { href: "/pages/professional.html", label: "Professional" },
-  { href: "/pages/social.html", label: "Social" },
   { href: "/pages/order.html", label: "Order" },
-  { href: "/pages/coin.html", label: "Digital Coin" },
   { href: "/pages/live-class.html", label: "&#x1F534; Live Class", cls: "live-class-link" }
 ];
 
 const PERSONAL_NAV_ITEMS = [
   { href: "/pages/personal.html", label: "HI Life OS" },
+  { href: "/pages/dashboard.html", label: "Dashboard" },
   { href: "/pages/about.html", label: "About Me" },
   { href: "/pages/origin.html", label: "Origin" },
   { href: "/pages/haven.html", label: "Haven" },
   { href: "/pages/bhagalpur.html", label: "Bhagalpur" },
-  { href: "/pages/wallet.html", label: "Wallet" },
-  { href: "/pages/vault.html", label: "Vault" },
-  { href: "/pages/merchant.html", label: "Merchant" },
-  { href: "/marketplace/", label: "Marketplace" },
-  { href: "/pages/dashboard.html", label: "Dashboard" },
   { href: "/pages/hi-license.html", label: "&#x1F510; IP Vault", cls: "license-link" }
 ];
 
