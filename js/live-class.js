@@ -10,6 +10,7 @@
   var joined        = false;
   var joinRetryTimer = null;
   var hasConnectedOnce = false;
+  var pollErrorCount = 0;
 
   var els = {
     title:          document.getElementById("boardTitle"),
@@ -280,35 +281,7 @@
     lastBlockCount = newCount;
   }
 
-  /* ── WebSocket (real-time via Railway) ── */
-  var _ws = null;
-  var _wsRetryTimer = null;
-  var _wsConnected = false;
-
-  function connectWebSocket() {
-    if (_ws && (_ws.readyState === 0 || _ws.readyState === 1)) return;
-    try {
-      _ws = new WebSocket("wss://jarvis.kingofyadav.in/api/ws/live-class");
-      _ws.onopen = function () {
-        _wsConnected = true;
-        if (els.statusText) els.statusText.textContent = "Connected (real-time)";
-      };
-      _ws.onmessage = function (evt) {
-        try {
-          var data = JSON.parse(evt.data);
-          if (data && !data.ping) render(data);
-        } catch (e) {}
-      };
-      _ws.onclose = function () {
-        _wsConnected = false;
-        _ws = null;
-        _wsRetryTimer = setTimeout(connectWebSocket, 4000);
-      };
-      _ws.onerror = function (e) { _wsConnected = false; console.warn("[LiveClass WS] Socket error", e); };
-    } catch (e) { console.warn("[LiveClass WS] Connection failed:", e); }
-  }
-
-  /* ── Data Loading (polling fallback) ── */
+  /* ── Data Loading (polling) ── */
   async function load() {
     var ctl = new AbortController();
     var tid = setTimeout(function() { ctl.abort(); }, 8000);
@@ -316,13 +289,16 @@
       var res   = await fetch(stateUrl + "&t=" + Date.now(), { headers: { "Accept": "application/json" }, signal: ctl.signal });
       if (!res.ok) throw new Error("HTTP " + res.status);
       var state = await res.json();
+      pollErrorCount = 0;
       render(state);
     } catch (err) {
-      if (err.name !== "AbortError") { /* normal network gap — handled below */ }
-      setConnectionState("connecting");
-      if (els.connection) els.connection.textContent = hasConnectedOnce ? "Reconnecting…" : "Connecting…";
-      if (els.status)     els.status.textContent     = hasConnectedOnce ? "Reconnecting…" : "Connecting…";
-      if (els.statusText) els.statusText.textContent = hasConnectedOnce ? "Reconnecting…" : "Connecting to classroom…";
+      pollErrorCount++;
+      if (pollErrorCount >= 2) {
+        setConnectionState("connecting");
+        if (els.connection) els.connection.textContent = hasConnectedOnce ? "Reconnecting…" : "Connecting…";
+        if (els.status)     els.status.textContent     = hasConnectedOnce ? "Reconnecting…" : "Connecting…";
+        if (els.statusText) els.statusText.textContent = hasConnectedOnce ? "Reconnecting…" : "Connecting to classroom…";
+      }
     } finally {
       clearTimeout(tid);
     }
@@ -562,12 +538,10 @@
   if (els.joinName && savedName) els.joinName.value = savedName;
   if (els.drawerName && savedName) els.drawerName.value = savedName;
   if (savedName) { scheduleJoinRetry(savedName); }
-  connectWebSocket();
   subscribePush();
   load();
   if (savedName) joinClass(savedName, true);
-  /* Poll as fallback — less frequent when WS is alive */
-  setInterval(function () { if (!_wsConnected) load(); }, 1500);
-  setInterval(load, 8000); /* periodic sync regardless, catches WS drift */
+  /* Poll every 3s for live updates */
+  setInterval(load, 3000);
 
 }());
