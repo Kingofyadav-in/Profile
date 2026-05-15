@@ -96,6 +96,7 @@ function updateLogo() {
     "#hiPersonalHeroLogo",
     "#hiLicenseHeroLogo",
     "#hiLicenseFooterLogo",
+    ".footer-brand-logo",
     ".logo",
     ".personal-logo",
     ".hi-section-logo",
@@ -136,9 +137,19 @@ const PERSONAL_NAV_ITEMS = [
   { href: "/pages/hi-license.html", label: "&#x1F510; IP Vault", cls: "license-link" }
 ];
 
+const WALLET_NAV_ITEMS = [
+  { href: "/wallet/wallet.html", label: "HI Wallet" },
+  { href: "/wallet/coin.html", label: "HI Coin" },
+  { href: "/wallet/vault.html", label: "Vault" },
+  { href: "/wallet/merchant.html", label: "Merchant" },
+  { href: "/wallet/marketplace/", label: "Marketplace" }
+];
+
 function getNavFamily() {
   // cleanUrls:true strips .html from pathname, so normalize both sides
   const pathname = (window.location.pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
+  if (pathname === "/wallet" || pathname.startsWith("/wallet/")) return "wallet";
+
   const personalRoutes = [
     "/pages/personal",
     "/pages/about",
@@ -148,8 +159,7 @@ function getNavFamily() {
     "/pages/wallet",
     "/pages/vault",
     "/pages/merchant",
-    "/pages/hi-license",
-    "/marketplace"
+    "/pages/hi-license"
   ];
 
   return personalRoutes.some(route => pathname === route || pathname.startsWith(route + "/"))
@@ -160,9 +170,9 @@ function getNavFamily() {
 function renderNavLinks(nav, items) {
   const current = (window.location.pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
 
-  if (nav.classList.contains("personal-nav")) {
+  if (nav.classList.contains("personal-nav") || nav.classList.contains("wallet-nav")) {
     nav.innerHTML = items.map(item => {
-      const target = (item.href.replace(/\/$/, "") || "/").replace(/\.html$/, "");
+      const target = (new URL(item.href, window.location.href).pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
       const active = current === target || current.startsWith(target + "/");
       const cls = [item.cls, active ? "active" : ""].filter(Boolean).join(" ");
       return `<a href="${item.href}"${cls ? ` class="${cls}"` : ""}${active ? ' aria-current="page"' : ""}>${item.label}</a>`;
@@ -171,7 +181,7 @@ function renderNavLinks(nav, items) {
   }
 
   nav.innerHTML = `<ul class="nav-list">${items.map(item => {
-    const target = (item.href.replace(/\/$/, "") || "/").replace(/\.html$/, "");
+    const target = (new URL(item.href, window.location.href).pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
     const active = current === target || current.startsWith(target + "/");
     const cls = [item.cls, active ? "active" : ""].filter(Boolean).join(" ");
     return `<li><a href="${item.href}"${cls ? ` class="${cls}"` : ""}${active ? ' aria-current="page"' : ""}>${item.label}</a></li>`;
@@ -180,9 +190,16 @@ function renderNavLinks(nav, items) {
 
 function initGlobalNavMenus() {
   const family = getNavFamily();
-  const items = family === "personal" ? PERSONAL_NAV_ITEMS : PUBLIC_NAV_ITEMS;
 
   document.querySelectorAll(".site-header nav, .personal-header nav").forEach(nav => {
+    const type = nav.getAttribute("data-nav");
+    const items =
+      type === "wallet" || family === "wallet"
+        ? WALLET_NAV_ITEMS
+        : type === "personal" || family === "personal"
+          ? PERSONAL_NAV_ITEMS
+          : PUBLIC_NAV_ITEMS;
+
     renderNavLinks(nav, items);
   });
 }
@@ -591,7 +608,7 @@ function getFooterContext() {
     "/pages/wallet",
     "/pages/vault",
     "/pages/merchant",
-    "/marketplace"
+    "/wallet/marketplace"
   ];
 
   if (navType === "personal" || personalPrefixes.some(prefix => path.startsWith(prefix))) {
@@ -700,13 +717,13 @@ function initProFooter() {
       links: [
         { href: "/pages/personal.html", label: "HI Life OS", note: "Private command center" },
         { href: "/pages/dashboard.html", label: "Dashboard", note: "Manage core HI tools" },
-        { href: "/pages/wallet.html", label: "HI Wallet", note: "Human identity wallet" },
-        { href: "/pages/vault.html", label: "HI Vault", note: "Protected digital backup" },
-        { href: "/pages/merchant.html", label: "Merchant", note: "Payment and merchant layer" },
-        { href: "/marketplace/", label: "Marketplace", note: "Service economy gateway" },
+        { href: "/wallet/wallet.html", label: "HI Wallet", note: "Human identity wallet" },
+        { href: "/wallet/vault.html", label: "HI Vault", note: "Protected digital backup" },
+        { href: "/wallet/merchant.html", label: "Merchant", note: "Payment and merchant layer" },
+        { href: "/wallet/marketplace/", label: "Marketplace", note: "Service economy gateway" },
         { href: "/pages/login.html?next=%2Fpages%2Fpersonal.html", label: "Login / Setup", note: "Access or create workspace" },
         { href: "/wallet/", label: "Digital Coin", note: "Public coin movement page" },
-        { href: "/pages/coin.html", label: "HI Coin", note: "Coin concept and roadmap" }
+        { href: "/wallet/coin.html", label: "HI Coin", note: "Coin concept and roadmap" }
       ]
     },
     {

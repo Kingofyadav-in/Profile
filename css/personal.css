@@ -196,6 +196,59 @@ body.theme-light .personal-header {
   background: var(--brand-green);
 }
 
+.wallet-nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.wallet-nav a {
+  position: relative;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  font-weight: 650;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.72;
+  color: inherit;
+  transition: opacity 0.25s ease, color 0.25s ease;
+  white-space: nowrap;
+}
+
+.wallet-nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--brand-orange);
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+
+.wallet-nav a:hover,
+.wallet-nav a.active,
+.wallet-nav a[aria-current="page"] {
+  opacity: 1;
+  color: inherit;
+}
+
+.wallet-nav a:hover::after,
+.wallet-nav a.active::after,
+.wallet-nav a[aria-current="page"]::after {
+  width: 100%;
+}
+
+.personal-header .wallet-nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  flex-wrap: nowrap;
+}
+
 
 /* ======================================================
    6. SECTIONS
@@ -928,6 +981,79 @@ body.theme-light .pd-field textarea {
     transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.25s ease, transform 0.25s ease;
   }
 
+  .personal-header .wallet-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: auto;
+    right: 12px;
+    width: min(320px, calc(100vw - 24px));
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 10px;
+    gap: 2px;
+    z-index: 999;
+    border-radius: 18px;
+    box-shadow: 0 18px 42px rgba(0,0,0,0.28);
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  body.theme-dark .wallet-nav {
+    background: rgba(10,12,12,0.96);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  body.theme-light .wallet-nav {
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .wallet-nav.open {
+    max-height: min(70vh, 520px);
+    overflow-y: auto;
+    padding: 10px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .wallet-nav.open a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    min-height: 42px;
+    padding: 11px 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    opacity: 1;
+    color: inherit;
+    text-decoration: none;
+    border: 0;
+    border-radius: 12px;
+    white-space: normal;
+  }
+
+  .wallet-nav a::after,
+  .wallet-nav.open a::after {
+    display: none;
+  }
+
+  .wallet-nav.open a:hover,
+  .wallet-nav.open a.active,
+  .wallet-nav.open a[aria-current="page"] {
+    color: var(--brand-orange);
+    background: rgba(255,103,31,0.12);
+  }
+
   body.theme-dark .personal-nav {
     background: rgba(10,12,12,0.96);
     border: 1px solid rgba(255,255,255,0.1);
@@ -1285,7 +1411,7 @@ body.theme-light .profile-hero-panel {
     min-height: 78px;
     padding: 10px clamp(22px, 3vw, 48px) !important;
     display: grid !important;
-    grid-template-columns: minmax(220px, auto) minmax(0, 1fr) auto !important;
+    grid-template-columns: minmax(220px, 1fr) minmax(0, auto) minmax(220px, 1fr) !important;
     gap: clamp(14px, 2vw, 28px);
     align-items: center;
   }
@@ -1335,7 +1461,10 @@ body.theme-light .profile-hero-panel {
   }
 
   .personal-header .personal-nav {
+    justify-self: center;
     min-width: 0;
+    width: max-content;
+    max-width: 100%;
     display: flex !important;
     flex-wrap: nowrap !important;
     justify-content: center !important;
@@ -1424,15 +1553,20 @@ body.theme-light .profile-hero-panel {
     margin-top: 4px;
   }
 
-  .personal-header .personal-nav {
+  .personal-header .personal-nav,
+  .personal-header .wallet-nav {
     grid-area: nav;
-    justify-content: flex-start !important;
-    padding-left: 4px;
+    justify-self: center;
+    justify-content: center !important;
+    padding-left: 0;
+    width: max-content;
+    max-width: 100%;
     overflow-x: auto;
     scrollbar-width: none;
   }
 
-  .personal-header .personal-nav::-webkit-scrollbar {
+  .personal-header .personal-nav::-webkit-scrollbar,
+  .personal-header .wallet-nav::-webkit-scrollbar {
     display: none;
   }
 }
@@ -1443,7 +1577,8 @@ body.theme-light .profile-hero-panel {
     grid-row: 1;
   }
 
-  .personal-header .personal-nav {
+  .personal-header .personal-nav,
+  .personal-header .wallet-nav {
     grid-column: 2;
     grid-row: 1;
   }

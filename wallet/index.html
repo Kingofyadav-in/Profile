@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="css/components.css?v=footer-clean-1" />
 <link rel="stylesheet" href="css/layout.css?v=layout-1" />
   <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-1" />
-  <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-1" />
 
   <style>
     .coin-page {
@@ -431,11 +430,11 @@
       font-size: .9rem;
     }
 
-    body.theme-dark .coin-page p {
-      color: var(--coin-muted-dark);
+    body.theme-dark.wallet-app .coin-page p {
+      color: rgba(255,255,255,.62);
     }
 
-    body.theme-light .coin-visual-caption span {
+    body.theme-light.wallet-app .coin-visual-caption span {
       background: rgba(17,17,17,.62);
     }
 
@@ -728,6 +727,7 @@
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
+  <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-1" />
   <script src="js/footer.js" defer></script>
 <script src="js/nav.js" defer></script>
 <script src="js/script.js?v=footer-clean-1" defer></script>

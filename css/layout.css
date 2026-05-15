@@ -19,7 +19,7 @@
     min-height: 76px;
     padding: 10px clamp(22px, 3vw, 48px) !important;
     display: grid !important;
-    grid-template-columns: minmax(220px, auto) minmax(0, 1fr) auto !important;
+    grid-template-columns: minmax(220px, 1fr) minmax(0, auto) minmax(220px, 1fr) !important;
     gap: clamp(18px, 3vw, 44px);
     align-items: center;
   }
@@ -68,19 +68,25 @@
     opacity: .95;
   }
 
-  .site-header nav[aria-label="Main navigation"] {
+  .site-header nav[aria-label="Main navigation"],
+  .site-header nav[data-nav="wallet"] {
+    grid-column: 2;
     min-width: 0;
+    width: max-content;
+    max-width: 100%;
     justify-self: center;
     overflow: hidden;
     overflow-x: auto;
     scrollbar-width: none;
   }
 
-  .site-header nav[aria-label="Main navigation"]::-webkit-scrollbar {
+  .site-header nav[aria-label="Main navigation"]::-webkit-scrollbar,
+  .site-header nav[data-nav="wallet"]::-webkit-scrollbar {
     display: none;
   }
 
   .site-header .auth-bar {
+    grid-column: 3;
     justify-self: end;
     white-space: nowrap;
   }

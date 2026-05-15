@@ -2,9 +2,10 @@
 
 /* ======================================================
    nav.js — Global nav renderer (defer, runs before script.js)
-   Two nav menus:
+   Three nav menus:
      data-nav="index"    → public / portfolio pages
      data-nav="personal" → HI Life OS private pages
+     data-nav="wallet"   → HI Wallet ecosystem pages
 ====================================================== */
 ;(function () {
   var INDEX_NAV = [
@@ -26,6 +27,14 @@
     { label: 'Haven', href: '/pages/haven.html' },
     { label: 'Bhagalpur', href: '/pages/bhagalpur.html' },
     { label: '&#x1F510; IP Vault', href: '/pages/hi-license.html', cls: 'license-link' },
+  ]
+
+  var WALLET_NAV = [
+    { label: 'HI Wallet', href: '/wallet/wallet.html' },
+    { label: 'HI Coin', href: '/wallet/coin.html' },
+    { label: 'Vault', href: '/wallet/vault.html' },
+    { label: 'Merchant', href: '/wallet/merchant.html' },
+    { label: 'Marketplace', href: '/wallet/marketplace/' },
   ]
 
   function isActive(href) {
@@ -56,7 +65,9 @@
   navs.forEach(function (nav) {
     var type = nav.getAttribute('data-nav')
     var links =
-      type === 'personal' ||
+      type === 'wallet'
+        ? WALLET_NAV
+        : type === 'personal' ||
       type === 'about' ||
       type === 'origin' ||
       type === 'haven' ||
@@ -78,11 +89,14 @@
       return window.location.pathname.startsWith(p)
     })
 
+    var isWalletPage = window.location.pathname.startsWith('/wallet/')
+
     if (isPersonalPage) links = PERSONAL_NAV
+    if (isWalletPage) links = WALLET_NAV
 
     nav.innerHTML = '' // Clear existing
 
-    if (nav.classList.contains('personal-nav')) {
+    if (nav.classList.contains('personal-nav') || nav.classList.contains('wallet-nav')) {
       links.forEach(function (link) {
         nav.appendChild(buildLink(link))
       })

@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Gallery | Amit Ku Yadav</title>
-  <meta name="description" content="A curated photo gallery from Amit Ku Yadav's personal visual archive." />
+  <title>Premium Photo Gallery | Amit Ku Yadav Visual Archive</title>
+  <meta name="description" content="A premium visual archive of Amit Ku Yadav featuring personal portraits, local gallery moments, and a polished full-screen photo viewer." />
   <meta name="author" content="Amit Ku Yadav" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#000000" />
@@ -12,8 +12,8 @@
   <link rel="manifest" href="/manifest.json" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Gallery | Amit Ku Yadav" />
-  <meta property="og:description" content="A curated photo gallery from Amit Ku Yadav's personal visual archive." />
+  <meta property="og:title" content="Premium Photo Gallery | Amit Ku Yadav" />
+  <meta property="og:description" content="A premium visual archive of Amit Ku Yadav featuring personal portraits, local gallery moments, and a polished full-screen photo viewer." />
   <meta property="og:image" content="https://kingofyadav.in/images/gallery/IMG_20250718_175939_991.converted.jpg" />
   <meta property="og:url" content="https://kingofyadav.in/pages/gallery.html" />
   <meta property="og:site_name" content="Amit Ku Yadav" />
@@ -160,6 +160,13 @@
     .gallery-card {
       overflow: hidden;
       border-radius: 8px;
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,103,31,.32);
+      box-shadow: 0 18px 48px rgba(0,0,0,.22);
     }
 
     .gallery-card figure {
@@ -168,6 +175,16 @@
       aspect-ratio: 4 / 5;
       overflow: hidden;
       background: var(--gallery-soft);
+    }
+
+    .gallery-card figure::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 42%;
+      background: linear-gradient(to top, rgba(0,0,0,.52), transparent);
+      opacity: .78;
+      pointer-events: none;
     }
 
     .gallery-card img {
@@ -184,18 +201,24 @@
     }
 
     .gallery-card-content {
-      padding: 12px;
+      min-height: 116px;
+      padding: 13px;
+      border-top: 1px solid rgba(128,128,128,.12);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.035), transparent),
+        rgba(128,128,128,.035);
     }
 
     .gallery-card h3 {
-      margin: 0 0 5px;
-      font-size: .92rem;
+      margin: 0 0 6px;
+      font-size: .96rem;
+      line-height: 1.18;
     }
 
     .gallery-card p {
       margin: 0;
-      font-size: .76rem;
-      line-height: 1.45;
+      font-size: .78rem;
+      line-height: 1.5;
     }
 
     .gallery-feature {
@@ -501,10 +524,10 @@
   <section class="gallery-hero">
     <div>
       <p class="hero-label">VISUAL ARCHIVE</p>
-      <h1>Gallery of personal moments.</h1>
+      <h1>Premium visual archive.</h1>
       <p>
-        A sharper visual archive from the dedicated gallery folder, arranged as
-        a polished portrait collection with clean browsing and full-image viewing.
+        A curated portrait gallery built from the local photo archive, with
+        premium framing, concise titles, and a full-screen viewing experience.
       </p>
       <div class="hero-actions">
         <a href="#gallery-library" class="btn-primary">Explore Gallery</a>
@@ -530,11 +553,10 @@
       </div>
       <div class="gallery-feature-copy">
         <span class="gallery-section-label">Featured Set</span>
-        <h2>A complete local archive, upgraded for web.</h2>
+        <h2>Personal photos, presented with editorial polish.</h2>
         <p>
-          The page now uses every browser-ready image from the gallery folder,
-          including converted JPEG copies for the phone photos that were stored
-          as HEIC files.
+          Each image is treated like a portfolio frame: consistent spacing,
+          controlled cropping, short context, and full-size viewing for details.
         </p>
         <div class="gallery-tags" aria-label="Gallery categories">
           <span>Portrait</span>
@@ -568,73 +590,73 @@
       <article class="gallery-card is-tall">
         <button class="gallery-card-button" type="button" data-gallery-index="0">
           <figure><img src="/images/gallery/IMG_20250718_175939_991.converted.jpg" alt="Portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 01</span><h3>July Portrait</h3><p>High-resolution phone portrait converted for stable web display.</p></div>
+          <div class="gallery-card-content"><span>Photo 01</span><h3>Signature Portrait</h3><p>A lead frame with confident presence, used as the visual anchor of this gallery.</p></div>
         </button>
       </article>
       <article class="gallery-card is-tall">
         <button class="gallery-card-button" type="button" data-gallery-index="1">
           <figure><img src="/images/gallery/IMG_20250718_175940_099.converted.jpg" alt="Second portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 02</span><h3>July Portrait</h3><p>Second high-resolution phone portrait prepared as JPEG.</p></div>
+          <div class="gallery-card-content"><span>Photo 02</span><h3>Editorial Profile</h3><p>A clean profile-style portrait prepared for high-quality web display.</p></div>
         </button>
       </article>
       <article class="gallery-card">
         <button class="gallery-card-button" type="button" data-gallery-index="2">
           <figure><img src="/images/gallery/Screenshot_20250511_203439_Snapchat.jpg" alt="Snapchat portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 03</span><h3>Snap Portrait</h3><p>Personal portrait from the gallery archive.</p></div>
+          <div class="gallery-card-content"><span>Photo 03</span><h3>Soft Light Moment</h3><p>A personal frame with relaxed mood and direct visual identity.</p></div>
         </button>
       </article>
       <article class="gallery-card">
         <button class="gallery-card-button" type="button" data-gallery-index="3">
           <figure><img src="/images/gallery/Screenshot_20250511_203646_Snapchat.jpg" alt="Second Snapchat portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 04</span><h3>Snap Portrait</h3><p>Second portrait from the saved gallery set.</p></div>
+          <div class="gallery-card-content"><span>Photo 04</span><h3>Quiet Frame</h3><p>A calm portrait from the archive, balanced for simple and clean presentation.</p></div>
         </button>
       </article>
       <article class="gallery-card">
         <button class="gallery-card-button" type="button" data-gallery-index="4">
           <figure><img src="/images/gallery/cf1d78dbf928c2ea8056f67e69818593.jpg" alt="Vertical portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 05</span><h3>Vertical Frame</h3><p>Tall portrait crop with clean card treatment.</p></div>
+          <div class="gallery-card-content"><span>Photo 05</span><h3>Vertical Study</h3><p>A tall-format frame arranged to preserve posture, face, and visual rhythm.</p></div>
         </button>
       </article>
       <article class="gallery-card">
         <button class="gallery-card-button" type="button" data-gallery-index="5">
           <figure><img src="/images/gallery/63939ef317e5de5fb080b6724808a6cd.jpg" alt="Portrait from Amit Ku Yadav gallery" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 06</span><h3>Archive Frame</h3><p>Local gallery photo balanced for portrait viewing.</p></div>
+          <div class="gallery-card-content"><span>Photo 06</span><h3>Archive Portrait</h3><p>A local gallery image refined into a compact, premium portrait card.</p></div>
         </button>
       </article>
       <article class="gallery-card">
         <button class="gallery-card-button" type="button" data-gallery-index="6">
           <figure><img src="/images/gallery/14ea2eb9c92ca18abfffd0c06c43a810.jpg" alt="Personal gallery portrait" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 07</span><h3>Gallery Frame</h3><p>Compact portrait from the imported collection.</p></div>
+          <div class="gallery-card-content"><span>Photo 07</span><h3>Clean Composition</h3><p>A neatly framed portrait focused on balance, simplicity, and clarity.</p></div>
         </button>
       </article>
       <article class="gallery-card">
         <button class="gallery-card-button" type="button" data-gallery-index="7">
           <figure><img src="/images/gallery/a08527dfb3502b4572931982940bcc65.jpg" alt="Personal gallery image" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 08</span><h3>Soft Frame</h3><p>Personal archive image with consistent site depth.</p></div>
+          <div class="gallery-card-content"><span>Photo 08</span><h3>Personal Archive</h3><p>A preserved archive image styled to match the site’s visual language.</p></div>
         </button>
       </article>
       <article class="gallery-card is-wide">
         <button class="gallery-card-button" type="button" data-gallery-index="8">
           <figure><img src="/images/gallery/1a2197335ac6f395557a3445b9443eca.jpg" alt="Square gallery image" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 09</span><h3>Square Frame</h3><p>Square image displayed as a wider feature card.</p></div>
+          <div class="gallery-card-content"><span>Photo 09</span><h3>Wide Feature Frame</h3><p>A square source image expanded into a wider editorial feature card.</p></div>
         </button>
       </article>
       <article class="gallery-card">
         <button class="gallery-card-button" type="button" data-gallery-index="9">
           <figure><img src="/images/gallery/3447e2a493aab93ed1066fe2d96e7791.jpg" alt="Square portrait from gallery" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 10</span><h3>Square Portrait</h3><p>Balanced square frame from the local folder.</p></div>
+          <div class="gallery-card-content"><span>Photo 10</span><h3>Balanced Square</h3><p>A square-format portrait card designed for fast scanning in the grid.</p></div>
         </button>
       </article>
       <article class="gallery-card">
         <button class="gallery-card-button" type="button" data-gallery-index="10">
           <figure><img src="/images/gallery/4b0ec8d2e225645d1b5b3f8db2c6c09b.jpg" alt="Square personal gallery image" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 11</span><h3>Archive Square</h3><p>Clean square image from the updated gallery set.</p></div>
+          <div class="gallery-card-content"><span>Photo 11</span><h3>Minimal Square</h3><p>A compact visual note from the archive with restrained presentation.</p></div>
         </button>
       </article>
       <article class="gallery-card">
         <button class="gallery-card-button" type="button" data-gallery-index="11">
           <figure><img src="/images/gallery/f1b4f59e874689769cc888bc1b557a85.jpg" alt="Compact square gallery image" loading="lazy" /></figure>
-          <div class="gallery-card-content"><span>Photo 12</span><h3>Compact Square</h3><p>Small archive image presented with matching polish.</p></div>
+          <div class="gallery-card-content"><span>Photo 12</span><h3>Closing Frame</h3><p>A final compact frame that completes the gallery set with consistency.</p></div>
         </button>
       </article>
     </div>
@@ -689,8 +711,8 @@
     </div>
     <aside class="gallery-lightbox-panel">
       <span id="galleryLightboxCount">Photo 01</span>
-      <h3 id="galleryLightboxTitle">July Portrait</h3>
-      <p id="galleryLightboxText">High-resolution phone portrait converted for stable web display.</p>
+      <h3 id="galleryLightboxTitle">Signature Portrait</h3>
+      <p id="galleryLightboxText">A lead frame with confident presence, used as the visual anchor of this gallery.</p>
     </aside>
     <button class="gallery-lightbox-nav gallery-lightbox-next" type="button" id="galleryNext" aria-label="Next image">›</button>
   </div>
@@ -704,18 +726,18 @@
 <script>
   (function () {
     var galleryItems = [
-      { src: "/images/gallery/IMG_20250718_175939_991.converted.jpg", title: "July Portrait", text: "High-resolution phone portrait converted for stable web display." },
-      { src: "/images/gallery/IMG_20250718_175940_099.converted.jpg", title: "July Portrait", text: "Second high-resolution phone portrait prepared as JPEG." },
-      { src: "/images/gallery/Screenshot_20250511_203439_Snapchat.jpg", title: "Snap Portrait", text: "Personal portrait from the gallery archive." },
-      { src: "/images/gallery/Screenshot_20250511_203646_Snapchat.jpg", title: "Snap Portrait", text: "Second portrait from the saved gallery set." },
-      { src: "/images/gallery/cf1d78dbf928c2ea8056f67e69818593.jpg", title: "Vertical Frame", text: "Tall portrait crop with clean card treatment." },
-      { src: "/images/gallery/63939ef317e5de5fb080b6724808a6cd.jpg", title: "Archive Frame", text: "Local gallery photo balanced for portrait viewing." },
-      { src: "/images/gallery/14ea2eb9c92ca18abfffd0c06c43a810.jpg", title: "Gallery Frame", text: "Compact portrait from the imported collection." },
-      { src: "/images/gallery/a08527dfb3502b4572931982940bcc65.jpg", title: "Soft Frame", text: "Personal archive image with consistent site depth." },
-      { src: "/images/gallery/1a2197335ac6f395557a3445b9443eca.jpg", title: "Square Frame", text: "Square image displayed as a wider feature card." },
-      { src: "/images/gallery/3447e2a493aab93ed1066fe2d96e7791.jpg", title: "Square Portrait", text: "Balanced square frame from the local folder." },
-      { src: "/images/gallery/4b0ec8d2e225645d1b5b3f8db2c6c09b.jpg", title: "Archive Square", text: "Clean square image from the updated gallery set." },
-      { src: "/images/gallery/f1b4f59e874689769cc888bc1b557a85.jpg", title: "Compact Square", text: "Small archive image presented with matching polish." }
+      { src: "/images/gallery/IMG_20250718_175939_991.converted.jpg", title: "Signature Portrait", text: "A lead frame with confident presence, used as the visual anchor of this gallery." },
+      { src: "/images/gallery/IMG_20250718_175940_099.converted.jpg", title: "Editorial Profile", text: "A clean profile-style portrait prepared for high-quality web display." },
+      { src: "/images/gallery/Screenshot_20250511_203439_Snapchat.jpg", title: "Soft Light Moment", text: "A personal frame with relaxed mood and direct visual identity." },
+      { src: "/images/gallery/Screenshot_20250511_203646_Snapchat.jpg", title: "Quiet Frame", text: "A calm portrait from the archive, balanced for simple and clean presentation." },
+      { src: "/images/gallery/cf1d78dbf928c2ea8056f67e69818593.jpg", title: "Vertical Study", text: "A tall-format frame arranged to preserve posture, face, and visual rhythm." },
+      { src: "/images/gallery/63939ef317e5de5fb080b6724808a6cd.jpg", title: "Archive Portrait", text: "A local gallery image refined into a compact, premium portrait card." },
+      { src: "/images/gallery/14ea2eb9c92ca18abfffd0c06c43a810.jpg", title: "Clean Composition", text: "A neatly framed portrait focused on balance, simplicity, and clarity." },
+      { src: "/images/gallery/a08527dfb3502b4572931982940bcc65.jpg", title: "Personal Archive", text: "A preserved archive image styled to match the site’s visual language." },
+      { src: "/images/gallery/1a2197335ac6f395557a3445b9443eca.jpg", title: "Wide Feature Frame", text: "A square source image expanded into a wider editorial feature card." },
+      { src: "/images/gallery/3447e2a493aab93ed1066fe2d96e7791.jpg", title: "Balanced Square", text: "A square-format portrait card designed for fast scanning in the grid." },
+      { src: "/images/gallery/4b0ec8d2e225645d1b5b3f8db2c6c09b.jpg", title: "Minimal Square", text: "A compact visual note from the archive with restrained presentation." },
+      { src: "/images/gallery/f1b4f59e874689769cc888bc1b557a85.jpg", title: "Closing Frame", text: "A final compact frame that completes the gallery set with consistency." }
     ];
 
     var activeIndex = 0;

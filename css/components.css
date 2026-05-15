@@ -647,6 +647,106 @@ body.theme-light .site-footer {
   background: rgba(255,255,255,0.96);
 }
 
+/* ======================================================
+   GLOBAL IDENTITY STRIPE
+   Shared tricolour accent for app/profile utility pages.
+====================================================== */
+
+.identity-stripe,
+.ori-stripe,
+.wlt-stripe,
+.eco-stripe,
+.abt-stripe,
+.hav-stripe,
+.bhp-stripe,
+.dm-stripe,
+.coin-stripe,
+.cert-stripe,
+.clm-stripe,
+.lc-identity-stripe {
+  display: block !important;
+  width: 100% !important;
+  height: 6px !important;
+  min-height: 6px !important;
+  flex: 0 0 6px !important;
+  position: relative !important;
+  z-index: 40 !important;
+  overflow: hidden !important;
+  background: linear-gradient(
+    90deg,
+    var(--brand-green, #046A38) 0 33.333%,
+    #f4f4f4 33.333% 66.666%,
+    var(--brand-orange, #FF671F) 66.666% 100%
+  ) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.12),
+    0 8px 24px rgba(255,103,31,.14) !important;
+}
+
+.personal-header::after,
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--brand-green, #046A38) 0 33.333%,
+    #f4f4f4 33.333% 66.666%,
+    var(--brand-orange, #FF671F) 66.666% 100%
+  );
+  box-shadow: 0 8px 24px rgba(255,103,31,.18);
+  pointer-events: none;
+}
+
+.personal-header + .identity-stripe,
+.personal-header + .ori-stripe,
+.personal-header + .wlt-stripe,
+.personal-header + .eco-stripe,
+.personal-header + .abt-stripe,
+.personal-header + .hav-stripe,
+.personal-header + .bhp-stripe,
+.personal-header + .dm-stripe,
+.site-header + .identity-stripe,
+.site-header + .coin-stripe,
+.site-header + .cert-stripe,
+.site-header + .clm-stripe,
+.site-header + .lc-identity-stripe {
+  display: none !important;
+  margin-top: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .personal-header::after,
+  .site-header::after {
+    bottom: -6px;
+    height: 6px;
+    box-shadow: 0 10px 28px rgba(255,103,31,.22);
+  }
+
+  .identity-stripe,
+  .ori-stripe,
+  .wlt-stripe,
+  .eco-stripe,
+  .abt-stripe,
+  .hav-stripe,
+  .bhp-stripe,
+  .dm-stripe,
+  .coin-stripe,
+  .cert-stripe,
+  .clm-stripe,
+  .lc-identity-stripe {
+    height: 7px !important;
+    min-height: 7px !important;
+    flex-basis: 7px !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.16),
+      0 10px 28px rgba(255,103,31,.2) !important;
+  }
+}
+
 .footer-inner {
   max-width: none;
   margin: 0 auto;
@@ -952,7 +1052,9 @@ body.theme-light .site-footer {
   }
 
   .site-header nav[aria-label="Main navigation"],
-  .personal-header nav.personal-nav {
+  .site-header nav[data-nav="wallet"],
+  .personal-header nav.personal-nav,
+  .personal-header nav.wallet-nav {
     position: absolute;
     top: calc(100% + 8px);
     left: auto;
@@ -969,19 +1071,25 @@ body.theme-light .site-footer {
   }
 
   body.theme-dark .site-header nav[aria-label="Main navigation"],
-  body.theme-dark .personal-header nav.personal-nav {
+  body.theme-dark .site-header nav[data-nav="wallet"],
+  body.theme-dark .personal-header nav.personal-nav,
+  body.theme-dark .personal-header nav.wallet-nav {
     background: rgba(10,12,12,0.96);
     border: 1px solid rgba(255,255,255,0.1);
   }
 
   body.theme-light .site-header nav[aria-label="Main navigation"],
-  body.theme-light .personal-header nav.personal-nav {
+  body.theme-light .site-header nav[data-nav="wallet"],
+  body.theme-light .personal-header nav.personal-nav,
+  body.theme-light .personal-header nav.wallet-nav {
     background: rgba(255,255,255,0.97);
     border: 1px solid rgba(0,0,0,0.08);
   }
 
   .site-header nav[aria-label="Main navigation"].open,
-  .personal-header nav.personal-nav.open {
+  .site-header nav[data-nav="wallet"].open,
+  .personal-header nav.personal-nav.open,
+  .personal-header nav.wallet-nav.open {
     max-height: min(70vh, 520px);
     padding: 10px;
     opacity: 1;

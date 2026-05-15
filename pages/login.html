@@ -12,6 +12,152 @@
   <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
   <style>
     body.auth-page { padding-top: 76px !important; }
+
+    @media (max-width: 768px) {
+      body.auth-page {
+        display: block;
+        padding: 92px 12px 18px !important;
+        min-height: 100svh;
+      }
+
+      .auth-shell {
+        width: min(100%, 460px);
+        margin: 0 auto;
+        gap: 12px;
+      }
+
+      .auth-intro {
+        text-align: left;
+      }
+
+      .auth-kicker {
+        margin-bottom: 8px;
+        font-size: .62rem;
+      }
+
+      .auth-intro h1 {
+        max-width: 360px;
+        margin-bottom: 8px;
+        font-size: clamp(1.8rem, 9vw, 2.55rem);
+        line-height: 1;
+      }
+
+      .auth-copy {
+        max-width: 360px;
+        font-size: .82rem;
+        line-height: 1.45;
+      }
+
+      .auth-access-grid {
+        display: none;
+      }
+
+      .auth-card {
+        margin-top: 10px;
+        padding: 16px 13px 15px;
+        border-radius: 14px;
+        overflow: hidden;
+      }
+
+      .auth-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--brand-green) 0 34%, rgba(255,255,255,.72) 34% 66%, var(--brand-orange) 66% 100%);
+        box-shadow: 0 0 18px rgba(255,103,31,.35);
+        pointer-events: none;
+      }
+
+      .auth-route-note {
+        max-width: 100%;
+        margin-bottom: 12px;
+        padding: 5px 9px;
+        font-size: .6rem;
+        line-height: 1.25;
+      }
+
+      .auth-tabs {
+        gap: 3px;
+        margin-bottom: 14px;
+        border-radius: 10px;
+      }
+
+      .auth-tab {
+        min-width: 0;
+        padding: 9px 6px;
+        border-radius: 8px;
+        font-size: .72rem;
+        white-space: nowrap;
+      }
+
+      .auth-field {
+        margin-bottom: 12px;
+      }
+
+      .auth-field label {
+        margin-bottom: 5px;
+        font-size: .68rem;
+      }
+
+      .auth-field input {
+        min-height: 44px;
+        padding: 11px 13px;
+        border-radius: 10px;
+        font-size: .86rem;
+      }
+
+      .auth-field .pw-wrap input {
+        padding-right: 42px;
+      }
+
+      .auth-submit {
+        min-height: 44px;
+        padding: 11px;
+        border-radius: 11px;
+        font-size: .84rem;
+      }
+
+      .auth-remember,
+      .auth-divider,
+      .auth-status,
+      .auth-hint {
+        font-size: .74rem;
+      }
+
+      .auth-hint {
+        margin-bottom: 12px;
+        padding: 10px 11px;
+      }
+
+      .otp-grid {
+        gap: 5px;
+      }
+
+      .otp-digit {
+        min-height: 42px;
+        border-radius: 9px;
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      body.auth-page {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+      }
+
+      .auth-card {
+        padding: 14px 11px;
+      }
+
+      .auth-tab {
+        font-size: .68rem;
+        padding-inline: 4px;
+      }
+    }
   </style>
 </head>
 
