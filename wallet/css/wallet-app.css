@@ -1,0 +1,356 @@
+/* ======================================================
+   HI WALLET APP SHELL
+   Shared app-level polish for every page inside /wallet/.
+====================================================== */
+
+body.wallet-app {
+  --wallet-shell-bg: rgba(11, 13, 13, 0.74);
+  --wallet-shell-border: rgba(255, 255, 255, 0.1);
+  --wallet-panel-bg: rgba(255, 255, 255, 0.055);
+  --wallet-panel-bg-strong: rgba(255, 255, 255, 0.08);
+  --wallet-panel-border: rgba(255, 255, 255, 0.12);
+  --wallet-muted: rgba(255, 255, 255, 0.58);
+  --wallet-grid-line: rgba(255, 255, 255, 0.045);
+  --wallet-shadow: 0 22px 60px rgba(0, 0, 0, 0.26);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 103, 31, 0.13), transparent 32%),
+    radial-gradient(circle at 88% 8%, rgba(4, 106, 56, 0.16), transparent 34%),
+    linear-gradient(180deg, rgba(4, 106, 56, 0.08), transparent 420px),
+    var(--bg-color);
+}
+
+body.theme-light.wallet-app {
+  --wallet-shell-bg: rgba(255, 255, 255, 0.86);
+  --wallet-shell-border: rgba(13, 33, 24, 0.1);
+  --wallet-panel-bg: rgba(255, 255, 255, 0.78);
+  --wallet-panel-bg-strong: rgba(255, 255, 255, 0.94);
+  --wallet-panel-border: rgba(13, 33, 24, 0.12);
+  --wallet-muted: rgba(24, 35, 30, 0.64);
+  --wallet-grid-line: rgba(4, 106, 56, 0.055);
+  --wallet-shadow: 0 20px 52px rgba(20, 38, 30, 0.1);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 103, 31, 0.13), transparent 32%),
+    radial-gradient(circle at 88% 8%, rgba(4, 106, 56, 0.11), transparent 34%),
+    linear-gradient(180deg, rgba(4, 106, 56, 0.07), transparent 430px),
+    #f8faf7;
+}
+
+body.wallet-app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--wallet-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--wallet-grid-line) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 72%);
+}
+
+.wallet-app .site-header,
+.wallet-app .personal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--wallet-shell-bg);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.18);
+}
+
+body.theme-light.wallet-app .site-header,
+body.theme-light.wallet-app .personal-header {
+  border-bottom-color: var(--wallet-shell-border);
+  box-shadow: var(--wallet-shadow);
+}
+
+.wallet-app .brand-link,
+.wallet-app .personal-brand {
+  border: 1px solid var(--wallet-panel-border);
+  background: var(--wallet-panel-bg);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.08);
+}
+
+.wallet-app .brand-tagline,
+.wallet-app .personal-tagline {
+  color: var(--brand-orange);
+  font-weight: 850;
+  letter-spacing: 0.7px;
+  opacity: 0.95;
+  text-transform: uppercase;
+}
+
+.wallet-app .brand-name,
+.wallet-app .personal-name {
+  font-weight: 850;
+}
+
+.wallet-app .coin-main,
+.wallet-app .wlt-main,
+.wallet-app .vault-main,
+.wallet-app .eco-main {
+  position: relative;
+}
+
+.wallet-app :where(.coin-proof, .coin-tech-item, .coin-comparison-item, .coin-use-card, .coin-road-item, .wlt-card, .wlt-panel, .wlt-layer-grid > div, .vault-card, .vault-panel, .vault-row, .eco-merchant-card, .ecosystem-card, .ecosystem-panel, .eco-market-card, .eco-market-metric) {
+  border-color: var(--wallet-panel-border);
+  background-color: var(--wallet-panel-bg);
+  box-shadow: var(--wallet-shadow);
+}
+
+.wallet-app :where(.wlt-locked, .vault-locked, .ecosystem-locked) {
+  border: 1px solid var(--wallet-panel-border);
+  background: var(--wallet-panel-bg-strong);
+  box-shadow: var(--wallet-shadow);
+}
+
+.wallet-app :where(.wlt-hero-desc, .eco-hero-desc, .vault-card p, .vault-panel p, .wlt-panel p, .ecosystem-card p, .ecosystem-panel p, .coin-hero-copy p, .coin-section p) {
+  color: var(--wallet-muted);
+}
+
+.wallet-app :where(.wlt-field input, .wlt-field select, .wlt-field textarea, .eco-field input, .eco-field select, .vault-field input, .vault-field select, .vault-field textarea) {
+  border-color: var(--wallet-panel-border);
+  background-color: var(--wallet-panel-bg-strong);
+  color: var(--text-color);
+}
+
+.wallet-app :where(.wlt-field input, .wlt-field select, .wlt-field textarea, .eco-field input, .eco-field select, .vault-field input, .vault-field select, .vault-field textarea):focus {
+  border-color: rgba(255, 103, 31, 0.5);
+  box-shadow: 0 0 0 4px rgba(255, 103, 31, 0.12);
+  outline: none;
+}
+
+.wallet-app :where(.btn-primary, .wlt-submit, .ecosystem-action.primary, .vault-action.primary) {
+  box-shadow: 0 18px 42px rgba(255, 103, 31, 0.18);
+}
+
+.wallet-app :where(.btn-secondary, .wlt-btn, .ecosystem-action, .vault-action) {
+  border-color: var(--wallet-panel-border);
+}
+
+body.theme-light.wallet-app :where(.btn-secondary, .wlt-btn, .ecosystem-action, .vault-action) {
+  background: rgba(255, 255, 255, 0.72);
+  color: #17231c;
+}
+
+body.theme-light.wallet-app :where(.btn-secondary, .wlt-btn, .ecosystem-action, .vault-action):hover {
+  background: rgba(255, 103, 31, 0.1);
+  border-color: rgba(180, 69, 8, 0.18);
+}
+
+body.theme-light.wallet-app :where(.wlt-kicker, .vault-kicker, .eco-kicker, .coin-kicker, .hero-label) {
+  color: #b44508;
+}
+
+body.theme-dark.wallet-app :where(
+  .coin-panel,
+  .coin-card,
+  .coin-proof > div,
+  .coin-learn-card,
+  .coin-comparison-item,
+  .coin-use-card,
+  .coin-road-item,
+  .wlt-card,
+  .wlt-stat,
+  .wlt-principles div,
+  .wlt-panel,
+  .wlt-layer-grid > div,
+  .wlt-security-state div,
+  .wlt-device-row,
+  .wlt-binding-item,
+  .eco-market-card,
+  .eco-market-metric,
+  .eco-merchant-card,
+  .ecosystem-card,
+  .ecosystem-panel,
+  .ecosystem-summary,
+  .ecosystem-metric,
+  .ecosystem-layer,
+  .vault-panel,
+  .vault-card,
+  .vault-metric,
+  .vault-row,
+  .vault-ip-bridge
+) {
+  background: rgba(18, 20, 22, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.26) !important;
+}
+
+body.theme-dark.wallet-app :where(
+  .coin-panel p,
+  .coin-card p,
+  .coin-proof p,
+  .coin-learn-card p,
+  .coin-comparison-item p,
+  .coin-use-card p,
+  .coin-road-item p,
+  .wlt-panel p,
+  .wlt-stat p,
+  .wlt-principles p,
+  .wlt-layer-grid p,
+  .eco-merchant-card p,
+  .eco-market-card p,
+  .ecosystem-card p,
+  .ecosystem-panel p,
+  .ecosystem-summary p,
+  .vault-panel p,
+  .vault-card p,
+  .vault-row small,
+  .vault-ip-bridge p
+) {
+  color: rgba(255, 255, 255, 0.62) !important;
+}
+
+body.theme-light.wallet-app :where(
+  .coin-panel,
+  .coin-card,
+  .coin-proof > div,
+  .coin-learn-card,
+  .coin-comparison-item,
+  .coin-use-card,
+  .coin-road-item,
+  .wlt-card,
+  .wlt-stat,
+  .wlt-principles div,
+  .wlt-panel,
+  .wlt-layer-grid > div,
+  .wlt-security-state div,
+  .wlt-device-row,
+  .wlt-binding-item,
+  .eco-market-card,
+  .eco-market-metric,
+  .eco-merchant-card,
+  .ecosystem-card,
+  .ecosystem-panel,
+  .ecosystem-summary,
+  .ecosystem-metric,
+  .ecosystem-layer,
+  .vault-panel,
+  .vault-card,
+  .vault-metric,
+  .vault-row,
+  .vault-ip-bridge
+) {
+  background: rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(13, 33, 24, 0.12) !important;
+  box-shadow: 0 18px 42px rgba(20, 38, 30, 0.1) !important;
+}
+
+body.theme-light.wallet-app :where(
+  .coin-panel p,
+  .coin-card p,
+  .coin-proof p,
+  .coin-learn-card p,
+  .coin-comparison-item p,
+  .coin-use-card p,
+  .coin-road-item p,
+  .wlt-panel p,
+  .wlt-stat p,
+  .wlt-principles p,
+  .wlt-layer-grid p,
+  .eco-merchant-card p,
+  .eco-market-card p,
+  .ecosystem-card p,
+  .ecosystem-panel p,
+  .ecosystem-summary p,
+  .vault-panel p,
+  .vault-card p,
+  .vault-row small,
+  .vault-ip-bridge p
+) {
+  color: rgba(23, 35, 28, 0.68) !important;
+}
+
+.wallet-app-launcher {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: -18px 0 clamp(34px, 5vw, 62px);
+}
+
+.wallet-app-launcher a {
+  min-width: 0;
+  padding: 16px 14px;
+  border: 1px solid var(--wallet-panel-border);
+  border-radius: 16px;
+  background: var(--wallet-panel-bg);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: var(--wallet-shadow);
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.wallet-app-launcher a:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 103, 31, 0.28);
+  background: rgba(255, 103, 31, 0.08);
+}
+
+.wallet-app-launcher span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--brand-orange);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.wallet-app-launcher strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.wallet-app-launcher p {
+  margin: 0;
+  color: var(--wallet-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 769px) {
+  .wallet-app .site-header,
+  .wallet-app .personal-header {
+    min-height: 76px;
+  }
+
+  .wallet-app .header-inner,
+  .wallet-app .personal-header-inner {
+    min-height: 76px;
+  }
+}
+
+@media (max-width: 768px) {
+  body.wallet-app {
+    background:
+      radial-gradient(circle at 10% 0%, rgba(255, 103, 31, 0.16), transparent 34%),
+      radial-gradient(circle at 100% 4%, rgba(4, 106, 56, 0.18), transparent 34%),
+      var(--bg-color);
+  }
+
+  body.theme-light.wallet-app {
+    background:
+      radial-gradient(circle at 10% 0%, rgba(255, 103, 31, 0.13), transparent 34%),
+      radial-gradient(circle at 100% 4%, rgba(4, 106, 56, 0.12), transparent 34%),
+      #f8faf7;
+  }
+
+  .wallet-app .brand-link,
+  .wallet-app .personal-brand {
+    border: 0;
+    background: transparent;
+  }
+
+  .wallet-app-launcher {
+    grid-template-columns: 1fr;
+    margin-top: -6px;
+  }
+
+  .wallet-app-launcher a {
+    padding: 14px;
+    border-radius: 14px;
+  }
+}

@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HI Wallet — Amit Ku Yadav</title>
+  <meta name="description" content="HI Wallet for identity-bound local HI coins connected to HDI and device identity." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="favicon/favicon.ico" />
+  <meta name="theme-color" content="#046A38" />
+  <link rel="stylesheet" href="css/base.css?v=form-suite-1" />
+  <link rel="stylesheet" href="css/components.css?v=footer-clean-1" />
+  <link rel="stylesheet" href="css/layout.css?v=layout-1" />
+  <link rel="stylesheet" href="css/personal.css?v=nav-pro-3" />
+  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-1" />
+  <link rel="stylesheet" href="css/auth.css?v=auth-otp-1" />
+  <link rel="stylesheet" href="css/hi-app.css?v=hi-1" />
+  <link rel="stylesheet" href="css/hi-wallet.css?v=wallet-pro-1" />
+  <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-1" />
+</head>
+<body class="theme-dark personal-page wallet-page wallet-app">
+<script>
+  try { var _t = localStorage.getItem('theme'); if (_t) { document.body.classList.remove('theme-dark','theme-light'); document.body.classList.add(_t); } } catch(e) {}
+</script>
+<script src="js/auth.js?v=auth-otp-1"></script>
+<script>requireAuth(); document.documentElement.style.visibility = '';</script>
+
+<div id="scrollProgress"></div>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<header class="personal-header glass">
+  <div class="personal-header-inner">
+    <a href="/wallet/" class="personal-brand" aria-label="HI Wallet app home">
+      <img id="personalLogo" src="logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
+      <div class="personal-brand-text">
+        <span class="personal-name">Amit Ku Yadav</span>
+        <span class="personal-tagline">HI Wallet App</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="wallet-nav" data-nav="wallet" aria-label="Wallet navigation"></nav>
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+</header>
+
+<div class="wlt-stripe"></div>
+
+<main class="wlt-main" id="main-content">
+
+  <!-- LOCKED -->
+  <div id="walletLocked" class="wlt-locked">
+    <div class="wlt-locked-icon">🔒</div>
+    <p class="wlt-kicker">Identity Required</p>
+    <h2>Create your HI identity first.</h2>
+    <p>HI coin generation unlocks only after your Human Digital Identity is saved. The wallet binds coins to your HDI and this browser device identity.</p>
+    <div class="wlt-action-row" style="margin-top:1.25rem">
+      <a class="wlt-btn primary" href="/pages/personal.html#create-identity">Create Identity</a>
+      <a class="wlt-btn" href="vault.html#vaultImportForm">Restore Backup</a>
+      <a class="wlt-btn" href="/pages/hi-license.html">IP Vault</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="wlt-hero">
+    <div class="wlt-hero-copy">
+      <p class="wlt-kicker">HI Wallet — Phase 1 Prototype</p>
+      <h1>Identity-powered<br>value system.</h1>
+      <p class="wlt-hero-desc">One human identity. One permanent Genesis HI. Transparent local ledger with simulated payment flows for services, merchants, and contributions.</p>
+      <div class="wlt-action-row">
+        <a class="wlt-btn primary" href="#walletActions">Use Wallet</a>
+        <a class="wlt-btn" href="/wallet/marketplace/">Marketplace</a>
+        <a class="wlt-btn" href="vault.html">Vault</a>
+        <a class="wlt-btn" href="merchant.html">Merchant</a>
+        <a class="wlt-btn" href="index.html">Coin Project</a>
+      </div>
+    </div>
+
+    <div class="wlt-card" aria-label="Wallet balance card">
+      <div class="wlt-card-bg"></div>
+      <div class="wlt-card-inner">
+        <div class="wlt-card-top">
+          <div class="wlt-card-chip">
+            <div></div><div></div><div></div><div></div>
+          </div>
+          <img src="images/coin/hi-coin-both-sides.svg?v=2" alt="HI coin" class="wlt-coin-img" />
+        </div>
+        <div class="wlt-card-balance-wrap">
+          <span class="wlt-card-balance-label">Available Balance</span>
+          <div class="wlt-card-balance">
+            <strong id="walletBalance">0</strong>
+            <span>HI</span>
+          </div>
+        </div>
+        <code id="walletAddress" class="wlt-card-address">Loading wallet address…</code>
+        <div class="wlt-card-footer">
+          <div>
+            <span>Genesis</span>
+            <strong id="walletGenesisStatus">Pending</strong>
+          </div>
+          <div>
+            <span>Trust Score</span>
+            <strong id="walletTrustScore">0</strong><small>/100</small>
+          </div>
+          <div>
+            <span>Phase</span>
+            <strong>Prototype</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="wlt-stats">
+    <div class="wlt-stat">
+      <span>Balance</span>
+      <strong id="statBalance">0 HI</strong>
+    </div>
+    <div class="wlt-stat">
+      <span>Trust Score</span>
+      <strong id="statTrust">0/100</strong>
+    </div>
+    <div class="wlt-stat">
+      <span>Transactions</span>
+      <strong id="statTxCount">0</strong>
+    </div>
+    <div class="wlt-stat">
+      <span>Genesis Status</span>
+      <strong id="statGenesis">Pending</strong>
+    </div>
+  </div>
+
+  <!-- PRINCIPLES -->
+  <div class="wlt-principles">
+    <div><span>Identity</span><strong>1 Human = 1 HDI</strong></div>
+    <div><span>Genesis</span><strong>1 verified = 1 HI</strong></div>
+    <div><span>Value</span><strong>Earned, not traded</strong></div>
+    <div><span>Phase 1</span><strong>Prototype only</strong></div>
+  </div>
+
+  <section class="wlt-grid">
+    <article class="wlt-panel wlt-security-panel">
+      <p class="wlt-kicker">Key Security</p>
+      <h2>Unlock identity key.</h2>
+      <div class="wlt-security-state">
+        <div><span>Private Key</span><strong id="walletKeyProtection">Checking</strong></div>
+        <div><span>Session</span><strong id="walletKeySession">Locked</strong></div>
+        <div><span>Risk</span><strong id="walletRiskState">Checking</strong></div>
+      </div>
+      <form id="walletSecurityForm" class="wlt-form">
+        <div class="wlt-field">
+          <label for="walletPassphrase">Wallet passphrase</label>
+          <input id="walletPassphrase" type="password" minlength="8" autocomplete="current-password" placeholder="Minimum 8 characters" required />
+        </div>
+        <div class="wlt-action-row">
+          <button class="wlt-submit" id="walletProtectKey" type="button">Protect Key</button>
+          <button class="wlt-submit" id="walletUnlockKey" type="submit">Unlock</button>
+          <button class="wlt-btn" id="walletLockKey" type="button">Lock</button>
+        </div>
+        <p class="wallet-status" id="walletSecurityStatus" aria-live="polite"></p>
+      </form>
+    </article>
+
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Known Devices</p>
+      <h2>Trust this environment.</h2>
+      <div class="wlt-device-actions">
+        <button class="wlt-btn primary" id="walletTrustDevice" type="button">Trust Current Device</button>
+        <button class="wlt-btn" id="walletRefreshDevices" type="button">Refresh</button>
+      </div>
+      <div id="walletDeviceList" class="wlt-device-list"></div>
+      <p class="wallet-status" id="walletDeviceStatus" aria-live="polite"></p>
+    </article>
+  </section>
+
+  <section class="wlt-grid">
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Recovery Phrase</p>
+      <h2>Generate root backup words.</h2>
+      <p>Use this phrase with your backup passphrase to restore the same identity on a new device.</p>
+      <code id="walletRecoveryPhrase" class="wlt-recovery-phrase">Generate a recovery phrase</code>
+      <div class="wlt-device-actions">
+        <button class="wlt-btn primary" id="walletGenerateRecoveryPhrase" type="button">Generate Phrase</button>
+        <button class="wlt-btn" id="walletCopyRecoveryPhrase" type="button">Copy Phrase</button>
+      </div>
+      <p class="wallet-status" id="walletRecoveryStatus" aria-live="polite"></p>
+    </article>
+
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Restore</p>
+      <h2>Recover identity from backup.</h2>
+      <form id="walletRestoreForm" class="wlt-form">
+        <div class="wlt-field">
+          <label for="walletRestoreFile">HI Vault backup</label>
+          <input id="walletRestoreFile" type="file" accept=".json,.hivault,.hivault.json,application/json" required />
+        </div>
+        <div class="wlt-field">
+          <label for="walletRestorePassphrase">Backup passphrase</label>
+          <input id="walletRestorePassphrase" type="password" autocomplete="current-password" required />
+        </div>
+        <div class="wlt-field">
+          <label for="walletRestoreRecoveryPhrase">Recovery phrase</label>
+          <textarea id="walletRestoreRecoveryPhrase" placeholder="twelve words or more" required></textarea>
+        </div>
+        <button class="wlt-submit" type="submit">Restore Identity + Vault</button>
+        <p class="wallet-status" id="walletRestoreStatus" aria-live="polite"></p>
+      </form>
+    </article>
+  </section>
+
+  <!-- GRID: Genesis + Identity -->
+  <section class="wlt-grid">
+
+    <article class="wlt-panel" id="walletGenerator">
+      <p class="wlt-kicker">Genesis Engine</p>
+      <h2>Create identity-backed value.</h2>
+      <p>Phase 1 starts with exactly one Genesis HI for a saved human identity. Additional HI is simulated as earned contribution credit inside this local prototype.</p>
+      <form id="walletMintForm" class="wlt-form wallet-form">
+        <div class="wlt-field">
+          <label for="walletMintAmount">Contribution reward (HI)</label>
+          <input id="walletMintAmount" type="number" min="1" max="99" step="1" placeholder="e.g. 5" required />
+        </div>
+        <div class="wlt-field">
+          <label for="walletMintReason">Reward reason</label>
+          <select id="walletMintReason">
+            <option value="Verified Contribution">Verified Contribution</option>
+            <option value="Learning Reward">Learning Reward</option>
+            <option value="Community Help">Community Help</option>
+            <option value="Bug Report">Bug Report</option>
+            <option value="Service Work">Service Work</option>
+          </select>
+        </div>
+        <p class="wlt-form-note">Genesis is automatic · Ecosystem demo cap: 99 HI per transaction</p>
+        <button class="wlt-submit" id="walletMintSubmit" type="submit">Add Earned HI</button>
+        <p class="wallet-status" id="walletStatus" aria-live="polite"></p>
+      </form>
+    </article>
+
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Saved Binding</p>
+      <h2>HI ID and device proof.</h2>
+      <div class="wlt-binding-grid">
+        <div class="wlt-binding-item">
+          <span>Owner</span>
+          <strong id="walletOwner">Loading</strong>
+        </div>
+        <div class="wlt-binding-item">
+          <span>HI ID / HDI</span>
+          <code id="walletHdi">Loading</code>
+        </div>
+        <div class="wlt-binding-item">
+          <span>Device ID</span>
+          <code id="walletDevice">Loading</code>
+        </div>
+        <div class="wlt-binding-item">
+          <span>Fingerprint Hash</span>
+          <code id="walletFingerprint">Loading</code>
+        </div>
+        <div class="wlt-binding-item">
+          <span>Wallet Type</span>
+          <strong>Personal HI Wallet</strong>
+        </div>
+        <div class="wlt-binding-item">
+          <span>Compliance</span>
+          <strong>Local prototype only</strong>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- GRID: Transfer + UPI -->
+  <section class="wlt-grid" id="walletActions">
+
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Send / Receive</p>
+      <h2>Move HI inside the prototype.</h2>
+      <form id="walletTransferForm" class="wlt-form wallet-form">
+        <div class="wlt-field">
+          <label for="walletTransferMode">Mode</label>
+          <select id="walletTransferMode">
+            <option value="send">Send HI</option>
+            <option value="receive">Receive HI</option>
+          </select>
+        </div>
+        <div class="wlt-field">
+          <label for="walletTransferAddress">Wallet address or HDI</label>
+          <input id="walletTransferAddress" type="text" placeholder="hiw_user_abc123 or AKY-2026-23185D" required />
+        </div>
+        <div class="wlt-field">
+          <label for="walletTransferAmount">Amount (HI)</label>
+          <input id="walletTransferAmount" type="number" min="1" step="1" placeholder="e.g. 3" required />
+        </div>
+        <button class="wlt-submit" type="submit">Save Transfer</button>
+        <p class="wallet-status" id="walletTransferStatus" aria-live="polite"></p>
+      </form>
+    </article>
+
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Mock UPI Bridge</p>
+      <h2>Merchant QR simulation.</h2>
+      <div class="wlt-qr" aria-label="Mock merchant QR">
+        <span>PAY</span>
+        <strong>HI</strong>
+        <code>MER-YADAV-2026</code>
+      </div>
+      <form id="walletUpiForm" class="wlt-form wallet-form">
+        <div class="wlt-field">
+          <label for="walletMerchantName">Merchant</label>
+          <input id="walletMerchantName" type="text" value="Yadav Digital Store" required />
+        </div>
+        <div class="wlt-field">
+          <label for="walletUpiAmount">HI amount</label>
+          <input id="walletUpiAmount" type="number" min="1" step="1" placeholder="e.g. 2" required />
+        </div>
+        <button class="wlt-submit" type="submit">Pay Mock Merchant</button>
+        <p class="wallet-status" id="walletUpiStatus" aria-live="polite"></p>
+      </form>
+    </article>
+
+  </section>
+
+  <!-- BLUEPRINT -->
+  <section class="wlt-panel wlt-blueprint">
+    <p class="wlt-kicker">System Architecture</p>
+    <h2>HI Wallet stays separate from the Digital Coin project.</h2>
+    <div class="wlt-layer-grid">
+      <div><span>01</span><strong>HDI Identity Layer</strong><p>Creates the human identity and binds the wallet to it.</p></div>
+      <div><span>02</span><strong>HI Wallet Layer</strong><p>Stores local balance, address, device proof, and wallet state.</p></div>
+      <div><span>03</span><strong>Identity Coin Engine</strong><p>Issues the one Genesis HI and contribution rewards.</p></div>
+      <div><span>04</span><strong>Local Ledger</strong><p>Records every local action with hashes and timestamps.</p></div>
+      <div><span>05</span><strong>Mock UPI Bridge</strong><p>Simulates payment UX without real settlement.</p></div>
+      <div><span>06</span><strong>Merchant Layer</strong><p>Models QR payment, merchant identity, and receipts.</p></div>
+      <div><span>07</span><strong>Marketplace Layer</strong><p>Lets HI move through services, work, learning, and contribution.</p></div>
+      <div><span>08</span><strong>Trust Score</strong><p>Converts identity age, ledger history, and activity into reputation.</p></div>
+      <div><span>09</span><strong>Future Settlement</strong><p>Keeps a path toward compliant UPI-style merchant settlement.</p></div>
+    </div>
+  </section>
+
+  <!-- LEDGER -->
+  <section class="wlt-panel wlt-ledger-section">
+    <p class="wlt-kicker">Ledger</p>
+    <h2>Transparent local history.</h2>
+    <div class="wlt-ledger-tools">
+      <button class="wlt-btn primary" id="walletExportProof" type="button">Export Proof JSON</button>
+      <span>Includes identity, wallet, balance, trust score, and all transactions.</span>
+    </div>
+    <div id="walletLedger" class="wlt-ledger"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer glass" data-footer></footer>
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+</button>
+
+<script src="js/footer.js" defer></script>
+<script src="js/nav.js" defer></script>
+<script src="js/script.js?v=footer-clean-1" defer></script>
+<script src="js/hi-storage.js?v=hi-wallet-1"></script>
+<script src="js/hi-identity-crypto.js?v=phase-1a" defer></script>
+<script src="js/hi-app.js?v=hi-1" defer></script>
+<script src="js/hi-vault.js?v=hi-vault-1" defer></script>
+<script src="js/hi-wallet.js?v=wallet-pro-1" defer></script>
+</body>
+</html>

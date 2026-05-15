@@ -2,19 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Digital Coin Community | India to World</title>
-  <meta name="description" content="A community page exploring a trusted digital coin vision from India to the world: identity, UPI, wallets, community, and responsible digital currency design." />
+  <title>HI Wallet App | Identity, Coin, Vault, Merchant, Marketplace</title>
+  <meta name="description" content="HI Wallet app shell for identity-bound HI coin, encrypted vault backup, merchant payments, and the HI marketplace." />
   <meta name="author" content="Amit Ku Yadav" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#000000" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://kingofyadav.in/wallet/" />
 
-  <link rel="preload" href="/css/base.css?v=form-suite-1" as="style" />
-  <link rel="preload" href="/css/components.css?v=footer-clean-1" as="style" />
-  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
-  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
-<link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+  <link rel="preload" href="css/base.css?v=form-suite-1" as="style" />
+  <link rel="preload" href="css/components.css?v=footer-clean-1" as="style" />
+  <link rel="stylesheet" href="css/base.css?v=form-suite-1" />
+  <link rel="stylesheet" href="css/components.css?v=footer-clean-1" />
+<link rel="stylesheet" href="css/layout.css?v=layout-1" />
+  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-1" />
+  <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-1" />
 
   <style>
     .coin-page {
@@ -486,7 +488,7 @@
   </style>
 </head>
 
-<body class="theme-dark">
+<body class="theme-dark wallet-app">
   <script>try{var _t=localStorage.getItem("theme");if(_t){document.body.classList.remove("theme-dark","theme-light");document.body.classList.add(_t);}}catch(e){}</script>
   <div id="scrollProgress"></div>
   <a href="#main-content" class="skip-link">Skip to content</a>
@@ -494,53 +496,72 @@
   <header class="site-header glass">
     <div class="header-inner">
       <div class="brand">
-        <a href="/" class="brand-link" aria-label="Amit Ku Yadav home">
-          <img id="siteLogo" class="logo" src="/logo/day-logo.png" alt="Amit Ku Yadav personal profile" width="50" height="50" />
+        <a href="/wallet/" class="brand-link" aria-label="HI Wallet app home">
+          <img id="siteLogo" class="logo" src="logo/day-logo.png" alt="Amit Ku Yadav personal profile" width="50" height="50" />
           <div class="brand-text">
             <span class="brand-name">Amit Ku Yadav</span>
-            <span class="brand-tagline">Digital Coin</span>
+            <span class="brand-tagline">HI Wallet App</span>
           </div>
         </a>
       </div>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
-      <nav aria-label="Main navigation">
-        <ul class="nav-list">
-          <li><a href="/">Home</a></li>
-          <li><a href="/wallet/" aria-current="page">Digital Coin</a></li>
-          <li><a href="/pages/blog.html">Blog</a></li><li><a href="/pages/gallery.html">Gallery</a></li>
-          <li><a href="/pages/services.html">Services</a></li>
-          <li><a href="/pages/contact.html">Contact</a></li>
-          <li><a href="/pages/collaboration.html">Collaboration</a></li>
-        </ul>
-      </nav>
+      <nav class="wallet-nav" aria-label="Wallet navigation" data-nav="wallet"></nav>
     </div>
   </header>
 
   <main class="coin-main coin-page" id="main-content">
     <section class="coin-hero" aria-label="Digital coin community hero">
       <div class="coin-hero-copy">
-        <p class="hero-label">India to World Digital Currency Community</p>
-        <h1>Explore the next trusted digital coin movement.</h1>
+        <p class="hero-label">HI Wallet App Suite</p>
+        <h1>Identity, coin, vault, merchant, and marketplace in one place.</h1>
         <p>
-          A community-led concept for a digital coin experience rooted in India’s payment culture:
-          UPI familiarity, identity-first wallets, responsible transaction design, and global public participation.
+          A browser-first app experience for Human Digital Identity, HI coin records,
+          encrypted recovery, merchant flow, and service economy actions.
         </p>
         <div class="coin-hero-actions">
-          <a href="#coin-community" class="btn-primary">Join Community</a>
-          <a href="/pages/wallet.html" class="btn-secondary">Open HI Wallet</a>
+          <a href="wallet.html" class="btn-primary">Open Wallet</a>
+          <a href="coin.html" class="btn-secondary">Explore HI Coin</a>
         </div>
       </div>
 
       <figure class="coin-hero-visual">
-        <img src="/images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_32_09%20AM.png" alt="Digital rupee coin concept with India, UPI, blockchain, security, and trusted network symbols" />
+        <img src="images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_32_09%20AM.png" alt="Digital rupee coin concept with India, UPI, blockchain, security, and trusted network symbols" />
         <figcaption class="coin-visual-caption">
           <span>Secure</span>
           <span>UPI Ready</span>
           <span>Global Vision</span>
         </figcaption>
       </figure>
+    </section>
+
+    <section class="wallet-app-launcher" aria-label="HI Wallet app modules">
+      <a href="wallet.html">
+        <span>01</span>
+        <strong>HI Wallet</strong>
+        <p>Balance, ledger, transfer, and identity-bound wallet actions.</p>
+      </a>
+      <a href="coin.html">
+        <span>02</span>
+        <strong>HI Coin</strong>
+        <p>Coin rules, value model, and the trusted ecosystem concept.</p>
+      </a>
+      <a href="vault.html">
+        <span>03</span>
+        <strong>Vault</strong>
+        <p>Encrypted backup, recovery, and protected local app data.</p>
+      </a>
+      <a href="merchant.html">
+        <span>04</span>
+        <strong>Merchant</strong>
+        <p>Merchant HDI, QR payment simulation, and settlement flow.</p>
+      </a>
+      <a href="/wallet/marketplace/">
+        <span>05</span>
+        <strong>Marketplace</strong>
+        <p>Use HI for services, work, learning, and contribution.</p>
+      </a>
     </section>
 
     <section class="coin-proof" aria-label="Community highlights">
@@ -580,7 +601,7 @@
 
     <section class="coin-section coin-showcase" aria-label="Digital coin technology showcase">
       <div class="coin-showcase-media">
-        <img src="/images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_31_58%20AM.png" alt="Multiple views of a digital coin showing front, edge, and back rotation" loading="lazy" />
+        <img src="images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_31_58%20AM.png" alt="Multiple views of a digital coin showing front, edge, and back rotation" loading="lazy" />
       </div>
       <div class="coin-panel">
         <span class="coin-panel-label">Technology Layer</span>
@@ -613,7 +634,7 @@
         </div>
       </div>
       <div class="coin-architecture-media">
-        <img src="/images/coin/india_digital_coin_architecture.svg" alt="Layered architecture diagram for digital coin, UPI bridge, wallet, compliance, and settlement" loading="lazy" />
+        <img src="images/coin/india_digital_coin_architecture.svg" alt="Layered architecture diagram for digital coin, UPI bridge, wallet, compliance, and settlement" loading="lazy" />
       </div>
     </section>
 
@@ -632,7 +653,7 @@
         </div>
       </div>
       <div class="coin-showcase-media">
-        <img src="/images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_32_17%20AM.png" alt="Digital coin presentation with security, UPI integration, blockchain technology, Indian innovation, and trusted network icons" loading="lazy" />
+        <img src="images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_32_17%20AM.png" alt="Digital coin presentation with security, UPI integration, blockchain technology, Indian innovation, and trusted network icons" loading="lazy" />
       </div>
     </section>
 
@@ -695,7 +716,7 @@
           and ledger history can work together inside a private browser-based prototype.
         </p>
         <div class="coin-hero-actions">
-          <a href="/pages/wallet.html" class="btn-primary">Open HI Wallet</a>
+          <a href="wallet.html" class="btn-primary">Open HI Wallet</a>
         </div>
       </div>
     </section>
@@ -707,7 +728,8 @@
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
-  <script src="/js/footer.js" defer></script>
-<script src="/js/script.js?v=footer-clean-1" defer></script>
+  <script src="js/footer.js" defer></script>
+<script src="js/nav.js" defer></script>
+<script src="js/script.js?v=footer-clean-1" defer></script>
 </body>
 </html>

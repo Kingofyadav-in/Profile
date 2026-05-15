@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HI Merchant — Amit Ku Yadav</title>
+  <meta name="description" content="HI Merchant dashboard for merchant HDI, merchant wallet, QR payment simulation, local payment logs, and settlement prototype." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="favicon/favicon.ico" />
+  <meta name="theme-color" content="#046A38" />
+  <link rel="stylesheet" href="css/base.css?v=form-suite-1" />
+  <link rel="stylesheet" href="css/components.css?v=footer-clean-1" />
+  <link rel="stylesheet" href="css/layout.css?v=layout-1" />
+  <link rel="stylesheet" href="css/personal.css?v=nav-pro-3" />
+  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-1" />
+  <link rel="stylesheet" href="css/auth.css?v=auth-otp-1" />
+  <link rel="stylesheet" href="css/hi-app.css?v=hi-1" />
+  <link rel="stylesheet" href="css/hi-wallet.css?v=wallet-pro-1" />
+  <link rel="stylesheet" href="css/hi-ecosystem.css?v=eco-pro-1" />
+  <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-1" />
+</head>
+<body class="theme-dark personal-page ecosystem-page merchant-page wallet-app">
+<script>
+  try { var _t = localStorage.getItem('theme'); if (_t) { document.body.classList.remove('theme-dark','theme-light'); document.body.classList.add(_t); } } catch(e) {}
+</script>
+<script src="js/auth.js?v=auth-otp-1"></script>
+<script>requireAuth(); document.documentElement.style.visibility = '';</script>
+
+<div id="scrollProgress"></div>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<header class="personal-header glass">
+  <div class="personal-header-inner">
+    <a href="/wallet/" class="personal-brand" aria-label="HI Wallet app home">
+      <img id="personalLogo" src="logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
+      <div class="personal-brand-text">
+        <span class="personal-name">Amit Ku Yadav</span>
+        <span class="personal-tagline">HI Wallet App</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="wallet-nav" data-nav="wallet" aria-label="Wallet navigation"></nav>
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+</header>
+
+<div class="eco-stripe"></div>
+
+<main class="eco-main" id="main-content">
+
+  <!-- LOCKED -->
+  <div id="ecosystemLocked" class="ecosystem-locked">
+    <p class="eco-kicker">Identity Required</p>
+    <h2>Create HDI before merchant onboarding.</h2>
+    <p>Merchant wallets are linked to the owner HDI, so the system needs your Human Digital Identity first.</p>
+    <div class="ecosystem-actions" style="margin-top:1.25rem">
+      <a class="ecosystem-action primary" href="/pages/personal.html#create-identity">Create Identity</a>
+      <a class="ecosystem-action" href="wallet.html">Open HI Wallet</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="eco-hero">
+    <div class="eco-hero-copy">
+      <p class="eco-kicker">Merchant Ecosystem — Phase 2 Prototype</p>
+      <h1>Merchant onboarding<br>for HI Wallet.</h1>
+      <p class="eco-hero-desc">Create a merchant HDI, merchant wallet, QR payment string, local payment logs, and simulated settlement metrics. This is the real-world adoption layer for HI Wallet.</p>
+      <div class="ecosystem-actions">
+        <a class="ecosystem-action primary" href="#merchantOnboardForm">Onboard Merchant</a>
+        <a class="ecosystem-action" href="/wallet/marketplace/">Open Marketplace</a>
+        <a class="ecosystem-action" href="wallet.html">HI Wallet</a>
+      </div>
+    </div>
+
+    <div class="eco-merchant-card" aria-label="Merchant identity card">
+      <div class="eco-merchant-card-bg"></div>
+      <div class="eco-merchant-card-inner">
+        <div class="eco-merchant-card-top">
+          <div class="eco-merchant-badge">
+            <span>MERCHANT</span>
+          </div>
+          <div class="eco-merchant-icon">🏪</div>
+        </div>
+        <div class="eco-merchant-name" id="merchantNameView">Not onboarded</div>
+        <code class="eco-merchant-hdi" id="merchantHdiView">Pending</code>
+        <code class="eco-merchant-wallet" id="merchantWalletView">Create a merchant profile below</code>
+        <div class="eco-merchant-footer">
+          <div>
+            <span>Category</span>
+            <strong id="merchantCategoryView">Service</strong>
+          </div>
+          <div>
+            <span>Settlement</span>
+            <strong id="merchantSettlementView">Simulated INR</strong>
+          </div>
+          <div>
+            <span>Phase</span>
+            <strong>Prototype</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wlt-grid" style="margin-bottom:1.5rem">
+    <article class="wlt-panel wlt-security-panel">
+      <p class="wlt-kicker">Key Security</p>
+      <h2>Unlock and trust this device.</h2>
+      <p>Merchant actions use the same HDI security state as the wallet.</p>
+      <div class="wlt-security-state">
+        <div><span>Private Key</span><strong id="walletKeyProtection">Checking</strong></div>
+        <div><span>Session</span><strong id="walletKeySession">Locked</strong></div>
+        <div><span>Risk</span><strong id="walletRiskState">Checking</strong></div>
+      </div>
+      <form id="walletSecurityForm" class="wlt-form">
+        <div class="wlt-field">
+          <label for="walletPassphrase">Wallet passphrase</label>
+          <input id="walletPassphrase" type="password" minlength="8" autocomplete="current-password" placeholder="Minimum 8 characters" required />
+        </div>
+        <div class="wlt-action-row">
+          <button class="wlt-submit" id="walletProtectKey" type="button">Protect Key</button>
+          <button class="wlt-submit" id="walletUnlockKey" type="submit">Unlock</button>
+          <button class="wlt-btn" id="walletLockKey" type="button">Lock</button>
+        </div>
+        <p class="wallet-status" id="walletSecurityStatus" aria-live="polite"></p>
+      </form>
+    </article>
+
+    <article class="wlt-panel">
+      <p class="wlt-kicker">Device Trust</p>
+      <h2>Mark this browser trusted.</h2>
+      <div class="wlt-device-actions">
+        <button class="wlt-btn primary" id="walletTrustDevice" type="button">Trust Current Device</button>
+        <button class="wlt-btn" id="walletRefreshDevices" type="button">Refresh</button>
+      </div>
+      <div id="walletDeviceList" class="wlt-device-list"></div>
+      <p class="wallet-status" id="walletDeviceStatus" aria-live="polite"></p>
+    </article>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="eco-stats">
+    <div class="eco-stat">
+      <span>Sales</span>
+      <strong id="merchantSalesView">0</strong>
+    </div>
+    <div class="eco-stat">
+      <span>Customers</span>
+      <strong id="merchantCustomersView">0</strong>
+    </div>
+    <div class="eco-stat">
+      <span>HI Received</span>
+      <strong id="merchantReceivedView">0 HI</strong>
+    </div>
+    <div class="eco-stat">
+      <span>Settlement Mode</span>
+      <strong>Simulated INR</strong>
+    </div>
+  </div>
+
+  <!-- GRID: Onboard + QR -->
+  <section class="eco-grid">
+
+    <article class="eco-panel" id="merchantOnboardSection">
+      <p class="eco-kicker">Onboarding</p>
+      <h2>Create merchant identity.</h2>
+      <form id="merchantOnboardForm" class="eco-form ecosystem-form">
+        <div class="eco-field">
+          <label for="merchantName">Merchant name</label>
+          <input id="merchantName" type="text" placeholder="Yadav Digital Store" required />
+        </div>
+        <div class="eco-field">
+          <label for="merchantCategory">Category</label>
+          <select id="merchantCategory">
+            <option value="Digital Services">Digital Services</option>
+            <option value="Education">Education</option>
+            <option value="Creator">Creator</option>
+            <option value="Local Business">Local Business</option>
+            <option value="Community">Community</option>
+          </select>
+        </div>
+        <div class="eco-field">
+          <label for="merchantUpi">Settlement UPI ID</label>
+          <input id="merchantUpi" type="text" placeholder="demo@upi" />
+        </div>
+        <button class="eco-submit" type="submit">Save Merchant</button>
+        <p class="ecosystem-status" id="merchantStatus" aria-live="polite"></p>
+      </form>
+    </article>
+
+    <article class="eco-panel">
+      <p class="eco-kicker">Merchant QR</p>
+      <h2>Payment simulation string.</h2>
+      <div class="eco-field" style="margin-top:1rem">
+        <label for="merchantQrAmount">QR amount (HI)</label>
+        <input id="merchantQrAmount" type="number" min="1" max="99" step="1" placeholder="e.g. 5" />
+      </div>
+      <div class="ecosystem-qr">
+        <span style="font-size:.65rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--brand-orange)">PAY WITH HI WALLET</span>
+        <strong style="font-size:3rem;line-height:.9">HI</strong>
+        <code id="merchantQrCode" style="padding:.4rem .9rem;border-radius:999px;background:rgba(128,128,128,.12);font-size:.7rem;max-width:92%;word-break:break-all">Create merchant profile</code>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- GRID: Payment + Log -->
+  <section class="eco-grid">
+
+    <article class="eco-panel">
+      <p class="eco-kicker">Payment Log</p>
+      <h2>Record demo customer payment.</h2>
+      <form id="merchantPaymentForm" class="eco-form ecosystem-form">
+        <div class="eco-field">
+          <label for="merchantCustomer">Customer HDI / wallet</label>
+          <input id="merchantCustomer" type="text" placeholder="AKY-2026-23185D" />
+        </div>
+        <div class="eco-field">
+          <label for="merchantPaymentAmount">Amount (HI)</label>
+          <input id="merchantPaymentAmount" type="number" min="1" max="99" step="1" placeholder="e.g. 5" required />
+        </div>
+        <button class="eco-submit" type="submit">Record Payment</button>
+        <p class="ecosystem-status" id="merchantPaymentStatus" aria-live="polite"></p>
+      </form>
+    </article>
+
+    <article class="eco-panel">
+      <p class="eco-kicker">Local Ledger</p>
+      <h2>Merchant payment history.</h2>
+      <div id="merchantPaymentLog" class="ecosystem-list" style="margin-top:1rem"></div>
+    </article>
+
+  </section>
+
+  <!-- BLUEPRINT -->
+  <section class="eco-panel eco-blueprint">
+    <p class="eco-kicker">Phase 3 Direction</p>
+    <h2>Merchant receives INR in the real system.</h2>
+    <div class="eco-layers">
+      <div>
+        <span>01</span>
+        <strong>Customer pays HI</strong>
+        <p>Customer experiences HI Wallet payment — seamless identity-bound flow.</p>
+      </div>
+      <div>
+        <span>02</span>
+        <strong>Settlement bridge</strong>
+        <p>Future Cashfree, Razorpay, or Setu-style rail converts HI to INR.</p>
+      </div>
+      <div>
+        <span>03</span>
+        <strong>Merchant receives INR</strong>
+        <p>Merchant never needs crypto knowledge — gets Indian Rupee directly.</p>
+      </div>
+      <div>
+        <span>04</span>
+        <strong>Proof remains</strong>
+        <p>HI ledger preserves trust, identity, and complete receipt history.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer glass" data-footer></footer>
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+</button>
+
+<script src="js/footer.js" defer></script>
+<script src="js/nav.js" defer></script>
+<script src="js/script.js?v=footer-clean-1" defer></script>
+<script src="js/hi-storage.js?v=hi-ecosystem-1"></script>
+<script src="js/hi-identity-crypto.js?v=phase-1a" defer></script>
+<script src="js/hi-app.js?v=hi-1" defer></script>
+<script src="js/hi-wallet.js?v=hi-wallet-1" defer></script>
+<script src="js/hi-ecosystem.js?v=hi-ecosystem-1" defer></script>
+</body>
+</html>

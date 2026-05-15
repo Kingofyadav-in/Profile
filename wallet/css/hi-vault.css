@@ -1,0 +1,287 @@
+.vault-page {
+  --vault-radius: 14px;
+}
+
+.vault-main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 32px var(--section-pad-h) 42px;
+}
+
+.vault-hero,
+.vault-grid,
+.vault-split {
+  display: grid;
+  gap: 18px;
+}
+
+.vault-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+  align-items: stretch;
+  margin-bottom: 18px;
+}
+
+.vault-split {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.vault-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.vault-hero-copy,
+.vault-panel,
+.vault-card {
+  border: 1px solid var(--card-border);
+  border-radius: var(--vault-radius);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.vault-hero-copy {
+  padding: clamp(26px, 4vw, 46px);
+}
+
+.vault-panel,
+.vault-card {
+  padding: 20px;
+}
+
+.vault-kicker {
+  margin: 0 0 10px;
+  color: var(--brand-green);
+  font-size: .72rem;
+  font-weight: 850;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.vault-hero h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.vault-panel h2,
+.vault-card h3 {
+  margin: 0 0 8px;
+}
+
+.vault-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.vault-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 15px;
+  border: 1px solid rgba(128,128,128,.18);
+  border-radius: 999px;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-size: .84rem;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.vault-action.primary {
+  border-color: transparent;
+  color: #fff;
+  background: var(--gradient-brand);
+  box-shadow: 0 14px 30px rgba(4,106,56,.22);
+}
+
+.vault-action:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: rgba(4,106,56,.42);
+}
+
+.vault-action:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.vault-metric {
+  min-height: 104px;
+  padding: 16px;
+  border: 1px solid rgba(128,128,128,.14);
+  border-radius: 12px;
+  background: rgba(128,128,128,.055);
+}
+
+.vault-metric span,
+.vault-card span,
+.vault-field label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--brand-orange);
+  font-size: .68rem;
+  font-weight: 850;
+  letter-spacing: .9px;
+  text-transform: uppercase;
+}
+
+.vault-metric strong {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 1rem;
+}
+
+.vault-form {
+  display: grid;
+  gap: 13px;
+  margin-top: 16px;
+}
+
+.vault-field input,
+.vault-field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid rgba(128,128,128,.2);
+  border-radius: 10px;
+  color: inherit;
+  background: rgba(128,128,128,.08);
+  font: inherit;
+}
+
+.vault-field textarea {
+  min-height: 118px;
+  resize: vertical;
+  font-family: "Courier New", monospace;
+  font-size: .82rem;
+}
+
+.vault-key {
+  display: block;
+  min-height: 74px;
+  padding: 13px;
+  border: 1px solid rgba(128,128,128,.18);
+  border-radius: 10px;
+  background: rgba(128,128,128,.08);
+  overflow-wrap: anywhere;
+  font-family: "Courier New", monospace;
+  font-size: .9rem;
+  line-height: 1.55;
+}
+
+.vault-status {
+  min-height: 22px;
+  margin: 0;
+  font-size: .84rem;
+}
+
+.vault-status.error {
+  color: #ff6b6b;
+}
+
+.vault-status.success {
+  color: var(--brand-green);
+}
+
+.vault-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.vault-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(128,128,128,.14);
+  border-radius: 10px;
+  background: rgba(128,128,128,.055);
+}
+
+.vault-row small,
+.vault-card p,
+.vault-panel p {
+  color: var(--text-muted);
+}
+
+body.theme-dark .vault-row small,
+body.theme-dark .vault-card p,
+body.theme-dark .vault-panel p {
+  color: #aaa;
+}
+
+.vault-locked {
+  display: none;
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255,103,31,.32);
+  border-radius: var(--vault-radius);
+  background: rgba(255,103,31,.08);
+}
+
+.vault-locked.active {
+  display: block;
+}
+
+@media (max-width: 980px) {
+  .vault-hero,
+  .vault-split {
+    grid-template-columns: 1fr;
+  }
+
+  .vault-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .vault-main {
+    padding-top: 22px;
+    padding-bottom: 30px;
+  }
+
+  .vault-grid,
+  .vault-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── IP Vault ↔ HI Vault bridge banner ── */
+.vault-ip-bridge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid rgba(4,106,56,.3);
+  border-radius: 12px;
+  background: rgba(4,106,56,.06);
+  font-size: .85rem;
+  flex-wrap: wrap;
+}
+
+.vault-ip-bridge-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+.vault-ip-bridge strong { display: block; margin-bottom: .2rem; font-size: .88rem; }
+
+.vault-ip-bridge p {
+  margin: 0;
+  font-size: .78rem;
+  color: var(--text-muted);
+}
+
+body.theme-dark .vault-ip-bridge p { color: rgba(255,255,255,.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  .vault-product-card { transition: none; }
+  .vault-product-card:hover { transform: none; }
+}
