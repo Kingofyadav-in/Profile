@@ -589,19 +589,19 @@ body.theme-light .auth-user-item {
 .auth-bar strong {
   color: var(--brand-green);
   opacity: 1;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: .1px;
 }
 
 .auth-logout-btn {
-  min-height: 28px;
-  padding: 5px 12px;
+  min-height: 32px;
+  padding: 6px 14px;
   border-radius: 999px;
   border: 1px solid rgba(4,106,56,0.42);
   background: rgba(4,106,56,0.12);
   color: var(--brand-green);
   font-size: 0.72rem;
-  font-weight: 850;
+  font-weight: 700;
   line-height: 1;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
@@ -633,9 +633,9 @@ body.theme-light .auth-user-item {
   }
 
   .auth-logout-btn {
-    min-height: 34px;
-    padding: 7px 12px;
-    font-size: 0.68rem;
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 0.72rem;
   }
 }
 

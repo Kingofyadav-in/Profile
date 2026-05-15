@@ -899,6 +899,11 @@ body.theme-light .pd-field textarea {
     margin-top: 24px;
   }
 
+  /* Suppress desktop underline inside mobile dropdown */
+  .personal-nav a::after {
+    display: none;
+  }
+
   /* Hide nav links — hamburger takes over */
   .personal-nav {
     display: flex;
@@ -1302,7 +1307,7 @@ body.theme-light .profile-hero-panel {
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: .96rem;
-    font-weight: 850;
+    font-weight: 800;
   }
 
   .personal-tagline {
@@ -1321,7 +1326,7 @@ body.theme-light .profile-hero-panel {
   .personal-header .personal-nav {
     min-width: 0;
     display: flex !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
     justify-content: center !important;
     align-items: center !important;
     gap: 7px !important;
@@ -1336,7 +1341,7 @@ body.theme-light .profile-hero-panel {
     border: 1px solid transparent !important;
     border-radius: 999px !important;
     font-size: .7rem !important;
-    font-weight: 850 !important;
+    font-weight: 800 !important;
     letter-spacing: .65px !important;
     line-height: 1;
     opacity: .78 !important;
@@ -1385,13 +1390,17 @@ body.theme-light .profile-hero-panel {
 }
 
 @media (min-width: 769px) and (max-width: 1280px) {
+  body {
+    padding-top: 116px;
+  }
+
   .personal-header-inner {
     grid-template-columns: minmax(220px, 1fr) auto !important;
     grid-template-areas:
       "brand auth"
       "nav nav" !important;
-    row-gap: 6px;
-    min-height: 88px;
+    row-gap: 4px;
+    min-height: auto;
   }
 
   .personal-header .personal-brand {
@@ -1407,7 +1416,13 @@ body.theme-light .profile-hero-panel {
   .personal-header .personal-nav {
     grid-area: nav;
     justify-content: flex-start !important;
-    padding-left: 58px;
+    padding-left: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .personal-header .personal-nav::-webkit-scrollbar {
+    display: none;
   }
 }
 

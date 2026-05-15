@@ -887,23 +887,6 @@ body.theme-light .site-footer {
     background: rgba(4,106,56,0.12);
   }
 
-  .personal-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .personal-nav a {
-    display: block;
-    padding: 12px 0;
-    font-size: 0.95rem;
-    border-bottom: 1px solid rgba(128,128,128,0.1);
-  }
-
-  .personal-nav a:last-child {
-    border-bottom: none;
-  }
-
   .personal-header-inner {
     position: relative;
   }
