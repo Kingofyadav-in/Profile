@@ -28,10 +28,14 @@ if [[ -z "$HI_KEY" && -f "$HI_KEY_FILE" ]]; then HI_KEY=$(cat "$HI_KEY_FILE" | t
 post() {
   # Primary: Vercel/PostgreSQL (source of truth)
   local result
-  result=$(curl -s -X POST "$API" \
+  if ! result=$(curl -fsS -X POST "$API" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $TOKEN" \
-    -d "$1")
+    -d "$1" 2>&1); then
+    echo "  Error: unable to reach live-class API" >&2
+    echo "  $result" >&2
+    return 1
+  fi
   # Secondary: Railway/WebSocket (real-time broadcast — fire and forget)
   curl -s -X POST "$RAILWAY_API" \
     -H "Content-Type: application/json" \
@@ -42,9 +46,29 @@ post() {
 
 json_post() { python3 -c "import json,sys; print(json.dumps(sys.argv[1]))" "$1" 2>/dev/null || echo "\"$1\""; }
 
-get_state() { curl -s "$API"; }
+get_state() {
+  local result
+  if ! result=$(curl -fsS "$API" 2>&1); then
+    echo "  Error: unable to reach live-class API" >&2
+    echo "  $result" >&2
+    return 1
+  fi
+  echo "$result"
+}
 
 py() { python3 -c "$1" 2>/dev/null; }
+
+parse_line() {
+  python3 -c "
+import shlex,sys
+try:
+    for arg in shlex.split(sys.stdin.read()):
+        print(arg)
+except ValueError as e:
+    print('  Parse error: ' + str(e), file=sys.stderr)
+    raise SystemExit(1)
+"
+}
 
 ok_msg() {
   local r="$1"; local msg="$2"
@@ -52,6 +76,9 @@ ok_msg() {
 import sys,json
 try:
     d=json.load(sys.stdin)
+    if d.get('ok') is False:
+        print('  Error — ' + str(d.get('error','request failed')))
+        raise SystemExit
     b=len(d.get('blocks',[]))
     print(f'  OK — $msg ({b} blocks on board)')
 except: print('  OK — $msg')
@@ -72,7 +99,7 @@ blocks  = len(d.get('blocks',[]))
 qs      = sum(1 for q in d.get('questions',[]) if not q.get('answered'))
 rev     = d.get('revision',0)
 theme   = d.get('theme','blackboard')
-print(f'  Room       : \$ROOM')
+print('  Room       : $ROOM')
 print(f'  Title      : {title}')
 print(f'  Teacher    : {teacher}')
 print(f'  Theme      : {theme}')
@@ -309,15 +336,15 @@ EOF
 run_cmd() {
   local cmd="${1:-}"; [[ -n "${1:-}" ]] && shift || true
   case "$cmd" in
-    write|text)    r=$(post "{\"action\":\"text\",\"text\":$(json_post "$1")}");  ok_msg "$r" "text added" ;;
-    h|heading)     r=$(post "{\"action\":\"heading\",\"text\":$(json_post "$1")}"); ok_msg "$r" "heading added" ;;
-    code)          r=$(post "{\"action\":\"code\",\"text\":$(json_post "$1")}");   ok_msg "$r" "code added" ;;
-    list)          r=$(post "{\"action\":\"list\",\"text\":$(json_post "$1")}");   ok_msg "$r" "list item added" ;;
-    quote)         r=$(post "{\"action\":\"quote\",\"text\":$(json_post "$1")}");  ok_msg "$r" "quote added" ;;
-    hw|homework)   r=$(post "{\"action\":\"homework\",\"text\":$(json_post "$1")}"); ok_msg "$r" "homework posted" ;;
-    link)          r=$(post "{\"action\":\"link\",\"text\":$(json_post "$1"),\"url\":$(json_post "${2:-}")}"); ok_msg "$r" "link added" ;;
+    write|text)    r=$(post "{\"action\":\"text\",\"text\":$(json_post "${1:-}")}");  ok_msg "$r" "text added" ;;
+    h|heading)     r=$(post "{\"action\":\"heading\",\"text\":$(json_post "${1:-}")}"); ok_msg "$r" "heading added" ;;
+    code)          r=$(post "{\"action\":\"code\",\"text\":$(json_post "${1:-}")}");   ok_msg "$r" "code added" ;;
+    list)          r=$(post "{\"action\":\"list\",\"text\":$(json_post "${1:-}")}");   ok_msg "$r" "list item added" ;;
+    quote)         r=$(post "{\"action\":\"quote\",\"text\":$(json_post "${1:-}")}");  ok_msg "$r" "quote added" ;;
+    hw|homework)   r=$(post "{\"action\":\"homework\",\"text\":$(json_post "${1:-}")}"); ok_msg "$r" "homework posted" ;;
+    link)          r=$(post "{\"action\":\"link\",\"text\":$(json_post "${1:-}"),\"url\":$(json_post "${2:-}")}"); ok_msg "$r" "link added" ;;
     div|divider)   r=$(post '{"action":"divider","text":""}'); ok_msg "$r" "divider added" ;;
-    answer)        r=$(post "{\"action\":\"answer\",\"text\":$(json_post "$1")}"); ok_msg "$r" "answer posted to board" ;;
+    answer)        r=$(post "{\"action\":\"answer\",\"text\":$(json_post "${1:-}")}"); ok_msg "$r" "answer posted to board" ;;
 
     focus)
       # lc focus 3 → resolve block #3 to its ID then post focus
@@ -347,9 +374,9 @@ if d.get('error'): print('  AI error:', d['error'])
 else: print(f'  OK — {n} blocks generated ({b} total on board)')
 " 2>/dev/null ;;
 
-    title)         r=$(post "{\"action\":\"title\",\"text\":$(json_post "$1")}"); ok_msg "$r" "title set" ;;
-    sub|subtitle)  r=$(post "{\"action\":\"subtitle\",\"text\":$(json_post "$1")}"); ok_msg "$r" "subtitle set" ;;
-    teacher)       r=$(post "{\"action\":\"teacher\",\"text\":$(json_post "$1")}"); ok_msg "$r" "teacher set" ;;
+    title)         r=$(post "{\"action\":\"title\",\"text\":$(json_post "${1:-}")}"); ok_msg "$r" "title set" ;;
+    sub|subtitle)  r=$(post "{\"action\":\"subtitle\",\"text\":$(json_post "${1:-}")}"); ok_msg "$r" "subtitle set" ;;
+    teacher)       r=$(post "{\"action\":\"teacher\",\"text\":$(json_post "${1:-}")}"); ok_msg "$r" "teacher set" ;;
     theme)         r=$(post "{\"action\":\"theme\",\"text\":\"${1:-dark}\"}"); ok_msg "$r" "theme: ${1:-dark}" ;;
     status)
       if [[ -n "${1:-}" ]]; then
@@ -404,7 +431,7 @@ while true; do
   printf "  lc:%s> " "$ROOM"
   IFS= read -r line || break
   [[ -z "$line" ]] && continue
-  read -ra args <<< "$line"
+  mapfile -t args < <(printf '%s' "$line" | parse_line) || continue
   run_cmd "${args[@]}" || break
 done
 
