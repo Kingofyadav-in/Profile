@@ -545,7 +545,48 @@ body.theme-light.wallet-app :where(
     padding-inline: 14px;
   }
 
+  .wallet-app .personal-header .auth-bar,
+  .wallet-app .site-header .auth-bar {
+    max-width: 88px;
+  }
+
+  .wallet-app .personal-header .auth-bar span,
+  .wallet-app .site-header .auth-bar span {
+    display: none;
+  }
+
   .wallet-app :where(.wlt-card, .eco-merchant-card) {
     aspect-ratio: 1.48;
+  }
+
+  .wallet-app .wlt-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .wallet-app :where(.wlt-main, .coin-main, .vault-main, .eco-main, .ecosystem-main) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .wallet-app :where(.wlt-panel, .vault-panel, .ecosystem-panel, .eco-market-card, .wallet-app-launcher a) {
+    padding: 16px;
+  }
+
+  .wallet-app :where(.coin-hero-actions a, .wlt-action-row .wlt-btn, .wlt-action-row .wlt-submit, .wlt-device-actions .wlt-btn, .vault-actions .vault-action, .ecosystem-actions .ecosystem-action) {
+    width: 100%;
+  }
+
+  .wallet-app .wlt-card-inner {
+    padding: 16px;
+  }
+
+  .wallet-app .wlt-card-footer {
+    gap: 10px;
+  }
+
+  .wallet-app .wlt-card-footer span {
+    letter-spacing: .7px;
   }
 }

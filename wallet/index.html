@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>HI Wallet App | Identity, Coin, Vault, Merchant, Marketplace</title>
+  <title>HI Wallet Suite | Wallet, Coin, Vault, Merchant, Marketplace</title>
   <meta name="description" content="HI Wallet app shell for identity-bound HI coin, encrypted vault backup, merchant payments, and the HI marketplace." />
   <meta name="author" content="Amit Ku Yadav" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,12 +31,12 @@
     }
 
     .coin-hero {
-      min-height: calc(100vh - 80px);
+      min-height: calc(100svh - 80px);
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(380px, 620px);
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 560px);
       gap: clamp(28px, 5vw, 72px);
       align-items: center;
-      padding: clamp(56px, 8vw, 118px) 0 clamp(42px, 6vw, 74px);
+      padding: clamp(52px, 7vw, 96px) 0 clamp(34px, 5vw, 58px);
     }
 
     .coin-hero-copy {
@@ -45,7 +45,7 @@
 
     .coin-hero h1 {
       margin: 0 0 22px;
-      font-size: clamp(3.2rem, 7vw, 6.4rem);
+      font-size: clamp(2.8rem, 6vw, 5.6rem);
       line-height: .95;
       font-weight: 850;
       letter-spacing: 0;
@@ -99,6 +99,29 @@
         radial-gradient(circle at 88% 16%, rgba(4,106,56,.18), transparent 38%),
         rgba(128,128,128,.06);
       box-shadow: var(--card-shadow);
+    }
+
+    .wallet-suite-rail {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .wallet-suite-rail span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 11px;
+      border: 1px solid rgba(128,128,128,.18);
+      border-radius: 999px;
+      background: rgba(128,128,128,.06);
+      color: var(--text-muted);
+      font-size: .72rem;
+      font-weight: 850;
+      letter-spacing: .55px;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .coin-hero-visual img {
@@ -466,10 +489,22 @@
       .coin-hero {
         min-height: auto;
         padding-top: 32px;
+        gap: 22px;
       }
 
       .coin-hero h1 {
-        font-size: clamp(2.6rem, 15vw, 4rem);
+        font-size: clamp(2.35rem, 13vw, 3.6rem);
+      }
+
+      .coin-hero-copy p:not(.hero-label) {
+        font-size: .95rem;
+        line-height: 1.62;
+      }
+
+      .coin-hero-actions a,
+      .coin-page .btn-secondary {
+        width: 100%;
+        min-height: 46px;
       }
 
       .coin-proof,
@@ -513,24 +548,32 @@
   <main class="coin-main coin-page" id="main-content">
     <section class="coin-hero" aria-label="Digital coin community hero">
       <div class="coin-hero-copy">
-        <p class="hero-label">HI Wallet App Suite</p>
-        <h1>Identity, coin, vault, merchant, and marketplace in one place.</h1>
+        <p class="hero-label">HI Wallet Suite</p>
+        <h1>The command center for your HI ecosystem.</h1>
         <p>
-          A browser-first app experience for Human Digital Identity, HI coin records,
-          encrypted recovery, merchant flow, and service economy actions.
+          One mobile-ready hub for Human Digital Identity, HI coin records, encrypted recovery,
+          merchant flows, and marketplace actions.
         </p>
         <div class="coin-hero-actions">
           <a href="wallet.html" class="btn-primary">Open Wallet</a>
-          <a href="coin.html" class="btn-secondary">Explore HI Coin</a>
+          <a href="vault.html" class="btn-secondary">Open Vault</a>
+          <a href="merchant.html" class="btn-secondary">Merchant Flow</a>
+        </div>
+        <div class="wallet-suite-rail" aria-label="Wallet suite capabilities">
+          <span>Identity</span>
+          <span>Ledger</span>
+          <span>Recovery</span>
+          <span>Payments</span>
+          <span>Marketplace</span>
         </div>
       </div>
 
       <figure class="coin-hero-visual">
         <img src="images/coin/ChatGPT%20Image%20May%2011%2C%202026%2C%2009_32_09%20AM.png" alt="Digital rupee coin concept with India, UPI, blockchain, security, and trusted network symbols" />
         <figcaption class="coin-visual-caption">
-          <span>Secure</span>
-          <span>UPI Ready</span>
-          <span>Global Vision</span>
+          <span>Wallet</span>
+          <span>Vault</span>
+          <span>Merchant</span>
         </figcaption>
       </figure>
     </section>

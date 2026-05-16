@@ -138,6 +138,7 @@ const PERSONAL_NAV_ITEMS = [
 ];
 
 const WALLET_NAV_ITEMS = [
+  { href: "/wallet/", label: "Overview" },
   { href: "/wallet/wallet.html", label: "HI Wallet" },
   { href: "/wallet/coin.html", label: "HI Coin" },
   { href: "/wallet/vault.html", label: "Vault" },
@@ -173,7 +174,9 @@ function renderNavLinks(nav, items) {
   if (nav.classList.contains("personal-nav") || nav.classList.contains("wallet-nav")) {
     nav.innerHTML = items.map(item => {
       const target = (new URL(item.href, window.location.href).pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
-      const active = current === target || current.startsWith(target + "/");
+      const active = target === "/wallet"
+        ? current === "/wallet" || current === "/wallet/index"
+        : current === target || current.startsWith(target + "/");
       const cls = [item.cls, active ? "active" : ""].filter(Boolean).join(" ");
       return `<a href="${item.href}"${cls ? ` class="${cls}"` : ""}${active ? ' aria-current="page"' : ""}>${item.label}</a>`;
     }).join("");
@@ -182,7 +185,9 @@ function renderNavLinks(nav, items) {
 
   nav.innerHTML = `<ul class="nav-list">${items.map(item => {
     const target = (new URL(item.href, window.location.href).pathname.replace(/\/$/, "") || "/").replace(/\.html$/, "");
-    const active = current === target || current.startsWith(target + "/");
+    const active = target === "/wallet"
+      ? current === "/wallet" || current === "/wallet/index"
+      : current === target || current.startsWith(target + "/");
     const cls = [item.cls, active ? "active" : ""].filter(Boolean).join(" ");
     return `<li><a href="${item.href}"${cls ? ` class="${cls}"` : ""}${active ? ' aria-current="page"' : ""}>${item.label}</a></li>`;
   }).join("")}</ul>`;
@@ -215,6 +220,16 @@ function initActiveNav() {
     link.removeAttribute("aria-current");
     if (target === "" || target === "/") {
       if (current === "" || current === "/") {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.classList.remove("active");
+      }
+      return;
+    }
+
+    if (target === "/wallet") {
+      if (current === "/wallet" || current === "/wallet/index") {
         link.classList.add("active");
         link.setAttribute("aria-current", "page");
       } else {

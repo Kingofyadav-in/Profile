@@ -6,6 +6,7 @@
 ====================================================== */
 ;(function () {
   var WALLET_NAV = [
+    { label: 'Overview', href: '/wallet/' },
     { label: 'HI Wallet', href: '/wallet/wallet.html' },
     { label: 'HI Coin', href: '/wallet/coin.html' },
     { label: 'Vault', href: '/wallet/vault.html' },
@@ -21,6 +22,7 @@
     path = path.replace(/\.html$/, '')
     h = h.replace(/\.html$/, '')
 
+    if (h === '/wallet') return path === '/wallet' || path === '/wallet/index'
     if (h === '/') return path === '/' || path === '/index'
     return path === h || path.startsWith(h + '/')
   }
