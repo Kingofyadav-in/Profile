@@ -10,13 +10,16 @@
 .services-hero .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 18px;
   align-items: center;
 }
 
 .services-hero .hero-actions a {
-  min-width: 170px;
-  text-align: center;
+  transition: transform 0.25s ease;
+}
+
+.services-hero .hero-actions a:hover {
+  transform: translateY(-3px);
 }
 
 .services-proof {
@@ -566,7 +569,7 @@ body.theme-light .hosting-card {
 
   .services-hero .hero-actions a {
     width: 100%;
-    min-width: 0;
+    text-align: center;
   }
 }
 

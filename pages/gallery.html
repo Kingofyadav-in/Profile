@@ -60,14 +60,17 @@
     .gallery-hero .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 18px;
       align-items: center;
       margin-top: 28px;
     }
 
     .gallery-hero .hero-actions a {
-      min-width: 170px;
-      text-align: center;
+      transition: transform 0.25s ease;
+    }
+
+    .gallery-hero .hero-actions a:hover {
+      transform: translateY(-3px);
     }
 
     .gallery-hero-card {
@@ -486,7 +489,7 @@
 
       .gallery-hero .hero-actions a {
         width: 100%;
-        min-width: 0;
+        text-align: center;
       }
 
       .gallery-proof,
