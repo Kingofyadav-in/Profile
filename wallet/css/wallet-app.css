@@ -17,6 +17,7 @@ body.wallet-app {
     radial-gradient(circle at 88% 8%, rgba(4, 106, 56, 0.16), transparent 34%),
     linear-gradient(180deg, rgba(4, 106, 56, 0.08), transparent 420px),
     #000;
+  overflow-x: clip;
 }
 
 body.theme-light.wallet-app {
@@ -46,6 +47,24 @@ body.wallet-app::before {
     linear-gradient(90deg, var(--wallet-grid-line) 1px, transparent 1px);
   background-size: 46px 46px;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 72%);
+}
+
+.wallet-app *,
+.wallet-app *::before,
+.wallet-app *::after {
+  box-sizing: border-box;
+}
+
+.wallet-app :where(img, svg, video, canvas) {
+  max-width: 100%;
+}
+
+.wallet-app :where(code, pre, input, select, textarea, button, a, strong, span, p, h1, h2, h3, h4) {
+  min-width: 0;
+}
+
+.wallet-app :where(code, pre, .wlt-card-address, .wlt-binding-item code, .vault-key, .ecosystem-qr code, .eco-merchant-hdi, .eco-merchant-wallet) {
+  overflow-wrap: anywhere;
 }
 
 .wallet-app .site-header,
@@ -113,7 +132,7 @@ body.theme-light.wallet-app :where(.coin-main p, .coin-main li, .coin-main span,
   color: rgba(23, 35, 28, 0.78) !important;
 }
 
-.wallet-app :where(.coin-proof, .coin-tech-item, .coin-comparison-item, .coin-use-card, .coin-road-item, .wlt-card, .wlt-panel, .wlt-layer-grid > div, .vault-card, .vault-panel, .vault-row, .eco-merchant-card, .ecosystem-card, .ecosystem-panel, .eco-market-card, .eco-market-metric) {
+.wallet-app :where(.coin-tech-item, .coin-comparison-item, .coin-use-card, .coin-road-item, .wlt-card, .wlt-panel, .wlt-layer-grid > div, .vault-card, .vault-panel, .vault-row, .eco-panel, .eco-stat, .eco-earn-steps div, .eco-merchant-card, .ecosystem-card, .ecosystem-panel, .eco-market-card, .eco-market-metric) {
   border-color: var(--wallet-panel-border);
   background-color: var(--wallet-panel-bg);
   box-shadow: var(--wallet-shadow);
@@ -167,6 +186,7 @@ body.theme-dark.wallet-app :where(
   .coin-panel,
   .coin-card,
   .coin-proof > div,
+  .coin-stat,
   .coin-learn-card,
   .coin-comparison-item,
   .coin-use-card,
@@ -179,6 +199,9 @@ body.theme-dark.wallet-app :where(
   .wlt-security-state div,
   .wlt-device-row,
   .wlt-binding-item,
+  .eco-panel,
+  .eco-stat,
+  .eco-earn-steps div,
   .eco-market-card,
   .eco-market-metric,
   .eco-merchant-card,
@@ -200,6 +223,7 @@ body.theme-dark.wallet-app :where(
 
 body.theme-dark.wallet-app :where(
   .coin-hero-visual,
+  .coin-media,
   .coin-showcase-media,
   .coin-architecture-media,
   .wlt-card-bg,
@@ -215,6 +239,9 @@ body.theme-dark.wallet-app :where(
   .coin-proof div,
   .coin-card,
   .coin-panel,
+  .coin-stat,
+  .coin-learn-card,
+  .coin-use-card,
   .coin-tech-item,
   .coin-comparison div,
   .coin-flow div,
@@ -224,6 +251,9 @@ body.theme-dark.wallet-app :where(
   .wlt-panel,
   .wlt-security-state div,
   .wlt-device-row,
+  .eco-panel,
+  .eco-stat,
+  .eco-earn-steps div,
   .eco-market-card,
   .eco-market-metric,
   .eco-merchant-card,
@@ -269,6 +299,7 @@ body.theme-light.wallet-app :where(
   .coin-panel,
   .coin-card,
   .coin-proof > div,
+  .coin-stat,
   .coin-learn-card,
   .coin-comparison-item,
   .coin-use-card,
@@ -281,6 +312,9 @@ body.theme-light.wallet-app :where(
   .wlt-security-state div,
   .wlt-device-row,
   .wlt-binding-item,
+  .eco-panel,
+  .eco-stat,
+  .eco-earn-steps div,
   .eco-market-card,
   .eco-market-metric,
   .eco-merchant-card,
@@ -389,10 +423,13 @@ body.theme-light.wallet-app :where(
 
 .wallet-app :where(
   .coin-hero,
+  .coin-split,
+  .coin-arch-split,
   .coin-showcase,
   .coin-architecture,
   .coin-world,
   .coin-community,
+  .coin-community-split,
   .wlt-hero,
   .wlt-grid,
   .wlt-stats,
@@ -408,7 +445,9 @@ body.theme-light.wallet-app :where(
   .ecosystem-split,
   .ecosystem-grid,
   .ecosystem-metric-grid,
-  .ecosystem-layers
+  .ecosystem-layers,
+  .eco-services-grid,
+  .eco-earn-steps
 ) {
   min-width: 0;
 }
@@ -432,10 +471,13 @@ body.theme-light.wallet-app :where(
 @media (max-width: 1180px) {
   .wallet-app :where(
     .coin-hero,
+    .coin-split,
+    .coin-arch-split,
     .coin-showcase,
     .coin-architecture,
     .coin-world,
     .coin-community,
+    .coin-community-split,
     .wlt-hero,
     .wlt-grid,
     .vault-hero,
@@ -446,7 +488,9 @@ body.theme-light.wallet-app :where(
     .ecosystem-hero,
     .ecosystem-split,
     .ecosystem-grid,
-    .ecosystem-layers
+    .ecosystem-layers,
+    .eco-services-grid,
+    .eco-earn-steps
   ) {
     grid-template-columns: 1fr !important;
   }
@@ -458,6 +502,10 @@ body.theme-light.wallet-app :where(
 
   .wallet-app :where(.coin-proof, .coin-roadmap, .coin-comparison, .wlt-stats, .wlt-principles, .eco-stats, .ecosystem-grid, .ecosystem-layers) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wallet-app :where(.coin-grid, .coin-learn-grid, .coin-use-grid, .coin-stats, .eco-services-grid, .eco-earn-steps) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
@@ -536,6 +584,18 @@ body.theme-light.wallet-app :where(
     grid-template-columns: 1fr;
   }
 
+  .wallet-app :where(.coin-grid, .coin-learn-grid, .coin-use-grid, .coin-stats, .eco-services-grid, .eco-earn-steps, .vault-grid, .ecosystem-metric-grid) {
+    grid-template-columns: 1fr !important;
+  }
+
+  .wallet-app :where(.coin-hero, .wlt-hero, .vault-hero, .eco-hero, .ecosystem-hero) {
+    gap: 22px;
+  }
+
+  .wallet-app :where(.coin-hero-visual, .coin-media, .coin-showcase-media, .coin-architecture-media) {
+    min-height: 280px !important;
+  }
+
   .wallet-app :where(.coin-hero-actions, .wlt-action-row, .vault-actions, .ecosystem-actions, .wlt-device-actions) {
     gap: 8px;
   }
@@ -562,6 +622,15 @@ body.theme-light.wallet-app :where(
   .wallet-app .wlt-card {
     max-width: 100%;
   }
+
+  .wallet-app :where(.coin-pillar-nav) {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .wallet-app :where(.coin-pillar-nav)::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media (max-width: 560px) {
@@ -570,12 +639,26 @@ body.theme-light.wallet-app :where(
     padding-right: 16px;
   }
 
-  .wallet-app :where(.wlt-panel, .vault-panel, .ecosystem-panel, .eco-market-card, .wallet-app-launcher a) {
+  .wallet-app :where(.coin-panel, .coin-card, .coin-learn-card, .coin-use-card, .wlt-panel, .vault-panel, .ecosystem-panel, .eco-panel, .eco-market-card, .wallet-app-launcher a) {
     padding: 16px;
   }
 
-  .wallet-app :where(.coin-hero-actions a, .wlt-action-row .wlt-btn, .wlt-action-row .wlt-submit, .wlt-device-actions .wlt-btn, .vault-actions .vault-action, .ecosystem-actions .ecosystem-action) {
+  .wallet-app :where(.coin-hero-actions a, .coin-btn, .wlt-action-row .wlt-btn, .wlt-action-row .wlt-submit, .wlt-device-actions .wlt-btn, .vault-actions .vault-action, .ecosystem-actions .ecosystem-action) {
     width: 100%;
+  }
+
+  .wallet-app :where(.coin-hero h1, .vault-hero h1, .ecosystem-hero h1, .eco-hero h1, .wlt-hero h1) {
+    font-size: clamp(2rem, 11vw, 3.2rem) !important;
+    line-height: 1.05;
+  }
+
+  .wallet-app :where(.coin-section-head h2, .coin-panel h2, .wlt-panel h2, .vault-panel h2, .eco-panel h2, .ecosystem-panel h2) {
+    font-size: clamp(1.35rem, 7vw, 2rem);
+    line-height: 1.12;
+  }
+
+  .wallet-app :where(.coin-hero-visual, .coin-hero-visual img, .coin-media, .coin-media img, .coin-showcase-media, .coin-showcase-media img, .coin-architecture-media, .coin-architecture-media img) {
+    min-height: 240px !important;
   }
 
   .wallet-app .wlt-card-inner {
