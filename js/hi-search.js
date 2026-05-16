@@ -14,7 +14,6 @@ var _hiSearchMeta  = { lastBuilt: 0, items: 0 };
 // Suitable for personal data volumes (< 10MB text)
 
 async function hiBuildSearchIndex() {
-  console.log("[HI Search] Building local search index...");
   var index = {
     docs: {},
     tokens: {} // token -> { docId: frequency }
@@ -81,7 +80,6 @@ async function hiBuildSearchIndex() {
 
   _hiSearchIndex = index;
   _hiSearchMeta = { lastBuilt: Date.now(), items: totalItems };
-  console.log("[HI Search] Index built with " + totalItems + " items.");
   return totalItems;
 }
 

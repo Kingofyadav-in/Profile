@@ -284,7 +284,6 @@ async function hiApiPull() {
       }
     }
 
-    console.log('[HI API] Sync complete ✓');
   } catch (e) {
     console.warn('[HI API] Pull failed:', e.message);
   } finally {

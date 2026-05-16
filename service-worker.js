@@ -6,7 +6,7 @@
    Author: Amit Ku Yadav
 ====================================================== */
 
-const VERSION = "v27";
+const VERSION = "v1";
 const STATIC_CACHE = `ak-static-${VERSION}`;
 const DYNAMIC_CACHE = `ak-dynamic-${VERSION}`;
 const MAX_DYNAMIC_ITEMS = 80;
@@ -17,14 +17,24 @@ const STATIC_ASSETS = [
   "/offline.html",
   "/manifest.json",
 
-  /* Protected app pages */
+  /* App pages */
   "/pages/personal.html",
-  "/pages/wallet.html",
-  "/pages/vault.html",
+  "/pages/dashboard.html",
+  "/pages/login.html",
+  "/pages/about.html",
   "/pages/blog.html",
   "/pages/gallery.html",
   "/pages/services.html",
   "/pages/contact.html",
+  "/pages/collaboration.html",
+  "/pages/professional.html",
+  "/pages/social.html",
+  "/pages/order.html",
+  "/pages/origin.html",
+  "/pages/haven.html",
+  "/pages/bhagalpur.html",
+  "/pages/live-class.html",
+  "/pages/hi-license.html",
 
   /* CSS */
   "/css/base.css?v=20260502-pro",
@@ -36,10 +46,6 @@ const STATIC_ASSETS = [
   "/css/professional.css?v=20260502-pro",
   "/css/social.css?v=20260502-pro",
   "/css/personal.css?v=nav-pro-3",
-  "/css/about.css?v=20260502-pro",
-  "/css/myself.css?v=20260502-pro",
-  "/css/myhome.css?v=20260502-pro",
-  "/css/mycity.css?v=20260502-pro",
   "/css/blog-post.css?v=20260502-pro",
   "/css/brand.css?v=20260502-brand",
   "/css/collaboration.css?v=20260502-pro",
