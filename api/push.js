@@ -4,7 +4,7 @@ const db      = require('../lib/db');
 const TOKEN         = process.env.LIVE_CLASS_TOKEN;
 const VAPID_PUBLIC  = process.env.VAPID_PUBLIC_KEY;
 const VAPID_PRIVATE = process.env.VAPID_PRIVATE_KEY;
-const CONTACT       = 'mailto:kingofyadav.in@gmail.com';
+const CONTACT       = process.env.VAPID_SUBJECT || 'mailto:kingofyadav.in@gmail.com';
 
 if (VAPID_PUBLIC && VAPID_PRIVATE) {
   webpush.setVapidDetails(CONTACT, VAPID_PUBLIC, VAPID_PRIVATE);

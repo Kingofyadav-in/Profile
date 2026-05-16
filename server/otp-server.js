@@ -1,12 +1,10 @@
 "use strict";
 
 const crypto = require("crypto");
-const fs = require("fs");
 const http = require("http");
-const path = require("path");
+const { loadEnv } = require("../lib/env");
 
-loadEnvFile(".env");
-loadEnvFile(".env.local");
+loadEnv();
 
 const PORT = Number(process.env.PORT || 5050);
 const HOST = process.env.HOST || "0.0.0.0";
@@ -19,21 +17,6 @@ const OTP_EXPIRY_MINUTES = String(process.env.MSG91_OTP_EXPIRY_MINUTES || "5");
 const allowedOrigins = CORS_ORIGIN.split(",").map(origin => origin.trim()).filter(Boolean);
 
 const attempts = new Map();
-
-function loadEnvFile(name) {
-  const file = path.join(process.cwd(), name);
-  if (!fs.existsSync(file)) return;
-  const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
-  lines.forEach(line => {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("#")) return;
-    const eq = trimmed.indexOf("=");
-    if (eq === -1) return;
-    const key = trimmed.slice(0, eq).trim();
-    const value = trimmed.slice(eq + 1).trim().replace(/^["']|["']$/g, "");
-    if (key && process.env[key] === undefined) process.env[key] = value;
-  });
-}
 
 function json(res, status, payload) {
   const origin = String(res.req && res.req.headers && res.req.headers.origin || "");

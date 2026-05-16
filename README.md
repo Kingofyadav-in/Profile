@@ -59,11 +59,13 @@ The site is designed around three clear layers:
 Requires Node.js 20 or newer.
 
 ```bash
+cp .env.example .env
 npm install
 npm start
 ```
 
 `npm start` runs `server/otp-server.js`, which supports the local auth and API flow used by the site.
+See [ENVIRONMENT.md](./ENVIRONMENT.md) for local, GitHub, Vercel, and Railway environment setup.
 
 ## Runtime Structure
 

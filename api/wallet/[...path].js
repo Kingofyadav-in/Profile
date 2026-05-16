@@ -1,8 +1,11 @@
 "use strict";
 
 const { Pool } = require("pg");
+const { loadEnv } = require("../../lib/env");
 const { ok, created, badRequest, unauthorized, notFound, methodNotAllowed, serverError, preflight } = require("../_response");
 const { auth: authLimit } = require("../_rate-limit");
+
+loadEnv();
 
 const MAX_SUPPLY = 99; // HI Coin maximum total supply
 

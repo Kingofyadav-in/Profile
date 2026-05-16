@@ -27,6 +27,9 @@ jobs:
         run: npm run test:ci
         env:
           NODE_ENV: test
+          HOST: 0.0.0.0
+          PORT: "5050"
+          CORS_ORIGIN: http://localhost:5050
           DATABASE_URL: ""
           DATABASE_SSL: "false"
           HI_API_KEY: ci-hi-api-key-placeholder
@@ -35,6 +38,7 @@ jobs:
           JARVIS_BACKEND_URL: ""
           JARVIS_BRIDGE_SECRET: ci-bridge-secret
           OTP_API_BASE: ""
+          AUTH_API_BASE: ""
           OPENAI_API_KEY: ""
           OPENAI_MODEL: gpt-4o-mini
           OPENAI_BASE_URL: ""
