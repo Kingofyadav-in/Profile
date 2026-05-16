@@ -411,6 +411,45 @@ body.theme-light.wallet-app :where(
   line-height: 1.45;
 }
 
+.wallet-overview-page .site-header {
+  z-index: 100;
+}
+
+.wallet-overview-page .header-inner {
+  position: relative;
+}
+
+.wallet-overview-page .coin-hero {
+  min-height: min(760px, calc(100svh - 76px));
+}
+
+.wallet-overview-page .coin-hero-copy {
+  min-width: 0;
+}
+
+.wallet-overview-page .coin-hero h1 {
+  max-width: 860px;
+}
+
+.wallet-overview-page .coin-hero-visual {
+  width: 100%;
+  max-width: 560px;
+  justify-self: end;
+}
+
+.wallet-overview-page .coin-hero-visual img {
+  aspect-ratio: 1 / 1;
+}
+
+.wallet-overview-page .coin-visual-caption span,
+.wallet-overview-page .wallet-suite-rail span {
+  color: #fff !important;
+}
+
+body.theme-light.wallet-overview-page .wallet-suite-rail span {
+  color: rgba(23, 35, 28, 0.76) !important;
+}
+
 .wallet-app :where(
   .coin-main,
   .wlt-main,
@@ -500,6 +539,15 @@ body.theme-light.wallet-app :where(
     gap: 12px;
   }
 
+  .wallet-overview-page .coin-hero {
+    min-height: auto;
+  }
+
+  .wallet-overview-page .coin-hero-visual {
+    justify-self: stretch;
+    max-width: none;
+  }
+
   .wallet-app :where(.coin-proof, .coin-roadmap, .coin-comparison, .wlt-stats, .wlt-principles, .eco-stats, .ecosystem-grid, .ecosystem-layers) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -570,6 +618,34 @@ body.theme-light.wallet-app :where(
     background: transparent;
   }
 
+  .wallet-overview-page .header-inner {
+    padding-inline: 14px;
+  }
+
+  .wallet-overview-page .site-header .brand-link {
+    max-width: calc(100vw - 84px);
+    padding-left: 0 !important;
+  }
+
+  .wallet-overview-page .site-header .brand-name,
+  .wallet-overview-page .site-header .brand-tagline {
+    max-width: 190px;
+  }
+
+  .wallet-overview-page .site-header .wallet-nav {
+    right: 10px;
+    width: min(340px, calc(100vw - 20px));
+  }
+
+  .wallet-overview-page .coin-main {
+    padding-top: 18px;
+  }
+
+  .wallet-overview-page .coin-hero {
+    padding-top: 28px;
+    padding-bottom: 32px;
+  }
+
   .wallet-app-launcher {
     grid-template-columns: 1fr;
     margin-top: -4px;
@@ -593,6 +669,11 @@ body.theme-light.wallet-app :where(
   }
 
   .wallet-app :where(.coin-hero-visual, .coin-media, .coin-showcase-media, .coin-architecture-media) {
+    min-height: 280px !important;
+  }
+
+  .wallet-overview-page .coin-hero-visual,
+  .wallet-overview-page .coin-hero-visual img {
     min-height: 280px !important;
   }
 
@@ -659,6 +740,52 @@ body.theme-light.wallet-app :where(
 
   .wallet-app :where(.coin-hero-visual, .coin-hero-visual img, .coin-media, .coin-media img, .coin-showcase-media, .coin-showcase-media img, .coin-architecture-media, .coin-architecture-media img) {
     min-height: 240px !important;
+  }
+
+  .wallet-overview-page .coin-main {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .wallet-overview-page .coin-hero {
+    gap: 18px;
+  }
+
+  .wallet-overview-page .coin-hero h1 {
+    font-size: clamp(2.1rem, 11vw, 3.15rem) !important;
+  }
+
+  .wallet-overview-page .coin-hero-copy p:not(.hero-label) {
+    font-size: 0.95rem;
+    line-height: 1.58;
+  }
+
+  .wallet-overview-page .wallet-suite-rail {
+    gap: 6px;
+  }
+
+  .wallet-overview-page .wallet-suite-rail span {
+    min-height: 30px;
+    padding: 5px 9px;
+    font-size: 0.66rem;
+  }
+
+  .wallet-overview-page .coin-hero-visual,
+  .wallet-overview-page .coin-hero-visual img {
+    min-height: 230px !important;
+  }
+
+  .wallet-overview-page .coin-visual-caption {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    gap: 6px;
+  }
+
+  .wallet-overview-page .coin-visual-caption span {
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 0.65rem;
   }
 
   .wallet-app .wlt-card-inner {
