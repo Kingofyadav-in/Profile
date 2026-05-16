@@ -741,6 +741,21 @@ body.theme-light .upi-utr-input {
     border-bottom: 1px solid rgba(128,128,128,0.14);
   }
 
+  .order-hero h1 {
+    font-size: clamp(2.2rem, 8vw, 3rem);
+  }
+
+  .order-hero .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .order-hero .hero-actions a,
+  .order-hero .hero-actions button {
+    text-align: center;
+    justify-content: center;
+  }
+
   .order-packages-grid,
   .order-form-grid,
   .order-receipt-grid {
@@ -782,6 +797,26 @@ body.theme-light .upi-utr-input {
 
   .upi-modal-foot .cf-submit-btn {
     justify-content: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .order-snapshot {
+    grid-template-columns: 1fr;
+  }
+
+  .order-snapshot div {
+    border-right: none;
+    border-bottom: 1px solid rgba(128,128,128,0.14);
+    padding: 16px 0;
+  }
+
+  .order-snapshot div:last-child {
+    border-bottom: none;
+  }
+
+  .order-snapshot div:nth-child(-n+2) {
+    border-bottom: 1px solid rgba(128,128,128,0.14);
   }
 }
 

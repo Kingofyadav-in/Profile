@@ -594,7 +594,7 @@ body.theme-light .auth-user-item {
 }
 
 .auth-logout-btn {
-  min-height: 32px;
+  min-height: 44px;
   padding: 6px 14px;
   border-radius: 999px;
   border: 1px solid rgba(4,106,56,0.42);

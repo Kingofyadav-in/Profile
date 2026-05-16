@@ -335,7 +335,7 @@
 
 @media (max-width: 768px) {
   .professional-hero {
-    padding: 60px 0 56px;
+    padding: clamp(80px, 10vw, 100px) 0 56px;
   }
 
   .professional-hero h1 {
@@ -345,7 +345,13 @@
 
   .professional-hero .hero-actions {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+  }
+
+  .professional-hero .hero-actions a,
+  .professional-hero .hero-actions button {
+    text-align: center;
+    justify-content: center;
   }
 
   .pro-proof {
@@ -394,6 +400,14 @@
 
   .professional-cta-actions {
     justify-content: flex-start;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .professional-cta-actions a,
+  .professional-cta-actions button {
+    text-align: center;
+    justify-content: center;
   }
 }
 

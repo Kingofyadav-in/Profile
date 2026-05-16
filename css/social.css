@@ -653,7 +653,7 @@ body.theme-light .social-feed-card {
   }
 
   .social-hero {
-    padding: 60px 0 56px;
+    padding: clamp(80px, 10vw, 100px) 0 56px;
   }
 
   .social-hero h1 {
@@ -663,7 +663,13 @@ body.theme-light .social-feed-card {
 
   .social-hero .hero-actions {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+  }
+
+  .social-hero .hero-actions a,
+  .social-hero .hero-actions button {
+    text-align: center;
+    justify-content: center;
   }
 
   .social-platforms .life-grid,

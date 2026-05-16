@@ -668,7 +668,7 @@ body.theme-light .collab-hi-app-section {
   margin: 0 0 8px;
   color: var(--brand-green);
   font-size: .68rem;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 1.8px;
   text-transform: uppercase;
 }
@@ -710,7 +710,7 @@ body.theme-light .collab-hi-app-grid > div {
   margin-bottom: 8px;
   color: var(--brand-orange);
   font-size: .72rem;
-  font-weight: 850;
+  font-weight: 800;
 }
 
 .collab-hi-app-grid strong {

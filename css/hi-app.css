@@ -67,7 +67,7 @@ body.theme-light .hi-personal-hero-logo {
 .hi-personal-kicker {
   margin: 0 0 8px;
   font-size: .68rem;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 1.8px;
   text-transform: uppercase;
   color: var(--brand-green);
@@ -121,7 +121,7 @@ body.theme-light .hi-personal-hero-status {
 .hi-hero-greeting {
   font-size: clamp(1.35rem, 2.5vw, 1.85rem);
   line-height: 1.05;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 0;
 }
 
@@ -190,7 +190,7 @@ body.theme-light .hi-personal-hero-status {
 
 .hi-hero-vitals span {
   font-size: .65rem;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 1.1px;
   text-transform: uppercase;
   opacity: .48;
@@ -215,7 +215,7 @@ body.theme-light .hi-personal-hero-status {
 }
 
 .hi-hero-action {
-  min-height: 38px;
+  min-height: 44px;
   padding: 9px 15px;
   border-radius: 8px;
   border: 1px solid rgba(128,128,128,.18);
@@ -340,7 +340,7 @@ body.theme-light .hi-world-dashboard {
   margin-bottom: 8px;
   color: var(--brand-green);
   font-size: .68rem;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 1.2px;
   text-transform: uppercase;
 }
@@ -392,7 +392,7 @@ body.theme-light .hi-world-card {
   color: var(--brand-orange);
   font-family: "Courier New", monospace;
   font-size: .72rem;
-  font-weight: 850;
+  font-weight: 800;
 }
 
 .hi-world-card strong {
@@ -1148,8 +1148,8 @@ body.theme-light .hi-modal {
   border-radius: 6px;
   color: inherit;
   line-height: 1;
-  min-width: 36px;
-  min-height: 36px;
+  min-width: 44px;
+  min-height: 44px;
   transition: opacity 0.2s ease, background 0.2s ease;
 }
 
@@ -2133,7 +2133,7 @@ body.theme-light .hi-chat-header {
 
 .hi-chat-title {
   font-size: 1rem;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 0;
 }
 
@@ -2346,7 +2346,7 @@ body.theme-light .hi-license-hero-logo {
 .hi-license-kicker {
   margin: 0 0 8px;
   font-size: .68rem;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 1.8px;
   text-transform: uppercase;
   color: var(--brand-green);
@@ -2476,7 +2476,7 @@ body.theme-light .hi-license-test-grid > div {
   color: var(--brand-orange);
   font-family: "Courier New", monospace;
   font-size: .72rem;
-  font-weight: 850;
+  font-weight: 800;
 }
 
 .hi-license-test-grid strong {
@@ -2534,7 +2534,7 @@ body.theme-light .hi-demo-cert {
   display: block;
   color: var(--brand-orange);
   font-size: .72rem;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 1.1px;
   text-transform: uppercase;
 }
@@ -2578,7 +2578,7 @@ body.theme-light .hi-demo-hash {
   display: block;
   margin-bottom: 6px;
   font-size: .68rem;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
   opacity: .55;
@@ -2662,7 +2662,7 @@ body.theme-light .hi-license-flow li {
   margin-top: 10px;
   color: var(--brand-green);
   font-size: .84rem;
-  font-weight: 850;
+  font-weight: 800;
 }
 
 .hi-hdi-cert-wrapper {
@@ -2756,8 +2756,8 @@ body.theme-light .hi-cert-card {
   padding: 16px 0;
 }
 .hi-cert-stat { text-align: center; padding: 8px 12px; }
-.hi-cert-stat-val { display: block; font-size: .9rem; font-weight: 750; opacity: .82; }
-.hi-cert-stat-lbl { display: block; font-size: .58rem; font-weight: 750; letter-spacing: .5px; text-transform: uppercase; opacity: .38; margin-top: 3px; }
+.hi-cert-stat-val { display: block; font-size: .9rem; font-weight: 700; opacity: .82; }
+.hi-cert-stat-lbl { display: block; font-size: .58rem; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; opacity: .38; margin-top: 3px; }
 
 /* License cards */
 .hi-license-list { margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }

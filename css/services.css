@@ -302,7 +302,7 @@
 
 .hosting-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 28px;
   align-items: start;
 }
@@ -508,12 +508,6 @@ body.theme-light .hosting-card {
     grid-template-columns: 1fr 1fr;
   }
 
-  .hosting-grid {
-    grid-template-columns: 1fr;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
   .hosting-card--featured {
     transform: none;
   }
@@ -524,6 +518,13 @@ body.theme-light .hosting-card {
 }
 
 @media (max-width: 600px) {
+  .hosting-grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .services-proof {
     grid-template-columns: 1fr;
   }

@@ -117,7 +117,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      min-height: 38px;
+      min-height: 44px;
       padding: 9px 18px;
       border-radius: 999px;
       font-size: .8rem;
@@ -151,7 +151,7 @@
     .abt-hero-panel-title { margin: 0 0 4px; color: var(--abt-green); font-size: .65rem; font-weight: 900; letter-spacing: 1.4px; text-transform: uppercase; }
     .abt-panel-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border-radius: 8px; background: var(--abt-card); }
     .abt-panel-row span { color: var(--abt-label); font-size: .63rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
-    .abt-panel-row strong { font-size: .81rem; font-weight: 780; line-height: 1.3; }
+    .abt-panel-row strong { font-size: .81rem; font-weight: 700; line-height: 1.3; }
 
     /* ── 4-Section pipeline (nav strip) ── */
     .abt-pipeline-nav {
@@ -732,6 +732,8 @@
     @media (max-width: 760px) {
       .abt-hero { grid-template-columns: 1fr; }
       .abt-hero-panel { min-width: 0; }
+      .abt-hero-btns { flex-direction: column; align-items: stretch; }
+      .abt-hero-btns .abt-btn { text-align: center; justify-content: center; }
       .abt-pipeline-nav { grid-template-columns: 1fr 1fr; }
       .abt-grid3, .abt-ai-stack { grid-template-columns: 1fr; }
       .abt-tl-row { grid-template-columns: 1fr; gap: 4px; }

@@ -52,7 +52,6 @@ animation:brandHeroReveal .9s ease forwards;
 /* HERO LABEL */
 
 .hero-label{
-font-size:12px;
 letter-spacing:2px;
 font-weight:600;
 color:var(--brand-green);

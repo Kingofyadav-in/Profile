@@ -451,12 +451,25 @@ body {
 
   .page-hero .hero-actions {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 12px;
+  }
+
+  .page-hero .hero-actions a,
+  .page-hero .hero-actions button {
+    text-align: center;
+    justify-content: center;
   }
 
   .page-hero--center .hero-actions {
     align-items: center;
+  }
+
+  .page-hero--center .hero-actions a,
+  .page-hero--center .hero-actions button {
+    text-align: center;
+    justify-content: center;
+    width: auto;
   }
 }
 
@@ -624,7 +637,7 @@ body.theme-light .action-card {
   margin: 0 auto;
   font-size: clamp(1.35rem, 3vw, 2.25rem);
   line-height: 1.25;
-  font-weight: 750;
+  font-weight: 700;
   letter-spacing: 0;
 }
 
