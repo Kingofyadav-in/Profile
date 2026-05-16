@@ -6,12 +6,14 @@
    Depends on: auth.js, hi-storage.js, hi-app.js
 ====================================================== */
 
-var HI_VAULT_STORE_LIST = ["identity", "identityKeys", "deviceTrust", "wallet", "merchant", "marketplace", "licenses", "personal", "professional", "social", "tasks"];
-var HI_VAULT_META_ID = "primary";
-var HI_VAULT_ITERATIONS = 250000;
+const HI_VAULT_STORE_LIST = ["identity", "identityKeys", "deviceTrust", "wallet", "merchant", "marketplace", "licenses", "personal", "professional", "social", "tasks"];
+const HI_VAULT_META_ID    = "primary";
+const HI_VAULT_ITERATIONS = 250_000;
+
+/* ── UI helpers ── */
 
 function hiVaultEsc(value) {
-  return String(value || "")
+  return String(value ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -19,32 +21,34 @@ function hiVaultEsc(value) {
 }
 
 function hiVaultText(id, value) {
-  var el = document.getElementById(id);
+  const el = document.getElementById(id);
   if (el) el.textContent = value;
 }
 
-function hiVaultStatus(id, message, type) {
-  var el = document.getElementById(id);
+function hiVaultStatus(id, message, type = "") {
+  const el = document.getElementById(id);
   if (!el) return;
-  el.textContent = message || "";
-  el.className = "vault-status" + (type ? " " + type : "");
+  el.textContent = message ?? "";
+  el.className   = type ? `vault-status ${type}` : "vault-status";
 }
 
+/* ── Binary helpers ── */
+
 function hiVaultBytesToBase64(bytes) {
-  var str = "";
-  bytes.forEach(function(byte) { str += String.fromCharCode(byte); });
+  let str = "";
+  bytes.forEach(byte => { str += String.fromCharCode(byte); });
   return btoa(str);
 }
 
 function hiVaultBase64ToBytes(base64) {
-  var str = atob(base64);
-  var bytes = new Uint8Array(str.length);
-  for (var i = 0; i < str.length; i++) bytes[i] = str.charCodeAt(i);
+  const str   = atob(base64);
+  const bytes = new Uint8Array(str.length);
+  for (let i = 0; i < str.length; i++) bytes[i] = str.charCodeAt(i);
   return bytes;
 }
 
 function hiVaultRandomBytes(length) {
-  var bytes = new Uint8Array(length);
+  const bytes = new Uint8Array(length);
   crypto.getRandomValues(bytes);
   return bytes;
 }
@@ -53,217 +57,200 @@ function hiVaultRecoveryKey() {
   if (typeof hiCryptoGenerateRecoveryPhrase === "function") {
     return hiCryptoGenerateRecoveryPhrase(12);
   }
-  var alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  var bytes = hiVaultRandomBytes(24);
-  var chars = [];
-  for (var i = 0; i < bytes.length; i++) chars.push(alphabet[bytes[i] % alphabet.length]);
-  return chars.join("").match(/.{1,4}/g).join("-");
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const bytes    = hiVaultRandomBytes(24);
+  return Array.from(bytes).map(b => alphabet[b % alphabet.length]).join("").match(/.{1,4}/g).join("-");
 }
 
 async function hiVaultHash(value) {
-  var enc = new TextEncoder();
-  var buf = await crypto.subtle.digest("SHA-256", enc.encode(String(value || "")));
-  return Array.from(new Uint8Array(buf)).map(function(b) {
-    return b.toString(16).padStart(2, "0");
-  }).join("");
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(String(value ?? "")));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
+/* ── KDF ── */
+
 async function hiVaultDeriveKey(passphrase, recoveryKey, saltBytes) {
-  var enc = new TextEncoder();
-  var material = await crypto.subtle.importKey(
+  const material = await crypto.subtle.importKey(
     "raw",
-    enc.encode(String(passphrase || "") + "|" + String(recoveryKey || "")),
+    new TextEncoder().encode(`${passphrase ?? ""}|${recoveryKey ?? ""}`),
     "PBKDF2",
     false,
-    ["deriveKey"]
+    ["deriveKey"],
   );
-  return await crypto.subtle.deriveKey(
+  return crypto.subtle.deriveKey(
     { name: "PBKDF2", salt: saltBytes, iterations: HI_VAULT_ITERATIONS, hash: "SHA-256" },
     material,
     { name: "AES-GCM", length: 256 },
     false,
-    ["encrypt", "decrypt"]
+    ["encrypt", "decrypt"],
   );
 }
 
+/* ── Store collection ── */
+
 async function hiVaultCollectStores() {
-  var stores = {};
-  for (var i = 0; i < HI_VAULT_STORE_LIST.length; i++) {
-    var store = HI_VAULT_STORE_LIST[i];
+  const stores = {};
+  for (const store of HI_VAULT_STORE_LIST) {
     try { stores[store] = await hiGetAll(store); }
-    catch (e) { stores[store] = []; }
+    catch { stores[store] = []; }
   }
   return stores;
 }
 
 function hiVaultCountRecords(stores) {
-  return Object.keys(stores || {}).reduce(function(total, key) {
-    return total + ((stores[key] || []).length);
-  }, 0);
+  return Object.values(stores ?? {}).reduce((total, arr) => total + (arr?.length ?? 0), 0);
 }
+
+/* ── Vault meta ── */
 
 async function hiVaultLoadMeta() {
   try { return await hiGet("vault", HI_VAULT_META_ID); }
-  catch (e) { return null; }
+  catch { return null; }
 }
 
 async function hiVaultSaveMeta(meta) {
-  meta.id = HI_VAULT_META_ID;
+  meta.id        = HI_VAULT_META_ID;
   meta.updatedAt = Date.now();
   if (!meta.createdAt) meta.createdAt = Date.now();
   await hiPut("vault", meta);
   return meta;
 }
 
+/* ── File download ── */
+
 function hiVaultDownload(name, content) {
-  var blob = new Blob([content], { type: "application/json" });
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement("a");
-  a.href = url;
-  a.download = name;
+  const blob = new Blob([content], { type: "application/json" });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement("a"), { href: url, download: name });
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
 }
 
+/* ── Encrypt / decrypt ── */
+
 async function hiVaultEncryptBackup(passphrase, recoveryKey, identity) {
-  var stores = await hiVaultCollectStores();
-  var payload = {
-    product: "HI Vault",
+  const stores  = await hiVaultCollectStores();
+  const payload = {
+    product:       "HI Vault",
     schemaVersion: 1,
-    exportedAt: new Date().toISOString(),
-    identityHdi: identity && identity.hdi ? identity.hdi : "",
-    offlineCache: "IndexedDB",
-    stores: stores
+    exportedAt:    new Date().toISOString(),
+    identityHdi:   identity?.hdi ?? "",
+    offlineCache:  "IndexedDB",
+    stores,
   };
-  var plain = new TextEncoder().encode(JSON.stringify(payload));
-  var salt = hiVaultRandomBytes(16);
-  var iv = hiVaultRandomBytes(12);
-  var key = await hiVaultDeriveKey(passphrase, recoveryKey, salt);
-  var encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, plain);
+  const plain     = new TextEncoder().encode(JSON.stringify(payload));
+  const salt      = hiVaultRandomBytes(16);
+  const iv        = hiVaultRandomBytes(12);
+  const key       = await hiVaultDeriveKey(passphrase, recoveryKey, salt);
+  const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, plain);
   return {
-    product: "HI Vault",
-    encrypted: true,
-    algorithm: "AES-GCM",
-    kdf: "PBKDF2-SHA256",
+    product:    "HI Vault",
+    encrypted:  true,
+    algorithm:  "AES-GCM",
+    kdf:        "PBKDF2-SHA256",
     iterations: HI_VAULT_ITERATIONS,
-    createdAt: new Date().toISOString(),
-    salt: hiVaultBytesToBase64(salt),
-    iv: hiVaultBytesToBase64(iv),
-    data: hiVaultBytesToBase64(new Uint8Array(encrypted))
+    createdAt:  new Date().toISOString(),
+    salt:       hiVaultBytesToBase64(salt),
+    iv:         hiVaultBytesToBase64(iv),
+    data:       hiVaultBytesToBase64(new Uint8Array(encrypted)),
   };
 }
 
 async function hiVaultDecryptBackup(fileText, passphrase, recoveryKey) {
-  var backup;
-  try {
-    backup = JSON.parse(fileText);
-  } catch (e) {
-    throw new Error("Backup file is not valid JSON.");
-  }
-  if (!backup || backup.product !== "HI Vault" || !backup.encrypted) {
-    throw new Error("Invalid HI Vault backup file.");
-  }
-  var salt = hiVaultBase64ToBytes(backup.salt);
-  var iv = hiVaultBase64ToBytes(backup.iv);
-  var data = hiVaultBase64ToBytes(backup.data);
-  var key = await hiVaultDeriveKey(passphrase, recoveryKey, salt);
-  var decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, data);
+  let backup;
+  try { backup = JSON.parse(fileText); }
+  catch { throw new Error("Backup file is not valid JSON."); }
+  if (!backup || backup.product !== "HI Vault" || !backup.encrypted) throw new Error("Invalid HI Vault backup file.");
+  const salt      = hiVaultBase64ToBytes(backup.salt);
+  const iv        = hiVaultBase64ToBytes(backup.iv);
+  const data      = hiVaultBase64ToBytes(backup.data);
+  const key       = await hiVaultDeriveKey(passphrase, recoveryKey, salt);
+  const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, data);
   return JSON.parse(new TextDecoder().decode(decrypted));
 }
 
 async function hiVaultRestorePayload(payload) {
-  if (!payload || !payload.stores) throw new Error("Backup payload has no stores.");
-  var restored = 0;
-  for (var i = 0; i < HI_VAULT_STORE_LIST.length; i++) {
-    var store = HI_VAULT_STORE_LIST[i];
-    var records = payload.stores[store] || [];
-    for (var j = 0; j < records.length; j++) {
-      if (records[j] && records[j].id) {
-        await hiPut(store, records[j]);
-        restored++;
-      }
+  if (!payload?.stores) throw new Error("Backup payload has no stores.");
+  let restored = 0;
+  for (const store of HI_VAULT_STORE_LIST) {
+    const records = payload.stores[store] ?? [];
+    for (const record of records) {
+      if (record?.id) { await hiPut(store, record); restored++; }
     }
   }
   return restored;
 }
 
+/* ── Render ── */
+
 function hiVaultRenderStoreList(stores) {
-  var list = document.getElementById("vaultStoreList");
+  const list = document.getElementById("vaultStoreList");
   if (!list) return;
-  list.innerHTML = HI_VAULT_STORE_LIST.map(function(store) {
-    var count = stores && stores[store] ? stores[store].length : 0;
-    return '<article class="vault-row"><div><strong>' + hiVaultEsc(store) + '</strong><small>IndexedDB offline cache</small></div><strong>' + hiVaultEsc(count) + '</strong></article>';
+  list.innerHTML = HI_VAULT_STORE_LIST.map(store => {
+    const count = stores?.[store]?.length ?? 0;
+    return `<article class="vault-row"><div><strong>${hiVaultEsc(store)}</strong><small>IndexedDB offline cache</small></div><strong>${hiVaultEsc(count)}</strong></article>`;
   }).join("");
 }
 
 async function hiVaultRender(identity) {
-  var stores = await hiVaultCollectStores();
-  var meta = await hiVaultLoadMeta();
-  hiVaultText("vaultIdentity", identity && identity.hdi ? identity.hdi : "Identity required");
-  hiVaultText("vaultRecordCount", String(hiVaultCountRecords(stores)));
-  hiVaultText("vaultStoreCount", String(HI_VAULT_STORE_LIST.length));
-  hiVaultText("vaultLastExport", meta && meta.lastExportAt ? new Date(meta.lastExportAt).toLocaleString("en-IN") : "Never");
-  hiVaultText("vaultRecoveryStatus", meta && meta.recoveryKeyHash ? "Recovery key registered" : "Not generated");
+  const stores = await hiVaultCollectStores();
+  const meta   = await hiVaultLoadMeta();
+  hiVaultText("vaultIdentity",       identity?.hdi       ? identity.hdi : "Identity required");
+  hiVaultText("vaultRecordCount",    String(hiVaultCountRecords(stores)));
+  hiVaultText("vaultStoreCount",     String(HI_VAULT_STORE_LIST.length));
+  hiVaultText("vaultLastExport",     meta?.lastExportAt  ? new Date(meta.lastExportAt).toLocaleString("en-IN") : "Never");
+  hiVaultText("vaultRecoveryStatus", meta?.recoveryKeyHash ? "Recovery key registered" : "Not generated");
   hiVaultRenderStoreList(stores);
 }
 
+/* ── Init ── */
+
 async function hiVaultInit() {
-  if (!window.crypto || !crypto.subtle || !window.TextEncoder || !window.TextDecoder) {
+  if (!window.crypto?.subtle || !window.TextEncoder || !window.TextDecoder) {
     hiVaultStatus("vaultExportStatus", "This browser does not support required Web Crypto features.", "error");
     return;
   }
 
-  try { await hiOpenDB(); } catch (e) {}
-  var userEl = document.getElementById("authUserDisplay");
-  if (userEl && typeof getAuthUser === "function") userEl.textContent = getAuthUser() || "";
-  var logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn && typeof logout === "function") logoutBtn.addEventListener("click", logout);
+  try { await hiOpenDB(); } catch { /* degraded mode */ }
 
-  var identity = typeof hiLoadIdentity === "function" ? await hiLoadIdentity() : null;
-  if (!identity || !identity.hdi) {
-    var locked = document.getElementById("vaultLocked");
-    if (locked) locked.classList.add("active");
-  }
+  const userEl = document.getElementById("authUserDisplay");
+  if (userEl && typeof getAuthUser === "function") userEl.textContent = getAuthUser() ?? "";
+  document.getElementById("logoutBtn")?.addEventListener("click", () => typeof logout === "function" && logout());
+
+  const identity = typeof hiLoadIdentity === "function" ? await hiLoadIdentity() : null;
+  if (!identity?.hdi) document.getElementById("vaultLocked")?.classList.add("active");
   await hiVaultRender(identity);
 
-  var keyBtn = document.getElementById("vaultGenerateKey");
-  if (keyBtn) keyBtn.addEventListener("click", async function() {
-    var key = hiVaultRecoveryKey();
-    var out = document.getElementById("vaultRecoveryKey");
+  document.getElementById("vaultGenerateKey")?.addEventListener("click", async () => {
+    const key = hiVaultRecoveryKey();
+    const out = document.getElementById("vaultRecoveryKey");
     if (out) out.textContent = key;
-    await hiVaultSaveMeta({
-      recoveryKeyHash: await hiVaultHash(key),
-      recoveryKeyCreatedAt: Date.now()
-    });
+    await hiVaultSaveMeta({ recoveryKeyHash: await hiVaultHash(key), recoveryKeyCreatedAt: Date.now() });
     await hiVaultRender(identity);
     hiVaultStatus("vaultKeyStatus", "Recovery phrase generated. Store it offline before exporting backup.", "success");
   });
 
-  var copyBtn = document.getElementById("vaultCopyKey");
-  if (copyBtn) copyBtn.addEventListener("click", async function() {
-    var key = document.getElementById("vaultRecoveryKey");
-    if (!key || !key.textContent || key.textContent === "Generate a recovery phrase") {
+  document.getElementById("vaultCopyKey")?.addEventListener("click", async () => {
+    const key = document.getElementById("vaultRecoveryKey");
+    if (!key?.textContent || key.textContent === "Generate a recovery phrase") {
       hiVaultStatus("vaultKeyStatus", "Generate a recovery phrase first.", "error");
       return;
     }
     try {
       await navigator.clipboard.writeText(key.textContent);
       hiVaultStatus("vaultKeyStatus", "Recovery phrase copied.", "success");
-    } catch (e) {
+    } catch {
       hiVaultStatus("vaultKeyStatus", "Copy failed. Select and copy the key manually.", "error");
     }
   });
 
-  var exportForm = document.getElementById("vaultExportForm");
-  if (exportForm) exportForm.addEventListener("submit", async function(e) {
+  document.getElementById("vaultExportForm")?.addEventListener("submit", async e => {
     e.preventDefault();
     hiVaultStatus("vaultExportStatus", "", "");
-    var pass = document.getElementById("vaultExportPassphrase");
-    var keyEl = document.getElementById("vaultRecoveryKey");
-    var passphrase = pass ? pass.value : "";
-    var recoveryKey = keyEl ? keyEl.textContent.trim() : "";
+    const passphrase  = document.getElementById("vaultExportPassphrase")?.value ?? "";
+    const recoveryKey = (document.getElementById("vaultRecoveryKey")?.textContent ?? "").trim();
     if (passphrase.length < 8) {
       hiVaultStatus("vaultExportStatus", "Use a passphrase with at least 8 characters.", "error");
       return;
@@ -273,55 +260,55 @@ async function hiVaultInit() {
       return;
     }
     try {
-      var backup = await hiVaultEncryptBackup(passphrase, recoveryKey, identity);
-      hiVaultDownload("hi-vault-" + String(identity && identity.hdi ? identity.hdi : "backup").toLowerCase() + ".hivault.json", JSON.stringify(backup, null, 2));
-      var meta = await hiVaultLoadMeta() || {};
-      meta.lastExportAt = Date.now();
+      const backup   = await hiVaultEncryptBackup(passphrase, recoveryKey, identity);
+      const hdiSlug  = String(identity?.hdi ?? "backup").toLowerCase();
+      hiVaultDownload(`hi-vault-${hdiSlug}.hivault.json`, JSON.stringify(backup, null, 2));
+      const meta = (await hiVaultLoadMeta()) ?? {};
+      meta.lastExportAt   = Date.now();
       meta.lastExportHash = await hiVaultHash(backup.data);
       await hiVaultSaveMeta(meta);
-      if (pass) pass.value = "";
+      const passEl = document.getElementById("vaultExportPassphrase");
+      if (passEl) passEl.value = "";
       await hiVaultRender(identity);
       hiVaultStatus("vaultExportStatus", "Encrypted HI Vault backup exported.", "success");
     } catch (err) {
-      hiVaultStatus("vaultExportStatus", "Backup export failed: " + err.message, "error");
+      hiVaultStatus("vaultExportStatus", `Backup export failed: ${err.message}`, "error");
     }
   });
 
-  var importForm = document.getElementById("vaultImportForm");
-  if (importForm) importForm.addEventListener("submit", async function(e) {
+  document.getElementById("vaultImportForm")?.addEventListener("submit", async e => {
     e.preventDefault();
     hiVaultStatus("vaultImportStatus", "", "");
-    var fileEl = document.getElementById("vaultImportFile");
-    var passEl = document.getElementById("vaultImportPassphrase");
-    var keyEl = document.getElementById("vaultImportRecoveryKey");
-    var file = fileEl && fileEl.files ? fileEl.files[0] : null;
-    if (!file) {
-      hiVaultStatus("vaultImportStatus", "Choose a HI Vault backup file.", "error");
-      return;
-    }
+    const fileEl = document.getElementById("vaultImportFile");
+    const file   = fileEl?.files?.[0];
+    if (!file) { hiVaultStatus("vaultImportStatus", "Choose a HI Vault backup file.", "error"); return; }
     try {
-      var text = await file.text();
-      var payload = await hiVaultDecryptBackup(text, passEl ? passEl.value : "", keyEl ? keyEl.value.trim() : "");
-      var currentIdentity = typeof hiLoadIdentity === "function" ? await hiLoadIdentity() : null;
-      if (currentIdentity && currentIdentity.hdi && payload.identityHdi && currentIdentity.hdi !== payload.identityHdi) {
-        if (!confirm("This backup belongs to a different identity (" + payload.identityHdi + "). Restoring will overwrite your current data. Continue?")) {
+      const text     = await file.text();
+      const passphrase   = document.getElementById("vaultImportPassphrase")?.value ?? "";
+      const recoveryKey  = (document.getElementById("vaultImportRecoveryKey")?.value ?? "").trim();
+      const payload  = await hiVaultDecryptBackup(text, passphrase, recoveryKey);
+      const currentIdentity = typeof hiLoadIdentity === "function" ? await hiLoadIdentity() : null;
+      if (currentIdentity?.hdi && payload.identityHdi && currentIdentity.hdi !== payload.identityHdi) {
+        if (!confirm(`This backup belongs to a different identity (${payload.identityHdi}). Restoring will overwrite your current data. Continue?`)) {
           hiVaultStatus("vaultImportStatus", "Import cancelled.", "");
           return;
         }
       }
-      var restored = await hiVaultRestorePayload(payload);
-      var meta = await hiVaultLoadMeta() || {};
-      meta.lastImportAt = Date.now();
-      meta.lastImportIdentity = payload.identityHdi || "";
+      const restored = await hiVaultRestorePayload(payload);
+      const meta     = (await hiVaultLoadMeta()) ?? {};
+      meta.lastImportAt       = Date.now();
+      meta.lastImportIdentity = payload.identityHdi ?? "";
       await hiVaultSaveMeta(meta);
+      const passEl = document.getElementById("vaultImportPassphrase");
+      const keyEl  = document.getElementById("vaultImportRecoveryKey");
       if (passEl) passEl.value = "";
-      if (keyEl) keyEl.value = "";
+      if (keyEl)  keyEl.value  = "";
       await hiVaultRender(await hiLoadIdentity());
-      hiVaultStatus("vaultImportStatus", "Restored " + restored + " records into IndexedDB offline cache.", "success");
-    } catch (err) {
+      hiVaultStatus("vaultImportStatus", `Restored ${restored} records into IndexedDB offline cache.`, "success");
+    } catch {
       hiVaultStatus("vaultImportStatus", "Import failed. Check file, passphrase, and recovery phrase.", "error");
     }
   });
 }
 
-document.addEventListener("DOMContentLoaded", hiVaultInit);
+document.addEventListener("DOMContentLoaded", hiVaultInit, { once: true });

@@ -212,19 +212,19 @@
     `;
   }
 
-  document.addEventListener("DOMContentLoaded", async function () {
-    const main = document.getElementById("main-content") || document.querySelector("main");
+  document.addEventListener("DOMContentLoaded", async () => {
+    const main = document.getElementById("main-content") ?? document.querySelector("main");
     if (!main) return;
 
     try {
       const profile = await loadProfile();
       setBrand(profile);
       if (page === "aboutMe") renderAbout(main, profile);
-      if (page === "mySelf") renderSelf(main, profile);
-      if (page === "myHome") renderHome(main, profile);
-      if (page === "myCity") renderCity(main, profile);
+      if (page === "mySelf")  renderSelf(main, profile);
+      if (page === "myHome")  renderHome(main, profile);
+      if (page === "myCity")  renderCity(main, profile);
     } catch (err) {
       console.warn("[profile-renderer] using static HTML fallback:", err);
     }
-  });
+  }, { once: true });
 })();

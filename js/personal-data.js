@@ -415,20 +415,17 @@ function pdDeleteCard() {
 
 function pdBindCards() {
   document.querySelectorAll(".pd-card").forEach(card => {
-    const isLinkedIdentity = card.dataset.section === "details" && String(card.dataset.id || "").indexOf("identity_") === 0;
-    card.onclick = () => {
+    const isLinkedIdentity = card.dataset.section === "details" && String(card.dataset.id ?? "").startsWith("identity_");
+    card.addEventListener("click", () => {
       if (isLinkedIdentity && typeof hiOpenIdentityModal === "function" && typeof hiLoadIdentity === "function") {
-        hiLoadIdentity().then(identity => hiOpenIdentityModal(identity || null)).catch(() => hiOpenIdentityModal(null));
+        hiLoadIdentity().then(identity => hiOpenIdentityModal(identity ?? null)).catch(() => hiOpenIdentityModal(null));
         return;
       }
       pdOpenModal(card.dataset.section, card.dataset.id);
-    };
-    card.onkeydown = e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        card.click();
-      }
-    };
+    });
+    card.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.click(); }
+    });
   });
 }
 
@@ -436,35 +433,26 @@ function pdBindCards() {
    INIT
 ====================================================== */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   pdRenderAll();
 
-  /* Modal controls */
-  document.getElementById("pdModalClose").addEventListener("click", pdCloseModal);
-  document.getElementById("pdCancelBtn").addEventListener("click",  pdCloseModal);
-  document.getElementById("pdSaveBtn").addEventListener("click",    pdSaveModal);
-  document.getElementById("pdDeleteBtn").addEventListener("click",  pdDeleteCard);
+  document.getElementById("pdModalClose")?.addEventListener("click", pdCloseModal);
+  document.getElementById("pdCancelBtn")?.addEventListener("click",  pdCloseModal);
+  document.getElementById("pdSaveBtn")?.addEventListener("click",    pdSaveModal);
+  document.getElementById("pdDeleteBtn")?.addEventListener("click",  pdDeleteCard);
 
-  /* Close on backdrop click */
-  document.getElementById("pdModal").addEventListener("click", function (e) {
-    if (e.target === this) pdCloseModal();
-  });
-
-  /* Close on Escape */
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") pdCloseModal();
-  });
-
-  /* Enter key submits modal */
-  document.getElementById("pdModal").addEventListener("keydown", function (e) {
+  const pdModal = document.getElementById("pdModal");
+  pdModal?.addEventListener("click", e => { if (e.target === pdModal) pdCloseModal(); });
+  pdModal?.addEventListener("keydown", e => {
     if (e.key === "Enter" && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "BUTTON") {
       e.preventDefault();
       pdSaveModal();
     }
   });
 
-  /* Add buttons */
+  document.addEventListener("keydown", e => { if (e.key === "Escape") pdCloseModal(); });
+
   document.querySelectorAll("[data-pd-add]").forEach(btn => {
     btn.addEventListener("click", () => pdOpenModal(btn.dataset.pdAdd, null));
   });
-});
+}, { once: true });

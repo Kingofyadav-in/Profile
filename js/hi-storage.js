@@ -2,48 +2,54 @@
 
 /* ======================================================
    hi-storage.js — IndexedDB wrapper for HI App
-   Stores: identity | personal | professional | social
-           chat | tasks | licenses
+   All stores use { id } as keyPath.
+   Falls back to localStorage if IndexedDB is unavailable.
+   Depends on: nothing (standalone foundation module)
 ====================================================== */
 
 const HI_DB_NAME    = "hi_app";
 const HI_DB_VERSION = 5;
-const HI_STORES     = ["identity","personal","professional","social","chat","tasks","licenses","wallet"];
-HI_STORES.push("merchant", "marketplace", "vault", "identityKeys", "deviceTrust");
+const HI_STORES     = [
+  "identity", "personal", "professional", "social",
+  "chat", "tasks", "licenses", "wallet",
+  "merchant", "marketplace", "vault", "identityKeys", "deviceTrust",
+];
 
-var _hiDb = null;
-var _hiDbUnavailable = false;
+let _hiDb            = null;
+let _hiDbUnavailable = false;
+
+/* ── Fallback helpers (localStorage) ── */
 
 function hiFallbackKey(store, id) {
-  return HI_DB_NAME + ":fallback:" + store + ":" + id;
+  return `${HI_DB_NAME}:fallback:${store}:${id}`;
 }
 
 function hiFallbackGet(store, id) {
   try {
-    var raw = localStorage.getItem(hiFallbackKey(store, id));
+    const raw = localStorage.getItem(hiFallbackKey(store, id));
     return Promise.resolve(raw ? JSON.parse(raw) : null);
-  } catch (e) {
+  } catch (_) {
     return Promise.resolve(null);
   }
 }
 
 function hiFallbackGetAll(store) {
-  var out = [];
+  const out    = [];
+  const prefix = `${HI_DB_NAME}:fallback:${store}:`;
   try {
-    var prefix = HI_DB_NAME + ":fallback:" + store + ":";
-    for (var i = 0; i < localStorage.length; i++) {
-      var key = localStorage.key(i);
-      if (key && key.indexOf(prefix) === 0) {
-        try { out.push(JSON.parse(localStorage.getItem(key))); } catch (e) {}
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith(prefix)) {
+        try { out.push(JSON.parse(localStorage.getItem(key))); } catch (_) {}
       }
     }
-  } catch (e) {}
+  } catch (_) {}
   return Promise.resolve(out);
 }
 
 function hiFallbackPut(store, item) {
+  if (!item?.id) return Promise.reject(new Error("hi-storage: item.id is required"));
   try {
-    if (!item || !item.id) return Promise.reject(new Error("Missing item id"));
     localStorage.setItem(hiFallbackKey(store, item.id), JSON.stringify(item));
     return Promise.resolve(item.id);
   } catch (e) {
@@ -52,112 +58,117 @@ function hiFallbackPut(store, item) {
 }
 
 function hiFallbackDelete(store, id) {
-  try { localStorage.removeItem(hiFallbackKey(store, id)); } catch (e) {}
+  try { localStorage.removeItem(hiFallbackKey(store, id)); } catch (_) {}
   return Promise.resolve(true);
 }
 
+/* ── IndexedDB open ── */
+
 function hiOpenDB() {
   if (_hiDb) return Promise.resolve(_hiDb);
-  if (_hiDbUnavailable || !window.indexedDB) return Promise.reject(new Error("IndexedDB unavailable"));
-  return new Promise(function(resolve, reject) {
-    var req = indexedDB.open(HI_DB_NAME, HI_DB_VERSION);
+  if (_hiDbUnavailable || !window.indexedDB) {
+    return Promise.reject(new Error("IndexedDB unavailable"));
+  }
 
-    req.onupgradeneeded = function(e) {
-      var db = e.target.result;
-      HI_STORES.forEach(function(name) {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(HI_DB_NAME, HI_DB_VERSION);
+
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      HI_STORES.forEach(name => {
         if (!db.objectStoreNames.contains(name)) {
           db.createObjectStore(name, { keyPath: "id" });
         }
       });
     };
 
-    req.onsuccess = function(e) {
+    req.onsuccess = (e) => {
       _hiDb = e.target.result;
-      _hiDb.onversionchange = function() {
-        try { _hiDb.close(); } catch (err) {}
+      _hiDb.onversionchange = () => {
+        try { _hiDb.close(); } catch (_) {}
         _hiDb = null;
+      };
+      _hiDb.onerror = (ev) => {
+        console.warn("[hi-storage] IDB error:", ev.target.error);
       };
       resolve(_hiDb);
     };
 
-    req.onerror = function(e) {
+    req.onerror = (e) => {
       _hiDbUnavailable = true;
       reject(e.target.error);
     };
 
-    req.onblocked = function() {
+    req.onblocked = () => {
       _hiDbUnavailable = true;
-      reject(new Error("IndexedDB upgrade blocked. Close other HI tabs and reload."));
+      reject(new Error("IndexedDB upgrade blocked — close other HI tabs and reload."));
     };
   });
 }
 
+/* ── Public CRUD API ── */
+
 function hiGet(store, id) {
-  return hiOpenDB().then(function(db) {
-    return new Promise(function(resolve, reject) {
-      var req = db.transaction(store, "readonly").objectStore(store).get(id);
-      req.onsuccess = function() { resolve(req.result || null); };
-      req.onerror  = function() { reject(req.error); };
-    });
-  }).then(function(result) {
-    return result || hiFallbackGet(store, id);
-  }).catch(function() {
-    return hiFallbackGet(store, id);
-  });
+  return hiOpenDB()
+    .then(db => new Promise((resolve, reject) => {
+      const req = db.transaction(store, "readonly").objectStore(store).get(id);
+      req.onsuccess = () => resolve(req.result ?? null);
+      req.onerror   = () => reject(req.error);
+    }))
+    .then(result => result ?? hiFallbackGet(store, id))
+    .catch(() => hiFallbackGet(store, id));
 }
 
 function hiGetAll(store) {
-  return hiOpenDB().then(function(db) {
-    return new Promise(function(resolve, reject) {
-      var req = db.transaction(store, "readonly").objectStore(store).getAll();
-      req.onsuccess = function() { resolve(req.result || []); };
-      req.onerror  = function() { reject(req.error); };
-    });
-  }).then(function(results) {
-    return hiFallbackGetAll(store).then(function(fallbackResults) {
-      var seen = {};
-      var merged = [];
-      (results || []).concat(fallbackResults || []).forEach(function(item) {
-        if (!item || !item.id || seen[item.id]) return;
-        seen[item.id] = true;
+  return hiOpenDB()
+    .then(db => new Promise((resolve, reject) => {
+      const req = db.transaction(store, "readonly").objectStore(store).getAll();
+      req.onsuccess = () => resolve(req.result ?? []);
+      req.onerror   = () => reject(req.error);
+    }))
+    .then(results => hiFallbackGetAll(store).then(fallback => {
+      const seen   = new Set();
+      const merged = [];
+      for (const item of [...(results ?? []), ...fallback]) {
+        if (!item?.id || seen.has(item.id)) continue;
+        seen.add(item.id);
         merged.push(item);
-      });
+      }
       return merged;
-    });
-  }).catch(function() {
-    return hiFallbackGetAll(store);
-  });
+    }))
+    .catch(() => hiFallbackGetAll(store));
 }
 
 function hiPut(store, item) {
-  return hiOpenDB().then(function(db) {
-    return new Promise(function(resolve, reject) {
-      var req = db.transaction(store, "readwrite").objectStore(store).put(item);
-      req.onsuccess = function() { resolve(req.result); };
-      req.onerror  = function() { reject(req.error); };
-    });
-  }).then(function(result) {
-    return hiFallbackPut(store, item).then(function() { return result; }).catch(function() { return result; });
-  }).catch(function() {
-    return hiFallbackPut(store, item);
-  });
+  if (!item?.id) return Promise.reject(new Error("hi-storage: item.id is required"));
+  return hiOpenDB()
+    .then(db => new Promise((resolve, reject) => {
+      const req = db.transaction(store, "readwrite").objectStore(store).put(item);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror   = () => reject(req.error);
+    }))
+    .then(result => hiFallbackPut(store, item).catch(() => null).then(() => result))
+    .catch(() => hiFallbackPut(store, item));
 }
 
 function hiDelete(store, id) {
-  return hiOpenDB().then(function(db) {
-    return new Promise(function(resolve, reject) {
-      var req = db.transaction(store, "readwrite").objectStore(store).delete(id);
-      req.onsuccess = function() { resolve(true); };
-      req.onerror  = function() { reject(req.error); };
-    });
-  }).then(function(result) {
-    hiFallbackDelete(store, id);
-    return result;
-  }).catch(function() {
-    return hiFallbackDelete(store, id);
-  });
+  return hiOpenDB()
+    .then(db => new Promise((resolve, reject) => {
+      const req = db.transaction(store, "readwrite").objectStore(store).delete(id);
+      req.onsuccess = () => resolve(true);
+      req.onerror   = () => reject(req.error);
+    }))
+    .then(result => { hiFallbackDelete(store, id); return result; })
+    .catch(() => hiFallbackDelete(store, id));
 }
 
+/** Generate a unique ID (timestamp + random, base-36). */
 function hiGenId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+/** Today's date string YYYY-MM-DD in local time. */
+function hiTodayDate() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }

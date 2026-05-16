@@ -15,7 +15,7 @@ async function proxyJson(req, res, pathSuffix, body) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(body || {}),
-    signal: AbortSignal.timeout(15000)
+    signal: AbortSignal.timeout(15_000)
   });
 
   const text = await response.text();

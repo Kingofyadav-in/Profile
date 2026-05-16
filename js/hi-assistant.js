@@ -7,24 +7,33 @@
    Depends on: hi-storage.js, hi-context.js
 ====================================================== */
 
-var HI_CHAT_STORE     = "chat";
-var HI_CHAT_SESSION   = "session-" + new Date().toISOString().slice(0,10);
-var HI_CHAT_ENDPOINT  = (
-  location.hostname === "localhost" || location.hostname === "127.0.0.1"
-) ? "http://127.0.0.1:5050/api/jarvis-chat" : "/api/jarvis-chat";
+const HI_CHAT_STORE    = "chat";
+const HI_CHAT_SESSION  = `session-${new Date().toISOString().slice(0, 10)}`;
+const HI_CHAT_ENDPOINT = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+  ? "http://127.0.0.1:5050/api/jarvis-chat"
+  : "/api/jarvis-chat";
 
-var _hiChatHistory    = [];   /* [{ role, content }] */
-var _hiContextLoaded  = false;
-var _hiContextStr     = "";
-var _hiSending        = false;
+let _hiChatHistory   = [];
+let _hiContextLoaded = false;
+let _hiContextStr    = "";
+let _hiSending       = false;
+
+const HI_SUGGESTIONS = [
+  "What should I focus on today?",
+  "Review my goals and suggest next steps",
+  "How am I doing this week?",
+  "Plan my professional priorities",
+  "What habits am I missing today?",
+];
+
+/* ── Local fallback ── */
 
 function hiLocalOperatorReply(userText) {
-  var text = (userText || "").toLowerCase();
-  var hasContext = _hiContextLoaded && _hiContextStr;
-  var base =
-    "Local operator mode is active. The live AI backend is not reachable, but I can still guide your HI Life OS from this page.\n\n";
+  const text       = (userText ?? "").toLowerCase();
+  const hasContext = _hiContextLoaded && _hiContextStr;
+  const base       = "Local operator mode is active. The live AI backend is not reachable, but I can still guide your HI Life OS from this page.\n\n";
 
-  if (text.indexOf("identity") >= 0 || text.indexOf("hdi") >= 0 || text.indexOf("profile") >= 0) {
+  if (text.includes("identity") || text.includes("hdi") || text.includes("profile")) {
     return base +
       "Identity priority:\n" +
       "1. Open Create Identity and complete name, roles, location, tagline, and mission.\n" +
@@ -33,7 +42,7 @@ function hiLocalOperatorReply(userText) {
       (hasContext ? "Your local HI context is loaded, so saved identity data is available in this browser." : "Your local HI context is not loaded yet. Save identity first.");
   }
 
-  if (text.indexOf("today") >= 0 || text.indexOf("focus") >= 0 || text.indexOf("task") >= 0 || text.indexOf("goal") >= 0) {
+  if (text.includes("today") || text.includes("focus") || text.includes("task") || text.includes("goal")) {
     return base +
       "Today command plan:\n" +
       "1. Check identity and HDI status.\n" +
@@ -43,7 +52,7 @@ function hiLocalOperatorReply(userText) {
       "When the backend is online, I will turn this into a deeper personalized plan.";
   }
 
-  if (text.indexOf("license") >= 0 || text.indexOf("ownership") >= 0 || text.indexOf("certificate") >= 0) {
+  if (text.includes("license") || text.includes("ownership") || text.includes("certificate")) {
     return base +
       "License flow:\n" +
       "1. Save your identity first.\n" +
@@ -61,67 +70,46 @@ function hiLocalOperatorReply(userText) {
     "Technical note: this fallback protects the user experience when localhost/API/provider connection fails.";
 }
 
-var HI_SUGGESTIONS = [
-  "What should I focus on today?",
-  "Review my goals and suggest next steps",
-  "How am I doing this week?",
-  "Plan my professional priorities",
-  "What habits am I missing today?"
-];
-
 /* ── Panel open / close ── */
 
 function hiOpenChat() {
-  var panel = document.getElementById("hi-chat-panel");
+  const panel    = document.getElementById("hi-chat-panel");
+  const backdrop = document.getElementById("hi-chat-backdrop");
   if (!panel) return;
-  var backdrop = document.getElementById("hi-chat-backdrop");
   if (backdrop) backdrop.hidden = false;
   panel.classList.add("open");
   panel.setAttribute("aria-hidden", "false");
   document.body.classList.add("hi-chat-open");
-
-  var btn = document.getElementById("hiAiBtn");
-  if (btn) btn.setAttribute("aria-expanded", "true");
-
-  /* Load context once per session */
+  document.getElementById("hiAiBtn")?.setAttribute("aria-expanded", "true");
   if (!_hiContextLoaded) hiLoadChatContext();
-
-  /* Load stored history */
-  hiLoadChatHistory().then(function() {
-    var input = document.getElementById("hi-chat-input");
-    if (input) input.focus();
-  });
+  hiLoadChatHistory().then(() => document.getElementById("hi-chat-input")?.focus());
 }
 
 function hiCloseChat() {
-  var panel = document.getElementById("hi-chat-panel");
+  const panel    = document.getElementById("hi-chat-panel");
+  const backdrop = document.getElementById("hi-chat-backdrop");
   if (!panel) return;
-  var backdrop = document.getElementById("hi-chat-backdrop");
   panel.classList.remove("open");
   panel.setAttribute("aria-hidden", "true");
   if (backdrop) backdrop.hidden = true;
   document.body.classList.remove("hi-chat-open");
-  var btn = document.getElementById("hiAiBtn");
-  if (btn) btn.setAttribute("aria-expanded", "false");
+  document.getElementById("hiAiBtn")?.setAttribute("aria-expanded", "false");
 }
 
 /* ── Context ── */
 
 async function hiLoadChatContext() {
-  var statusEl = document.getElementById("hi-chat-context-status");
+  const statusEl = document.getElementById("hi-chat-context-status");
   if (statusEl) statusEl.textContent = "Loading your context…";
-
   try {
-    _hiContextStr = await hiBuildAIContext();
+    _hiContextStr    = await hiBuildAIContext();
     _hiContextLoaded = true;
     if (statusEl) {
       statusEl.textContent = "Context loaded · Your life data is ready";
-      setTimeout(function() {
-        if (statusEl) statusEl.style.opacity = "0";
-      }, 3000);
+      setTimeout(() => { if (statusEl) statusEl.style.opacity = "0"; }, 3_000);
     }
-  } catch(e) {
-    _hiContextStr = "";
+  } catch {
+    _hiContextStr    = "";
     _hiContextLoaded = true;
     if (statusEl) statusEl.textContent = "No context — set up your identity first";
   }
@@ -131,9 +119,9 @@ async function hiLoadChatContext() {
 
 async function hiLoadChatHistory() {
   try {
-    var record = await hiGet(HI_CHAT_STORE, HI_CHAT_SESSION);
-    _hiChatHistory = record ? (record.messages || []) : [];
-  } catch(e) {
+    const record   = await hiGet(HI_CHAT_STORE, HI_CHAT_SESSION);
+    _hiChatHistory = record?.messages ?? [];
+  } catch {
     _hiChatHistory = [];
   }
   hiRenderMessages();
@@ -141,41 +129,33 @@ async function hiLoadChatHistory() {
 
 async function hiSaveChatHistory() {
   try {
-    await hiPut(HI_CHAT_STORE, {
-      id: HI_CHAT_SESSION,
-      messages: _hiChatHistory.slice(-40), /* keep last 40 turns */
-      updatedAt: Date.now()
-    });
-  } catch(e) {}
+    await hiPut(HI_CHAT_STORE, { id: HI_CHAT_SESSION, messages: _hiChatHistory.slice(-40), updatedAt: Date.now() });
+  } catch { /* non-critical */ }
 }
 
 /* ── Render messages ── */
 
 function hiRenderMessages() {
-  var container = document.getElementById("hi-chat-messages");
+  const container = document.getElementById("hi-chat-messages");
   if (!container) return;
 
   if (!_hiChatHistory.length) {
-    var welcome = document.createElement("div");
+    container.textContent = "";
+    const welcome = document.createElement("div");
     welcome.className = "hi-chat-welcome";
-    var icon = document.createElement("div");
-    icon.className = "hi-chat-welcome-icon";
-    icon.textContent = "🧠";
-    var msg = document.createElement("p");
-    msg.textContent = "I know your identity, tasks, goals, and projects. Ask me anything about your life and work.";
+    const icon = Object.assign(document.createElement("div"), { className: "hi-chat-welcome-icon", textContent: "🧠" });
+    const msg  = Object.assign(document.createElement("p"),   { textContent: "I know your identity, tasks, goals, and projects. Ask me anything about your life and work." });
     welcome.appendChild(icon);
     welcome.appendChild(msg);
-    container.textContent = "";
     container.appendChild(welcome);
     return;
   }
 
-  container.innerHTML = _hiChatHistory.map(function(msg) {
-    var isUser = msg.role === "user";
-    return '<div class="hi-chat-bubble ' + (isUser ? "user" : "assistant") + '">' +
-      '<div class="hi-bubble-content">' + hiFormatMessage(msg.content) + '</div>' +
-    '</div>';
-  }).join("");
+  container.innerHTML = _hiChatHistory.map(m =>
+    `<div class="hi-chat-bubble ${m.role === "user" ? "user" : "assistant"}">` +
+      `<div class="hi-bubble-content">${hiFormatMessage(m.content)}</div>` +
+    `</div>`
+  ).join("");
 
   container.scrollTop = container.scrollHeight;
 }
@@ -183,37 +163,32 @@ function hiRenderMessages() {
 function hiFormatMessage(text) {
   return hiEsc(text)
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/\n/g, "<br>");
+    .replace(/\*(.*?)\*/g,     "<em>$1</em>")
+    .replace(/\n/g,            "<br>");
 }
 
 function hiAppendMessage(role, content) {
-  _hiChatHistory.push({ role: role, content: content });
+  _hiChatHistory.push({ role, content });
   hiRenderMessages();
 }
 
 function hiShowTyping() {
-  var container = document.getElementById("hi-chat-messages");
+  const container = document.getElementById("hi-chat-messages");
   if (!container) return;
-  var el = document.createElement("div");
+  const el     = document.createElement("div");
   el.className = "hi-chat-bubble assistant hi-typing-indicator";
-  el.id = "hi-typing-bubble";
-  var bubble = document.createElement("div");
+  el.id        = "hi-typing-bubble";
+  const bubble = document.createElement("div");
   bubble.className = "hi-bubble-content";
-  ["hi-dot", "hi-dot", "hi-dot"].forEach(function(cls) {
-    var s = document.createElement("span");
-    s.className = cls;
-    bubble.appendChild(s);
-  });
+  for (let i = 0; i < 3; i++) {
+    bubble.appendChild(Object.assign(document.createElement("span"), { className: "hi-dot" }));
+  }
   el.appendChild(bubble);
   container.appendChild(el);
   container.scrollTop = container.scrollHeight;
 }
 
-function hiHideTyping() {
-  var el = document.getElementById("hi-typing-bubble");
-  if (el) el.remove();
-}
+function hiHideTyping() { document.getElementById("hi-typing-bubble")?.remove(); }
 
 /* ── Send message ── */
 
@@ -221,94 +196,86 @@ async function hiSendMessage(userText) {
   if (!userText.trim() || _hiSending) return;
   _hiSending = true;
 
-  var input  = document.getElementById("hi-chat-input");
-  var sendBtn= document.getElementById("hi-chat-send");
+  const input   = document.getElementById("hi-chat-input");
+  const sendBtn = document.getElementById("hi-chat-send");
   if (input)   input.value = "";
   if (sendBtn) sendBtn.disabled = true;
   hiAutoResizeInput();
 
-  /* Local RAG: Retrieve context from Vault */
-  var searchContext = "";
+  /* Local RAG: search vault context */
+  let searchContext = "";
   if (typeof window.hiSearch === "function") {
     try {
-      var results = await window.hiSearch(userText);
-      if (results && results.length) {
+      const results = await window.hiSearch(userText);
+      if (results?.length) {
         searchContext = "\n\n--- LOCAL VAULT SEARCH RESULTS ---\n";
-        results.forEach(function(r) {
-          searchContext += "[" + r.type + "] " + r.title + (r.date ? " (" + r.date.split("T")[0] + ")" : "") + "\n" + r.snippet + "...\n\n";
-        });
+        for (const r of results) {
+          searchContext += `[${r.type}] ${r.title}${r.date ? ` (${r.date.split("T")[0]})` : ""}\n${r.snippet}...\n\n`;
+        }
       }
-    } catch (e) {
-      console.warn("Search failed", e);
+    } catch (err) {
+      console.warn("Search failed", err);
     }
   }
 
-  /* Build the message — inject context on first message of session */
-  var messageToSend = userText;
+  /* Inject context on first message of session */
+  let messageToSend = userText;
   if (_hiContextLoaded && _hiContextStr && _hiChatHistory.length === 0) {
-    messageToSend = _hiContextStr + searchContext + "\n\nUser question: " + userText;
+    messageToSend = `${_hiContextStr}${searchContext}\n\nUser question: ${userText}`;
   } else if (searchContext) {
-    messageToSend = searchContext + "User question: " + userText;
+    messageToSend = `${searchContext}User question: ${userText}`;
   }
 
-  hiAppendMessage("user", userText);  /* show clean text to user */
+  hiAppendMessage("user", userText);
   hiShowTyping();
 
-  /* Build history for API (exclude context injection from visible messages) */
-  var apiHistory = _hiChatHistory.slice(0, -1).map(function(m) {
-    return { role: m.role, content: m.content };
-  });
+  const apiHistory = _hiChatHistory.slice(0, -1).map(m => ({ role: m.role, content: m.content }));
 
-  var _chatController = new AbortController();
-  var _chatTimeout = setTimeout(function() { _chatController.abort(); }, 30000);
+  const controller = new AbortController();
+  const timeout    = setTimeout(() => controller.abort(), 30_000);
   try {
-    var response = await fetch(HI_CHAT_ENDPOINT, {
-      method: "POST",
+    const response = await fetch(HI_CHAT_ENDPOINT, {
+      method:  "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: messageToSend, history: apiHistory }),
-      signal: _chatController.signal
+      body:    JSON.stringify({ message: messageToSend, history: apiHistory }),
+      signal:  controller.signal,
     });
-
     hiHideTyping();
-
-    if (!response.ok) throw new Error("HTTP " + response.status);
-    var data    = await response.json();
-    var reply   = data.reply || data.response || data.message || "I didn't get a response. Try again.";
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data  = await response.json();
+    const reply = data.reply ?? data.response ?? data.message ?? "I didn't get a response. Try again.";
     hiAppendMessage("assistant", reply);
-  } catch(err) {
+  } catch (err) {
     hiHideTyping();
-    if (err.name === "AbortError") {
-      console.warn("[HI Chat] Request timed out after 30s");
-    } else {
-      console.warn("[HI Chat] Backend unavailable:", err.message || err);
-    }
+    if (err.name === "AbortError") console.warn("[HI Chat] Request timed out after 30s");
+    else console.warn("[HI Chat] Backend unavailable:", err.message ?? err);
     hiAppendMessage("assistant", hiLocalOperatorReply(userText));
   } finally {
-    clearTimeout(_chatTimeout);
+    clearTimeout(timeout);
   }
 
   await hiSaveChatHistory();
   _hiSending = false;
   if (sendBtn) sendBtn.disabled = false;
-  if (input) input.focus();
+  input?.focus();
 }
 
 /* ── Auto-resize textarea ── */
 
 function hiAutoResizeInput() {
-  var input = document.getElementById("hi-chat-input");
+  const input = document.getElementById("hi-chat-input");
   if (!input) return;
   input.style.height = "auto";
-  input.style.height = Math.min(input.scrollHeight, 120) + "px";
+  input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
 }
 
 /* ── Clear chat ── */
 
 async function hiClearChat() {
   if (!confirm("Clear this conversation?")) return;
-  _hiChatHistory = [];
+  _hiChatHistory   = [];
   _hiContextLoaded = false;
-  try { await hiDelete(HI_CHAT_STORE, HI_CHAT_SESSION); } catch(e) {}
+  try { await hiDelete(HI_CHAT_STORE, HI_CHAT_SESSION); } catch { /* ignore */ }
   hiRenderMessages();
   hiLoadChatContext();
 }
@@ -316,14 +283,14 @@ async function hiClearChat() {
 /* ── Suggestions ── */
 
 function hiRenderSuggestions() {
-  var el = document.getElementById("hi-chat-suggestions");
+  const el = document.getElementById("hi-chat-suggestions");
   if (!el) return;
-  el.innerHTML = HI_SUGGESTIONS.map(function(s) {
-    return '<button type="button" class="hi-suggestion-chip" data-text="' + hiEsc(s) + '">' + hiEsc(s) + '</button>';
-  }).join("");
+  el.innerHTML = HI_SUGGESTIONS.map(s =>
+    `<button type="button" class="hi-suggestion-chip" data-text="${hiEsc(s)}">${hiEsc(s)}</button>`
+  ).join("");
 
-  el.querySelectorAll(".hi-suggestion-chip").forEach(function(btn) {
-    btn.addEventListener("click", function() {
+  el.querySelectorAll(".hi-suggestion-chip").forEach(btn => {
+    btn.addEventListener("click", () => {
       hiSendMessage(btn.dataset.text);
       el.style.display = "none";
     });
@@ -332,60 +299,39 @@ function hiRenderSuggestions() {
 
 /* ── INIT ── */
 
-document.addEventListener("DOMContentLoaded", function() {
-  /* Wire AI FAB */
-  var aiBtn = document.getElementById("hiAiBtn");
+document.addEventListener("DOMContentLoaded", () => {
+  const aiBtn = document.getElementById("hiAiBtn");
   if (aiBtn) {
-    /* Remove old placeholder listener — replace with real chat open */
-    var newBtn = aiBtn.cloneNode(true);
-    aiBtn.parentNode.replaceChild(newBtn, aiBtn);
-    newBtn.addEventListener("click", function() {
-      var panel = document.getElementById("hi-chat-panel");
-      if (panel && panel.classList.contains("open")) hiCloseChat();
+    aiBtn.addEventListener("click", () => {
+      const panel = document.getElementById("hi-chat-panel");
+      if (panel?.classList.contains("open")) hiCloseChat();
       else hiOpenChat();
     });
   }
 
-  /* Close button */
-  var closeBtn = document.getElementById("hi-chat-close");
-  if (closeBtn) closeBtn.addEventListener("click", hiCloseChat);
+  document.getElementById("hi-chat-close")?.addEventListener("click", hiCloseChat);
+  document.getElementById("hi-chat-clear")?.addEventListener("click", hiClearChat);
 
-  /* Clear button */
-  var clearBtn = document.getElementById("hi-chat-clear");
-  if (clearBtn) clearBtn.addEventListener("click", hiClearChat);
+  document.getElementById("hi-chat-form")?.addEventListener("submit", e => {
+    e.preventDefault();
+    const text = (document.getElementById("hi-chat-input")?.value ?? "").trim();
+    if (text) hiSendMessage(text);
+  });
 
-  /* Send form */
-  var form = document.getElementById("hi-chat-form");
-  if (form) {
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-      var input = document.getElementById("hi-chat-input");
-      var text  = (input ? input.value : "").trim();
-      if (text) hiSendMessage(text);
-    });
-  }
-
-  /* Textarea auto-resize + Enter to send */
-  var input = document.getElementById("hi-chat-input");
+  const input = document.getElementById("hi-chat-input");
   if (input) {
     input.addEventListener("input", hiAutoResizeInput);
-    input.addEventListener("keydown", function(e) {
+    input.addEventListener("keydown", e => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        var text = input.value.trim();
+        const text = input.value.trim();
         if (text) hiSendMessage(text);
       }
     });
   }
 
-  /* Click backdrop to close */
-  var backdrop = document.getElementById("hi-chat-backdrop");
-  if (backdrop) backdrop.addEventListener("click", hiCloseChat);
-
-  /* Escape key */
-  document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape") hiCloseChat();
-  });
+  document.getElementById("hi-chat-backdrop")?.addEventListener("click", hiCloseChat);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") hiCloseChat(); });
 
   hiRenderSuggestions();
-});
+}, { once: true });

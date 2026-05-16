@@ -2,144 +2,141 @@
 
 /* ======================================================
    hi-context.js — AI Context Builder
-   Builds a rich text snapshot of the user's life
+   Builds a rich text snapshot of the user's life OS
    for injection into every AI conversation.
    Depends on: hi-storage.js
 ====================================================== */
 
 async function hiBuildAIContext() {
-  var lines = [];
-  var today = hiTodayDate ? hiTodayDate() : new Date().toISOString().slice(0,10);
+  const lines = [];
+  const today = typeof hiTodayDate === "function" ? hiTodayDate() : new Date().toISOString().slice(0, 10);
 
-  lines.push("=== HI CONTEXT — " + today + " ===");
-  lines.push("");
+  lines.push(`=== HI CONTEXT — ${today} ===`, "");
 
-  /* Identity */
+  /* ── Identity ── */
   try {
-    var identity = await hiGet("identity", "primary");
-    if (identity) {
+    const id = await hiGet("identity", "primary");
+    if (id) {
       lines.push("IDENTITY");
-      lines.push("Name: " + identity.name);
-      if (identity.username) lines.push("Username: @" + identity.username);
-      if (identity.hdi)      lines.push("HDI: " + identity.hdi);
-      if (identity.email)    lines.push("Email: " + identity.email);
-      if (identity.phone)    lines.push("Phone: " + ((identity.phoneCode || "") + " " + identity.phone).trim());
-      if (identity.roles && identity.roles.length)
-                             lines.push("Roles: " + (Array.isArray(identity.roles) ? identity.roles.join(" · ") : identity.roles));
-      if (identity.location) lines.push("Location: " + identity.location);
-      if (identity.tagline)  lines.push("Tagline: \"" + identity.tagline + "\"");
-      if (identity.mission)  lines.push("Mission: " + identity.mission);
+      lines.push(`Name: ${id.name}`);
+      if (id.username) lines.push(`Username: @${id.username}`);
+      if (id.hdi)      lines.push(`HDI: ${id.hdi}`);
+      if (id.email)    lines.push(`Email: ${id.email}`);
+      if (id.phone)    lines.push(`Phone: ${[id.phoneCode, id.phone].filter(Boolean).join(" ")}`);
+      if (id.roles?.length) lines.push(`Roles: ${Array.isArray(id.roles) ? id.roles.join(" · ") : id.roles}`);
+      if (id.location) lines.push(`Location: ${id.location}`);
+      if (id.tagline)  lines.push(`Tagline: "${id.tagline}"`);
+      if (id.mission)  lines.push(`Mission: ${id.mission}`);
       lines.push("");
     }
-  } catch(e) {}
+  } catch (_) {}
 
-  /* Mood + Energy today */
+  /* ── Mood + Energy ── */
   try {
-    var mood = await hiGet("personal", "mood-" + today);
+    const mood = await hiGet("personal", `mood-${today}`);
     if (mood && (mood.mood || mood.energy)) {
       lines.push("TODAY'S VITALS");
-      if (mood.mood)   lines.push("Mood: " + mood.mood + "/5");
-      if (mood.energy) lines.push("Energy: " + mood.energy + "/5");
+      if (mood.mood)   lines.push(`Mood: ${mood.mood}/5`);
+      if (mood.energy) lines.push(`Energy: ${mood.energy}/5`);
       lines.push("");
     }
-  } catch(e) {}
+  } catch (_) {}
 
-  /* Habits today */
+  /* ── Habits ── */
   try {
-    var habitRecord = await hiGet("personal", "habits-" + today);
-    var habitCfg    = await hiGet("personal", "habits-config");
-    if (habitRecord && habitCfg && habitCfg.habits) {
-      var done = habitCfg.habits.filter(function(h) { return habitRecord.checks && habitRecord.checks[h.id]; });
-      var todo = habitCfg.habits.filter(function(h) { return !habitRecord.checks || !habitRecord.checks[h.id]; });
+    const [habitRecord, habitCfg] = await Promise.all([
+      hiGet("personal", `habits-${today}`),
+      hiGet("personal", "habits-config"),
+    ]);
+    if (habitRecord && habitCfg?.habits?.length) {
+      const done = habitCfg.habits.filter(h => habitRecord.checks?.[h.id]);
+      const todo = habitCfg.habits.filter(h => !habitRecord.checks?.[h.id]);
       lines.push("HABITS TODAY");
-      if (done.length) lines.push("Done: " + done.map(function(h){return h.name;}).join(", "));
-      if (todo.length) lines.push("Pending: " + todo.map(function(h){return h.name;}).join(", "));
+      if (done.length) lines.push(`Done: ${done.map(h => h.name).join(", ")}`);
+      if (todo.length) lines.push(`Pending: ${todo.map(h => h.name).join(", ")}`);
       lines.push("");
     }
-  } catch(e) {}
+  } catch (_) {}
 
-  /* Today's tasks */
+  /* ── Bulk personal data (single call) ── */
+  let allPersonal = [];
+  try { allPersonal = await hiGetAll("personal"); } catch (_) {}
+
+  /* ── Today's tasks ── */
   try {
-    var allTasks = await hiGetAll("tasks");
-    var todayTasks = allTasks.filter(function(t){ return t.date === today; });
+    const allTasks   = await hiGetAll("tasks");
+    const todayTasks = allTasks.filter(t => t.date === today);
     if (todayTasks.length) {
+      const doneCount = todayTasks.filter(t => t.done).length;
       lines.push("TODAY'S TASKS");
-      todayTasks.forEach(function(t) {
-        lines.push((t.done ? "[x] " : "[ ] ") + t.title);
-      });
-      var doneCount = todayTasks.filter(function(t){return t.done;}).length;
-      lines.push("Summary: " + doneCount + "/" + todayTasks.length + " done");
-      lines.push("");
+      todayTasks.forEach(t => lines.push(`${t.done ? "[x]" : "[ ]"} ${t.title}`));
+      lines.push(`Summary: ${doneCount}/${todayTasks.length} done`, "");
     }
-  } catch(e) {}
+  } catch (_) {}
 
-  /* Goals */
-  try {
-    var allPersonal = await hiGetAll("personal");
-    var goals = allPersonal.filter(function(r){ return r.type === "goal"; });
-    if (goals.length) {
-      lines.push("PERSONAL GOALS");
-      goals.slice(0, 6).forEach(function(g) {
-        var pct = g.progress || 0;
-        lines.push("• " + g.title + " — " + pct + "%"
-          + (g.deadline ? " (by " + g.deadline + ")" : ""));
-      });
-      lines.push("");
-    }
-  } catch(e) {}
+  /* ── Goals ── */
+  const goals = allPersonal.filter(r => r.type === "goal");
+  if (goals.length) {
+    lines.push("PERSONAL GOALS");
+    goals.slice(0, 6).forEach(g => {
+      const pct      = g.progress || 0;
+      const deadline = g.deadline ? ` (by ${g.deadline})` : "";
+      lines.push(`• ${g.title} — ${pct}%${deadline}`);
+    });
+    lines.push("");
+  }
 
-  /* Recent notes */
-  try {
-    var allPersonal2 = await hiGetAll("personal");
-    var notes = allPersonal2.filter(function(r){ return r.type === "note"; })
-                            .sort(function(a,b){ return b.updatedAt - a.updatedAt; })
-                            .slice(0, 3);
-    if (notes.length) {
-      lines.push("RECENT NOTES");
-      notes.forEach(function(n) {
-        var snippet = (n.body || "").slice(0, 80).replace(/\n/g, " ");
-        lines.push("• " + (n.title ? n.title + ": " : "") + snippet + (n.body && n.body.length > 80 ? "…" : ""));
-      });
-      lines.push("");
-    }
-  } catch(e) {}
+  /* ── Recent notes ── */
+  const notes = allPersonal
+    .filter(r => r.type === "note")
+    .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))
+    .slice(0, 3);
+  if (notes.length) {
+    lines.push("RECENT NOTES");
+    notes.forEach(n => {
+      const body    = (n.body || "").replace(/\n/g, " ");
+      const snippet = body.length > 80 ? `${body.slice(0, 80)}…` : body;
+      lines.push(`• ${n.title ? n.title + ": " : ""}${snippet}`);
+    });
+    lines.push("");
+  }
 
-  /* Professional projects + task counts */
+  /* ── Professional projects ── */
   try {
-    var allPro = await hiGetAll("professional");
-    var projects = allPro.filter(function(r){ return r.type === "project"; });
-    var protasks = allPro.filter(function(r){ return r.type === "protask"; });
+    const allPro   = await hiGetAll("professional");
+    const projects = allPro.filter(r => r.type === "project");
+    const protasks = allPro.filter(r => r.type === "protask");
     if (projects.length) {
       lines.push("PROFESSIONAL PROJECTS");
-      projects.forEach(function(p) {
-        var open = protasks.filter(function(t){ return t.projectId === p.id && !t.done; }).length;
-        var done = protasks.filter(function(t){ return t.projectId === p.id && t.done; }).length;
-        lines.push("• " + p.name + " — " + open + " open task" + (open !== 1 ? "s" : "")
-          + (done ? ", " + done + " done" : ""));
+      projects.forEach(p => {
+        const open = protasks.filter(t => t.projectId === p.id && !t.done).length;
+        const done = protasks.filter(t => t.projectId === p.id && t.done).length;
+        lines.push(`• ${p.name} — ${open} open task${open !== 1 ? "s" : ""}${done ? `, ${done} done` : ""}`);
       });
       lines.push("");
     }
-  } catch(e) {}
+  } catch (_) {}
 
-  /* Upcoming events (next 14 days) */
+  /* ── Upcoming events (next 14 days) ── */
   try {
-    var allSocial = await hiGetAll("social");
-    var events    = allSocial.filter(function(r){ return r.type === "event"; });
-    var upcoming  = events.filter(function(e){
-      var d = new Date(e.date); d.setHours(0,0,0,0);
-      var t = new Date(); t.setHours(0,0,0,0);
-      var diff = Math.round((d - t) / 86400000);
-      return diff >= 0 && diff <= 14;
-    }).sort(function(a,b){ return a.date.localeCompare(b.date); });
+    const allSocial = await hiGetAll("social");
+    const todayMs   = new Date(today).setHours(0, 0, 0, 0);
+    const upcoming  = allSocial
+      .filter(r => r.type === "event")
+      .filter(e => {
+        const diff = Math.round((new Date(e.date).setHours(0, 0, 0, 0) - todayMs) / 86_400_000);
+        return diff >= 0 && diff <= 14;
+      })
+      .sort((a, b) => a.date.localeCompare(b.date));
 
     if (upcoming.length) {
       lines.push("UPCOMING EVENTS (next 14 days)");
-      upcoming.forEach(function(e) {
-        lines.push("• " + e.title + " — " + e.date + (e.eventType ? " [" + e.eventType + "]" : ""));
+      upcoming.forEach(e => {
+        lines.push(`• ${e.title} — ${e.date}${e.eventType ? ` [${e.eventType}]` : ""}`);
       });
       lines.push("");
     }
-  } catch(e) {}
+  } catch (_) {}
 
   lines.push("=== END CONTEXT ===");
   return lines.join("\n");

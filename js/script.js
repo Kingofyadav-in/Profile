@@ -13,7 +13,7 @@ const $ = (id) => document.getElementById(id);
 const $$ = (selector) => document.querySelectorAll(selector);
 
 function escHtml(str) {
-  return String(str || "")
+  return String(str ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -283,7 +283,7 @@ function startFooterUpdates() {
   setInterval(() => {
     updateClock();
     updateStatus();
-  }, 60000);
+  }, 60_000);
 }
 
 /* ======================================================
@@ -488,7 +488,7 @@ const FOOTER_QUOTES = [
 function getFooterQuoteIndex() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 1);
-  const dayOfYear = Math.floor((now - start) / 86400000) + 1;
+  const dayOfYear = Math.floor((now - start) / 86_400_000) + 1;
   return dayOfYear % FOOTER_QUOTES.length;
 }
 
@@ -1052,10 +1052,10 @@ function showSWUpdateBanner(reg) {
 
   document.body.appendChild(banner);
 
-  $("swLater").onclick = () => banner.remove();
-  $("swRefresh").onclick = () => {
+  $("swLater")?.addEventListener("click", () => banner.remove());
+  $("swRefresh")?.addEventListener("click", () => {
     if (reg.waiting) reg.waiting.postMessage({ type: "SKIP_WAITING" });
-  };
+  });
 }
 
 /* ======================================================
@@ -1176,39 +1176,39 @@ function initEnquiryForm() {
   const form = document.getElementById("enquiryForm");
   if (!form) return;
 
-  form.addEventListener("submit", async function(e) {
+  form.addEventListener("submit", async e => {
     e.preventDefault();
 
     const formData = {
-      name: this.name.value,
-      email: this.email.value,
-      subject: this.subject.value,
-      message: this.message.value
+      name:    form.name.value,
+      email:   form.email.value,
+      subject: form.subject.value,
+      message: form.message.value,
     };
 
     try {
-      const submitBtn = this.querySelector('button[type="submit"]');
+      const submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
 
       const response = await fetch("https://formspree.io/f/xwvaodjy", {
-        method: "POST",
+        method:  "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(formData)
+        body:    JSON.stringify(formData),
       });
 
       if (response.ok) {
         if (submitBtn) submitBtn.textContent = "Sent ✓";
         setTimeout(() => {
-          this.reset();
+          form.reset();
           closeEnquiry();
           if (submitBtn) { submitBtn.textContent = "Send Message"; submitBtn.disabled = false; }
-        }, 2000);
+        }, 2_000);
       } else {
         if (submitBtn) { submitBtn.textContent = "Failed. Email directly."; submitBtn.disabled = false; }
       }
     } catch {
-      const submitBtn = this.querySelector('button[type="submit"]');
-      if (submitBtn) { submitBtn.textContent = "Error. Email directly."; submitBtn.disabled = false; }
+      const errBtn = form.querySelector('button[type="submit"]');
+      if (errBtn) { errBtn.textContent = "Error. Email directly."; errBtn.disabled = false; }
     }
   });
 }
@@ -1658,4 +1658,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const year = $("year");
   if (year) year.textContent = new Date().getFullYear();
-});
+}, { once: true });

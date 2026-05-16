@@ -1,63 +1,56 @@
 "use strict";
 
 (function () {
-  var UPI_ID = "9523528114@paytm";
-  var PAYEE_NAME = "Amit Ku Yadav";
+  const UPI_ID    = "9523528114@paytm";
+  const PAYEE_NAME = "Amit Ku Yadav";
 
-  var _modal = null;
-  var _state = null;
+  let _modal = null;
+  let _state = null;
 
   function numericAmount(str) {
-    var m = String(str || "").match(/\d[\d,]*/);
+    const m = String(str ?? "").match(/\d[\d,]*/);
     return m ? m[0].replace(/,/g, "") : "0";
   }
 
   function upiBase(amount, orderId) {
-    return (
-      "pa=" + encodeURIComponent(UPI_ID) +
-      "&pn=" + encodeURIComponent(PAYEE_NAME) +
-      "&am=" + encodeURIComponent(amount) +
-      "&cu=INR" +
-      "&tn=" + encodeURIComponent("Order " + orderId)
-    );
+    return `pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${encodeURIComponent(amount)}&cu=INR&tn=${encodeURIComponent(`Order ${orderId}`)}`;
   }
 
   function appLink(scheme, amount, orderId) {
-    var schemes = {
+    const schemes = {
       phonepe: "phonepe://pay?",
-      gpay: "tez://upi/pay?",
-      paytm: "paytmmp://pay?",
-      bhim: "upi://pay?"
+      gpay:    "tez://upi/pay?",
+      paytm:   "paytmmp://pay?",
+      bhim:    "upi://pay?",
     };
-    return (schemes[scheme] || "upi://pay?") + upiBase(amount, orderId);
+    return (schemes[scheme] ?? "upi://pay?") + upiBase(amount, orderId);
   }
 
   function qrSrc(amount, orderId) {
-    var uri = "upi://pay?" + upiBase(amount, orderId);
-    return "https://api.qrserver.com/v1/create-qr-code/?size=220x220&ecc=M&data=" + encodeURIComponent(uri);
+    const uri = `upi://pay?${upiBase(amount, orderId)}`;
+    return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&ecc=M&data=${encodeURIComponent(uri)}`;
   }
 
   function setStatus(text, cls) {
-    var el = document.getElementById("upiStatus");
+    const el = document.getElementById("upiStatus");
     if (!el) return;
     el.textContent = text;
-    el.className = "upi-status" + (cls ? " " + cls : "");
+    el.className   = cls ? `upi-status ${cls}` : "upi-status";
   }
 
   function openModal(record, formData, formId, onSuccess, onCancel) {
     _modal = document.getElementById("upiModal");
     if (!_modal) return;
-    _state = { record: record, formData: formData, formId: formId, onSuccess: onSuccess, onCancel: onCancel };
+    _state = { record, formData, formId, onSuccess, onCancel };
 
-    var isQuote = record.amount === "Quote";
-    var amt = numericAmount(record.amount);
+    const isQuote = record.amount === "Quote";
+    const amt     = numericAmount(record.amount);
+    const el      = id => document.getElementById(id);
 
-    var el = function (id) { return document.getElementById(id); };
-
-    if (el("upiModalTitle")) el("upiModalTitle").textContent = record.planLabel;
-    if (el("upiModalOrderId")) el("upiModalOrderId").textContent = "Order ID: " + record.orderId;
-    if (el("upiModalAmount")) el("upiModalAmount").textContent = isQuote ? "Quoted after review" : "₹" + amt;
-    if (el("upiIdDisplay")) el("upiIdDisplay").textContent = UPI_ID;
+    if (el("upiModalTitle"))   el("upiModalTitle").textContent   = record.planLabel;
+    if (el("upiModalOrderId")) el("upiModalOrderId").textContent = `Order ID: ${record.orderId}`;
+    if (el("upiModalAmount"))  el("upiModalAmount").textContent  = isQuote ? "Quoted after review" : `₹${amt}`;
+    if (el("upiIdDisplay"))    el("upiIdDisplay").textContent    = UPI_ID;
 
     if (el("upiQrCode")) {
       if (isQuote) {
@@ -65,26 +58,26 @@
         el("upiQrCode").alt = "";
       } else {
         el("upiQrCode").src = qrSrc(amt, record.orderId);
-        el("upiQrCode").alt = "Scan to pay ₹" + amt + " via UPI";
+        el("upiQrCode").alt = `Scan to pay ₹${amt} via UPI`;
       }
     }
 
     if (!isQuote) {
       if (el("upiPhonePeLink")) el("upiPhonePeLink").href = appLink("phonepe", amt, record.orderId);
-      if (el("upiGPayLink")) el("upiGPayLink").href = appLink("gpay", amt, record.orderId);
-      if (el("upiPaytmLink")) el("upiPaytmLink").href = appLink("paytm", amt, record.orderId);
-      if (el("upiBhimLink")) el("upiBhimLink").href = appLink("bhim", amt, record.orderId);
+      if (el("upiGPayLink"))    el("upiGPayLink").href    = appLink("gpay",    amt, record.orderId);
+      if (el("upiPaytmLink"))   el("upiPaytmLink").href   = appLink("paytm",   amt, record.orderId);
+      if (el("upiBhimLink"))    el("upiBhimLink").href    = appLink("bhim",    amt, record.orderId);
     }
 
-    var paySection = el("upiPaySection");
+    const paySection = el("upiPaySection");
     if (paySection) paySection.hidden = isQuote;
 
-    var utrInput = el("upiUtr");
+    const utrInput = el("upiUtr");
     if (utrInput) utrInput.value = "";
 
     setStatus("", "");
 
-    var btn = el("upiConfirmBtn");
+    const btn = el("upiConfirmBtn");
     if (btn) {
       btn.disabled = false;
       btn.querySelector(".upi-btn-label").textContent = isQuote ? "Submit Request" : "Confirm Payment";
@@ -105,67 +98,51 @@
 
   window.UPIPayment = { open: openModal, close: closeModal };
 
-  document.addEventListener("DOMContentLoaded", function () {
-    var modal = document.getElementById("upiModal");
+  document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("upiModal");
     if (!modal) return;
 
-    // Copy UPI ID
-    var copyBtn = document.getElementById("upiCopyBtn");
+    const copyBtn = document.getElementById("upiCopyBtn");
     if (copyBtn) {
-      copyBtn.addEventListener("click", function () {
-        if (!navigator.clipboard) {
-          setStatus("Copy manually: " + UPI_ID, "");
-          return;
-        }
-        navigator.clipboard.writeText(UPI_ID).then(function () {
+      copyBtn.addEventListener("click", async () => {
+        if (!navigator.clipboard) { setStatus(`Copy manually: ${UPI_ID}`, ""); return; }
+        try {
+          await navigator.clipboard.writeText(UPI_ID);
           copyBtn.textContent = "Copied!";
-          setTimeout(function () { copyBtn.textContent = "Copy"; }, 2200);
-        }).catch(function () {
-          setStatus("Copy manually: " + UPI_ID, "");
-        });
+          setTimeout(() => { copyBtn.textContent = "Copy"; }, 2_200);
+        } catch {
+          setStatus(`Copy manually: ${UPI_ID}`, "");
+        }
       });
     }
 
-    // Close button
-    var closeBtn = document.getElementById("upiModalClose");
-    if (closeBtn) {
-      closeBtn.addEventListener("click", function () {
-        if (_state && _state.onCancel) _state.onCancel();
-        closeModal();
-      });
-    }
-
-    // Overlay click
-    modal.addEventListener("click", function (e) {
-      if (e.target === modal) {
-        if (_state && _state.onCancel) _state.onCancel();
-        closeModal();
-      }
+    document.getElementById("upiModalClose")?.addEventListener("click", () => {
+      _state?.onCancel?.();
+      closeModal();
     });
 
-    // Escape key
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && !modal.hidden) {
-        if (_state && _state.onCancel) _state.onCancel();
-        closeModal();
-      }
+    modal.addEventListener("click", e => {
+      if (e.target === modal) { _state?.onCancel?.(); closeModal(); }
     });
 
-    // Confirm / submit
-    var confirmBtn = document.getElementById("upiConfirmBtn");
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && !modal.hidden) { _state?.onCancel?.(); closeModal(); }
+    });
+
+    const confirmBtn = document.getElementById("upiConfirmBtn");
     if (!confirmBtn) return;
 
-    confirmBtn.addEventListener("click", async function () {
+    confirmBtn.addEventListener("click", async () => {
       if (!_state) return;
-      var isQuote = _state.record.amount === "Quote";
+      const isQuote = _state.record.amount === "Quote";
 
-      var utr = "";
+      let utr = "";
       if (!isQuote) {
-        var utrEl = document.getElementById("upiUtr");
-        utr = utrEl ? utrEl.value.trim() : "";
+        const utrEl = document.getElementById("upiUtr");
+        utr = (utrEl?.value ?? "").trim();
         if (!utr || !/^\d{10,}$/.test(utr)) {
           setStatus("Enter a valid numeric UTR / transaction ID from your UPI app (at least 10 digits).", "error");
-          if (utrEl) utrEl.focus();
+          utrEl?.focus();
           return;
         }
       }
@@ -175,46 +152,40 @@
       setStatus("Submitting…", "");
 
       if (_state.formData && utr) {
-        _state.formData.set("upi_utr", utr);
-        _state.formData.set("payment_note", "UPI paid. UTR: " + utr);
+        _state.formData.set("upi_utr",       utr);
+        _state.formData.set("payment_note",  `UPI paid. UTR: ${utr}`);
       }
 
       try {
-        var res = await fetch("https://formspree.io/f/" + _state.formId, {
-          method: "POST",
+        const res = await fetch(`https://formspree.io/f/${_state.formId}`, {
+          method:  "POST",
           headers: { "Accept": "application/json" },
-          body: _state.formData
+          body:    _state.formData,
         });
-
         if (!res.ok) throw new Error("formspree");
 
-        // Non-critical: record UTR in local API
         fetch("/api/upi-payment", {
-          method: "POST",
+          method:  "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            orderId: _state.record.orderId,
-            planLabel: _state.record.planLabel,
-            amount: _state.record.amount,
+          body:    JSON.stringify({
+            orderId:      _state.record.orderId,
+            planLabel:    _state.record.planLabel,
+            amount:       _state.record.amount,
             customerName: _state.record.customerName,
-            utr: utr || "quote-request",
-            upiId: UPI_ID
-          })
-        }).catch(function () {});
+            utr:          utr || "quote-request",
+            upiId:        UPI_ID,
+          }),
+        }).catch(() => {});
 
         setStatus(isQuote ? "Request submitted." : "Payment confirmed! Order submitted.", "success");
 
-        var onSuccess = _state.onSuccess;
-        setTimeout(function () {
-          closeModal();
-          if (onSuccess) onSuccess(utr);
-        }, 1800);
-
-      } catch (err) {
+        const onSuccess = _state.onSuccess;
+        setTimeout(() => { closeModal(); onSuccess?.(utr); }, 1_800);
+      } catch {
         setStatus("Submission failed. Please contact via WhatsApp or email.", "error");
         confirmBtn.disabled = false;
         confirmBtn.querySelector(".upi-btn-label").textContent = isQuote ? "Submit Request" : "Confirm Payment";
       }
     });
-  });
-})();
+  }, { once: true });
+}());

@@ -8,51 +8,58 @@
      data-nav="wallet"   → HI Wallet ecosystem pages
 ====================================================== */
 ;(function () {
-  var INDEX_NAV = [
-    { label: 'Home', href: '/' },
-    { label: 'Blog', href: '/pages/blog.html' },
-    { label: 'Gallery', href: '/pages/gallery.html' },
-    { label: 'Services', href: '/pages/services.html' },
-    { label: 'Contact', href: '/pages/contact.html' },
+  const INDEX_NAV = [
+    { label: 'Home',          href: '/' },
+    { label: 'Blog',          href: '/pages/blog.html' },
+    { label: 'Gallery',       href: '/pages/gallery.html' },
+    { label: 'Services',      href: '/pages/services.html' },
+    { label: 'Contact',       href: '/pages/contact.html' },
     { label: 'Collaboration', href: '/pages/collaboration.html' },
-    { label: 'Order', href: '/pages/order.html' },
-    { label: '&#x1F534; Live Class', href: '/pages/live-class.html', cls: 'live-class-link' },
+    { label: 'Order',         href: '/pages/order.html' },
+    { label: '🔴 Live Class', href: '/pages/live-class.html', cls: 'live-class-link' },
   ]
 
-  var PERSONAL_NAV = [
-    { label: 'HI Life OS', href: '/pages/personal.html' },
-    { label: 'Dashboard', href: '/pages/dashboard.html' },
-    { label: 'About Me', href: '/pages/about.html' },
-    { label: 'Origin', href: '/pages/origin.html' },
-    { label: 'Haven', href: '/pages/haven.html' },
-    { label: 'Bhagalpur', href: '/pages/bhagalpur.html' },
-    { label: '&#x1F510; IP Vault', href: '/pages/hi-license.html', cls: 'license-link' },
+  const PERSONAL_NAV = [
+    { label: 'HI Life OS',  href: '/pages/personal.html' },
+    { label: 'Dashboard',   href: '/pages/dashboard.html' },
+    { label: 'About Me',    href: '/pages/about.html' },
+    { label: 'Origin',      href: '/pages/origin.html' },
+    { label: 'Haven',       href: '/pages/haven.html' },
+    { label: 'Bhagalpur',   href: '/pages/bhagalpur.html' },
+    { label: '🔐 IP Vault', href: '/pages/hi-license.html', cls: 'license-link' },
   ]
 
-  var WALLET_NAV = [
-    { label: 'HI Wallet', href: '/wallet/wallet.html' },
-    { label: 'HI Coin', href: '/wallet/coin.html' },
-    { label: 'Vault', href: '/wallet/vault.html' },
-    { label: 'Merchant', href: '/wallet/merchant.html' },
-    { label: 'Marketplace', href: '/wallet/marketplace/' },
+  const WALLET_NAV = [
+    { label: 'HI Wallet',    href: '/wallet/wallet.html' },
+    { label: 'HI Coin',      href: '/wallet/coin.html' },
+    { label: 'Vault',        href: '/wallet/vault.html' },
+    { label: 'Merchant',     href: '/wallet/merchant.html' },
+    { label: 'Marketplace',  href: '/wallet/marketplace/' },
   ]
+
+  const PERSONAL_PATHS = [
+    '/pages/personal', '/pages/about', '/pages/origin',
+    '/pages/haven', '/pages/bhagalpur', '/pages/hi-license', '/pages/dashboard',
+  ]
+
+  function normPath(p) {
+    return (p || '/').replace(/\.html$/, '').replace(/\/$/, '') || '/'
+  }
 
   function isActive(href) {
-    var path = window.location.pathname.replace(/\/$/, '') || '/'
-    var h = href.replace(/\/$/, '') || '/'
-
-    // Normalize .html
-    path = path.replace(/\.html$/, '')
-    h = h.replace(/\.html$/, '')
-
-    if (h === '/') return path === '/' || path === '/index'
-    return path === h || path.startsWith(h + '/')
+    const curr = normPath(window.location.pathname)
+    const h    = normPath(href)
+    if (h === '/') return curr === '/' || curr === '/index'
+    return curr === h || curr.startsWith(h + '/')
   }
 
   function buildLink(link) {
-    var a = document.createElement('a')
+    const a = document.createElement('a')
     a.href = link.href
-    a.innerHTML = link.label
+    // Safe text: strip HTML from label, use textContent
+    a.textContent = link.label.replace(/&#x[0-9A-F]+;/gi, (m) =>
+      String.fromCodePoint(parseInt(m.slice(3, -1), 16))
+    )
     if (link.cls) a.className = link.cls
     if (isActive(link.href)) {
       a.setAttribute('aria-current', 'page')
@@ -61,50 +68,33 @@
     return a
   }
 
-  var navs = document.querySelectorAll('[data-nav]')
-  navs.forEach(function (nav) {
-    var type = nav.getAttribute('data-nav')
-    var links =
-      type === 'wallet'
-        ? WALLET_NAV
-        : type === 'personal' ||
-      type === 'about' ||
-      type === 'origin' ||
-      type === 'haven' ||
-      type === 'bhagalpur' ||
-      type === 'hi-license'
-        ? PERSONAL_NAV
-        : INDEX_NAV
+  function resolveNavLinks(type, path) {
+    const isWallet   = path.startsWith('/wallet/')
+    const isPersonal = PERSONAL_PATHS.some(p => path.startsWith(p))
+    if (isWallet)   return WALLET_NAV
+    if (isPersonal) return PERSONAL_NAV
+    if (type === 'wallet')   return WALLET_NAV
+    if (type === 'personal' || PERSONAL_PATHS.some(p => type === p.split('/').pop())) return PERSONAL_NAV
+    return INDEX_NAV
+  }
 
-    // Force personal nav items if the current page is a personal page even if data-nav is "index" (failsafe)
-    var isPersonalPage = [
-      '/pages/personal',
-      '/pages/about',
-      '/pages/origin',
-      '/pages/haven',
-      '/pages/bhagalpur',
-      '/pages/hi-license',
-      '/pages/dashboard',
-    ].some(function (p) {
-      return window.location.pathname.startsWith(p)
-    })
+  const path = window.location.pathname
 
-    var isWalletPage = window.location.pathname.startsWith('/wallet/')
+  document.querySelectorAll('[data-nav]').forEach(nav => {
+    const type  = nav.getAttribute('data-nav') || 'index'
+    const links = resolveNavLinks(type, path)
 
-    if (isPersonalPage) links = PERSONAL_NAV
-    if (isWalletPage) links = WALLET_NAV
-
-    nav.innerHTML = '' // Clear existing
+    nav.innerHTML = ''
 
     if (nav.classList.contains('personal-nav') || nav.classList.contains('wallet-nav')) {
-      links.forEach(function (link) {
-        nav.appendChild(buildLink(link))
-      })
+      if (!nav.getAttribute('aria-label')) nav.setAttribute('aria-label', 'Section navigation')
+      links.forEach(link => nav.appendChild(buildLink(link)))
     } else {
-      var ul = document.createElement('ul')
+      if (!nav.getAttribute('aria-label')) nav.setAttribute('aria-label', 'Main navigation')
+      const ul = document.createElement('ul')
       ul.className = 'nav-list'
-      links.forEach(function (link) {
-        var li = document.createElement('li')
+      links.forEach(link => {
+        const li = document.createElement('li')
         li.appendChild(buildLink(link))
         ul.appendChild(li)
       })
@@ -112,64 +102,61 @@
     }
   })
 
-  /* ── Auto-inject auth bar (same pattern as index.html) ── */
+  /* ── Auto-inject auth bar ── */
   if (!document.getElementById('logoutBtn')) {
-    var _inner = document.querySelector('.personal-header-inner, .header-inner')
-    if (_inner) {
-      /* Inject bar hidden — exactly like index.html homeAuthBar */
-      var _bar = document.createElement('div')
-      _bar.className = 'auth-bar'
-      _bar.hidden = true
-      _bar.innerHTML =
-        '<span>Hi, <strong id="authUserDisplay"></strong></span>' +
-        '<button class="auth-logout-btn" id="logoutBtn">Logout</button>'
-      _inner.appendChild(_bar)
+    const inner = document.querySelector('.personal-header-inner, .header-inner')
+    if (!inner) return
 
-      /* If auth.js is loaded, let initAuthButton auto-detect (its job) */
-      if (typeof initAuthButton === 'function') {
-        initAuthButton()
-        var _uEl = document.getElementById('authUserDisplay')
-        if (_uEl && typeof getAuthUser === 'function') _uEl.textContent = getAuthUser() || ''
-      } else {
-        /* Inline fallback for pages without auth.js — same token key auth.js uses */
-        var _token = null
-        try {
-          var _raw =
-            sessionStorage.getItem('ak_auth_token') || localStorage.getItem('ak_auth_token')
-          if (_raw) {
-            var _t = JSON.parse(_raw)
-            if (Date.now() < _t.exp) _token = _t
-          }
-        } catch (e) {}
+    const bar = document.createElement('div')
+    bar.className = 'auth-bar'
+    bar.hidden = true
+    bar.innerHTML =
+      '<span>Hi, <strong id="authUserDisplay"></strong></span>' +
+      '<button class="auth-logout-btn" id="logoutBtn" type="button">Logout</button>'
+    inner.appendChild(bar)
 
-        var _btn = document.getElementById('logoutBtn')
-        _bar.hidden = false /* always show — Login or Logout */
+    if (typeof initAuthButton === 'function') {
+      initAuthButton()
+      const uEl = document.getElementById('authUserDisplay')
+      if (uEl && typeof getAuthUser === 'function') uEl.textContent = getAuthUser() || ''
+      return
+    }
 
-        if (_token) {
-          var _uEl2 = document.getElementById('authUserDisplay')
-          if (_uEl2) _uEl2.textContent = _token.username || ''
-          if (_btn) {
-            _btn.className = 'auth-logout-btn is-logout'
-            _btn.textContent = 'Logout'
-            _btn.onclick = function () {
-              try {
-                sessionStorage.removeItem('ak_auth_token')
-                localStorage.removeItem('ak_auth_token')
-              } catch (e) {}
-              window.location.replace('/pages/login.html')
-            }
-          }
-        } else {
-          if (_btn) {
-            _btn.className = 'auth-logout-btn is-login'
-            _btn.textContent = 'Login'
-            _btn.onclick = function () {
-              window.location.href =
-                '/pages/login.html?next=' +
-                encodeURIComponent(window.location.pathname + window.location.search)
-            }
-          }
-        }
+    /* Inline fallback for pages without auth.js */
+    let token = null
+    try {
+      const raw = sessionStorage.getItem('ak_auth_token') || localStorage.getItem('ak_auth_token')
+      if (raw) {
+        const t = JSON.parse(raw)
+        if (Date.now() < t.exp) token = t
+      }
+    } catch (_) {}
+
+    const btn = document.getElementById('logoutBtn')
+    bar.hidden = false
+
+    if (token) {
+      const uEl = document.getElementById('authUserDisplay')
+      if (uEl) uEl.textContent = token.username || ''
+      if (btn) {
+        btn.className = 'auth-logout-btn is-logout'
+        btn.textContent = 'Logout'
+        btn.addEventListener('click', () => {
+          try {
+            sessionStorage.removeItem('ak_auth_token')
+            localStorage.removeItem('ak_auth_token')
+          } catch (_) {}
+          window.location.replace('/pages/login.html')
+        })
+      }
+    } else {
+      if (btn) {
+        btn.className = 'auth-logout-btn is-login'
+        btn.textContent = 'Login'
+        btn.addEventListener('click', () => {
+          window.location.href =
+            '/pages/login.html?next=' + encodeURIComponent(window.location.pathname + window.location.search)
+        })
       }
     }
   }

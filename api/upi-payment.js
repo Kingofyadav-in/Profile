@@ -8,12 +8,12 @@ module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  var body = req.body;
+  const body = req.body;
   if (!body || !body.orderId) {
     return res.status(400).json({ error: "Missing orderId" });
   }
 
-  var isQuote = !body.utr || body.utr === "quote-request";
+  const isQuote = !body.utr || body.utr === "quote-request";
 
   console.log(JSON.stringify({
     event: isQuote ? "order_quote_request" : "upi_payment_received",

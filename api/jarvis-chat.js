@@ -162,7 +162,7 @@ async function proxyToBackend(req, res, body) {
     method: "POST",
     headers: forwardHeaders,
     body: JSON.stringify(body),
-    signal: AbortSignal.timeout(65000)
+    signal: AbortSignal.timeout(65_000)
   });
 
   const text = await response.text();

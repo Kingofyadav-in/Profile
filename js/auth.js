@@ -158,38 +158,37 @@ function clearRateLimit() {
 
 function getDeviceId() {
   try {
-    var existing = localStorage.getItem(DEVICE_ID_KEY);
+    const existing = localStorage.getItem(DEVICE_ID_KEY);
     if (existing) return existing;
-    var generated = "dev_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 10);
+    const generated = `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
     localStorage.setItem(DEVICE_ID_KEY, generated);
     return generated;
-  } catch (e) {
-    return "dev_" + Date.now().toString(36);
+  } catch {
+    return `dev_${Date.now().toString(36)}`;
   }
 }
 
 async function syncLocalAdminUser(user, action) {
   try {
-    if (!user || !user.username || !user.passwordHash) return;
-    var deviceId = user.deviceId || getDeviceId();
-    var payload = {
-      username: user.username,
+    if (!user?.username || !user.passwordHash) return;
+    const payload = {
+      username:     user.username,
       passwordHash: user.passwordHash,
-      passwordSalt: user.passwordSalt || "",
-      hashVersion: user.hashVersion || "legacy",
-      action: action || "signup",
-      source: "web",
-      page: window.location.pathname,
-      deviceId: deviceId,
-      userAgent: navigator.userAgent || ""
+      passwordSalt: user.passwordSalt  || "",
+      hashVersion:  user.hashVersion   || "legacy",
+      action:       action             || "signup",
+      source:       "web",
+      page:         window.location.pathname,
+      deviceId:     user.deviceId      || getDeviceId(),
+      userAgent:    navigator.userAgent || "",
     };
     await fetch("/api/local-admin-sync", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      keepalive: true
+      method:    "POST",
+      headers:   { "Content-Type": "application/json" },
+      body:      JSON.stringify(payload),
+      keepalive: true,
     });
-  } catch (e) {}
+  } catch { /* fire-and-forget — sync failures are non-critical */ }
 }
 
 /* ======================================================
@@ -448,13 +447,10 @@ function initAuthButton() {
   btn.classList.toggle("is-login", !authed);
   btn.classList.toggle("is-logout", authed);
 
-  btn.onclick = function () {
-    if (isAuthenticated()) {
-      logout();
-      return;
-    }
+  btn.addEventListener("click", () => {
+    if (isAuthenticated()) { logout(); return; }
     window.location.href = authLoginUrl();
-  };
+  });
 }
 
 /* ======================================================
@@ -474,7 +470,7 @@ function requireAuth() {
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initAuthButton);
+  document.addEventListener("DOMContentLoaded", initAuthButton, { once: true });
 } else {
   initAuthButton();
 }
