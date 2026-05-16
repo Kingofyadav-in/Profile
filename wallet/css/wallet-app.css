@@ -69,9 +69,14 @@ body.wallet-app::before {
 
 .wallet-app .site-header,
 .wallet-app .personal-header {
+  position: sticky;
+  top: 0;
+  z-index: 90;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: var(--wallet-shell-bg);
   box-shadow: 0 18px 54px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 body.theme-light.wallet-app .site-header,
@@ -85,6 +90,17 @@ body.theme-light.wallet-app .personal-header {
   border: 1px solid var(--wallet-panel-border);
   background: var(--wallet-panel-bg);
   box-shadow: 0 10px 34px rgba(0, 0, 0, 0.08);
+}
+
+.wallet-app .auth-bar {
+  border: 1px solid var(--wallet-panel-border);
+  background: var(--wallet-panel-bg);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.08);
+}
+
+.wallet-overview-page .auth-bar,
+.wallet-app:not(.personal-page) .auth-bar {
+  display: none !important;
 }
 
 .wallet-app .brand-tagline,
@@ -381,6 +397,13 @@ body.theme-light.wallet-app :where(
     background 0.18s ease;
 }
 
+.wallet-app-launcher a:focus-visible,
+.wallet-nav a:focus-visible,
+.wallet-app :where(.wlt-btn, .wlt-submit, .vault-action, .ecosystem-action, .btn-primary, .btn-secondary):focus-visible {
+  outline: 2px solid rgba(255, 103, 31, 0.72);
+  outline-offset: 3px;
+}
+
 .wallet-app-launcher a:hover {
   transform: translateY(-2px);
   border-color: rgba(255, 103, 31, 0.28);
@@ -595,7 +618,7 @@ body.theme-light.wallet-overview-page .wallet-suite-rail span {
 @media (max-width: 768px) {
   body.wallet-app,
   body.theme-light.wallet-app {
-    padding-top: 72px;
+    padding-top: 0;
   }
 
   body.wallet-app {
@@ -616,6 +639,12 @@ body.theme-light.wallet-overview-page .wallet-suite-rail span {
   .wallet-app .personal-brand {
     border: 0;
     background: transparent;
+    box-shadow: none;
+  }
+
+  .wallet-app .site-header,
+  .wallet-app .personal-header {
+    min-height: 72px;
   }
 
   .wallet-overview-page .header-inner {
