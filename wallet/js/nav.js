@@ -46,7 +46,8 @@
     nav.innerHTML = '' // Clear existing
 
     if (nav.classList.contains('wallet-nav')) {
-      links.forEach(function (link) {
+      links.forEach(function (link, index) {
+        if (index) nav.appendChild(document.createTextNode(' '))
         nav.appendChild(buildLink(link))
       })
     } else {

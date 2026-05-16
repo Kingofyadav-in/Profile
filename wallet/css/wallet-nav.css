@@ -47,6 +47,10 @@
     transform 0.18s ease;
 }
 
+.wallet-nav a + a {
+  margin-left: 2px;
+}
+
 .wallet-nav a::after {
   display: none;
 }
@@ -163,5 +167,9 @@ body.theme-light .wallet-nav a[aria-current="page"] {
     letter-spacing: 0.3px;
     line-height: 1.2;
     white-space: normal;
+  }
+
+  .wallet-nav.open a + a {
+    margin-left: 0;
   }
 }
