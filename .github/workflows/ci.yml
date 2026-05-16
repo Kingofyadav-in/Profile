@@ -27,10 +27,21 @@ jobs:
         run: npm run test:ci
         env:
           NODE_ENV: test
-          HI_API_KEY: ci-test-key-placeholder
           DATABASE_URL: ""
+          DATABASE_SSL: "false"
+          HI_API_KEY: ci-hi-api-key-placeholder
+          AUTH_JWT_SECRET: ci-jwt-secret-placeholder-32chars-long
           JARVIS_API_BASE: ""
-          JARVIS_BRIDGE_SECRET: ""
+          JARVIS_BACKEND_URL: ""
+          JARVIS_BRIDGE_SECRET: ci-bridge-secret
+          OTP_API_BASE: ""
+          OPENAI_API_KEY: ""
+          OPENAI_MODEL: gpt-4o-mini
+          OPENAI_BASE_URL: ""
+          LIVE_CLASS_TOKEN: ""
+          VAPID_PUBLIC_KEY: ""
+          VAPID_PRIVATE_KEY: ""
+          VAPID_SUBJECT: mailto:ci@example.com
 
       - name: Upload coverage
         if: always()
