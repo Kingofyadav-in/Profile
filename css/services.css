@@ -7,6 +7,18 @@
 
 /* services-hero layout now uses .page-hero — see components.css */
 
+.services-hero .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.services-hero .hero-actions a {
+  min-width: 170px;
+  text-align: center;
+}
+
 .services-proof {
   margin: 0 0 clamp(56px, 7vw, 92px);
   display: grid;
@@ -549,7 +561,12 @@ body.theme-light .hosting-card {
 
   .services-hero .hero-actions {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+  }
+
+  .services-hero .hero-actions a {
+    width: 100%;
+    min-width: 0;
   }
 }
 

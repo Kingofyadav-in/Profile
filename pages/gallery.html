@@ -57,6 +57,19 @@
       line-height: 1.72;
     }
 
+    .gallery-hero .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 28px;
+    }
+
+    .gallery-hero .hero-actions a {
+      min-width: 170px;
+      text-align: center;
+    }
+
     .gallery-hero-card {
       position: relative;
       min-height: clamp(430px, 52vw, 620px);
@@ -465,6 +478,15 @@
 
       .gallery-hero h1 {
         font-size: clamp(2.6rem, 15vw, 4rem);
+      }
+
+      .gallery-hero .hero-actions {
+        align-items: stretch;
+      }
+
+      .gallery-hero .hero-actions a {
+        width: 100%;
+        min-width: 0;
       }
 
       .gallery-proof,
