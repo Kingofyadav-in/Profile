@@ -49,6 +49,7 @@
       links.forEach(function (link) {
         nav.appendChild(buildLink(link))
       })
+      nav.dataset.walletNavRendered = 'true'
     } else {
       var ul = document.createElement('ul')
       ul.className = 'nav-list'
@@ -58,8 +59,11 @@
         ul.appendChild(li)
       })
       nav.appendChild(ul)
+      nav.dataset.walletNavRendered = 'true'
     }
   })
+
+  window.__walletNavRendered = true
 
   /* ── Auto-inject auth bar (same pattern as index.html) ── */
   if (!document.getElementById('logoutBtn')) {

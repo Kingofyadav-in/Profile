@@ -1633,7 +1633,7 @@ document.addEventListener("DOMContentLoaded", () => {
   removeFooterThemeToggles();
   setupThemeToggle();
   setupLogoThemeToggle();
-  initGlobalNavMenus();
+  if (!window.__walletNavRendered) initGlobalNavMenus();
   initActiveNav();
   startFooterUpdates();
   loadSocials();
