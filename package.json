@@ -7,10 +7,36 @@
   },
   "scripts": {
     "start": "node server/otp-server.js",
-    "api": "node server/otp-server.js"
+    "api": "node server/otp-server.js",
+    "migrate": "node scripts/migrate.js",
+    "migrate:status": "node scripts/migrate.js --status",
+    "migrate:dry": "node scripts/migrate.js --dry-run",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --runInBand --ci --coverage"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "pg": "^8.13.3",
     "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.2.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "api/**/*.js",
+      "!api/_*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 60
+      }
+    }
   }
 }

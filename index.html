@@ -90,6 +90,21 @@
         ]
       }
     </script>
+
+    <!-- Error tracking: set SENTRY_DSN env var and replace the dsn below to activate -->
+    <script>
+      (function() {
+        var dsn = typeof __SENTRY_DSN__ !== 'undefined' ? __SENTRY_DSN__ : '';
+        if (!dsn || dsn === '__SENTRY_DSN__') return;
+        var s = document.createElement('script');
+        s.src = 'https://browser.sentry-cdn.com/8.x/bundle.tracing.min.js';
+        s.crossOrigin = 'anonymous';
+        s.onload = function() {
+          Sentry.init({ dsn: dsn, tracesSampleRate: 0.1, environment: 'production' });
+        };
+        document.head.appendChild(s);
+      })();
+    </script>
   </head>
 
   <body class="theme-dark">
