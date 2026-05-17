@@ -350,6 +350,14 @@
   (function () {
     var YT_KEY = "AIzaSyAMhleJyybtJn25H8bRIloPNBwmiM5dbzY";
     var YT_CH  = "UCTm9rRNn_akTpxMQ28THh9Q";
+    var FEATURED_YOUTUBE_VIDEOS = [
+      {
+        videoId: "dfkuhLvSEIU",
+        title: "Featured YouTube video",
+        publishedAt: "2026-05-18T00:00:00+05:30",
+        thumbnail: "https://i.ytimg.com/vi/dfkuhLvSEIU/hqdefault.jpg"
+      }
+    ];
     var feedGrid = document.getElementById("socialFeedGrid");
     var grid   = document.getElementById("yt-grid");
 
@@ -366,10 +374,10 @@
       {
         platform: "YouTube",
         kind: "Video",
-        title: "Latest uploads appear here automatically",
-        summary: "The newest YouTube videos are loaded below this section as soon as they are published.",
-        url: "https://www.youtube.com/@kingofyadav-youtube",
-        linkText: "Open channel"
+        title: "Featured YouTube video",
+        summary: "Open the newest highlighted video directly from the official YouTube channel.",
+        url: "https://www.youtube.com/watch?v=dfkuhLvSEIU",
+        linkText: "Watch video"
       },
       {
         platform: "Facebook",
@@ -415,11 +423,21 @@
       }).join("");
     }
 
+    function normalizeApiVideo(v) {
+      var thumbs = v.snippet && v.snippet.thumbnails ? v.snippet.thumbnails : {};
+      return {
+        videoId: v.id && v.id.videoId,
+        title: v.snippet && v.snippet.title,
+        publishedAt: v.snippet && v.snippet.publishedAt,
+        thumbnail: (thumbs.high && thumbs.high.url) || (thumbs.medium && thumbs.medium.url) || (thumbs.default && thumbs.default.url)
+      };
+    }
+
     function cardHTML(v) {
-      var vid   = v.id.videoId;
-      var title = v.snippet.title;
-      var date  = new Date(v.snippet.publishedAt).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" });
-      var thumb = v.snippet.thumbnails.high ? v.snippet.thumbnails.high.url : v.snippet.thumbnails.medium.url;
+      var vid   = v.videoId;
+      var title = v.title || "YouTube video";
+      var date  = new Date(v.publishedAt).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" });
+      var thumb = v.thumbnail || ("https://i.ytimg.com/vi/" + encodeURIComponent(vid) + "/hqdefault.jpg");
       return '<a href="https://youtu.be/' + esc(vid) + '" target="_blank" rel="noopener noreferrer" class="post-card youtube-post">'
         + '<div class="post-header">'
         + '<img src="/logo/day-logo.png" class="post-avatar" width="38" height="38" loading="lazy" alt="Amit Ku Yadav">'
@@ -430,7 +448,20 @@
         + '</a>';
     }
 
+    function renderVideos(videos) {
+      var seen = {};
+      var merged = FEATURED_YOUTUBE_VIDEOS.concat(videos || []).filter(function (video) {
+        if (!video.videoId || seen[video.videoId]) return false;
+        seen[video.videoId] = true;
+        return true;
+      });
+
+      if (!merged.length) { emptyState(); return; }
+      grid.innerHTML = merged.map(cardHTML).join("");
+    }
+
     renderFeed();
+    renderVideos([]);
 
     function emptyState() {
       grid.innerHTML = '<div class="yt-empty">'
@@ -444,11 +475,11 @@
       + "&part=snippet&order=date&maxResults=6&type=video")
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (!data.items || !data.items.length) { emptyState(); return; }
-        grid.innerHTML = data.items.map(cardHTML).join("");
+        if (!data.items || !data.items.length) { renderVideos([]); return; }
+        renderVideos(data.items.map(normalizeApiVideo));
       })
       .catch(function () {
-        grid.innerHTML = '<div class="yt-empty"><p>Could not load videos. <a href="https://www.youtube.com/@kingofyadav-youtube" target="_blank" rel="noopener noreferrer">Visit YouTube directly →</a></p></div>';
+        renderVideos([]);
       });
   })();
   </script>
