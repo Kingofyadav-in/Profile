@@ -635,6 +635,7 @@ function hiInitClaimForm() {
       form.reset();
       hiRenderLicenses();
       hiRenderHDICertificate();
+      document.dispatchEvent(new CustomEvent("hiLicenseClaimed", { detail: { licenseId: license.licenseId } }));
     } catch (err) {
       if (errEl) errEl.textContent = err.message ?? "Failed to claim content.";
     }

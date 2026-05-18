@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Content Protection — Amit Ku Yadav</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Content protection, repost detection, and social account verification for kingofyadav.in" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/hi-protect.html" />
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <meta name="theme-color" content="#046A38" />
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
+  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
+  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+  <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
+  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
+  <link rel="stylesheet" href="/css/hi-app.css?v=hi-3" />
+  <style>
+    .prot-wrap { max-width: 1100px; margin: 0 auto; padding: 2rem clamp(1rem,4vw,2.5rem) 5rem; }
+
+    /* ── Hero ── */
+    .prot-hero {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+      padding: 2rem clamp(1rem,4vw,2.5rem) 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      max-width: 1100px; margin: 0 auto;
+    }
+    body.theme-light .prot-hero { border-color: rgba(0,0,0,0.08); }
+    .prot-hero-title { font-size: clamp(1.4rem,3vw,2rem); font-weight: 800; line-height: 1.2; }
+    .prot-hero-title span { background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .prot-hero-sub { font-size: 0.85rem; color: rgba(255,255,255,0.45); margin-top: 0.35rem; }
+    body.theme-light .prot-hero-sub { color: rgba(0,0,0,0.45); }
+    .prot-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .prot-stat { text-align: center; }
+    .prot-stat-num { font-size: 1.6rem; font-weight: 800; background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+    .prot-stat-lbl { font-size: 0.65rem; font-weight: 600; letter-spacing:.08em; text-transform:uppercase; color: rgba(255,255,255,0.4); margin-top: 2px; }
+    body.theme-light .prot-stat-lbl { color: rgba(0,0,0,0.4); }
+
+    /* ── Tabs ── */
+    .prot-tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 2rem; flex-wrap: wrap; }
+    body.theme-light .prot-tabs { border-color: rgba(0,0,0,0.1); }
+    .prot-tab {
+      padding: 0.75rem 1.25rem; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      border: none; background: none; color: rgba(255,255,255,0.45);
+      border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .15s;
+    }
+    body.theme-light .prot-tab { color: rgba(0,0,0,0.45); }
+    .prot-tab:hover  { color: rgba(255,255,255,0.75); }
+    body.theme-light .prot-tab:hover { color: rgba(0,0,0,0.75); }
+    .prot-tab.active { color: var(--brand-green); border-bottom-color: var(--brand-green); }
+    .prot-panel { display: none; }
+    .prot-panel.active { display: block; }
+
+    /* ── Section heads ── */
+    .prot-sh {
+      font-size: 0.68rem; font-weight: 700; letter-spacing:.1em; text-transform:uppercase;
+      color: rgba(255,255,255,0.35); display: flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    body.theme-light .prot-sh { color: rgba(0,0,0,0.4); }
+    .prot-sh::before { content:""; display:inline-block; width:3px; height:14px; border-radius:2px; background: var(--gradient-brand); }
+
+    /* ── Cards ── */
+    .prot-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 1.1rem 1.25rem; position: relative; overflow: hidden;
+      transition: border-color .2s;
+    }
+    body.theme-light .prot-card { background: #fff; border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    .prot-card:hover { border-color: rgba(4,106,56,.3); }
+    .prot-card::before { content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background: linear-gradient(180deg,var(--brand-green),var(--brand-orange)); }
+    .prot-card + .prot-card { margin-top: 0.75rem; }
+
+    .prot-card-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .prot-card-id  { font-size: 0.6rem; font-weight: 800; letter-spacing: 1.5px; color: var(--brand-green); font-family: monospace; margin-bottom: 2px; }
+    .prot-card-title { font-size: 0.88rem; font-weight: 700; }
+    .prot-card-meta { font-size: 0.71rem; color: rgba(255,255,255,0.38); margin: 0.3rem 0 0.7rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    body.theme-light .prot-card-meta { color: rgba(0,0,0,0.4); }
+    .prot-card-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+    /* ── Badges ── */
+    .badge {
+      font-size: 0.58rem; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+      padding: 2px 7px; border-radius: 99px; border: 1px solid; display: inline-flex; align-items: center; gap: 3px;
+    }
+    .badge-green  { color: var(--brand-green);  border-color: rgba(4,106,56,.3);  background: rgba(4,106,56,.08); }
+    .badge-orange { color: var(--brand-orange); border-color: rgba(255,103,31,.3); background: rgba(255,103,31,.08); }
+    .badge-red    { color: #ff6b6b;             border-color: rgba(255,107,107,.3); background: rgba(255,107,107,.08); }
+    .badge-muted  { color: rgba(255,255,255,.45); border-color: rgba(255,255,255,.1); background: transparent; }
+    body.theme-light .badge-muted { color: rgba(0,0,0,.4); border-color: rgba(0,0,0,.1); }
+
+    /* ── Confidence bar ── */
+    .conf-bar { display: flex; align-items: center; gap: 0.6rem; }
+    .conf-track { flex: 1; height: 4px; background: rgba(255,255,255,.08); border-radius: 99px; overflow: hidden; }
+    body.theme-light .conf-track { background: rgba(0,0,0,.08); }
+    .conf-fill { height: 100%; border-radius: 99px; background: var(--brand-green); transition: width .4s; }
+    .conf-fill.warn { background: var(--brand-orange); }
+    .conf-fill.danger { background: #ff6b6b; }
+    .conf-pct { font-size: 0.7rem; font-weight: 700; font-family: monospace; min-width: 3ch; }
+
+    /* ── Buttons ── */
+    .prot-btn {
+      padding: 0.28rem 0.75rem; border-radius: 8px; font-size: 0.72rem; font-weight: 600;
+      border: 1px solid; cursor: pointer; background: none; display: inline-flex; align-items: center; gap: 4px;
+      transition: background .15s; text-decoration: none;
+    }
+    .prot-btn-green  { color: var(--brand-green);  border-color: rgba(4,106,56,.3); }
+    .prot-btn-green:hover  { background: rgba(4,106,56,.1); }
+    .prot-btn-orange { color: var(--brand-orange); border-color: rgba(255,103,31,.25); }
+    .prot-btn-orange:hover { background: rgba(255,103,31,.1); }
+    .prot-btn-muted  { color: rgba(255,255,255,.5); border-color: rgba(255,255,255,.1); }
+    body.theme-light .prot-btn-muted { color: rgba(0,0,0,.45); border-color: rgba(0,0,0,.1); }
+    .prot-btn-muted:hover { border-color: var(--brand-green); color: var(--brand-green); }
+    .prot-btn-red  { color: #ff6b6b; border-color: rgba(255,107,107,.25); }
+    .prot-btn-red:hover  { background: rgba(255,107,107,.1); }
+    .prot-btn-primary {
+      background: var(--brand-green); border-color: var(--brand-green); color: #fff;
+      padding: 0.5rem 1.25rem; border-radius: 10px; font-size: 0.82rem;
+    }
+    .prot-btn-primary:hover { opacity: .88; }
+    .prot-btn-primary:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* ── Upload zone ── */
+    .prot-upload-zone {
+      border: 2px dashed rgba(4,106,56,.35); border-radius: 16px;
+      padding: 2.5rem 1.5rem; text-align: center; cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .prot-upload-zone:hover, .prot-upload-zone.drag-over {
+      border-color: var(--brand-green); background: rgba(4,106,56,.05);
+    }
+    .prot-upload-zone input[type=file] { display: none; }
+    .prot-upload-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .prot-upload-label { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,.65); }
+    body.theme-light .prot-upload-label { color: rgba(0,0,0,.55); }
+    .prot-upload-hint { font-size: 0.72rem; color: rgba(255,255,255,.35); margin-top: 0.25rem; }
+    body.theme-light .prot-upload-hint { color: rgba(0,0,0,.35); }
+
+    /* ── Result block ── */
+    .prot-result {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; padding: 1.25rem; margin-top: 1.25rem;
+    }
+    body.theme-light .prot-result { background: rgba(0,0,0,.02); border-color: rgba(0,0,0,.08); }
+    .prot-result-match {
+      border-color: rgba(255,103,31,.3); background: rgba(255,103,31,.04);
+    }
+    .prot-result-clean {
+      border-color: rgba(4,106,56,.3); background: rgba(4,106,56,.04);
+    }
+    .prot-hash { font-family: monospace; font-size: 0.68rem; color: rgba(255,255,255,.35); word-break: break-all; }
+    body.theme-light .prot-hash { color: rgba(0,0,0,.35); }
+
+    /* ── Form fields ── */
+    .prot-field { margin-bottom: 1rem; }
+    .prot-label { font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,.55); display: block; margin-bottom: 0.35rem; }
+    body.theme-light .prot-label { color: rgba(0,0,0,.55); }
+    .prot-input, .prot-select, .prot-textarea {
+      width: 100%; padding: 0.55rem 0.85rem; border-radius: 10px; font-size: 0.82rem;
+      border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+      color: inherit; outline: none; transition: border-color .2s;
+      font-family: inherit;
+    }
+    body.theme-light .prot-input, body.theme-light .prot-select, body.theme-light .prot-textarea {
+      border-color: rgba(0,0,0,.12); background: rgba(0,0,0,.03);
+    }
+    .prot-input:focus, .prot-select:focus, .prot-textarea:focus { border-color: var(--brand-green); }
+    .prot-textarea { min-height: 80px; resize: vertical; }
+    .prot-select option { background: #1c1c1e; color: #e5e5e5; }
+
+    /* ── Social platform icon ── */
+    .platform-icon { font-size: 1rem; margin-right: 4px; }
+    .prot-verify-code {
+      font-family: monospace; font-size: 0.82rem; font-weight: 700;
+      background: rgba(4,106,56,.1); border: 1px solid rgba(4,106,56,.25);
+      border-radius: 8px; padding: 0.4rem 0.75rem; display: inline-block;
+      color: var(--brand-green); margin: 0.5rem 0; word-break: break-all;
+    }
+
+    /* ── Spinner ── */
+    .prot-spinner {
+      display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.2);
+      border-top-color: var(--brand-green); border-radius: 50%; animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Empty ── */
+    .prot-empty { text-align: center; padding: 3rem 1rem; color: rgba(255,255,255,.3); font-size: 0.85rem; }
+    body.theme-light .prot-empty { color: rgba(0,0,0,.35); }
+
+    /* ── Toast ── */
+    #protToast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
+      background: #1c1c1e; border: 1px solid rgba(255,255,255,.12);
+      color: #e5e5e5; border-radius: 12px; padding: 0.7rem 1.1rem;
+      font-size: 0.8rem; font-weight: 500; box-shadow: 0 8px 32px rgba(0,0,0,.4);
+      display: none; max-width: 320px;
+    }
+    body.theme-light #protToast { background: #fff; border-color: rgba(0,0,0,.12); color: #111; }
+
+    @media (max-width: 600px) {
+      .prot-tabs { gap: 0; }
+      .prot-tab  { padding: 0.65rem 0.9rem; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body class="theme-dark personal-page">
+
+<script src="/js/site-init.js?v=1"></script>
+<script src="/js/auth.js?v=auth-otp-1"></script>
+<script>requireAuth(); document.documentElement.style.visibility="";</script>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<header class="personal-header glass">
+  <div class="personal-header-inner">
+    <a href="/pages/personal.html" class="personal-brand">
+      <img id="personalLogo" src="/logo/day-logo.png" alt="HI App" class="personal-logo" />
+      <div class="personal-brand-text">
+        <span class="personal-name">Amit Ku Yadav</span>
+        <span class="personal-tagline">Protection</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="personal-nav" data-nav="personal"></nav>
+    <div class="auth-bar">
+      <span>Hi, <strong id="authUserDisplay"></strong></span>
+      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <div class="prot-hero">
+    <div>
+      <h1 class="prot-hero-title">🛡 <span>Content Protection</span></h1>
+      <p class="prot-hero-sub">Watermark, detect reposts, and verify your real accounts across every platform.</p>
+    </div>
+    <div class="prot-stats">
+      <div class="prot-stat"><div class="prot-stat-num" id="statProtected">—</div><div class="prot-stat-lbl">Protected</div></div>
+      <div class="prot-stat"><div class="prot-stat-num" id="statFingerprinted">—</div><div class="prot-stat-lbl">Fingerprinted</div></div>
+      <div class="prot-stat"><div class="prot-stat-num" id="statAlerts">—</div><div class="prot-stat-lbl">Alerts</div></div>
+      <div class="prot-stat"><div class="prot-stat-num" id="statVerified">—</div><div class="prot-stat-lbl">Verified Accounts</div></div>
+    </div>
+  </div>
+
+  <div class="prot-wrap">
+
+    <!-- Tab bar -->
+    <div class="prot-tabs" role="tablist">
+      <button class="prot-tab active" data-tab="protected" role="tab">Protected Content</button>
+      <button class="prot-tab" data-tab="alerts" role="tab">Alerts <span id="alertsBadge" style="display:none;background:var(--brand-orange);color:#fff;border-radius:99px;font-size:0.6rem;padding:1px 5px;margin-left:4px;"></span></button>
+      <button class="prot-tab" data-tab="detect" role="tab">Detect Repost</button>
+      <button class="prot-tab" data-tab="social" role="tab">Social Verify</button>
+    </div>
+
+    <!-- ── Tab 1: Protected Content ── -->
+    <div class="prot-panel active" id="panel-protected">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem;">
+        <div class="prot-sh" style="margin-bottom:0">Your registered content</div>
+        <a href="/pages/hi-license.html" class="prot-btn prot-btn-primary">+ Register New Content</a>
+      </div>
+      <div id="protectedList"><div class="prot-empty"><span class="prot-spinner"></span></div></div>
+    </div>
+
+    <!-- ── Tab 2: Alerts ── -->
+    <div class="prot-panel" id="panel-alerts">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem;">
+        <div class="prot-sh" style="margin-bottom:0">Flagged reposts</div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button class="prot-btn prot-btn-muted" id="filterAll" onclick="filterAlerts('all')">All</button>
+          <button class="prot-btn prot-btn-muted" id="filterNew" onclick="filterAlerts('new')">New</button>
+          <button class="prot-btn prot-btn-muted" id="filterDmca" onclick="filterAlerts('dmca_sent')">DMCA Sent</button>
+        </div>
+      </div>
+      <div id="alertsList"><div class="prot-empty"><span class="prot-spinner"></span></div></div>
+
+      <!-- Report form -->
+      <div style="margin-top:2.5rem;">
+        <div class="prot-sh">Report a repost URL</div>
+        <div class="prot-card" style="max-width:560px;">
+          <div class="prot-field">
+            <label class="prot-label">Infringing URL *</label>
+            <input class="prot-input" id="reportUrl" placeholder="https://www.instagram.com/p/..." />
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+            <div class="prot-field">
+              <label class="prot-label">Platform</label>
+              <select class="prot-select" id="reportPlatform">
+                <option value="">Unknown</option>
+                <option value="Instagram">Instagram</option>
+                <option value="TikTok">TikTok</option>
+                <option value="YouTube">YouTube</option>
+                <option value="Twitter/X">Twitter / X</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="prot-field">
+              <label class="prot-label">License ID (if known)</label>
+              <input class="prot-input" id="reportLicenseId" placeholder="HI-LIC-..." />
+            </div>
+          </div>
+          <div class="prot-field">
+            <label class="prot-label">Note (optional)</label>
+            <input class="prot-input" id="reportNote" placeholder="What did they do?" />
+          </div>
+          <button class="prot-btn prot-btn-primary" id="reportBtn" onclick="submitReport()">Submit Report</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tab 3: Detect ── -->
+    <div class="prot-panel" id="panel-detect">
+      <div class="prot-sh">Upload suspected repost</div>
+      <p style="font-size:0.82rem;color:rgba(255,255,255,.45);margin-bottom:1.25rem;max-width:560px;">
+        Upload an image or video you suspect was reposted without credit. The detector computes its fingerprint and checks it against all protected content.
+      </p>
+      <div style="max-width:560px;">
+        <div class="prot-upload-zone" id="detectZone" onclick="document.getElementById('detectFile').click()"
+             ondragover="event.preventDefault();this.classList.add('drag-over')"
+             ondragleave="this.classList.remove('drag-over')"
+             ondrop="handleDetectDrop(event)">
+          <input type="file" id="detectFile" accept="image/*,video/*" onchange="runDetect(this.files[0])">
+          <div class="prot-upload-icon">🔍</div>
+          <div class="prot-upload-label">Drop image or video here</div>
+          <div class="prot-upload-hint">JPG, PNG, MP4, MOV · up to 100 MB</div>
+        </div>
+        <div id="detectProgress" style="display:none;font-size:0.8rem;color:rgba(255,255,255,.5);margin-top:0.75rem;display:flex;align-items:center;gap:0.5rem;">
+          <span class="prot-spinner"></span><span id="detectProgressMsg">Processing…</span>
+        </div>
+        <div id="detectResult" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- ── Tab 4: Social Verify ── -->
+    <div class="prot-panel" id="panel-social">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem;">
+        <div class="prot-sh" style="margin-bottom:0">Verified accounts</div>
+        <button class="prot-btn prot-btn-primary" onclick="showAddSocial()">+ Add Account</button>
+      </div>
+      <div id="socialList"><div class="prot-empty"><span class="prot-spinner"></span></div></div>
+
+      <!-- Add account form -->
+      <div id="addSocialForm" style="display:none;margin-top:1.5rem;max-width:480px;">
+        <div class="prot-sh">Link a new account</div>
+        <div class="prot-card">
+          <div class="prot-field">
+            <label class="prot-label">Platform *</label>
+            <select class="prot-select" id="svPlatform" onchange="updateProfilePlaceholder()">
+              <option value="Instagram">Instagram</option>
+              <option value="YouTube">YouTube</option>
+              <option value="Twitter/X">Twitter / X</option>
+              <option value="TikTok">TikTok</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="GitHub">GitHub</option>
+              <option value="Website">Website</option>
+            </select>
+          </div>
+          <div class="prot-field">
+            <label class="prot-label">Profile URL *</label>
+            <input class="prot-input" id="svProfileUrl" placeholder="https://www.instagram.com/kingofyadav.in" />
+          </div>
+          <div style="display:flex;gap:0.5rem;">
+            <button class="prot-btn prot-btn-primary" onclick="addSocialAccount()">Generate Verify Code</button>
+            <button class="prot-btn prot-btn-muted" onclick="document.getElementById('addSocialForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verify instructions (shown after code generated) -->
+      <div id="verifyInstructions" style="display:none;margin-top:1.5rem;max-width:480px;">
+        <div class="prot-card">
+          <div class="prot-sh" style="margin-bottom:0.6rem">Step 2 — Add this code to your bio</div>
+          <div class="prot-verify-code" id="verifyCodeDisplay"></div>
+          <p style="font-size:0.78rem;color:rgba(255,255,255,.45);margin:0.6rem 0 1rem;">
+            Add the code above to your bio on <strong id="verifyPlatformName"></strong>. You can remove it after verification.
+          </p>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <button class="prot-btn prot-btn-green" id="checkVerifyBtn" onclick="checkVerification()">
+              I've added it — Verify Now
+            </button>
+            <button class="prot-btn prot-btn-muted" onclick="document.getElementById('verifyInstructions').style.display='none';loadSocial()">Done</button>
+          </div>
+          <div id="verifyCheckResult" style="display:none;margin-top:0.75rem;font-size:0.8rem;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /prot-wrap -->
+</main>
+
+<div id="protToast"></div>
+
+<script src="/js/nav.js?v=nav-5"></script>
+<script src="/js/script.js?v=20260502-pro"></script>
+<script src="/js/hi-watermark.js?v=1"></script>
+<script src="/js/hi-detect.js?v=1"></script>
+<script>
+"use strict";
+
+const API = "/api/hi";
+let _licenses = [], _alerts = [], _socials = [];
+let _pendingSocialId = null;
+
+// ── Auth header ────────────────────────────────────────────────────────────────
+function _authHeaders() {
+  const key = localStorage.getItem("hi_api_key") || "";
+  return { "Content-Type": "application/json", ...(key ? { Authorization: `Bearer ${key}` } : {}) };
+}
+function _api(path, opts = {}) {
+  return fetch(API + path, { ...opts, headers: { ..._authHeaders(), ...(opts.headers || {}) } })
+    .then(r => r.json());
+}
+
+// ── Toast ───────────────────────────────────────────────────────────────────
+function toast(msg, tone = "ok") {
+  const el = document.getElementById("protToast");
+  el.style.borderColor = tone === "ok" ? "rgba(4,106,56,.4)" : tone === "warn" ? "rgba(255,103,31,.4)" : "rgba(255,107,107,.4)";
+  el.style.display = "block";
+  el.textContent = msg;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.display = "none"; }, 3500);
+}
+
+function esc(str) {
+  return String(str ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+// ── Tab switching ──────────────────────────────────────────────────────────────
+document.querySelectorAll(".prot-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".prot-tab").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".prot-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
+// ── Platform icons ──────────────────────────────────────────────────────────────
+const PLATFORM_ICON = {
+  Instagram: "📸", YouTube: "▶️", "Twitter/X": "🐦", TikTok: "🎵",
+  Facebook: "👥", LinkedIn: "💼", GitHub: "🐙", Website: "🌐", Other: "🔗"
+};
+function platformIcon(p) { return PLATFORM_ICON[p] || "🔗"; }
+
+// ── Load Protected Content ─────────────────────────────────────────────────────
+async function loadProtected() {
+  const resp = await _api("/licenses").catch(() => ({ ok: false }));
+  _licenses = resp.ok ? (resp.data || []) : [];
+
+  const el = document.getElementById("protectedList");
+  document.getElementById("statProtected").textContent = _licenses.length;
+  const fp = _licenses.filter(l => l.perceptual_hash).length;
+  document.getElementById("statFingerprinted").textContent = fp;
+
+  if (!_licenses.length) {
+    el.innerHTML = `<div class="prot-empty">No protected content yet.<br><a href="/pages/hi-license.html" class="prot-btn prot-btn-green" style="margin-top:0.75rem;display:inline-flex;">Register Your First Content →</a></div>`;
+    return;
+  }
+
+  el.innerHTML = _licenses.map(l => {
+    const meta = l.metadata || {};
+    const hasPHash = !!l.perceptual_hash;
+    return `<div class="prot-card">
+      <div class="prot-card-row">
+        <div>
+          <div class="prot-card-id">${esc(l.claim_id)}</div>
+          <div class="prot-card-title">${esc(meta.title || "Untitled")}</div>
+          <div class="prot-card-meta">
+            <span>${esc(meta.type || "content")}</span>
+            <span>${esc(meta.created || (l.claim_date || "").slice(0,10))}</span>
+            <span class="badge ${hasPHash ? 'badge-green' : 'badge-muted'}">${hasPHash ? '✓ Fingerprinted' : '○ No fingerprint'}</span>
+          </div>
+        </div>
+        <div class="prot-card-actions">
+          <a href="/verify/${esc(l.claim_id)}" target="_blank" class="prot-btn prot-btn-green">Verify</a>
+          <a href="/claim/${esc(l.claim_id)}" target="_blank" class="prot-btn prot-btn-orange">DMCA</a>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+// ── Load Alerts ────────────────────────────────────────────────────────────────
+let _alertFilter = "all";
+async function loadAlerts() {
+  const resp = await _api("/alerts").catch(() => ({ ok: false }));
+  _alerts = resp.ok ? (resp.data || []) : [];
+  document.getElementById("statAlerts").textContent = _alerts.filter(a => a.status === "new").length;
+  const newCount = _alerts.filter(a => a.status === "new").length;
+  const badge = document.getElementById("alertsBadge");
+  if (newCount > 0) { badge.textContent = newCount; badge.style.display = "inline"; }
+  renderAlerts();
+}
+
+function filterAlerts(f) {
+  _alertFilter = f;
+  ["filterAll","filterNew","filterDmca"].forEach(id => document.getElementById(id).classList.remove("prot-btn-green"));
+  document.getElementById("filter" + f.charAt(0).toUpperCase() + f.slice(1).replace("_sent","Dmca").replace("dmca_sent","Dmca")).classList.add("prot-btn-green");
+  renderAlerts();
+}
+
+function renderAlerts() {
+  const el = document.getElementById("alertsList");
+  let list = _alerts;
+  if (_alertFilter !== "all") list = list.filter(a => a.status === _alertFilter);
+  if (!list.length) { el.innerHTML = `<div class="prot-empty">No alerts ${_alertFilter !== "all" ? "with status '" + _alertFilter + "'" : "yet"}.</div>`; return; }
+
+  el.innerHTML = list.map(a => {
+    const conf = a.confidence || 0;
+    const confClass = conf >= 85 ? "" : conf >= 60 ? "warn" : "danger";
+    const statusBadge = { new: "badge-orange", actioned: "badge-green", ignored: "badge-muted", dmca_sent: "badge-green" }[a.status] || "badge-muted";
+    return `<div class="prot-card" id="alert-${esc(a.id)}">
+      <div class="prot-card-row">
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem;flex-wrap:wrap;">
+            <span class="badge ${statusBadge}">${esc(a.status.replace("_"," "))}</span>
+            ${a.platform ? `<span class="platform-icon">${platformIcon(a.platform)}</span><span style="font-size:0.75rem;color:rgba(255,255,255,.5)">${esc(a.platform)}</span>` : ""}
+            <span style="font-size:0.7rem;color:rgba(255,255,255,.3)">${(a.created_at||"").slice(0,10)}</span>
+          </div>
+          <div class="prot-card-id" style="margin-bottom:0.35rem;">${a.license_id ? "License: " + esc(a.license_id) : "No license matched"}</div>
+          <div style="font-size:0.78rem;color:rgba(255,255,255,.55);word-break:break-all;margin-bottom:0.6rem;">
+            <a href="${esc(a.infringing_url)}" target="_blank" rel="noopener" style="color:var(--brand-orange);text-decoration:none;">${esc(a.infringing_url)}</a>
+          </div>
+          ${conf > 0 ? `<div class="conf-bar" style="max-width:260px;">
+            <div class="conf-track"><div class="conf-fill ${confClass}" style="width:${conf}%"></div></div>
+            <span class="conf-pct">${conf}%</span>
+            <span style="font-size:0.65rem;color:rgba(255,255,255,.35)">confidence</span>
+          </div>` : ""}
+        </div>
+        <div class="prot-card-actions" style="flex-direction:column;align-items:flex-end;">
+          <a href="${esc(a.infringing_url)}" target="_blank" rel="noopener" class="prot-btn prot-btn-muted">View</a>
+          ${a.license_id ? `<a href="/claim/${esc(a.license_id)}" target="_blank" class="prot-btn prot-btn-orange">DMCA</a>` : ""}
+          <button class="prot-btn prot-btn-green" onclick="setAlertStatus('${esc(a.id)}','actioned')">✓ Actioned</button>
+          <button class="prot-btn prot-btn-muted" onclick="setAlertStatus('${esc(a.id)}','ignored')">Ignore</button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+async function setAlertStatus(id, status) {
+  await _api(`/alerts?id=${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status }) });
+  toast(status === "actioned" ? "Marked as actioned." : "Alert ignored.", "ok");
+  await loadAlerts();
+}
+
+async function submitReport() {
+  const url  = document.getElementById("reportUrl").value.trim();
+  const plat = document.getElementById("reportPlatform").value;
+  const lid  = document.getElementById("reportLicenseId").value.trim();
+  const note = document.getElementById("reportNote").value.trim();
+  if (!url) { toast("Paste the infringing URL first.", "warn"); return; }
+  const btn = document.getElementById("reportBtn");
+  btn.disabled = true; btn.innerHTML = '<span class="prot-spinner"></span> Submitting…';
+  const resp = await fetch(API + "/report", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ infringing_url: url, platform: plat || null, license_id: lid || null, reporter_note: note || null }),
+  }).then(r => r.json()).catch(() => ({ ok: false }));
+  btn.disabled = false; btn.textContent = "Submit Report";
+  if (resp.ok) {
+    toast(resp.confidence > 0 ? `Report filed — ${resp.confidence}% confidence match found.` : "Report filed. No automatic match — check manually.", "ok");
+    document.getElementById("reportUrl").value = "";
+    document.getElementById("reportNote").value = "";
+    await loadAlerts();
+  } else {
+    toast("Failed to submit report.", "err");
+  }
+}
+
+// ── Detect Repost ──────────────────────────────────────────────────────────────
+function handleDetectDrop(e) {
+  e.preventDefault();
+  document.getElementById("detectZone").classList.remove("drag-over");
+  const file = e.dataTransfer?.files?.[0];
+  if (file) runDetect(file);
+}
+
+async function runDetect(file) {
+  if (!file) return;
+  const prog = document.getElementById("detectProgress");
+  const res  = document.getElementById("detectResult");
+  const msg  = document.getElementById("detectProgressMsg");
+  prog.style.display = "flex"; res.style.display = "none";
+
+  const update = m => { msg.textContent = m; };
+
+  try {
+    update("Computing perceptual fingerprint…");
+    const phash = await HiWatermark.computePHash(file);
+    update("Checking for embedded watermark…");
+    const watermark = await HiWatermark.detectWatermark(file).catch(() => null);
+    update("Comparing against protected content database…");
+
+    const resp = await fetch(API + "/detect", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phash, watermark }),
+    }).then(r => r.json()).catch(() => ({ ok: false, matches: [] }));
+
+    prog.style.display = "none";
+    const matches = resp.matches || [];
+
+    let html = `<div class="prot-result ${matches.length ? 'prot-result-match' : 'prot-result-clean'}">`;
+
+    if (watermark) {
+      html += `<div style="margin-bottom:0.75rem;"><span class="badge badge-orange" style="font-size:0.65rem;">Watermark Found</span><span style="font-size:0.78rem;color:rgba(255,255,255,.6);margin-left:0.5rem;">License: ${esc(watermark)}</span></div>`;
+    }
+
+    if (matches.length) {
+      html += `<div style="font-weight:700;font-size:0.88rem;color:var(--brand-orange);margin-bottom:0.75rem;">⚠ ${matches.length} match${matches.length > 1 ? "es" : ""} found</div>`;
+      matches.forEach(m => {
+        const conf = m.confidence || 0;
+        const confClass = conf >= 85 ? "" : conf >= 60 ? "warn" : "danger";
+        html += `<div style="margin-bottom:0.75rem;padding:0.75rem;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid rgba(255,255,255,.07);">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem;">
+            <span class="badge badge-orange">${m.method || "phash"}</span>
+          </div>
+          <div style="font-weight:700;font-size:0.85rem;margin-bottom:0.25rem;">${esc(m.title)}</div>
+          <div style="font-size:0.72rem;color:rgba(255,255,255,.4);margin-bottom:0.5rem;">by ${esc(m.author)} · ${esc(m.created || "")}</div>
+          <div class="conf-bar" style="max-width:260px;margin-bottom:0.6rem;">
+            <div class="conf-track"><div class="conf-fill ${confClass}" style="width:${conf}%"></div></div>
+            <span class="conf-pct">${conf}%</span><span style="font-size:0.65rem;color:rgba(255,255,255,.35)">confidence</span>
+          </div>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <a href="${esc(m.verify_url)}" target="_blank" class="prot-btn prot-btn-green">View License</a>
+            <a href="/claim/${esc(m.claim_id)}" target="_blank" class="prot-btn prot-btn-orange">Generate DMCA</a>
+          </div>
+        </div>`;
+      });
+    } else {
+      html += `<div style="font-weight:700;font-size:0.88rem;color:var(--brand-green);margin-bottom:0.5rem;">✓ No matches found</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,.45);">Checked against ${resp.checked || 0} protected items. This content does not appear to be registered on HI App.</div>`;
+    }
+
+    html += `<div class="prot-hash" style="margin-top:0.75rem;">pHash: ${esc(phash)}</div></div>`;
+    res.innerHTML = html;
+    res.style.display = "block";
+  } catch (e) {
+    prog.style.display = "none";
+    res.innerHTML = `<div class="prot-result"><div style="color:#ff6b6b;font-size:0.82rem;">Error: ${esc(e.message)}</div></div>`;
+    res.style.display = "block";
+  }
+}
+
+// ── Social Verify ──────────────────────────────────────────────────────────────
+async function loadSocial() {
+  const resp = await _api("/social-verify").catch(() => ({ ok: false }));
+  _socials = resp.ok ? (resp.data || []) : [];
+  document.getElementById("statVerified").textContent = _socials.filter(s => s.status === "verified").length;
+  renderSocial();
+}
+
+function renderSocial() {
+  const el = document.getElementById("socialList");
+  if (!_socials.length) { el.innerHTML = `<div class="prot-empty">No accounts linked yet. Add your first account above.</div>`; return; }
+  el.innerHTML = _socials.map(s => {
+    const verified = s.status === "verified";
+    return `<div class="prot-card">
+      <div class="prot-card-row">
+        <div>
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;">
+            <span class="platform-icon">${platformIcon(s.platform)}</span>
+            <span style="font-weight:700;font-size:0.88rem;">${esc(s.platform)}</span>
+            <span class="badge ${verified ? 'badge-green' : 'badge-orange'}">${verified ? "✓ Verified" : "Pending"}</span>
+          </div>
+          <div style="font-size:0.76rem;color:rgba(255,255,255,.45);word-break:break-all;">
+            <a href="${esc(s.profile_url)}" target="_blank" rel="noopener" style="color:inherit;">${esc(s.profile_url)}</a>
+          </div>
+          ${!verified ? `<div style="margin-top:0.5rem;">Add <code style="font-size:0.72rem;background:rgba(4,106,56,.1);padding:2px 6px;border-radius:6px;color:var(--brand-green);">${esc(s.verify_code)}</code> to your bio then click Verify</div>` : ""}
+        </div>
+        <div class="prot-card-actions" style="flex-direction:column;align-items:flex-end;">
+          ${!verified ? `<button class="prot-btn prot-btn-green" onclick="runSocialCheck('${esc(s.id)}','${esc(s.platform)}')">Verify Now</button>` : ""}
+          <button class="prot-btn prot-btn-red" onclick="removeSocial('${esc(s.id)}')">Remove</button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function showAddSocial() {
+  document.getElementById("addSocialForm").style.display = "block";
+  document.getElementById("verifyInstructions").style.display = "none";
+}
+
+function updateProfilePlaceholder() {
+  const plat = document.getElementById("svPlatform").value;
+  const placeholders = {
+    Instagram: "https://www.instagram.com/kingofyadav.in",
+    YouTube:   "https://www.youtube.com/@kingofyadav",
+    "Twitter/X": "https://twitter.com/kingofyadav_in",
+    TikTok:    "https://www.tiktok.com/@kingofyadav",
+    LinkedIn:  "https://www.linkedin.com/in/amitkuyadav",
+    GitHub:    "https://github.com/Kingofyadav-in",
+    Website:   "https://kingofyadav.in",
+  };
+  document.getElementById("svProfileUrl").placeholder = placeholders[plat] || "https://...";
+}
+
+async function addSocialAccount() {
+  const platform    = document.getElementById("svPlatform").value;
+  const profile_url = document.getElementById("svProfileUrl").value.trim();
+  if (!profile_url) { toast("Enter your profile URL.", "warn"); return; }
+  const resp = await _api("/social-verify", { method: "POST", body: JSON.stringify({ platform, profile_url }) });
+  if (!resp.ok) { toast("Failed to add account.", "err"); return; }
+  _pendingSocialId = resp.data.id;
+  document.getElementById("addSocialForm").style.display = "none";
+  document.getElementById("verifyCodeDisplay").textContent = resp.data.verify_code;
+  document.getElementById("verifyPlatformName").textContent = platform;
+  document.getElementById("verifyInstructions").style.display = "block";
+  document.getElementById("verifyCheckResult").style.display = "none";
+  await loadSocial();
+}
+
+async function runSocialCheck(id, platform) {
+  _pendingSocialId = id;
+  const verRow = _socials.find(s => s.id === id);
+  if (verRow) {
+    document.getElementById("verifyCodeDisplay").textContent = verRow.verify_code;
+    document.getElementById("verifyPlatformName").textContent = platform;
+    document.getElementById("verifyInstructions").style.display = "block";
+    document.getElementById("verifyCheckResult").style.display = "none";
+  }
+}
+
+async function checkVerification() {
+  if (!_pendingSocialId) return;
+  const btn = document.getElementById("checkVerifyBtn");
+  btn.disabled = true; btn.innerHTML = '<span class="prot-spinner"></span> Checking…';
+  const resp = await _api(`/social-verify?id=${encodeURIComponent(_pendingSocialId)}&action=check`, { method: "PUT" });
+  btn.disabled = false; btn.textContent = "I've added it — Verify Now";
+  const res = document.getElementById("verifyCheckResult");
+  res.style.display = "block";
+  if (resp.verified) {
+    res.innerHTML = `<span style="color:var(--brand-green);font-weight:700;">✓ Verified!</span> Code found in your bio.`;
+    toast("Account verified!", "ok");
+    document.getElementById("verifyInstructions").style.display = "none";
+    await loadSocial();
+  } else {
+    res.innerHTML = `<span style="color:var(--brand-orange);font-weight:700;">Not found yet.</span> ${esc(resp.reason || "Make sure the code is in your bio and the profile is public.")}`;
+  }
+}
+
+async function removeSocial(id) {
+  if (!confirm("Remove this verified account?")) return;
+  await _api(`/social-verify?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+  toast("Account removed.", "ok");
+  await loadSocial();
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+(async () => {
+  await Promise.all([loadProtected(), loadAlerts(), loadSocial()]);
+})();
+</script>
+</body>
+</html>

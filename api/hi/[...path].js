@@ -2,6 +2,32 @@
 
 const { Pool } = require("pg");
 const { loadEnv } = require("../../lib/env");
+const { rateLimit } = require("../_rate-limit");
+
+// ── Social profile bio-code checker ───────────────────────────────────────────
+async function _checkSocialProfile(platform, profileUrl, verifyCode) {
+  const GITHUB_USER = profileUrl.match(/github\.com\/([^/?#]+)/)?.[1];
+  try {
+    if (GITHUB_USER) {
+      const resp = await fetch(`https://api.github.com/users/${GITHUB_USER}`,
+        { headers: { "User-Agent": "HI-Verify-Bot/1.0" }, signal: AbortSignal.timeout(8000) });
+      if (!resp.ok) return { verified: false, reason: `GitHub API ${resp.status}` };
+      const data = await resp.json();
+      const haystack = [data.bio, data.name, data.blog, data.company].filter(Boolean).join(" ");
+      return { verified: haystack.includes(verifyCode) };
+    }
+    // General page fetch (YouTube, Twitter, LinkedIn public pages)
+    const resp = await fetch(profileUrl,
+      { headers: { "User-Agent": "Mozilla/5.0 HI-Verify-Bot/1.0" }, signal: AbortSignal.timeout(8000) });
+    if (!resp.ok) return { verified: false, reason: `HTTP ${resp.status}` };
+    const html = await resp.text();
+    return { verified: html.includes(verifyCode) };
+  } catch (e) {
+    if (e.name === "TimeoutError" || e.name === "AbortError")
+      return { verified: false, reason: "Profile page timed out — try manual verify" };
+    return { verified: false, reason: "Cannot reach profile — add code to bio then try again" };
+  }
+}
 
 loadEnv();
 
@@ -312,21 +338,220 @@ module.exports = async (req, res) => {
         return res.json({ ok: true, data: rows });
       }
       if (method === "POST") {
-        const { claim_id, content_hash, status, metadata } = req.body;
+        const { claim_id, content_hash, perceptual_hash, status, metadata } = req.body;
+        await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
         const { rows } = await db.query(
-          "INSERT INTO hdi_licenses (claim_id,content_hash,status,metadata) VALUES ($1,$2,$3,$4) RETURNING *",
-          [claim_id, content_hash, status ?? "active", JSON.stringify(metadata ?? {})]);
+          "INSERT INTO hdi_licenses (claim_id,content_hash,perceptual_hash,status,metadata) VALUES ($1,$2,$3,$4,$5) RETURNING *",
+          [claim_id, content_hash, perceptual_hash ?? null, status ?? "active", JSON.stringify(metadata ?? {})]);
         return res.status(201).json({ ok: true, data: rows[0] });
       }
       if (method === "PUT" && id) {
-        const { claim_id, content_hash, status, metadata } = req.body;
+        const { claim_id, content_hash, perceptual_hash, status, metadata } = req.body;
+        await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
         const { rows } = await db.query(
-          "UPDATE hdi_licenses SET claim_id=$2,content_hash=$3,status=$4,metadata=$5 WHERE id=$1 RETURNING *",
-          [id, claim_id, content_hash, status, JSON.stringify(metadata ?? {})]);
+          "UPDATE hdi_licenses SET claim_id=$2,content_hash=$3,perceptual_hash=$4,status=$5,metadata=$6 WHERE id=$1 RETURNING *",
+          [id, claim_id, content_hash, perceptual_hash ?? null, status, JSON.stringify(metadata ?? {})]);
         return res.json({ ok: true, data: rows[0] });
       }
       if (method === "DELETE" && id) {
         await db.query("DELETE FROM hdi_licenses WHERE id=$1", [id]);
+        return res.json({ ok: true });
+      }
+    }
+
+    // ── DETECT (pHash comparison — public, no auth) ────────────────
+    if (resource === "detect") {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      if (method === "OPTIONS") return res.status(204).end();
+      if (method !== "POST") return res.status(405).json({ ok: false, error: "POST only" });
+      const { phash, watermark } = req.body ?? {};
+
+      const matches = [];
+
+      // Watermark direct lookup (highest confidence)
+      if (watermark) {
+        const { rows: wmRows } = await db.query(
+          "SELECT claim_id, metadata FROM hdi_licenses WHERE claim_id=$1 AND status='active'",
+          [watermark]);
+        if (wmRows.length) {
+          const r = wmRows[0]; const meta = r.metadata ?? {};
+          matches.push({ claim_id: r.claim_id, confidence: 100, method: "watermark",
+            title: meta.title ?? "Untitled", author: meta.author ?? "Amit Ku Yadav",
+            created: meta.created ?? null, verify_url: `https://kingofyadav.in/verify/${r.claim_id}` });
+        }
+      }
+
+      // pHash Hamming distance match
+      let checked = 0;
+      if (phash && /^[01]{64}$/.test(phash)) {
+        await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
+        const { rows } = await db.query(
+          "SELECT claim_id, perceptual_hash, metadata FROM hdi_licenses WHERE perceptual_hash IS NOT NULL AND status='active'");
+        checked = rows.length;
+        const THRESHOLD = 10;
+        for (const r of rows) {
+          let dist = 0;
+          for (let i = 0; i < 64; i++) if (phash[i] !== r.perceptual_hash[i]) dist++;
+          if (dist <= THRESHOLD) {
+            const meta = r.metadata ?? {};
+            const confidence = Math.round((1 - dist / 64) * 100);
+            if (!matches.find(m => m.claim_id === r.claim_id)) {
+              matches.push({ claim_id: r.claim_id, confidence, method: "phash",
+                title: meta.title ?? "Untitled", author: meta.author ?? "Amit Ku Yadav",
+                created: meta.created ?? null, verify_url: `https://kingofyadav.in/verify/${r.claim_id}` });
+            }
+          }
+        }
+        matches.sort((a, b) => b.confidence - a.confidence);
+      }
+
+      return res.json({ ok: true, matches: matches.slice(0, 5), checked });
+    }
+
+    // ── ALERTS ─────────────────────────────────────────────────────
+    if (resource === "alerts") {
+      if (!checkAuth(req, res)) return;
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS hi_repost_alerts (
+          id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          license_id   TEXT,
+          infringing_url TEXT NOT NULL,
+          platform     TEXT,
+          confidence   INTEGER DEFAULT 0,
+          detected_by  TEXT DEFAULT 'community',
+          status       TEXT DEFAULT 'new',
+          reporter_note TEXT,
+          created_at   TIMESTAMPTZ DEFAULT NOW()
+        )`);
+      if (method === "GET") {
+        const { rows } = await db.query("SELECT * FROM hi_repost_alerts ORDER BY created_at DESC LIMIT 200");
+        return res.json({ ok: true, data: rows });
+      }
+      if (method === "PUT") {
+        if (!id) return res.status(400).json({ ok: false, error: "id required" });
+        const { status: s } = req.body ?? {};
+        const valid = ["new", "actioned", "ignored", "dmca_sent"];
+        if (!valid.includes(s)) return res.status(400).json({ ok: false, error: "invalid status" });
+        await db.query("UPDATE hi_repost_alerts SET status=$1 WHERE id=$2", [s, id]);
+        return res.json({ ok: true });
+      }
+      if (method === "DELETE") {
+        if (!id) return res.status(400).json({ ok: false, error: "id required" });
+        await db.query("DELETE FROM hi_repost_alerts WHERE id=$1", [id]);
+        return res.json({ ok: true });
+      }
+    }
+
+    // ── REPORT (public community repost report) ────────────────────
+    if (resource === "report") {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      if (method === "OPTIONS") return res.status(204).end();
+      if (method !== "POST") return res.status(405).json({ ok: false, error: "POST only" });
+      const limit = rateLimit({ max: 10, windowMs: 300_000 });
+      if (!limit(req, res)) return;
+
+      const { infringing_url, license_id, platform, phash, reporter_note } = req.body ?? {};
+      if (!infringing_url) return res.status(400).json({ ok: false, error: "infringing_url required" });
+
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS hi_repost_alerts (
+          id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          license_id   TEXT,
+          infringing_url TEXT NOT NULL,
+          platform     TEXT,
+          confidence   INTEGER DEFAULT 0,
+          detected_by  TEXT DEFAULT 'community',
+          status       TEXT DEFAULT 'new',
+          reporter_note TEXT,
+          created_at   TIMESTAMPTZ DEFAULT NOW()
+        )`);
+
+      let confidence = 0;
+      let matchedId  = license_id ?? null;
+
+      if (phash && /^[01]{64}$/.test(phash)) {
+        await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
+        const { rows } = await db.query(
+          "SELECT claim_id, perceptual_hash FROM hdi_licenses WHERE perceptual_hash IS NOT NULL AND status='active'");
+        let best = null;
+        for (const r of rows) {
+          let dist = 0;
+          for (let i = 0; i < 64; i++) if (phash[i] !== r.perceptual_hash[i]) dist++;
+          if (dist <= 10 && (!best || dist < best.dist)) best = { claim_id: r.claim_id, dist };
+        }
+        if (best) { confidence = Math.round((1 - best.dist / 64) * 100); matchedId = best.claim_id; }
+      }
+
+      const { rows } = await db.query(`
+        INSERT INTO hi_repost_alerts (license_id,infringing_url,platform,confidence,reporter_note)
+        VALUES ($1,$2,$3,$4,$5) RETURNING id`,
+        [matchedId, infringing_url, platform ?? null, confidence, reporter_note ?? null]);
+
+      return res.status(201).json({ ok: true, id: rows[0].id, confidence, matched_license: matchedId });
+    }
+
+    // ── SOCIAL-VERIFY ──────────────────────────────────────────────
+    if (resource === "social-verify") {
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS hi_social_verifications (
+          id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          platform     TEXT NOT NULL,
+          profile_url  TEXT NOT NULL,
+          verify_code  TEXT NOT NULL,
+          status       TEXT DEFAULT 'pending',
+          verified_at  TIMESTAMPTZ,
+          created_at   TIMESTAMPTZ DEFAULT NOW()
+        )`);
+
+      if (method === "GET") {
+        if (!checkAuth(req, res)) return;
+        // action=check runs the verification check
+        if (req.query.action === "check" && id) {
+          const { rows: vRows } = await db.query("SELECT * FROM hi_social_verifications WHERE id=$1", [id]);
+          if (!vRows.length) return res.status(404).json({ ok: false, error: "Not found" });
+          const v = vRows[0];
+          const result = await _checkSocialProfile(v.platform, v.profile_url, v.verify_code);
+          if (result.verified) {
+            await db.query("UPDATE hi_social_verifications SET status='verified', verified_at=NOW() WHERE id=$1", [id]);
+          }
+          return res.json({ ok: true, verified: result.verified, reason: result.reason ?? null });
+        }
+        const { rows } = await db.query("SELECT * FROM hi_social_verifications ORDER BY created_at DESC");
+        return res.json({ ok: true, data: rows });
+      }
+
+      if (method === "POST") {
+        if (!checkAuth(req, res)) return;
+        const { platform, profile_url } = req.body ?? {};
+        if (!platform || !profile_url) return res.status(400).json({ ok: false, error: "platform and profile_url required" });
+        const code = "HI-VERIFY-" + Math.random().toString(36).slice(2, 10).toUpperCase();
+        const { rows } = await db.query(
+          "INSERT INTO hi_social_verifications (platform,profile_url,verify_code) VALUES ($1,$2,$3) RETURNING *",
+          [platform, profile_url, code]);
+        return res.status(201).json({ ok: true, data: rows[0] });
+      }
+
+      if (method === "PUT") {
+        if (!checkAuth(req, res)) return;
+        if (req.query.action === "check" && id) {
+          const { rows: vRows } = await db.query("SELECT * FROM hi_social_verifications WHERE id=$1", [id]);
+          if (!vRows.length) return res.status(404).json({ ok: false, error: "Not found" });
+          const v = vRows[0];
+          const result = await _checkSocialProfile(v.platform, v.profile_url, v.verify_code);
+          if (result.verified) {
+            await db.query("UPDATE hi_social_verifications SET status='verified', verified_at=NOW() WHERE id=$1", [id]);
+          } else {
+            await db.query("UPDATE hi_social_verifications SET status='pending' WHERE id=$1", [id]);
+          }
+          return res.json({ ok: true, verified: result.verified, reason: result.reason ?? null });
+        }
+        return res.status(400).json({ ok: false, error: "action=check required" });
+      }
+
+      if (method === "DELETE") {
+        if (!checkAuth(req, res)) return;
+        if (!id) return res.status(400).json({ ok: false, error: "id required" });
+        await db.query("DELETE FROM hi_social_verifications WHERE id=$1", [id]);
         return res.json({ ok: true });
       }
     }

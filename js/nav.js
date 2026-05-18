@@ -26,7 +26,8 @@
     { label: 'Origin',      href: '/pages/origin.html' },
     { label: 'Haven',       href: '/pages/haven.html' },
     { label: 'Bhagalpur',   href: '/pages/bhagalpur.html' },
-    { label: '🔐 IP Vault', href: '/pages/hi-license.html', cls: 'license-link' },
+    { label: '🔐 IP Vault',    href: '/pages/hi-license.html', cls: 'license-link' },
+    { label: '🛡 Protection', href: '/pages/hi-protect.html', cls: 'protect-link' },
   ]
 
   const WALLET_NAV = [
@@ -39,7 +40,7 @@
 
   const PERSONAL_PATHS = [
     '/pages/personal', '/pages/about', '/pages/origin',
-    '/pages/haven', '/pages/bhagalpur', '/pages/hi-license', '/pages/dashboard',
+    '/pages/haven', '/pages/bhagalpur', '/pages/hi-license', '/pages/hi-protect', '/pages/dashboard',
   ]
 
   function normPath(p) {

@@ -261,6 +261,12 @@
             <label for="hi-claim-content">Content / Description <small>(used for fingerprint)</small></label>
             <textarea id="hi-claim-content" rows="3" maxlength="2000" placeholder="Paste content or describe it — generates a unique SHA-256 fingerprint"></textarea>
           </div>
+          <div class="hi-field">
+            <label for="hi-claim-media">Media File <small>(optional — generates invisible watermark &amp; fingerprint)</small></label>
+            <input type="file" id="hi-claim-media" accept="image/*,video/*"
+              style="width:100%;padding:.45rem .7rem;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:inherit;font-size:.8rem;cursor:pointer;" />
+            <div id="hi-claim-phash-status" style="font-size:.71rem;color:rgba(255,255,255,.35);margin-top:.3rem;min-height:1.1em;"></div>
+          </div>
           <div id="hi-claim-err" class="hi-modal-err"></div>
           <button type="submit" class="hi-btn-primary">Claim &amp; Generate License ⚡</button>
         </form>
@@ -358,6 +364,7 @@
 <script src="/js/hi-app.js?v=hi-1" defer></script>
 <script src="/js/hi-license.js?v=hi-1" defer></script>
 <script src="/js/hi-sync.js?v=hi-1" defer></script>
+<script src="/js/hi-watermark.js?v=1" defer></script>
 <script>
   /* Auth UI */
   var _u = document.getElementById("authUserDisplay");
@@ -511,6 +518,69 @@
         }
       }
     } catch(e) {}
+  });
+</script>
+<script>
+  /* pHash generation on media file select */
+  window.addEventListener("load", function() {
+    var mediaInput  = document.getElementById("hi-claim-media");
+    var phashStatus = document.getElementById("hi-claim-phash-status");
+    if (!mediaInput) return;
+
+    mediaInput.addEventListener("change", async function() {
+      var file = mediaInput.files[0];
+      if (!file || typeof HiWatermark === "undefined") return;
+      phashStatus.textContent = "Computing fingerprint…";
+      try {
+        var phash = await HiWatermark.computePHash(file);
+        mediaInput._phash = phash;
+        phashStatus.textContent = "Fingerprint ready: " + phash.slice(0, 16) + "…";
+        phashStatus.style.color = "var(--brand-green)";
+      } catch(e) {
+        phashStatus.textContent = "Could not fingerprint: " + e.message;
+        phashStatus.style.color = "rgba(255,107,107,.8)";
+      }
+    });
+
+    /* After hi-license.js sets up the form, intercept submit to store pHash in cloud */
+    var form = document.getElementById("hi-claim-form");
+    if (!form) return;
+    form.addEventListener("submit", function() {
+      /* Store phash for the post-submit cloud sync hook below */
+      var file = mediaInput.files[0];
+      form._pendingPhash = (file && file._phash) || (mediaInput._phash) || null;
+    }, true); /* capture phase — fires before hi-license.js submit handler */
+  });
+
+  /* Cloud pHash sync — fires after hi-license.js creates the license record */
+  document.addEventListener("hiLicenseClaimed", async function(e) {
+    var licenseId = e.detail && e.detail.licenseId;
+    var form      = document.getElementById("hi-claim-form");
+    var phash     = (form && form._pendingPhash) || null;
+    if (!licenseId || !phash) return;
+
+    var KEY = typeof hiApiGetKey === "function" ? hiApiGetKey() : localStorage.getItem("hi_api_key");
+    if (!KEY) return;
+
+    try {
+      /* Find the db row id for this claim_id then PATCH perceptual_hash */
+      var r = await fetch("/api/hi/licenses", { headers: { Authorization: "Bearer " + KEY } });
+      var d = await r.json();
+      var row = (d.data || []).find(function(l) { return l.claim_id === licenseId; });
+      if (row) {
+        await fetch("/api/hi/licenses?id=" + encodeURIComponent(row.id), {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + KEY },
+          body: JSON.stringify({
+            claim_id: row.claim_id, content_hash: row.content_hash,
+            perceptual_hash: phash, status: row.status, metadata: row.metadata,
+          }),
+        });
+        var ps = document.getElementById("hi-claim-phash-status");
+        if (ps) { ps.textContent = "Fingerprint saved to cloud registry."; ps.style.color = "var(--brand-green)"; }
+      }
+      if (form) form._pendingPhash = null;
+    } catch(e) { /* non-fatal */ }
   });
 </script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
