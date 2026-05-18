@@ -511,6 +511,18 @@ async function loadProtected() {
   const resp = await _api("/licenses").catch(() => ({ ok: false }));
   _licenses = resp.ok ? (resp.data || []) : [];
 
+  /* Auto-seed blog licenses on first load */
+  const blogCount = _licenses.filter(l => l.metadata && l.metadata.type === "blog-post").length;
+  if (blogCount === 0 && localStorage.getItem("hi_api_key")) {
+    try {
+      const sr = await _api("/seed-blogs", { method: "POST" }).catch(() => null);
+      if (sr && sr.ok && sr.inserted > 0) {
+        const r2 = await _api("/licenses").catch(() => ({ ok: false }));
+        _licenses = r2.ok ? (r2.data || []) : _licenses;
+      }
+    } catch(e) { /* non-fatal */ }
+  }
+
   document.getElementById("statProtected").textContent = _licenses.length;
   document.getElementById("statFingerprinted").textContent = _licenses.filter(l => l.perceptual_hash).length;
   document.getElementById("statBlogPosts").textContent = _licenses.filter(l => l.metadata && l.metadata.type === "blog-post").length;

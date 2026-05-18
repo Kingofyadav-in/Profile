@@ -191,7 +191,7 @@
     var r = await fetch('/api/verify?id=' + encodeURIComponent(id));
     var d = await r.json();
     if (!d.ok) { showNotFound(id); return; }
-    showVerified(d.license);
+    showVerified(d.data);
   } catch(e) {
     showNotFound(id);
   }

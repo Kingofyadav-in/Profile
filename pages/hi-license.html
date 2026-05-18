@@ -425,6 +425,29 @@
         return ta.localeCompare(tb);
       });
 
+      /* Auto-seed blog licenses if none registered yet */
+      var blogCount = all.filter(function(l) { return l.metadata && l.metadata.type === "blog-post"; }).length;
+      if (blogCount === 0) {
+        try {
+          var sr = await fetch("/api/hi/seed-blogs", {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + KEY, "Content-Type": "application/json" },
+          });
+          var sd = await sr.json();
+          if (sd.ok && sd.inserted > 0) {
+            var r2 = await fetch("/api/hi/licenses", { headers: { "Authorization": "Bearer " + KEY } });
+            var d2 = await r2.json();
+            all = (d2.data || []).sort(function(a, b) {
+              var ta = (a.metadata && a.metadata.title) || "";
+              var tb = (b.metadata && b.metadata.title) || "";
+              return ta.localeCompare(tb);
+            });
+            var seedStatus = document.getElementById("hiSeedBlogsStatus");
+            if (seedStatus) { seedStatus.textContent = sd.message || "Blog licenses seeded."; seedStatus.style.color = "var(--brand-green)"; }
+          }
+        } catch(e) { /* non-fatal */ }
+      }
+
       /* Stats */
       document.getElementById("statPublished").textContent = all.length;
       document.getElementById("statBlogPosts").textContent = all.filter(function(l) {
