@@ -243,6 +243,7 @@
     </div>
     <div class="prot-stats">
       <div class="prot-stat"><div class="prot-stat-num" id="statProtected">—</div><div class="prot-stat-lbl">Protected</div></div>
+      <div class="prot-stat"><div class="prot-stat-num" id="statBlogPosts">—</div><div class="prot-stat-lbl">Blog Posts</div></div>
       <div class="prot-stat"><div class="prot-stat-num" id="statFingerprinted">—</div><div class="prot-stat-lbl">Fingerprinted</div></div>
       <div class="prot-stat"><div class="prot-stat-num" id="statAlerts">—</div><div class="prot-stat-lbl">Alerts</div></div>
       <div class="prot-stat"><div class="prot-stat-num" id="statVerified">—</div><div class="prot-stat-lbl">Verified Accounts</div></div>
@@ -262,8 +263,15 @@
     <!-- ── Tab 1: Protected Content ── -->
     <div class="prot-panel active" id="panel-protected">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem;">
-        <div class="prot-sh" style="margin-bottom:0">Your registered content</div>
-        <a href="/pages/hi-license.html" class="prot-btn prot-btn-primary">+ Register New Content</a>
+        <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+          <div class="prot-sh" style="margin-bottom:0">Your registered content</div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="prot-btn prot-btn-green prot-filter-btn" id="pfAll" onclick="filterProtected('all')">All</button>
+            <button class="prot-btn prot-btn-muted prot-filter-btn" id="pfBlog" onclick="filterProtected('blog')">✍️ Blog Posts</button>
+            <button class="prot-btn prot-btn-muted prot-filter-btn" id="pfOther" onclick="filterProtected('other')">Other</button>
+          </div>
+        </div>
+        <a href="/pages/hi-license.html" class="prot-btn prot-btn-primary">+ Register New</a>
       </div>
       <div id="protectedList"><div class="prot-empty"><span class="prot-spinner"></span></div></div>
     </div>
@@ -450,41 +458,64 @@ const PLATFORM_ICON = {
 function platformIcon(p) { return PLATFORM_ICON[p] || "🔗"; }
 
 // ── Load Protected Content ─────────────────────────────────────────────────────
-async function loadProtected() {
-  const resp = await _api("/licenses").catch(() => ({ ok: false }));
-  _licenses = resp.ok ? (resp.data || []) : [];
+let _protectedFilter = "all";
 
+function filterProtected(f) {
+  _protectedFilter = f;
+  document.querySelectorAll(".prot-filter-btn").forEach(b => b.classList.replace("prot-btn-green", "prot-btn-muted") || b.classList.remove("prot-btn-green"));
+  const map = { all: "pfAll", blog: "pfBlog", other: "pfOther" };
+  const active = document.getElementById(map[f]);
+  if (active) { active.classList.remove("prot-btn-muted"); active.classList.add("prot-btn-green"); }
+  renderProtected();
+}
+
+function renderProtected() {
   const el = document.getElementById("protectedList");
-  document.getElementById("statProtected").textContent = _licenses.length;
-  const fp = _licenses.filter(l => l.perceptual_hash).length;
-  document.getElementById("statFingerprinted").textContent = fp;
+  let list = _licenses;
+  if (_protectedFilter === "blog")  list = list.filter(l => l.metadata && l.metadata.type === "blog-post");
+  if (_protectedFilter === "other") list = list.filter(l => !l.metadata || l.metadata.type !== "blog-post");
 
-  if (!_licenses.length) {
-    el.innerHTML = `<div class="prot-empty">No protected content yet.<br><a href="/pages/hi-license.html" class="prot-btn prot-btn-green" style="margin-top:0.75rem;display:inline-flex;">Register Your First Content →</a></div>`;
+  if (!list.length) {
+    el.innerHTML = _licenses.length
+      ? `<div class="prot-empty">No ${_protectedFilter === "blog" ? "blog post" : "other"} licenses found. <button class="prot-btn prot-btn-muted" onclick="filterProtected('all')" style="margin-left:0.5rem;">Show All</button></div>`
+      : `<div class="prot-empty">No protected content yet.<br><a href="/pages/hi-license.html" class="prot-btn prot-btn-green" style="margin-top:0.75rem;display:inline-flex;">Register Your First Content →</a></div>`;
     return;
   }
 
-  el.innerHTML = _licenses.map(l => {
+  el.innerHTML = list.map(l => {
     const meta = l.metadata || {};
     const hasPHash = !!l.perceptual_hash;
+    const isBlog = meta.type === "blog-post";
     return `<div class="prot-card">
       <div class="prot-card-row">
         <div>
           <div class="prot-card-id">${esc(l.claim_id)}</div>
           <div class="prot-card-title">${esc(meta.title || "Untitled")}</div>
           <div class="prot-card-meta">
-            <span>${esc(meta.type || "content")}</span>
+            <span>${esc(isBlog ? `✍️ Blog · ${meta.category || ""}` : (meta.type || "content"))}</span>
             <span>${esc(meta.created || (l.claim_date || "").slice(0,10))}</span>
             <span class="badge ${hasPHash ? 'badge-green' : 'badge-muted'}">${hasPHash ? '✓ Fingerprinted' : '○ No fingerprint'}</span>
           </div>
         </div>
         <div class="prot-card-actions">
+          ${meta.url ? `<a href="${esc(meta.url)}" target="_blank" rel="noopener" class="prot-btn prot-btn-muted">↗ View</a>` : ""}
           <a href="/verify/${esc(l.claim_id)}" target="_blank" class="prot-btn prot-btn-green">Verify</a>
           <a href="/claim/${esc(l.claim_id)}" target="_blank" class="prot-btn prot-btn-orange">DMCA</a>
         </div>
       </div>
     </div>`;
   }).join("");
+}
+
+async function loadProtected() {
+  const resp = await _api("/licenses").catch(() => ({ ok: false }));
+  _licenses = resp.ok ? (resp.data || []) : [];
+
+  document.getElementById("statProtected").textContent = _licenses.length;
+  document.getElementById("statFingerprinted").textContent = _licenses.filter(l => l.perceptual_hash).length;
+  document.getElementById("statBlogPosts").textContent = _licenses.filter(l => l.metadata && l.metadata.type === "blog-post").length;
+
+  renderProtected();
 }
 
 // ── Load Alerts ────────────────────────────────────────────────────────────────

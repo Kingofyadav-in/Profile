@@ -359,6 +359,34 @@ module.exports = async (req, res) => {
       }
     }
 
+    // ── SEED-BLOGS (idempotent blog license seeder) ───────────────
+    if (resource === "seed-blogs") {
+      if (method !== "POST") return res.status(405).json({ ok: false, error: "POST only" });
+      const crypto = require("crypto");
+      const blogData = require("../../blog-data.json");
+      await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
+      let inserted = 0, skipped = 0;
+      for (const post of blogData) {
+        const slug      = (post.url || "").replace(/.*\//, "").replace(/\.html$/, "");
+        const claimId   = `HI-BLOG-${slug}`;
+        const contentHash = crypto.createHash("sha256").update(post.title + post.url).digest("hex").slice(0, 32);
+        const metadata  = {
+          title: post.title, type: "blog-post", category: post.category,
+          url: post.url, image: post.image, created: post.date,
+          author: "Amit Ku Yadav", excerpt: post.excerpt,
+        };
+        const { rows: ex } = await db.query(
+          "SELECT id FROM hdi_licenses WHERE claim_id=$1", [claimId]);
+        if (ex.length) { skipped++; continue; }
+        await db.query(
+          "INSERT INTO hdi_licenses (claim_id,content_hash,status,metadata) VALUES ($1,$2,'active',$3)",
+          [claimId, contentHash, JSON.stringify(metadata)]);
+        inserted++;
+      }
+      return res.json({ ok: true, inserted, skipped, total: blogData.length,
+        message: `Seeded ${inserted} new blog licenses (${skipped} already existed).` });
+    }
+
     // ── DETECT (pHash comparison — public, no auth) ────────────────
     if (resource === "detect") {
       res.setHeader("Access-Control-Allow-Origin", "*");

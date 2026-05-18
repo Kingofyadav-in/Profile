@@ -28,6 +28,7 @@
     { label: 'Bhagalpur',   href: '/pages/bhagalpur.html' },
     { label: '🔐 IP Vault',    href: '/pages/hi-license.html', cls: 'license-link' },
     { label: '🛡 Protection', href: '/pages/hi-protect.html', cls: 'protect-link' },
+    { label: '✍️ Blog Vault',  href: '/pages/hi-license.html?filter=blog-post', cls: 'blog-vault-link' },
   ]
 
   const WALLET_NAV = [
