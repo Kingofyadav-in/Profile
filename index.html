@@ -91,47 +91,11 @@
       }
     </script>
 
-    <!-- Error tracking: set SENTRY_DSN env var and replace the dsn below to activate -->
-    <script>
-      (function() {
-        var dsn = typeof __SENTRY_DSN__ !== 'undefined' ? __SENTRY_DSN__ : '';
-        if (!dsn || dsn === '__SENTRY_DSN__') return;
-        var s = document.createElement('script');
-        s.src = 'https://browser.sentry-cdn.com/8.x/bundle.tracing.min.js';
-        s.crossOrigin = 'anonymous';
-        s.onload = function() {
-          Sentry.init({ dsn: dsn, tracesSampleRate: 0.1, environment: 'production' });
-        };
-        document.head.appendChild(s);
-      })();
-    </script>
   </head>
 
   <body class="theme-dark">
-    <script>
-      try {
-        var _t = localStorage.getItem('theme')
-        if (_t) {
-          document.body.classList.remove('theme-dark', 'theme-light')
-          document.body.classList.add(_t)
-        }
-      } catch (e) {}
-    </script>
     <script src="js/auth.js?v=auth-otp-1"></script>
-    <script>
-      ;(function () {
-        if (typeof isAuthenticated === 'function' && isAuthenticated()) {
-          document.addEventListener('DOMContentLoaded', function () {
-            var bar = document.getElementById('homeAuthBar')
-            if (bar) bar.hidden = false
-            var el = document.getElementById('authUserDisplay')
-            if (el && typeof getAuthUser === 'function') el.textContent = getAuthUser() || ''
-            var btn = document.getElementById('logoutBtn')
-            if (btn && typeof logout === 'function') btn.addEventListener('click', logout)
-          })
-        }
-      })()
-    </script>
+    <script src="js/site-init.js?v=1"></script>
 
     <div id="scrollProgress"></div>
 

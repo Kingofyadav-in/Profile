@@ -170,16 +170,7 @@
 
 <body class="theme-dark auth-page">
 
-<!-- Theme restore — runs before anything renders -->
-<script>
-try {
-  var _t = localStorage.getItem("theme");
-  if (_t) {
-    document.body.classList.remove("theme-dark","theme-light");
-    document.body.classList.add(_t);
-  }
-} catch(e) {}
-</script>
+<script src="/js/site-init.js?v=1"></script>
 
 <!-- Load auth module synchronously -->
 <script src="/js/auth.js?v=auth-otp-1"></script>
