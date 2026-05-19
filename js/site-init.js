@@ -23,12 +23,12 @@
 (function () {
   var l = document.createElement('link');
   l.rel  = 'stylesheet';
-  l.href = '/css/effects.css?v=2';
+  l.href = '/css/effects.css?v=3';
   (document.head || document.documentElement).appendChild(l);
 
   document.addEventListener('DOMContentLoaded', function () {
     var s  = document.createElement('script');
-    s.src  = '/js/effects.js?v=2';
+    s.src  = '/js/effects.js?v=3';
     s.defer = true;
     document.body.appendChild(s);
   });

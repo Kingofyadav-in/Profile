@@ -1,6 +1,6 @@
 'use strict';
 /* ======================================================
-   effects.js — World-Class Pro UI Engine v2
+   effects.js — World-Class Pro UI Engine v3
    12 Features: Tilt · Scrollbar(CSS) · Ripple · BlurUp ·
    PageTransitions · Progress · Magnetic · Skeleton ·
    GradientMesh · ThemeFlash · BlogSearch · StickyLabels
@@ -388,7 +388,7 @@
     }
 
     resize();
-    particles = Array.from({ length: 65 }, make);
+    particles = Array.from({ length: IS_TOUCH ? 28 : 65 }, make);
     window.addEventListener('resize', resize);
     requestAnimationFrame(tick);
   }
