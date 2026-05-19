@@ -19,6 +19,21 @@
   } catch (e) {}
 })();
 
+// Pro Effects System — auto-load CSS + JS on every page
+(function () {
+  var l = document.createElement('link');
+  l.rel  = 'stylesheet';
+  l.href = '/css/effects.css?v=1';
+  (document.head || document.documentElement).appendChild(l);
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var s  = document.createElement('script');
+    s.src  = '/js/effects.js?v=1';
+    s.defer = true;
+    document.body.appendChild(s);
+  });
+})();
+
 // Auth bar wiring — reveals user chip if session is active
 (function () {
   if (typeof isAuthenticated !== "function" || !isAuthenticated()) return;
