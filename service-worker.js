@@ -6,7 +6,7 @@
    Author: Amit Ku Yadav
 ====================================================== */
 
-const VERSION = "v1";
+const VERSION = "v2";
 const STATIC_CACHE = `ak-static-${VERSION}`;
 const DYNAMIC_CACHE = `ak-dynamic-${VERSION}`;
 const MAX_DYNAMIC_ITEMS = 80;
@@ -35,27 +35,32 @@ const STATIC_ASSETS = [
   "/pages/bhagalpur.html",
   "/pages/live-class.html",
   "/pages/hi-license.html",
+  "/pages/hi-protect.html",
 
-  /* CSS */
-  "/css/base.css?v=20260502-pro",
+  /* CSS — versions matched to what pages request */
+  "/css/base.css?v=form-suite-1",
   "/css/components.css?v=footer-clean-1",
+  "/css/layout.css?v=layout-1",
   "/css/index.css?v=20260502-pro",
-  "/css/blog.css?v=20260502-pro",
+  "/css/blog.css?v=hi-1",
   "/css/services.css?v=20260502-pro",
-  "/css/contact.css?v=20260502-pro",
-  "/css/professional.css?v=20260502-pro",
-  "/css/social.css?v=20260502-pro",
+  "/css/contact.css?v=hi-1",
+  "/css/professional.css?v=hi-1",
+  "/css/social.css?v=hi-1",
   "/css/personal.css?v=nav-pro-3",
-  "/css/blog-post.css?v=20260502-pro",
-  "/css/brand.css?v=20260502-brand",
-  "/css/collaboration.css?v=20260502-pro",
+  "/css/collaboration.css?v=mobile-hero-2",
   "/css/auth.css?v=auth-otp-1",
+  "/css/effects.css?v=3",
 
   /* JS */
   "/js/script.js?v=footer-clean-1",
+  "/js/effects.js?v=3",
+  "/js/site-init.js?v=1",
   "/js/personal-data.js?v=20260502-pro",
   "/js/profile-renderer.js?v=20260502-pro",
   "/js/auth.js?v=auth-otp-1",
+  "/js/nav.js",
+  "/js/footer.js",
 
   /* LOGO */
   "/logo/day-logo.png",

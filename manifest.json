@@ -32,6 +32,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "/favicon/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "screenshots": [
@@ -41,6 +47,13 @@
       "type": "image/png",
       "form_factor": "wide",
       "label": "HI App — Amit Ku Yadav"
+    },
+    {
+      "src": "/images/screenshot-narrow.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "HI App on mobile — Amit Ku Yadav"
     }
   ],
   "shortcuts": [
