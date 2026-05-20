@@ -1,4 +1,5 @@
 {
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/verify/:id", "destination": "/verify" },
     { "source": "/claim/:id",  "destination": "/claim"  }
