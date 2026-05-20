@@ -1,3 +1,4 @@
+(function () {
 "use strict";
 
 /* ======================================================
@@ -1659,3 +1660,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const year = $("year");
   if (year) year.textContent = new Date().getFullYear();
 }, { once: true });
+
+// Expose functions called from HTML onclick attributes
+window.triggerInstallPrompt = triggerInstallPrompt;
+window.dismissInstallBar    = dismissInstallBar;
+window.openEnquiry          = openEnquiry;
+window.closeEnquiry         = closeEnquiry;
+
+})();

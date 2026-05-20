@@ -6,7 +6,7 @@
    Author: Amit Ku Yadav
 ====================================================== */
 
-const VERSION = "v20260520-0629";
+const VERSION = "v20260520-0646";
 const STATIC_CACHE = `ak-static-${VERSION}`;
 const DYNAMIC_CACHE = `ak-dynamic-${VERSION}`;
 const MAX_DYNAMIC_ITEMS = 80;
@@ -137,24 +137,22 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  /* CSS / JS / Fonts — Network First */
+  /* CSS / JS / Fonts — Cache First (versioned query strings bust the cache on updates) */
   if (
     request.destination === "style" ||
     request.destination === "script" ||
     request.destination === "font"
   ) {
     event.respondWith(
-      fetch(request)
-        .then(res => {
+      caches.match(request).then(cached => {
+        if (cached) return cached;
+        return fetch(request).then(res => {
           if (res.status === 200) {
-            caches.open(DYNAMIC_CACHE).then(cache => {
-              cache.put(request, res.clone());
-              limitCacheSize(DYNAMIC_CACHE, MAX_DYNAMIC_ITEMS);
-            });
+            caches.open(STATIC_CACHE).then(cache => cache.put(request, res.clone()));
           }
           return res;
-        })
-        .catch(() => caches.match(request))
+        }).catch(() => cached);
+      })
     );
     return;
   }
@@ -197,6 +195,14 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const url = (event.notification.data && event.notification.data.url) || "/";
-  event.waitUntil(clients.openWindow(url));
+  const raw = (event.notification.data && event.notification.data.url) || "/";
+  // Validate URL stays on same origin before opening — prevents open-redirect via push payload
+  let safeUrl = "/";
+  try {
+    const parsed = new URL(raw, self.location.origin);
+    if (parsed.origin === self.location.origin) {
+      safeUrl = parsed.pathname + parsed.search + parsed.hash;
+    }
+  } catch (_) {}
+  event.waitUntil(clients.openWindow(safeUrl));
 });

@@ -11,9 +11,24 @@ const _HI_API_BASE = "/api/hi";
 let   _hiApiPulling = false;
 
 // ─── Key management ──────────────────────────────────────────────────────────
+// Keys are stored in sessionStorage (not localStorage) to limit XSS exposure.
+// Migration: if a key exists in localStorage from an old version, read it once
+// then move it to sessionStorage and remove from localStorage.
 
-const hiApiGetKey = () => localStorage.getItem("hi_api_key") ?? "";
-const hiApiSetKey = k  => localStorage.setItem("hi_api_key", k);
+const hiApiGetKey = () => {
+  let key = sessionStorage.getItem("hi_api_key");
+  if (!key) {
+    key = localStorage.getItem("hi_api_key") ?? "";
+    if (key) {
+      try { sessionStorage.setItem("hi_api_key", key); localStorage.removeItem("hi_api_key"); } catch (_) {}
+    }
+  }
+  return key;
+};
+
+const hiApiSetKey = (k) => {
+  try { sessionStorage.setItem("hi_api_key", k); localStorage.removeItem("hi_api_key"); } catch (_) {}
+};
 
 // ─── Local ID → { apiId, resource } map ──────────────────────────────────────
 
@@ -59,6 +74,20 @@ async function hiApiFetch(path, method = "GET", body = null) {
     return null;
   } finally {
     clearTimeout(timeout);
+  }
+}
+
+// ─── Exponential backoff retry for fire-and-forget pushes ────────────────────
+
+async function _pushWithRetry(store, record, attempt) {
+  try {
+    await _hiApiPush(store, record);
+  } catch (err) {
+    if (attempt < 3) {
+      setTimeout(() => _pushWithRetry(store, record, attempt + 1), Math.pow(2, attempt) * 1000);
+    } else {
+      console.warn("[HI API] Push failed after 3 retries:", err?.message);
+    }
   }
 }
 
@@ -306,7 +335,7 @@ async function hiApiPull() {
   if (typeof _origPut === "function") {
     window.hiPut = async (store, item) => {
       const result = await _origPut(store, item);
-      if (!_hiApiPulling) _hiApiPush(store, item);
+      if (!_hiApiPulling) _pushWithRetry(store, item, 0);
       return result;
     };
   }

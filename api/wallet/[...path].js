@@ -228,22 +228,39 @@ module.exports = async function handler(req, res) {
         const { description, amount_coins, reference = "" } = body;
         if (!description) { badRequest(res, "description is required"); return; }
         if (!amount_coins || amount_coins <= 0) { badRequest(res, "amount_coins must be positive"); return; }
-        const { rows: w } = await db.query("SELECT balance FROM hi_wallet LIMIT 1");
-        if (!w.length || w[0].balance < amount_coins) {
-          badRequest(res, "Insufficient balance for this merchant payment");
-          return;
+
+        const client = await db.connect();
+        try {
+          await client.query("BEGIN");
+          // Lock wallet row for the duration of the transaction
+          const { rows: w } = await client.query(
+            "SELECT balance FROM hi_wallet LIMIT 1 FOR UPDATE"
+          );
+          if (!w.length || w[0].balance < amount_coins) {
+            await client.query("ROLLBACK");
+            badRequest(res, "Insufficient balance for this merchant payment");
+            return;
+          }
+          await client.query(
+            "UPDATE hi_wallet SET balance = balance - $1, updated_at = NOW()",
+            [amount_coins]
+          );
+          await client.query(
+            "INSERT INTO hi_transactions (type, amount, description) VALUES ('spend', $1, $2)",
+            [amount_coins, `Merchant: ${description}`]
+          );
+          const { rows } = await client.query(
+            "INSERT INTO merchant_requests (description, amount_coins, reference, status) VALUES ($1, $2, $3, 'completed') RETURNING *",
+            [description.slice(0, 200), amount_coins, reference.slice(0, 100)]
+          );
+          await client.query("COMMIT");
+          created(res, rows[0]);
+        } catch (txErr) {
+          await client.query("ROLLBACK").catch(() => {});
+          throw txErr;
+        } finally {
+          client.release();
         }
-        // Deduct from wallet + record transaction
-        await db.query("UPDATE hi_wallet SET balance = balance - $1, updated_at = NOW()", [amount_coins]);
-        await db.query(
-          "INSERT INTO hi_transactions (type, amount, description) VALUES ('spend', $1, $2)",
-          [amount_coins, `Merchant: ${description}`]
-        );
-        const { rows } = await db.query(
-          "INSERT INTO merchant_requests (description, amount_coins, reference, status) VALUES ($1, $2, $3, 'completed') RETURNING *",
-          [description.slice(0, 200), amount_coins, reference.slice(0, 100)]
-        );
-        created(res, rows[0]);
         return;
       }
       methodNotAllowed(res, "GET, POST, OPTIONS");

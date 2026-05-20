@@ -23,59 +23,58 @@ const DEFAULT_LOCAL_AUTH_API_BASE = "http://127.0.0.1:5050/api";
 const DEFAULT_PROD_AUTH_API_BASE = "/api";
 
 /* ======================================================
-   HASH — SHA-256 with fallback for non-secure contexts
+   HASH — SHA-256 / PBKDF2 via Web Crypto (required)
+   cyrb53 non-cryptographic fallback has been removed.
+   Auth will throw if SubtleCrypto is unavailable so the
+   user gets a clear "browser not supported" message
+   rather than silently storing a weak hash.
 ====================================================== */
 
 async function hashPassword(password) {
-  if (window.crypto && window.crypto.subtle) {
-    try {
-      const enc = new TextEncoder();
-      const buf = await window.crypto.subtle.digest("SHA-256", enc.encode(password));
-      return Array.from(new Uint8Array(buf))
-        .map(b => b.toString(16).padStart(2, "0"))
-        .join("");
-    } catch { /* fall through to simple hash */ }
+  if (!window.crypto?.subtle) {
+    throw new Error("Your browser does not support secure password hashing. Please upgrade to a modern browser (Chrome 90+, Firefox 90+, Safari 15+).");
   }
-  /* Fallback: cyrb53 double-hash for non-secure HTTP contexts */
-  return cyrb53(password);
+  const enc = new TextEncoder();
+  const buf = await window.crypto.subtle.digest("SHA-256", enc.encode(password));
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 function makeSalt() {
-  if (window.crypto && window.crypto.getRandomValues) {
-    const bytes = new Uint8Array(16);
-    window.crypto.getRandomValues(bytes);
-    return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+  if (!window.crypto?.getRandomValues) {
+    throw new Error("Your browser does not support cryptographic random values. Please upgrade to a modern browser.");
   }
-  return cyrb53(String(Date.now()) + Math.random());
+  const bytes = new Uint8Array(16);
+  window.crypto.getRandomValues(bytes);
+  return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
 async function hashPasswordAdvanced(password, salt) {
-  if (window.crypto && window.crypto.subtle && window.TextEncoder) {
-    try {
-      const enc = new TextEncoder();
-      const key = await window.crypto.subtle.importKey(
-        "raw",
-        enc.encode(password),
-        "PBKDF2",
-        false,
-        ["deriveBits"]
-      );
-      const bits = await window.crypto.subtle.deriveBits(
-        {
-          name: "PBKDF2",
-          salt: enc.encode(salt),
-          iterations: PBKDF2_ROUNDS,
-          hash: "SHA-256"
-        },
-        key,
-        256
-      );
-      return Array.from(new Uint8Array(bits))
-        .map(b => b.toString(16).padStart(2, "0"))
-        .join("");
-    } catch { /* fall through to deterministic fallback */ }
+  if (!window.crypto?.subtle || !window.TextEncoder) {
+    throw new Error("Your browser does not support PBKDF2 key derivation. Please upgrade to a modern browser.");
   }
-  return cyrb53(salt + ":" + password);
+  const enc = new TextEncoder();
+  const key = await window.crypto.subtle.importKey(
+    "raw",
+    enc.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveBits"]
+  );
+  const bits = await window.crypto.subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt: enc.encode(salt),
+      iterations: PBKDF2_ROUNDS,
+      hash: "SHA-256"
+    },
+    key,
+    256
+  );
+  return Array.from(new Uint8Array(bits))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 async function verifyPassword(user, password) {
@@ -83,22 +82,6 @@ async function verifyPassword(user, password) {
     return await hashPasswordAdvanced(password, user.passwordSalt) === user.passwordHash;
   }
   return await hashPassword(password) === user.passwordHash;
-}
-
-function cyrb53(str) {
-  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
-  for (let i = 0; i < str.length; i++) {
-    const ch = str.charCodeAt(i);
-    h1 = Math.imul(h1 ^ ch, 2654435761);
-    h2 = Math.imul(h2 ^ ch, 1597334677);
-  }
-  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^
-       Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^
-       Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-  const hi = (h2 >>> 0).toString(16).padStart(8, "0");
-  const lo = (h1 >>> 0).toString(16).padStart(8, "0");
-  return hi + lo + str.length.toString(16);
 }
 
 function isLocalHost() {
@@ -160,11 +143,14 @@ function getDeviceId() {
   try {
     const existing = localStorage.getItem(DEVICE_ID_KEY);
     if (existing) return existing;
-    const generated = `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+    const bytes = new Uint8Array(8);
+    crypto.getRandomValues(bytes);
+    const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+    const generated = `dev_${hex}`;
     localStorage.setItem(DEVICE_ID_KEY, generated);
     return generated;
   } catch {
-    return `dev_${Date.now().toString(36)}`;
+    return `dev_fallback_${Date.now().toString(36)}`;
   }
 }
 

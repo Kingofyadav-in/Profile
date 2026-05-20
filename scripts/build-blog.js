@@ -1,25 +1,12 @@
 #!/usr/bin/env node
 "use strict";
 
-/**
- * Blog template generator — reads blog-data.json and regenerates the <head>
- * and outer shell of every blog HTML file without touching the article body.
- *
- * This eliminates the need to manually update navigation, meta tags, or the
- * CSS link list across 17+ files. Run before deploy: npm run build:blog
- *
- * For NEW posts: add an entry to blog-data.json with a `content` field
- * (path to a Markdown or HTML fragment), then run this script.
- */
-
 const fs   = require("fs");
 const path = require("path");
 
 const ROOT       = path.join(__dirname, "..");
 const DATA_FILE  = path.join(ROOT, "blog-data.json");
 const BLOG_DIR   = path.join(ROOT, "blog");
-
-const posts = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
 
 const CSS_LINKS = `  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
@@ -75,27 +62,22 @@ ${CSS_LINKS}
 function escHtml(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function escAttr(s) { return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;"); }
 
-/**
- * Rewrite the <head> block of an existing blog post file, preserving the body.
- */
-function rewriteExistingPost(filePath, post) {
-  if (!fs.existsSync(filePath)) return false;
+async function rewriteExistingPost(filePath, post) {
+  try {
+    await fs.promises.access(filePath);
+  } catch {
+    return false;
+  }
 
-  let content = fs.readFileSync(filePath, "utf8");
+  let content = await fs.promises.readFile(filePath, "utf8");
 
-  // Extract everything from </head> to </html> — preserve article body
   const headEnd = content.indexOf("</head>");
   if (headEnd === -1) return false;
 
-  const bodyContent = content.slice(headEnd + 7); // everything after </head>
-
-  // Find the closing JS scripts and replace with canonical set
-  // Strategy: replace from <footer class="site-footer onward
+  const bodyContent = content.slice(headEnd + 7);
   const footerIdx = bodyContent.lastIndexOf('<footer class="site-footer');
   if (footerIdx === -1) {
-    // Can't identify footer boundary — skip rewriting footer scripts
-    const newContent = buildHead(post) + "\n" + bodyContent;
-    fs.writeFileSync(filePath, newContent, "utf8");
+    await fs.promises.writeFile(filePath, buildHead(post) + "\n" + bodyContent, "utf8");
     return true;
   }
 
@@ -110,28 +92,30 @@ ${JS_FOOTER(post)}
 </body>
 </html>`;
 
-  fs.writeFileSync(filePath, newContent, "utf8");
+  await fs.promises.writeFile(filePath, newContent, "utf8");
   return true;
 }
 
-let updated = 0, skipped = 0;
+async function main() {
+  const posts = JSON.parse(await fs.promises.readFile(DATA_FILE, "utf8"));
+  let updated = 0, skipped = 0;
 
-for (const post of posts) {
-  if (!post.url) { skipped++; continue; }
+  for (const post of posts) {
+    if (!post.url) { skipped++; continue; }
+    const relPath = post.url.replace(/^\//, "");
+    const filePath = path.join(ROOT, relPath);
+    if (!filePath.startsWith(BLOG_DIR)) { skipped++; continue; }
 
-  // Derive file path from URL: /blog/ai-future-of-work.html → blog/ai-future-of-work.html
-  const relPath = post.url.replace(/^\//, "");
-  const filePath = path.join(ROOT, relPath);
-
-  if (!filePath.startsWith(BLOG_DIR)) { skipped++; continue; } // safety: only blog/
-
-  if (rewriteExistingPost(filePath, post)) {
-    console.log(`  updated: ${relPath}`);
-    updated++;
-  } else {
-    console.log(`  skipped: ${relPath} (file not found)`);
-    skipped++;
+    if (await rewriteExistingPost(filePath, post)) {
+      console.log(`  updated: ${relPath}`);
+      updated++;
+    } else {
+      console.log(`  skipped: ${relPath} (file not found)`);
+      skipped++;
+    }
   }
+
+  console.log(`\nbuild:blog — ${updated} updated, ${skipped} skipped`);
 }
 
-console.log(`\nbuild:blog — ${updated} updated, ${skipped} skipped`);
+main().catch(err => { console.error(err); process.exit(1); });

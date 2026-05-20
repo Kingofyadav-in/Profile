@@ -1,6 +1,7 @@
 "use strict";
 
 const { proxyJson, getUpstreamBase } = require("./_proxy");
+const { requireIndianPhone, requireOtp } = require("../_validate");
 
 function send(res, status, payload) {
   res.statusCode = status;
@@ -24,17 +25,17 @@ module.exports = async function handler(req, res) {
   }
 
   const body = req.body || {};
-  if (!body.phone && !body.mobile) {
-    send(res, 400, { ok: false, error: "Enter a valid Indian mobile number." });
-    return;
-  }
-  if (!body.otp) {
-    send(res, 400, { ok: false, error: "Enter the OTP code." });
+  let phone, otp;
+  try {
+    phone = requireIndianPhone(body.phone ?? body.mobile);
+    otp   = requireOtp(body.otp);
+  } catch (err) {
+    send(res, 400, { ok: false, error: err.message });
     return;
   }
 
   try {
-    await proxyJson(req, res, "/auth/verify-otp", body);
+    await proxyJson(req, res, "/auth/verify-otp", { ...body, phone, otp });
   } catch (err) {
     send(res, 502, {
       ok: false,

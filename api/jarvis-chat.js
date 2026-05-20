@@ -173,14 +173,22 @@ async function proxyToBackend(req, res, body) {
   return true;
 }
 
+// Precompute one RegExp per fact at module load — avoids O(n×keys) scan per request
+SITE_FACTS.forEach(item => {
+  item._pattern = new RegExp(
+    item.keys.map(k => k.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")).join("|"),
+    "i"
+  );
+});
+
 function fallbackReply(message) {
   const q = String(message || "").toLowerCase().replace(/['".,!?]/g, " ");
   const words = new Set(q.split(/\s+/).filter(w => w.length > 2));
 
   const scored = SITE_FACTS
     .map(item => {
-      const matchCount = item.keys.reduce((total, key) => total + (q.includes(key) ? 1 : 0), 0);
-      return { item, score: matchCount * (item.weight || 1) };
+      const matches = (q.match(item._pattern) || []).length;
+      return { item, score: matches * (item.weight || 1) };
     })
     .sort((a, b) => b.score - a.score);
 

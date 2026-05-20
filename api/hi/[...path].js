@@ -3,6 +3,8 @@
 const { Pool } = require("pg");
 const { loadEnv } = require("../../lib/env");
 const { rateLimit } = require("../_rate-limit");
+const { requireString, optionalString, requireUrl } = require("../_validate");
+const { logError, withLogging } = require("../_logger");
 
 // ── Social profile bio-code checker ───────────────────────────────────────────
 async function _checkSocialProfile(platform, profileUrl, verifyCode) {
@@ -339,7 +341,6 @@ module.exports = async (req, res) => {
       }
       if (method === "POST") {
         const { claim_id, content_hash, perceptual_hash, status, metadata } = req.body;
-        await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
         const { rows } = await db.query(
           "INSERT INTO hdi_licenses (claim_id,content_hash,perceptual_hash,status,metadata) VALUES ($1,$2,$3,$4,$5) RETURNING *",
           [claim_id, content_hash, perceptual_hash ?? null, status ?? "active", JSON.stringify(metadata ?? {})]);
@@ -347,7 +348,6 @@ module.exports = async (req, res) => {
       }
       if (method === "PUT" && id) {
         const { claim_id, content_hash, perceptual_hash, status, metadata } = req.body;
-        await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
         const { rows } = await db.query(
           "UPDATE hdi_licenses SET claim_id=$2,content_hash=$3,perceptual_hash=$4,status=$5,metadata=$6 WHERE id=$1 RETURNING *",
           [id, claim_id, content_hash, perceptual_hash ?? null, status, JSON.stringify(metadata ?? {})]);
@@ -364,7 +364,6 @@ module.exports = async (req, res) => {
       if (method !== "POST") return res.status(405).json({ ok: false, error: "POST only" });
       const crypto = require("crypto");
       const blogData = require("../../blog-data.json");
-      await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
       let inserted = 0, skipped = 0;
       for (const post of blogData) {
         const slug      = (post.url || "").replace(/.*\//, "").replace(/\.html$/, "");
@@ -412,7 +411,6 @@ module.exports = async (req, res) => {
       // pHash Hamming distance match
       let checked = 0;
       if (phash && /^[01]{64}$/.test(phash)) {
-        await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
         const { rows } = await db.query(
           "SELECT claim_id, perceptual_hash, metadata FROM hdi_licenses WHERE perceptual_hash IS NOT NULL AND status='active'");
         checked = rows.length;
@@ -439,18 +437,7 @@ module.exports = async (req, res) => {
     // ── ALERTS ─────────────────────────────────────────────────────
     if (resource === "alerts") {
       if (!checkAuth(req, res)) return;
-      await db.query(`
-        CREATE TABLE IF NOT EXISTS hi_repost_alerts (
-          id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-          license_id   TEXT,
-          infringing_url TEXT NOT NULL,
-          platform     TEXT,
-          confidence   INTEGER DEFAULT 0,
-          detected_by  TEXT DEFAULT 'community',
-          status       TEXT DEFAULT 'new',
-          reporter_note TEXT,
-          created_at   TIMESTAMPTZ DEFAULT NOW()
-        )`);
+
       if (method === "GET") {
         const { rows } = await db.query("SELECT * FROM hi_repost_alerts ORDER BY created_at DESC LIMIT 200");
         return res.json({ ok: true, data: rows });
@@ -479,26 +466,12 @@ module.exports = async (req, res) => {
       if (!limit(req, res)) return;
 
       const { infringing_url, license_id, platform, phash, reporter_note } = req.body ?? {};
-      if (!infringing_url) return res.status(400).json({ ok: false, error: "infringing_url required" });
-
-      await db.query(`
-        CREATE TABLE IF NOT EXISTS hi_repost_alerts (
-          id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-          license_id   TEXT,
-          infringing_url TEXT NOT NULL,
-          platform     TEXT,
-          confidence   INTEGER DEFAULT 0,
-          detected_by  TEXT DEFAULT 'community',
-          status       TEXT DEFAULT 'new',
-          reporter_note TEXT,
-          created_at   TIMESTAMPTZ DEFAULT NOW()
-        )`);
+      try { requireUrl(infringing_url, "infringing_url"); } catch (e) { return res.status(400).json({ ok: false, error: e.message }); }
 
       let confidence = 0;
       let matchedId  = license_id ?? null;
 
       if (phash && /^[01]{64}$/.test(phash)) {
-        await db.query("ALTER TABLE hdi_licenses ADD COLUMN IF NOT EXISTS perceptual_hash TEXT");
         const { rows } = await db.query(
           "SELECT claim_id, perceptual_hash FROM hdi_licenses WHERE perceptual_hash IS NOT NULL AND status='active'");
         let best = null;
@@ -520,16 +493,7 @@ module.exports = async (req, res) => {
 
     // ── SOCIAL-VERIFY ──────────────────────────────────────────────
     if (resource === "social-verify") {
-      await db.query(`
-        CREATE TABLE IF NOT EXISTS hi_social_verifications (
-          id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-          platform     TEXT NOT NULL,
-          profile_url  TEXT NOT NULL,
-          verify_code  TEXT NOT NULL,
-          status       TEXT DEFAULT 'pending',
-          verified_at  TIMESTAMPTZ,
-          created_at   TIMESTAMPTZ DEFAULT NOW()
-        )`);
+
 
       if (method === "GET") {
         if (!checkAuth(req, res)) return;

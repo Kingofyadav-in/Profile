@@ -47,12 +47,26 @@ function hiFallbackGetAll(store) {
   return Promise.resolve(out);
 }
 
+function _warnStorageQuota() {
+  if (sessionStorage.getItem("hi_quota_warned")) return;
+  sessionStorage.setItem("hi_quota_warned", "1");
+  console.warn("[hi-storage] Storage quota exceeded — some data may not be saved locally.");
+  try {
+    const el = document.createElement("div");
+    el.style.cssText = "position:fixed;bottom:1rem;left:1rem;right:1rem;padding:.75rem 1rem;background:#b71c1c;color:#fff;border-radius:8px;z-index:9999;font-size:.85rem;text-align:center";
+    el.textContent = "Storage full — some HI data may not be saved on this device. Clear browser storage to fix.";
+    document.body?.appendChild(el);
+    setTimeout(() => el.remove(), 7000);
+  } catch (_) {}
+}
+
 function hiFallbackPut(store, item) {
   if (!item?.id) return Promise.reject(new Error("hi-storage: item.id is required"));
   try {
     localStorage.setItem(hiFallbackKey(store, item.id), JSON.stringify(item));
     return Promise.resolve(item.id);
   } catch (e) {
+    if (e && e.name === "QuotaExceededError") _warnStorageQuota();
     return Promise.reject(e);
   }
 }
