@@ -1,5 +1,7 @@
 "use strict";
 
+const { csrfGuard } = require("./_response");
+
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "https://kingofyadav.in");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -7,6 +9,7 @@ module.exports = async function handler(req, res) {
 
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+  if (csrfGuard(req, res)) return;
 
   const body = req.body;
   if (!body || !body.orderId) {

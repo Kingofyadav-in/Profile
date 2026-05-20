@@ -1,6 +1,7 @@
 "use strict";
 
 const db = require("../lib/db");
+const { csrfGuard } = require("./_response");
 
 const buildDmca = ({ license_id, infringing_url, platform, violation_type, reporter_name, reporter_email }) => {
   const date = new Date().toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" });
@@ -37,6 +38,7 @@ module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ ok: false, error: "POST only" });
+  if (csrfGuard(req, res)) return;
 
   const { license_id, infringing_url, platform, violation_type, reporter_name, reporter_email, reporter_contact } = req.body ?? {};
   if (!license_id || !infringing_url || !reporter_email) {

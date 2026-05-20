@@ -127,3 +127,40 @@ shared outside the hosting provider. Generate new bearer secrets with:
 ```bash
 openssl rand -hex 32
 ```
+
+## Environment Parity: Staging Strategy
+
+Use **Vercel Preview environments** as the staging tier — no separate server needed.
+
+| Stage | When to use |
+|-------|------------|
+| Local dev | Feature implementation and unit tests |
+| Preview deploy (PR) | Integration and regression QA before merging |
+| Production (main) | Stable live traffic only |
+
+### Preview-to-Production promotion checklist
+
+- [ ] All CI checks (lint, typecheck, tests) green on the PR
+- [ ] Preview URL manually smoke-tested (golden path + auth + push notification)
+- [ ] No new console errors or 4xx/5xx in Vercel function logs
+- [ ] Core Web Vitals acceptable in Vercel Analytics or Lighthouse
+- [ ] PR description lists which API routes changed and how they were tested
+- [ ] Merge to `main` and confirm production deploy succeeded in Vercel dashboard
+
+## Backend (work_station) Environments
+
+The Streamlit dashboard reads from `APP_ENV`:
+
+| Value | Behaviour |
+|-------|-----------|
+| `test` | In-memory SQLite, skips device fingerprint, disables TTS |
+| `development` | Full functionality, verbose DEBUG logging to stderr |
+| `production` | Rotating file logs only, WARNING+ to stderr |
+
+```bash
+# Run locally in test mode
+APP_ENV=test streamlit run app/app.py
+
+# Run with full features
+APP_ENV=development streamlit run app/app.py
+```

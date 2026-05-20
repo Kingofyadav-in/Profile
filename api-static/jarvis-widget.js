@@ -1,6 +1,13 @@
 (function () {
   "use strict";
 
+  // Top-level error boundary — ensures a broken widget never crashes the host page
+  window.addEventListener("error", function (e) {
+    if (e && e.filename && e.filename.indexOf("jarvis-widget") !== -1) {
+      console.warn("[Jarvis widget] Uncaught error:", e.message);
+    }
+  });
+
   var script = document.currentScript;
   var ENDPOINT = (script && script.dataset.endpoint) || "";
   if ((location.hostname === "localhost" || location.hostname === "127.0.0.1") && (!ENDPOINT || ENDPOINT.indexOf("/api/") === 0)) {

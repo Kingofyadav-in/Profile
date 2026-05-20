@@ -11,6 +11,12 @@
     "migrate": "node scripts/migrate.js",
     "migrate:status": "node scripts/migrate.js --status",
     "migrate:dry": "node scripts/migrate.js --dry-run",
+    "build:sw": "node scripts/bump-sw-version.js",
+    "build:blog": "node scripts/build-blog.js",
+    "build:css": "node scripts/build-css.js",
+    "build:tokens": "node scripts/build-brand-tokens.js",
+    "build": "npm run build:tokens && npm run build:sw && npm run build:blog && npm run build:css",
+    "predeploy": "npm run build",
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand --ci --coverage"
@@ -35,7 +41,13 @@
     ],
     "coverageThreshold": {
       "global": {
-        "lines": 30
+        "lines": 60
+      },
+      "./api/auth/**": {
+        "lines": 80
+      },
+      "./api/wallet/**": {
+        "lines": 80
       }
     }
   }

@@ -6,6 +6,33 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
+const _ALLOWED_ORIGINS = new Set([
+  "https://kingofyadav.in",
+  "https://www.kingofyadav.in",
+  "https://jarvis.kingofyadav.in",
+  // Allow local dev
+  "http://localhost:3000",
+  "http://localhost:5050",
+  "http://127.0.0.1:3000",
+  "http://127.0.0.1:5050",
+]);
+
+/**
+ * CSRF origin guard for state-mutating routes (POST/PUT/DELETE).
+ * Returns true and sets 403 if the Origin is disallowed.
+ * Skips check when NODE_ENV=test or Origin is absent (server-to-server).
+ */
+function csrfGuard(req, res) {
+  if (process.env.NODE_ENV === "test") return false;
+  const origin = req.headers["origin"];
+  if (!origin) return false; // server-to-server or curl — allow
+  if (_ALLOWED_ORIGINS.has(origin)) return false; // allowed
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.statusCode = 403;
+  res.end(JSON.stringify({ ok: false, error: "Origin not allowed", code: "CSRF_BLOCKED" }));
+  return true; // blocked
+}
+
 function send(res, status, payload, extra = {}) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -72,5 +99,6 @@ module.exports = {
   send, ok, created, error,
   badRequest, unauthorized, forbidden, notFound,
   methodNotAllowed, tooManyRequests, serverError, preflight,
+  csrfGuard,
   CORS_HEADERS,
 };
