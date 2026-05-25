@@ -2,14 +2,19 @@
 
 // Mock pg before requiring the handler so Pool never opens a real connection.
 jest.mock("pg", () => {
-  const query = jest.fn();
-  const Pool = jest.fn(() => ({ query }));
-  Pool._query = query; // expose for test control
+  const query   = jest.fn();
+  const connect = jest.fn();
+  const instance = { query, connect };
+  const Pool = jest.fn(() => instance);
+  Pool._query   = query;
+  Pool._connect = connect;
+  Pool._instance = instance;
   return { Pool };
 });
 
 const { Pool } = require("pg");
-const mockQuery = Pool._query;
+const mockQuery   = Pool._query;
+const mockConnect = Pool._connect;
 
 // Set required env before loading handler
 process.env.HI_API_KEY = "test-hi-key";
@@ -50,6 +55,7 @@ function makeReq(method, path, bodyObj = {}, authKey = "test-hi-key") {
 
 beforeEach(() => {
   mockQuery.mockReset();
+  mockConnect.mockReset();
 });
 
 describe("wallet handler — auth", () => {
@@ -196,5 +202,159 @@ describe("wallet handler — marketplace", () => {
     const res = makeRes();
     await handler(req, res);
     expect(res.statusCode).toBe(201);
+  });
+
+  it("PUT listing updates and returns 200", async () => {
+    mockQuery.mockResolvedValueOnce({ rows: [{ id: 3, title: "Updated", price_coins: 2, status: "active" }] });
+    const req = makeReq("PUT", "marketplace/3", { title: "Updated", price_coins: 2 });
+    req.url = "/api/wallet/marketplace/3";
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(200);
+  });
+
+  it("PUT listing returns 404 when not found", async () => {
+    mockQuery.mockResolvedValueOnce({ rows: [] });
+    const req = makeReq("PUT", "marketplace/999", { title: "Ghost" });
+    req.url = "/api/wallet/marketplace/999";
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(404);
+  });
+
+  it("DELETE listing soft-removes it", async () => {
+    mockQuery.mockResolvedValueOnce({ rows: [] });
+    const req = makeReq("DELETE", "marketplace/3");
+    req.url = "/api/wallet/marketplace/3";
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res._body).data.removed).toBe(true);
+  });
+});
+
+describe("wallet handler — burn transaction", () => {
+  it("POST burn deducts balance and returns 201", async () => {
+    mockQuery
+      .mockResolvedValueOnce({ rows: [] })                                  // idempotency
+      .mockResolvedValueOnce({ rows: [{ balance: 20 }] })                  // balance check
+      .mockResolvedValueOnce({ rows: [] })                                  // update wallet
+      .mockResolvedValueOnce({ rows: [{ id: 9, type: "burn", amount: 5 }] }); // insert
+
+    const req = makeReq("POST", "transactions", { type: "burn", amount: 5, request_id: "burn-1" });
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(201);
+    expect(JSON.parse(res._body).data.type).toBe("burn");
+  });
+
+  it("POST burn returns 400 when balance is insufficient", async () => {
+    mockQuery
+      .mockResolvedValueOnce({ rows: [] })                 // idempotency
+      .mockResolvedValueOnce({ rows: [{ balance: 2 }] }); // balance — too low
+
+    const req = makeReq("POST", "transactions", { type: "burn", amount: 10 });
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(400);
+    expect(JSON.parse(res._body).error).toMatch(/insufficient/i);
+  });
+
+  it("POST returns 400 when amount is zero", async () => {
+    const req = makeReq("POST", "transactions", { type: "mint", amount: 0 });
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(400);
+    expect(JSON.parse(res._body).error).toMatch(/positive/i);
+  });
+
+  it("methodNotAllowed for DELETE on transactions", async () => {
+    const req = makeReq("DELETE", "transactions");
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(405);
+  });
+});
+
+describe("wallet handler — vault with ID", () => {
+  it("GET vault with id returns that single backup", async () => {
+    mockQuery.mockResolvedValueOnce({ rows: [{ id: 7, label: "snap", ciphertext: "enc..." }] });
+    const req = makeReq("GET", "vault/7");
+    req.url = "/api/wallet/vault/7";
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res._body).data.id).toBe(7);
+  });
+
+  it("GET vault with id returns 404 when not found", async () => {
+    mockQuery.mockResolvedValueOnce({ rows: [] });
+    const req = makeReq("GET", "vault/999");
+    req.url = "/api/wallet/vault/999";
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(404);
+  });
+
+  it("DELETE vault with id removes the backup", async () => {
+    mockQuery.mockResolvedValueOnce({ rows: [] });
+    const req = makeReq("DELETE", "vault/7");
+    req.url = "/api/wallet/vault/7";
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res._body).data.deleted).toBe(true);
+  });
+});
+
+describe("wallet handler — merchant", () => {
+  it("GET returns list of merchant requests", async () => {
+    mockQuery.mockResolvedValueOnce({ rows: [{ id: 1, description: "coaching", amount_coins: 5 }] });
+    const req = makeReq("GET", "merchant");
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res._body).data.requests).toHaveLength(1);
+  });
+
+  it("POST merchant returns 400 when description is missing", async () => {
+    const req = makeReq("POST", "merchant", { amount_coins: 3 });
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(400);
+    expect(JSON.parse(res._body).error).toMatch(/description/i);
+  });
+
+  it("POST merchant returns 400 when amount_coins is zero", async () => {
+    const req = makeReq("POST", "merchant", { description: "test", amount_coins: 0 });
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(400);
+    expect(JSON.parse(res._body).error).toMatch(/amount_coins/i);
+  });
+
+  it("POST merchant returns 400 when balance is insufficient", async () => {
+    const client = {
+      query: jest.fn()
+        .mockResolvedValueOnce(undefined)                   // BEGIN
+        .mockResolvedValueOnce({ rows: [{ balance: 1 }] }) // SELECT FOR UPDATE — too low
+        .mockResolvedValueOnce(undefined),                  // ROLLBACK
+      release: jest.fn(),
+    };
+    mockConnect.mockResolvedValueOnce(client);
+    const req = makeReq("POST", "merchant", { description: "coaching", amount_coins: 50 });
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(400);
+    expect(JSON.parse(res._body).error).toMatch(/insufficient/i);
+  });
+});
+
+describe("wallet handler — unknown resource", () => {
+  it("returns 404 for unrecognised resource", async () => {
+    const req = makeReq("GET", "nonexistent");
+    const res = makeRes();
+    await handler(req, res);
+    expect(res.statusCode).toBe(404);
   });
 });

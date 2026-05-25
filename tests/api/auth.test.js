@@ -110,4 +110,29 @@ describe("verify-otp handler", () => {
     await verifyOtp(req, res);
     expect(res.statusCode).toBe(502);
   });
+
+  it("returns 204 for OPTIONS", async () => {
+    const req = makeReq("OPTIONS");
+    const res = makeRes();
+    await verifyOtp(req, res);
+    expect(res.statusCode).toBe(204);
+  });
+
+  it("returns 405 for GET", async () => {
+    const req = makeReq("GET");
+    const res = makeRes();
+    await verifyOtp(req, res);
+    expect(res.statusCode).toBe(405);
+  });
+
+  it("accepts body.mobile as alias for phone", async () => {
+    proxyJson.mockResolvedValueOnce(undefined);
+    const req = makeReq("POST", { mobile: "9876543210", otp: "654321" });
+    const res = makeRes();
+    await verifyOtp(req, res);
+    expect(proxyJson).toHaveBeenCalledWith(
+      req, res, "/auth/verify-otp",
+      expect.objectContaining({ phone: "9876543210", otp: "654321" })
+    );
+  });
 });

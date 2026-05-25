@@ -136,6 +136,12 @@ module.exports = async function handler(req, res) {
     // Encrypted vault backups — the actual encryption is done client-side.
     // Server only stores the opaque ciphertext + metadata.
     if (resource === "vault") {
+      if (method === "GET" && id) {
+        const { rows } = await db.query("SELECT * FROM hi_vault_backups WHERE id=$1", [id]);
+        if (!rows.length) { notFound(res, "Vault backup not found"); return; }
+        ok(res, rows[0]);
+        return;
+      }
       if (method === "GET") {
         const { rows } = await db.query(
           "SELECT id, label, size_bytes, created_at, updated_at FROM hi_vault_backups ORDER BY updated_at DESC LIMIT 10"
@@ -152,12 +158,6 @@ module.exports = async function handler(req, res) {
           [label.slice(0, 80), ciphertext, checksum || "", ciphertext.length]
         );
         created(res, rows[0]);
-        return;
-      }
-      if (method === "GET" && id) {
-        const { rows } = await db.query("SELECT * FROM hi_vault_backups WHERE id=$1", [id]);
-        if (!rows.length) { notFound(res, "Vault backup not found"); return; }
-        ok(res, rows[0]);
         return;
       }
       if (method === "DELETE" && id) {

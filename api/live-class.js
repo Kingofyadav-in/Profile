@@ -3,9 +3,8 @@
 const db = require("../lib/db");
 
 const TOKEN     = process.env.LIVE_CLASS_TOKEN;
-const OAI_KEY   = process.env.OPENAI_API_KEY;
-const OAI_BASE  = (process.env.OPENAI_BASE_URL ?? "https://api.openai.com").replace(/\/$/, "");
-const OAI_MODEL = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+// OAI credentials are read at call time so they pick up runtime env changes
+// (important in serverless where env vars are set after module load in some runtimes).
 const MAX_BLOCKS = 80;
 
 const getToken = req => {
@@ -67,17 +66,20 @@ const ensureSession = async id => {
 };
 
 async function aiCall(prompt) {
+  const oaiKey   = process.env.OPENAI_API_KEY;
+  const oaiBase  = (process.env.OPENAI_BASE_URL ?? "https://api.openai.com").replace(/\/$/, "");
+  const oaiModel = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
   const body = JSON.stringify({
-    model: OAI_MODEL,
+    model: oaiModel,
     messages: [{ role: "user", content: prompt }],
     max_tokens: 800,
     temperature: 0.7,
   });
-  const res = await fetch(`${OAI_BASE}/v1/chat/completions`, {
+  const res = await fetch(`${oaiBase}/v1/chat/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${OAI_KEY}`,
+      "Authorization": `Bearer ${oaiKey}`,
     },
     body,
     signal: AbortSignal.timeout(30_000),
@@ -162,7 +164,7 @@ module.exports = async (req, res) => {
 
     // ── AI BLOCK GENERATION (teacher only) ────────────────────────
     if (action === "ai") {
-      if (!OAI_KEY) return res.status(503).json({ ok: false, error: "AI not configured (OPENAI_API_KEY missing)" });
+      if (!process.env.OPENAI_API_KEY) return res.status(503).json({ ok: false, error: "AI not configured (OPENAI_API_KEY missing)" });
       const topic = String(text ?? "").trim();
       if (!topic) return res.status(400).json({ ok: false, error: "Topic required" });
 
