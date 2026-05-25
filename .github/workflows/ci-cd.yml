@@ -1,0 +1,226 @@
+name: CI / CD
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Triggers
+# ──────────────────────────────────────────────────────────────────────────────
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+# Cancel any in-progress run for the same ref so stale runs don't race.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Jobs
+#
+# Pipeline:
+#   build ──► test ──► deploy-preview   (PRs only)
+#                  └──► deploy-production (main push only, after tests pass)
+#
+# SETUP REQUIRED (one-time, in GitHub repo Settings → Secrets and variables):
+#   Secrets  : VERCEL_TOKEN   (Vercel dashboard → Account Settings → Tokens)
+#   Variables: VERCEL_ORG_ID, VERCEL_PROJECT_ID  (from .vercel/project.json)
+#
+# VERCEL DASHBOARD: disable "Auto-deploy on push" for the main branch so that
+# production deploys happen only through this workflow (after CI passes).
+# Preview deployments for PRs can stay enabled.
+# ──────────────────────────────────────────────────────────────────────────────
+
+jobs:
+
+  # ── 1. BUILD ───────────────────────────────────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build all assets
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          # Only upload generated files that the deploy jobs need
+          path: |
+            css/brand-tokens.css
+            blog/
+            service-worker.js
+          retention-days: 1
+
+  # ── 2. UNIT TESTS ──────────────────────────────────────────────────────────
+  test:
+    name: Unit tests & coverage
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run test:ci
+        env:
+          NODE_ENV: test
+          HOST: 0.0.0.0
+          PORT: "5050"
+          CORS_ORIGIN: http://localhost:5050
+          DATABASE_URL: ""
+          DATABASE_SSL: "false"
+          HI_API_KEY: ci-hi-api-key-placeholder
+          AUTH_JWT_SECRET: ci-jwt-secret-placeholder-32chars-long
+          JARVIS_API_BASE: ""
+          JARVIS_BACKEND_URL: ""
+          JARVIS_BRIDGE_SECRET: ci-bridge-secret
+          OTP_API_BASE: ""
+          AUTH_API_BASE: ""
+          OPENAI_API_KEY: ""
+          OPENAI_MODEL: gpt-4o-mini
+          OPENAI_BASE_URL: ""
+          LIVE_CLASS_TOKEN: ""
+          VAPID_PUBLIC_KEY: ""
+          VAPID_PRIVATE_KEY: ""
+          VAPID_SUBJECT: mailto:ci@example.com
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 14
+
+      - name: Coverage summary
+        if: always()
+        run: |
+          echo "### Coverage" >> $GITHUB_STEP_SUMMARY
+          if [ -f coverage/coverage-summary.json ]; then
+            node -e "
+              const s = require('./coverage/coverage-summary.json').total;
+              console.log('| Metric | Coverage |');
+              console.log('|---|---|');
+              ['lines','statements','functions','branches'].forEach(k =>
+                console.log(\`| \${k} | \${s[k].pct}% |\`)
+              );
+            " >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # ── 3. DEPLOY PREVIEW (PRs only) ───────────────────────────────────────────
+  deploy-preview:
+    name: Deploy preview
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    if: github.event_name == 'pull_request'
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Deploy preview to Vercel
+        id: deploy
+        run: |
+          PREVIEW_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+          echo "### Preview deployed" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** $PREVIEW_URL" >> $GITHUB_STEP_SUMMARY
+        env:
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+
+      - name: Comment preview URL on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = '${{ steps.deploy.outputs.url }}';
+            const body = `### Vercel Preview\n\n| | |\n|---|---|\n| **URL** | ${url} |\n| **Commit** | ${{ github.sha }} |\n\n> Deployed after all CI checks passed.`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c => c.body.includes('Vercel Preview') && c.user.login === 'github-actions[bot]');
+            if (existing) {
+              await github.rest.issues.updateComment({ owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number, body });
+            }
+
+  # ── 4. DEPLOY PRODUCTION (main push only) ──────────────────────────────────
+  deploy-production:
+    name: Deploy production
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      url: https://kingofyadav.in
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Deploy to production
+        run: |
+          vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+          echo "### Production deployed" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** https://kingofyadav.in" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        env:
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
