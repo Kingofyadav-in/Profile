@@ -120,17 +120,20 @@ self.addEventListener("fetch", (event) => {
 
   /* Images — Stale While Revalidate */
   if (request.destination === "image") {
+    const networkFetch = fetch(request).then(res => {
+      if (res.status === 200) {
+        const cacheResponse = res.clone();
+        return caches.open(DYNAMIC_CACHE)
+          .then(cache => cache.put(request, cacheResponse))
+          .then(() => limitCacheSize(DYNAMIC_CACHE, MAX_DYNAMIC_ITEMS))
+          .then(() => res);
+      }
+      return res;
+    }).catch(() => null);
+    event.waitUntil(networkFetch);
+
     event.respondWith(
       caches.match(request).then(cached => {
-        const networkFetch = fetch(request).then(res => {
-          if (res.status === 200) {
-            caches.open(DYNAMIC_CACHE).then(cache => {
-              cache.put(request, res.clone());
-              limitCacheSize(DYNAMIC_CACHE, MAX_DYNAMIC_ITEMS);
-            });
-          }
-          return res;
-        }).catch(() => null);
         return cached || networkFetch;
       })
     );
@@ -148,7 +151,10 @@ self.addEventListener("fetch", (event) => {
         if (cached) return cached;
         return fetch(request).then(res => {
           if (res.status === 200) {
-            caches.open(STATIC_CACHE).then(cache => cache.put(request, res.clone()));
+            const cacheResponse = res.clone();
+            return caches.open(STATIC_CACHE)
+              .then(cache => cache.put(request, cacheResponse))
+              .then(() => res);
           }
           return res;
         }).catch(() => cached);
