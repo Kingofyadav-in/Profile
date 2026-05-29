@@ -40,6 +40,18 @@
     width: 46px;
     height: 46px;
     flex: 0 0 46px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+
+  .logo:hover {
+    transform: rotate(8deg) scale(1.08);
+    opacity: .85;
+  }
+
+  .logo:active {
+    transform: scale(0.93);
   }
 
   .brand-text {
@@ -452,4 +464,162 @@ body.theme-dark .footer-pro-strip span {
   .auth-logout-btn { transition: none; }
   .footer-pro-links a:hover,
   .auth-logout-btn:hover { transform: none; }
+}
+
+/* ======================================================
+   ZERO SOILS APP SHELL
+   Shared header, route spacing and authenticated workspaces.
+====================================================== */
+
+:root {
+  --zs-header-height: 76px;
+  --zs-workspace-width: 1100px;
+  --zs-wide-width: 1320px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+body {
+  padding-top: var(--zs-header-height);
+}
+
+.zs-header-actions {
+  gap: 10px;
+}
+
+.zs-header-actions > #wallet-chip span {
+  display: inline;
+}
+
+.zs-header-actions #themeToggle {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  transition: background .2s ease, opacity .2s ease;
+}
+
+.zs-header-actions #themeToggle:hover {
+  opacity: 1 !important;
+  background: rgba(128,128,128,.12) !important;
+}
+
+.zs-public-page {
+  padding-top: clamp(28px, 4vw, 52px);
+  padding-bottom: clamp(36px, 6vw, 76px);
+}
+
+.zs-home-page {
+  padding-top: 0;
+}
+
+.zs-empty-page {
+  min-height: calc(100vh - var(--zs-header-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zs-auth-page {
+  min-height: calc(100vh - var(--zs-header-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(30px, 5vw, 54px) 20px;
+}
+
+.zs-auth-page--register {
+  align-items: flex-start;
+}
+
+.zs-auth-page--verify {
+  padding-top: clamp(32px, 5vw, 64px);
+}
+
+.zs-workspace {
+  min-height: calc(100vh - var(--zs-header-height));
+}
+
+.zs-workspace-content {
+  max-width: var(--zs-workspace-width);
+  margin: 0 auto;
+}
+
+.zs-workspace-content--wide {
+  max-width: var(--zs-wide-width);
+}
+
+.zs-workspace section[id] {
+  scroll-margin-top: calc(var(--zs-header-height) + 18px);
+}
+
+@media (min-width: 769px) {
+  .site-header .zs-header-actions {
+    grid-column: 3;
+    justify-self: end;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --zs-header-height: 72px;
+  }
+
+  body {
+    padding-top: var(--zs-header-height);
+  }
+
+  .header-inner {
+    min-height: var(--zs-header-height);
+    padding: 10px 14px;
+  }
+
+  .site-header .brand-tagline {
+    display: none;
+  }
+
+  .site-header .logo {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .zs-header-actions {
+    margin-left: auto;
+    gap: 5px;
+  }
+
+  .zs-header-actions #themeToggle,
+  .zs-header-actions #wallet-chip {
+    display: none !important;
+  }
+
+  .zs-header-actions #auth-btn {
+    padding: 9px 12px;
+    font-size: .72rem;
+  }
+
+  #primary-nav {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  #primary-nav.open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .zs-public-page {
+    padding-top: 20px;
+  }
+
+  .zs-auth-page {
+    padding: 24px 14px 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --zs-header-height: 68px;
+  }
 }

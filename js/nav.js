@@ -22,6 +22,7 @@
   const PERSONAL_NAV = [
     { label: 'HI Life OS',  href: '/pages/personal.html' },
     { label: 'Dashboard',   href: '/pages/dashboard.html' },
+    { label: 'Wallet',      href: '/pages/wallet.html', cls: 'wallet-link' },
     { label: 'About Me',    href: '/pages/about.html' },
     { label: 'Origin',      href: '/pages/origin.html' },
     { label: 'Haven',       href: '/pages/haven.html' },
@@ -41,7 +42,7 @@
 
   const PERSONAL_PATHS = [
     '/pages/personal', '/pages/about', '/pages/origin',
-    '/pages/haven', '/pages/bhagalpur', '/pages/hi-license', '/pages/hi-protect', '/pages/dashboard',
+    '/pages/haven', '/pages/bhagalpur', '/pages/hi-license', '/pages/hi-protect', '/pages/dashboard', '/pages/wallet',
   ]
 
   function normPath(p) {

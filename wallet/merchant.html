@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>HI Merchant — Amit Ku Yadav</title>
-  <meta name="description" content="HI Merchant dashboard for merchant HDI, merchant wallet, QR payment simulation, local payment logs, and settlement prototype." />
+  <title>RC Merchant Dashboard — Amit Ku Yadav</title>
+  <meta name="description" content="RupeeCoin merchant dashboard — accept RC payments, track income, and generate payment strings." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="favicon/favicon.ico" />
@@ -11,172 +11,634 @@
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
   <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
   <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-2" />
-  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
-  <link rel="stylesheet" href="/css/hi-app.css?v=hi-1" />
-  <link rel="stylesheet" href="/css/hi-wallet.css?v=wallet-pro-1" />
-  <link rel="stylesheet" href="/css/hi-ecosystem.css?v=eco-pro-1" />
   <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-3" />
+
+  <style>
+    /* ── MERCHANT PAGE LAYOUT ── */
+    .rc-merchant-main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: clamp(36px, 6vw, 72px) clamp(16px, 4vw, 40px) 80px;
+    }
+
+    /* ── AUTH GATE ── */
+    .rc-auth-gate {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      padding: clamp(32px, 6vw, 64px) 20px;
+    }
+
+    .rc-auth-gate-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .rc-auth-gate h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .rc-auth-gate p {
+      max-width: 480px;
+      margin: 0 0 32px;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .rc-auth-form {
+      width: 100%;
+      max-width: 380px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 18px;
+      padding: 28px;
+    }
+
+    .rc-auth-form h2 {
+      margin: 0 0 20px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      text-align: left;
+    }
+
+    /* ── SHARED FIELD & BUTTON TOKENS ── */
+    .rc-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .rc-field label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--brand-green);
+    }
+
+    .rc-field input,
+    .rc-field select {
+      min-height: 48px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.07);
+      color: inherit;
+      font: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+
+    .rc-field input:focus,
+    .rc-field select:focus {
+      outline: none;
+      border-color: rgba(4, 106, 56, 0.5);
+      box-shadow: 0 0 0 3px rgba(4, 106, 56, 0.14);
+    }
+
+    .rc-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 22px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: inherit;
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.16s, border-color 0.16s, background 0.16s;
+    }
+
+    .rc-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(4, 106, 56, 0.38);
+      background: rgba(4, 106, 56, 0.08);
+    }
+
+    .rc-btn.primary {
+      border-color: transparent;
+      background: var(--gradient-brand, linear-gradient(135deg, #046A38, #FF671F));
+      color: #fff;
+      box-shadow: 0 12px 28px rgba(4, 106, 56, 0.22);
+    }
+
+    .rc-btn.primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 34px rgba(4, 106, 56, 0.3);
+    }
+
+    .rc-btn.sm {
+      min-height: 34px;
+      padding: 0 14px;
+      font-size: 0.78rem;
+      border-radius: 999px;
+    }
+
+    .rc-btn.full { width: 100%; }
+
+    .rc-status {
+      margin: 10px 0 0;
+      font-size: 0.85rem;
+      min-height: 1.2em;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .rc-status.ok  { color: #4ade80; }
+    .rc-status.err { color: #f87171; }
+
+    /* ── CARDS ── */
+    .rc-card {
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .rc-card-title {
+      margin: 0 0 20px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .rc-kicker {
+      display: inline-block;
+      margin: 0 0 8px;
+      color: var(--brand-green, #046A38);
+      font-size: 0.68rem;
+      font-weight: 850;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    /* ── MERCHANT IDENTITY CARD ── */
+    .rc-merchant-id-card {
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+      background: rgba(10, 14, 12, 0.88);
+      overflow: hidden;
+    }
+
+    .rc-merchant-id-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(4, 106, 56, 0.22), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(255, 103, 31, 0.14), transparent 50%);
+      pointer-events: none;
+    }
+
+    .rc-merchant-id-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .rc-merchant-id-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .rc-merchant-badge-label {
+      padding: 4px 10px;
+      border: 1px solid rgba(255, 103, 31, 0.38);
+      border-radius: 999px;
+      background: rgba(255, 103, 31, 0.10);
+      color: #FF671F;
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .rc-merchant-id-name {
+      margin: 0 0 8px;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 850;
+      line-height: 1.1;
+      color: #fff;
+    }
+
+    .rc-merchant-cat-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(4, 106, 56, 0.20);
+      border: 1px solid rgba(4, 106, 56, 0.32);
+      color: #4ade80;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .rc-merchant-id-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .rc-merchant-id-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rc-merchant-id-meta-row span {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.38);
+      min-width: 58px;
+    }
+
+    .rc-merchant-id-meta-row code,
+    .rc-merchant-id-meta-row strong {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.88);
+      overflow-wrap: anywhere;
+    }
+
+    .rc-wallet-addr {
+      display: block;
+      margin-top: 16px;
+      padding: 10px 14px;
+      background: rgba(4, 106, 56, 0.12);
+      border: 1px solid rgba(4, 106, 56, 0.22);
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #4ade80;
+      letter-spacing: 0.5px;
+      overflow-wrap: anywhere;
+    }
+
+    .rc-merchant-id-edit-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    /* ── STATS BAR ── */
+    .rc-stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .rc-stat {
+      padding: 18px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .rc-stat span {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.65rem;
+      font-weight: 850;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.44);
+    }
+
+    .rc-stat strong {
+      display: block;
+      font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+      font-weight: 800;
+      color: #4ade80;
+      line-height: 1.1;
+    }
+
+    /* ── TWO-COLUMN GRID ── */
+    .rc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    @media (max-width: 640px) {
+      .rc-grid { grid-template-columns: 1fr; }
+      .rc-stats-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    /* ── PAYMENT DISPLAY ── */
+    .rc-pay-display {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(4, 106, 56, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      margin-top: 14px;
+      color: #4ade80;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .rc-copy-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .rc-pay-hint {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.5;
+    }
+
+    /* ── QR-STYLE BLOCK ── */
+    .rc-qr-block {
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 16px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .rc-qr-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .rc-qr-amount {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      color: #4ade80;
+      display: block;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .rc-qr-to {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.58);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .rc-qr-note {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.40);
+      font-style: italic;
+      display: block;
+      max-width: 260px;
+      margin: 0 auto;
+      overflow-wrap: anywhere;
+    }
+
+    .rc-qr-border-box {
+      display: inline-block;
+      border: 1px solid rgba(4, 106, 56, 0.35);
+      border-radius: 10px;
+      padding: 16px 22px;
+      margin-top: 4px;
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.42);
+      letter-spacing: 0.3px;
+    }
+
+    /* ── PAYMENT LOG ── */
+    .rc-log-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .rc-log-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      background: rgba(4, 106, 56, 0.05);
+    }
+
+    .rc-log-left { min-width: 0; }
+
+    .rc-log-sender {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+
+    .rc-log-note {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.42);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+
+    .rc-log-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .rc-log-amount {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #4ade80;
+    }
+
+    .rc-log-time {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.36);
+      margin-top: 2px;
+    }
+
+    .rc-log-empty {
+      padding: 32px 0;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.38);
+      font-size: 0.9rem;
+    }
+
+    .rc-log-total {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border: 1px solid rgba(4, 106, 56, 0.22);
+      border-radius: 10px;
+      background: rgba(4, 106, 56, 0.07);
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.58);
+    }
+
+    .rc-log-total strong { color: #4ade80; }
+
+    /* ── LOG TOOLBAR ── */
+    .rc-log-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ── SIGN-OUT ROW ── */
+    .rc-signout-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+    }
+
+    /* ── DASHBOARD VISIBLE / HIDDEN TOGGLING ── */
+    .rc-hidden { display: none !important; }
+
+    /* ── THEME LIGHT OVERRIDES ── */
+    body.theme-light .rc-merchant-id-card {
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    body.theme-light .rc-card,
+    body.theme-light .rc-auth-form {
+      background: rgba(255, 255, 255, 0.82);
+      border-color: rgba(13, 33, 24, 0.12);
+    }
+
+    body.theme-light .rc-field input,
+    body.theme-light .rc-field select {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(13, 33, 24, 0.14);
+      color: #17231c;
+    }
+
+    body.theme-light .rc-stat {
+      background: rgba(255, 255, 255, 0.72);
+      border-color: rgba(13, 33, 24, 0.10);
+    }
+
+    body.theme-light .rc-stat span { color: rgba(23, 35, 28, 0.52); }
+    body.theme-light .rc-stat strong { color: #046A38; }
+
+    body.theme-light .rc-merchant-id-name { color: #111; }
+    body.theme-light .rc-auth-gate h1 { color: #111; }
+    body.theme-light .rc-auth-gate p { color: rgba(23, 35, 28, 0.62); }
+    body.theme-light .rc-card-title { color: #111; }
+    body.theme-light .rc-wallet-addr { color: #046A38; }
+    body.theme-light .rc-merchant-id-meta-row code,
+    body.theme-light .rc-merchant-id-meta-row strong { color: #17231c; }
+    body.theme-light .rc-log-item { background: rgba(4, 106, 56, 0.04); border-color: rgba(13, 33, 24, 0.08); }
+    body.theme-light .rc-log-sender { color: #17231c; }
+    body.theme-light .rc-log-amount { color: #046A38; }
+    body.theme-light .rc-pay-display { background: rgba(0, 0, 0, 0.05); border-color: rgba(4, 106, 56, 0.25); }
+    body.theme-light .rc-qr-block { background: rgba(4, 106, 56, 0.04); border-color: rgba(4, 106, 56, 0.18); }
+    body.theme-light .rc-hdr-badge { background: rgba(255, 255, 255, 0.72); border-color: rgba(13, 33, 24, 0.12); }
+    body.theme-light #rcHdrUser { color: rgba(23, 35, 28, 0.58); }
+  </style>
 </head>
-<body class="theme-dark personal-page ecosystem-page merchant-page wallet-app">
+
+<body class="theme-dark wallet-app">
 <script>
   try { var _t = localStorage.getItem('theme'); if (_t) { document.body.classList.remove('theme-dark','theme-light'); document.body.classList.add(_t); } } catch(e) {}
 </script>
-<script src="/js/auth.js?v=auth-otp-1"></script>
-<script>requireAuth(); document.documentElement.style.visibility = '';</script>
 
 <div id="scrollProgress"></div>
 <a href="#main-content" class="skip-link">Skip to content</a>
 
-<header class="personal-header glass">
-  <div class="personal-header-inner">
-    <a href="/wallet/" class="personal-brand" aria-label="HI Wallet app home">
-      <img id="personalLogo" src="logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
-      <div class="personal-brand-text">
-        <span class="personal-name">Amit Ku Yadav</span>
-        <span class="personal-tagline">HI Wallet App</span>
-      </div>
-    </a>
+<header class="site-header glass">
+  <div class="header-inner">
+    <div class="brand">
+      <a href="/wallet/index.html" class="brand-link" aria-label="RupeeCoin home">
+        <img id="siteLogo" class="logo" src="logo/day-logo.png" alt="Amit Ku Yadav" width="50" height="50" />
+        <div class="brand-text">
+          <span class="brand-name">Amit Ku Yadav</span>
+          <span class="brand-tagline">RC Merchant</span>
+        </div>
+      </a>
+    </div>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <nav class="wallet-nav" data-nav="wallet" aria-label="Wallet navigation"></nav>
-    <div class="auth-bar">
-      <span>Hi, <strong id="authUserDisplay"></strong></span>
-      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    <nav class="wallet-nav" aria-label="Wallet navigation" data-nav="wallet"></nav>
+    <div class="rc-hdr-badge" id="rcHdrBadge" style="display:none">
+      <span id="rcHdrUser"></span>
+      <strong id="rcHdrBal">0 RC</strong>
     </div>
   </div>
 </header>
 
-<div class="eco-stripe"></div>
+<main class="rc-merchant-main" id="main-content">
 
-<main class="eco-main" id="main-content">
+  <!-- ══════════════════════════════════════
+       AUTH GATE (shown when not logged in)
+  ═══════════════════════════════════════ -->
+  <section id="rcAuthGate" class="rc-auth-gate rc-hidden" aria-label="Sign in">
+    <div class="rc-auth-gate-icon" aria-hidden="true">🏪</div>
+    <h1>RupeeCoin Merchant Dashboard</h1>
+    <p>Sign in with your RC Wallet to open the merchant dashboard.</p>
 
-  <!-- LOCKED -->
-  <div id="ecosystemLocked" class="ecosystem-locked">
-    <p class="eco-kicker">Identity Required</p>
-    <h2>Create HDI before merchant onboarding.</h2>
-    <p>Merchant wallets are linked to the owner HDI, so the system needs your Human Digital Identity first.</p>
-    <div class="ecosystem-actions" style="margin-top:1.25rem">
-      <a class="ecosystem-action primary" href="/pages/personal.html#create-identity">Create Identity</a>
-      <a class="ecosystem-action" href="wallet.html">Open HI Wallet</a>
-    </div>
-  </div>
-
-  <!-- HERO -->
-  <section class="eco-hero">
-    <div class="eco-hero-copy">
-      <p class="eco-kicker">Merchant Ecosystem — Phase 2 Prototype</p>
-      <h1>Merchant onboarding<br>for HI Wallet.</h1>
-      <p class="eco-hero-desc">Create a merchant HDI, merchant wallet, QR payment string, local payment logs, and simulated settlement metrics. This is the real-world adoption layer for HI Wallet.</p>
-      <div class="ecosystem-actions">
-        <a class="ecosystem-action primary" href="#merchantOnboardForm">Onboard Merchant</a>
-        <a class="ecosystem-action" href="/wallet/marketplace/">Open Marketplace</a>
-        <a class="ecosystem-action" href="wallet.html">HI Wallet</a>
-      </div>
-    </div>
-
-    <div class="eco-merchant-card" aria-label="Merchant identity card">
-      <div class="eco-merchant-card-bg"></div>
-      <div class="eco-merchant-card-inner">
-        <div class="eco-merchant-card-top">
-          <div class="eco-merchant-badge">
-            <span>MERCHANT</span>
-          </div>
-          <div class="eco-merchant-icon">🏪</div>
-        </div>
-        <div class="eco-merchant-name" id="merchantNameView">Not onboarded</div>
-        <code class="eco-merchant-hdi" id="merchantHdiView">Pending</code>
-        <code class="eco-merchant-wallet" id="merchantWalletView">Create a merchant profile below</code>
-        <div class="eco-merchant-footer">
-          <div>
-            <span>Category</span>
-            <strong id="merchantCategoryView">Service</strong>
-          </div>
-          <div>
-            <span>Settlement</span>
-            <strong id="merchantSettlementView">Simulated INR</strong>
-          </div>
-          <div>
-            <span>Phase</span>
-            <strong>Prototype</strong>
-          </div>
-        </div>
-      </div>
+    <div class="rc-auth-form" role="form" aria-label="Sign in form">
+      <h2>Merchant Access</h2>
+      <p style="font-size:.88rem;opacity:.7;margin-bottom:20px;text-align:left;">To manage your business profile and track payments, please sign in using your RC Wallet.</p>
+      <a href="wallet.html" class="rc-btn primary full" style="text-decoration:none;">Sign in with RC Wallet</a>
     </div>
   </section>
 
-  <section class="wlt-grid" style="margin-bottom:1.5rem">
-    <article class="wlt-panel wlt-security-panel">
-      <p class="wlt-kicker">Key Security</p>
-      <h2>Unlock and trust this device.</h2>
-      <p>Merchant actions use the same HDI security state as the wallet.</p>
-      <div class="wlt-security-state">
-        <div><span>Private Key</span><strong id="walletKeyProtection">Checking</strong></div>
-        <div><span>Session</span><strong id="walletKeySession">Locked</strong></div>
-        <div><span>Risk</span><strong id="walletRiskState">Checking</strong></div>
-      </div>
-      <form id="walletSecurityForm" class="wlt-form">
-        <div class="wlt-field">
-          <label for="walletPassphrase">Wallet passphrase</label>
-          <input id="walletPassphrase" type="password" minlength="8" autocomplete="current-password" placeholder="Minimum 8 characters" required />
+  <!-- ══════════════════════════════════════
+       MAIN DASHBOARD (shown when logged in)
+  ═══════════════════════════════════════ -->
+  <div id="rcDashboard" class="rc-hidden">
+
+    <!-- MERCHANT PROFILE -->
+    <section id="rcProfileSection" aria-label="Merchant profile">
+
+      <!-- Profile Setup Form (shown when no profile saved) -->
+      <div id="rcProfileSetup" class="rc-card rc-hidden">
+        <p class="rc-kicker">Merchant Setup</p>
+        <h2 class="rc-card-title">Set up your merchant profile</h2>
+        <div class="rc-field">
+          <label for="profName">Business name</label>
+          <input id="profName" type="text" placeholder="e.g. Yadav Digital Store" required />
         </div>
-        <div class="wlt-action-row">
-          <button class="wlt-submit" id="walletProtectKey" type="button">Protect Key</button>
-          <button class="wlt-submit" id="walletUnlockKey" type="submit">Unlock</button>
-          <button class="wlt-btn" id="walletLockKey" type="button">Lock</button>
-        </div>
-        <p class="wallet-status" id="walletSecurityStatus" aria-live="polite"></p>
-      </form>
-    </article>
-
-    <article class="wlt-panel">
-      <p class="wlt-kicker">Device Trust</p>
-      <h2>Mark this browser trusted.</h2>
-      <div class="wlt-device-actions">
-        <button class="wlt-btn primary" id="walletTrustDevice" type="button">Trust Current Device</button>
-        <button class="wlt-btn" id="walletRefreshDevices" type="button">Refresh</button>
-      </div>
-      <div id="walletDeviceList" class="wlt-device-list"></div>
-      <p class="wallet-status" id="walletDeviceStatus" aria-live="polite"></p>
-    </article>
-  </section>
-
-  <!-- STATS BAR -->
-  <div class="eco-stats">
-    <div class="eco-stat">
-      <span>Sales</span>
-      <strong id="merchantSalesView">0</strong>
-    </div>
-    <div class="eco-stat">
-      <span>Customers</span>
-      <strong id="merchantCustomersView">0</strong>
-    </div>
-    <div class="eco-stat">
-      <span>HI Received</span>
-      <strong id="merchantReceivedView">0 HI</strong>
-    </div>
-    <div class="eco-stat">
-      <span>Settlement Mode</span>
-      <strong>Simulated INR</strong>
-    </div>
-  </div>
-
-  <!-- GRID: Onboard + QR -->
-  <section class="eco-grid">
-
-    <article class="eco-panel" id="merchantOnboardSection">
-      <p class="eco-kicker">Onboarding</p>
-      <h2>Create merchant identity.</h2>
-      <form id="merchantOnboardForm" class="eco-form ecosystem-form">
-        <div class="eco-field">
-          <label for="merchantName">Merchant name</label>
-          <input id="merchantName" type="text" placeholder="Yadav Digital Store" required />
-        </div>
-        <div class="eco-field">
-          <label for="merchantCategory">Category</label>
-          <select id="merchantCategory">
+        <div class="rc-field">
+          <label for="profCat">Category</label>
+          <select id="profCat">
             <option value="Digital Services">Digital Services</option>
             <option value="Education">Education</option>
             <option value="Creator">Creator</option>
@@ -184,86 +646,130 @@
             <option value="Community">Community</option>
           </select>
         </div>
-        <div class="eco-field">
-          <label for="merchantUpi">Settlement UPI ID</label>
-          <input id="merchantUpi" type="text" placeholder="demo@upi" />
+        <div class="rc-field">
+          <label for="profUpi">UPI ID <small style="opacity:.55;font-weight:400;text-transform:none;letter-spacing:0">(optional, for future settlement)</small></label>
+          <input id="profUpi" type="text" placeholder="yourname@upi" />
         </div>
-        <button class="eco-submit" type="submit">Save Merchant</button>
-        <p class="ecosystem-status" id="merchantStatus" aria-live="polite"></p>
-      </form>
-    </article>
-
-    <article class="eco-panel">
-      <p class="eco-kicker">Merchant QR</p>
-      <h2>Payment simulation string.</h2>
-      <div class="eco-field" style="margin-top:1rem">
-        <label for="merchantQrAmount">QR amount (HI)</label>
-        <input id="merchantQrAmount" type="number" min="1" max="99" step="1" placeholder="e.g. 5" />
+        <button class="rc-btn primary" id="profSaveBtn" type="button">Save Profile</button>
+        <p class="rc-status" id="profStatus" aria-live="polite"></p>
       </div>
-      <div class="ecosystem-qr">
-        <span style="font-size:.65rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--brand-orange)">PAY WITH HI WALLET</span>
-        <strong style="font-size:3rem;line-height:.9">HI</strong>
-        <code id="merchantQrCode" style="padding:.4rem .9rem;border-radius:999px;background:rgba(128,128,128,.12);font-size:.7rem;max-width:92%;word-break:break-all">Create merchant profile</code>
-      </div>
-    </article>
 
-  </section>
-
-  <!-- GRID: Payment + Log -->
-  <section class="eco-grid">
-
-    <article class="eco-panel">
-      <p class="eco-kicker">Payment Log</p>
-      <h2>Record demo customer payment.</h2>
-      <form id="merchantPaymentForm" class="eco-form ecosystem-form">
-        <div class="eco-field">
-          <label for="merchantCustomer">Customer HDI / wallet</label>
-          <input id="merchantCustomer" type="text" placeholder="AKY-2026-23185D" />
+      <!-- Profile Card (shown when profile exists) -->
+      <div id="rcProfileCard" class="rc-merchant-id-card rc-hidden" aria-label="Merchant identity card">
+        <div class="rc-merchant-id-inner">
+          <div class="rc-merchant-id-top">
+            <div>
+              <p class="rc-kicker">Merchant Identity</p>
+              <h2 id="rcProfName" class="rc-merchant-id-name">—</h2>
+              <span id="rcProfCat" class="rc-merchant-cat-pill">—</span>
+            </div>
+            <span class="rc-merchant-badge-label">MERCHANT</span>
+          </div>
+          <div class="rc-merchant-id-meta">
+            <div class="rc-merchant-id-meta-row">
+              <span>Wallet</span>
+              <code id="rcProfWallet">—</code>
+            </div>
+            <div class="rc-merchant-id-meta-row" id="rcProfUpiRow">
+              <span>UPI</span>
+              <code id="rcProfUpi">—</code>
+            </div>
+          </div>
+          <span class="rc-wallet-addr" id="rcWalletAddrDisplay">—</span>
+          <div class="rc-merchant-id-edit-row">
+            <button class="rc-btn sm" id="rcEditProfileBtn" type="button">Edit Profile</button>
+          </div>
         </div>
-        <div class="eco-field">
-          <label for="merchantPaymentAmount">Amount (HI)</label>
-          <input id="merchantPaymentAmount" type="number" min="1" max="99" step="1" placeholder="e.g. 5" required />
-        </div>
-        <button class="eco-submit" type="submit">Record Payment</button>
-        <p class="ecosystem-status" id="merchantPaymentStatus" aria-live="polite"></p>
-      </form>
-    </article>
-
-    <article class="eco-panel">
-      <p class="eco-kicker">Local Ledger</p>
-      <h2>Merchant payment history.</h2>
-      <div id="merchantPaymentLog" class="ecosystem-list" style="margin-top:1rem"></div>
-    </article>
-
-  </section>
-
-  <!-- BLUEPRINT -->
-  <section class="eco-panel eco-blueprint">
-    <p class="eco-kicker">Phase 3 Direction</p>
-    <h2>Merchant receives INR in the real system.</h2>
-    <div class="eco-layers">
-      <div>
-        <span>01</span>
-        <strong>Customer pays HI</strong>
-        <p>Customer experiences HI Wallet payment — seamless identity-bound flow.</p>
       </div>
-      <div>
-        <span>02</span>
-        <strong>Settlement bridge</strong>
-        <p>Future Cashfree, Razorpay, or Setu-style rail converts HI to INR.</p>
+
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="rc-stats-bar" id="rcStatsBar" aria-label="Merchant statistics">
+      <div class="rc-stat">
+        <span>Total RC Received</span>
+        <strong id="statTotalRc">0 RC</strong>
       </div>
-      <div>
-        <span>03</span>
-        <strong>Merchant receives INR</strong>
-        <p>Merchant never needs crypto knowledge — gets Indian Rupee directly.</p>
+      <div class="rc-stat">
+        <span>Transactions</span>
+        <strong id="statTxCount">0</strong>
       </div>
-      <div>
-        <span>04</span>
-        <strong>Proof remains</strong>
-        <p>HI ledger preserves trust, identity, and complete receipt history.</p>
+      <div class="rc-stat">
+        <span>Wallet Balance</span>
+        <strong id="statBalance">0 RC</strong>
+      </div>
+      <div class="rc-stat">
+        <span>Network Members</span>
+        <strong id="statMembers">—</strong>
       </div>
     </div>
-  </section>
+
+    <!-- PAYMENT GENERATOR + RECEIVED LOG -->
+    <div class="rc-grid">
+
+      <!-- Payment Request Generator -->
+      <section aria-label="Generate payment request">
+        <div class="rc-card">
+          <p class="rc-kicker">Payment Request</p>
+          <h2 class="rc-card-title">Generate Payment Request</h2>
+          <div class="rc-field">
+            <label for="genAmount">Request amount (RC)</label>
+            <input id="genAmount" type="number" min="1" step="1" placeholder="e.g. 10" />
+          </div>
+          <div class="rc-field">
+            <label for="genNote">Payment note / item description</label>
+            <input id="genNote" type="text" placeholder="e.g. Website design, 1-month plan" />
+          </div>
+          <button class="rc-btn primary" id="genBtn" type="button">Generate</button>
+
+          <!-- Payment string display -->
+          <div id="rcPayDisplay" class="rc-hidden">
+            <pre class="rc-pay-display" id="rcPayString" aria-label="Payment string"></pre>
+            <div class="rc-copy-row">
+              <button class="rc-btn sm" id="rcCopyBtn" type="button">Copy</button>
+              <span id="rcCopied" style="font-size:.78rem;color:#4ade80;opacity:0;transition:opacity .3s">Copied!</span>
+            </div>
+            <p class="rc-pay-hint" id="rcPayHint"></p>
+
+            <!-- QR-style block -->
+            <div class="rc-qr-block" id="rcQrBlock" aria-label="Payment display card">
+              <span class="rc-qr-label">Pay with RupeeCoin</span>
+              <span class="rc-qr-amount" id="rcQrAmount">0 RC</span>
+              <span class="rc-qr-label" style="margin-top:2px">To</span>
+              <span class="rc-qr-to" id="rcQrTo">—</span>
+              <div class="rc-qr-border-box">
+                <span class="rc-qr-note" id="rcQrNote">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Received Payments Log -->
+      <section aria-label="Received payments">
+        <div class="rc-card" style="height:100%;box-sizing:border-box">
+          <div class="rc-log-toolbar">
+            <div>
+              <p class="rc-kicker">Payments</p>
+              <h2 class="rc-card-title" style="margin-bottom:0">Received Payments</h2>
+            </div>
+            <button class="rc-btn sm" id="rcRefreshLog" type="button">Refresh</button>
+          </div>
+          <div id="rcLogList" class="rc-log-list" aria-live="polite">
+            <div class="rc-log-empty">Loading payments…</div>
+          </div>
+          <div id="rcLogTotal" class="rc-log-total rc-hidden" aria-live="polite"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- SIGN OUT -->
+    <div class="rc-signout-row">
+      <button class="rc-btn" id="rcSignOut" type="button">Sign Out</button>
+    </div>
+
+  </div><!-- /rcDashboard -->
 
 </main>
 
@@ -272,13 +778,351 @@
   <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
 </button>
 
-<script src="js/footer.js" defer></script>
+<!-- noble/secp256k1 for client-side ECDSA signing -->
+<script src="https://cdn.jsdelivr.net/npm/@noble/secp256k1@1.7.1/lib/index.js"></script>
+<script>
+  if (typeof secp256k1 !== 'undefined') window.nobleSecp256k1 = secp256k1;
+  else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null;
+  window.RC_NODE_URL = 'http://localhost:8080';
+</script>
+<script src="js/rupeecoin.js?v=4"></script>
+<script>
+(function () {
+  'use strict';
+
+  var PROFILE_KEY = 'rc_merchant_profile';
+
+  // ── DOM refs ──────────────────────────────────────────────
+  var authGate      = document.getElementById('rcAuthGate');
+  var dashboard     = document.getElementById('rcDashboard');
+  var hdrBadge      = document.getElementById('rcHdrBadge');
+  var hdrUser       = document.getElementById('rcHdrUser');
+  var hdrBal        = document.getElementById('rcHdrBal');
+
+  // Auth
+  var loginName     = document.getElementById('loginName');
+  var loginPin      = document.getElementById('loginPin');
+  var loginBtn      = document.getElementById('loginBtn');
+  var loginStatus   = document.getElementById('loginStatus');
+
+  // Profile
+  var profileSetup  = document.getElementById('rcProfileSetup');
+  var profileCard   = document.getElementById('rcProfileCard');
+  var profName      = document.getElementById('profName');
+  var profCat       = document.getElementById('profCat');
+  var profUpi       = document.getElementById('profUpi');
+  var profSaveBtn   = document.getElementById('profSaveBtn');
+  var profStatus    = document.getElementById('profStatus');
+  var rcProfName    = document.getElementById('rcProfName');
+  var rcProfCat     = document.getElementById('rcProfCat');
+  var rcProfWallet  = document.getElementById('rcProfWallet');
+  var rcProfUpiRow  = document.getElementById('rcProfUpiRow');
+  var rcProfUpi     = document.getElementById('rcProfUpi');
+  var rcWalletAddr  = document.getElementById('rcWalletAddrDisplay');
+  var rcEditBtn     = document.getElementById('rcEditProfileBtn');
+
+  // Stats
+  var statTotalRc   = document.getElementById('statTotalRc');
+  var statTxCount   = document.getElementById('statTxCount');
+  var statBalance   = document.getElementById('statBalance');
+  var statMembers   = document.getElementById('statMembers');
+
+  // Generator
+  var genAmount     = document.getElementById('genAmount');
+  var genNote       = document.getElementById('genNote');
+  var genBtn        = document.getElementById('genBtn');
+  var rcPayDisplay  = document.getElementById('rcPayDisplay');
+  var rcPayString   = document.getElementById('rcPayString');
+  var rcCopyBtn     = document.getElementById('rcCopyBtn');
+  var rcCopied      = document.getElementById('rcCopied');
+  var rcPayHint     = document.getElementById('rcPayHint');
+  var rcQrAmount    = document.getElementById('rcQrAmount');
+  var rcQrTo        = document.getElementById('rcQrTo');
+  var rcQrNote      = document.getElementById('rcQrNote');
+
+  // Log
+  var rcLogList     = document.getElementById('rcLogList');
+  var rcLogTotal    = document.getElementById('rcLogTotal');
+  var rcRefreshLog  = document.getElementById('rcRefreshLog');
+
+  // Sign-out
+  var rcSignOut     = document.getElementById('rcSignOut');
+
+  // ── Helpers ──────────────────────────────────────────────
+  function show(el) { el.classList.remove('rc-hidden'); }
+  function hide(el) { el.classList.add('rc-hidden'); }
+
+  function setStatus(el, msg, type) {
+    el.textContent = msg;
+    el.className   = 'rc-status' + (type ? ' ' + type : '');
+  }
+
+  function loadProfile() {
+    try { return JSON.parse(localStorage.getItem(PROFILE_KEY)) || null; }
+    catch (e) { return null; }
+  }
+
+  function saveProfile(p) {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(p));
+  }
+
+  function formatTime(ts) {
+    if (!ts) { return ''; }
+    try {
+      var d = new Date(ts);
+      return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) +
+             ' ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+    } catch (e) { return String(ts); }
+  }
+
+  // ── Header badge ─────────────────────────────────────────
+  function updateHeaderBadge() {
+    if (RC.isLoggedIn()) {
+      hdrUser.textContent = RC.getName();
+      hdrBal.textContent  = RC.fmt(RC.getBalance()) + ' RC';
+      hdrBadge.style.display = 'flex';
+    } else {
+      hdrBadge.style.display = 'none';
+    }
+  }
+
+  // ── Profile rendering ────────────────────────────────────
+  function renderProfileCard(p) {
+    var walletName = RC.getName() || '—';
+    rcProfName.textContent   = RC.esc(p.name);
+    rcProfCat.textContent    = RC.esc(p.category);
+    rcProfWallet.textContent = RC.esc(walletName);
+    rcWalletAddr.textContent = RC.esc(walletName);
+    if (p.upi) {
+      rcProfUpi.textContent    = RC.esc(p.upi);
+      show(rcProfUpiRow);
+    } else {
+      hide(rcProfUpiRow);
+    }
+    hide(profileSetup);
+    show(profileCard);
+  }
+
+  function renderProfileSetup() {
+    hide(profileCard);
+    show(profileSetup);
+    var p = loadProfile();
+    if (p) {
+      profName.value = p.name    || '';
+      profCat.value  = p.category|| 'Digital Services';
+      profUpi.value  = p.upi     || '';
+    }
+  }
+
+  // ── Stats ────────────────────────────────────────────────
+  function updateStats(receivedTxs) {
+    var total = receivedTxs.reduce(function (acc, t) { return acc + Number(t.amount); }, 0);
+    statTotalRc.textContent  = RC.fmt(total) + ' RC';
+    statTxCount.textContent  = receivedTxs.length;
+    statBalance.textContent  = RC.fmt(RC.getBalance()) + ' RC';
+    RC.stats(function (res) {
+      statMembers.textContent = res.ok ? RC.fmt(res.members) : '—';
+    });
+  }
+
+  // ── Received payments log ────────────────────────────────
+  function renderLog(txs) {
+    if (!txs || !txs.length) {
+      rcLogList.innerHTML = '<div class="rc-log-empty">No payments received yet.</div>';
+      hide(rcLogTotal);
+      return;
+    }
+
+    var html = '';
+    txs.forEach(function (t) {
+      html +=
+        '<div class="rc-log-item">' +
+          '<div class="rc-log-left">' +
+            '<div class="rc-log-sender">From: ' + RC.esc(t.sender) + '</div>' +
+            '<div class="rc-log-note">' + RC.esc(t.note || '—') + '</div>' +
+          '</div>' +
+          '<div class="rc-log-right">' +
+            '<span class="rc-log-amount">+' + RC.fmt(t.amount) + ' RC</span>' +
+            '<span class="rc-log-time">' + formatTime(t.ts) + '</span>' +
+          '</div>' +
+        '</div>';
+    });
+    rcLogList.innerHTML = html;
+
+    var total = txs.reduce(function (acc, t) { return acc + Number(t.amount); }, 0);
+    rcLogTotal.innerHTML =
+      'Total received: <strong>' + RC.fmt(total) + ' RC</strong> from <strong>' + txs.length + '</strong> transaction' + (txs.length === 1 ? '' : 's');
+    show(rcLogTotal);
+  }
+
+  function loadLog() {
+    var me = RC.getName();
+    rcLogList.innerHTML = '<div class="rc-log-empty">Loading…</div>';
+    hide(rcLogTotal);
+    RC.history(function (res) {
+      if (!res.ok) {
+        rcLogList.innerHTML = '<div class="rc-log-empty">Could not load payments. Is the server running?</div>';
+        return;
+      }
+      var received = (res.history || []).filter(function (t) {
+        return t.receiver === me;
+      });
+      // newest first
+      received.sort(function (a, b) { return (b.ts || 0) - (a.ts || 0); });
+      renderLog(received);
+      updateStats(received);
+    });
+  }
+
+  // ── Dashboard boot ───────────────────────────────────────
+  function bootDashboard() {
+    updateHeaderBadge();
+    hide(authGate);
+    show(dashboard);
+
+    // Also refresh balance from server so badge is fresh
+    RC.balance(function () { updateHeaderBadge(); });
+
+    var p = loadProfile();
+    if (p && p.name) {
+      renderProfileCard(p);
+    } else {
+      renderProfileSetup();
+    }
+    loadLog();
+  }
+
+  // ── Auth gate boot ───────────────────────────────────────
+  function showAuthGate() {
+    hide(dashboard);
+    show(authGate);
+    updateHeaderBadge();
+  }
+
+  // ── Init ─────────────────────────────────────────────────
+  function init() {
+    if (RC.isLoggedIn()) {
+      bootDashboard();
+    } else {
+      showAuthGate();
+    }
+  }
+
+  // ── LOGIN ─────────────────────────────────────────────────
+  loginBtn.addEventListener('click', function () {
+    var name = (loginName.value || '').trim();
+    var pin  = (loginPin.value  || '').trim();
+    if (!name || !pin) {
+      setStatus(loginStatus, 'Enter your wallet name and PIN.', 'err');
+      return;
+    }
+    loginBtn.disabled = true;
+    setStatus(loginStatus, 'Signing in…', '');
+    RC.login(name, pin, function (res) {
+      loginBtn.disabled = false;
+      if (res.ok) {
+        loginPin.value = '';
+        bootDashboard();
+      } else {
+        setStatus(loginStatus, res.error || 'Login failed.', 'err');
+      }
+    });
+  });
+
+  // Allow Enter key in PIN field
+  loginPin.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { loginBtn.click(); }
+  });
+
+  // ── PROFILE SAVE ─────────────────────────────────────────
+  profSaveBtn.addEventListener('click', function () {
+    var name = (profName.value || '').trim();
+    if (!name) {
+      setStatus(profStatus, 'Business name is required.', 'err');
+      return;
+    }
+    var p = {
+      name:     name,
+      category: profCat.value || 'Digital Services',
+      upi:      (profUpi.value || '').trim()
+    };
+    saveProfile(p);
+    setStatus(profStatus, 'Profile saved!', 'ok');
+    setTimeout(function () {
+      setStatus(profStatus, '', '');
+      renderProfileCard(p);
+    }, 900);
+  });
+
+  // ── PROFILE EDIT ─────────────────────────────────────────
+  rcEditBtn.addEventListener('click', function () {
+    renderProfileSetup();
+  });
+
+  // ── PAYMENT GENERATOR ────────────────────────────────────
+  genBtn.addEventListener('click', function () {
+    var amt  = (genAmount.value || '').trim();
+    var note = (genNote.value   || '').trim();
+    var walletName = RC.getName() || '(your wallet)';
+
+    if (!amt || isNaN(Number(amt)) || Number(amt) <= 0) {
+      genAmount.focus();
+      return;
+    }
+
+    var payStr =
+      'Pay ' + RC.fmt(amt) + ' RC to: ' + walletName + '\n' +
+      'Note: ' + (note || '(none)');
+
+    rcPayString.textContent = payStr;
+    rcPayHint.textContent   =
+      'Customer sends RC from their wallet to: ' + walletName;
+
+    rcQrAmount.textContent  = RC.fmt(amt) + ' RC';
+    rcQrTo.textContent      = 'To: ' + walletName;
+    rcQrNote.textContent    = note || '(no note)';
+
+    show(rcPayDisplay);
+  });
+
+  // ── COPY BUTTON ──────────────────────────────────────────
+  rcCopyBtn.addEventListener('click', function () {
+    var text = rcPayString.textContent;
+    if (!text) { return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(flashCopied);
+    } else {
+      // Fallback
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); flashCopied(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+  });
+
+  function flashCopied() {
+    rcCopied.style.opacity = '1';
+    setTimeout(function () { rcCopied.style.opacity = '0'; }, 1800);
+  }
+
+  // ── LOG REFRESH ──────────────────────────────────────────
+  rcRefreshLog.addEventListener('click', loadLog);
+
+  // ── SIGN OUT ─────────────────────────────────────────────
+  rcSignOut.addEventListener('click', function () {
+    RC.logout();
+    showAuthGate();
+  });
+
+  // ── BOOT ─────────────────────────────────────────────────
+  init();
+}());
+</script>
 <script src="js/nav.js?v=wallet-nav-2" defer></script>
+<script src="js/footer.js" defer></script>
 <script src="js/script.js?v=footer-clean-1" defer></script>
-<script src="/js/hi-storage.js?v=hi-ecosystem-1"></script>
-<script src="/js/hi-identity-crypto.js?v=phase-1a" defer></script>
-<script src="/js/hi-app.js?v=hi-1" defer></script>
-<script src="/js/hi-wallet.js?v=hi-wallet-1" defer></script>
-<script src="/js/hi-ecosystem.js?v=hi-ecosystem-1" defer></script>
 </body>
 </html>

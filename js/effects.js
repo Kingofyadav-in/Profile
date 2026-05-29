@@ -11,6 +11,38 @@
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var IS_TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
   var IS_DESKTOP = !IS_TOUCH;
+  var _tabHidden = document.hidden;
+  var _slowDevice = false;
+  var _mesh = null;
+  var _meshRaf = null;
+  var _mx = 0.5;
+  var _my = 0.5;
+  var _cx = 0.5;
+  var _cy = 0.5;
+
+  function fxEnabled() {
+    try { return localStorage.getItem('zs-fx') !== 'off'; }
+    catch (e) { return true; }
+  }
+
+  function setFx(on) {
+    try { localStorage.setItem('zs-fx', on ? 'on' : 'off'); } catch (e) {}
+    document.documentElement.classList.toggle('fx-off', !on);
+    var btn = document.getElementById('fxToggle');
+    if (btn) {
+      btn.textContent = on ? '⚡' : '○';
+      btn.title = on ? 'Effects on - click to disable' : 'Effects off - click to enable';
+      btn.setAttribute('aria-pressed', String(on));
+      btn.classList.toggle('fx-btn-off', !on);
+    }
+    if (on) updateGradientMesh();
+  }
+
+  function initFxSwitch() {
+    setFx(fxEnabled());
+    var btn = document.getElementById('fxToggle');
+    if (btn) btn.addEventListener('click', function () { setFx(!fxEnabled()); });
+  }
 
 
   /* ── 1. 3D Card Tilt ─────────────────────────────── */
@@ -21,10 +53,12 @@
     var cards = document.querySelectorAll('.life-card, .blog-card, .service-card, .connect-card');
     cards.forEach(function (card) {
       card.addEventListener('mouseenter', function () {
+        if (!fxEnabled() || _slowDevice) return;
         card.style.transition = 'transform 0.08s ease';
       });
 
       card.addEventListener('mousemove', function (e) {
+        if (!fxEnabled() || _slowDevice) return;
         var rect  = card.getBoundingClientRect();
         var cx    = rect.left + rect.width  / 2;
         var cy    = rect.top  + rect.height / 2;
@@ -47,7 +81,7 @@
   function initRipple() {
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.btn-primary, .btn-secondary');
-      if (!btn) return;
+      if (!btn || !fxEnabled()) return;
 
       var rect   = btn.getBoundingClientRect();
       var ripple = document.createElement('span');
@@ -128,6 +162,7 @@
     var btns = document.querySelectorAll('.btn-primary');
     btns.forEach(function (btn) {
       btn.addEventListener('mousemove', function (e) {
+        if (!fxEnabled() || _slowDevice) return;
         var rect = btn.getBoundingClientRect();
         var dx   = (e.clientX - (rect.left + rect.width  / 2)) * 0.24;
         var dy   = (e.clientY - (rect.top  + rect.height / 2)) * 0.24;
@@ -199,12 +234,125 @@
 
   /* ── 9. Animated Gradient Mesh Background ────────── */
 
+  function updateGradientMesh() {
+    if (!_mesh || !fxEnabled() || _tabHidden) return;
+    var dark = document.body.classList.contains('theme-dark');
+    var scrollMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    var sp = window.scrollY / scrollMax;
+    var by = _cy * 0.78 + sp * 0.22;
+    var x = (_cx * 100).toFixed(1) + '%';
+    var y = (by * 100).toFixed(1) + '%';
+    var x2 = ((1 - _cx) * 100).toFixed(1) + '%';
+    var y2 = ((1 - by) * 100).toFixed(1) + '%';
+
+    _mesh.style.background = dark
+      ? 'radial-gradient(ellipse 56% 46% at ' + x + ' ' + y + ', rgba(4,106,56,0.22) 0%, transparent 65%),' +
+        'radial-gradient(ellipse 50% 42% at ' + x2 + ' ' + y2 + ', rgba(255,103,31,0.13) 0%, transparent 60%),' +
+        'radial-gradient(ellipse 72% 56% at 50% 0%, rgba(4,106,56,0.07) 0%, transparent 55%)'
+      : 'radial-gradient(ellipse 60% 50% at ' + x + ' ' + y + ', rgba(4,106,56,0.07) 0%, transparent 65%),' +
+        'radial-gradient(ellipse 55% 45% at ' + x2 + ' ' + y2 + ', rgba(255,103,31,0.04) 0%, transparent 60%)';
+
+    document.documentElement.style.setProperty('--mx', _cx.toFixed(4));
+    document.documentElement.style.setProperty('--my', _cy.toFixed(4));
+  }
+
+  function meshLoop() {
+    if (!_mesh || _tabHidden || _slowDevice) {
+      _meshRaf = null;
+      return;
+    }
+    var lerp = 0.055;
+    _cx += (_mx - _cx) * lerp;
+    _cy += (_my - _cy) * lerp;
+    updateGradientMesh();
+    if (Math.abs(_mx - _cx) > 0.0004 || Math.abs(_my - _cy) > 0.0004) {
+      _meshRaf = requestAnimationFrame(meshLoop);
+    } else {
+      _meshRaf = null;
+    }
+  }
+
+  function requestMeshFrame() {
+    if (_meshRaf || _tabHidden || _slowDevice || !fxEnabled()) return;
+    _meshRaf = requestAnimationFrame(meshLoop);
+  }
+
   function initGradientMesh() {
-    if (document.getElementById('fx-gradient-mesh')) return;
-    var mesh = document.createElement('div');
-    mesh.id = 'fx-gradient-mesh';
-    mesh.setAttribute('aria-hidden', 'true');
-    document.body.insertBefore(mesh, document.body.firstChild);
+    _mesh = document.getElementById('fx-gradient-mesh');
+    if (!_mesh) {
+      _mesh = document.createElement('div');
+      _mesh.id = 'fx-gradient-mesh';
+      _mesh.setAttribute('aria-hidden', 'true');
+      document.body.insertBefore(_mesh, document.body.firstChild);
+    }
+
+    document.addEventListener('mousemove', function (e) {
+      _mx = e.clientX / Math.max(1, window.innerWidth);
+      _my = e.clientY / Math.max(1, window.innerHeight);
+      requestMeshFrame();
+    }, { passive: true });
+
+    window.addEventListener('scroll', requestMeshFrame, { passive: true });
+    updateGradientMesh();
+  }
+
+  function initCursorSpotlight() {
+    if (REDUCED || !IS_DESKTOP) return;
+    if (document.getElementById('fx-cursor-glow')) return;
+
+    var glow = document.createElement('div');
+    glow.id = 'fx-cursor-glow';
+    glow.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(glow);
+
+    var gx = -999;
+    var gy = -999;
+    var raf = null;
+
+    document.addEventListener('mousemove', function (e) {
+      if (!fxEnabled() || _slowDevice) return;
+      gx = e.clientX;
+      gy = e.clientY;
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        glow.style.left = gx + 'px';
+        glow.style.top = gy + 'px';
+        var hot = document.elementFromPoint(gx, gy)?.closest('.btn-primary,.btn-secondary,.nav-list a,.brand-link,#siteLogo,.personal-logo,.logo');
+        glow.style.setProperty('--glow-color', hot ? 'rgba(255,103,31,0.08)' : 'rgba(4,106,56,0.06)');
+        raf = null;
+      });
+    }, { passive: true });
+  }
+
+  function logoCenter() {
+    return document.getElementById('siteLogo') ||
+      document.getElementById('personalLogo') ||
+      document.querySelector('.logo, .personal-logo');
+  }
+
+  function fxThemeRipple() {
+    if (!fxEnabled() || REDUCED) return;
+    var logo = logoCenter();
+    if (!logo) return;
+    var r = logo.getBoundingClientRect();
+    var cx = r.left + r.width / 2;
+    var cy = r.top + r.height / 2;
+    var rad = Math.hypot(Math.max(cx, innerWidth - cx), Math.max(cy, innerHeight - cy)) * 2.2;
+    var el = document.createElement('div');
+    el.className = 'fx-logo-ripple';
+    el.style.cssText = 'left:' + cx + 'px;top:' + cy + 'px;width:' + rad + 'px;height:' + rad + 'px';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', function () { el.remove(); }, { once: true });
+  }
+
+  function fxSpinLogo() {
+    if (!fxEnabled() || REDUCED) return;
+    var logo = logoCenter();
+    if (!logo) return;
+    logo.classList.remove('fx-spin');
+    void logo.offsetWidth;
+    logo.classList.add('fx-spin');
+    logo.addEventListener('animationend', function () { logo.classList.remove('fx-spin'); }, { once: true });
   }
 
 
@@ -217,12 +365,18 @@
     var obs = new MutationObserver(function () {
       var cur = document.body.className;
       if (cur === lastClass) return;
+      var themeChanged = /theme-(dark|light)/.test(cur) && cur !== lastClass;
       lastClass = cur;
+      updateGradientMesh();
 
       var flash = document.createElement('div');
       flash.className = 'fx-theme-flash';
       document.body.appendChild(flash);
       flash.addEventListener('animationend', function () { flash.remove(); }, { once: true });
+      if (themeChanged) {
+        fxThemeRipple();
+        fxSpinLogo();
+      }
     });
     obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
@@ -374,6 +528,10 @@
     }
 
     function tick() {
+      if (_tabHidden || _slowDevice || !fxEnabled()) {
+        requestAnimationFrame(tick);
+        return;
+      }
       ctx.clearRect(0, 0, W, H);
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
@@ -500,7 +658,9 @@
   /* ── Boot ────────────────────────────────────────── */
 
   function boot() {
+    initFxSwitch();
     initGradientMesh();
+    initCursorSpotlight();
     initReadingProgress();
     initParticles();
     initReveal();
@@ -514,6 +674,30 @@
     initSkeleton();
     initThemeTransition();
     initBlogSearch();
+    initRuntimeGuards();
+  }
+
+  function initRuntimeGuards() {
+    document.addEventListener('visibilitychange', function () {
+      _tabHidden = document.hidden;
+      if (!_tabHidden) requestMeshFrame();
+    });
+
+    if (REDUCED) return;
+    var t0 = performance.now();
+    var n = 0;
+    (function perfCheck() {
+      if (++n < 30) {
+        requestAnimationFrame(perfCheck);
+        return;
+      }
+      var avg = (performance.now() - t0) / n;
+      if (avg > 37) {
+        _slowDevice = true;
+        document.documentElement.classList.add('fx-slow');
+        console.info('[Profile FX] Slow device - heavy effects disabled');
+      }
+    })();
   }
 
   if (document.readyState === 'loading') {

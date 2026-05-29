@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wallet — Amit Ku Yadav</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HI Wallet — Identity-powered value system and RupeeCoin decentralised community wallet." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/wallet.html" />
+  <meta property="og:title" content="Wallet — Amit Ku Yadav" />
+  <meta property="og:description" content="HI Wallet and RupeeCoin — identity-bound digital value." />
+  <meta property="og:image" content="https://kingofyadav.in/og-image.png" />
+  <meta property="og:url" content="https://kingofyadav.in/pages/wallet.html" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#046A38" />
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
+  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
+  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+  <link rel="stylesheet" href="/css/wallet.css?v=wallet-2" />
+  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
+</head>
+
+<body class="theme-dark">
+  <script src="/js/auth.js?v=auth-otp-1"></script>
+  <script src="/js/site-init.js?v=1"></script>
+  <script>
+    requireAuth()
+    document.documentElement.style.visibility = ''
+  </script>
+
+  <div id="scrollProgress"></div>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header glass" id="site-header"></header>
+  <script src="/js/nav.js?v=nav-1"></script>
+
+  <main class="site-main wlt-page zs-public-page" id="main-content">
+
+    <!-- ══ LOADING ══ -->
+    <div id="wltLoadingState" class="wlt-loading" style="display:none" aria-live="polite">
+      <div class="wlt-loading-dot"></div>
+      <p>Loading wallet…</p>
+    </div>
+
+    <!-- ══ LOCKED ══ -->
+    <div id="walletLocked" class="wlt-locked" style="display:none">
+      <div class="wlt-locked-icon">🔒</div>
+      <p class="wlt-kicker">Identity Required</p>
+      <h2>Create your HI identity first.</h2>
+      <p>HI coin generation unlocks only after your Human Digital Identity is saved. The wallet binds coins to your HDI and browser device identity.</p>
+      <div class="wlt-action-row" style="justify-content:center;margin-top:1.25rem">
+        <a class="wlt-btn primary" href="/pages/personal.html">Go to Personal</a>
+        <a class="wlt-btn" href="/pages/hi-license.html">IP Vault</a>
+      </div>
+    </div>
+
+    <!-- ══ WALLET BODY ══ -->
+    <div id="wltBody">
+
+      <!-- ── HERO ── -->
+      <section class="wlt-hero">
+        <div class="wlt-hero-copy">
+          <p class="wlt-kicker">HI Wallet — Phase 1 Prototype</p>
+          <h1>Identity-powered<br>value system.</h1>
+          <p class="wlt-hero-desc">One human identity. One permanent Genesis HI. Transparent local ledger with simulated payment flows for services, merchants, and contributions.</p>
+          <div class="wlt-action-row">
+            <a class="wlt-btn primary" href="#walletActions">Use Wallet</a>
+            <a class="wlt-btn" href="#walletLedgerSection">Ledger</a>
+            <a class="wlt-btn" href="/pages/personal.html">Personal</a>
+            <a class="wlt-btn" href="/pages/hi-license.html">IP Vault</a>
+          </div>
+        </div>
+
+        <div class="wlt-card" aria-label="Wallet balance card">
+          <div class="wlt-card-bg"></div>
+          <div class="wlt-card-inner">
+            <div class="wlt-card-top">
+              <div class="wlt-card-chip"><div></div><div></div><div></div><div></div></div>
+              <div class="wlt-coin-mark" aria-hidden="true">HI</div>
+            </div>
+            <div class="wlt-card-balance-wrap">
+              <span class="wlt-card-balance-label">Available Balance</span>
+              <div class="wlt-card-balance">
+                <strong id="walletBalance">0</strong>
+                <span>HI</span>
+              </div>
+            </div>
+            <code class="wlt-card-address" id="walletAddress">Loading…</code>
+            <div class="wlt-card-footer">
+              <div><span>Genesis</span><strong id="walletGenesisStatus">Pending</strong></div>
+              <div><span>Trust Score</span><strong id="walletTrustScore">0</strong><small>/100</small></div>
+              <div><span>Phase</span><strong>Prototype</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STATS BAR ── -->
+      <div class="wlt-stats">
+        <div class="wlt-stat"><span>Balance</span><strong id="statBalance">0 HI</strong></div>
+        <div class="wlt-stat"><span>Trust Score</span><strong id="statTrust">0/100</strong></div>
+        <div class="wlt-stat"><span>Transactions</span><strong id="statTxCount">0</strong></div>
+        <div class="wlt-stat"><span>Genesis Status</span><strong id="statGenesis">Pending</strong></div>
+      </div>
+
+      <!-- ── PRINCIPLES ── -->
+      <div class="wlt-principles">
+        <div><span>Identity</span><strong>1 Human = 1 HDI</strong></div>
+        <div><span>Genesis</span><strong>1 verified = 1 HI</strong></div>
+        <div><span>Value</span><strong>Earned, not traded</strong></div>
+        <div><span>Phase 1</span><strong>Prototype only</strong></div>
+      </div>
+
+      <!-- ── GRID: Security + Binding ── -->
+      <div class="wlt-section-head">
+        <p class="wlt-kicker">Identity &amp; Security</p>
+        <h2>Protect and verify your wallet.</h2>
+      </div>
+      <section class="wlt-grid">
+
+        <article class="wlt-panel wlt-security-panel">
+          <p class="wlt-kicker">Key Security</p>
+          <h2>Identity key status.</h2>
+          <div class="wlt-security-state">
+            <div><span>Key</span><strong id="walletKeyStatus">—</strong></div>
+            <div><span>Session</span><strong id="walletSessionStatus">—</strong></div>
+            <div><span>Risk</span><strong id="walletRiskStatus">—</strong></div>
+          </div>
+          <div id="walletKeyMetadata" style="margin-top:.75rem;font-size:.8rem;opacity:.6"></div>
+          <form class="wlt-form wallet-form" id="walletSecurityForm" style="margin-top:1rem">
+            <div class="wlt-field">
+              <label for="walletPassphrase">Passphrase</label>
+              <input id="walletPassphrase" type="password" placeholder="Enter passphrase" autocomplete="current-password" />
+            </div>
+            <div class="wlt-action-row" style="margin-top:.75rem">
+              <button class="wlt-btn primary" type="submit">Unlock Key</button>
+              <button class="wlt-btn" type="button" id="walletProtectKey">Protect Key</button>
+              <button class="wlt-btn" type="button" id="walletLockKey">Lock</button>
+            </div>
+          </form>
+          <p id="walletSecurityStatus" class="wallet-status" role="status"></p>
+        </article>
+
+        <article class="wlt-panel">
+          <p class="wlt-kicker">Saved Binding</p>
+          <h2>HI ID and device proof.</h2>
+          <div class="wlt-binding-grid">
+            <div class="wlt-binding-item"><span>Owner</span><strong id="walletOwner">—</strong></div>
+            <div class="wlt-binding-item"><span>HI ID / HDI</span><code id="walletHdi">Pending</code></div>
+            <div class="wlt-binding-item"><span>Device ID</span><code id="walletDevice">—</code></div>
+            <div class="wlt-binding-item"><span>Fingerprint Hash</span><code id="walletFingerprint">Computing…</code></div>
+            <div class="wlt-binding-item"><span>Wallet Type</span><strong>Personal HI Wallet</strong></div>
+            <div class="wlt-binding-item"><span>Compliance</span><strong>Local prototype only</strong></div>
+          </div>
+          <div id="walletDevicesContainer" style="margin-top:1rem"></div>
+          <div class="wlt-action-row" style="margin-top:.75rem">
+            <button class="wlt-btn wallet-form" id="walletTrustDevice">Trust Device</button>
+            <button class="wlt-btn" id="walletRefreshDevices">Refresh</button>
+          </div>
+          <p id="walletDeviceStatus" class="wallet-status" role="status"></p>
+        </article>
+
+      </section>
+
+      <!-- ── GRID: Recovery + Genesis ── -->
+      <div class="wlt-section-head">
+        <p class="wlt-kicker">Keys &amp; Rewards</p>
+        <h2>Backup your identity and earn HI.</h2>
+      </div>
+      <section class="wlt-grid">
+
+        <article class="wlt-panel">
+          <p class="wlt-kicker">Recovery Phrase</p>
+          <h2>Generate root backup words.</h2>
+          <p>Use this phrase to restore the same identity on a new device. Store it offline, never share it.</p>
+          <code class="wlt-recovery-phrase" id="walletRecoveryPhrase">Generate a recovery phrase</code>
+          <div class="wlt-device-actions">
+            <button class="wlt-btn primary wallet-form" type="button" id="walletGenerateRecoveryPhrase">Generate Phrase</button>
+            <button class="wlt-btn wallet-form" type="button" id="walletCopyRecoveryPhrase">Copy Phrase</button>
+          </div>
+          <p id="walletRecoveryStatus" class="wallet-status" role="status"></p>
+          <form class="wlt-form wallet-form" id="walletRestoreForm" style="margin-top:1rem">
+            <div class="wlt-field">
+              <label for="walletRestoreWords">Restore from phrase</label>
+              <input id="walletRestoreWords" type="text" placeholder="word1 word2 … word24" />
+            </div>
+            <button class="wlt-btn" type="submit">Restore Wallet</button>
+            <p id="walletRestoreStatus" class="wallet-status" role="status"></p>
+          </form>
+        </article>
+
+        <article class="wlt-panel" id="walletActions">
+          <p class="wlt-kicker">Genesis Engine</p>
+          <h2>Add earned HI rewards.</h2>
+          <p>Genesis (1 HI) was issued automatically when your wallet was created. Add contribution rewards up to the prototype cap.</p>
+          <form class="wlt-form wallet-form" id="walletMintForm">
+            <div class="wlt-field">
+              <label for="walletMintAmount">Contribution reward (HI)</label>
+              <input id="walletMintAmount" type="number" min="1" step="1" placeholder="e.g. 5" required />
+            </div>
+            <div class="wlt-field">
+              <label for="walletMintReason">Reward reason</label>
+              <select id="walletMintReason">
+                <option>Verified Contribution</option>
+                <option>Learning Reward</option>
+                <option>Community Help</option>
+                <option>Bug Report</option>
+                <option>Service Work</option>
+              </select>
+            </div>
+            <p class="wlt-form-note">Genesis is automatic · Prototype cap: 99 HI</p>
+            <button class="wlt-submit" type="submit" id="walletMintSubmit">Add Earned HI</button>
+          </form>
+          <p id="walletStatus" class="wallet-status" role="status"></p>
+        </article>
+
+      </section>
+
+      <!-- ── GRID: Transfer + Mock UPI ── -->
+      <div class="wlt-section-head">
+        <p class="wlt-kicker">Transactions</p>
+        <h2>Send, receive, and pay with HI.</h2>
+      </div>
+      <section class="wlt-grid">
+
+        <article class="wlt-panel">
+          <p class="wlt-kicker">Send / Receive</p>
+          <h2>Move HI inside the prototype.</h2>
+          <form class="wlt-form wallet-form" id="walletTransferForm">
+            <div class="wlt-field">
+              <label for="walletTransferMode">Mode</label>
+              <select id="walletTransferMode">
+                <option value="send">Send HI</option>
+                <option value="receive">Receive HI</option>
+              </select>
+            </div>
+            <div class="wlt-field">
+              <label for="walletTransferAddress">Wallet address or HDI</label>
+              <input id="walletTransferAddress" type="text" placeholder="hiw_user_abc123 or AKY-2026-23185D" required />
+            </div>
+            <div class="wlt-field">
+              <label for="walletTransferAmount">Amount (HI)</label>
+              <input id="walletTransferAmount" type="number" min="1" step="1" placeholder="e.g. 3" required />
+            </div>
+            <button class="wlt-submit" type="submit">Save Transfer</button>
+            <p id="walletTransferStatus" class="wallet-status" role="status"></p>
+          </form>
+        </article>
+
+        <article class="wlt-panel">
+          <p class="wlt-kicker">Mock UPI Bridge</p>
+          <h2>Merchant QR simulation.</h2>
+          <div class="wlt-qr" aria-label="Mock merchant QR">
+            <span>PAY</span><strong>HI</strong><code>MER-YADAV-2026</code>
+          </div>
+          <form class="wlt-form wallet-form" id="walletUpiForm">
+            <div class="wlt-field">
+              <label for="walletMerchantName">Merchant</label>
+              <input id="walletMerchantName" type="text" value="Yadav Digital Store" required />
+            </div>
+            <div class="wlt-field">
+              <label for="walletUpiAmount">HI amount</label>
+              <input id="walletUpiAmount" type="number" min="1" step="1" placeholder="e.g. 2" required />
+            </div>
+            <button class="wlt-submit" type="submit">Pay Mock Merchant</button>
+            <p id="walletUpiStatus" class="wallet-status" role="status"></p>
+          </form>
+        </article>
+
+      </section>
+
+      <!-- ══ RUPEECOIN SECTION ══ -->
+      <div class="wlt-section-head">
+        <p class="wlt-kicker">Decentralised Currency</p>
+        <h2>RupeeCoin — No one owns or controls it.</h2>
+      </div>
+      <section class="wlt-panel wlt-blueprint" id="rupeecoinSection">
+        <div class="wlt-layer-grid" style="margin-bottom:2rem">
+          <div><span>01</span><strong>Open Registration</strong><p>Anyone can create a wallet. No founder, no gatekeeper. You get 1,000 RC on creation.</p></div>
+          <div><span>02</span><strong>Fixed Supply</strong><p>21,000,000 RC maximum — same as Bitcoin. Each new wallet gets a 1,000 RC genesis grant until the cap is reached.</p></div>
+          <div><span>03</span><strong>Peer-to-Peer</strong><p>Send RC directly to any username. No intermediary, no admin approval needed.</p></div>
+          <div><span>04</span><strong>Public Ledger</strong><p>All transactions visible on the network stats page. Transparent like Bitcoin, private like a wallet.</p></div>
+          <div><span>05</span><strong>Community Owned</strong><p>No treasury. No founder balance. Coins distributed equally — 1,000 RC to every human who joins.</p></div>
+          <div><span>06</span><strong>Blockchain</strong><p>New block every 59 seconds. Every transaction sealed into an immutable chain — tamper-evident, transparent, public.</p></div>
+          <div><span>07</span><strong>Split &amp; Loans</strong><p>Split bills with friends, track informal loans, schedule recurring payments — all peer-to-peer.</p></div>
+        </div>
+
+        <!-- RC Quick Connect -->
+        <div id="rcConnectPanel" style="max-width:480px">
+          <p class="wlt-kicker">Quick Connect</p>
+          <h3 style="margin:0 0 .5rem;font-size:1.1rem;font-weight:700">Use your RC Wallet</h3>
+          <p style="font-size:.85rem;opacity:.65;margin-bottom:1rem">RupeeCoin runs on your local network. Connect below or open the full app.</p>
+          <div id="rcLoginForm">
+            <div class="wlt-field">
+              <label for="rcEndpoint">RC Server</label>
+              <input id="rcEndpoint" type="url" value="http://localhost:8080" placeholder="http://localhost:8080" />
+            </div>
+            <div class="wlt-field">
+              <label for="rcName">Your RC Name</label>
+              <input id="rcName" type="text" placeholder="Amit" autocapitalize="none" />
+            </div>
+            <div class="wlt-field">
+              <label for="rcPin">PIN</label>
+              <input id="rcPin" type="password" inputmode="numeric" maxlength="8" placeholder="••••" />
+            </div>
+            <div class="wlt-action-row">
+              <button class="wlt-btn primary" type="button" onclick="rcConnect()">Connect RC</button>
+              <a class="wlt-btn" id="rcOpenApp" href="http://localhost:8080" target="_blank" rel="noopener">Open RC App</a>
+            </div>
+          </div>
+          <div id="rcDashboard" style="display:none">
+            <div class="wlt-stats" style="margin:0 0 1rem">
+              <div class="wlt-stat"><span>RC Balance</span><strong id="rcBalance">—</strong></div>
+              <div class="wlt-stat"><span>Pending Req</span><strong id="rcPending">—</strong></div>
+              <div class="wlt-stat"><span>Block Height</span><strong id="rcBlockHeight">—</strong></div>
+            </div>
+            <p id="rcStatus" class="wallet-status" role="status"></p>
+            <form class="wlt-form" id="rcSendForm">
+              <div class="wlt-field">
+                <label for="rcSendTo">Send to</label>
+                <input id="rcSendTo" type="text" placeholder="Username" />
+              </div>
+              <div class="wlt-field">
+                <label for="rcSendAmount">Amount (RC)</label>
+                <input id="rcSendAmount" type="number" min="1" step="1" placeholder="e.g. 50" />
+              </div>
+              <div class="wlt-field">
+                <label for="rcSendNote">Note (optional)</label>
+                <input id="rcSendNote" type="text" placeholder="Coffee, rent…" />
+              </div>
+              <div class="wlt-field">
+                <label for="rcSendPin">Confirm PIN</label>
+                <input id="rcSendPin" type="password" inputmode="numeric" maxlength="8" placeholder="••••" />
+              </div>
+              <button class="wlt-submit" type="submit">Send RC</button>
+            </form>
+            <button class="wlt-btn" style="margin-top:.75rem" onclick="rcLogout()">Disconnect</button>
+          </div>
+          <p id="rcConnectStatus" class="wallet-status" role="status"></p>
+        </div>
+      </section>
+
+      <!-- ── LEDGER ── -->
+      <section class="wlt-panel wlt-ledger-section" id="walletLedgerSection">
+        <p class="wlt-kicker">HI Ledger</p>
+        <h2>Transparent local history.</h2>
+        <div class="wlt-ledger-tools">
+          <button class="wlt-btn primary wallet-form" type="button" id="walletExportProof">Export Proof JSON</button>
+          <span>Includes identity, wallet, balance, trust score, and all transactions.</span>
+        </div>
+        <div class="wlt-ledger" id="walletLedger">
+          <p class="wallet-empty">No wallet activity yet.</p>
+        </div>
+      </section>
+
+      <!-- ── CTA ── -->
+      <section class="wlt-cta glass">
+        <div>
+          <span class="wlt-kicker">Connected Systems</span>
+          <h2>HI Wallet connects identity to value.</h2>
+          <p>Return to your personal command center, explore the license system, or check your professional record.</p>
+        </div>
+        <div class="wlt-cta-actions">
+          <a class="btn-primary" href="/pages/personal.html">Personal</a>
+          <a class="btn-secondary" href="/pages/hi-license.html">IP Vault</a>
+        </div>
+      </section>
+
+    </div><!-- /wltBody -->
+
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+
+  <script src="/js/hi-storage.js?v=hi-1"></script>
+  <script src="/js/hi-identity-crypto.js?v=hi-1"></script>
+  <script src="/js/hdi.js?v=hi-1"></script>
+  <script src="/js/hi-wallet.js?v=wallet-2"></script>
+  <script src="/js/footer.js?v=footer-1"></script>
+  <script src="/js/effects.js?v=effects-1"></script>
+  <script>
+  "use strict";
+
+  /* ── RC Wallet quick-connect ── */
+
+  let rcToken = null;
+  let rcBase  = "http://localhost:8080";
+
+  async function rcApi(method, path, body) {
+    try {
+      const opts = { method, headers: { "Content-Type": "application/json", "X-Token": rcToken || "" } };
+      if (body) opts.body = JSON.stringify(body);
+      const r = await fetch(rcBase + path, opts);
+      return r.json();
+    } catch {
+      return { ok: false, error: "Cannot reach RupeeCoin server" };
+    }
+  }
+
+  function rcSetStatus(msg, type) {
+    const el = document.getElementById("rcConnectStatus");
+    if (!el) return;
+    el.textContent = msg;
+    el.className = "wallet-status" + (type ? " " + type : "");
+  }
+
+  function rcSetSendStatus(msg, type) {
+    const el = document.getElementById("rcStatus");
+    if (!el) return;
+    el.textContent = msg;
+    el.className = "wallet-status" + (type ? " " + type : "");
+  }
+
+  async function rcConnect() {
+    const base = (document.getElementById("rcEndpoint")?.value || "http://localhost:8080").replace(/\/$/, "");
+    const name = document.getElementById("rcName")?.value.trim();
+    const pin  = document.getElementById("rcPin")?.value.trim();
+    if (!name || !pin) { rcSetStatus("Enter your RC name and PIN.", "error"); return; }
+    rcBase = base;
+    document.getElementById("rcOpenApp").href = base;
+    const r = await rcApi("POST", "/api/login", { name, pin });
+    if (!r.ok) { rcSetStatus(r.error || "Login failed.", "error"); return; }
+    rcToken = r.token;
+    document.getElementById("rcLoginForm").style.display   = "none";
+    document.getElementById("rcDashboard").style.display   = "";
+    document.getElementById("rcBalance").textContent  = Number(r.balance).toLocaleString("en-IN") + " RC";
+    document.getElementById("rcPending").textContent  = r.pending_requests || 0;
+    rcSetStatus("Connected as " + r.name, "success");
+    const blk = await rcApi("GET", "/api/blocks");
+    if (blk.ok) document.getElementById("rcBlockHeight").textContent = "#" + blk.height;
+  }
+
+  function rcLogout() {
+    rcToken = null;
+    document.getElementById("rcLoginForm").style.display = "";
+    document.getElementById("rcDashboard").style.display = "none";
+    rcSetStatus("", "");
+  }
+
+  document.getElementById("rcSendForm")?.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    rcSetSendStatus("", "");
+    const to     = document.getElementById("rcSendTo")?.value.trim();
+    const amount = parseInt(document.getElementById("rcSendAmount")?.value || "0", 10);
+    const note   = document.getElementById("rcSendNote")?.value.trim();
+    const pin    = document.getElementById("rcSendPin")?.value.trim();
+    if (!to || !amount || !pin) { rcSetSendStatus("Fill all required fields.", "error"); return; }
+    const r = await rcApi("POST", "/api/send", { to, amount, note, pin });
+    if (!r.ok) { rcSetSendStatus(r.error || "Send failed.", "error"); return; }
+    rcSetSendStatus("Sent ₹ " + amount.toLocaleString("en-IN") + " RC to " + to + ".", "success");
+    const bal = await rcApi("GET", "/api/balance");
+    if (bal.ok) document.getElementById("rcBalance").textContent = "₹ " + Number(bal.balance).toLocaleString("en-IN") + " RC";
+    document.getElementById("rcSendTo").value     = "";
+    document.getElementById("rcSendAmount").value = "";
+    document.getElementById("rcSendNote").value   = "";
+    document.getElementById("rcSendPin").value    = "";
+  });
+  </script>
+</body>
+</html>

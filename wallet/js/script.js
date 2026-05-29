@@ -138,7 +138,7 @@ const PERSONAL_NAV_ITEMS = [
 ];
 
 const WALLET_NAV_ITEMS = [
-  { href: "/wallet/", label: "Overview" },
+  { href: "/wallet/index.html", label: "Overview" },
   { href: "/wallet/wallet.html", label: "HI Wallet" },
   { href: "/wallet/coin.html", label: "HI Coin" },
   { href: "/wallet/vault.html", label: "Vault" },
@@ -1625,6 +1625,118 @@ function _jarvisSetCache(key, data) {
 }
 
 /* ======================================================
+   WALLET ECOSYSTEM SUPPORT
+====================================================== */
+
+function initWalletStatus() {
+  const container = document.querySelector(".header-inner");
+  if (!container) return;
+
+  // Ensure we have a place for the badge or auth links
+  let badge = $("rcHdrBadge");
+  let auth  = $("rcHdrAuth");
+
+  if (!badge && !auth) {
+    // Inject placeholders if missing
+    const placeholder = document.createElement("div");
+    placeholder.id = "rcWalletHeaderUI";
+    container.appendChild(placeholder);
+  }
+
+  updateWalletUI();
+}
+
+function updateWalletUI() {
+  const ui = $("rcWalletHeaderUI") || document.querySelector(".header-inner");
+  if (!ui) return;
+
+  // Use the RC object if available (rupeecoin.js)
+  const rc = window.RC;
+  if (!rc) return;
+
+  const loggedIn = rc.isLoggedIn();
+
+  // 1. Header UI
+  let html = "";
+  if (loggedIn) {
+    const addr = rc.getAddress();
+    const short = addr.slice(0, 8) + "…" + addr.slice(-6);
+    const bal = Number(rc.getBalance()).toLocaleString();
+    html = `
+      <a href="/wallet/wallet.html" class="rc-hdr-badge" id="rcHdrBadge">
+        <span id="rcHdrUser">${short}</span>
+        <strong id="rcHdrBal">${bal} RC</strong>
+      </a>`;
+  } else {
+    html = `
+      <div class="rc-hdr-auth" id="rcHdrAuth">
+        <a href="/wallet/wallet.html">Sign In</a>
+        <a href="/wallet/wallet.html" class="primary">Create</a>
+      </div>`;
+  }
+
+  // If we have a dedicated placeholder, use it, otherwise check for existing IDs
+  const placeholder = $("rcWalletHeaderUI");
+  if (placeholder) {
+    placeholder.innerHTML = html;
+  } else {
+    // If we have existing elements, toggle them
+    const b = $("rcHdrBadge");
+    const a = $("rcHdrAuth");
+    if (loggedIn) {
+      if (b) {
+        b.style.display = "flex";
+        const user = $("rcHdrUser");
+        const bal = $("rcHdrBal");
+        if (user) user.textContent = rc.getAddress().slice(0, 8) + "…" + rc.getAddress().slice(-6);
+        if (bal) bal.textContent = Number(rc.getBalance()).toLocaleString() + " RC";
+      }
+      if (a) a.style.display = "none";
+    } else {
+      if (b) b.style.display = "none";
+      if (a) a.style.display = "flex";
+    }
+  }
+
+  // 2. Page-specific UI (like index.html wallet card)
+  const dash = $("rcDash");
+  const authPanel = $("rcAuth");
+  if (dash && authPanel) {
+    if (loggedIn) {
+      dash.style.display = "block";
+      authPanel.style.display = "none";
+      const user = $("rcWalletName");
+      const bal = $("rcBalance");
+      if (user) user.textContent = rc.getAddress().slice(0, 8) + "…" + rc.getAddress().slice(-6);
+      if (bal) bal.textContent = Number(rc.getBalance()).toLocaleString();
+
+      // Trigger data loads if functions exist (defined in page scripts)
+      if (window.rcLoadHistory) window.rcLoadHistory();
+      if (window.rcLoadBlocks) window.rcLoadBlocks();
+    } else {
+      dash.style.display = "none";
+      authPanel.style.display = "block";
+    }
+  }
+
+  // Poll balance if logged in
+  if (loggedIn && !window._rcBalancePoller) {
+    window._rcBalancePoller = setInterval(() => {
+      rc.balance(res => {
+        if (res.ok) {
+          const balEls = [ $("rcHdrBal"), $("rcBalance"), $("cardBalance"), $("heroPillBal") ];
+          balEls.forEach(el => {
+            if (el) el.textContent = el.id === "rcBalance" || el.id === "cardBalance" || el.id === "heroPillBal"
+              ? Number(res.balance).toLocaleString()
+              : Number(res.balance).toLocaleString() + " RC";
+          });
+        }
+      });
+    }, 30000);
+  }
+}
+
+/* ======================================================
    INIT
 ====================================================== */
 
@@ -1635,6 +1747,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLogoThemeToggle();
   initGlobalNavMenus();
   initActiveNav();
+  initWalletStatus();
   startFooterUpdates();
   loadSocials();
   initHamburger();

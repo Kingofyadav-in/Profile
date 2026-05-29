@@ -6,9 +6,9 @@
 ====================================================== */
 ;(function () {
   var WALLET_NAV = [
-    { label: 'Overview', href: '/wallet/' },
-    { label: 'HI Wallet', href: '/wallet/wallet.html' },
-    { label: 'HI Coin', href: '/wallet/coin.html' },
+    { label: 'RupeeCoin', href: '/wallet/index.html' },
+    { label: 'Wallet', href: '/wallet/wallet.html' },
+    { label: 'Network', href: '/wallet/coin.html' },
     { label: 'Vault', href: '/wallet/vault.html' },
     { label: 'Merchant', href: '/wallet/merchant.html' },
     { label: 'Marketplace', href: '/wallet/marketplace/' },

@@ -117,6 +117,10 @@ async function hiSaveIdentity(data) {
   data.updatedAt = Date.now();
   if (!data.createdAt) data.createdAt = Date.now();
   await hiPut("identity", data);
+  try {
+    if (data.hdi)  localStorage.setItem('hi_hdi_code', data.hdi);
+    if (data.name) localStorage.setItem('hi_hdi_name', data.name);
+  } catch {}
   return data;
 }
 

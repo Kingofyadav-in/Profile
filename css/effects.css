@@ -441,6 +441,110 @@ body.theme-light .pro-section-label {
 .accent { animation: fx-glow 3.5s ease-in-out infinite; }
 
 
+/* ── 13. Cursor Spotlight ───────────────────────────── */
+
+#fx-cursor-glow {
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow-color, rgba(4,106,56,0.06)) 0%, transparent 65%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+  transition: background 0.3s ease;
+  will-change: left, top;
+}
+
+@media (max-width: 768px) {
+  #fx-cursor-glow { display: none; }
+}
+
+
+/* ── 14. Theme Ripple from Logo ─────────────────────── */
+
+.fx-logo-ripple {
+  position: fixed;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: radial-gradient(circle, rgba(4,106,56,0.18) 0%, rgba(4,106,56,0.04) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 9997;
+  animation: fx-logo-ripple 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fx-logo-ripple {
+  0%   { transform: translate(-50%,-50%) scale(0);   opacity: 1; }
+  70%  { opacity: 0.6; }
+  100% { transform: translate(-50%,-50%) scale(1);   opacity: 0; }
+}
+
+
+/* ── 15. Logo Spin on Theme Toggle ──────────────────── */
+
+.logo.fx-spin {
+  animation: fx-logo-spin 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+@keyframes fx-logo-spin {
+  0%   { transform: scale(0.78) rotate(0deg); }
+  100% { transform: scale(1)    rotate(360deg); }
+}
+
+
+/* ── 16. Particle Burst ─────────────────────────────── */
+
+.fx-particle {
+  position: fixed;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  animation: fx-particle-burst 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fx-particle-burst {
+  to {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)));
+    opacity: 0;
+  }
+}
+
+
+/* ── 17. FX Kill-switch (html.fx-off) ──────────────── */
+
+html.fx-off #fx-cursor-glow    { opacity: 0 !important; pointer-events: none; }
+html.fx-off .fx-logo-ripple    { display: none !important; }
+html.fx-off .fx-particle       { display: none !important; }
+html.fx-off .logo.fx-spin      { animation: none !important; transform: none !important; }
+html.fx-off #fx-gradient-mesh  { animation: none !important; opacity: 0.4 !important; }
+html.fx-off #scrollProgress    { display: none !important; }
+
+/* FX toggle button */
+.zs-fx-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 5px 7px;
+  border-radius: 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s, background 0.2s;
+  line-height: 1;
+}
+
+.zs-fx-btn:hover { opacity: 1; background: rgba(128,128,128,0.1); }
+
+.zs-fx-btn.fx-btn-off {
+  opacity: 0.35;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+
 /* ── Reduced Motion: disable all effects ────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -453,4 +557,8 @@ body.theme-light .pro-section-label {
   ::view-transition-new(root) { animation: none; }
   .fx-skel             { animation: none; }
   img.fx-blur-img      { filter: none; transition: none; }
+  #fx-cursor-glow      { display: none; }
+  .fx-logo-ripple      { display: none; }
+  .logo.fx-spin        { animation: none !important; }
+  .fx-particle         { display: none; }
 }

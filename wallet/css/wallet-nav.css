@@ -173,3 +173,77 @@ body.theme-light .wallet-nav a[aria-current="page"] {
     margin-left: 0;
   }
 }
+
+/* ── WALLET HEADER BADGE ── */
+.rc-hdr-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  background: rgba(4, 106, 56, 0.18);
+  border: 1px solid rgba(4, 106, 56, 0.3);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: #4ade80;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.rc-hdr-badge:hover {
+  background: rgba(4, 106, 56, 0.25);
+  border-color: rgba(4, 106, 56, 0.5);
+}
+.rc-hdr-badge span {
+  opacity: 0.65;
+  font-weight: 400;
+}
+.rc-hdr-badge strong {
+  color: #fff;
+}
+
+body.theme-light .rc-hdr-badge {
+  background: rgba(4, 106, 56, 0.08);
+  border-color: rgba(4, 106, 56, 0.2);
+  color: #046a38;
+}
+body.theme-light .rc-hdr-badge strong {
+  color: #046a38;
+}
+
+.rc-hdr-auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rc-hdr-auth a {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #fb923c;
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid rgba(251, 146, 60, 0.3);
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  transition: all 0.2s;
+}
+.rc-hdr-auth a:hover {
+  background: rgba(251, 146, 60, 0.1);
+  border-color: #fb923c;
+  transform: translateY(-1px);
+}
+.rc-hdr-auth a.primary {
+  background: #fb923c;
+  color: #fff;
+  border-color: transparent;
+}
+.rc-hdr-auth a.primary:hover {
+  background: #f97316;
+  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.25);
+}
+
+@media (max-width: 480px) {
+  .rc-hdr-badge span { display: none; }
+  .rc-hdr-auth a:not(.primary) { display: none; }
+}

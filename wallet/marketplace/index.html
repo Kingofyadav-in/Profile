@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>HI Marketplace — Amit Ku Yadav</title>
-  <meta name="description" content="HI Marketplace prototype for service economy, HI rewards, service payments, and identity-powered trust." />
+  <title>RC Marketplace — Amit Ku Yadav</title>
+  <meta name="description" content="Browse and purchase services using RupeeCoin. Spend RC, earn RC, and build network trust." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="../favicon/favicon.ico" />
@@ -11,257 +11,811 @@
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
   <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="/css/personal.css?v=nav-pro-3" />
   <link rel="stylesheet" href="../css/wallet-nav.css?v=wallet-nav-2" />
-  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
-  <link rel="stylesheet" href="/css/hi-app.css?v=hi-1" />
-  <link rel="stylesheet" href="/css/hi-wallet.css?v=wallet-pro-1" />
-  <link rel="stylesheet" href="/css/hi-ecosystem.css?v=eco-pro-1" />
   <link rel="stylesheet" href="../css/wallet-app.css?v=wallet-app-3" />
+
+  <style>
+    /* ── Page layout ── */
+    .rc-main {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: clamp(36px,6vw,72px) clamp(16px,4vw,40px) 80px;
+    }
+
+    /* ── India stripe ── */
+    .rc-stripe {
+      height: 3px;
+      background: linear-gradient(90deg, #046A38 33%, #fff 33% 66%, #FF671F 66%);
+    }
+
+    /* ── Kicker ── */
+    .rc-kicker {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #046A38;
+      margin-bottom: 12px;
+    }
+
+    /* ── Hero ── */
+    .rc-hero {
+      text-align: center;
+      padding: clamp(44px,7vw,84px) 0 clamp(28px,4vw,44px);
+    }
+    .rc-hero h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2.4rem,5.5vw,4.4rem);
+      line-height: .96;
+      font-weight: 850;
+      letter-spacing: -.5px;
+    }
+    .rc-hero-desc {
+      max-width: 520px;
+      margin: 0 auto 24px;
+      font-size: clamp(.92rem,1.2vw,1.04rem);
+      line-height: 1.7;
+      opacity: .7;
+    }
+    .rc-hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .rc-hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(4,106,56,.2);
+      border: 1px solid rgba(4,106,56,.3);
+      border-radius: 999px;
+      font-size: .8rem;
+      color: #4ade80;
+      font-weight: 700;
+    }
+    .rc-pulse {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      flex-shrink: 0;
+      animation: rc-pulse 2s infinite;
+    }
+    @keyframes rc-pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+    /* ── Login banner ── */
+    .rc-login-banner {
+      background: rgba(4,106,56,.12);
+      border: 1px solid rgba(4,106,56,.25);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .rc-login-banner p {
+      margin: 0;
+      font-size: .88rem;
+      opacity: .8;
+      flex: 1;
+      min-width: 200px;
+    }
+    .rc-login-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Service grid ── */
+    .rc-service-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 900px) { .rc-service-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 480px) { .rc-service-grid { grid-template-columns: 1fr; } }
+
+    /* ── Service card ── */
+    .rc-service-card {
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color .2s, transform .2s;
+    }
+    .rc-service-card:hover {
+      border-color: rgba(4,106,56,.4);
+      transform: translateY(-2px);
+    }
+    .rc-service-icon { font-size: 2rem; }
+    .rc-service-name { font-size: 1rem; font-weight: 700; margin: 0; }
+    .rc-service-desc { font-size: .83rem; opacity: .55; flex: 1; line-height: 1.55; }
+    .rc-service-price { font-size: 1.15rem; font-weight: 800; color: #4ade80; }
+    .rc-service-btn {
+      padding: 10px;
+      border: none;
+      border-radius: 9px;
+      background: #046A38;
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .18s;
+      margin-top: 4px;
+      min-height: 44px;
+    }
+    .rc-service-btn:hover { background: #034f2a; }
+    .rc-service-btn:disabled { opacity: .42; cursor: not-allowed; }
+
+    /* ── Modal overlay ── */
+    .rc-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+      padding: 20px;
+    }
+    .rc-modal {
+      background: #0d1a14;
+      border: 1px solid rgba(4,106,56,.3);
+      border-radius: 20px;
+      padding: 32px;
+      width: 100%;
+      max-width: 380px;
+    }
+    .rc-modal h2 {
+      margin: 0 0 6px;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+    .rc-modal-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,.09);
+      margin: 16px 0;
+    }
+    .rc-modal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: .84rem;
+      margin-bottom: 7px;
+    }
+    .rc-modal-row .label { opacity: .45; font-size: .76rem; }
+    .rc-modal-row .val { font-weight: 700; }
+    .rc-modal-row .val.green { color: #4ade80; }
+    .rc-modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .rc-modal-actions .rc-btn-cancel {
+      flex: 1;
+      padding: 11px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 9px;
+      color: inherit;
+      font-size: .84rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .18s;
+      min-height: 44px;
+    }
+    .rc-modal-actions .rc-btn-cancel:hover { background: rgba(255,255,255,.12); }
+    .rc-modal-actions .rc-btn-confirm {
+      flex: 2;
+      padding: 11px;
+      background: #046A38;
+      border: none;
+      border-radius: 9px;
+      color: #fff;
+      font-size: .84rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .18s;
+      min-height: 44px;
+    }
+    .rc-modal-actions .rc-btn-confirm:hover { background: #034f2a; }
+    .rc-modal-actions .rc-btn-confirm:disabled { opacity: .42; cursor: not-allowed; }
+
+    /* ── Shared form elements ── */
+    .rc-field {
+      width: 100%;
+      padding: 11px 14px;
+      background: rgba(0,0,0,.3);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 10px;
+      color: #fff;
+      font-size: .9rem;
+      margin-bottom: 10px;
+      outline: none;
+      transition: border-color .18s;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    .rc-field:focus { border-color: rgba(4,106,56,.6); }
+    .rc-field::placeholder { opacity: .3; }
+    .rc-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-size: .86rem;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color: inherit;
+      font-family: inherit;
+      transition: transform .18s, border-color .18s, background .18s;
+    }
+    .rc-btn:hover { transform: translateY(-2px); border-color: rgba(4,106,56,.42); }
+    .rc-submit-btn {
+      padding: 11px 22px;
+      background: #046A38;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: .86rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .18s;
+      min-height: 44px;
+    }
+    .rc-submit-btn:hover { background: #034f2a; }
+    .rc-submit-btn:disabled { opacity: .42; cursor: not-allowed; }
+    .rc-msg {
+      font-size: .8rem;
+      padding: 9px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      display: none;
+    }
+    .rc-msg.ok  { background: rgba(4,106,56,.25); color: #4ade80; display: block; }
+    .rc-msg.err { background: rgba(255,80,80,.14); color: #f87171; display: block; }
+
+    /* ── Toast ── */
+    .rc-toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #0d1a14;
+      border: 1px solid rgba(4,106,56,.4);
+      border-radius: 12px;
+      padding: 13px 22px;
+      font-size: .84rem;
+      font-weight: 700;
+      color: #4ade80;
+      z-index: 600;
+      opacity: 0;
+      transition: opacity .25s, transform .25s;
+      pointer-events: none;
+      white-space: nowrap;
+      max-width: 90vw;
+    }
+    .rc-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .rc-toast.err { color: #f87171; border-color: rgba(255,80,80,.3); }
+
+    /* ── Purchase history ── */
+    .rc-history-section {
+      margin-top: 8px;
+    }
+    .rc-history-section h2 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin: 0 0 14px;
+    }
+    .rc-history-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .rc-history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-size: .82rem;
+      flex-wrap: wrap;
+    }
+    .rc-history-item:last-child { border-bottom: none; }
+    .rc-history-note { font-weight: 600; flex: 1; min-width: 180px; }
+    .rc-history-amount { color: #f87171; font-weight: 700; white-space: nowrap; }
+    .rc-history-date { opacity: .4; font-size: .74rem; white-space: nowrap; }
+    .rc-history-empty { opacity: .45; font-size: .85rem; padding: 12px 0; }
+
+    /* ── Section head ── */
+    .rc-section-head { margin-bottom: 22px; }
+    .rc-section-head h2 {
+      margin: 4px 0 0;
+      font-size: clamp(1.6rem,3vw,2.4rem);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+  </style>
 </head>
-<body class="theme-dark personal-page ecosystem-page marketplace-page wallet-app">
+
+<body class="theme-dark wallet-app">
 <script>
   try { var _t = localStorage.getItem('theme'); if (_t) { document.body.classList.remove('theme-dark','theme-light'); document.body.classList.add(_t); } } catch(e) {}
 </script>
-<script src="/js/auth.js?v=auth-otp-1"></script>
-<script>requireAuth(); document.documentElement.style.visibility = '';</script>
 
 <div id="scrollProgress"></div>
 <a href="#main-content" class="skip-link">Skip to content</a>
 
-<header class="personal-header glass">
-  <div class="personal-header-inner">
-    <a href="/wallet/" class="personal-brand" aria-label="HI Wallet app home">
-      <img id="personalLogo" src="../logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
-      <div class="personal-brand-text">
-        <span class="personal-name">Amit Ku Yadav</span>
-        <span class="personal-tagline">HI Wallet App</span>
-      </div>
-    </a>
+<header class="site-header glass">
+  <div class="header-inner">
+    <div class="brand">
+      <a href="/wallet/index.html" class="brand-link" aria-label="RupeeCoin home">
+        <img id="siteLogo" class="logo" src="../logo/day-logo.png" alt="Amit Ku Yadav" width="50" height="50" />
+        <div class="brand-text">
+          <span class="brand-name">Amit Ku Yadav</span>
+          <span class="brand-tagline">RC Marketplace</span>
+        </div>
+      </a>
+    </div>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <nav class="wallet-nav" data-nav="wallet" aria-label="Wallet navigation"></nav>
-    <div class="auth-bar">
-      <span>Hi, <strong id="authUserDisplay"></strong></span>
-      <button class="auth-logout-btn" id="logoutBtn">Logout</button>
+    <nav class="wallet-nav" aria-label="Wallet navigation" data-nav="wallet"></nav>
+    <div class="rc-hdr-badge" id="rcHdrBadge" style="display:none">
+      <span id="rcHdrUser"></span>
+      <strong id="rcHdrBal">0 RC</strong>
     </div>
   </div>
 </header>
 
-<div class="eco-stripe"></div>
+<div class="rc-stripe"></div>
 
-<main class="eco-main" id="main-content">
-
-  <!-- LOCKED -->
-  <div id="ecosystemLocked" class="ecosystem-locked">
-    <p class="eco-kicker">Identity Required</p>
-    <h2>Create HDI before using the marketplace.</h2>
-    <p>The service economy uses your HDI, wallet, local ledger, and trust score.</p>
-    <div class="ecosystem-actions" style="margin-top:1.25rem">
-      <a class="ecosystem-action primary" href="/pages/personal.html#create-identity">Create Identity</a>
-      <a class="ecosystem-action" href="/wallet/wallet.html">Open HI Wallet</a>
-    </div>
-  </div>
+<main class="rc-main" id="main-content">
 
   <!-- HERO -->
-  <section class="eco-hero">
-    <div class="eco-hero-copy">
-      <p class="eco-kicker">Service Economy — Phase 2 Prototype</p>
-      <h1>Use HI for work,<br>learning, and services.</h1>
-      <p class="eco-hero-desc">The marketplace turns HI Wallet into a usable identity-powered economy: earn HI through contribution, spend HI on services, and build trust through ledger history.</p>
-      <div class="ecosystem-actions">
-        <a class="ecosystem-action primary" href="#marketplaceGrid">Explore Services</a>
-        <a class="ecosystem-action" href="/wallet/merchant.html">Merchant Dashboard</a>
-        <a class="ecosystem-action" href="/wallet/wallet.html">Open Wallet</a>
-      </div>
-    </div>
+  <section class="rc-hero">
+    <p class="rc-kicker">RC Marketplace</p>
+    <h1>Spend RC. Earn RC.<br>Build Trust.</h1>
+    <p class="rc-hero-desc">Browse services, pay with RupeeCoin, and grow your network reputation.</p>
 
-    <div class="eco-market-card" aria-label="Economy status">
-      <div class="eco-market-card-inner">
-        <p class="eco-kicker">Your Economy Status</p>
-        <div class="eco-market-metrics">
-          <div class="eco-market-metric">
-            <span>Balance</span>
-            <strong id="marketWalletBalance">Locked</strong>
-          </div>
-          <div class="eco-market-metric">
-            <span>Trust Score</span>
-            <strong><span id="marketTrustScore">0</span>/100</strong>
-          </div>
-          <div class="eco-market-metric eco-market-metric--wide">
-            <span>HDI</span>
-            <strong id="marketHdi">Identity required</strong>
-          </div>
-          <div class="eco-market-metric">
-            <span>Rule</span>
-            <strong>Use, not trade</strong>
-          </div>
-        </div>
-        <p class="ecosystem-status" id="marketplaceStatus" aria-live="polite" style="margin-top:.75rem"></p>
-      </div>
+    <div class="rc-hero-pills">
+      <span class="rc-hero-pill" id="heroPillStats">
+        <span class="rc-pulse"></span>
+        <span id="heroMembers">— members</span>
+        &nbsp;·&nbsp;
+        Block <span id="heroBlock">—</span>
+      </span>
+      <span class="rc-hero-pill" id="heroPillBalance" style="display:none">
+        <span id="heroPillUser"></span>
+        —
+        <span id="heroPillBal"></span> RC
+      </span>
     </div>
   </section>
 
-  <section class="wlt-grid" style="margin-bottom:1.5rem">
-    <article class="wlt-panel wlt-security-panel">
-      <p class="wlt-kicker">Key Security</p>
-      <h2>Unlock and trust this device.</h2>
-      <p>Marketplace payments use the same HDI security state as the wallet.</p>
-      <div class="wlt-security-state">
-        <div><span>Private Key</span><strong id="walletKeyProtection">Checking</strong></div>
-        <div><span>Session</span><strong id="walletKeySession">Locked</strong></div>
-        <div><span>Risk</span><strong id="walletRiskState">Checking</strong></div>
-      </div>
-      <form id="walletSecurityForm" class="wlt-form">
-        <div class="wlt-field">
-          <label for="walletPassphrase">Wallet passphrase</label>
-          <input id="walletPassphrase" type="password" minlength="8" autocomplete="current-password" placeholder="Minimum 8 characters" required />
-        </div>
-        <div class="wlt-action-row">
-          <button class="wlt-submit" id="walletProtectKey" type="button">Protect Key</button>
-          <button class="wlt-submit" id="walletUnlockKey" type="submit">Unlock</button>
-          <button class="wlt-btn" id="walletLockKey" type="button">Lock</button>
-        </div>
-        <p class="wallet-status" id="walletSecurityStatus" aria-live="polite"></p>
-      </form>
-    </article>
-
-    <article class="wlt-panel">
-      <p class="wlt-kicker">Device Trust</p>
-      <h2>Mark this browser trusted.</h2>
-      <div class="wlt-device-actions">
-        <button class="wlt-btn primary" id="walletTrustDevice" type="button">Trust Current Device</button>
-        <button class="wlt-btn" id="walletRefreshDevices" type="button">Refresh</button>
-      </div>
-      <div id="walletDeviceList" class="wlt-device-list"></div>
-      <p class="wallet-status" id="walletDeviceStatus" aria-live="polite"></p>
-    </article>
-  </section>
-
-  <!-- STATS BAR -->
-  <div class="eco-stats">
-    <div class="eco-stat">
-      <span>Earn HI</span>
-      <strong>Work &amp; Contribution</strong>
-    </div>
-    <div class="eco-stat">
-      <span>Use HI</span>
-      <strong>Services &amp; Access</strong>
-    </div>
-    <div class="eco-stat">
-      <span>Build Trust</span>
-      <strong>Reputation Proof</strong>
-    </div>
-    <div class="eco-stat">
-      <span>Future</span>
-      <strong>UPI Settlement</strong>
-    </div>
+  <!-- LOGIN BANNER (hidden when logged in) -->
+  <div class="rc-login-banner" id="rcLoginBanner">
+    <p>Sign in with your RC Wallet to purchase services and grow your reputation.</p>
+    <a href="../wallet.html" class="rc-submit-btn" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;">Sign in with RC Wallet</a>
   </div>
 
-  <!-- RULE SECTION -->
-  <section class="eco-panel eco-rule-panel">
-    <p class="eco-kicker">Big Rule</p>
-    <h2>Phase 3 is real-world usefulness, not speculative crypto.</h2>
-    <div class="eco-layers">
-      <div>
-        <span>Earn</span>
-        <strong>Work and contribution</strong>
-        <p>Users earn HI through verified service, learning, and community actions.</p>
-      </div>
-      <div>
-        <span>Use</span>
-        <strong>Services and access</strong>
-        <p>HI is spent inside the ecosystem for practical value, not traded.</p>
-      </div>
-      <div>
-        <span>Trust</span>
-        <strong>Reputation proof</strong>
-        <p>Identity age, payments, and service history build ledger-backed trust.</p>
-      </div>
-      <div>
-        <span>Settle</span>
-        <strong>Future UPI layer</strong>
-        <p>Merchants can later receive compliant INR settlement via payment rails.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- EARN FORM -->
-  <section class="eco-grid eco-earn-grid">
-
-    <article class="eco-panel">
-      <p class="eco-kicker">Verified Contribution</p>
-      <h2>Add earned HI.</h2>
-      <p class="eco-hero-desc" style="margin-bottom:0">Record verified work or contribution directly to your local wallet ledger.</p>
-      <form id="marketEarnForm" class="eco-form ecosystem-form">
-        <div class="eco-field">
-          <label for="marketEarnReason">Reason</label>
-          <select id="marketEarnReason">
-            <option value="Website work">Website work</option>
-            <option value="Referral">Referral</option>
-            <option value="Bug report">Bug report</option>
-            <option value="Education">Education</option>
-            <option value="Community help">Community help</option>
-          </select>
-        </div>
-        <div class="eco-field">
-          <label for="marketEarnAmount">Amount (1–99 HI)</label>
-          <input id="marketEarnAmount" type="number" min="1" max="99" step="1" placeholder="e.g. 5" required />
-        </div>
-        <button class="eco-submit" type="submit">Record Earning</button>
-        <p class="ecosystem-status" id="marketEarnStatus" aria-live="polite"></p>
-      </form>
-    </article>
-
-    <article class="eco-panel eco-earn-info">
-      <p class="eco-kicker">How It Works</p>
-      <h2>Earn → Use → Trust → Settle.</h2>
-      <div class="eco-earn-steps">
-        <div>
-          <strong>1. Identity first</strong>
-          <p>Your HDI is required to link any HI to your ledger.</p>
-        </div>
-        <div>
-          <strong>2. Earn through contribution</strong>
-          <p>Record work, learning, referrals, or community help.</p>
-        </div>
-        <div>
-          <strong>3. Spend on services</strong>
-          <p>Use HI to access services in the grid below.</p>
-        </div>
-        <div>
-          <strong>4. Build trust score</strong>
-          <p>More ledger activity → higher trust → more access.</p>
-        </div>
-      </div>
-    </article>
-
-  </section>
-
   <!-- SERVICE GRID -->
-  <section class="eco-services-section">
-    <div class="eco-services-header">
-      <p class="eco-kicker">Service Catalogue</p>
-      <h2>Available services and contribution rewards.</h2>
+  <section>
+    <div class="rc-section-head">
+      <p class="rc-kicker">Services</p>
+      <h2>Available Services</h2>
     </div>
-    <div class="eco-services-grid" id="marketplaceGrid"></div>
+    <div class="rc-service-grid" id="rcServiceGrid"></div>
+  </section>
+
+  <!-- PURCHASE HISTORY (shown when logged in) -->
+  <section class="rc-history-section" id="rcHistorySection" style="display:none">
+    <div class="rc-section-head">
+      <p class="rc-kicker">Your activity</p>
+      <h2>Your Purchases</h2>
+    </div>
+    <ul class="rc-history-list" id="rcHistoryList">
+      <li class="rc-history-empty">No purchases yet.</li>
+    </ul>
   </section>
 
 </main>
+
+<!-- PURCHASE CONFIRM MODAL -->
+<div class="rc-modal-overlay" id="rcModalOverlay" style="display:none" role="dialog" aria-modal="true" aria-labelledby="rcModalTitle">
+  <div class="rc-modal">
+    <h2 id="rcModalTitle">Confirm Purchase</h2>
+    <hr class="rc-modal-divider" />
+    <div class="rc-modal-row">
+      <span class="label">Service</span>
+      <span class="val" id="rcModalService">—</span>
+    </div>
+    <div class="rc-modal-row">
+      <span class="label">Cost</span>
+      <span class="val green" id="rcModalCost">—</span>
+    </div>
+    <div class="rc-modal-row">
+      <span class="label">From</span>
+      <span class="val" id="rcModalFrom">—</span>
+    </div>
+    <div class="rc-modal-row">
+      <span class="label">To</span>
+      <span class="val">marketplace</span>
+    </div>
+    <hr class="rc-modal-divider" />
+    <input class="rc-field" id="rcModalPin" type="password" placeholder="Your PIN" autocomplete="off" />
+    <p class="rc-msg" id="rcModalMsg"></p>
+    <div class="rc-modal-actions">
+      <button class="rc-btn-cancel" id="rcModalCancel" type="button">Cancel</button>
+      <button class="rc-btn-confirm" id="rcModalConfirm" type="button">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL (shown when not logged in + clicking Buy Now) -->
+<div class="rc-modal-overlay" id="rcLoginModalOverlay" style="display:none" role="dialog" aria-modal="true" aria-labelledby="rcLoginModalTitle">
+  <div class="rc-modal">
+    <h2 id="rcLoginModalTitle">Sign In Required</h2>
+    <p style="font-size:.84rem;opacity:.6;margin:6px 0 18px">Please sign in with your RC Wallet to purchase services.</p>
+    <div class="rc-modal-actions">
+      <button class="rc-btn-cancel" id="rcLoginModalCancel" type="button">Cancel</button>
+      <a href="../wallet.html" class="rc-btn-confirm" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Go to Wallet</a>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="rc-toast" id="rcToast" aria-live="polite"></div>
 
 <footer class="site-footer glass" data-footer></footer>
 <button id="backToTop" aria-label="Back to top">
   <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
 </button>
 
-<script src="../js/footer.js" defer></script>
+<!-- noble/secp256k1 for client-side ECDSA signing -->
+<script src="https://cdn.jsdelivr.net/npm/@noble/secp256k1@1.7.1/lib/index.js"></script>
+<script>
+  if (typeof secp256k1 !== 'undefined') window.nobleSecp256k1 = secp256k1;
+  else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null;
+</script>
+<script src="../js/rupeecoin.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── Service catalogue ── */
+  var SERVICES = [
+    { icon: '🔍', name: 'Website Review',   price: 50,  desc: 'Detailed UX and performance review of your website.' },
+    { icon: '🎨', name: 'Logo Design',       price: 200, desc: 'Custom logo concept with brand color palette.' },
+    { icon: '✍️',  name: 'Blog Post',         price: 100, desc: '800-word article written for your niche audience.' },
+    { icon: '📈', name: 'SEO Audit',          price: 150, desc: 'Technical SEO analysis with actionable recommendations.' },
+    { icon: '💻', name: 'Code Review',        price: 75,  desc: 'Review of up to 3 source files with written feedback.' },
+    { icon: '📣', name: 'Social Post',        price: 25,  desc: 'Professional social media post with caption and hashtags.' },
+    { icon: '🧠', name: 'Mentoring',          price: 300, desc: 'One 30-minute strategy session on your project.' },
+    { icon: '🏅', name: 'Community Badge',    price: 10,  desc: 'Digital community participation badge for your profile.' }
+  ];
+
+  /* ── Pending buy (for login-then-buy flow) ── */
+  var pendingBuy = null;
+
+  /* ── DOM refs ── */
+  var overlay      = document.getElementById('rcModalOverlay');
+  var loginOverlay = document.getElementById('rcLoginModalOverlay');
+  var toast        = document.getElementById('rcToast');
+  var toastTimer;
+
+  /* ── Helpers ── */
+  function esc(s) { return RC.esc ? RC.esc(s) : String(s).replace(/[&<>"']/g, function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]);}); }
+  function fmt(n) { return RC.fmt ? RC.fmt(n) : Number(n).toLocaleString(); }
+
+  function showToast(msg, isErr) {
+    clearTimeout(toastTimer);
+    toast.textContent = msg;
+    toast.className = 'rc-toast' + (isErr ? ' err' : '') + ' show';
+    toastTimer = setTimeout(function(){ toast.className = 'rc-toast' + (isErr ? ' err' : ''); }, 3400);
+  }
+
+  function setMsg(el, text, type) {
+    el.textContent = text;
+    el.className = 'rc-msg ' + (type || '');
+  }
+
+  function clearMsg(el) {
+    el.textContent = '';
+    el.className = 'rc-msg';
+  }
+
+  /* ── Header badge ── */
+  function updateHeaderBadge() {
+    var badge = document.getElementById('rcHdrBadge');
+    var userEl = document.getElementById('rcHdrUser');
+    var balEl  = document.getElementById('rcHdrBal');
+    if (RC.isLoggedIn()) {
+      userEl.textContent = RC.getName();
+      balEl.textContent  = fmt(RC.getBalance()) + ' RC';
+      badge.style.display = '';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  /* ── Hero pill ── */
+  function updateHeroPill() {
+    var pill    = document.getElementById('heroPillBalance');
+    var userEl  = document.getElementById('heroPillUser');
+    var balEl   = document.getElementById('heroPillBal');
+    if (RC.isLoggedIn()) {
+      userEl.textContent = RC.getName();
+      balEl.textContent  = fmt(RC.getBalance());
+      pill.style.display = '';
+    } else {
+      pill.style.display = 'none';
+    }
+  }
+
+  /* ── Login banner ── */
+  function updateLoginBanner() {
+    var banner = document.getElementById('rcLoginBanner');
+    if (RC.isLoggedIn()) {
+      banner.style.display = 'none';
+    } else {
+      banner.style.display = '';
+    }
+  }
+
+  /* ── Purchase history ── */
+  function loadHistory() {
+    var section = document.getElementById('rcHistorySection');
+    var list    = document.getElementById('rcHistoryList');
+    if (!RC.isLoggedIn()) { section.style.display = 'none'; return; }
+    section.style.display = '';
+    RC.history(function (res) {
+      if (!res || !res.ok || !Array.isArray(res.transactions)) { return; }
+      var me = RC.getName();
+      var txs = res.transactions.filter(function (tx) {
+        return tx.sender === me && tx.note && tx.note.indexOf('Purchase:') === 0;
+      });
+      if (!txs.length) {
+        list.innerHTML = '<li class="rc-history-empty">No purchases yet.</li>';
+        return;
+      }
+      txs.sort(function(a,b){ return (b.ts||0) - (a.ts||0); });
+      list.innerHTML = txs.map(function (tx) {
+        var d = tx.ts ? new Date(tx.ts).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'}) : '—';
+        return '<li class="rc-history-item">'
+          + '<span class="rc-history-note">' + esc(tx.note) + '</span>'
+          + '<span class="rc-history-amount">-' + fmt(tx.amount) + ' RC</span>'
+          + '<span class="rc-history-date">' + d + '</span>'
+          + '</li>';
+      }).join('');
+    });
+  }
+
+  function prependHistory(note, amount) {
+    var list = document.getElementById('rcHistoryList');
+    var empty = list.querySelector('.rc-history-empty');
+    if (empty) { empty.remove(); }
+    var d = new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'});
+    var li = document.createElement('li');
+    li.className = 'rc-history-item';
+    li.innerHTML = '<span class="rc-history-note">' + esc(note) + '</span>'
+      + '<span class="rc-history-amount">-' + fmt(amount) + ' RC</span>'
+      + '<span class="rc-history-date">' + d + '</span>';
+    list.insertBefore(li, list.firstChild);
+  }
+
+  /* ── Service grid ── */
+  function renderGrid() {
+    var grid = document.getElementById('rcServiceGrid');
+    grid.innerHTML = SERVICES.map(function (s, i) {
+      return '<article class="rc-service-card">'
+        + '<span class="rc-service-icon" aria-hidden="true">' + s.icon + '</span>'
+        + '<h3 class="rc-service-name">' + esc(s.name) + '</h3>'
+        + '<p class="rc-service-desc">' + esc(s.desc) + '</p>'
+        + '<span class="rc-service-price">' + fmt(s.price) + ' RC</span>'
+        + '<button class="rc-service-btn" data-idx="' + i + '" type="button">Buy Now</button>'
+        + '</article>';
+    }).join('');
+  }
+
+  /* ── Buy flow ── */
+  function rcBuy(name, price) {
+    if (!RC.isLoggedIn()) {
+      pendingBuy = { name: name, price: price };
+      openLoginModal();
+      return;
+    }
+    openConfirmModal(name, price);
+  }
+
+  function openConfirmModal(name, price) {
+    document.getElementById('rcModalService').textContent = name;
+    document.getElementById('rcModalCost').textContent    = fmt(price) + ' RC';
+    document.getElementById('rcModalFrom').textContent    = RC.getName();
+    document.getElementById('rcModalPin').value           = '';
+    clearMsg(document.getElementById('rcModalMsg'));
+    document.getElementById('rcModalConfirm').disabled    = false;
+    overlay.style.display = '';
+    setTimeout(function(){ document.getElementById('rcModalPin').focus(); }, 60);
+    overlay._currentName  = name;
+    overlay._currentPrice = price;
+  }
+
+  function closeConfirmModal() {
+    overlay.style.display = 'none';
+  }
+
+  function openLoginModal() {
+    document.getElementById('rcLoginModalName').value = '';
+    document.getElementById('rcLoginModalPin').value  = '';
+    clearMsg(document.getElementById('rcLoginModalMsg'));
+    document.getElementById('rcLoginModalSubmit').disabled = false;
+    loginOverlay.style.display = '';
+    setTimeout(function(){ document.getElementById('rcLoginModalName').focus(); }, 60);
+  }
+
+  function closeLoginModal() {
+    loginOverlay.style.display = 'none';
+    pendingBuy = null;
+  }
+
+  function rcConfirmPurchase(name, price, pin) {
+    var confirmBtn = document.getElementById('rcModalConfirm');
+    var msgEl      = document.getElementById('rcModalMsg');
+    confirmBtn.disabled = true;
+    clearMsg(msgEl);
+    RC.send('marketplace', price, pin, 'Purchase: ' + name, function (res) {
+      if (res && res.ok) {
+        closeConfirmModal();
+        updateHeaderBadge();
+        updateHeroPill();
+        var remaining = RC.getBalance();
+        if (res.balance !== undefined) {
+          /* update cached balance if API returns it */
+          try {
+            var s = JSON.parse(sessionStorage.getItem('rc_v1')) || {};
+            s.balance = res.balance;
+            sessionStorage.setItem('rc_v1', JSON.stringify(s));
+            remaining = res.balance;
+          } catch(e) {}
+          updateHeaderBadge();
+          updateHeroPill();
+        }
+        showToast('Purchased ' + name + '! ' + fmt(remaining) + ' RC remaining.');
+        document.getElementById('rcHistorySection').style.display = '';
+        prependHistory('Purchase: ' + name, price);
+      } else {
+        setMsg(msgEl, (res && res.error) || 'Purchase failed. Check your PIN or balance.', 'err');
+        confirmBtn.disabled = false;
+      }
+    });
+  }
+
+  /* ── Inline banner login ── */
+  document.getElementById('rcBannerLoginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name    = document.getElementById('bannerName').value.trim();
+    var pin     = document.getElementById('bannerPin').value;
+    var btn     = document.getElementById('bannerLoginBtn');
+    var msgEl   = document.getElementById('bannerLoginMsg');
+    btn.disabled = true;
+    clearMsg(msgEl);
+    RC.login(name, pin, function (res) {
+      btn.disabled = false;
+      if (res && res.ok) {
+        updateHeaderBadge();
+        updateHeroPill();
+        updateLoginBanner();
+        loadHistory();
+      } else {
+        setMsg(msgEl, (res && res.error) || 'Login failed.', 'err');
+      }
+    });
+  });
+
+  /* ── Login modal submit ── */
+  document.getElementById('rcLoginModalSubmit').addEventListener('click', function () {
+    var name  = document.getElementById('rcLoginModalName').value.trim();
+    var pin   = document.getElementById('rcLoginModalPin').value;
+    var btn   = document.getElementById('rcLoginModalSubmit');
+    var msgEl = document.getElementById('rcLoginModalMsg');
+    btn.disabled = true;
+    clearMsg(msgEl);
+    RC.login(name, pin, function (res) {
+      btn.disabled = false;
+      if (res && res.ok) {
+        updateHeaderBadge();
+        updateHeroPill();
+        updateLoginBanner();
+        loadHistory();
+        loginOverlay.style.display = 'none';
+        if (pendingBuy) {
+          var b = pendingBuy;
+          pendingBuy = null;
+          openConfirmModal(b.name, b.price);
+        }
+      } else {
+        setMsg(msgEl, (res && res.error) || 'Login failed.', 'err');
+      }
+    });
+  });
+
+  document.getElementById('rcLoginModalCancel').addEventListener('click', closeLoginModal);
+
+  /* ── Confirm modal actions ── */
+  document.getElementById('rcModalConfirm').addEventListener('click', function () {
+    var pin = document.getElementById('rcModalPin').value;
+    if (!pin) { setMsg(document.getElementById('rcModalMsg'), 'Enter your PIN.', 'err'); return; }
+    rcConfirmPurchase(overlay._currentName, overlay._currentPrice, pin);
+  });
+
+  document.getElementById('rcModalCancel').addEventListener('click', closeConfirmModal);
+
+  /* ── Service grid click delegation ── */
+  document.getElementById('rcServiceGrid').addEventListener('click', function (e) {
+    var btn = e.target.closest('.rc-service-btn');
+    if (!btn) { return; }
+    var idx = parseInt(btn.dataset.idx, 10);
+    var svc = SERVICES[idx];
+    if (!svc) { return; }
+    rcBuy(svc.name, svc.price);
+  });
+
+  /* ── ESC closes modals ── */
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') { return; }
+    if (overlay.style.display !== 'none') { closeConfirmModal(); }
+    if (loginOverlay.style.display !== 'none') { closeLoginModal(); }
+  });
+
+  /* ── Click outside modal to close ── */
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) { closeConfirmModal(); } });
+  loginOverlay.addEventListener('click', function (e) { if (e.target === loginOverlay) { closeLoginModal(); } });
+
+  /* ── Init ── */
+  document.addEventListener('DOMContentLoaded', function () {
+    renderGrid();
+    updateHeaderBadge();
+    updateHeroPill();
+    updateLoginBanner();
+    if (RC.isLoggedIn()) { loadHistory(); }
+
+    RC.stats(function (res) {
+      if (!res || !res.ok) { return; }
+      var membersEl = document.getElementById('heroMembers');
+      var blockEl   = document.getElementById('heroBlock');
+      if (res.users !== undefined) { membersEl.textContent = fmt(res.users) + ' members'; }
+      if (res.blockHeight !== undefined) { blockEl.textContent = fmt(res.blockHeight); }
+    });
+  });
+}());
+</script>
 <script src="../js/nav.js?v=wallet-nav-2" defer></script>
+<script src="../js/footer.js" defer></script>
 <script src="../js/script.js?v=footer-clean-1" defer></script>
-<script src="/js/hi-storage.js?v=hi-ecosystem-1"></script>
-<script src="/js/hi-identity-crypto.js?v=phase-1a" defer></script>
-<script src="/js/hi-app.js?v=hi-1" defer></script>
-<script src="/js/hi-wallet.js?v=hi-wallet-1" defer></script>
-<script src="/js/hi-ecosystem.js?v=hi-ecosystem-1" defer></script>
 </body>
 </html>

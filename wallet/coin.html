@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Digital Coin Community — Learn, Understand, Use, Build Value</title>
-  <meta name="description" content="A community Digital Coin page: Learn digital currency basics, Understand how it works, Use the HI Wallet prototype, and Build value together. India to World." />
-  <meta name="author" content="Amit Ku Yadav" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RupeeCoin Network — 21M RC Hard Cap · 59s Blocks · No Owner</title>
+  <meta name="description" content="The RupeeCoin Network: 21,000,000 RC hard cap. No owner. No founder. New block every 59 seconds. Anyone can join and get 1,000 RC genesis grant." />
+  <meta name="author" content="Amit Ku Yadav" />
   <meta name="theme-color" content="#046A38" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://kingofyadav.in/wallet/coin.html" />
@@ -18,558 +18,326 @@
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
   <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
   <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-2" />
+  <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-3" />
 
   <style>
-    .coin-page {
-      --coin-border: rgba(128,128,128,.16);
-      --coin-muted-dark: #aaa;
-    }
-
-    .coin-stripe {
-      height: 4px;
-      background: linear-gradient(90deg, #046A38 33.3%, #e5e5e5 33.3% 66.6%, #FF671F 66.6%);
-    }
-
-    .coin-main {
-      max-width: var(--container);
+    /* ── Page layout ── */
+    .rc-main {
+      max-width: 960px;
       margin: 0 auto;
-      padding: 0 var(--section-pad-h) 56px;
+      padding: clamp(36px,6vw,72px) clamp(16px,4vw,40px) 80px;
     }
 
-    /* ── HERO ── */
-    .coin-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(380px, 580px);
-      gap: clamp(28px, 5vw, 64px);
-      align-items: center;
-      padding: clamp(52px, 7vw, 96px) 0 clamp(38px, 5vw, 60px);
+    /* ── India stripe ── */
+    .rc-stripe {
+      height: 3px;
+      background: linear-gradient(90deg, #046A38 33%, #fff 33% 66%, #FF671F 66%);
     }
 
-    .coin-kicker {
+    /* ── Kicker ── */
+    .rc-kicker {
       display: inline-block;
-      margin: 0 0 14px;
-      color: var(--brand-green);
-      font-size: .72rem;
-      font-weight: 850;
-      letter-spacing: 1.4px;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: 1px;
       text-transform: uppercase;
+      color: var(--brand-green, #046A38);
+      margin-bottom: 12px;
     }
 
-    .coin-hero h1 {
-      margin: 0 0 18px;
-      font-size: clamp(3rem, 6vw, 5.6rem);
-      line-height: .95;
+    /* ── Hero ── */
+    .rc-hero {
+      text-align: center;
+      padding: clamp(44px,7vw,84px) 0 clamp(28px,4vw,44px);
+    }
+    .rc-hero h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2.6rem,6vw,4.8rem);
+      line-height: .96;
       font-weight: 850;
-      letter-spacing: 0;
+      letter-spacing: -.5px;
     }
-
-    .coin-hero-desc {
-      max-width: 640px;
-      font-size: clamp(.97rem, 1.3vw, 1.13rem);
-      line-height: 1.72;
+    .rc-hero-desc {
+      max-width: 540px;
+      margin: 0 auto 28px;
+      font-size: clamp(.95rem,1.3vw,1.08rem);
+      line-height: 1.7;
+      opacity: .7;
     }
-
-    .coin-hero-actions {
+    .rc-hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 28px;
+      justify-content: center;
+      gap: 10px;
     }
 
-    .coin-btn {
+    /* ── Action buttons ── */
+    .rc-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 46px;
+      min-height: 44px;
       padding: 0 22px;
-      border: 1px solid rgba(128,128,128,.22);
       border-radius: 999px;
-      color: var(--text-color);
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-      font: inherit;
-      font-size: .88rem;
+      font-size: .86rem;
       font-weight: 800;
       text-decoration: none;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
       cursor: pointer;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color: inherit;
+      font-family: inherit;
+      transition: transform .18s, border-color .18s, background .18s;
     }
-
-    .coin-btn.primary {
+    .rc-btn.primary {
       border-color: transparent;
+      background: var(--gradient-brand, linear-gradient(135deg,#046A38,#FF671F));
       color: #fff;
-      background: var(--gradient-brand);
       box-shadow: 0 12px 28px rgba(4,106,56,.22);
     }
+    .rc-btn:hover { transform: translateY(-2px); border-color: rgba(4,106,56,.42); }
 
-    .coin-btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(4,106,56,.42);
-    }
-
-    /* Hero visual */
-    .coin-hero-visual {
-      position: relative;
-      min-height: clamp(340px, 40vw, 540px);
-      margin: 0;
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid var(--coin-border);
-      background:
-        radial-gradient(circle at 18% 10%, rgba(255,103,31,.18), transparent 36%),
-        radial-gradient(circle at 88% 16%, rgba(4,106,56,.18), transparent 38%),
-        rgba(128,128,128,.06);
-      box-shadow: var(--card-shadow);
-    }
-
-    .coin-hero-visual img {
-      width: 100%;
-      height: 100%;
-      min-height: inherit;
-      display: block;
-      object-fit: cover;
-      object-position: center;
-      -webkit-mask-image:
-        linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
-      -webkit-mask-composite: source-in;
-      mask-image:
-        linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
-      mask-composite: intersect;
-    }
-
-    .coin-hero-visual::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,.12), transparent 14%, transparent 72%, rgba(0,0,0,.42));
-      pointer-events: none;
-    }
-
-    .coin-visual-tags {
-      position: absolute;
-      left: 16px;
-      right: 16px;
-      bottom: 16px;
-      z-index: 1;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .coin-visual-tags span {
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.52);
-      backdrop-filter: blur(12px);
-      color: #fff;
-      font-size: .68rem;
-      font-weight: 800;
-      letter-spacing: .7px;
-      text-transform: uppercase;
-    }
-
-    /* ── PILLAR NAV ── */
-    .coin-pillar-nav {
-      display: flex;
-      margin: 0 0 52px;
-      border: 1px solid var(--coin-border);
-      border-radius: 14px;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-    }
-
-    .coin-pillar-nav a {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      padding: 18px 12px;
-      color: var(--text-color);
-      text-decoration: none;
-      font-size: .76rem;
-      font-weight: 850;
-      letter-spacing: .6px;
-      text-transform: uppercase;
-      border-right: 1px solid var(--coin-border);
-      transition: background .18s ease, color .18s ease;
-    }
-
-    .coin-pillar-nav a:last-child { border-right: none; }
-
-    .coin-pillar-nav a:hover {
-      background: rgba(4,106,56,.08);
-      color: var(--brand-green);
-    }
-
-    .coin-pillar-icon { font-size: 1.5rem; }
-
-    /* ── SECTION COMMON ── */
-    .coin-section {
-      padding: clamp(36px, 5vw, 72px) 0;
-    }
-
-    .coin-section-head {
-      max-width: 760px;
-      margin-bottom: 28px;
-    }
-
-    .coin-section-head h2 {
-      margin: 0 0 12px;
-      font-size: clamp(2rem, 3.8vw, 3.4rem);
-      line-height: 1.05;
-    }
-
-    /* ── PANEL / CARD ── */
-    .coin-panel,
-    .coin-card {
-      border: 1px solid var(--coin-border);
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-      border-radius: 14px;
-    }
-
-    .coin-panel { padding: clamp(22px, 3.5vw, 38px); }
-    .coin-card  { padding: 20px; }
-    .coin-panel h2 { margin: 0 0 12px; }
-    .coin-panel h3,
-    .coin-card h3  { margin: 0 0 10px; }
-
-    /* ── LEARN ── */
-    .coin-learn-grid {
+    /* ── Live stats bar ── */
+    .rc-stats-bar {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .coin-learn-card {
-      padding: 22px;
-      border: 1px solid var(--coin-border);
-      border-radius: 12px;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-    }
-
-    .coin-learn-card.accent {
-      background: linear-gradient(135deg, rgba(4,106,56,.15), rgba(255,103,31,.1));
-      border-color: rgba(4,106,56,.32);
-    }
-
-    .coin-learn-card-icon {
-      display: block;
-      font-size: 2rem;
-      margin-bottom: 14px;
-    }
-
-    .coin-learn-card h3 { margin: 0 0 10px; font-size: 1.08rem; }
-    .coin-learn-card p  { margin: 0; }
-
-    .coin-stats {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .coin-stat {
-      padding: 16px 18px;
-      border: 1px solid rgba(128,128,128,.14);
-      border-radius: 12px;
-      background: rgba(128,128,128,.055);
-    }
-
-    .coin-stat span {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--brand-orange);
-      font-size: .66rem;
-      font-weight: 850;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .coin-stat strong {
-      display: block;
-      font-size: clamp(1.2rem, 2.4vw, 1.75rem);
-      line-height: 1;
-    }
-
-    /* ── UNDERSTAND ── */
-    .coin-split {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    .coin-arch-split {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
-      gap: 18px;
-      align-items: stretch;
-      margin-top: 18px;
-    }
-
-    .coin-media {
-      position: relative;
-      min-height: 360px;
-      border: 1px solid var(--coin-border);
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
       border-radius: 14px;
       overflow: hidden;
-      background:
-        radial-gradient(circle at 18% 12%, rgba(255,103,31,.12), transparent 36%),
-        radial-gradient(circle at 82% 18%, rgba(4,106,56,.14), transparent 38%),
-        rgba(128,128,128,.055);
-      box-shadow: var(--card-shadow);
+      margin-bottom: 36px;
     }
-
-    .coin-media::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background:
-        linear-gradient(to right, rgba(0,0,0,.14), transparent 10%, transparent 90%, rgba(0,0,0,.14)),
-        linear-gradient(to bottom, rgba(0,0,0,.14), transparent 10%, transparent 90%, rgba(0,0,0,.14));
-      pointer-events: none;
+    .rc-stat-cell {
+      background: rgba(255,255,255,.04);
+      padding: 18px 14px;
+      text-align: center;
     }
-
-    .coin-media img {
-      width: 100%;
-      height: 100%;
-      min-height: inherit;
-      display: block;
-      object-fit: cover;
-      object-position: center;
-      -webkit-mask-image:
-        linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
-      -webkit-mask-composite: source-in;
-      mask-image:
-        linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
-      mask-composite: intersect;
-    }
-
-    .coin-tech-stack {
-      display: grid;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .coin-tech-item {
-      padding: 16px;
-      border: 1px solid rgba(128,128,128,.14);
-      border-radius: 10px;
-      background: rgba(128,128,128,.055);
-    }
-
-    .coin-tech-item strong { display: block; margin-bottom: 5px; font-size: .97rem; }
-    .coin-tech-item p      { margin: 0; font-size: .87rem; }
-
-    .coin-comparison {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .coin-comparison-item {
-      padding: 14px;
-      border: 1px solid rgba(128,128,128,.14);
-      border-radius: 10px;
-      background: rgba(128,128,128,.055);
-    }
-
-    .coin-comparison-item b {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--brand-green);
-      font-size: .76rem;
-      font-weight: 850;
-      text-transform: uppercase;
+    .rc-stat-label {
+      font-size: .62rem;
+      font-weight: 700;
       letter-spacing: .8px;
+      text-transform: uppercase;
+      opacity: .5;
+      margin-bottom: 6px;
     }
+    .rc-stat-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #4ade80;
+      font-variant-numeric: tabular-nums;
+    }
+    .rc-stat-value.orange { color: #fb923c; }
 
-    .coin-comparison-item p { margin: 0; font-size: .86rem; }
+    /* ── Live pulse ── */
+    .rc-pulse {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      margin-right: 5px;
+      vertical-align: middle;
+      animation: rc-pulse 2s infinite;
+    }
+    @keyframes rc-pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
 
-    /* ── USE ── */
-    .coin-use-grid {
+    /* ── Section chrome ── */
+    .rc-section { padding: clamp(32px,5vw,60px) 0; }
+    .rc-section-head { max-width: 720px; margin-bottom: 26px; }
+    .rc-section-head h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem,3.6vw,3rem);
+      line-height: 1.07;
+    }
+    .rc-section-head p { opacity: .65; line-height: 1.7; margin: 0; }
+
+    /* ── Cards generic ── */
+    .rc-card {
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: clamp(20px,3vw,32px);
+    }
+    .rc-card + .rc-card { margin-top: 16px; }
+
+    /* ── Properties grid ── */
+    .rc-props-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .coin-use-card {
-      display: flex;
-      flex-direction: column;
-      padding: 22px;
-      border: 1px solid var(--coin-border);
-      border-radius: 12px;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-    }
-
-    .coin-use-icon { font-size: 2.2rem; margin-bottom: 14px; }
-
-    .coin-use-card h3 { margin: 0 0 8px; }
-    .coin-use-card p  { margin: 0 0 18px; flex: 1; }
-
-    .coin-flow {
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .coin-flow-item {
-      display: grid;
-      grid-template-columns: 38px minmax(0, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 12px;
-      align-items: start;
-      padding: 14px;
-      border: 1px solid rgba(128,128,128,.14);
-      border-radius: 10px;
-      background: rgba(128,128,128,.055);
+      margin-bottom: 40px;
     }
+    .rc-prop-card {
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 22px 18px;
+    }
+    .rc-prop-icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .rc-prop-card h3 { margin: 0 0 7px; font-size: .97rem; }
+    .rc-prop-card p { margin: 0; font-size: .84rem; opacity: .6; line-height: 1.55; }
 
-    .coin-flow-num {
+    /* ── Explorer ── */
+    .rc-explorer-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+    .rc-explorer-meta-cell { font-size: .75rem; }
+    .rc-explorer-meta-cell .label { opacity: .42; font-size: .66rem; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; display: block; margin-bottom: 3px; }
+    .rc-explorer-meta-cell .val { color: #4ade80; font-weight: 700; font-variant-numeric: tabular-nums; word-break: break-all; }
+    .rc-explorer-meta-cell .val.orange { color: #fb923c; }
+
+    /* Block rows */
+    .rc-blocks { list-style: none; padding: 0; margin: 0; }
+    .rc-block-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-size: .8rem;
+    }
+    .rc-block-row:last-child { border-bottom: none; }
+    .rc-block-num  { font-size: .7rem; font-weight: 800; color: #4ade80; min-width: 46px; }
+    .rc-block-hash { opacity: .36; font-family: monospace; font-size: .67rem; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .rc-block-txs  { opacity: .46; font-size: .7rem; white-space: nowrap; }
+    .rc-block-ts   { opacity: .32; font-size: .65rem; white-space: nowrap; }
+
+    /* Explorer login form */
+    .rc-exp-login { max-width: 360px; }
+    .rc-field {
+      width: 100%;
+      padding: 11px 14px;
+      background: rgba(0,0,0,.3);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 10px;
+      color: #fff;
+      font-size: .9rem;
+      margin-bottom: 10px;
+      outline: none;
+      transition: border-color .18s;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    .rc-field:focus { border-color: rgba(4,106,56,.6); }
+    .rc-field::placeholder { opacity: .3; }
+    .rc-submit-btn {
+      padding: 11px 26px;
+      background: #046A38;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: .86rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .18s;
+    }
+    .rc-submit-btn:hover { background: #034f2a; }
+    .rc-submit-btn:disabled { opacity: .42; cursor: not-allowed; }
+    .rc-msg {
+      font-size: .8rem;
+      padding: 9px 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: none;
+    }
+    .rc-msg.ok  { background: rgba(4,106,56,.25); color: #4ade80; display: block; }
+    .rc-msg.err { background: rgba(255,80,80,.14); color: #f87171; display: block; }
+
+    /* ── How It Works steps ── */
+    .rc-steps { display: grid; gap: 12px; }
+    .rc-step {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+    }
+    .rc-step-num {
       display: grid;
       place-items: center;
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--gradient-brand, linear-gradient(135deg,#046A38,#FF671F));
       color: #fff;
-      background: var(--gradient-brand);
-      font-size: .74rem;
+      font-size: .78rem;
       font-weight: 850;
       flex-shrink: 0;
     }
+    .rc-step strong { display: block; margin-bottom: 3px; font-size: .96rem; }
+    .rc-step p { margin: 0; font-size: .85rem; opacity: .6; line-height: 1.55; }
 
-    .coin-flow-item strong { display: block; margin-bottom: 3px; font-size: .95rem; }
-    .coin-flow-item p      { margin: 0; font-size: .86rem; }
-
-    /* ── BUILD VALUE ── */
-    .coin-roadmap {
+    /* ── Blockchain properties panel ── */
+    .rc-tech-panel {
+      background: rgba(0,0,0,.28);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 16px;
+      padding: clamp(20px,3vw,32px);
+      margin-bottom: 40px;
+    }
+    .rc-tech-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      counter-reset: road;
-    }
-
-    .coin-roadmap-item {
-      position: relative;
-      padding: 22px;
-      border: 1px solid var(--coin-border);
-      border-radius: 12px;
-      background: rgba(128,128,128,.055);
-    }
-
-    .coin-roadmap-item::before {
-      counter-increment: road;
-      content: "0" counter(road);
-      display: block;
-      margin-bottom: 20px;
-      color: var(--brand-orange);
-      font-family: "Courier New", monospace;
-      font-weight: 850;
-      font-size: .9rem;
-    }
-
-    .coin-roadmap-item.active {
-      border-color: rgba(4,106,56,.38);
-      background: linear-gradient(135deg, rgba(4,106,56,.1), rgba(255,103,31,.07));
-    }
-
-    .coin-roadmap-item h3 { margin: 0 0 8px; font-size: 1rem; }
-    .coin-roadmap-item p  { margin: 0; font-size: .88rem; }
-
-    .coin-community-split {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr);
-      gap: 18px;
-      align-items: stretch;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
       margin-top: 18px;
     }
-
-    .coin-note {
-      margin: 18px 0 0;
-      padding: 14px 18px;
-      border: 1px solid rgba(255,103,31,.28);
+    .rc-tech-item {
+      padding: 14px 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
       border-radius: 10px;
-      background: rgba(255,103,31,.07);
-      font-size: .88rem;
     }
+    .rc-tech-item .tkey { font-size: .66rem; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; opacity: .42; display: block; margin-bottom: 5px; }
+    .rc-tech-item .tval { font-size: .92rem; font-weight: 700; color: #4ade80; }
+    .rc-tech-item .tval.orange { color: #fb923c; }
 
-    /* ── DARK MODE MUTED TEXT ── */
-    body.theme-dark.wallet-app .coin-page p:not(.coin-note) { color: rgba(255,255,255,.62); }
+    /* ── Connected pages ── */
+    .rc-web { padding: clamp(1.5rem,4vw,2.5rem) 0; border-top: 1px solid rgba(255,255,255,.07); margin-top: 12px; }
+    .rc-web-label { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-bottom: .9rem; }
+    .rc-web-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: .85rem; }
+    .rc-web-card { display: flex; flex-direction: column; gap: 5px; padding: 1rem 1.15rem; border: 1px solid rgba(255,255,255,.07); border-radius: 10px; background: rgba(255,255,255,.025); text-decoration: none; transition: border-color .2s, background .2s; }
+    .rc-web-card:hover { border-color: #046A38; background: rgba(4,106,56,.08); }
+    .rc-web-icon  { font-size: 1.2rem; }
+    .rc-web-title { font-size: .9rem; font-weight: 700; color: #fff; }
+    .rc-web-desc  { font-size: .76rem; color: rgba(255,255,255,.38); line-height: 1.5; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 980px) {
-      .coin-hero,
-      .coin-split,
-      .coin-arch-split,
-      .coin-community-split {
-        grid-template-columns: 1fr;
-      }
-
-      .coin-learn-grid,
-      .coin-use-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .coin-roadmap,
-      .coin-stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .coin-pillar-nav a { padding: 14px 8px; font-size: .68rem; }
+    /* ── Responsive ── */
+    @media (max-width: 760px) {
+      .rc-stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .rc-props-grid { grid-template-columns: repeat(2, 1fr); }
+      .rc-tech-grid { grid-template-columns: repeat(2, 1fr); }
+      .rc-explorer-meta { grid-template-columns: 1fr; }
     }
-
-    @media (max-width: 620px) {
-      .coin-hero { padding-top: 32px; }
-
-      .coin-hero h1 { font-size: clamp(2.6rem, 13vw, 4rem); }
-
-      .coin-learn-grid,
-      .coin-use-grid,
-      .coin-roadmap,
-      .coin-stats,
-      .coin-comparison {
-        grid-template-columns: 1fr;
-      }
-
-      .coin-pillar-nav { flex-wrap: wrap; }
-
-      .coin-pillar-nav a {
-        flex: 0 0 50%;
-        border-right: none;
-        border-bottom: 1px solid var(--coin-border);
-      }
-
-      .coin-pillar-nav a:nth-child(odd)  { border-right: 1px solid var(--coin-border); }
-      .coin-pillar-nav a:nth-child(3),
-      .coin-pillar-nav a:nth-child(4)    { border-bottom: none; }
+    @media (max-width: 480px) {
+      .rc-props-grid { grid-template-columns: 1fr; }
+      .rc-tech-grid  { grid-template-columns: 1fr; }
     }
   </style>
-  <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-3" />
 </head>
 
 <body class="theme-dark wallet-app">
   <script src="/js/site-init.js?v=1"></script>
+
   <div id="scrollProgress"></div>
   <a href="#main-content" class="skip-link">Skip to content</a>
 
   <header class="site-header glass">
     <div class="header-inner">
       <div class="brand">
-        <a href="/wallet/" class="brand-link" aria-label="HI Wallet app home">
+        <a href="/wallet/index.html" class="brand-link" aria-label="RupeeCoin home">
           <img id="siteLogo" class="logo" src="logo/day-logo.png" alt="Amit Ku Yadav" width="50" height="50" />
           <div class="brand-text">
             <span class="brand-name">Amit Ku Yadav</span>
-            <span class="brand-tagline">HI Wallet App</span>
+            <span class="brand-tagline">RupeeCoin Network</span>
           </div>
         </a>
       </div>
@@ -577,380 +345,243 @@
         <span></span><span></span><span></span>
       </button>
       <nav class="wallet-nav" aria-label="Wallet navigation" data-nav="wallet"></nav>
+      <div class="rc-hdr-badge" id="rcHdrBadge" style="display:none">
+        <span id="rcHdrUser"></span>
+        <strong id="rcHdrBal">0 RC</strong>
+      </div>
     </div>
   </header>
 
-  <div class="coin-stripe"></div>
+  <div class="rc-stripe"></div>
 
-  <main class="coin-main coin-page" id="main-content">
+  <main class="rc-main" id="main-content">
 
-    <!-- ── HERO ── -->
-    <section class="coin-hero" aria-label="Digital coin community hero">
-      <div>
-        <p class="coin-kicker">Community Digital Coin — India to World</p>
-        <h1>Learn. Understand.<br>Use. Build Value.</h1>
-        <p class="coin-hero-desc">
-          A community exploration hub for digital currency concepts rooted in India's payment culture:
-          identity-first wallets, UPI familiarity, transparent ledgers, and a practical economy for real people.
-        </p>
-        <div class="coin-hero-actions">
-          <a href="#coin-learn" class="coin-btn primary">Start Learning</a>
-          <a href="wallet.html" class="coin-btn">Open HI Wallet</a>
-          <a href="#coin-community" class="coin-btn">Join Community</a>
-        </div>
+    <!-- ══════════════════════════════════════
+         SECTION 1 — HERO
+    ══════════════════════════════════════ -->
+    <section class="rc-hero" aria-label="RupeeCoin Network overview">
+      <p class="rc-kicker">Decentralised Community Currency — India</p>
+      <h1>The RupeeCoin Network</h1>
+      <p class="rc-hero-desc">
+        21,000,000 RC hard cap &middot; New block every 59 seconds &middot; No owner &middot; No founder
+      </p>
+      <div class="rc-hero-actions">
+        <a href="index.html" class="rc-btn primary">Open Wallet</a>
+        <a href="#explorer" class="rc-btn">Block Explorer</a>
+        <a href="#how" class="rc-btn">Learn</a>
       </div>
-
-      <figure class="coin-hero-visual">
-        <img src="images/coin/hi-coin-india-upi.png" alt="Digital rupee coin concept with India, UPI, blockchain, security, and trusted network symbols" />
-        <figcaption class="coin-visual-tags">
-          <span>Identity First</span>
-          <span>UPI Ready</span>
-          <span>India to World</span>
-          <span>Open Community</span>
-        </figcaption>
-      </figure>
     </section>
 
-    <!-- ── PILLAR NAV ── -->
-    <nav class="coin-pillar-nav" aria-label="Community pillars">
-      <a href="#coin-learn">
-        <span class="coin-pillar-icon">📖</span>
-        Learn
-      </a>
-      <a href="#coin-understand">
-        <span class="coin-pillar-icon">🔍</span>
-        Understand
-      </a>
-      <a href="#coin-use">
-        <span class="coin-pillar-icon">💳</span>
-        Use
-      </a>
-      <a href="#coin-build">
-        <span class="coin-pillar-icon">🌱</span>
-        Build Value
-      </a>
+    <!-- Live stats bar -->
+    <div class="rc-stats-bar" role="region" aria-label="Live RupeeCoin network stats">
+      <div class="rc-stat-cell">
+        <div class="rc-stat-label">Supply Cap</div>
+        <div class="rc-stat-value" id="rcStatSupply">—</div>
+      </div>
+      <div class="rc-stat-cell">
+        <div class="rc-stat-label">Circulating</div>
+        <div class="rc-stat-value" id="rcStatCirc">—</div>
+      </div>
+      <div class="rc-stat-cell">
+        <div class="rc-stat-label">Members</div>
+        <div class="rc-stat-value orange" id="rcStatMembers">—</div>
+      </div>
+      <div class="rc-stat-cell">
+        <div class="rc-stat-label"><span class="rc-pulse" aria-hidden="true"></span>Block Height</div>
+        <div class="rc-stat-value orange" id="rcStatBlock">—</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 2 — PROPERTIES
+    ══════════════════════════════════════ -->
+    <section class="rc-section" aria-labelledby="propsHeading">
+      <div class="rc-section-head">
+        <p class="rc-kicker">Network Properties</p>
+        <h2 id="propsHeading">Built-in rules that never change.</h2>
+        <p>Four core rules are hard-coded into every node. No admin can override them.</p>
+      </div>
+
+      <div class="rc-props-grid">
+        <article class="rc-prop-card">
+          <div class="rc-prop-icon">&#x20B9;</div>
+          <h3>21M Supply Cap</h3>
+          <p>Exactly 21,000,000 RC will ever exist. Hard-coded, unbreakable rule.</p>
+        </article>
+        <article class="rc-prop-card">
+          <div class="rc-prop-icon">&#x23F1;</div>
+          <h3>59s Blocks</h3>
+          <p>A new block is sealed every 59 seconds — transactions confirmed, chain extended.</p>
+        </article>
+        <article class="rc-prop-card">
+          <div class="rc-prop-icon">&#x1F331;</div>
+          <h3>1,000 RC Genesis</h3>
+          <p>Every new wallet automatically receives 1,000 RC. No purchase required.</p>
+        </article>
+        <article class="rc-prop-card">
+          <div class="rc-prop-icon">&#x1F310;</div>
+          <h3>Decentralised</h3>
+          <p>No founder privilege. No treasury. Community-run from the first block.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 3 — BLOCK EXPLORER
+    ══════════════════════════════════════ -->
+    <section class="rc-section" id="explorer" aria-labelledby="explorerHeading">
+      <div class="rc-section-head">
+        <p class="rc-kicker">Block Explorer</p>
+        <h2 id="explorerHeading">Live chain activity.</h2>
+        <p>Sign in to inspect the latest sealed blocks and network state.</p>
+      </div>
+
+      <div class="rc-card">
+        <!-- Not logged-in state -->
+        <div id="rcExpLogin">
+          <p style="opacity:.55;font-size:.88rem;margin:0 0 16px">Sign in with your RC Wallet to view recent blocks and network state.</p>
+          <div class="rc-exp-login">
+            <a href="wallet.html" class="rc-submit-btn" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Sign In with RC Wallet</a>
+          </div>
+        </div>
+
+        <!-- Logged-in state -->
+        <div id="rcExpBlocks" style="display:none">
+          <ul class="rc-blocks" id="rcBlockList" aria-label="Recent blocks">
+            <li class="rc-block-row"><span style="opacity:.28">Loading blocks…</span></li>
+          </ul>
+          <div class="rc-explorer-meta">
+            <div class="rc-explorer-meta-cell">
+              <span class="label">Remaining Supply</span>
+              <span class="val" id="rcMetaRemaining">—</span>
+            </div>
+            <div class="rc-explorer-meta-cell">
+              <span class="label">Block Time</span>
+              <span class="val orange" id="rcMetaBlockTime">59s</span>
+            </div>
+            <div class="rc-explorer-meta-cell">
+              <span class="label">Latest Hash</span>
+              <span class="val" id="rcMetaHash" style="font-family:monospace;font-size:.68rem">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 4 — HOW IT WORKS
+    ══════════════════════════════════════ -->
+    <section class="rc-section" id="how" aria-labelledby="howHeading">
+      <div class="rc-section-head">
+        <p class="rc-kicker">How It Works</p>
+        <h2 id="howHeading">RupeeCoin in four steps.</h2>
+        <p>A closed-loop community currency with simple, transparent rules anyone can follow.</p>
+      </div>
+
+      <div class="rc-steps">
+        <div class="rc-step">
+          <span class="rc-step-num" aria-hidden="true">01</span>
+          <div>
+            <strong>Create your wallet</strong>
+            <p>Anyone can register a wallet name and PIN. You receive a 1,000 RC genesis grant instantly — no purchase, no approval needed.</p>
+          </div>
+        </div>
+        <div class="rc-step">
+          <span class="rc-step-num" aria-hidden="true">02</span>
+          <div>
+            <strong>Send &amp; receive</strong>
+            <p>Transfer RC to any wallet by name. Confirm with your PIN. The transaction is queued and sealed into the next block.</p>
+          </div>
+        </div>
+        <div class="rc-step">
+          <span class="rc-step-num" aria-hidden="true">03</span>
+          <div>
+            <strong>Blocks seal transactions</strong>
+            <p>Every 59 seconds a new block is mined. All pending transfers are confirmed, the chain extends, and block height increments.</p>
+          </div>
+        </div>
+        <div class="rc-step">
+          <span class="rc-step-num" aria-hidden="true">04</span>
+          <div>
+            <strong>Fixed supply</strong>
+            <p>When 21,000,000 RC is reached, no more can ever be created. The genesis grant closes; the network continues on existing supply.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 5 — BLOCKCHAIN PROPERTIES
+    ══════════════════════════════════════ -->
+    <section class="rc-section" aria-labelledby="techHeading">
+      <div class="rc-section-head">
+        <p class="rc-kicker">Technical Properties</p>
+        <h2 id="techHeading">What runs under the hood.</h2>
+      </div>
+
+      <div class="rc-tech-panel">
+        <div class="rc-tech-grid">
+          <div class="rc-tech-item">
+            <span class="tkey">Hash Function</span>
+            <span class="tval">SHA-256</span>
+          </div>
+          <div class="rc-tech-item">
+            <span class="tkey">Block Time</span>
+            <span class="tval orange">59 seconds</span>
+          </div>
+          <div class="rc-tech-item">
+            <span class="tkey">Supply</span>
+            <span class="tval">21,000,000 RC</span>
+          </div>
+          <div class="rc-tech-item">
+            <span class="tkey">Genesis Grant</span>
+            <span class="tval">1,000 RC / wallet</span>
+          </div>
+          <div class="rc-tech-item">
+            <span class="tkey">Auth</span>
+            <span class="tval orange">PIN + wallet name</span>
+          </div>
+          <div class="rc-tech-item">
+            <span class="tkey">Explorer</span>
+            <span class="tval"><a href="#explorer" style="color:inherit">Open ledger</a></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 6 — CONNECTED PAGES
+    ══════════════════════════════════════ -->
+    <nav class="rc-web" aria-label="Connected pages">
+      <div class="rc-web-label">Connected Pages</div>
+      <div class="rc-web-grid">
+        <a class="rc-web-card" href="index.html">
+          <span class="rc-web-icon">&#x1F4B3;</span>
+          <span class="rc-web-title">Wallet</span>
+          <span class="rc-web-desc">Send, receive, and manage your RC balance</span>
+        </a>
+        <a class="rc-web-card" href="vault.html">
+          <span class="rc-web-icon">&#x1F510;</span>
+          <span class="rc-web-title">Vault</span>
+          <span class="rc-web-desc">Encrypted AES-GCM backup and recovery</span>
+        </a>
+        <a class="rc-web-card" href="merchant.html">
+          <span class="rc-web-icon">&#x1F3EA;</span>
+          <span class="rc-web-title">Merchant</span>
+          <span class="rc-web-desc">Accept RC payments and track settlements</span>
+        </a>
+        <a class="rc-web-card" href="marketplace/">
+          <span class="rc-web-icon">&#x1F6D2;</span>
+          <span class="rc-web-title">Marketplace</span>
+          <span class="rc-web-desc">Browse services, spend and earn RC</span>
+        </a>
+        <a class="rc-web-card" href="/">
+          <span class="rc-web-icon">&#x1F3E0;</span>
+          <span class="rc-web-title">Home</span>
+          <span class="rc-web-desc">Amit Ku Yadav — personal site</span>
+        </a>
+      </div>
     </nav>
-
-    <!-- ═══════════════════════════════════════════
-         PILLAR 1 — LEARN
-    ════════════════════════════════════════════ -->
-    <section id="coin-learn" class="coin-section" aria-label="Learn about digital coins">
-      <div class="coin-section-head">
-        <p class="coin-kicker">Pillar 1 — Learn</p>
-        <h2>Understand digital currency from the ground up.</h2>
-        <p>
-          Before using or building anything, the community starts here — simple, honest explanations of what
-          a digital coin is, how it differs from cash, why identity matters, and how UPI-style familiarity
-          can make digital money accessible to everyone.
-        </p>
-      </div>
-
-      <div class="coin-learn-grid">
-        <article class="coin-learn-card accent">
-          <span class="coin-learn-card-icon">🪙</span>
-          <h3>What is a digital coin?</h3>
-          <p>A digital coin is a unit of value recorded on a ledger — like a number in a secure digital notebook — that people can earn, hold, and use according to transparent rules.</p>
-        </article>
-        <article class="coin-learn-card">
-          <span class="coin-learn-card-icon">🏦</span>
-          <h3>How does UPI connect?</h3>
-          <p>UPI taught India to pay by scanning and confirming. A digital coin uses the same mental model: verify identity, approve transaction, receive proof — no confusion.</p>
-        </article>
-        <article class="coin-learn-card">
-          <span class="coin-learn-card-icon">🪪</span>
-          <h3>Why identity comes first</h3>
-          <p>A coin without identity is just a number. HI Coin ties every wallet to a Human Digital Identity (HDI) so balances and records are personally accountable and meaningful.</p>
-        </article>
-        <article class="coin-learn-card">
-          <span class="coin-learn-card-icon">🔒</span>
-          <h3>Security basics</h3>
-          <p>Your wallet lives in your browser's local storage, protected by device fingerprint and session keys. HI Vault encrypts the whole backup with AES-GCM. No server holds your keys.</p>
-        </article>
-        <article class="coin-learn-card">
-          <span class="coin-learn-card-icon">📊</span>
-          <h3>Supply rules matter</h3>
-          <p>The prototype caps earnings at 99 HI per transaction to model responsible supply discipline. Real-world digital currencies need transparent, auditable issuance rules.</p>
-        </article>
-        <article class="coin-learn-card">
-          <span class="coin-learn-card-icon">🤝</span>
-          <h3>Community not speculation</h3>
-          <p>This is not a trading platform. HI Coin is an ecosystem demo: earn through contribution, use for services, build trust through ledger history — value through real participation.</p>
-        </article>
-      </div>
-
-      <div class="coin-stats">
-        <div class="coin-stat"><span>Origin</span><strong>India</strong></div>
-        <div class="coin-stat"><span>HI Coin Cap</span><strong>99 HI</strong></div>
-        <div class="coin-stat"><span>Identity</span><strong>HDI First</strong></div>
-        <div class="coin-stat"><span>Access</span><strong>Open to All</strong></div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════
-         PILLAR 2 — UNDERSTAND
-    ════════════════════════════════════════════ -->
-    <section id="coin-understand" class="coin-section" aria-label="Understand how digital coins work">
-      <div class="coin-section-head">
-        <p class="coin-kicker">Pillar 2 — Understand</p>
-        <h2>How it works under the hood.</h2>
-        <p>
-          The technology is not magic — it's a set of rules for recording, verifying, and protecting value.
-          Understanding the stack helps you make better decisions as a user, builder, or policy contributor.
-        </p>
-      </div>
-
-      <div class="coin-split">
-        <div class="coin-media">
-          <img src="images/coin/hi-coin-multi-view.png" alt="Multiple views of a digital coin showing front, edge, and back rotation" loading="lazy" />
-        </div>
-        <div class="coin-panel">
-          <p class="coin-kicker">Technology Layer</p>
-          <h2>Think like Bitcoin, design for everyday India.</h2>
-          <p>
-            Bitcoin proved that a public ledger, scarcity rules, and wallet ownership can create a new digital asset class.
-            This concept adapts those principles for an India-first experience: identity-aware wallets, UPI-style usability,
-            merchant records, and community trust — not speculation.
-          </p>
-          <div class="coin-tech-stack">
-            <div class="coin-tech-item">
-              <strong>Ledger proof</strong>
-              <p>Every coin movement produces a timestamped, inspectable record — auditable by the user without any third party.</p>
-            </div>
-            <div class="coin-tech-item">
-              <strong>Wallet ownership</strong>
-              <p>Users need a clear wallet address, balance, history, and recovery path before any system can feel truly trustworthy.</p>
-            </div>
-            <div class="coin-tech-item">
-              <strong>Supply discipline</strong>
-              <p>A serious coin model needs transparent rules for generation, earning limits, and visible total supply accounting.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="coin-arch-split">
-        <div class="coin-panel">
-          <p class="coin-kicker">Architecture</p>
-          <h2>Four layers that make it real.</h2>
-          <p>
-            A professional digital currency connects coin issuance, wallet logic, UPI bridge thinking, and settlement rails
-            into one coherent, auditable system.
-          </p>
-          <div class="coin-comparison">
-            <div class="coin-comparison-item"><b>Asset</b><p>Coin rules, token identity, and visible supply accounting.</p></div>
-            <div class="coin-comparison-item"><b>Ledger</b><p>Transaction history, timestamps, and a complete audit trail.</p></div>
-            <div class="coin-comparison-item"><b>Wallet</b><p>Address, balance, keys, identity binding, and permissions.</p></div>
-            <div class="coin-comparison-item"><b>Rail</b><p>UPI-inspired payment UX and future merchant settlement records.</p></div>
-          </div>
-        </div>
-        <div class="coin-media" style="min-height:280px">
-          <img src="images/coin/india_digital_coin_architecture.svg"
-               alt="Layered architecture diagram for digital coin, UPI bridge, wallet, compliance, and settlement"
-               loading="lazy"
-               style="object-fit:contain;padding:16px" />
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════
-         PILLAR 3 — USE
-    ════════════════════════════════════════════ -->
-    <section id="coin-use" class="coin-section" aria-label="Use the HI Coin prototype">
-      <div class="coin-section-head">
-        <p class="coin-kicker">Pillar 3 — Use</p>
-        <h2>Try the live prototype economy.</h2>
-        <p>
-          HI Wallet, HI Marketplace, and the Merchant Dashboard are working prototypes you can open right now.
-          Create your identity, earn HI through contributions, spend it on services, and watch trust build through your ledger.
-        </p>
-      </div>
-
-      <div class="coin-use-grid">
-        <article class="coin-use-card">
-          <div class="coin-use-icon">💳</div>
-          <h3>HI Wallet</h3>
-          <p>Your identity-linked wallet. See your balance, HDI, device fingerprint, and full ledger history. Genesis mint of 10 HI is automatic after setup.</p>
-          <a class="coin-btn primary" href="wallet.html">Open Wallet</a>
-        </article>
-        <article class="coin-use-card">
-          <div class="coin-use-icon">🏪</div>
-          <h3>Merchant Dashboard</h3>
-          <p>Register as a merchant, receive simulated HI payments, and track customer history and future INR settlement readiness.</p>
-          <a class="coin-btn" href="merchant.html">Open Dashboard</a>
-        </article>
-        <article class="coin-use-card">
-          <div class="coin-use-icon">🛒</div>
-          <h3>HI Marketplace</h3>
-          <p>Browse services, spend HI on simulated purchases, earn through verified contributions, and build your ledger-backed trust score.</p>
-          <a class="coin-btn" href="/wallet/marketplace/">Open Marketplace</a>
-        </article>
-      </div>
-
-      <div class="coin-split" style="margin-top:18px">
-        <div class="coin-panel">
-          <p class="coin-kicker">How to Start</p>
-          <h2>Four steps to your first HI.</h2>
-          <div class="coin-flow">
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">01</span>
-              <div><strong>Create your identity</strong><p>Go to the personal page and create your Human Digital Identity (HDI) — this links all records to you.</p></div>
-            </div>
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">02</span>
-              <div><strong>Get your genesis mint</strong><p>Open HI Wallet. Your first 10 HI genesis mint is automatic once identity is set up.</p></div>
-            </div>
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">03</span>
-              <div><strong>Earn through contribution</strong><p>Use the marketplace to record work, referrals, or community help — each earns HI (max 99 per transaction).</p></div>
-            </div>
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">04</span>
-              <div><strong>Use HI for services</strong><p>Spend HI in the marketplace, pay merchants, and watch your trust score grow with every transaction.</p></div>
-            </div>
-          </div>
-        </div>
-        <div class="coin-panel">
-          <p class="coin-kicker">Network Trust</p>
-          <h2>Security, identity, and adoption together.</h2>
-          <p>A coin only becomes useful when people understand why it is secure, how it connects to payments, and what protections exist for ordinary users.</p>
-          <div class="coin-flow">
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">A</span>
-              <div><strong>Secure wallet</strong><p>Device identity, HDI, and local ledger history make ownership visible and auditable to the user.</p></div>
-            </div>
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">B</span>
-              <div><strong>Payment bridge</strong><p>UPI-style behavior keeps the experience familiar: scan, confirm, receive proof — no surprise fees.</p></div>
-            </div>
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">C</span>
-              <div><strong>Trusted backup</strong><p>HI Vault encrypts your entire wallet, ledger, and identity into a portable AES-GCM backup file you control.</p></div>
-            </div>
-          </div>
-          <a class="coin-btn" href="vault.html" style="display:inline-flex;margin-top:16px">Open HI Vault →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════
-         PILLAR 4 — BUILD VALUE
-    ════════════════════════════════════════════ -->
-    <section id="coin-build" class="coin-section" aria-label="Build value with the community">
-      <div class="coin-section-head">
-        <p class="coin-kicker">Pillar 4 — Build Value</p>
-        <h2>Shape the future of digital money together.</h2>
-        <p>
-          Value is not just coin balance — it is the community knowledge, open standards, merchant participation,
-          and policy thinking that make a digital coin movement worth joining.
-        </p>
-      </div>
-
-      <div class="coin-roadmap">
-        <article class="coin-roadmap-item active">
-          <h3>Public education</h3>
-          <p>Publish simple explainers about digital coin basics, UPI-style flows, wallet safety, and identity-first thinking. This page is Phase 1 — active now.</p>
-        </article>
-        <article class="coin-roadmap-item active">
-          <h3>Prototype wallet</h3>
-          <p>Use HI Wallet as a live sandbox for identity-bound coin records, balance history, and encrypted local backup. Active now.</p>
-        </article>
-        <article class="coin-roadmap-item">
-          <h3>Merchant stories</h3>
-          <p>Map how stores, creators, NGOs, and local communities could use verified digital receipts and HI-settled transactions in practice.</p>
-        </article>
-        <article class="coin-roadmap-item">
-          <h3>Open standards</h3>
-          <p>Define transparent rules for identity, privacy, audit trails, supply limits, and responsible adoption across diverse communities.</p>
-        </article>
-      </div>
-
-      <div class="coin-community-split" id="coin-community">
-        <div class="coin-panel">
-          <p class="coin-kicker">Community</p>
-          <h2>Join the conversation.</h2>
-          <p>
-            This is for builders, students, founders, designers, policy thinkers, merchants, and community leaders
-            who want to explore a trusted digital currency experience from India to the world.
-          </p>
-          <p>
-            Contribute ideas, report gaps, collaborate on prototypes, or simply use the wallet and tell us what breaks.
-            Every piece of feedback helps build the standard.
-          </p>
-          <div class="coin-hero-actions">
-            <a href="/pages/contact.html" class="coin-btn primary">Contact to Collaborate</a>
-            <a href="/pages/collaboration.html" class="coin-btn">Partnership Page</a>
-          </div>
-          <p class="coin-note">
-            This page presents a community concept and direction only. It is not legal tender, not investment advice,
-            and not a live public cryptocurrency offering.
-          </p>
-        </div>
-        <div class="coin-panel">
-          <p class="coin-kicker">From India to World</p>
-          <h2>Built around trust signals people already know.</h2>
-          <p>
-            India's digital payment behaviour has already trained hundreds of millions of people to use fast payment rails.
-            A responsible coin community can learn from that behaviour while keeping education, safety, and compliance at the center.
-          </p>
-          <div class="coin-flow">
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">1</span>
-              <div><strong>Learn</strong><p>Explain wallets, coin records, security, limits, and responsibilities in simple language.</p></div>
-            </div>
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">2</span>
-              <div><strong>Build</strong><p>Create prototypes for identity, payment receipts, merchant acceptance, and community rewards.</p></div>
-            </div>
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">3</span>
-              <div><strong>Verify</strong><p>Keep every transaction record inspectable, exportable, and tied to clear user consent.</p></div>
-            </div>
-            <div class="coin-flow-item">
-              <span class="coin-flow-num">4</span>
-              <div><strong>Expand</strong><p>Invite global contributors to adapt the model for local communities and real-world needs.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── WEB: Connected Pages ── -->
-    <style>
-      .idx-web { padding: clamp(1.5rem,4vw,2.5rem) clamp(1rem,4vw,2rem); max-width: 960px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,.07); }
-      .idx-web-label { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: .9rem; }
-      .idx-web-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: .85rem; }
-      .idx-web-card { display: flex; flex-direction: column; gap: 5px; padding: 1rem 1.15rem; border: 1px solid rgba(255,255,255,.07); border-radius: 10px; background: rgba(255,255,255,.025); text-decoration: none; transition: border-color .2s, background .2s; }
-      .idx-web-card:hover { border-color: #046A38; background: rgba(4,106,56,.08); }
-      .idx-web-icon { font-size: 1.25rem; }
-      .idx-web-title { font-size: .92rem; font-weight: 700; color: #fff; }
-      .idx-web-desc { font-size: .78rem; color: rgba(255,255,255,.4); line-height: 1.55; }
-      body.theme-light .idx-web { border-top-color: rgba(0,0,0,.09); }
-      body.theme-light .idx-web-label { color: rgba(0,0,0,.4); }
-      body.theme-light .idx-web-card { border-color: rgba(0,0,0,.09); background: rgba(0,0,0,.025); }
-      body.theme-light .idx-web-card:hover { border-color: #046A38; background: rgba(4,106,56,.05); }
-      body.theme-light .idx-web-title { color: #111; }
-      body.theme-light .idx-web-desc { color: rgba(0,0,0,.4); }
-    </style>
-    <section class="idx-web" aria-label="Connected pages">
-      <div class="idx-web-label">Connected Pages</div>
-      <div class="idx-web-grid">
-        <a class="idx-web-card" href="/pages/services.html">
-          <span class="idx-web-icon">🛠️</span>
-          <span class="idx-web-title">Services — Ecosystem Work</span>
-          <span class="idx-web-desc">Services built on the same system the coin is designed to reward</span>
-        </a>
-        <a class="idx-web-card" href="/pages/collaboration.html">
-          <span class="idx-web-icon">🤝</span>
-          <span class="idx-web-title">Collaboration — Join the Network</span>
-          <span class="idx-web-desc">Partner on initiatives that shape how the coin is used in the community</span>
-        </a>
-        <a class="idx-web-card" href="/pages/professional.html">
-          <span class="idx-web-icon">🗂️</span>
-          <span class="idx-web-title">Professional — Portfolio</span>
-          <span class="idx-web-desc">The person and work behind the digital coin vision</span>
-        </a>
-      </div>
-    </section>
 
   </main>
 
@@ -959,6 +590,132 @@
   <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
+
+  <!-- noble/secp256k1 for client-side ECDSA signing -->
+<script src="https://cdn.jsdelivr.net/npm/@noble/secp256k1@1.7.1/lib/index.js"></script>
+<script>
+  if (typeof secp256k1 !== 'undefined') window.nobleSecp256k1 = secp256k1;
+  else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null;
+  window.RC_NODE_URL = 'http://localhost:8080';
+</script>
+<script src="js/rupeecoin.js?v=4"></script>
+
+  <!-- RupeeCoin page logic (uses RC.* from rupeecoin.js, loaded above) -->
+  <script>
+  "use strict";
+
+  /* ── 1. Header badge ── */
+  document.addEventListener('DOMContentLoaded', function () {
+    if (RC.isLoggedIn()) {
+      var badge = document.getElementById('rcHdrBadge');
+      var user  = document.getElementById('rcHdrUser');
+      var bal   = document.getElementById('rcHdrBal');
+      if (badge && user && bal) {
+        user.textContent = RC.getName();
+        bal.textContent  = RC.fmt(RC.getBalance()) + ' RC';
+        badge.style.display = '';
+      }
+      /* Explorer: auto-reveal blocks if already logged in */
+      rcShowExplorerBlocks();
+    }
+  });
+
+  /* ── 2. Stats poller ── */
+  function rcUpdateStats(d) {
+    _setText('rcStatSupply',  RC.fmt(d.total_supply  || 0));
+    _setText('rcStatCirc',    RC.fmt(d.circulating   || 0));
+    _setText('rcStatMembers', d.members      != null ? d.members      : '—');
+    _setText('rcStatBlock',   d.block_height != null ? d.block_height : '—');
+  }
+
+  function rcPollStats() {
+    RC.stats(function (d) {
+      if (!d || !d.ok) return;
+      rcUpdateStats(d);
+    });
+  }
+
+  rcPollStats();
+  setInterval(rcPollStats, 59000);
+
+  /* ── 3. Block explorer — login form ── */
+  function rcExpLogin() {
+    var name = document.getElementById('rcExpName').value.trim();
+    var pin  = document.getElementById('rcExpPin').value.trim();
+    if (!name || !pin) { _expMsg('Enter wallet name and PIN.', 'err'); return; }
+    var btn = document.getElementById('rcExpBtn');
+    btn.disabled = true;
+    RC.login(name, pin, function (r) {
+      btn.disabled = false;
+      if (!r.ok) { _expMsg(r.error || 'Login failed.', 'err'); return; }
+      /* Update header badge */
+      var badge = document.getElementById('rcHdrBadge');
+      var user  = document.getElementById('rcHdrUser');
+      var bal   = document.getElementById('rcHdrBal');
+      if (badge && user && bal) {
+        user.textContent = RC.getName();
+        bal.textContent  = RC.fmt(RC.getBalance()) + ' RC';
+        badge.style.display = '';
+      }
+      rcShowExplorerBlocks();
+    });
+  }
+
+  function rcShowExplorerBlocks() {
+    document.getElementById('rcExpLogin').style.display  = 'none';
+    document.getElementById('rcExpBlocks').style.display = '';
+    rcLoadBlocks();
+    setInterval(rcLoadBlocks, 59000);
+  }
+
+  /* ── 4. Load blocks ── */
+  function rcLoadBlocks() {
+    if (!RC.isLoggedIn()) return;
+    RC.blocks(function (r) {
+      var list = document.getElementById('rcBlockList');
+      if (!r || !r.ok || !r.blocks || !r.blocks.length) {
+        list.innerHTML = '<li class="rc-block-row"><span style="opacity:.28">No blocks yet.</span></li>';
+        return;
+      }
+      var blocks = r.blocks;
+      list.innerHTML = blocks.slice(0, 14).map(function (b) {
+        var hashShort = String(b.hash || '').slice(0, 20) + '…';
+        var ts = b.ts ? String(b.ts).slice(0, 16).replace('T', ' ') : '';
+        return '<li class="rc-block-row">' +
+          '<span class="rc-block-num">#' + RC.esc(String(b.height)) + '</span>' +
+          '<span class="rc-block-hash">' + RC.esc(hashShort) + '</span>' +
+          '<span class="rc-block-txs">' + RC.esc(String(b.tx_count)) + ' tx</span>' +
+          '<span class="rc-block-ts">'  + RC.esc(ts) + '</span>' +
+          '</li>';
+      }).join('');
+
+      /* Update meta row */
+      var latest = blocks[0] || {};
+      _setText('rcMetaHash', latest.hash ? String(latest.hash).slice(0, 28) + '…' : '—');
+      _setText('rcMetaBlockTime', '59s');
+      /* Remaining supply from stats */
+      RC.stats(function (s) {
+        if (s && s.ok) {
+          var rem = (s.total_supply || 0) - (s.circulating || 0);
+          _setText('rcMetaRemaining', RC.fmt(rem) + ' RC');
+        }
+      });
+    });
+  }
+
+  /* ── Helpers ── */
+  function _setText(id, v) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = v;
+  }
+
+  function _expMsg(text, type) {
+    var el = document.getElementById('rcExpMsg');
+    if (!el) return;
+    el.textContent = text;
+    el.className = 'rc-msg ' + type;
+  }
+  </script>
 
   <script src="js/nav.js?v=wallet-nav-2" defer></script>
   <script src="js/footer.js" defer></script>
