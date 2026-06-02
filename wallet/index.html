@@ -1,649 +1,1123 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RupeeCoin — Decentralised Community Currency</title>
-  <meta name="description" content="RupeeCoin: 21,000,000 RC hard cap. No owner. No founder. New block every 59 seconds. Open wallet — anyone can join." />
-  <meta name="author" content="Amit Ku Yadav" />
-  <meta name="theme-color" content="#046A38" />
-  <link rel="icon" href="favicon/favicon.ico" />
-  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RupeeCoin — Decentralised Community Currency</title>
+    <meta
+      name="description"
+      content="RupeeCoin: 21,000,000 RC hard cap. No owner. No founder. New block every 59 seconds. Open wallet — anyone can join."
+    />
+    <meta name="author" content="Amit Ku Yadav" />
+    <meta name="theme-color" content="#046A38" />
+    <link rel="icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
 
-  <link rel="preload" href="/css/base.css?v=form-suite-1" as="style" />
-  <link rel="preload" href="/css/components.css?v=footer-clean-1" as="style" />
-  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
-  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
-  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-2" />
-  <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-3" />
+    <link rel="preload" href="/css/base.css?v=form-suite-1" as="style" />
+    <link rel="preload" href="/css/components.css?v=footer-clean-1" as="style" />
+    <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
+    <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
+    <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
+    <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-3" />
+    <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-3" />
 
-  <style>
-    /* ── Page container ── */
-    .rc-main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: clamp(36px, 6vw, 72px) clamp(16px, 4vw, 40px) 80px;
-    }
-
-    /* ── Hero ── */
-    .rc-hero {
-      text-align: center;
-      padding: clamp(40px, 7vw, 80px) 0 clamp(28px, 4vw, 48px);
-    }
-    .rc-kicker {
-      display: inline-block;
-      margin-bottom: 14px;
-      color: var(--brand-green);
-      font-size: .72rem;
-      font-weight: 850;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-    }
-    .rc-hero h1 {
-      margin: 0 0 16px;
-      font-size: clamp(2.6rem, 6vw, 4.8rem);
-      line-height: .96;
-      font-weight: 850;
-      letter-spacing: -.5px;
-    }
-    .rc-hero-desc {
-      max-width: 520px;
-      margin: 0 auto 28px;
-      font-size: clamp(.95rem, 1.3vw, 1.08rem);
-      line-height: 1.7;
-      opacity: .72;
-    }
-    .rc-hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-    .rc-action-btn {
-      display: inline-flex;
-      align-items: center;
-      min-height: 44px;
-      padding: 0 20px;
-      border-radius: 999px;
-      font-size: .86rem;
-      font-weight: 800;
-      text-decoration: none;
-      cursor: pointer;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.07);
-      color: inherit;
-      transition: transform .18s, border-color .18s, background .18s;
-    }
-    .rc-action-btn.primary {
-      border-color: transparent;
-      background: var(--gradient-brand, linear-gradient(135deg,#046A38,#FF671F));
-      color: #fff;
-      box-shadow: 0 12px 28px rgba(4,106,56,.22);
-    }
-    .rc-action-btn:hover { transform: translateY(-2px); border-color: rgba(4,106,56,.42); }
-
-    /* ── Network stats bar ── */
-    .rc-net {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 14px;
-      overflow: hidden;
-      margin-bottom: 32px;
-    }
-    .rc-net-item {
-      background: rgba(255,255,255,.04);
-      padding: 18px 14px;
-      text-align: center;
-    }
-    .rc-net-label {
-      font-size: .62rem;
-      font-weight: 700;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      opacity: .5;
-      margin-bottom: 6px;
-    }
-    .rc-net-value {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #4ade80;
-      font-variant-numeric: tabular-nums;
-    }
-    .rc-net-value.orange { color: #fb923c; }
-
-    /* ── Wallet card ── */
-    .rc-card {
-      background: rgba(255,255,255,.055);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 18px;
-      padding: clamp(22px, 3.5vw, 36px);
-      margin-bottom: 24px;
-    }
-    .rc-card-title {
-      font-size: .68rem;
-      font-weight: 800;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      opacity: .45;
-      margin-bottom: 20px;
-    }
-
-    /* ── Auth tabs ── */
-    .rc-tabs {
-      display: flex;
-      gap: 5px;
-      margin-bottom: 22px;
-      background: rgba(0,0,0,.25);
-      border-radius: 10px;
-      padding: 4px;
-    }
-    .rc-tab {
-      flex: 1;
-      padding: 9px;
-      border: none;
-      border-radius: 7px;
-      background: transparent;
-      color: rgba(255,255,255,.48);
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .4px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all .18s;
-    }
-    .rc-tab.active { background: rgba(4,106,56,.52); color: #fff; }
-
-    /* ── Fields ── */
-    .rc-field {
-      width: 100%;
-      padding: 12px 14px;
-      background: rgba(0,0,0,.3);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 10px;
-      color: #fff;
-      font-size: .9rem;
-      margin-bottom: 10px;
-      outline: none;
-      transition: border-color .18s;
-      font-family: inherit;
-    }
-    .rc-field:focus { border-color: rgba(4,106,56,.6); }
-    .rc-field::placeholder { opacity: .32; }
-
-    .rc-btn {
-      width: 100%;
-      padding: 13px;
-      background: #046A38;
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-size: .86rem;
-      font-weight: 700;
-      letter-spacing: .3px;
-      cursor: pointer;
-      transition: background .18s;
-      font-family: inherit;
-    }
-    .rc-btn:hover { background: #034f2a; }
-    .rc-btn:disabled { opacity: .42; cursor: not-allowed; }
-
-    .rc-msg {
-      font-size: .8rem;
-      padding: 10px 12px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      display: none;
-    }
-    .rc-msg.ok  { background: rgba(4,106,56,.25); color: #4ade80; display: block; }
-    .rc-msg.err { background: rgba(255,80,80,.16); color: #f87171; display: block; }
-
-    /* ── Dashboard ── */
-    #rcDash { display: none; }
-    .rc-balance-hero {
-      text-align: center;
-      padding: 22px 0 18px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      margin-bottom: 22px;
-    }
-    .rc-balance-hero .amount {
-      font-size: clamp(2.2rem, 6vw, 3.2rem);
-      font-weight: 800;
-      color: #4ade80;
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-    }
-    .rc-balance-hero .user { font-size: .75rem; opacity: .46; margin-top: 6px; }
-
-    .rc-section-head {
-      font-size: .64rem;
-      font-weight: 800;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      opacity: .38;
-      margin-bottom: 12px;
-    }
-    .rc-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-    /* ── History ── */
-    .rc-history { list-style: none; padding: 0; margin: 0; }
-    .rc-history-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 11px 0;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      font-size: .82rem;
-    }
-    .rc-history-item:last-child { border-bottom: none; }
-    .rc-history-item .meta { opacity: .42; font-size: .7rem; margin-top: 2px; }
-    .rc-amt-in  { color: #4ade80; font-weight: 700; }
-    .rc-amt-out { color: #fb923c; font-weight: 700; }
-
-    .rc-logout {
-      display: block;
-      width: 100%;
-      margin-top: 14px;
-      padding: 8px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 8px;
-      color: rgba(255,255,255,.46);
-      font-size: .7rem;
-      cursor: pointer;
-      transition: all .18s;
-      font-family: inherit;
-    }
-    .rc-logout:hover { border-color: rgba(255,80,80,.4); color: #f87171; }
-
-    .rc-auth-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .rc-wallet-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.07);
-      color: inherit;
-      font-size: .86rem;
-      font-weight: 800;
-      text-decoration: none;
-      text-align: center;
-      transition: transform .18s, border-color .18s, background .18s;
-    }
-    .rc-wallet-link.primary {
-      border-color: transparent;
-      background: var(--gradient-brand, linear-gradient(135deg,#046A38,#FF671F));
-      color: #fff;
-      box-shadow: 0 12px 28px rgba(4,106,56,.22);
-    }
-    .rc-wallet-link:hover {
-      transform: translateY(-2px);
-      border-color: rgba(4,106,56,.42);
-    }
-
-    /* ── Block explorer ── */
-    .rc-blocks { list-style: none; padding: 0; margin: 0; }
-    .rc-block-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 11px 0;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      font-size: .8rem;
-    }
-    .rc-block-row:last-child { border-bottom: none; }
-    .rc-block-num  { font-size: .7rem; font-weight: 800; color: #4ade80; min-width: 44px; }
-    .rc-block-hash { opacity: .36; font-family: monospace; font-size: .68rem; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .rc-block-txs  { opacity: .46; font-size: .7rem; white-space: nowrap; }
-
-    /* ── Features grid ── */
-    .rc-features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 32px;
-    }
-    .rc-feature {
-      padding: 20px;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 13px;
-      background: rgba(255,255,255,.03);
-    }
-    .rc-feature-icon { font-size: 1.8rem; margin-bottom: 10px; }
-    .rc-feature h3 { margin: 0 0 7px; font-size: .95rem; }
-    .rc-feature p  { margin: 0; font-size: .84rem; opacity: .6; line-height: 1.55; }
-
-    /* ── Live pulse ── */
-    .rc-pulse {
-      display: inline-block;
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: #4ade80;
-      margin-right: 6px;
-      animation: rc-pulse 2s infinite;
-    }
-    @keyframes rc-pulse { 0%,100%{opacity:1} 50%{opacity:.28} }
-
-    /* ── Connected pages (reuse coin.html pattern) ── */
-    .rc-web { padding: clamp(1.5rem,4vw,2.5rem) 0; border-top: 1px solid rgba(255,255,255,.07); margin-top: 12px; }
-    .rc-web-label { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-bottom: .9rem; }
-    .rc-web-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: .85rem; }
-    .rc-web-card { display: flex; flex-direction: column; gap: 5px; padding: 1rem 1.15rem; border: 1px solid rgba(255,255,255,.07); border-radius: 10px; background: rgba(255,255,255,.025); text-decoration: none; transition: border-color .2s,background .2s; }
-    .rc-web-card:hover { border-color: #046A38; background: rgba(4,106,56,.08); }
-    .rc-web-icon { font-size: 1.2rem; }
-    .rc-web-title { font-size: .9rem; font-weight: 700; color: #fff; }
-    .rc-web-desc  { font-size: .76rem; color: rgba(255,255,255,.38); line-height: 1.5; }
-
-    /* ── Responsive ── */
-    @media (max-width: 700px) {
-      .rc-net { grid-template-columns: repeat(2, 1fr); }
-      .rc-features { grid-template-columns: 1fr; }
-      .rc-grid2 { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-
-<body class="theme-dark wallet-app">
-  <script src="/js/site-init.js?v=1"></script>
-
-  <div id="scrollProgress"></div>
-  <a href="#main-content" class="skip-link">Skip to content</a>
-
-  <header class="site-header glass">
-    <div class="header-inner">
-      <div class="brand">
-        <a href="/wallet/index.html" class="brand-link" aria-label="HI Wallet app home">
-          <img id="siteLogo" class="logo" src="logo/day-logo.png" alt="Amit Ku Yadav" width="50" height="50" />
-          <div class="brand-text">
-            <span class="brand-name">Amit Ku Yadav</span>
-            <span class="brand-tagline">HI Wallet App</span>
-          </div>
-        </a>
-      </div>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <nav class="wallet-nav" aria-label="Wallet navigation" data-nav="wallet"></nav>
-      <div class="rc-hdr-badge" id="rcHdrBadge" style="display:none">
-        <span id="rcHdrUser"></span>
-        <strong id="rcHdrBal">0 RC</strong>
-      </div>
-    </div>
-  </header>
-
-  <main class="rc-main" id="main-content">
-
-    <!-- Hero -->
-    <section class="rc-hero" aria-label="RupeeCoin overview">
-      <p class="rc-kicker">Community Digital Currency — India</p>
-      <h1>RupeeCoin</h1>
-      <p class="rc-hero-desc">
-        No owner. No founder. 21,000,000 RC hard cap.<br>
-        New block every 59 seconds. Anyone can join.
-      </p>
-      <div class="rc-hero-actions">
-        <a href="#rcWalletCard" class="rc-action-btn primary">Open Wallet</a>
-        <a href="coin.html" class="rc-action-btn">Learn More</a>
-        <a href="marketplace/" class="rc-action-btn">Marketplace</a>
-      </div>
-    </section>
-
-    <!-- Live network stats -->
-    <div class="rc-net" role="region" aria-label="RupeeCoin live network stats">
-      <div class="rc-net-item">
-        <div class="rc-net-label">Supply Cap</div>
-        <div class="rc-net-value" id="rcNetSupply">—</div>
-      </div>
-      <div class="rc-net-item">
-        <div class="rc-net-label">Circulating</div>
-        <div class="rc-net-value" id="rcNetCirc">—</div>
-      </div>
-      <div class="rc-net-item">
-        <div class="rc-net-label">Members</div>
-        <div class="rc-net-value orange" id="rcNetMembers">—</div>
-      </div>
-      <div class="rc-net-item">
-        <div class="rc-net-label">Block Height</div>
-        <div class="rc-net-value orange" id="rcNetBlock">—</div>
-      </div>
-    </div>
-
-    <!-- Feature highlights -->
-    <div class="rc-features">
-      <div class="rc-feature">
-        <div class="rc-feature-icon">⛓️</div>
-        <h3>Real Blockchain</h3>
-        <p>SHA-256 chained blocks sealed every 59 seconds. Fully transparent and auditable by anyone.</p>
-      </div>
-      <div class="rc-feature">
-        <div class="rc-feature-icon">🌱</div>
-        <h3>Genesis Grant</h3>
-        <p>Every new wallet receives 1,000 RC automatically. No purchase required, no approval needed.</p>
-      </div>
-      <div class="rc-feature">
-        <div class="rc-feature-icon">🔒</div>
-        <h3>Fixed Supply</h3>
-        <p>Hard cap of 21,000,000 RC — just like Bitcoin. No inflation, no hidden minting, ever.</p>
-      </div>
-    </div>
-
-    <!-- Wallet card -->
-    <div class="rc-card" id="rcWalletCard">
-      <div class="rc-card-title">
-        <span class="rc-pulse"></span>Wallet
-      </div>
-
-      <!-- Auth panel -->
-      <div id="rcAuth">
-        <div class="rc-auth-actions">
-          <a class="rc-wallet-link" href="wallet.html">Sign In / Import</a>
-          <a class="rc-wallet-link primary" href="wallet.html">Create Wallet</a>
-        </div>
-      </div>
-
-      <!-- Dashboard -->
-      <div id="rcDash">
-        <div class="rc-balance-hero">
-          <div class="amount">
-            <span id="rcBalance">0</span>
-            <span style="opacity:.38;font-size:.48em">RC</span>
-          </div>
-          <div class="user" id="rcWalletName"></div>
-        </div>
-
-        <p class="rc-section-head">Send RC</p>
-        <div id="rcSendMsg" class="rc-msg"></div>
-        <input id="rcSendTo"  class="rc-field" type="text"   placeholder="Recipient address (R…)" autocomplete="off" style="font-family:monospace;font-size:.82rem" />
-        <input id="rcSendAmt" class="rc-field" type="number" placeholder="Amount (RC)" min="1" />
-        <button class="rc-btn" onclick="rcSend()">Sign &amp; Send</button>
-
-        <p class="rc-section-head" style="margin-top:24px">Recent Transactions</p>
-        <ul class="rc-history" id="rcHistory">
-          <li class="rc-history-item"><span style="opacity:.28">Loading…</span></li>
-        </ul>
-
-        <button class="rc-logout" onclick="rcLogout()">Sign out</button>
-      </div>
-    </div>
-
-    <!-- Block explorer -->
-    <div class="rc-card">
-      <div class="rc-card-title">Block Explorer</div>
-      <ul class="rc-blocks" id="rcBlockList">
-        <li class="rc-block-row"><span style="opacity:.28">Sign in to view blocks.</span></li>
-      </ul>
-    </div>
-
-    <!-- Connected pages -->
-    <nav class="rc-web" aria-label="Related pages">
-      <div class="rc-web-label">Connected</div>
-      <div class="rc-web-grid">
-        <a class="rc-web-card" href="wallet.html">
-          <span class="rc-web-icon">💳</span>
-          <span class="rc-web-title">HI Wallet</span>
-          <span class="rc-web-desc">Identity-bound local wallet with HDI and device proof</span>
-        </a>
-        <a class="rc-web-card" href="coin.html">
-          <span class="rc-web-icon">🪙</span>
-          <span class="rc-web-title">HI Coin — Learn</span>
-          <span class="rc-web-desc">Digital currency education: learn, understand, use, build value</span>
-        </a>
-        <a class="rc-web-card" href="vault.html">
-          <span class="rc-web-icon">🔐</span>
-          <span class="rc-web-title">HI Vault</span>
-          <span class="rc-web-desc">Encrypted AES-GCM backup and recovery for your wallet</span>
-        </a>
-        <a class="rc-web-card" href="merchant.html">
-          <span class="rc-web-icon">🏪</span>
-          <span class="rc-web-title">Merchant</span>
-          <span class="rc-web-desc">Merchant onboarding, QR payments, settlement prototype</span>
-        </a>
-        <a class="rc-web-card" href="marketplace/">
-          <span class="rc-web-icon">🛒</span>
-          <span class="rc-web-title">Marketplace</span>
-          <span class="rc-web-desc">Browse services, earn RC, and build ledger-backed trust</span>
-        </a>
-      </div>
-    </nav>
-
-  </main>
-
-  <footer class="site-footer glass" data-footer></footer>
-
-  <button id="backToTop" aria-label="Back to top">
-    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
-  </button>
-
-  <!-- RupeeCoin wallet logic -->
-  <script src="https://cdn.jsdelivr.net/npm/@noble/secp256k1@1.7.1/lib/index.js"></script>
-  <script>
-    if (typeof secp256k1 !== 'undefined') window.nobleSecp256k1 = secp256k1;
-    else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null;
-    window.RC_NODE_URL = 'http://localhost:8080';
-  </script>
-  <script src="js/rupeecoin.js?v=4"></script>
-  <script>
-    "use strict";
-
-    function _setText(id, v) {
-      var el = document.getElementById(id);
-      if (el) el.textContent = v;
-    }
-
-    function rcLogout() { RC.logout(); location.reload(); }
-
-    function rcSend() {
-      var to  = $("rcSendTo").value.trim();
-      var amt = parseInt($("rcSendAmt").value, 10);
-      var msg = $("rcSendMsg");
-      msg.className = "rc-msg";
-      if (!to)             { msg.textContent = "Enter recipient address."; msg.className += " err"; return; }
-      if (!amt || amt <= 0){ msg.textContent = "Enter a valid amount.";   msg.className += " err"; return; }
-      RC.send(to, amt, function(res) {
-        if (res.ok) {
-          msg.textContent = "Sent! txid: " + (res.txid ? res.txid.slice(0,10) + "…" : "ok");
-          msg.className += " ok";
-          $("rcSendTo").value = "";
-          $("rcSendAmt").value = "";
-          rcLoadHistory();
-          RC.balance(function(r) {
-            if (r.ok) _setText('rcBalance', Number(r.balance).toLocaleString());
-          });
-        } else {
-          msg.textContent = res.error || "Send failed.";
-          msg.className += " err";
-        }
-      });
-    }
-
-    function rcLoadHistory() {
-      var ul = $("rcHistory");
-      if (!ul) return;
-      RC.history(function(res) {
-        var txs = res.ok ? (res.transactions || res.history || []) : [];
-        if (!txs.length) {
-          ul.innerHTML = '<li class="rc-history-item"><span style="opacity:.28">No transactions yet.</span></li>';
-          return;
-        }
-        var myAddr = RC.getAddress();
-        ul.innerHTML = txs.slice(0, 8).map(function(t) {
-          var out  = t.type === 'send' || t.sender === myAddr;
-          var cls  = out ? "rc-amt-out" : "rc-amt-in";
-          var sign = out ? "−" : "+";
-          var amt  = Number(t.received || t.amount || 0).toLocaleString();
-          return '<li class="rc-history-item">' +
-            '<div><div>' + RC.esc(RC.shortAddr(out ? (t.receiver||'') : (t.sender||''))) +
-            '</div><div class="meta">Verified</div></div>' +
-            '<div class="' + cls + '">' + sign + amt + ' RC</div>' +
-            '</li>';
-        }).join("");
-      });
-    }
-
-    function rcLoadBlocks() {
-      var ul = $("rcBlockList");
-      if (!ul) return;
-      RC.blocks(function(res) {
-        if (!res.ok || !res.blocks || !res.blocks.length) return;
-        ul.innerHTML = res.blocks.slice(0, 8).map(function(b) {
-          return '<li class="rc-block-row">' +
-            '<span class="rc-block-num">#' + RC.esc(String(b.height)) + '</span>' +
-            '<span class="rc-block-hash">' + RC.esc((b.hash || '').slice(0,20)) + '…</span>' +
-            '<span class="rc-block-txs">' + (b.tx_count || 0) + ' tx</span>' +
-            '</li>';
-        }).join("");
-      });
-    }
-
-    function rcPollNetStats() {
-      RC.stats(function(res) {
-        if (!res.ok) return;
-        _setText('rcNetSupply',  Number(res.total_supply  || 0).toLocaleString());
-        _setText('rcNetCirc',    Number(res.coins_mined   || res.circulating || 0).toLocaleString());
-        _setText('rcNetMembers', res.active_wallets != null ? res.active_wallets : '—');
-        _setText('rcNetBlock',   res.block_height   != null ? res.block_height   : '—');
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-      rcPollNetStats();
-      setInterval(rcPollNetStats, 30000);
-
-      if (RC.isLoggedIn()) {
-        var auth = document.getElementById('rcAuth');
-        var dash = document.getElementById('rcDash');
-        if (auth) auth.style.display = 'none';
-        if (dash) dash.style.display = '';
-        _setText('rcWalletName', RC.shortAddr(RC.getAddress() || ''));
-        _setText('rcBalance',    RC.fmt(RC.getBalance()));
-
-        function refreshBalance() {
-          RC.balance(function(r) {
-            if (r.ok) { _setText('rcBalance', RC.fmt(r.balance)); RC.setBalance(r.balance); }
-          });
-        }
-        refreshBalance();
-        setInterval(refreshBalance, 15000);
-
-        rcLoadHistory();
-        rcLoadBlocks();
-        setInterval(rcLoadBlocks, 59000);
+    <style>
+      /* ── Page container ── */
+      .rc-main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: clamp(36px, 6vw, 72px) clamp(16px, 4vw, 40px) 80px;
       }
-    });
-  </script>
 
-  <script src="js/nav.js?v=wallet-nav-2" defer></script>
-  <script src="js/footer.js" defer></script>
-  <script src="js/script.js?v=footer-clean-1" defer></script>
-</body>
+      /* ── Hero ── */
+      .rc-hero {
+        text-align: center;
+        padding: clamp(40px, 7vw, 80px) 0 clamp(28px, 4vw, 48px);
+      }
+      .rc-kicker {
+        display: inline-block;
+        margin-bottom: 14px;
+        color: var(--brand-green);
+        font-size: 0.72rem;
+        font-weight: 850;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+      }
+      .rc-hero h1 {
+        margin: 0 0 16px;
+        font-size: clamp(2.6rem, 6vw, 4.8rem);
+        line-height: 0.96;
+        font-weight: 850;
+        letter-spacing: -0.5px;
+      }
+      .rc-hero-desc {
+        max-width: 520px;
+        margin: 0 auto 28px;
+        font-size: clamp(0.95rem, 1.3vw, 1.08rem);
+        line-height: 1.7;
+        opacity: 0.72;
+      }
+      .rc-hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      .rc-action-btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 20px;
+        border-radius: 999px;
+        font-size: 0.86rem;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.07);
+        color: inherit;
+        transition:
+          transform 0.18s,
+          border-color 0.18s,
+          background 0.18s;
+      }
+      .rc-action-btn.primary {
+        border-color: transparent;
+        background: var(--gradient-brand, linear-gradient(135deg, #046a38, #ff671f));
+        color: #fff;
+        box-shadow: 0 12px 28px rgba(4, 106, 56, 0.22);
+      }
+      .rc-action-btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(4, 106, 56, 0.42);
+      }
+
+      /* ── Network stats bar ── */
+      .rc-net {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 32px;
+      }
+      .rc-net-item {
+        background: rgba(255, 255, 255, 0.04);
+        padding: 18px 14px;
+        text-align: center;
+      }
+      .rc-net-label {
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        opacity: 0.5;
+        margin-bottom: 6px;
+      }
+      .rc-net-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #4ade80;
+        font-variant-numeric: tabular-nums;
+      }
+      .rc-net-value.orange {
+        color: #fb923c;
+      }
+
+      /* ── Wallet card ── */
+      .rc-card {
+        background: rgba(255, 255, 255, 0.055);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+        padding: clamp(22px, 3.5vw, 36px);
+        margin-bottom: 24px;
+      }
+      .rc-card-title {
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        opacity: 0.45;
+        margin-bottom: 20px;
+      }
+
+      /* ── Auth tabs ── */
+      .rc-tabs {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 22px;
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        padding: 4px;
+      }
+      .rc-tab {
+        flex: 1;
+        padding: 9px;
+        border: none;
+        border-radius: 7px;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.48);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.18s;
+      }
+      .rc-tab.active {
+        background: rgba(4, 106, 56, 0.52);
+        color: #fff;
+      }
+
+      /* ── Fields ── */
+      .rc-field {
+        width: 100%;
+        padding: 12px 14px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        color: #fff;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+        outline: none;
+        transition: border-color 0.18s;
+        font-family: inherit;
+      }
+      .rc-field:focus {
+        border-color: rgba(4, 106, 56, 0.6);
+      }
+      .rc-field::placeholder {
+        opacity: 0.32;
+      }
+
+      .rc-btn {
+        width: 100%;
+        padding: 13px;
+        background: #046a38;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 0.86rem;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        cursor: pointer;
+        transition: background 0.18s;
+        font-family: inherit;
+      }
+      .rc-btn:hover {
+        background: #034f2a;
+      }
+      .rc-btn:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+      }
+
+      .rc-msg {
+        font-size: 0.8rem;
+        padding: 10px 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        display: none;
+      }
+      .rc-msg.ok {
+        background: rgba(4, 106, 56, 0.25);
+        color: #4ade80;
+        display: block;
+      }
+      .rc-msg.err {
+        background: rgba(255, 80, 80, 0.16);
+        color: #f87171;
+        display: block;
+      }
+
+      /* ── Dashboard ── */
+      #rcDash {
+        display: none;
+      }
+      .rc-balance-hero {
+        text-align: center;
+        padding: 22px 0 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 22px;
+      }
+      .rc-balance-hero .amount {
+        font-size: clamp(2.2rem, 6vw, 3.2rem);
+        font-weight: 800;
+        color: #4ade80;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+      }
+      .rc-balance-hero .user {
+        font-size: 0.75rem;
+        opacity: 0.46;
+        margin-top: 6px;
+      }
+
+      .rc-section-head {
+        font-size: 0.64rem;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        opacity: 0.38;
+        margin-bottom: 12px;
+      }
+      .rc-grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      /* ── History ── */
+      .rc-history {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .rc-history-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 11px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 0.82rem;
+      }
+      .rc-history-item:last-child {
+        border-bottom: none;
+      }
+      .rc-history-item .meta {
+        opacity: 0.42;
+        font-size: 0.7rem;
+        margin-top: 2px;
+      }
+      .rc-amt-in {
+        color: #4ade80;
+        font-weight: 700;
+      }
+      .rc-amt-out {
+        color: #fb923c;
+        font-weight: 700;
+      }
+
+      .rc-logout {
+        display: block;
+        width: 100%;
+        margin-top: 14px;
+        padding: 8px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.46);
+        font-size: 0.7rem;
+        cursor: pointer;
+        transition: all 0.18s;
+        font-family: inherit;
+      }
+      .rc-logout:hover {
+        border-color: rgba(255, 80, 80, 0.4);
+        color: #f87171;
+      }
+
+      .rc-auth-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .rc-wallet-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 16px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.07);
+        color: inherit;
+        font-size: 0.86rem;
+        font-weight: 800;
+        text-decoration: none;
+        text-align: center;
+        transition:
+          transform 0.18s,
+          border-color 0.18s,
+          background 0.18s;
+      }
+      .rc-wallet-link.primary {
+        border-color: transparent;
+        background: var(--gradient-brand, linear-gradient(135deg, #046a38, #ff671f));
+        color: #fff;
+        box-shadow: 0 12px 28px rgba(4, 106, 56, 0.22);
+      }
+      .rc-wallet-link:hover {
+        transform: translateY(-2px);
+        border-color: rgba(4, 106, 56, 0.42);
+      }
+
+      /* ── Block explorer ── */
+      .rc-blocks {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .rc-block-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 0.8rem;
+      }
+      .rc-block-row:last-child {
+        border-bottom: none;
+      }
+      .rc-block-num {
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #4ade80;
+        min-width: 44px;
+      }
+      .rc-block-hash {
+        opacity: 0.36;
+        font-family: monospace;
+        font-size: 0.68rem;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .rc-block-txs {
+        opacity: 0.46;
+        font-size: 0.7rem;
+        white-space: nowrap;
+      }
+
+      /* ── Features grid ── */
+      .rc-features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+      .rc-feature {
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 13px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .rc-feature-icon {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+      }
+      .rc-feature h3 {
+        margin: 0 0 7px;
+        font-size: 0.95rem;
+      }
+      .rc-feature p {
+        margin: 0;
+        font-size: 0.84rem;
+        opacity: 0.6;
+        line-height: 1.55;
+      }
+
+      /* ── Live pulse ── */
+      .rc-pulse {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4ade80;
+        margin-right: 6px;
+        animation: rc-pulse 2s infinite;
+      }
+      @keyframes rc-pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.28;
+        }
+      }
+
+      /* ── Connected pages (reuse coin.html pattern) ── */
+      .rc-web {
+        padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        margin-top: 12px;
+      }
+      .rc-web-label {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.38);
+        margin-bottom: 0.9rem;
+      }
+      .rc-web-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0.85rem;
+      }
+      .rc-web-card {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 1rem 1.15rem;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.025);
+        text-decoration: none;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .rc-web-card:hover {
+        border-color: #046a38;
+        background: rgba(4, 106, 56, 0.08);
+      }
+      .rc-web-icon {
+        font-size: 1.2rem;
+      }
+      .rc-web-title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .rc-web-desc {
+        font-size: 0.76rem;
+        color: rgba(255, 255, 255, 0.38);
+        line-height: 1.5;
+      }
+
+      /* ── Wallet card header row ── */
+      .rc-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .rc-node-status {
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.32);
+        padding: 4px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        transition:
+          color 0.3s,
+          border-color 0.3s,
+          background 0.3s;
+      }
+      .rc-node-status.online {
+        color: #4ade80;
+        border-color: rgba(74, 222, 128, 0.28);
+        background: rgba(74, 222, 128, 0.07);
+      }
+      .rc-node-status.offline {
+        color: #f87171;
+        border-color: rgba(248, 113, 113, 0.22);
+      }
+
+      /* ── Address copy pill ── */
+      .rc-addr-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 10px;
+        padding: 5px 14px;
+        background: rgba(4, 106, 56, 0.12);
+        border: 1px solid rgba(4, 106, 56, 0.22);
+        border-radius: 999px;
+        font-family: monospace;
+        font-size: 0.72rem;
+        color: #4ade80;
+        cursor: pointer;
+        border: 1px solid rgba(4, 106, 56, 0.22);
+        transition:
+          background 0.18s,
+          border-color 0.18s;
+      }
+      .rc-addr-pill:hover {
+        background: rgba(4, 106, 56, 0.22);
+        border-color: rgba(4, 106, 56, 0.4);
+      }
+      .rc-addr-pill-ico {
+        opacity: 0.45;
+        font-style: normal;
+      }
+
+      /* ── Wallet tabs ── */
+      .rc-wtabs {
+        display: flex;
+        gap: 4px;
+        margin: 18px 0 14px;
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        padding: 4px;
+      }
+      .rc-wtab {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        border-radius: 7px;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.42);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.18s;
+        font-family: inherit;
+        min-height: 36px;
+      }
+      .rc-wtab.active {
+        background: rgba(4, 106, 56, 0.52);
+        color: #fff;
+      }
+
+      /* ── Receive panel ── */
+      .rc-receive-addr {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(4, 106, 56, 0.22);
+        border-radius: 10px;
+        padding: 14px;
+        font-family: monospace;
+        font-size: 0.8rem;
+        color: #4ade80;
+        word-break: break-all;
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 700px) {
+        .rc-net {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .rc-features {
+          grid-template-columns: 1fr;
+        }
+        .rc-grid2 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="theme-dark wallet-app">
+    <script src="/js/site-init.js?v=1"></script>
+
+    <div id="scrollProgress"></div>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <header class="site-header glass">
+      <div class="header-inner">
+        <div class="brand">
+          <a href="/wallet/index.html" class="brand-link" aria-label="HI Wallet app home">
+            <img
+              id="siteLogo"
+              class="logo"
+              src="logo/day-logo.png"
+              alt="Amit Ku Yadav"
+              width="50"
+              height="50"
+            />
+            <div class="brand-text">
+              <span class="brand-name">Amit Ku Yadav</span>
+              <span class="brand-tagline">HI Wallet App</span>
+            </div>
+          </a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="wallet-nav" aria-label="Wallet navigation" data-nav="wallet"></nav>
+        <div class="rc-hdr-badge" id="rcHdrBadge" style="display: none">
+          <span id="rcHdrUser"></span>
+          <strong id="rcHdrBal">0 RC</strong>
+        </div>
+      </div>
+    </header>
+
+    <main class="rc-main" id="main-content">
+      <!-- Hero -->
+      <section class="rc-hero" aria-label="RupeeCoin overview">
+        <p class="rc-kicker">Community Digital Currency — India</p>
+        <h1>RupeeCoin</h1>
+        <p class="rc-hero-desc">
+          No owner. No founder. 21,000,000 RC hard cap.<br />
+          New block every 59 seconds. Anyone can join.
+        </p>
+        <div class="rc-hero-actions">
+          <a href="#rcWalletCard" class="rc-action-btn primary">Open Wallet</a>
+          <a href="coin.html" class="rc-action-btn">Learn More</a>
+          <a href="marketplace/" class="rc-action-btn">Marketplace</a>
+        </div>
+      </section>
+
+      <!-- Live network stats -->
+      <div class="rc-net" role="region" aria-label="RupeeCoin live network stats">
+        <div class="rc-net-item">
+          <div class="rc-net-label">Supply Cap</div>
+          <div class="rc-net-value" id="rcNetSupply">—</div>
+        </div>
+        <div class="rc-net-item">
+          <div class="rc-net-label">Circulating</div>
+          <div class="rc-net-value" id="rcNetCirc">—</div>
+        </div>
+        <div class="rc-net-item">
+          <div class="rc-net-label">Members</div>
+          <div class="rc-net-value orange" id="rcNetMembers">—</div>
+        </div>
+        <div class="rc-net-item">
+          <div class="rc-net-label">Block Height</div>
+          <div class="rc-net-value orange" id="rcNetBlock">—</div>
+        </div>
+      </div>
+
+      <!-- Feature highlights -->
+      <div class="rc-features">
+        <div class="rc-feature">
+          <div class="rc-feature-icon">⛓️</div>
+          <h3>Real Blockchain</h3>
+          <p>
+            SHA-256 chained blocks sealed every 59 seconds. Fully transparent and auditable by
+            anyone.
+          </p>
+        </div>
+        <div class="rc-feature">
+          <div class="rc-feature-icon">🌱</div>
+          <h3>Genesis Grant</h3>
+          <p>
+            Every new wallet receives 1,000 RC automatically. No purchase required, no approval
+            needed.
+          </p>
+        </div>
+        <div class="rc-feature">
+          <div class="rc-feature-icon">🔒</div>
+          <h3>Fixed Supply</h3>
+          <p>
+            Hard cap of 21,000,000 RC — just like Bitcoin. No inflation, no hidden minting, ever.
+          </p>
+        </div>
+      </div>
+
+      <!-- Wallet card -->
+      <div class="rc-card" id="rcWalletCard">
+        <div class="rc-card-header">
+          <div class="rc-card-title"><span class="rc-pulse"></span>Wallet</div>
+          <span class="rc-node-status" id="rcNodeStatus">Network</span>
+        </div>
+
+        <!-- Auth panel (not logged in) -->
+        <div id="rcAuth">
+          <p style="font-size: 0.84rem; opacity: 0.58; margin: 0 0 20px; line-height: 1.65">
+            Connect your RC Wallet to send, receive, and track your balance.
+          </p>
+          <div class="rc-auth-actions">
+            <a class="rc-wallet-link" href="wallet.html">Sign In / Import</a>
+            <a class="rc-wallet-link primary" href="wallet.html">Create Wallet</a>
+          </div>
+        </div>
+
+        <!-- Dashboard (logged in) -->
+        <div id="rcDash">
+          <!-- Balance + address copy -->
+          <div class="rc-balance-hero">
+            <div class="amount">
+              <span id="rcBalance">0</span>
+              <span style="opacity: 0.38; font-size: 0.48em">RC</span>
+            </div>
+            <button class="rc-addr-pill" id="rcAddrCopy" type="button" title="Copy address">
+              <span id="rcWalletName"></span>
+              <i class="rc-addr-pill-ico">⎘</i>
+            </button>
+          </div>
+
+          <!-- Tab bar -->
+          <div class="rc-wtabs" role="tablist">
+            <button class="rc-wtab active" data-wtab="send" role="tab" aria-selected="true">
+              Send
+            </button>
+            <button class="rc-wtab" data-wtab="receive" role="tab" aria-selected="false">
+              Receive
+            </button>
+            <button class="rc-wtab" data-wtab="history" role="tab" aria-selected="false">
+              History
+            </button>
+          </div>
+
+          <!-- Send panel -->
+          <div id="rcTabSend" role="tabpanel">
+            <div id="rcSendMsg" class="rc-msg"></div>
+            <input
+              id="rcSendTo"
+              class="rc-field"
+              type="text"
+              placeholder="Recipient address (R…)"
+              autocomplete="off"
+              style="font-family: monospace; font-size: 0.82rem"
+            />
+            <input
+              id="rcSendAmt"
+              class="rc-field"
+              type="number"
+              placeholder="Amount (RC)"
+              min="1"
+            />
+            <button class="rc-btn" id="rcSendBtn" type="button">Sign &amp; Send</button>
+          </div>
+
+          <!-- Receive panel -->
+          <div id="rcTabReceive" role="tabpanel" style="display: none">
+            <p style="font-size: 0.82rem; opacity: 0.58; margin: 0 0 12px; line-height: 1.65">
+              Share your address to receive RC payments:
+            </p>
+            <div class="rc-receive-addr" id="rcReceiveAddr" aria-label="Your RC address"></div>
+            <button class="rc-btn" id="rcReceiveCopyBtn" type="button">Copy Address</button>
+          </div>
+
+          <!-- History panel -->
+          <div id="rcTabHistory" role="tabpanel" style="display: none">
+            <ul class="rc-history" id="rcHistory">
+              <li class="rc-history-item"><span style="opacity: 0.28">Loading…</span></li>
+            </ul>
+          </div>
+
+          <button class="rc-logout" id="rcLogoutBtn" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <!-- Block explorer -->
+      <div class="rc-card">
+        <div class="rc-card-title">Block Explorer</div>
+        <ul class="rc-blocks" id="rcBlockList">
+          <li class="rc-block-row"><span style="opacity: 0.28">Sign in to view blocks.</span></li>
+        </ul>
+      </div>
+
+      <!-- Connected pages -->
+      <nav class="rc-web" aria-label="Related pages">
+        <div class="rc-web-label">Connected</div>
+        <div class="rc-web-grid">
+          <a class="rc-web-card" href="wallet.html">
+            <span class="rc-web-icon">💳</span>
+            <span class="rc-web-title">HI Wallet</span>
+            <span class="rc-web-desc">Identity-bound local wallet with HDI and device proof</span>
+          </a>
+          <a class="rc-web-card" href="coin.html">
+            <span class="rc-web-icon">🪙</span>
+            <span class="rc-web-title">HI Coin — Learn</span>
+            <span class="rc-web-desc"
+              >Digital currency education: learn, understand, use, build value</span
+            >
+          </a>
+          <a class="rc-web-card" href="vault.html">
+            <span class="rc-web-icon">🔐</span>
+            <span class="rc-web-title">HI Vault</span>
+            <span class="rc-web-desc">Encrypted AES-GCM backup and recovery for your wallet</span>
+          </a>
+          <a class="rc-web-card" href="merchant.html">
+            <span class="rc-web-icon">🏪</span>
+            <span class="rc-web-title">Merchant</span>
+            <span class="rc-web-desc">Merchant onboarding, QR payments, settlement prototype</span>
+          </a>
+          <a class="rc-web-card" href="marketplace/">
+            <span class="rc-web-icon">🛒</span>
+            <span class="rc-web-title">Marketplace</span>
+            <span class="rc-web-desc">Browse services, earn RC, and build ledger-backed trust</span>
+          </a>
+        </div>
+      </nav>
+    </main>
+
+    <footer class="site-footer glass" data-footer></footer>
+
+    <button id="backToTop" aria-label="Back to top">
+      <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+    </button>
+
+    <!-- RupeeCoin wallet logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@noble/secp256k1@1.7.1/lib/index.js"></script>
+    <script>
+      if (typeof secp256k1 !== 'undefined') window.nobleSecp256k1 = secp256k1
+      else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null
+      window.RC_NODE_URL = 'http://localhost:8080'
+    </script>
+    <script src="js/rupeecoin.js?v=5"></script>
+    <script>
+      'use strict'
+
+      function $(id) {
+        return document.getElementById(id)
+      }
+      function _setText(id, v) {
+        var el = $(id)
+        if (el) el.textContent = v
+      }
+
+      /* ── Copy helper ── */
+      function rcCopyText(text, onDone) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(onDone).catch(onDone)
+        } else {
+          var ta = document.createElement('textarea')
+          ta.value = text
+          ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px'
+          document.body.appendChild(ta)
+          ta.select()
+          try {
+            document.execCommand('copy')
+          } catch (e) {}
+          document.body.removeChild(ta)
+          onDone()
+        }
+      }
+
+      /* ── Network stats + node status ── */
+      function rcPollNetStats() {
+        RC.stats(function (res) {
+          var statusEl = $('rcNodeStatus')
+          if (!res || !res.ok) {
+            if (statusEl) {
+              statusEl.textContent = 'Offline'
+              statusEl.className = 'rc-node-status offline'
+            }
+            return
+          }
+          if (statusEl) {
+            statusEl.textContent = 'Live'
+            statusEl.className = 'rc-node-status online'
+          }
+          _setText('rcNetSupply', RC.fmt(res.total_supply || 0))
+          _setText('rcNetCirc', RC.fmt(res.coins_mined || res.circulating || 0))
+          _setText('rcNetMembers', res.active_wallets != null ? res.active_wallets : '—')
+          _setText('rcNetBlock', res.block_height != null ? res.block_height : '—')
+        })
+      }
+
+      /* ── Send ── */
+      function rcSend() {
+        var to = $('rcSendTo').value.trim()
+        var amt = parseInt($('rcSendAmt').value, 10)
+        var msg = $('rcSendMsg')
+        var btn = $('rcSendBtn')
+        msg.className = 'rc-msg'
+        if (!to) {
+          msg.textContent = 'Enter a recipient address.'
+          msg.className += ' err'
+          return
+        }
+        if (!amt || amt <= 0) {
+          msg.textContent = 'Enter a valid amount.'
+          msg.className += ' err'
+          return
+        }
+        btn.disabled = true
+        btn.textContent = 'Signing…'
+        RC.send(to, amt, function (res) {
+          btn.disabled = false
+          btn.innerHTML = 'Sign &amp; Send'
+          if (res.ok) {
+            msg.textContent = 'Sent! txid: ' + (res.txid ? res.txid.slice(0, 10) + '…' : 'ok')
+            msg.className += ' ok'
+            $('rcSendTo').value = ''
+            $('rcSendAmt').value = ''
+            window.rcLoadHistory()
+            RC.balance(function (r) {
+              if (r.ok) {
+                _setText('rcBalance', RC.fmt(r.balance))
+                RC.setBalance(r.balance)
+              }
+            })
+          } else {
+            msg.textContent = res.error || 'Send failed.'
+            msg.className += ' err'
+          }
+        })
+      }
+
+      /* ── History ── */
+      window.rcLoadHistory = function rcLoadHistory() {
+        var ul = $('rcHistory')
+        if (!ul) return
+        RC.history(function (res) {
+          var txs = res.ok ? res.transactions || [] : []
+          if (!txs.length) {
+            ul.innerHTML =
+              '<li class="rc-history-item"><span style="opacity:.28">No transactions yet.</span></li>'
+            return
+          }
+          var myAddr = RC.getAddress()
+          ul.innerHTML = txs
+            .slice(0, 10)
+            .map(function (t) {
+              var out = t.sender === myAddr
+              var cls = out ? 'rc-amt-out' : 'rc-amt-in'
+              var sign = out ? '−' : '+'
+              var peer = RC.shortAddr(out ? t.receiver || '' : t.sender || '')
+              return (
+                '<li class="rc-history-item">' +
+                '<div><div>' +
+                RC.esc(peer) +
+                '</div><div class="meta">' +
+                (out ? 'Sent' : 'Received') +
+                '</div></div>' +
+                '<div class="' +
+                cls +
+                '">' +
+                sign +
+                RC.fmt(t.amount || 0) +
+                ' RC</div>' +
+                '</li>'
+              )
+            })
+            .join('')
+        })
+      }
+
+      /* ── Blocks ── */
+      window.rcLoadBlocks = function rcLoadBlocks() {
+        var ul = $('rcBlockList')
+        if (!ul) return
+        RC.blocks(function (res) {
+          if (!res.ok || !res.blocks || !res.blocks.length) return
+          ul.innerHTML = res.blocks
+            .slice(0, 8)
+            .map(function (b) {
+              return (
+                '<li class="rc-block-row">' +
+                '<span class="rc-block-num">#' +
+                RC.esc(String(b.height)) +
+                '</span>' +
+                '<span class="rc-block-hash">' +
+                RC.esc((b.hash || '').slice(0, 20)) +
+                '…</span>' +
+                '<span class="rc-block-txs">' +
+                (b.tx_count || 0) +
+                ' tx</span>' +
+                '</li>'
+              )
+            })
+            .join('')
+        })
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        rcPollNetStats()
+        setInterval(rcPollNetStats, 30000)
+
+        /* ── Tab switching ── */
+        var tabs = document.querySelectorAll('.rc-wtab')
+        var panels = {
+          send: $('rcTabSend'),
+          receive: $('rcTabReceive'),
+          history: $('rcTabHistory'),
+        }
+
+        function activateTab(key) {
+          tabs.forEach(function (t) {
+            var active = t.dataset.wtab === key
+            t.classList.toggle('active', active)
+            t.setAttribute('aria-selected', String(active))
+          })
+          Object.keys(panels).forEach(function (k) {
+            if (panels[k]) panels[k].style.display = k === key ? '' : 'none'
+          })
+          if (key === 'history') window.rcLoadHistory()
+        }
+
+        tabs.forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            activateTab(this.dataset.wtab)
+          })
+        })
+
+        if (RC.isLoggedIn()) {
+          var auth = $('rcAuth')
+          var dash = $('rcDash')
+          if (auth) auth.style.display = 'none'
+          if (dash) dash.style.display = ''
+
+          var addr = RC.getAddress() || ''
+          var shortAddr = addr ? addr.slice(0, 8) + '…' + addr.slice(-6) : ''
+
+          _setText('rcWalletName', shortAddr)
+          _setText('rcBalance', '…')
+
+          /* Receive address */
+          var receiveEl = $('rcReceiveAddr')
+          if (receiveEl) receiveEl.textContent = addr
+
+          /* Copy address pill */
+          var addrPill = $('rcAddrCopy')
+          if (addrPill) {
+            addrPill.addEventListener('click', function () {
+              rcCopyText(addr, function () {
+                var nameEl = $('rcWalletName')
+                if (nameEl) {
+                  nameEl.textContent = 'Copied!'
+                  setTimeout(function () {
+                    nameEl.textContent = shortAddr
+                  }, 1600)
+                }
+              })
+            })
+          }
+
+          /* Copy receive button */
+          var receiveCopyBtn = $('rcReceiveCopyBtn')
+          if (receiveCopyBtn) {
+            receiveCopyBtn.addEventListener('click', function () {
+              rcCopyText(addr, function () {
+                receiveCopyBtn.textContent = 'Copied!'
+                setTimeout(function () {
+                  receiveCopyBtn.textContent = 'Copy Address'
+                }, 1600)
+              })
+            })
+          }
+
+          /* Send button */
+          var sendBtn = $('rcSendBtn')
+          if (sendBtn) sendBtn.addEventListener('click', rcSend)
+
+          /* Logout button */
+          var logoutBtn = $('rcLogoutBtn')
+          if (logoutBtn)
+            logoutBtn.addEventListener('click', function () {
+              RC.logout()
+              location.reload()
+            })
+
+          /* Live balance polling */
+          function refreshBalance() {
+            RC.balance(function (r) {
+              if (r.ok) {
+                _setText('rcBalance', RC.fmt(r.balance))
+                RC.setBalance(r.balance)
+              } else {
+                var cached = RC.getBalance()
+                _setText('rcBalance', cached ? RC.fmt(cached) : '—')
+              }
+            })
+          }
+          refreshBalance()
+          setInterval(refreshBalance, 15000)
+
+          window.rcLoadHistory()
+          window.rcLoadBlocks()
+          setInterval(window.rcLoadBlocks, 59000)
+        }
+      })
+    </script>
+
+    <script src="js/nav.js?v=wallet-nav-3" defer></script>
+    <script src="js/footer.js" defer></script>
+    <script src="js/script.js?v=footer-clean-1" defer></script>
+  </body>
 </html>

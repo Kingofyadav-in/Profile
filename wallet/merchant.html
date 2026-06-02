@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
   <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-2" />
+  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-3" />
   <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-3" />
 
   <style>
@@ -785,7 +785,7 @@
   else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null;
   window.RC_NODE_URL = 'http://localhost:8080';
 </script>
-<script src="js/rupeecoin.js?v=4"></script>
+<script src="js/rupeecoin.js?v=5"></script>
 <script>
 (function () {
   'use strict';
@@ -798,12 +798,6 @@
   var hdrBadge      = document.getElementById('rcHdrBadge');
   var hdrUser       = document.getElementById('rcHdrUser');
   var hdrBal        = document.getElementById('rcHdrBal');
-
-  // Auth
-  var loginName     = document.getElementById('loginName');
-  var loginPin      = document.getElementById('loginPin');
-  var loginBtn      = document.getElementById('loginBtn');
-  var loginStatus   = document.getElementById('loginStatus');
 
   // Profile
   var profileSetup  = document.getElementById('rcProfileSetup');
@@ -878,7 +872,8 @@
   // ── Header badge ─────────────────────────────────────────
   function updateHeaderBadge() {
     if (RC.isLoggedIn()) {
-      hdrUser.textContent = RC.getName();
+      var addr = RC.getAddress() || '';
+      hdrUser.textContent = addr ? (addr.slice(0, 8) + '…' + addr.slice(-6)) : '';
       hdrBal.textContent  = RC.fmt(RC.getBalance()) + ' RC';
       hdrBadge.style.display = 'flex';
     } else {
@@ -888,11 +883,12 @@
 
   // ── Profile rendering ────────────────────────────────────
   function renderProfileCard(p) {
-    var walletName = RC.getName() || '—';
+    var addr       = RC.getAddress() || '';
+    var shortAddr  = addr ? (addr.slice(0, 8) + '…' + addr.slice(-6)) : '—';
     rcProfName.textContent   = RC.esc(p.name);
     rcProfCat.textContent    = RC.esc(p.category);
-    rcProfWallet.textContent = RC.esc(walletName);
-    rcWalletAddr.textContent = RC.esc(walletName);
+    rcProfWallet.textContent = RC.esc(shortAddr);
+    rcWalletAddr.textContent = RC.esc(addr || '—');
     if (p.upi) {
       rcProfUpi.textContent    = RC.esc(p.upi);
       show(rcProfUpiRow);
@@ -956,7 +952,7 @@
   }
 
   function loadLog() {
-    var me = RC.getName();
+    var me = RC.getAddress() || '';
     rcLogList.innerHTML = '<div class="rc-log-empty">Loading…</div>';
     hide(rcLogTotal);
     RC.history(function (res) {
@@ -964,7 +960,7 @@
         rcLogList.innerHTML = '<div class="rc-log-empty">Could not load payments. Is the server running?</div>';
         return;
       }
-      var received = (res.history || []).filter(function (t) {
+      var received = (res.transactions || []).filter(function (t) {
         return t.receiver === me;
       });
       // newest first
@@ -1008,32 +1004,6 @@
     }
   }
 
-  // ── LOGIN ─────────────────────────────────────────────────
-  loginBtn.addEventListener('click', function () {
-    var name = (loginName.value || '').trim();
-    var pin  = (loginPin.value  || '').trim();
-    if (!name || !pin) {
-      setStatus(loginStatus, 'Enter your wallet name and PIN.', 'err');
-      return;
-    }
-    loginBtn.disabled = true;
-    setStatus(loginStatus, 'Signing in…', '');
-    RC.login(name, pin, function (res) {
-      loginBtn.disabled = false;
-      if (res.ok) {
-        loginPin.value = '';
-        bootDashboard();
-      } else {
-        setStatus(loginStatus, res.error || 'Login failed.', 'err');
-      }
-    });
-  });
-
-  // Allow Enter key in PIN field
-  loginPin.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') { loginBtn.click(); }
-  });
-
   // ── PROFILE SAVE ─────────────────────────────────────────
   profSaveBtn.addEventListener('click', function () {
     var name = (profName.value || '').trim();
@@ -1061,9 +1031,12 @@
 
   // ── PAYMENT GENERATOR ────────────────────────────────────
   genBtn.addEventListener('click', function () {
-    var amt  = (genAmount.value || '').trim();
-    var note = (genNote.value   || '').trim();
-    var walletName = RC.getName() || '(your wallet)';
+    var amt       = (genAmount.value || '').trim();
+    var note      = (genNote.value   || '').trim();
+    var addr      = RC.getAddress() || '';
+    var shortAddr = addr ? (addr.slice(0, 8) + '…' + addr.slice(-6)) : '(your wallet)';
+    var p         = loadProfile();
+    var displayTo = (p && p.name) ? p.name + ' (' + shortAddr + ')' : shortAddr;
 
     if (!amt || isNaN(Number(amt)) || Number(amt) <= 0) {
       genAmount.focus();
@@ -1071,15 +1044,15 @@
     }
 
     var payStr =
-      'Pay ' + RC.fmt(amt) + ' RC to: ' + walletName + '\n' +
+      'Pay ' + RC.fmt(amt) + ' RC to: ' + addr + '\n' +
       'Note: ' + (note || '(none)');
 
     rcPayString.textContent = payStr;
     rcPayHint.textContent   =
-      'Customer sends RC from their wallet to: ' + walletName;
+      'Customer sends RC from their wallet to: ' + displayTo;
 
     rcQrAmount.textContent  = RC.fmt(amt) + ' RC';
-    rcQrTo.textContent      = 'To: ' + walletName;
+    rcQrTo.textContent      = 'To: ' + displayTo;
     rcQrNote.textContent    = note || '(no note)';
 
     show(rcPayDisplay);
@@ -1121,7 +1094,8 @@
   init();
 }());
 </script>
-<script src="js/nav.js?v=wallet-nav-2" defer></script>
+
+<script src="js/nav.js?v=wallet-nav-3" defer></script>
 <script src="js/footer.js" defer></script>
 <script src="js/script.js?v=footer-clean-1" defer></script>
 </body>

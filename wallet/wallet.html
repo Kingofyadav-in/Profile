@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
   <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-2" />
+  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-3" />
   <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-3" />
   <style>
     /* ── Layout ── */
@@ -979,7 +979,7 @@
   else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null;
   window.RC_NODE_URL = 'http://localhost:8080';
 </script>
-<script src="js/rupeecoin.js?v=4"></script>
+<script src="js/rupeecoin.js?v=5"></script>
 <script>
 'use strict';
 
@@ -1155,7 +1155,7 @@ function showApp() {
   updateCard();
   startExplorerPoll();
   startBalancePoll();
-  $('sendAvail').textContent = RC.fmt(RC.getBalance());
+  $('sendAvail').textContent = RC.getBalance() ? RC.fmt(RC.getBalance()) : '—';
   var addr = RC.getAddress() || '';
   var recv = $('receiveAddr');
   if (recv) recv.textContent = addr || '—';
@@ -1165,7 +1165,7 @@ function showApp() {
 
 function startBalancePoll() {
   if (_balTimer) clearInterval(_balTimer);
-  _balTimer = setInterval(function() {
+  function fetchBal() {
     if (!RC.isLoggedIn()) return;
     RC.balance(function(res) {
       if (!res || !res.ok) return;
@@ -1176,7 +1176,9 @@ function startBalancePoll() {
       if (accBal) accBal.textContent = RC.fmt(res.balance) + ' RC';
       RC.setBalance(res.balance);
     });
-  }, 15000);
+  }
+  fetchBal();
+  _balTimer = setInterval(fetchBal, 15000);
 }
 
 function updateHeaderBadge() {
@@ -1189,15 +1191,18 @@ function updateHeaderBadge() {
 function updateCard() {
   var addr = RC.getAddress() || '—';
   $('cardName').textContent    = RC.shortAddr(addr);
-  $('cardBalance').textContent = RC.fmt(RC.getBalance());
+  $('cardBalance').textContent = '…';
 
   RC.balance(function(res) {
+    var cached = RC.getBalance();
     if (res && res.ok) {
       $('cardBalance').textContent = RC.fmt(res.balance);
       $('rcHdrBal').textContent    = RC.fmt(res.balance) + ' RC';
       $('sendAvail').textContent   = RC.fmt(res.balance);
       var accBal = $('accBalance');
       if (accBal) accBal.textContent = RC.fmt(res.balance) + ' RC';
+    } else {
+      $('cardBalance').textContent = cached ? RC.fmt(cached) : '—';
     }
   });
   RC.stats(function(res) {
@@ -1402,7 +1407,8 @@ function rcSignOut() {
   setTimeout(function() { location.reload(); }, 800);
 }
 </script>
-<script src="js/nav.js?v=wallet-nav-2" defer></script>
+
+<script src="js/nav.js?v=wallet-nav-3" defer></script>
 <script src="js/footer.js" defer></script>
 <script src="js/script.js?v=wallet-app-4" defer></script>
 </body>

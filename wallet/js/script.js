@@ -1708,7 +1708,7 @@ function updateWalletUI() {
       const user = $("rcWalletName");
       const bal = $("rcBalance");
       if (user) user.textContent = rc.getAddress().slice(0, 8) + "…" + rc.getAddress().slice(-6);
-      if (bal) bal.textContent = Number(rc.getBalance()).toLocaleString();
+      if (bal && !bal.textContent.trim()) bal.textContent = "…";
 
       // Trigger data loads if functions exist (defined in page scripts)
       if (window.rcLoadHistory) window.rcLoadHistory();
@@ -1719,20 +1719,27 @@ function updateWalletUI() {
     }
   }
 
-  // Poll balance if logged in
+  // Fetch balance immediately then poll every 30s
   if (loggedIn && !window._rcBalancePoller) {
-    window._rcBalancePoller = setInterval(() => {
-      rc.balance(res => {
-        if (res.ok) {
-          const balEls = [ $("rcHdrBal"), $("rcBalance"), $("cardBalance"), $("heroPillBal") ];
-          balEls.forEach(el => {
-            if (el) el.textContent = el.id === "rcBalance" || el.id === "cardBalance" || el.id === "heroPillBal"
-              ? Number(res.balance).toLocaleString()
-              : Number(res.balance).toLocaleString() + " RC";
-          });
-        }
-      });
-    }, 30000);
+    const applyBal = res => {
+      const balEls = [ $("rcHdrBal"), $("rcBalance"), $("cardBalance"), $("heroPillBal") ];
+      if (res.ok) {
+        balEls.forEach(el => {
+          if (el) el.textContent = el.id === "rcHdrBal"
+            ? Number(res.balance).toLocaleString() + " RC"
+            : Number(res.balance).toLocaleString();
+        });
+      } else {
+        // Node offline: show dash only where balance is still loading (0)
+        balEls.forEach(el => {
+          if (el && (el.textContent === "0" || el.textContent === "…" || el.textContent === "0 RC")) {
+            el.textContent = el.id === "rcHdrBal" ? "— RC" : "—";
+          }
+        });
+      }
+    };
+    rc.balance(applyBal);
+    window._rcBalancePoller = setInterval(() => rc.balance(applyBal), 30000);
   }
 }
 

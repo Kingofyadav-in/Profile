@@ -60,5 +60,27 @@ module.exports = async (req, res) => {
     });
   }
 
+  // 3. Static identity records (not stored in DB)
+  const STATIC = {
+    "hid-jarvis-001": {
+      id:         "hid-jarvis-001",
+      title:      "Jarvis · Human Identity Document",
+      type:       "Human Identity Document",
+      category:   "identity",
+      author:     "Amit Ku Yadav",
+      created:    "2026-06-02T00:00:00Z",
+      status:     "verified",
+      license:    "HID-SOVEREIGN-1.0",
+      url:        "https://kingofyadav.in",
+      hdi_code:   "@kingofyadav",
+      hash:       null,
+      verify_url: "https://kingofyadav.in/verify/hid-jarvis-001",
+    },
+  };
+
+  if (STATIC[id]) {
+    return res.json({ ok: true, type: "identity", data: STATIC[id] });
+  }
+
   return res.status(404).json({ ok: false, error: "Resource not found" });
 };

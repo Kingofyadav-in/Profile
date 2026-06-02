@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
   <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="../css/wallet-nav.css?v=wallet-nav-2" />
+  <link rel="stylesheet" href="../css/wallet-nav.css?v=wallet-nav-3" />
   <link rel="stylesheet" href="../css/wallet-app.css?v=wallet-app-3" />
 
   <style>
@@ -467,7 +467,6 @@
       <span class="val">marketplace</span>
     </div>
     <hr class="rc-modal-divider" />
-    <input class="rc-field" id="rcModalPin" type="password" placeholder="Your PIN" autocomplete="off" />
     <p class="rc-msg" id="rcModalMsg"></p>
     <div class="rc-modal-actions">
       <button class="rc-btn-cancel" id="rcModalCancel" type="button">Cancel</button>
@@ -501,8 +500,9 @@
 <script>
   if (typeof secp256k1 !== 'undefined') window.nobleSecp256k1 = secp256k1;
   else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null;
+  window.RC_NODE_URL = 'http://localhost:8080'; /* Change to production node URL when deployed */
 </script>
-<script src="../js/rupeecoin.js"></script>
+<script src="../js/rupeecoin.js?v=5"></script>
 <script>
 (function () {
   'use strict';
@@ -531,6 +531,7 @@
   /* ── Helpers ── */
   function esc(s) { return RC.esc ? RC.esc(s) : String(s).replace(/[&<>"']/g, function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]);}); }
   function fmt(n) { return RC.fmt ? RC.fmt(n) : Number(n).toLocaleString(); }
+  function shortAddr(addr) { return addr ? (addr.slice(0, 8) + '…' + addr.slice(-6)) : '—'; }
 
   function showToast(msg, isErr) {
     clearTimeout(toastTimer);
@@ -551,11 +552,12 @@
 
   /* ── Header badge ── */
   function updateHeaderBadge() {
-    var badge = document.getElementById('rcHdrBadge');
+    var badge  = document.getElementById('rcHdrBadge');
     var userEl = document.getElementById('rcHdrUser');
     var balEl  = document.getElementById('rcHdrBal');
     if (RC.isLoggedIn()) {
-      userEl.textContent = RC.getName();
+      var addr = RC.getAddress() || '';
+      userEl.textContent = shortAddr(addr);
       balEl.textContent  = fmt(RC.getBalance()) + ' RC';
       badge.style.display = '';
     } else {
@@ -565,11 +567,12 @@
 
   /* ── Hero pill ── */
   function updateHeroPill() {
-    var pill    = document.getElementById('heroPillBalance');
-    var userEl  = document.getElementById('heroPillUser');
-    var balEl   = document.getElementById('heroPillBal');
+    var pill   = document.getElementById('heroPillBalance');
+    var userEl = document.getElementById('heroPillUser');
+    var balEl  = document.getElementById('heroPillBal');
     if (RC.isLoggedIn()) {
-      userEl.textContent = RC.getName();
+      var addr = RC.getAddress() || '';
+      userEl.textContent = shortAddr(addr);
       balEl.textContent  = fmt(RC.getBalance());
       pill.style.display = '';
     } else {
@@ -595,7 +598,7 @@
     section.style.display = '';
     RC.history(function (res) {
       if (!res || !res.ok || !Array.isArray(res.transactions)) { return; }
-      var me = RC.getName();
+      var me = RC.getAddress() || '';
       var txs = res.transactions.filter(function (tx) {
         return tx.sender === me && tx.note && tx.note.indexOf('Purchase:') === 0;
       });
@@ -616,7 +619,7 @@
   }
 
   function prependHistory(note, amount) {
-    var list = document.getElementById('rcHistoryList');
+    var list  = document.getElementById('rcHistoryList');
     var empty = list.querySelector('.rc-history-empty');
     if (empty) { empty.remove(); }
     var d = new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'});
@@ -655,12 +658,11 @@
   function openConfirmModal(name, price) {
     document.getElementById('rcModalService').textContent = name;
     document.getElementById('rcModalCost').textContent    = fmt(price) + ' RC';
-    document.getElementById('rcModalFrom').textContent    = RC.getName();
-    document.getElementById('rcModalPin').value           = '';
+    var addr = RC.getAddress() || '';
+    document.getElementById('rcModalFrom').textContent    = shortAddr(addr);
     clearMsg(document.getElementById('rcModalMsg'));
     document.getElementById('rcModalConfirm').disabled    = false;
     overlay.style.display = '';
-    setTimeout(function(){ document.getElementById('rcModalPin').focus(); }, 60);
     overlay._currentName  = name;
     overlay._currentPrice = price;
   }
@@ -670,12 +672,7 @@
   }
 
   function openLoginModal() {
-    document.getElementById('rcLoginModalName').value = '';
-    document.getElementById('rcLoginModalPin').value  = '';
-    clearMsg(document.getElementById('rcLoginModalMsg'));
-    document.getElementById('rcLoginModalSubmit').disabled = false;
     loginOverlay.style.display = '';
-    setTimeout(function(){ document.getElementById('rcLoginModalName').focus(); }, 60);
   }
 
   function closeLoginModal() {
@@ -683,94 +680,34 @@
     pendingBuy = null;
   }
 
-  function rcConfirmPurchase(name, price, pin) {
+  function rcConfirmPurchase(name, price) {
     var confirmBtn = document.getElementById('rcModalConfirm');
     var msgEl      = document.getElementById('rcModalMsg');
     confirmBtn.disabled = true;
     clearMsg(msgEl);
-    RC.send('marketplace', price, pin, 'Purchase: ' + name, function (res) {
+    /* MARKETPLACE_ADDR is a placeholder — replace with actual merchant address when node is live */
+    var MARKETPLACE_ADDR = 'marketplace';
+    RC.send(MARKETPLACE_ADDR, price, function (res) {
       if (res && res.ok) {
         closeConfirmModal();
         updateHeaderBadge();
         updateHeroPill();
         var remaining = RC.getBalance();
-        if (res.balance !== undefined) {
-          /* update cached balance if API returns it */
-          try {
-            var s = JSON.parse(sessionStorage.getItem('rc_v1')) || {};
-            s.balance = res.balance;
-            sessionStorage.setItem('rc_v1', JSON.stringify(s));
-            remaining = res.balance;
-          } catch(e) {}
-          updateHeaderBadge();
-          updateHeroPill();
-        }
         showToast('Purchased ' + name + '! ' + fmt(remaining) + ' RC remaining.');
         document.getElementById('rcHistorySection').style.display = '';
         prependHistory('Purchase: ' + name, price);
       } else {
-        setMsg(msgEl, (res && res.error) || 'Purchase failed. Check your PIN or balance.', 'err');
+        setMsg(msgEl, (res && res.error) || 'Purchase failed. Check your balance.', 'err');
         confirmBtn.disabled = false;
       }
     });
   }
 
-  /* ── Inline banner login ── */
-  document.getElementById('rcBannerLoginForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name    = document.getElementById('bannerName').value.trim();
-    var pin     = document.getElementById('bannerPin').value;
-    var btn     = document.getElementById('bannerLoginBtn');
-    var msgEl   = document.getElementById('bannerLoginMsg');
-    btn.disabled = true;
-    clearMsg(msgEl);
-    RC.login(name, pin, function (res) {
-      btn.disabled = false;
-      if (res && res.ok) {
-        updateHeaderBadge();
-        updateHeroPill();
-        updateLoginBanner();
-        loadHistory();
-      } else {
-        setMsg(msgEl, (res && res.error) || 'Login failed.', 'err');
-      }
-    });
-  });
-
-  /* ── Login modal submit ── */
-  document.getElementById('rcLoginModalSubmit').addEventListener('click', function () {
-    var name  = document.getElementById('rcLoginModalName').value.trim();
-    var pin   = document.getElementById('rcLoginModalPin').value;
-    var btn   = document.getElementById('rcLoginModalSubmit');
-    var msgEl = document.getElementById('rcLoginModalMsg');
-    btn.disabled = true;
-    clearMsg(msgEl);
-    RC.login(name, pin, function (res) {
-      btn.disabled = false;
-      if (res && res.ok) {
-        updateHeaderBadge();
-        updateHeroPill();
-        updateLoginBanner();
-        loadHistory();
-        loginOverlay.style.display = 'none';
-        if (pendingBuy) {
-          var b = pendingBuy;
-          pendingBuy = null;
-          openConfirmModal(b.name, b.price);
-        }
-      } else {
-        setMsg(msgEl, (res && res.error) || 'Login failed.', 'err');
-      }
-    });
-  });
-
   document.getElementById('rcLoginModalCancel').addEventListener('click', closeLoginModal);
 
   /* ── Confirm modal actions ── */
   document.getElementById('rcModalConfirm').addEventListener('click', function () {
-    var pin = document.getElementById('rcModalPin').value;
-    if (!pin) { setMsg(document.getElementById('rcModalMsg'), 'Enter your PIN.', 'err'); return; }
-    rcConfirmPurchase(overlay._currentName, overlay._currentPrice, pin);
+    rcConfirmPurchase(overlay._currentName, overlay._currentPrice);
   });
 
   document.getElementById('rcModalCancel').addEventListener('click', closeConfirmModal);
@@ -808,13 +745,15 @@
       if (!res || !res.ok) { return; }
       var membersEl = document.getElementById('heroMembers');
       var blockEl   = document.getElementById('heroBlock');
-      if (res.users !== undefined) { membersEl.textContent = fmt(res.users) + ' members'; }
-      if (res.blockHeight !== undefined) { blockEl.textContent = fmt(res.blockHeight); }
+      var members   = res.active_wallets != null ? res.active_wallets : (res.members != null ? res.members : null);
+      if (members != null) { membersEl.textContent = fmt(members) + ' members'; }
+      if (res.block_height != null) { blockEl.textContent = fmt(res.block_height); }
     });
   });
 }());
 </script>
-<script src="../js/nav.js?v=wallet-nav-2" defer></script>
+
+<script src="../js/nav.js?v=wallet-nav-3" defer></script>
 <script src="../js/footer.js" defer></script>
 <script src="../js/script.js?v=footer-clean-1" defer></script>
 </body>

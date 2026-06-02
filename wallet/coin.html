@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
   <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-2" />
+  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-3" />
   <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-3" />
 
   <style>
@@ -596,9 +596,10 @@
 <script>
   if (typeof secp256k1 !== 'undefined') window.nobleSecp256k1 = secp256k1;
   else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null;
+  /* Change to your production node URL when deployed, e.g. 'https://rc.yourdomain.com' */
   window.RC_NODE_URL = 'http://localhost:8080';
 </script>
-<script src="js/rupeecoin.js?v=4"></script>
+<script src="js/rupeecoin.js?v=5"></script>
 
   <!-- RupeeCoin page logic (uses RC.* from rupeecoin.js, loaded above) -->
   <script>
@@ -611,7 +612,8 @@
       var user  = document.getElementById('rcHdrUser');
       var bal   = document.getElementById('rcHdrBal');
       if (badge && user && bal) {
-        user.textContent = RC.getName();
+        var addr = RC.getAddress() || '';
+        user.textContent = addr ? (addr.slice(0, 8) + '…' + addr.slice(-6)) : '';
         bal.textContent  = RC.fmt(RC.getBalance()) + ' RC';
         badge.style.display = '';
       }
@@ -638,32 +640,12 @@
   rcPollStats();
   setInterval(rcPollStats, 59000);
 
-  /* ── 3. Block explorer — login form ── */
-  function rcExpLogin() {
-    var name = document.getElementById('rcExpName').value.trim();
-    var pin  = document.getElementById('rcExpPin').value.trim();
-    if (!name || !pin) { _expMsg('Enter wallet name and PIN.', 'err'); return; }
-    var btn = document.getElementById('rcExpBtn');
-    btn.disabled = true;
-    RC.login(name, pin, function (r) {
-      btn.disabled = false;
-      if (!r.ok) { _expMsg(r.error || 'Login failed.', 'err'); return; }
-      /* Update header badge */
-      var badge = document.getElementById('rcHdrBadge');
-      var user  = document.getElementById('rcHdrUser');
-      var bal   = document.getElementById('rcHdrBal');
-      if (badge && user && bal) {
-        user.textContent = RC.getName();
-        bal.textContent  = RC.fmt(RC.getBalance()) + ' RC';
-        badge.style.display = '';
-      }
-      rcShowExplorerBlocks();
-    });
-  }
-
+  /* ── 3. Block explorer ── */
   function rcShowExplorerBlocks() {
-    document.getElementById('rcExpLogin').style.display  = 'none';
-    document.getElementById('rcExpBlocks').style.display = '';
+    var login  = document.getElementById('rcExpLogin');
+    var blocks = document.getElementById('rcExpBlocks');
+    if (login)  login.style.display  = 'none';
+    if (blocks) blocks.style.display = '';
     rcLoadBlocks();
     setInterval(rcLoadBlocks, 59000);
   }
@@ -673,12 +655,13 @@
     if (!RC.isLoggedIn()) return;
     RC.blocks(function (r) {
       var list = document.getElementById('rcBlockList');
+      if (!list) return;
       if (!r || !r.ok || !r.blocks || !r.blocks.length) {
         list.innerHTML = '<li class="rc-block-row"><span style="opacity:.28">No blocks yet.</span></li>';
         return;
       }
-      var blocks = r.blocks;
-      list.innerHTML = blocks.slice(0, 14).map(function (b) {
+      var blks = r.blocks;
+      list.innerHTML = blks.slice(0, 14).map(function (b) {
         var hashShort = String(b.hash || '').slice(0, 20) + '…';
         var ts = b.ts ? String(b.ts).slice(0, 16).replace('T', ' ') : '';
         return '<li class="rc-block-row">' +
@@ -689,11 +672,9 @@
           '</li>';
       }).join('');
 
-      /* Update meta row */
-      var latest = blocks[0] || {};
+      var latest = blks[0] || {};
       _setText('rcMetaHash', latest.hash ? String(latest.hash).slice(0, 28) + '…' : '—');
       _setText('rcMetaBlockTime', '59s');
-      /* Remaining supply from stats */
       RC.stats(function (s) {
         if (s && s.ok) {
           var rem = (s.total_supply || 0) - (s.circulating || 0);
@@ -708,16 +689,10 @@
     var el = document.getElementById(id);
     if (el) el.textContent = v;
   }
-
-  function _expMsg(text, type) {
-    var el = document.getElementById('rcExpMsg');
-    if (!el) return;
-    el.textContent = text;
-    el.className = 'rc-msg ' + type;
-  }
   </script>
 
-  <script src="js/nav.js?v=wallet-nav-2" defer></script>
+  
+  <script src="js/nav.js?v=wallet-nav-3" defer></script>
   <script src="js/footer.js" defer></script>
   <script src="js/script.js?v=footer-clean-1" defer></script>
 </body>

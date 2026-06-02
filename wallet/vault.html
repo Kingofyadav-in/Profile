@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
   <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
   <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-2" />
+  <link rel="stylesheet" href="css/wallet-nav.css?v=wallet-nav-3" />
   <link rel="stylesheet" href="css/wallet-app.css?v=wallet-app-3" />
 
   <style>
@@ -452,7 +452,7 @@
     else if (typeof nobleSecp256k1 === 'undefined') window.nobleSecp256k1 = null;
     window.RC_NODE_URL = 'http://localhost:8080';
   </script>
-  <script src="js/rupeecoin.js?v=4"></script>
+  <script src="js/rupeecoin.js?v=5"></script>
   <script>
   "use strict";
 
@@ -474,62 +474,48 @@
     var el = document.getElementById(id);
     if (el) { el.className = 'vault-msg'; el.textContent = ''; }
   }
-
-  /* ── Auth gate login ── */
-  function vaultDoLogin() {
-    var name = document.getElementById('vaultGateName').value.trim();
-    var pin  = document.getElementById('vaultGatePin').value.trim();
-    if (!name || !pin) { _showMsg('vaultGateMsg', 'Enter your wallet name and PIN.', 'err'); return; }
-    _showMsg('vaultGateMsg', 'Signing in…', 'info');
-    RC.login(name, pin, function(res) {
-      if (!res.ok) { _showMsg('vaultGateMsg', res.error || 'Login failed.', 'err'); return; }
-      vaultInit();
-    });
+  function _shortAddr(addr) {
+    if (!addr) return '—';
+    return RC.shortAddr ? RC.shortAddr(addr) : (addr.slice(0, 8) + '…' + addr.slice(-6));
   }
-
-  /* ── Key-enter on auth fields ── */
-  ['vaultGateName','vaultGatePin'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') vaultDoLogin(); });
-  });
 
   /* ── Init vault after login ── */
   function vaultInit() {
     document.getElementById('vaultAuthGate').style.display = 'none';
     document.getElementById('vaultContent').style.display = '';
 
-    var name = RC.getName();
+    var addr = RC.getAddress() || '';
+    var displayName = _shortAddr(addr);
     var bal  = RC.fmt(RC.getBalance());
 
     /* Header badge */
     var badge = document.getElementById('rcHdrBadge');
     if (badge) badge.style.display = '';
-    _setText('rcHdrUser', name);
+    _setText('rcHdrUser', displayName);
     _setText('rcHdrBal', bal + ' RC');
 
-    /* Actions name */
-    _setText('vaultActionsName', name);
-    _setText('vaultInfoName', name);
+    /* Actions / info */
+    _setText('vaultActionsName', displayName);
+    _setText('vaultInfoName', addr || '—');
     _setText('vaultInfoBalance', bal + ' RC');
     _setText('vaultStatBalance', bal + ' RC');
     _setText('vaultStatActive', new Date().toLocaleDateString());
 
-    /* Load history for tx count + export */
+    /* Load history for tx count */
     RC.history(function(res) {
-      var count = (res.ok && res.history) ? res.history.length : 0;
-      _setText('vaultStatTxCount', count);
+      var txs = (res.ok && res.transactions) ? res.transactions : [];
+      _setText('vaultStatTxCount', txs.length);
     });
 
-    /* Load admin data */
     vaultRefreshAdmin();
   }
 
   /* ── Refresh admin data ── */
   function vaultRefreshAdmin() {
     _showMsg('vaultAdminMsg', 'Refreshing…', 'info');
-    RC.admin(function(res) {
-      if (!res.ok) {
-        _showMsg('vaultAdminMsg', 'Could not reach server.', 'err');
+    RC.stats(function(res) {
+      if (!res || !res.ok) {
+        _showMsg('vaultAdminMsg', 'Could not reach node.', 'err');
         _setNetStatus(false);
         return;
       }
@@ -537,8 +523,10 @@
       var bh = res.block_height != null ? res.block_height : '—';
       _setText('vaultInfoBlock',     bh);
       _setText('vaultStatBlock',     bh);
-      _setText('vaultInfoSupply',    res.remaining_supply != null ? RC.fmt(res.remaining_supply) + ' RC' : '—');
-      _setText('vaultInfoBlockTime', res.block_time || '—');
+      var remaining = res.total_supply != null && res.circulating != null
+        ? RC.fmt(res.total_supply - res.circulating) + ' RC' : '—';
+      _setText('vaultInfoSupply',    remaining);
+      _setText('vaultInfoBlockTime', '59s');
       _setNetStatus(true);
     });
   }
@@ -553,23 +541,23 @@
 
   /* ── Export ── */
   function vaultExport() {
-    var name = RC.getName();
-    if (!name) { _showMsg('vaultExportMsg', 'Not signed in.', 'err'); return; }
+    var addr = RC.getAddress();
+    if (!addr) { _showMsg('vaultExportMsg', 'No wallet loaded.', 'err'); return; }
     _showMsg('vaultExportMsg', 'Building export…', 'info');
     RC.history(function(res) {
       if (!res.ok) { _showMsg('vaultExportMsg', 'Failed to load history. Try again.', 'err'); return; }
       var payload = {
-        name: name,
+        address:     addr,
         exported_at: new Date().toISOString(),
-        network: 'RupeeCoin',
-        history: res.history || []
+        network:     'RupeeCoin',
+        history:     res.transactions || []
       };
       var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
       var url  = URL.createObjectURL(blob);
       var a    = document.createElement('a');
       var date = new Date().toISOString().slice(0, 10);
       a.href     = url;
-      a.download = 'rc-wallet-' + name.replace(/[^a-z0-9_-]/gi, '_') + '-' + date + '.json';
+      a.download = 'rc-wallet-' + addr.slice(0, 10) + '-' + date + '.json';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -586,40 +574,28 @@
     reader.onload = function(ev) {
       try {
         var data = JSON.parse(ev.target.result);
-        if (!data.name || !data.network) throw new Error('Invalid format');
+        if (!data.network) throw new Error('Invalid format');
         _importedWallet = data;
         var txCount = Array.isArray(data.history) ? data.history.length : '?';
         var expDate = data.exported_at ? data.exported_at.slice(0, 10) : 'unknown';
+        var identifier = data.address ? RC.esc(data.address.slice(0, 14) + '…') : RC.esc(data.name || '—');
         var preview = document.getElementById('vaultImportPreview');
         preview.innerHTML =
-          '<strong>Wallet:</strong> ' + RC.esc(data.name) + '<br>' +
+          '<strong>Wallet:</strong> ' + identifier + '<br>' +
           '<strong>Transactions:</strong> ' + txCount + '<br>' +
           '<strong>Exported:</strong> ' + RC.esc(expDate) + '<br>' +
-          '<strong>Network:</strong> ' + RC.esc(data.network) + '<br><br>' +
-          'To sign in as this wallet, use: <strong>' + RC.esc(data.name) + '</strong> with your PIN.';
+          '<strong>Network:</strong> ' + RC.esc(data.network);
         preview.style.display = '';
-        document.getElementById('vaultImportPrefill').style.display = '';
+        document.getElementById('vaultImportPrefill').style.display = 'none';
         _hideMsg('vaultImportMsg');
       } catch(err) {
         _showMsg('vaultImportMsg', 'Invalid file. Please select a valid RC Vault JSON export.', 'err');
         _importedWallet = null;
         document.getElementById('vaultImportPreview').style.display = 'none';
-        document.getElementById('vaultImportPrefill').style.display = 'none';
       }
     };
     reader.readAsText(file);
   });
-
-  /* ── Pre-fill login name ── */
-  function vaultPrefillLogin() {
-    if (!_importedWallet) return;
-    var nameField = document.getElementById('vaultGateName');
-    if (nameField) nameField.value = _importedWallet.name;
-    document.getElementById('vaultAuthGate').style.display = '';
-    document.getElementById('vaultContent').style.display  = 'none';
-    document.getElementById('vaultGatePin').focus();
-    _showMsg('vaultGateMsg', 'Wallet name pre-filled from import. Enter your PIN to sign in.', 'info');
-  }
 
   /* ── Sign out ── */
   function vaultSignOut() {
@@ -636,7 +612,8 @@
   }());
   </script>
 
-  <script src="js/nav.js?v=wallet-nav-2" defer></script>
+  
+  <script src="js/nav.js?v=wallet-nav-3" defer></script>
   <script src="js/footer.js" defer></script>
   <script src="js/script.js?v=footer-clean-1" defer></script>
 </body>

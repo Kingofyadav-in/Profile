@@ -189,6 +189,9 @@ body.theme-light .wallet-nav a[aria-current="page"] {
   white-space: nowrap;
   text-decoration: none;
   transition: background 0.2s, border-color 0.2s;
+  /* align to end of header grid col 3 */
+  justify-self: end;
+  grid-column: 3;
 }
 .rc-hdr-badge:hover {
   background: rgba(4, 106, 56, 0.25);
