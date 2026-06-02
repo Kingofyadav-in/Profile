@@ -9,7 +9,28 @@ module.exports = async (req, res) => {
   const id = req.query.id ?? req.url.split("/").pop();
   if (!id) return res.status(400).json({ ok: false, error: "ID required" });
 
-  // 1. Check Licenses Table
+  // 1. Static identity records — checked first, no DB needed
+  const STATIC = {
+    "hid-jarvis-001": {
+      id:         "hid-jarvis-001",
+      title:      "Jarvis · Human Identity Document",
+      type:       "Human Identity Document",
+      category:   "identity",
+      author:     "Amit Ku Yadav",
+      created:    "2026-06-02T00:00:00Z",
+      status:     "verified",
+      license:    "HID-SOVEREIGN-1.0",
+      url:        "https://kingofyadav.in",
+      hdi_code:   "@kingofyadav",
+      hash:       null,
+      verify_url: "https://kingofyadav.in/verify/hid-jarvis-001",
+    },
+  };
+  if (STATIC[id]) {
+    return res.json({ ok: true, type: "identity", data: STATIC[id] });
+  }
+
+  // 2. Check Licenses Table
   const { rows: licenseRows } = await db.query(
     "SELECT * FROM hdi_licenses WHERE claim_id=$1 AND status=$2",
     [id, "active"]
@@ -38,7 +59,7 @@ module.exports = async (req, res) => {
     });
   }
 
-  // 2. Check Claims (Violations) Table
+  // 3. Check Claims (Violations) Table
   const { rows: claimRows } = await db.query(
     "SELECT * FROM hdi_claims WHERE id=$1 OR license_id=$1",
     [id]
@@ -58,28 +79,6 @@ module.exports = async (req, res) => {
         violation_type: claim.violation_type,
       },
     });
-  }
-
-  // 3. Static identity records (not stored in DB)
-  const STATIC = {
-    "hid-jarvis-001": {
-      id:         "hid-jarvis-001",
-      title:      "Jarvis · Human Identity Document",
-      type:       "Human Identity Document",
-      category:   "identity",
-      author:     "Amit Ku Yadav",
-      created:    "2026-06-02T00:00:00Z",
-      status:     "verified",
-      license:    "HID-SOVEREIGN-1.0",
-      url:        "https://kingofyadav.in",
-      hdi_code:   "@kingofyadav",
-      hash:       null,
-      verify_url: "https://kingofyadav.in/verify/hid-jarvis-001",
-    },
-  };
-
-  if (STATIC[id]) {
-    return res.json({ ok: true, type: "identity", data: STATIC[id] });
   }
 
   return res.status(404).json({ ok: false, error: "Resource not found" });
