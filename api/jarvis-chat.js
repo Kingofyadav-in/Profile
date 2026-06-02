@@ -213,8 +213,11 @@ function fallbackReply(message) {
 }
 
 module.exports = async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
   if (req.method === "OPTIONS") {
-    res.setHeader("Allow", "POST, OPTIONS");
     res.statusCode = 204;
     res.end();
     return;
