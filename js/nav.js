@@ -156,9 +156,11 @@
       if (btn) {
         btn.className = 'auth-logout-btn is-login'
         btn.textContent = 'Login'
-        btn.addEventListener('click', () => {
-          window.location.href =
-            '/pages/login.html?next=' + encodeURIComponent(window.location.pathname + window.location.search)
+        btn.setAttribute('aria-disabled', 'true')
+        btn.setAttribute('title', 'Login is temporarily unavailable')
+        btn.addEventListener('click', (e) => {
+          // Login temporarily unavailable — keep button visible but no-op.
+          e.preventDefault()
         })
       }
     }
