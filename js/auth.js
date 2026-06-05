@@ -433,15 +433,10 @@ function initAuthButton() {
   btn.classList.toggle("is-login", !authed);
   btn.classList.toggle("is-logout", authed);
 
-  btn.addEventListener("click", (e) => {
+  btn.addEventListener("click", () => {
     if (isAuthenticated()) { logout(); return; }
-    // Login temporarily unavailable — keep button visible but no-op.
-    e.preventDefault();
+    window.location.href = authLoginUrl();
   });
-  if (!authed) {
-    btn.setAttribute("aria-disabled", "true");
-    btn.setAttribute("title", "Login is temporarily unavailable");
-  }
 }
 
 /* ======================================================
