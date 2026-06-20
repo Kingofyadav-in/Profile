@@ -193,11 +193,26 @@ async function hiRenderHeroIdentity(identity) {
   const nameEl  = document.getElementById("hiHeroIdentityName");
   const hdiEl   = document.getElementById("hiHeroHDI");
   const editBtn = document.getElementById("hiHeroEditIdentityBtn");
-  const name    = identity?.name ?? "Amit Ku Yadav";
 
-  if (title)   title.textContent   = `Life OS for ${name}`;
-  if (nameEl)  nameEl.textContent  = name;
-  if (hdiEl)   hdiEl.textContent   = identity?.hdi ?? "HDI pending";
+  /* Read EarthSphere session — auth.js is always loaded before hi-app.js */
+  const _tok   = (typeof getToken === "function") ? getToken() : null;
+  const _esHdi = (_tok?.provider === "earthsphere") ? (_tok.hdi || _tok.username || null) : null;
+
+  const name       = identity?.name ?? (_esHdi ? _esHdi.replace(/^@/, "").split(".")[0] : "Amit Ku Yadav");
+  const displayHdi = identity?.hdi  ?? _esHdi ?? "HDI pending";
+
+  if (title)  title.textContent  = `Life OS for ${name}`;
+  if (nameEl) nameEl.textContent = name;
+  if (hdiEl) {
+    hdiEl.textContent = displayHdi;
+    if (_esHdi && !identity?.hdi) {
+      hdiEl.classList.add("hdi-earthsphere");
+      hdiEl.title = "Synced from EarthSphere";
+    } else {
+      hdiEl.classList.remove("hdi-earthsphere");
+      hdiEl.title = "";
+    }
+  }
   if (editBtn) {
     editBtn.textContent = identity ? "Edit Identity" : "Create Identity";
     editBtn.addEventListener("click", () => hiOpenIdentityModal(identity ?? null));

@@ -408,6 +408,27 @@ async function login(username, password, remember = true) {
   }
 }
 
+function saveHDIToken(hdi) {
+  const token = JSON.stringify({
+    username: hdi,
+    hdi: hdi,
+    provider: 'earthsphere',
+    exp: Date.now() + SESSION_EXP_MS
+  });
+  try { sessionStorage.setItem(AUTH_TOKEN_KEY, token); } catch {}
+}
+
+function loginWithHDI(hdi) {
+  hdi = String(hdi || '').trim().toLowerCase();
+  if (!hdi) return { ok: false, error: 'Enter your HDI.' };
+  if (!hdi.startsWith('@')) hdi = '@' + hdi;
+  if (!/^@[a-z]{1,10}(\.[a-z])?\.[\d]{4}$/.test(hdi)) {
+    return { ok: false, error: 'Invalid HDI format. Expected @name.x.1234 (e.g. @amit.k.9876)' };
+  }
+  saveHDIToken(hdi);
+  return { ok: true };
+}
+
 function logout() {
   clearToken();
   window.location.replace("/pages/login.html");

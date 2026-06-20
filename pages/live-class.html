@@ -26,15 +26,15 @@
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#0b1e0e" />
 
-  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
-  <link rel="stylesheet" href="/css/live-class.css?v=hi-8" />
+  <link rel="stylesheet" href="/css/base.css?v=20260613" />
+  <link rel="stylesheet" href="/css/live-class.css?v=20260613" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+  <script src="/js/site-init.js?v=20260613"></script>
 </head>
 
 <body class="lc-page" data-board-theme="dark">
-<script src="/js/site-init.js?v=1"></script>
 
 <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -56,21 +56,22 @@
      HEADER
 ══════════════════════════════════════ -->
 <header class="lc-header">
-  <a href="/" class="lc-brand" aria-label="Return to Amit Ku Yadav home">
+  <a href="/" class="brand-link" aria-label="Return to Amit Ku Yadav home">
     <img src="/logo/night-logo.png" alt="Amit Ku Yadav" id="liveClassLogo"
-      class="lc-brand-logo" width="38" height="38" />
-    <div class="lc-brand-text">
-      <span class="lc-brand-name">Amit Ku Yadav</span>
-      <span class="lc-brand-sub">Live Classroom</span>
+      class="logo" width="38" height="38" />
+    <div class="brand-text">
+      <span class="brand-name">Amit Ku Yadav</span>
+      <span class="brand-tagline">Live Classroom</span>
     </div>
   </a>
 
-  <div class="lc-room-pill" aria-label="Class room">
-    <span class="lc-live-dot" id="lcLiveDot" aria-hidden="true"></span>
-    <span id="boardRoom">Loading room…</span>
-  </div>
+  <nav data-nav="live"></nav>
 
-  <nav class="lc-header-controls" aria-label="Board controls">
+  <div class="lc-header-controls" role="toolbar" aria-label="Board controls">
+    <div class="lc-room-pill" aria-label="Class room">
+      <span class="lc-live-dot" id="lcLiveDot" aria-hidden="true"></span>
+      <span id="boardRoom">Loading room…</span>
+    </div>
     <button type="button" id="boardAutoScroll"
       class="lc-ctrl-btn" aria-pressed="true" title="Toggle auto-scroll (A)">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -90,7 +91,7 @@
       class="lc-ctrl-btn lc-ctrl-btn--join" aria-label="Open join panel">
       Join Class
     </button>
-  </nav>
+  </div>
 </header>
 
 <!-- ══════════════════════════════════════
@@ -336,6 +337,7 @@
 <!-- Toast -->
 <div class="lc-toast-area" id="lcToastArea" aria-live="assertive" aria-atomic="true"></div>
 
-<script src="/js/live-class.js?v=hi-7" defer></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/live-class.js?v=20260613" defer></script>
 </body>
 </html>

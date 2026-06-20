@@ -15,7 +15,7 @@
     <link rel="canonical" href="https://kingofyadav.in/" />
 
     <!-- ================= THEME / PWA ================= -->
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#046A38" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="manifest" href="manifest.json" />
@@ -46,21 +46,22 @@
     <!-- ================= STYLES ================= -->
 
     <!-- Base (critical) -->
-    <link rel="stylesheet" href="css/base.css?v=form-suite-1" />
-    <noscript><link rel="stylesheet" href="css/base.css?v=form-suite-1" /></noscript>
+    <link rel="stylesheet" href="css/base.css?v=20260613" />
+    <noscript><link rel="stylesheet" href="css/base.css?v=20260613" /></noscript>
     <!-- Components (critical UI) -->
-    <link rel="stylesheet" href="css/components.css?v=footer-clean-1" />
+    <link rel="stylesheet" href="css/components.css?v=20260613" />
 
     <!-- Page-specific -->
-    <link rel="stylesheet" href="css/layout.css?v=layout-1" />
-    <link rel="stylesheet" href="css/index.css?v=20260502-pro" />
-    <link rel="stylesheet" href="css/personal.css?v=nav-pro-3" />
-    <link rel="stylesheet" href="css/auth.css?v=auth-otp-1" />
+    <link rel="stylesheet" href="css/layout.css?v=20260613-1" />
+    <link rel="stylesheet" href="css/index.css?v=20260613-2" />
+    <link rel="stylesheet" href="css/auth.css?v=20260613" />
 
     <!-- ================= ICONS ================= -->
     <link rel="icon" href="favicon/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
     <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
+
+    <script src="js/site-init.js?v=20260613"></script>
 
     <script type="application/ld+json">
       {
@@ -94,8 +95,6 @@
   </head>
 
   <body class="theme-dark">
-    <script src="js/auth.js?v=auth-otp-1"></script>
-    <script src="js/site-init.js?v=1"></script>
 
     <div id="scrollProgress"></div>
 
@@ -105,23 +104,19 @@
     <!-- ==================================================
        HEADER
   ================================================== -->
-    <header class="personal-header glass">
-      <div class="personal-header-inner">
-        <a href="/" class="personal-brand">
-          <img id="personalLogo" src="/logo/day-logo.png" alt="HI Life OS" class="personal-logo" />
-          <div class="personal-brand-text">
-            <span class="personal-name">Amit Ku Yadav</span>
-            <span class="personal-tagline">Profile</span>
+    <header class="site-header glass">
+      <div class="header-inner">
+        <a href="/" class="brand-link">
+          <img id="siteLogo" src="/logo/night-logo.png" alt="Amit Ku Yadav" class="logo" />
+          <div class="brand-text">
+            <span class="brand-name">Amit Ku Yadav</span>
+            <span class="brand-tagline">Profile</span>
           </div>
         </a>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-        <nav class="personal-nav" data-nav="index"></nav>
-        <div class="auth-bar" id="homeAuthBar" hidden>
-          <span>Hi, <strong id="authUserDisplay"></strong></span>
-          <button class="auth-logout-btn" id="logoutBtn">Logout</button>
-        </div>
+        <nav data-nav="index"></nav>
       </div>
     </header>
 
@@ -151,6 +146,20 @@
             <a href="pages/blog.html" class="btn-secondary btn-secondary--spaced">Read Thinking</a>
           </div>
 
+          <div class="hero-wildcard">
+            <a href="pages/login.html?next=/pages/personal.html&from=story"
+               class="wildcard-entry"
+               aria-label="My Story — private EarthSphere access">
+              <span class="wildcard-globe" aria-hidden="true">🌍</span>
+              <span>My Story</span>
+              <span class="wildcard-hdi" aria-hidden="true">HDI</span>
+              <svg class="wildcard-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
           <div class="hero-proof" aria-label="Profile highlights">
             <span><strong data-count="3">3</strong> active ventures</span>
             <span><strong data-count="1">1</strong> national NGO</span>
@@ -159,6 +168,18 @@
           </div>
         </div>
       </section>
+
+      <!-- ================= LAW 21 — DAILY REFLECTION ================= -->
+      <div class="law-strip" role="complementary" aria-label="Daily reflection — Law 21">
+        <div class="law-strip-inner">
+          <span class="law-strip-num" aria-hidden="true">21</span>
+          <div class="law-strip-body">
+            <p class="law-strip-quote">"Sometimes underplaying intelligence lets others reveal more."</p>
+            <span class="law-strip-src">Law 21 &middot; The 48 Laws of Power &middot; Robert Greene</span>
+          </div>
+          <span class="law-strip-badge" aria-label="Daily Reflection">Daily Reflection</span>
+        </div>
+      </div>
 
       <!-- ================= PRIMARY PATHS ================= -->
       <nav class="life-grid" aria-label="Primary profile sections">
@@ -245,93 +266,6 @@
         </nav>
         <div class="home-section-footer">
           <a href="pages/blog.html" class="btn-secondary">View All Articles</a>
-        </div>
-      </section>
-
-      <!-- ================= RUPEECOIN WALLET ================= -->
-      <section class="home-section rc-section" id="rupeecoin" aria-labelledby="rc-heading">
-        <p class="home-section-label hero-label">₹ RupeeCoin Network</p>
-        <h2 class="home-section-title" id="rc-heading">Decentralised Community Currency</h2>
-        <p class="home-section-sub">No owner. No founder. 21,000,000 RC hard cap. New block every 59 seconds.</p>
-
-        <!-- Live network stats bar -->
-        <div class="rc-stats-row" id="rcNetStats" aria-live="polite">
-          <div class="rc-stat"><span>Total Supply</span><strong id="rcNetSupply">21,000,000</strong></div>
-          <div class="rc-stat"><span>In Circulation</span><strong id="rcNetCirc">—</strong></div>
-          <div class="rc-stat"><span>Members</span><strong id="rcNetMembers">—</strong></div>
-          <div class="rc-stat"><span>Block Height</span><strong id="rcNetBlock">—</strong></div>
-          <div class="rc-stat rc-stat-hash"><span>Latest Block</span><code id="rcNetHash">—</code></div>
-        </div>
-
-        <!-- Two-column: wallet card + quick action -->
-        <div class="rc-grid">
-
-          <!-- Left: features list -->
-          <div class="rc-features glass">
-            <div class="rc-feature">
-              <span class="rc-feature-icon">₿</span>
-              <div>
-                <strong>Fixed Supply — 21M RC</strong>
-                <p>Like Bitcoin. No inflation. No one can mint more.</p>
-              </div>
-            </div>
-            <div class="rc-feature">
-              <span class="rc-feature-icon">⛓</span>
-              <div>
-                <strong>59-second blocks</strong>
-                <p>Every transaction sealed in a tamper-evident chain.</p>
-              </div>
-            </div>
-            <div class="rc-feature">
-              <span class="rc-feature-icon">🌱</span>
-              <div>
-                <strong>1,000 RC Genesis Grant</strong>
-                <p>Every new wallet starts equal. No pre-mine, no ICO.</p>
-              </div>
-            </div>
-            <div class="rc-feature">
-              <span class="rc-feature-icon">🔓</span>
-              <div>
-                <strong>Open Registration</strong>
-                <p>Anyone can join. No invite, no approval needed.</p>
-              </div>
-            </div>
-            <a href="/pages/wallet.html" class="btn-primary" style="margin-top:1.25rem;display:inline-flex;width:fit-content">Open Full Wallet →</a>
-          </div>
-
-          <!-- Right: quick wallet login/send -->
-          <div class="rc-wallet-card glass">
-            <div id="rcHomeLogin">
-              <p class="home-section-label hero-label" style="margin-bottom:.5rem">Quick Access</p>
-              <div class="rc-field"><label for="rcHomeName">RC Name</label><input id="rcHomeName" type="text" placeholder="Amit" autocapitalize="none" /></div>
-              <div class="rc-field"><label for="rcHomePin">PIN</label><input id="rcHomePin" type="password" inputmode="numeric" maxlength="8" placeholder="••••" /></div>
-              <div style="display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap">
-                <button class="btn-primary" onclick="rcHomeConnect()" style="flex:1;min-width:100px">Connect</button>
-                <a href="http://localhost:8080" target="_blank" rel="noopener" class="btn-secondary" style="flex:1;min-width:100px;text-align:center">Open App</a>
-              </div>
-              <p style="margin-top:.75rem;font-size:.72rem;opacity:.5;text-align:center">No account? <a href="http://localhost:8080" target="_blank" rel="noopener" style="color:var(--brand-green)">Create wallet → get 1,000 RC</a></p>
-            </div>
-
-            <div id="rcHomeDash" style="display:none">
-              <div class="rc-balance-card">
-                <span class="rc-balance-label">Balance</span>
-                <div class="rc-balance-amount"><strong id="rcHomeBal">0</strong><span>RC</span></div>
-                <code id="rcHomeUser" style="font-size:.65rem;opacity:.55"></code>
-              </div>
-              <form id="rcHomeSendForm" style="margin-top:1rem">
-                <div class="rc-field"><label for="rcHomeTo">Send to</label><input id="rcHomeTo" type="text" placeholder="Username" /></div>
-                <div class="rc-field"><label for="rcHomeAmt">Amount RC</label><input id="rcHomeAmt" type="number" min="1" step="1" placeholder="50" /></div>
-                <div class="rc-field"><label for="rcHomeNote">Note</label><input id="rcHomeNote" type="text" placeholder="Coffee, rent…" /></div>
-                <div class="rc-field"><label for="rcHomeConfPin">Confirm PIN</label><input id="rcHomeConfPin" type="password" inputmode="numeric" maxlength="8" placeholder="••••" /></div>
-                <div style="display:flex;gap:.5rem;margin-top:.75rem">
-                  <button class="btn-primary" type="submit" style="flex:1">Send RC</button>
-                  <button class="btn-secondary" type="button" onclick="rcHomeLogout()" style="flex:0 0 auto">Disconnect</button>
-                </div>
-              </form>
-              <p id="rcHomeSendStatus" style="font-size:.8rem;margin-top:.5rem;min-height:1.2em" role="status"></p>
-            </div>
-
-          </div>
         </div>
       </section>
 
@@ -429,103 +363,13 @@
     </button>
 
     <!-- ================= SCRIPT ================= -->
+    <script src="js/auth.js?v=20260613" defer></script>
     <script src="/js/footer.js" defer></script>
     <script src="/js/nav.js" defer></script>
-    <script src="js/script.js?v=footer-clean-1" defer></script>
-
-    <!-- ── RupeeCoin quick widget ── -->
-    <script>
-    (function () {
-      "use strict";
-
-      var RC_BASE = "http://localhost:8080";
-      var rc_token = null;
-
-      function rcSet(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
-      function fmtRC(n) { return Number(n).toLocaleString("en-IN"); }
-
-      function rcApi(method, path, body) {
-        var opts = { method: method, headers: { "Content-Type": "application/json", "X-Token": rc_token || "" } };
-        if (body) opts.body = JSON.stringify(body);
-        return fetch(RC_BASE + path, opts)
-          .then(function (r) { return r.json(); })
-          .catch(function () { return { ok: false, error: "offline" }; });
-      }
-
-      function loadNetStats() {
-        // /api/stats is public — no auth needed
-        fetch(RC_BASE + "/api/stats")
-          .then(function (r) { return r.json(); })
-          .then(function (d) {
-            if (!d.ok) return;
-            rcSet("rcNetSupply",  fmtRC(d.total_supply));
-            rcSet("rcNetCirc",    fmtRC(d.in_circulation));
-            rcSet("rcNetMembers", d.members);
-            rcSet("rcNetBlock",   "#" + d.block_height);
-            rcSet("rcNetHash",    d.latest_block_hash ? d.latest_block_hash.slice(0, 18) + "…" : "—");
-          })
-          .catch(function () {});
-      }
-
-      window.rcHomeConnect = function () {
-        var name = (document.getElementById("rcHomeName") || {}).value || "";
-        var pin  = (document.getElementById("rcHomePin") || {}).value || "";
-        name = name.trim();
-        if (!name || !pin) { alert("Enter your RC name and PIN."); return; }
-        rcApi("POST", "/api/login", { name: name.trim(), pin: pin }).then(function (d) {
-          if (!d.ok) { alert(d.error || "Login failed"); return; }
-          rc_token = d.token;
-          var login = document.getElementById("rcHomeLogin");
-          var dash  = document.getElementById("rcHomeDash");
-          if (login) login.style.display = "none";
-          if (dash)  dash.style.display  = "";
-          rcSet("rcHomeBal",  fmtRC(d.balance));
-          rcSet("rcHomeUser", d.name);
-          loadNetStats();
-        });
-      };
-
-      window.rcHomeLogout = function () {
-        rc_token = null;
-        var login = document.getElementById("rcHomeLogin");
-        var dash  = document.getElementById("rcHomeDash");
-        if (login) login.style.display = "";
-        if (dash)  dash.style.display  = "none";
-        rcSet("rcHomeSendStatus", "");
-      };
-
-      var sendForm = document.getElementById("rcHomeSendForm");
-      if (sendForm) {
-        sendForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-          var to   = ((document.getElementById("rcHomeTo") || {}).value || "").trim();
-          var amt  = parseInt((document.getElementById("rcHomeAmt") || {}).value || "0", 10);
-          var note = ((document.getElementById("rcHomeNote") || {}).value || "").trim();
-          var pin  = ((document.getElementById("rcHomeConfPin") || {}).value || "").trim();
-          var stat = document.getElementById("rcHomeSendStatus");
-          if (!to || !amt || !pin) { if (stat) stat.textContent = "Fill all fields."; return; }
-          rcApi("POST", "/api/send", { to: to, amount: amt, note: note, pin: pin }).then(function (d) {
-            if (!d.ok) { if (stat) stat.textContent = d.error || "Send failed."; return; }
-            if (stat) stat.textContent = "Sent " + fmtRC(amt) + " RC to " + to + ".";
-            ["rcHomeTo","rcHomeAmt","rcHomeNote","rcHomeConfPin"].forEach(function(id){
-              var el = document.getElementById(id); if (el) el.value = "";
-            });
-            rcApi("GET", "/api/balance").then(function (b) {
-              if (b.ok) rcSet("rcHomeBal", fmtRC(b.balance));
-            });
-          });
-        });
-      }
-
-      // Probe server every 59 s (one block interval) to refresh stats
-      loadNetStats();
-      setInterval(loadNetStats, 59000);
-
-    }());
-    </script>
+    <script src="js/script.js?v=20260613" defer></script>
 
     <script
-      src="/api-static/jarvis-widget.js?v=20260501-clean-header"
+      src="/api-static/jarvis-widget.js?v=20260613"
       data-endpoint="/api/jarvis-chat"
       data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public"
       data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry"

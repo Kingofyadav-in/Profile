@@ -4,7 +4,8 @@
 ====================================================== */
 
 /* ── CSS Custom Properties ── */
-.lc-page {
+/* body.lc-page beats body.theme-light/dark (same specificity, later in cascade) */
+body.lc-page {
   --lc-dark-bg:        #070f09;
   --lc-dark-surface:   rgba(255,255,255,.065);
   --lc-dark-border:    rgba(255,255,255,.1);
@@ -126,7 +127,7 @@
   background: rgba(245,241,236,.9);
 }
 
-.lc-brand {
+.lc-header .brand-link {
   display: flex;
   align-items: center;
   gap: 11px;
@@ -135,27 +136,27 @@
   flex-shrink: 0;
 }
 
-.lc-brand-logo {
+.lc-header .logo {
   width: 38px;
   height: 38px;
   object-fit: contain;
   border-radius: 8px;
 }
 
-.lc-brand-text {
+.lc-header .brand-text {
   display: flex;
   flex-direction: column;
   gap: 1px;
   line-height: 1.2;
 }
 
-.lc-brand-name {
+.lc-header .brand-name {
   font-size: .88rem;
   font-weight: 800;
   color: var(--lc-dark-text);
 }
 
-.lc-brand-sub {
+.lc-header .brand-tagline {
   font-size: .7rem;
   font-weight: 700;
   letter-spacing: .8px;
@@ -163,7 +164,7 @@
   color: var(--lc-chalk-green);
 }
 
-.lc-page[data-board-theme="light"] .lc-brand-sub {
+.lc-page[data-board-theme="light"] .lc-header .brand-tagline {
   color: var(--lc-brand-green);
 }
 

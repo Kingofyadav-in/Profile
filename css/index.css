@@ -102,6 +102,70 @@
   transform: translateY(-3px) scale(1.04);
 }
 
+/* ── My Story — Wildcard EarthSphere Entry ── */
+
+.hero-wildcard {
+  margin-top: 18px;
+}
+
+.wildcard-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.52;
+  border-bottom: 1px dashed rgba(4, 106, 56, 0.28);
+  padding-bottom: 2px;
+  transition: opacity var(--dur-normal) var(--ease-out),
+              color var(--dur-normal) var(--ease-out),
+              border-color var(--dur-normal) var(--ease-out);
+}
+
+.wildcard-entry:hover {
+  opacity: 1;
+  color: var(--brand-green);
+  border-bottom-color: var(--brand-green);
+}
+
+.wildcard-globe {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.wildcard-hdi {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--brand-green-soft);
+  color: var(--brand-green);
+  border: 1px solid rgba(4, 106, 56, 0.22);
+}
+
+.wildcard-arrow {
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: opacity var(--dur-normal) var(--ease-out),
+              transform var(--dur-normal) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wildcard-entry:hover .wildcard-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+body.theme-light .wildcard-hdi {
+  background: rgba(4, 106, 56, 0.1);
+}
+
 .hero-proof {
   display: flex;
   flex-wrap: wrap;
@@ -182,6 +246,91 @@ body.theme-dark .hero-proof span {
 }
 
 
+
+/* ── Law 21 — Daily Reflection Strip ── */
+
+.law-strip {
+  margin: 24px clamp(20px, 5vw, 64px) 0;
+  border-radius: 14px;
+  border: 1px solid rgba(200, 160, 72, 0.22);
+  border-left: 3px solid rgba(200, 160, 72, 0.7);
+  background: rgba(200, 160, 72, 0.05);
+  overflow: hidden;
+}
+
+body.theme-light .law-strip {
+  background: rgba(200, 140, 20, 0.06);
+  border-color: rgba(200, 140, 20, 0.25);
+  border-left-color: rgba(180, 120, 10, 0.6);
+}
+
+.law-strip-inner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 20px;
+}
+
+.law-strip-num {
+  flex-shrink: 0;
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(200, 160, 72, 0.45);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1px;
+}
+
+.law-strip-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.law-strip-quote {
+  margin: 0;
+  font-size: 0.92rem;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+body.theme-light .law-strip-quote {
+  color: #1a1a1a;
+}
+
+.law-strip-src {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  opacity: 0.45;
+}
+
+.law-strip-badge {
+  flex-shrink: 0;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(200, 160, 72, 0.85);
+  padding: 4px 9px;
+  border: 1px solid rgba(200, 160, 72, 0.28);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .law-strip-inner {
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  .law-strip-num { font-size: 1.4rem; }
+  .law-strip-badge { display: none; }
+}
 
 /* ======================================================
    LIFE GRID POLISH

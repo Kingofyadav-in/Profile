@@ -14,8 +14,8 @@
     { label: 'Gallery',       href: '/pages/gallery.html' },
     { label: 'Services',      href: '/pages/services.html' },
     { label: 'Contact',       href: '/pages/contact.html' },
-    { label: 'Collaboration', href: '/pages/collaboration.html' },
     { label: 'Order',         href: '/pages/order.html' },
+    { label: 'Collaboration', href: '/pages/collaboration.html' },
     { label: '🔴 Live Class', href: '/pages/live-class.html', cls: 'live-class-link' },
   ]
 
@@ -32,7 +32,12 @@
     { label: '✍️ Blog Vault',  href: '/pages/hi-license.html?filter=blog-post', cls: 'blog-vault-link' },
   ]
 
+  const LIVE_NAV = [
+    { label: '🔴 Live Class', href: '/pages/live-class.html', cls: 'live-class-link' },
+  ]
+
   const WALLET_NAV = [
+    { label: 'Overview',     href: '/wallet/index.html' },
     { label: 'HI Wallet',    href: '/wallet/wallet.html' },
     { label: 'HI Coin',      href: '/wallet/coin.html' },
     { label: 'Vault',        href: '/wallet/vault.html' },
@@ -74,8 +79,11 @@
   function resolveNavLinks(type, path) {
     const isWallet   = path.startsWith('/wallet/')
     const isPersonal = PERSONAL_PATHS.some(p => path.startsWith(p))
-    if (isWallet)   return WALLET_NAV
-    if (isPersonal) return PERSONAL_NAV
+    const isLive     = path.startsWith('/pages/live-class')
+    if (isLive)      return LIVE_NAV
+    if (isWallet)    return WALLET_NAV
+    if (isPersonal)  return PERSONAL_NAV
+    if (type === 'live')     return LIVE_NAV
     if (type === 'wallet')   return WALLET_NAV
     if (type === 'personal' || PERSONAL_PATHS.some(p => type === p.split('/').pop())) return PERSONAL_NAV
     return INDEX_NAV
@@ -106,7 +114,7 @@
   })
 
   /* ── Auto-inject auth bar ── */
-  if (!document.getElementById('logoutBtn')) {
+  if (!document.getElementById('logoutBtn') && !document.body.classList.contains('lc-page')) {
     const inner = document.querySelector('.personal-header-inner, .header-inner')
     if (!inner) return
 

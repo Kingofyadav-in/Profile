@@ -17,16 +17,16 @@
   <link rel="icon" href="/favicon/favicon.ico" />
   <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
 
-  <link rel="preload" href="/css/base.css?v=form-suite-1" as="style" />
-  <link rel="preload" href="/css/components.css?v=footer-clean-1" as="style" />
-  <link rel="preload" href="/css/order.css?v=20260510-pro" as="style" />
-  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
-  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
-  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="/css/order.css?v=20260510-pro" />
+  <link rel="preload" href="/css/base.css?v=20260613" as="style" />
+  <link rel="preload" href="/css/components.css?v=20260613" as="style" />
+  <link rel="preload" href="/css/order.css?v=20260613-2" as="style" />
+  <link rel="stylesheet" href="/css/base.css?v=20260613" />
+  <link rel="stylesheet" href="/css/components.css?v=20260613" />
+  <link rel="stylesheet" href="/css/layout.css?v=20260613-1" />
+  <link rel="stylesheet" href="/css/order.css?v=20260613-2" />
+  <script src="/js/site-init.js?v=20260613"></script>
 </head>
 <body class="theme-dark">
-  <script src="/js/site-init.js?v=1"></script>
   <div id="scrollProgress"></div>
   <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -34,7 +34,7 @@
     <div class="header-inner">
       <div class="brand">
         <a href="/" class="brand-link" aria-label="Amit Ku Yadav home">
-          <img id="siteLogo" class="logo" src="/logo/day-logo.png" alt="Amit Ku Yadav personal profile" width="50" height="50" />
+          <img id="siteLogo" class="logo" src="/logo/night-logo.png" alt="Amit Ku Yadav personal profile" width="50" height="50" />
           <div class="brand-text">
             <span class="brand-name">Amit Ku Yadav</span>
             <span class="brand-tagline">Order</span>
@@ -64,6 +64,141 @@
       </div>
     </section>
 
+    <!-- ══════════════════ SEARCH ══════════════════ -->
+    <section class="order-search-section" aria-label="Search services and apps">
+      <div class="order-search-inner">
+        <p class="hero-label">🔍 Search</p>
+        <h2 class="order-search-heading">Find what you need.</h2>
+        <div class="order-search-bar" role="search">
+          <input type="search" id="orderSearch" class="order-search-input"
+            placeholder="Search HDI, wallet, payment, coin, ludo, hosting…"
+            autocomplete="off" aria-label="Search services and apps" />
+          <button type="button" id="orderSearchBtn" class="order-search-btn" aria-label="Search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            Search
+          </button>
+        </div>
+        <div class="order-search-tags" aria-label="Quick filters">
+          <button class="order-search-tag" data-q="hdi">HDI</button>
+          <button class="order-search-tag" data-q="wallet">Wallet</button>
+          <button class="order-search-tag" data-q="payment">Payment</button>
+          <button class="order-search-tag" data-q="rupeecoin">RupeeCoin</button>
+          <button class="order-search-tag" data-q="jhon aamit">JhonAamit</button>
+          <button class="order-search-tag" data-q="ludo">Ludo</button>
+          <button class="order-search-tag" data-q="hosting">Hosting</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ APPS & SERVICES ══════════════════ -->
+    <section class="order-apps-section" id="order-apps" aria-label="Apps and services">
+      <div class="page-intro">
+        <span class="hero-label">Apps &amp; Services</span>
+        <h2>Explore the ecosystem.</h2>
+        <p>Six platforms, one order system. Pick a service to access, order, or connect.</p>
+      </div>
+
+      <div class="order-apps-grid">
+
+        <a class="order-app-card order-app-card--hdi"
+           href="/pages/login.html?next=/pages/personal.html&from=story"
+           data-searchable="hdi human digital identity hi life os personal dashboard private earthsphere zerosoils protocol sovereign">
+
+          <p class="order-hdi-eyebrow">ACT 3 &middot; EXPLORATION &middot; HUMAN DIGITAL IDENTITY PROTOCOL v0.1</p>
+
+          <div class="order-hdi-main">
+            <div class="order-hdi-avatar" aria-hidden="true">HDI</div>
+            <div class="order-hdi-identity">
+              <h3 class="order-hdi-tag">Human Digital Identity</h3>
+              <p class="order-hdi-sub">HDI Protocol &middot; EarthSphere &middot; v0.1-alpha</p>
+            </div>
+            <span class="order-hdi-active" aria-label="System active">
+              <span class="order-hdi-pulse" aria-hidden="true"></span>ACTIVE
+            </span>
+          </div>
+
+          <div class="order-hdi-trust-bar-wrap" aria-hidden="true">
+            <div class="order-hdi-trust-bar-fill"></div>
+          </div>
+          <div class="order-hdi-trust-tiers" aria-hidden="true">
+            <span>Unverified</span><span>Emerging</span><span>Established</span><span>Trusted</span><span>Sovereign</span>
+          </div>
+
+          <div class="order-hdi-journey" aria-hidden="true">
+            <span class="order-hdi-phase order-hdi-phase--open">Mercury</span>
+            <span class="order-hdi-phase order-hdi-phase--open">Venus</span>
+            <span class="order-hdi-phase order-hdi-phase--lock">Mars</span>
+            <span class="order-hdi-phase order-hdi-phase--lock">Jupiter</span>
+            <span class="order-hdi-phase order-hdi-phase--lock">Saturn</span>
+            <span class="order-hdi-phase order-hdi-phase--lock">Uranus</span>
+          </div>
+
+          <div class="order-hdi-footer">
+            <p class="order-hdi-desc">Your sovereign digital identity — verifiable on EarthSphere. Build trust, link assets, and own your record.</p>
+            <span class="order-hdi-btn">Access HDI →</span>
+          </div>
+        </a>
+
+        <a class="order-app-card glass" href="/wallet/wallet.html"
+           data-searchable="wallet hi wallet digital wallet pay balance identity rupee">
+          <div class="order-app-icon">👛</div>
+          <div class="order-app-body">
+            <h3>HI Wallet</h3>
+            <p>Manage your digital identity wallet, payments, and account balances.</p>
+          </div>
+          <span class="order-app-cta">Open →</span>
+        </a>
+
+        <button type="button" class="order-app-card glass order-app-card--btn" id="appPayBtn"
+           data-searchable="payment upi pay rupee gpay phonepe paytm bhim upi id qr code">
+          <div class="order-app-icon">💳</div>
+          <div class="order-app-body">
+            <h3>Payment</h3>
+            <p>UPI, QR code, and app-based payments via PhonePe, GPay, Paytm, and BHIM.</p>
+          </div>
+          <span class="order-app-cta">Pay →</span>
+        </button>
+
+        <a class="order-app-card glass" href="/wallet/coin.html"
+           data-searchable="rupeecoin rupee coin hi coin digital coin token crypto currency wallet">
+          <div class="order-app-icon">🪙</div>
+          <div class="order-app-body">
+            <h3>RupeeCoin</h3>
+            <p>HI Coin — the digital coin concept powering the identity economy.</p>
+          </div>
+          <span class="order-app-cta">Explore →</span>
+        </a>
+
+        <a class="order-app-card glass" href="/brands/jhon-aamit-llp.html"
+           data-searchable="jhon aamit llp business brand venture company legal consulting">
+          <div class="order-app-icon">🏢</div>
+          <div class="order-app-body">
+            <h3>JhonAamit LLP</h3>
+            <p>Official business brand — consulting, legal structures, and ventures.</p>
+          </div>
+          <span class="order-app-cta">Visit →</span>
+        </a>
+
+        <div class="order-app-card glass order-app-card--soon"
+           data-searchable="ludo game play board fun activity community">
+          <div class="order-app-icon">🎲</div>
+          <div class="order-app-body">
+            <h3>Ludo</h3>
+            <p>Community board game experience — multiplayer, real-time, and social.</p>
+          </div>
+          <span class="order-app-soon-badge">Coming Soon</span>
+        </div>
+
+      </div>
+
+      <div id="searchNoResults" class="order-search-empty" hidden>
+        No results for "<strong id="searchQueryText"></strong>" — try a different keyword.
+      </div>
+    </section>
+
     <section class="order-snapshot" aria-label="Order process summary">
       <div><span>Step 1</span><strong>Choose a package</strong></div>
       <div><span>Step 2</span><strong>Confirm scope & payment</strong></div>
@@ -81,7 +216,7 @@
       </div>
 
       <div class="order-packages-grid">
-        <article class="order-package glass" data-plan="starter" tabindex="0" role="button" aria-label="Select Starter Hosting">
+        <article class="order-package glass" data-plan="starter" data-searchable="starter hosting website ssl personal portfolio" tabindex="0" role="button" aria-label="Select Starter Hosting">
           <span class="order-package-badge">Starter</span>
           <h3>Starter Hosting</h3>
           <strong class="order-price">₹99/mo</strong>
@@ -94,7 +229,7 @@
           <button type="button" class="order-select-btn">Select Package</button>
         </article>
 
-        <article class="order-package glass" data-plan="pro" tabindex="0" role="button" aria-label="Select Pro Hosting">
+        <article class="order-package glass" data-plan="pro" data-searchable="pro hosting website backup priority support growing" tabindex="0" role="button" aria-label="Select Pro Hosting">
           <span class="order-package-badge">Popular</span>
           <h3>Pro Hosting</h3>
           <strong class="order-price">₹299/mo</strong>
@@ -107,7 +242,7 @@
           <button type="button" class="order-select-btn">Select Package</button>
         </article>
 
-        <article class="order-package glass" data-plan="store" tabindex="0" role="button" aria-label="Select E-Commerce Store">
+        <article class="order-package glass" data-plan="store" data-searchable="store ecommerce shop catalog cart checkout payment online sell" tabindex="0" role="button" aria-label="Select E-Commerce Store">
           <span class="order-package-badge">Store</span>
           <h3>E-Commerce Store</h3>
           <strong class="order-price">₹899/mo</strong>
@@ -120,7 +255,7 @@
           <button type="button" class="order-select-btn">Select Package</button>
         </article>
 
-        <article class="order-package glass" data-plan="business" tabindex="0" role="button" aria-label="Select Business Hosting">
+        <article class="order-package glass" data-plan="business" data-searchable="business hosting unlimited domain nvme ssd traffic formal" tabindex="0" role="button" aria-label="Select Business Hosting">
           <span class="order-package-badge">Business</span>
           <h3>Business Hosting</h3>
           <strong class="order-price">₹599/mo</strong>
@@ -133,7 +268,7 @@
           <button type="button" class="order-select-btn">Select Package</button>
         </article>
 
-        <article class="order-package glass" data-plan="custom" tabindex="0" role="button" aria-label="Select Custom Build">
+        <article class="order-package glass" data-plan="custom" data-searchable="custom build automation software tailored scope quote system" tabindex="0" role="button" aria-label="Select Custom Build">
           <span class="order-package-badge">Custom</span>
           <h3>Custom Build</h3>
           <strong class="order-price">Quote</strong>
@@ -393,8 +528,74 @@
 
   <script src="/js/nav.js" defer></script>
   <script src="/js/footer.js" defer></script>
-  <script src="/js/script.js?v=footer-clean-1" defer></script>
-  <script src="/js/upi-payment.js?v=hi-1" defer></script>
-  <script src="/js/order.js?v=hi-1" defer></script>
+  <script src="/js/script.js?v=20260613" defer></script>
+  <script src="/js/upi-payment.js?v=20260613" defer></script>
+  <script src="/js/order.js?v=20260613" defer></script>
+
+  <script>
+  "use strict";
+  /* ── Order Search ── */
+  document.addEventListener("DOMContentLoaded", function () {
+    var input   = document.getElementById("orderSearch");
+    var btn     = document.getElementById("orderSearchBtn");
+    var noRes   = document.getElementById("searchNoResults");
+    var qText   = document.getElementById("searchQueryText");
+    var tags    = document.querySelectorAll(".order-search-tag");
+    var appBtn  = document.getElementById("appPayBtn");
+
+    if (!input) return;
+
+    function getSearchables() {
+      return document.querySelectorAll("[data-searchable]");
+    }
+
+    function runSearch(q) {
+      var query = q.trim().toLowerCase();
+      var items = getSearchables();
+      var visible = 0;
+      items.forEach(function (el) {
+        var haystack = ((el.dataset.searchable || "") + " " + el.textContent).toLowerCase();
+        var show = !query || haystack.indexOf(query) !== -1;
+        el.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      if (noRes) {
+        noRes.hidden = !query || visible > 0;
+        if (qText) qText.textContent = q;
+      }
+      tags.forEach(function (t) {
+        t.classList.toggle("is-active", t.dataset.q === query);
+      });
+    }
+
+    input.addEventListener("input", function () { runSearch(input.value); });
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); runSearch(input.value); }
+    });
+    btn.addEventListener("click", function () { runSearch(input.value); });
+
+    tags.forEach(function (tag) {
+      tag.addEventListener("click", function () {
+        var q = tag.dataset.q;
+        input.value = q;
+        runSearch(q);
+        input.focus();
+        document.getElementById("order-apps").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    /* Payment app card — scroll to checkout then open UPI */
+    if (appBtn) {
+      appBtn.addEventListener("click", function () {
+        var checkout = document.querySelector(".order-checkout-section");
+        if (checkout) {
+          checkout.scrollIntoView({ behavior: "smooth", block: "start" });
+          var paySelect = document.getElementById("orderPayment");
+          if (paySelect) paySelect.value = "upi";
+        }
+      });
+    }
+  });
+  </script>
 </body>
 </html>

@@ -13,10 +13,10 @@
   <meta property="og:url" content="https://kingofyadav.in/pages/login.html" />
   <meta property="og:type" content="website" />
   <link rel="icon" href="/favicon/favicon.ico" />
-  <link rel="stylesheet" href="/css/base.css?v=form-suite-1" />
-  <link rel="stylesheet" href="/css/components.css?v=footer-clean-1" />
-  <link rel="stylesheet" href="/css/layout.css?v=layout-1" />
-  <link rel="stylesheet" href="/css/auth.css?v=auth-otp-1" />
+  <link rel="stylesheet" href="/css/base.css?v=20260613" />
+  <link rel="stylesheet" href="/css/components.css?v=20260613" />
+  <link rel="stylesheet" href="/css/layout.css?v=20260613-1" />
+  <link rel="stylesheet" href="/css/auth.css?v=20260613" />
   <style>
     body.auth-page { padding-top: 76px !important; }
 
@@ -165,15 +165,30 @@
         padding-inline: 4px;
       }
     }
+
+    /* EarthSphere HDI tab accent */
+    .auth-tab--es { color: var(--brand-orange); }
+    .auth-tab--es.active,
+    .auth-tab--es:hover { color: var(--brand-orange); border-color: var(--brand-orange); }
+
+    /* HDI panel intro block */
+    .auth-hdi-intro {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: rgba(255,103,31,0.07); border: 1px solid rgba(255,103,31,0.2);
+      border-radius: 10px; padding: 12px 14px; margin-bottom: 18px;
+      font-size: 0.82rem; line-height: 1.45; color: var(--text-secondary);
+    }
+    .auth-hdi-globe { font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+    .auth-hdi-intro strong { color: var(--brand-orange); }
   </style>
 </head>
 
 <body class="theme-dark auth-page">
 
-<script src="/js/site-init.js?v=1"></script>
+<script src="/js/site-init.js?v=20260613"></script>
 
 <!-- Load auth module synchronously -->
-<script src="/js/auth.js?v=auth-otp-1"></script>
+<script src="/js/auth.js?v=20260613"></script>
 
 <!-- Redirect immediately if already logged in -->
 <script>
@@ -228,191 +243,57 @@ if (isAuthenticated()) {
 
 <main class="auth-shell" aria-labelledby="authTitle">
 
-<section class="auth-intro" aria-label="Personal section overview">
-  <p class="auth-kicker">Internet Door</p>
-  <h1 id="authTitle">Your door to the internet.</h1>
+<section class="auth-intro" aria-label="EarthSphere HDI login">
+  <p class="auth-kicker">Human Digital Identity</p>
+  <h1 id="authTitle">Login with your HDI.</h1>
   <p class="auth-copy">
-    One protected gateway to your identity, tools, wallet, and private workspace. Only you hold the key.
+    Your EarthSphere identity is your key. Create your HDI once, use it everywhere.
   </p>
 
-  <div class="auth-access-grid" aria-label="Access features">
+  <div class="auth-access-grid" aria-label="HDI features">
     <div>
       <span>01</span>
-      <strong>Local Gate</strong>
-      <p>Protected access for this device.</p>
+      <strong>Create HDI</strong>
+      <p>Sign up on EarthSphere to get your identity.</p>
     </div>
     <div>
       <span>02</span>
-      <strong>HI Tools</strong>
-      <p>Identity, wallet, vault, and merchant controls.</p>
+      <strong>Copy HDI</strong>
+      <p>Find it on the HDI page and copy or click Open Profile.</p>
     </div>
     <div>
       <span>03</span>
-      <strong>Private Setup</strong>
-      <p>One local admin account per browser.</p>
+      <strong>Login Here</strong>
+      <p>Paste your HDI below to access your personal section.</p>
     </div>
   </div>
 </section>
 
-<section class="auth-card" aria-label="Login and sign up form">
+<section class="auth-card" aria-label="EarthSphere HDI login">
 
-  <div class="auth-route-note" id="authRouteNote">Continue securely</div>
+  <div class="auth-route-note" id="authRouteNote">🌍 EarthSphere HDI Login</div>
 
-  <!-- Tabs -->
-  <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
-    <button class="auth-tab active" id="tab-login"
-      role="tab" aria-selected="true" aria-controls="panel-login">
-      Login
-    </button>
-    <button class="auth-tab" id="tab-otp"
-      role="tab" aria-selected="false" aria-controls="panel-otp">
-      Phone OTP
-    </button>
-    <button class="auth-tab" id="tab-signup"
-      role="tab" aria-selected="false" aria-controls="panel-signup">
-      Setup
-    </button>
+  <!-- HDI PANEL (only login method) -->
+  <div class="auth-hdi-intro">
+    <span class="auth-hdi-globe" aria-hidden="true">🌍</span>
+    <p>Enter your <strong>EarthSphere HDI</strong> to access your personal section.</p>
   </div>
 
-  <!-- LOGIN PANEL -->
-  <div class="auth-panel active" id="panel-login" role="tabpanel" aria-labelledby="tab-login">
-
-    <!-- Lockout countdown (shown when rate limited) -->
-    <div class="auth-lockout" id="lockoutDisplay" style="display:none;" role="alert" aria-live="polite">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      <span>Locked out. Try again in <strong class="auth-lockout-time" id="lockoutCountdown">15:00</strong></span>
+  <form id="hdiForm" novalidate autocomplete="off">
+    <div class="auth-field">
+      <label for="hdi-input">Your HDI</label>
+      <input id="hdi-input" name="hdi" type="text"
+        placeholder="@name.x.1234"
+        autocomplete="off" spellcheck="false"
+        inputmode="text" required />
     </div>
+    <button type="submit" class="auth-submit" id="hdiBtn">Login with HDI</button>
+    <div class="auth-status" id="hdiStatus" role="alert" aria-live="polite"></div>
+  </form>
 
-    <!-- Hint shown when no account exists yet -->
-    <div class="auth-hint" id="noAccountHint" style="display:none;">
-      <span>No local admin yet?</span>
-      <button type="button" id="goSignupBtn">Set up →</button>
-    </div>
-    <div class="auth-hint" id="resetHint" style="display:none; margin-top:12px;">
-      <span>Need a fresh admin?</span>
-      <button type="button" id="resetUsersBtn">Reset users</button>
-    </div>
-
-    <form id="loginForm" novalidate autocomplete="on">
-
-      <div class="auth-field">
-        <label for="login-username">Username</label>
-        <input id="login-username" name="username" type="text"
-          placeholder="Enter your username"
-          autocomplete="username" spellcheck="false" required />
-      </div>
-
-      <div class="auth-field">
-        <label for="login-password">Password</label>
-        <div class="pw-wrap">
-          <input id="login-password" name="password" type="password"
-            placeholder="Enter your password"
-            autocomplete="current-password" required />
-          <button type="button" class="pw-toggle" data-target="login-password"
-            aria-label="Show password"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        </div>
-      </div>
-
-      <label class="auth-remember">
-        <input type="checkbox" id="login-remember" checked disabled />
-        Save local access on this browser
-      </label>
-
-      <button type="submit" class="auth-submit" id="loginBtn">Login</button>
-      <div class="auth-attempts" id="loginAttempts" aria-live="polite"></div>
-      <div class="auth-status" id="loginStatus" role="alert" aria-live="polite"></div>
-
-    </form>
-  </div>
-
-  <!-- PHONE OTP PANEL -->
-  <div class="auth-panel" id="panel-otp" role="tabpanel" aria-labelledby="tab-otp">
-    <form id="otpRequestForm" novalidate autocomplete="on">
-      <div class="auth-field">
-        <label for="otp-phone">Mobile Number</label>
-        <input id="otp-phone" name="phone" type="tel"
-          placeholder="9523528114"
-          inputmode="numeric"
-          autocomplete="tel"
-          spellcheck="false" required />
-      </div>
-      <button type="submit" class="auth-submit" id="otpSendBtn">Send OTP</button>
-    </form>
-
-    <form id="otpVerifyForm" class="auth-otp-verify" novalidate autocomplete="one-time-code" hidden>
-      <div class="auth-field">
-        <label>Enter OTP</label>
-        <div class="otp-grid" id="otpGrid" role="group" aria-label="6-digit OTP code">
-          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="one-time-code" id="otp-code-0" aria-label="Digit 1" />
-          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-1" aria-label="Digit 2" />
-          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-2" aria-label="Digit 3" />
-          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-3" aria-label="Digit 4" />
-          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-4" aria-label="Digit 5" />
-          <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" id="otp-code-5" aria-label="Digit 6" />
-        </div>
-        <input type="hidden" id="otp-code" name="otp" />
-      </div>
-      <button type="submit" class="auth-submit" id="otpVerifyBtn">Verify & Continue</button>
-      <button type="button" class="auth-link-btn" id="otpChangePhoneBtn">Change number</button>
-    </form>
-
-    <div class="auth-status" id="otpStatus" role="alert" aria-live="polite"></div>
-    <p class="auth-divider">OTP is sent through the Railway API using MSG91. Standard SMS delivery rules apply.</p>
-  </div>
-
-  <!-- SIGN UP PANEL -->
-  <div class="auth-panel" id="panel-signup" role="tabpanel" aria-labelledby="tab-signup">
-    <form id="signupForm" novalidate autocomplete="off">
-
-      <div class="auth-field">
-        <label for="signup-username">Choose Username</label>
-        <input id="signup-username" name="username" type="text"
-          placeholder="At least 3 characters"
-          autocomplete="username" spellcheck="false" required />
-      </div>
-
-      <div class="auth-field">
-        <label for="signup-password">Choose Password</label>
-        <div class="pw-wrap">
-          <input id="signup-password" name="password" type="password"
-            placeholder="At least 8 characters"
-            autocomplete="new-password" required />
-          <button type="button" class="pw-toggle" data-target="signup-password"
-            aria-label="Show password"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        </div>
-        <div class="pw-strength" id="pwStrengthBar" role="progressbar"
-          aria-label="Password strength" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        </div>
-        <div class="pw-strength-text" id="pwStrengthText">Use 8+ characters with a mix of letters, numbers, and symbols.</div>
-      </div>
-
-      <div class="auth-field">
-        <label for="signup-confirm">Confirm Password</label>
-        <div class="pw-wrap">
-          <input id="signup-confirm" name="confirm" type="password"
-            placeholder="Repeat your password"
-            autocomplete="new-password" required />
-          <button type="button" class="pw-toggle" data-target="signup-confirm"
-            aria-label="Show password"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        </div>
-      </div>
-
-      <button type="submit" class="auth-submit" id="signupBtn">Create Admin</button>
-      <div class="auth-status" id="signupStatus" role="alert" aria-live="polite"></div>
-
-    </form>
-    <p class="auth-divider">Local admin access only. Data remains on this browser.</p>
-    <p class="auth-divider" id="resetWarning" style="margin-top:10px;">
-      Reset removes all local admin users from this browser.
-    </p>
-
-    <div class="auth-users" id="localUsersWrap" style="display:none;">
-      <div class="auth-users-head">
-        <span>Local Admin Snapshot</span>
-        <button type="button" id="refreshUsersBtn">Refresh</button>
-      </div>
-      <div class="auth-users-list" id="localUsersList"></div>
-    </div>
+  <div class="auth-hdi-create">
+    <span>Don't have an HDI?</span>
+    <a href="http://localhost:5173" target="_blank" rel="noopener noreferrer">Create one on EarthSphere →</a>
   </div>
 
 </section>
@@ -422,163 +303,12 @@ if (isAuthenticated()) {
 <script>
 "use strict";
 
-/* ── Logo sync and theme toggle ── */
-function syncAuthLogos() {
+/* ── Logo sync ── */
+(function() {
   var isDark = document.body.classList.contains("theme-dark");
   var logo = document.getElementById("siteLogo");
   if (logo) logo.src = isDark ? "/logo/night-logo.png" : "/logo/day-logo.png";
-}
-
-syncAuthLogos();
-
-/* ── Destination note ── */
-(function() {
-  var note = document.getElementById("authRouteNote");
-  if (!note) return;
-  var next = safeNextPath();
-  note.textContent = next.indexOf("personal.html") !== -1
-    ? "Continue to Personal Dashboard"
-    : "Continue to Protected Section";
 })();
-
-/* ── Show "no account" hint on login tab if no users exist ── */
-if (!hasAnyUser()) {
-  var hint = document.getElementById("noAccountHint");
-  if (hint) hint.style.display = "flex";
-} else {
-  var resetHint = document.getElementById("resetHint");
-  if (resetHint) resetHint.style.display = "flex";
-}
-renderLocalUsers();
-
-/* ── Tab switching ── */
-var tabLogin   = document.getElementById("tab-login");
-var tabOtp     = document.getElementById("tab-otp");
-var tabSignup  = document.getElementById("tab-signup");
-var panelLogin  = document.getElementById("panel-login");
-var panelOtp    = document.getElementById("panel-otp");
-var panelSignup = document.getElementById("panel-signup");
-
-function activateTab(which) {
-  var isLogin = which === "login";
-  var isOtp = which === "otp";
-  var isSignup = which === "signup";
-  tabLogin.classList.toggle("active", isLogin);
-  tabOtp.classList.toggle("active", isOtp);
-  tabSignup.classList.toggle("active", isSignup);
-  tabLogin.setAttribute("aria-selected",  String(isLogin));
-  tabOtp.setAttribute("aria-selected", String(isOtp));
-  tabSignup.setAttribute("aria-selected", String(isSignup));
-  panelLogin.classList.toggle("active",  isLogin);
-  panelOtp.classList.toggle("active", isOtp);
-  panelSignup.classList.toggle("active", isSignup);
-}
-
-tabLogin.addEventListener("click",  function() { activateTab("login"); });
-tabOtp.addEventListener("click", function() { activateTab("otp"); });
-tabSignup.addEventListener("click", function() { activateTab("signup"); });
-
-var goSignup = document.getElementById("goSignupBtn");
-if (goSignup) goSignup.addEventListener("click", function() { activateTab("signup"); });
-
-var resetUsersBtn = document.getElementById("resetUsersBtn");
-if (resetUsersBtn) resetUsersBtn.addEventListener("click", function() {
-  var confirmReset = window.confirm("Reset this browser's local admin account? This will remove all saved users and require a fresh signup.");
-  if (!confirmReset) return;
-  var result = resetLocalAdminState();
-  var statusId = hasAnyUser() ? "signupStatus" : "loginStatus";
-  if (result && result.ok) {
-    setStatus(statusId, "✓ Local admin cleared. Create a fresh account now.", "success");
-    var hint = document.getElementById("noAccountHint");
-    if (hint) hint.style.display = "none";
-    renderLocalUsers();
-    setTimeout(function() { activateTab("signup"); }, 250);
-  } else {
-    setStatus(statusId, (result && result.error) || "Reset failed. Please try again.", "error");
-  }
-});
-
-var refreshUsersBtn = document.getElementById("refreshUsersBtn");
-if (refreshUsersBtn) refreshUsersBtn.addEventListener("click", function() {
-  renderLocalUsers();
-});
-
-function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function renderLocalUsers() {
-  var wrap = document.getElementById("localUsersWrap");
-  var list = document.getElementById("localUsersList");
-  if (!wrap || !list) return;
-  var users = getLocalUsersSnapshot();
-  if (!users.length) {
-    wrap.style.display = "none";
-    list.innerHTML = "";
-    return;
-  }
-  wrap.style.display = "block";
-  list.innerHTML = users.map(function(user) {
-    return '<div class="auth-user-item">' +
-      '<div class="auth-user-top"><strong>' + escapeHtml(user.username) + '</strong>' +
-      '<span>' + escapeHtml(user.createdAtLabel) + '</span></div>' +
-      '<div class="auth-user-meta">Hash version: ' + escapeHtml(user.hashVersion) + '</div>' +
-      '<div class="auth-user-meta">Session key: <code>' + escapeHtml(user.sessionKey || 'local') + '</code></div>' +
-      '<div class="auth-user-meta">Password hash: <code>' + escapeHtml(user.passwordHashPreview || '(empty)') + '</code></div>' +
-      '<div class="auth-user-meta">Hash length: ' + escapeHtml(user.passwordHashLength) + ' · Salt: ' + (user.hasSalt ? 'yes' : 'no') + '</div>' +
-    '</div>';
-  }).join('');
-}
-
-/* ── Show / hide password ── */
-document.querySelectorAll(".pw-toggle").forEach(function(btn) {
-  btn.addEventListener("click", function() {
-    var input = document.getElementById(btn.dataset.target);
-    if (!input) return;
-    var hidden = input.type === "password";
-    input.type = hidden ? "text" : "password";
-    btn.setAttribute("aria-label", hidden ? "Hide password" : "Show password");
-    btn.innerHTML = hidden
-      ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
-      : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
-  });
-});
-
-/* ── Password strength ── */
-var pwInput     = document.getElementById("signup-password");
-var strengthBar = document.getElementById("pwStrengthBar");
-var strengthText = document.getElementById("pwStrengthText");
-
-pwInput.addEventListener("input", function() {
-  var val   = pwInput.value;
-  var score = 0;
-  if (val.length >= 8)           score++;
-  if (val.length >= 10)          score++;
-  if (/[A-Z]/.test(val))         score++;
-  if (/[0-9]/.test(val))         score++;
-  if (/[^A-Za-z0-9]/.test(val))  score++;
-
-  var pct = score * 20;
-  strengthBar.style.width = pct + "%";
-  strengthBar.setAttribute("aria-valuenow", pct);
-  strengthBar.style.background =
-    score <= 1 ? "#ff4d4d" :
-    score <= 2 ? "#ff9900" :
-    score <= 3 ? "#f0c040" :
-                 "var(--brand-green)";
-  if (strengthText) {
-    strengthText.textContent =
-      score <= 1 ? "Weak password. Add length and variety." :
-      score <= 2 ? "Fair password. Add uppercase, numbers, or symbols." :
-      score <= 3 ? "Good password. Longer is better." :
-                   "Strong password.";
-  }
-});
 
 /* ── Helpers ── */
 function setStatus(elId, msg, type) {
@@ -592,13 +322,7 @@ function setLoading(btnId, loading, label) {
   var btn = document.getElementById(btnId);
   if (!btn) return;
   btn.disabled = loading;
-  btn.innerHTML = loading
-    ? '<span class="spin"></span>Please wait…'
-    : label;
-}
-
-function cleanPhone(value) {
-  return String(value || "").replace(/\D/g, "");
+  btn.innerHTML = loading ? '<span class="spin"></span>Please wait…' : label;
 }
 
 function safeNextPath() {
@@ -610,254 +334,42 @@ function safeNextPath() {
     if (decoded.charAt(0) !== "/" || decoded.indexOf("//") === 0) return fallback;
     if (/[\r\n]/.test(decoded)) return fallback;
     return decoded;
-  } catch(e) {
-    return fallback;
-  }
+  } catch(e) { return fallback; }
 }
 
-function getNext() {
-  return safeNextPath();
-}
-
-/* ── LOGIN FORM ── */
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  setStatus("loginStatus", "", "");
-  setLoading("loginBtn", true, "Login");
-
-  var username = document.getElementById("login-username").value;
-  var password = document.getElementById("login-password").value;
-  var remember = document.getElementById("login-remember").checked;
-
-    login(username, password, remember).then(function(result) {
-    if (result.ok) {
-      setStatus("loginStatus", "✓ Login successful. Redirecting…", "success");
-      setTimeout(function() {
-        window.location.replace(getNext());
-      }, 500);
-    } else {
-      setStatus("loginStatus", result.error, "error");
-      setLoading("loginBtn", false, "Login");
-    }
-  }).catch(function(err) {
-    console.error("[auth] login error:", err);
-    var message = err && err.message ? err.message : "Local browser auth failed. Please check console details.";
-    setStatus("loginStatus", message, "error");
-    setLoading("loginBtn", false, "Login");
-  });
-});
-
-/* ── PHONE OTP FORM ── */
-var otpPhoneValue = "";
-var otpRequestForm = document.getElementById("otpRequestForm");
-var otpVerifyForm = document.getElementById("otpVerifyForm");
-var otpPhoneInput = document.getElementById("otp-phone");
-var otpCodeInput = document.getElementById("otp-code");
-var otpChangePhoneBtn = document.getElementById("otpChangePhoneBtn");
-
-otpRequestForm.addEventListener("submit", function(e) {
-  e.preventDefault();
-  setStatus("otpStatus", "", "");
-  otpPhoneValue = cleanPhone(otpPhoneInput.value);
-  if (otpPhoneValue.length !== 10 && !(otpPhoneValue.length === 12 && otpPhoneValue.indexOf("91") === 0)) {
-    setStatus("otpStatus", "Enter a valid Indian mobile number.", "error");
-    return;
-  }
-  setLoading("otpSendBtn", true, "Send OTP");
-  requestPhoneOtp(otpPhoneValue).then(function() {
-    setStatus("otpStatus", "OTP sent. Check your phone.", "success");
-    otpRequestForm.hidden = true;
-    otpVerifyForm.hidden = false;
-    var firstDigit = document.getElementById("otp-code-0");
-    if (firstDigit) firstDigit.focus();
-  }).catch(function(err) {
-    setStatus("otpStatus", err.message || "Could not send OTP.", "error");
-  }).finally(function() {
-    setLoading("otpSendBtn", false, "Send OTP");
-  });
-});
-
-otpVerifyForm.addEventListener("submit", function(e) {
-  e.preventDefault();
-  setStatus("otpStatus", "", "");
-  var code = cleanPhone(otpCodeInput.value);
-  if (code.length < 4) {
-    setStatus("otpStatus", "Enter the OTP code.", "error");
-    return;
-  }
-  setLoading("otpVerifyBtn", true, "Verify & Continue");
-  verifyPhoneOtp(otpPhoneValue, code).then(function() {
-    setStatus("otpStatus", "OTP verified. Redirecting…", "success");
-    setTimeout(function() {
-      window.location.replace(getNext());
-    }, 450);
-  }).catch(function(err) {
-    setStatus("otpStatus", err.message || "OTP verification failed.", "error");
-    setLoading("otpVerifyBtn", false, "Verify & Continue");
-  });
-});
-
-otpChangePhoneBtn.addEventListener("click", function() {
-  otpVerifyForm.hidden = true;
-  otpRequestForm.hidden = false;
-  document.querySelectorAll(".otp-digit").forEach(function(d) { d.value = ""; d.classList.remove("filled"); });
-  otpCodeInput.value = "";
-  setStatus("otpStatus", "", "");
-  otpPhoneInput.focus();
-});
-
-/* ── OTP digit grid ── */
+/* ── Auto-fill HDI from URL param ── */
 (function() {
-  var digits = Array.from(document.querySelectorAll(".otp-digit"));
-  var hiddenCode = document.getElementById("otp-code");
-
-  function syncHidden() {
-    if (hiddenCode) hiddenCode.value = digits.map(function(d) { return d.value; }).join("");
+  var params   = new URLSearchParams(window.location.search);
+  var hdiParam = params.get("hdi");
+  if (hdiParam) {
+    var inp = document.getElementById("hdi-input");
+    if (inp) { inp.value = decodeURIComponent(hdiParam); inp.focus(); }
+  } else {
+    var inp2 = document.getElementById("hdi-input");
+    if (inp2) inp2.focus();
   }
-
-  digits.forEach(function(input, i) {
-    input.addEventListener("input", function() {
-      input.value = input.value.replace(/\D/g, "").slice(-1);
-      input.classList.toggle("filled", input.value !== "");
-      syncHidden();
-      if (input.value && i < digits.length - 1) digits[i + 1].focus();
-      if (digits.every(function(d) { return d.value !== ""; })) {
-        setTimeout(function() {
-          otpVerifyForm.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
-        }, 150);
-      }
-    });
-
-    input.addEventListener("keydown", function(e) {
-      if (e.key === "Backspace" && !input.value && i > 0) {
-        digits[i - 1].value = "";
-        digits[i - 1].classList.remove("filled");
-        digits[i - 1].focus();
-        syncHidden();
-      }
-      if (e.key === "ArrowLeft"  && i > 0)              digits[i - 1].focus();
-      if (e.key === "ArrowRight" && i < digits.length - 1) digits[i + 1].focus();
-    });
-
-    input.addEventListener("paste", function(e) {
-      e.preventDefault();
-      var pasted = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "");
-      pasted.slice(0, 6).split("").forEach(function(ch, j) {
-        if (digits[i + j]) { digits[i + j].value = ch; digits[i + j].classList.add("filled"); }
-      });
-      var nextEmpty = digits.findIndex(function(d) { return !d.value; });
-      (nextEmpty !== -1 ? digits[nextEmpty] : digits[digits.length - 1]).focus();
-      syncHidden();
-    });
-
-    input.addEventListener("focus", function() { input.select(); });
-  });
 })();
 
-/* ── Lockout countdown ── */
-(function() {
-  var lockoutDisplay = document.getElementById("lockoutDisplay");
-  var countdownEl    = document.getElementById("lockoutCountdown");
-  if (!lockoutDisplay || !countdownEl) return;
-
-  function fmt(ms) {
-    var s = Math.max(0, Math.ceil(ms / 1000));
-    return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2);
-  }
-
-  function update() {
-    try {
-      var raw = sessionStorage.getItem("ak_login_attempts");
-      if (!raw) { lockoutDisplay.style.display = "none"; return; }
-      var data = JSON.parse(raw);
-      if (data.attempts < 5) { lockoutDisplay.style.display = "none"; return; }
-      var remaining = data.resetAt - Date.now();
-      if (remaining <= 0) {
-        lockoutDisplay.style.display = "none";
-        sessionStorage.removeItem("ak_login_attempts");
-        clearInterval(timer);
-        return;
-      }
-      countdownEl.textContent = fmt(remaining);
-      lockoutDisplay.style.display = "flex";
-    } catch(e) { lockoutDisplay.style.display = "none"; }
-  }
-
-  update();
-  var timer = setInterval(update, 1000);
-})();
-
-/* ── Attempt counter ── */
-(function() {
-  var attemptsEl = document.getElementById("loginAttempts");
-  if (!attemptsEl) return;
-
-  function updateCounter() {
-    try {
-      var raw = sessionStorage.getItem("ak_login_attempts");
-      if (!raw) { attemptsEl.textContent = ""; attemptsEl.className = "auth-attempts"; return; }
-      var data = JSON.parse(raw);
-      if (Date.now() > data.resetAt || data.attempts === 0) { attemptsEl.textContent = ""; attemptsEl.className = "auth-attempts"; return; }
-      var left = Math.max(0, 5 - data.attempts);
-      if (left >= 5) { attemptsEl.textContent = ""; attemptsEl.className = "auth-attempts"; return; }
-      attemptsEl.textContent = left + " of 5 attempts remaining";
-      attemptsEl.className = "auth-attempts" +
-        (left === 0 ? " danger" : left <= 2 ? " warn" : " visible");
-    } catch(e) {}
-  }
-
-  updateCounter();
-  document.getElementById("loginForm").addEventListener("submit", function() {
-    setTimeout(updateCounter, 600);
-  });
-})();
-
-/* ── SIGN UP FORM ── */
-document.getElementById("signupForm").addEventListener("submit", function(e) {
+/* ── HDI FORM ── */
+document.getElementById("hdiForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  setStatus("signupStatus", "", "");
-
-  var username = document.getElementById("signup-username").value;
-  var password = document.getElementById("signup-password").value;
-  var confirm  = document.getElementById("signup-confirm").value;
-
-  if (password !== confirm) {
-    setStatus("signupStatus", "Passwords do not match.", "error");
+  setStatus("hdiStatus", "", "");
+  var hdi = document.getElementById("hdi-input").value.trim();
+  if (!hdi) { setStatus("hdiStatus", "Enter your HDI.", "error"); return; }
+  setLoading("hdiBtn", true, "Login with HDI");
+  var result = loginWithHDI(hdi);
+  if (!result.ok) {
+    setStatus("hdiStatus", result.error, "error");
+    setLoading("hdiBtn", false, "Login with HDI");
     return;
   }
-
-  setLoading("signupBtn", true, "Create Local Admin");
-
-  signup(username, password).then(function(result) {
-    if (!result.ok) {
-      setStatus("signupStatus", result.error, "error");
-      setLoading("signupBtn", false, "Create Local Admin");
-      return;
-    }
-    setStatus("signupStatus", "✓ Account created! Logging you in…", "success");
-    return login(username, password, true);
-  }).then(function(loginResult) {
-    if (!loginResult) return; /* already handled above */
-    if (!loginResult.ok) {
-      /* signup succeeded but auto-login failed — send to login tab */
-      setStatus("signupStatus", "Account created. Please log in.", "success");
-      setTimeout(function() { activateTab("login"); }, 1000);
-      return;
-    }
-    setTimeout(function() {
-      window.location.replace(getNext());
-    }, 700);
-  }).catch(function(err) {
-    console.error("[auth] signup error:", err);
-    var message = err && err.message ? err.message : "Local admin creation failed. Please check console details.";
-    setStatus("signupStatus", message, "error");
-    setLoading("signupBtn", false, "Create Local Admin");
-  });
+  setStatus("hdiStatus", "✓ HDI accepted. Redirecting…", "success");
+  setTimeout(function() { window.location.replace(safeNextPath()); }, 500);
 });
 </script>
 
 <script src="/js/nav.js" defer></script>
-<script src="/js/script.js?v=footer-clean-1" defer></script>
+<script src="/js/script.js?v=20260613" defer></script>
 
 </body>
 </html>
