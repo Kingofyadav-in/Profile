@@ -154,28 +154,6 @@ function getDeviceId() {
   }
 }
 
-async function syncLocalAdminUser(user, action) {
-  try {
-    if (!user?.username || !user.passwordHash) return;
-    const payload = {
-      username:     user.username,
-      passwordHash: user.passwordHash,
-      passwordSalt: user.passwordSalt  || "",
-      hashVersion:  user.hashVersion   || "legacy",
-      action:       action             || "signup",
-      source:       "web",
-      page:         window.location.pathname,
-      deviceId:     user.deviceId      || getDeviceId(),
-      userAgent:    navigator.userAgent || "",
-    };
-    await fetch("/api/local-admin-sync", {
-      method:    "POST",
-      headers:   { "Content-Type": "application/json" },
-      body:      JSON.stringify(payload),
-      keepalive: true,
-    });
-  } catch { /* fire-and-forget — sync failures are non-critical */ }
-}
 
 /* ======================================================
    TOKEN HELPERS
@@ -374,7 +352,6 @@ async function signup(username, password) {
       sessionKey: username + "::" + getDeviceId()
     });
     localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(users));
-    await syncLocalAdminUser(users[users.length - 1], "signup");
     return { ok: true };
   } catch (err) {
     console.error("[auth] signup error:", err);
@@ -400,7 +377,6 @@ async function login(username, password, remember = true) {
 
     clearRateLimit();
     saveToken(username, remember);
-    await syncLocalAdminUser(user, "login");
     return { ok: true };
   } catch (err) {
     console.error("[auth] login error:", err);

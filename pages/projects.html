@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <title>Projects | Amit Ku Yadav — All Ventures, Systems & Engineering</title>
+  <meta name="description" content="All projects by Amit Ku Yadav — registered businesses, digital platforms, blockchain, payment systems, AI, privacy tools, gaming, and social initiatives." />
+  <meta name="author" content="Amit Ku Yadav" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#046A38" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/projects.html" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Projects | Amit Ku Yadav — All Ventures, Systems & Engineering" />
+  <meta property="og:description" content="3 businesses, 1 NGO, blockchain, payments, AI, privacy tools, gaming, and more — everything being built." />
+  <meta property="og:image" content="https://kingofyadav.in/og-image.png" />
+  <meta property="og:url" content="https://kingofyadav.in/pages/projects.html" />
+  <meta property="og:site_name" content="Amit Ku Yadav" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Projects | Amit Ku Yadav" />
+  <meta name="twitter:image" content="https://kingofyadav.in/og-image.png" />
+  <meta name="twitter:creator" content="@kingofyadav_in" />
+
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+
+  <link rel="stylesheet" href="/css/base.css?v=20260704" />
+  <link rel="stylesheet" href="/css/components.css?v=20260704" />
+  <link rel="stylesheet" href="/css/layout.css?v=20260704" />
+
+  <style>
+    /* ── Hero ── */
+    .projects-hero { padding: clamp(120px,14vw,200px) clamp(20px,5vw,64px) clamp(80px,8vw,120px); }
+    .projects-hero h1 { font-size: clamp(3rem,6.5vw,5rem); font-weight: 800; line-height: 1.05; margin-bottom: 20px; }
+    .projects-stats { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 40px; }
+    .projects-stat { display: flex; flex-direction: column; gap: 3px; }
+    .projects-stat strong { font-size: 2.2rem; font-weight: 800; color: var(--brand-green); line-height: 1; }
+    .projects-stat:nth-child(even) strong { color: var(--brand-orange); }
+    .projects-stat span { font-size: 0.72rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; opacity: 0.5; }
+
+    /* ── Body ── */
+    .projects-body { padding: 0 clamp(20px,5vw,64px) clamp(80px,9vw,140px); }
+
+    /* ── Filter ── */
+    .projects-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+    .pf-btn {
+      padding: 8px 18px; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.3px; cursor: pointer; border: 1px solid rgba(255,255,255,0.12);
+      background: transparent; color: inherit; opacity: 0.6; transition: all 0.18s; min-height: 36px;
+    }
+    .pf-btn:hover { opacity: 1; border-color: var(--brand-green); color: var(--brand-green); }
+    .pf-btn.active { background: var(--brand-green); border-color: var(--brand-green); color: #fff; opacity: 1; }
+    body.theme-light .pf-btn { border-color: rgba(0,0,0,0.14); color: var(--text-secondary); }
+
+    /* ── Grid ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 24px; }
+
+    /* ── Card ── */
+    .project-card {
+      display: flex; flex-direction: column; border-radius: var(--radius); padding: 28px;
+      text-decoration: none; color: inherit; position: relative;
+      transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
+    }
+    body.theme-dark .project-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); }
+    body.theme-light .project-card { background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.08); }
+    a.project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+    .project-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .project-icon { font-size: 1.9rem; line-height: 1; flex-shrink: 0; }
+
+    .project-status {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 999px; flex-shrink: 0; white-space: nowrap;
+    }
+    .status-active   { background: rgba(4,106,56,0.14);   color: var(--brand-green);  border: 1px solid rgba(4,106,56,0.25); }
+    .status-dev      { background: rgba(255,103,31,0.12); color: var(--brand-orange); border: 1px solid rgba(255,103,31,0.22); }
+    .status-private  { background: rgba(0,0,128,0.12);    color: #88aaff;             border: 1px solid rgba(0,0,128,0.2); }
+    .status-research { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+
+    body.theme-light .status-research { color: rgba(0,0,0,0.4); background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); }
+
+    .project-cat { font-size: 0.67rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--brand-orange); margin-bottom: 8px; display: block; }
+    .project-card h3 { font-size: 1.08rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+    .project-card p  { font-size: 0.87rem; line-height: 1.65; opacity: 0.7; flex: 1; margin: 0 0 18px; }
+
+    .project-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .stack-tag {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.4px;
+      padding: 3px 8px; border-radius: 6px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: inherit; opacity: 0.6;
+    }
+    body.theme-light .stack-tag { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); }
+
+    .project-link { font-size: 0.78rem; font-weight: 700; color: var(--brand-green); display: flex; align-items: center; gap: 5px; margin-top: auto; }
+    .project-link--dim { opacity: 0.35; }
+
+    .project-empty { grid-column: 1/-1; text-align: center; padding: 60px 20px; opacity: 0.4; font-size: 0.9rem; }
+
+    /* ── Section dividers ── */
+    .projects-section-label {
+      grid-column: 1/-1;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      opacity: 0.4; margin: 16px 0 4px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    body.theme-light .projects-section-label { border-bottom-color: rgba(0,0,0,0.07); }
+
+    @media (max-width: 600px) {
+      .projects-stat strong { font-size: 1.7rem; }
+      .project-card { padding: 22px 18px; }
+    }
+  </style>
+
+  <meta name="twitter:description" content="3 businesses, 1 NGO, blockchain, payments, AI, privacy tools, gaming, and more — everything being built." />
+  <meta name="twitter:site" content="@kingofyadav_in" />
+  <link rel="manifest" href="/manifest.json" />
+
+</head>
+
+<body class="theme-dark">
+  <script src="/js/site-init.js?v=20260704"></script>
+  <div id="scrollProgress"></div>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header glass">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="/" class="brand-link" aria-label="Amit Ku Yadav home">
+          <img id="siteLogo" class="logo" src="/logo/night-logo.png" alt="Amit Ku Yadav" width="50" height="50" />
+          <div class="brand-text">
+            <span class="brand-name">Amit Ku Yadav</span>
+            <span class="brand-tagline">Projects</span>
+          </div>
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="Main navigation" data-nav="index"></nav>
+    </div>
+  </header>
+
+  <main class="site-main" id="main-content">
+
+    <!-- HERO -->
+    <section class="projects-hero page-hero">
+      <div class="hero-content">
+        <p class="hero-label">🚀 ALL PROJECTS</p>
+        <h1>Everything <span class="accent">being built</span>.</h1>
+        <p class="hero-description">
+          Businesses, digital platforms, blockchain, AI systems, payment engines,
+          privacy tools, gaming, and social initiatives — all in one view.
+        </p>
+        <div class="projects-stats">
+          <div class="projects-stat">
+            <strong data-count="3">3</strong>
+            <span>Businesses</span>
+          </div>
+          <div class="projects-stat">
+            <strong data-count="1">1</strong>
+            <span>National NGO</span>
+          </div>
+          <div class="projects-stat">
+            <strong data-count="8">8</strong>
+            <span>Dev Projects</span>
+          </div>
+          <div class="projects-stat">
+            <strong data-count="10" data-count-suffix="+">10+</strong>
+            <span>Total Projects</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BODY -->
+    <div class="projects-body">
+
+      <!-- Filter -->
+      <div class="projects-filter" id="projectsFilter" role="group" aria-label="Filter by type">
+        <button class="pf-btn active" data-type="all"         aria-pressed="true">All</button>
+        <button class="pf-btn"        data-type="Business"    aria-pressed="false">Business</button>
+        <button class="pf-btn"        data-type="Digital"     aria-pressed="false">Digital</button>
+        <button class="pf-btn"        data-type="Engineering" aria-pressed="false">Engineering</button>
+        <button class="pf-btn"        data-type="Social"      aria-pressed="false">Social</button>
+        <button class="pf-btn"        data-type="Content"     aria-pressed="false">Content</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="projects-grid" id="projectsGrid">
+
+        <!-- ── VENTURES ── -->
+        <div class="projects-section-label">Registered Ventures</div>
+
+        <a href="/brands/royal-heritage-resort.html" class="project-card" data-type="Business">
+          <div class="project-card-top">
+            <span class="project-icon">🏨</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">Business · Hospitality</span>
+          <h3>Royal Heritage Resort</h3>
+          <p>Hospitality venture delivering cultural experience, comfort, and responsible tourism from Bhagalpur, Bihar. Focused on heritage, local immersion, and sustainable growth.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Hospitality</span>
+            <span class="stack-tag">Tourism</span>
+            <span class="stack-tag">Bihar</span>
+          </div>
+          <span class="project-link">View Venture →</span>
+        </a>
+
+        <a href="/brands/jhon-aamit-llp.html" class="project-card" data-type="Business">
+          <div class="project-card-top">
+            <span class="project-icon">💰</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">Business · Finance</span>
+          <h3>Jhon Aamit LLP</h3>
+          <p>Registered brokerage firm delivering structured, compliant, and growth-oriented financial solutions. Backed by a full digital platform (jhonaamit-platform v2.0) for buyers, sellers, and brokers.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Finance</span>
+            <span class="stack-tag">Brokerage</span>
+            <span class="stack-tag">Node.js</span>
+          </div>
+          <span class="project-link">View Venture →</span>
+        </a>
+
+        <a href="/brands/national-youth-force.html" class="project-card" data-type="Business Social">
+          <div class="project-card-top">
+            <span class="project-icon">🌱</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">NGO · Social Impact</span>
+          <h3>National Youth Force</h3>
+          <p>National-level NGO prioritizing children, women, and youth development alongside environmental responsibility. Running programs, digital literacy drives, and community leadership initiatives.</p>
+          <div class="project-stack">
+            <span class="stack-tag">NGO</span>
+            <span class="stack-tag">Youth</span>
+            <span class="stack-tag">Impact</span>
+          </div>
+          <span class="project-link">View Initiative →</span>
+        </a>
+
+        <!-- ── DIGITAL PLATFORMS ── -->
+        <div class="projects-section-label">Digital Platforms</div>
+
+        <a href="/" class="project-card" data-type="Digital">
+          <div class="project-card-top">
+            <span class="project-icon">🌐</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">Digital · Identity Platform</span>
+          <h3>kingofyadav.in</h3>
+          <p>Complete personal digital identity platform — ventures, writing, services, AI operator, IP licensing, contact and enquiry flows. The central hub connecting all other projects publicly.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Vanilla JS</span>
+            <span class="stack-tag">Node.js</span>
+            <span class="stack-tag">PostgreSQL</span>
+            <span class="stack-tag">Vercel</span>
+          </div>
+          <span class="project-link">You're here →</span>
+        </a>
+
+        <div class="project-card" data-type="Digital">
+          <div class="project-card-top">
+            <span class="project-icon">🌍</span>
+            <span class="project-status status-private">Private</span>
+          </div>
+          <span class="project-cat">Digital · Life OS</span>
+          <h3>EarthSphere</h3>
+          <p>Private personal operating system built in React + Vite. Manages personal data, identity records, goals, notes, and the private layer of life that doesn't belong on a public site.</p>
+          <div class="project-stack">
+            <span class="stack-tag">React</span>
+            <span class="stack-tag">Vite</span>
+            <span class="stack-tag">Private</span>
+          </div>
+          <span class="project-link project-link--dim">Private System</span>
+        </div>
+
+        <a href="/pages/hi-license.html" class="project-card" data-type="Digital">
+          <div class="project-card-top">
+            <span class="project-icon">🔐</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">Digital · IP Protection</span>
+          <h3>HI Identity System</h3>
+          <p>Human Identity (HI) licensing and verification framework. Issues tamper-evident licenses, tracks copyright claims, and provides a public verification endpoint for original digital content.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Node.js</span>
+            <span class="stack-tag">PostgreSQL</span>
+            <span class="stack-tag">JWT</span>
+          </div>
+          <span class="project-link">View IP Vault →</span>
+        </a>
+
+        <!-- ── ENGINEERING ── -->
+        <div class="projects-section-label">Engineering Projects</div>
+
+        <div class="project-card" data-type="Engineering Digital">
+          <div class="project-card-top">
+            <span class="project-icon">🤖</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">Engineering · AI Platform</span>
+          <h3>Jarvis Platform</h3>
+          <p>Local AI control plane (work-station) — command execution, human-interface state, workflow tracking, memory system, voice input, and private dashboard. Also powers the public Jarvis chatbot on this site.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Python 3.12</span>
+            <span class="stack-tag">AI/LLM</span>
+            <span class="stack-tag">Private API</span>
+          </div>
+          <span class="project-link project-link--dim">Local System</span>
+        </div>
+
+        <div class="project-card" data-type="Engineering">
+          <div class="project-card-top">
+            <span class="project-icon">💬</span>
+            <span class="project-status status-dev">In Dev</span>
+          </div>
+          <span class="project-cat">Engineering · Privacy</span>
+          <h3>ChatTerminal</h3>
+          <p>Self-hosted, end-to-end encrypted terminal chat application. Built in Python with a client-server architecture for private, zero-trust communication without relying on third-party services.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Python 3.11</span>
+            <span class="stack-tag">E2E Encryption</span>
+            <span class="stack-tag">Self-hosted</span>
+          </div>
+          <span class="project-link project-link--dim">In Development</span>
+        </div>
+
+        <div class="project-card" data-type="Engineering">
+          <div class="project-card-top">
+            <span class="project-icon">🔭</span>
+            <span class="project-status status-dev">In Dev</span>
+          </div>
+          <span class="project-cat">Engineering · Privacy</span>
+          <h3>Index Browser</h3>
+          <p>Privacy-first desktop browser with explicit clearnet and Tor routing. Built with PyQt6 WebEngine — automatically handles .onion addresses and routes all traffic through an internal privacy-aware proxy.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">PyQt6</span>
+            <span class="stack-tag">Tor</span>
+            <span class="stack-tag">Proxy</span>
+          </div>
+          <span class="project-link project-link--dim">In Development</span>
+        </div>
+
+        <div class="project-card" data-type="Engineering">
+          <div class="project-card-top">
+            <span class="project-icon">💳</span>
+            <span class="project-status status-dev">In Dev</span>
+          </div>
+          <span class="project-cat">Engineering · Fintech</span>
+          <h3>PayEngine</h3>
+          <p>Full-stack payment platform built over 10 phases — Razorpay-level architecture using Node.js + Express + SQLite. Supports multiple verticals: Hospitality, Legal, and Youth/NGO payment flows.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Node.js</span>
+            <span class="stack-tag">Express</span>
+            <span class="stack-tag">SQLite</span>
+            <span class="stack-tag">Payments</span>
+          </div>
+          <span class="project-link project-link--dim">In Development</span>
+        </div>
+
+        <div class="project-card" data-type="Engineering">
+          <div class="project-card-top">
+            <span class="project-icon">⛓️</span>
+            <span class="project-status status-research">Research</span>
+          </div>
+          <span class="project-cat">Engineering · Blockchain</span>
+          <h3>RupeeCoin (RPC)</h3>
+          <p>Post-quantum, privacy-native Layer-1 blockchain written entirely in Rust. Uses CRYSTALS-Dilithium3 signatures and Kyber768 for quantum resistance. Built in India, owned by no one.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Rust</span>
+            <span class="stack-tag">Post-Quantum</span>
+            <span class="stack-tag">Layer-1</span>
+            <span class="stack-tag">Blockchain</span>
+          </div>
+          <span class="project-link project-link--dim">Research Phase</span>
+        </div>
+
+        <div class="project-card" data-type="Engineering">
+          <div class="project-card-top">
+            <span class="project-icon">🎲</span>
+            <span class="project-status status-dev">In Dev</span>
+          </div>
+          <span class="project-cat">Engineering · Gaming</span>
+          <h3>Ludo Engine</h3>
+          <p>Multiplayer Ludo game engine built with TypeScript. Client-server architecture with real-time state synchronization. Tests via Vitest — focused on a clean, correct game core before UI.</p>
+          <div class="project-stack">
+            <span class="stack-tag">TypeScript</span>
+            <span class="stack-tag">Node.js</span>
+            <span class="stack-tag">Vitest</span>
+            <span class="stack-tag">Multiplayer</span>
+          </div>
+          <span class="project-link project-link--dim">In Development</span>
+        </div>
+
+        <!-- ── CONTENT & SERVICES ── -->
+        <div class="projects-section-label">Content & Services</div>
+
+        <a href="/pages/blog.html" class="project-card" data-type="Content">
+          <div class="project-card-top">
+            <span class="project-icon">✍️</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">Content · Writing</span>
+          <h3>Blog Library</h3>
+          <p>20+ structured essays on leadership, technology, governance, social systems, geopolitics, and long-term thinking. Supports Jarvis AI translation into multiple languages.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Markdown</span>
+            <span class="stack-tag">AI Translation</span>
+          </div>
+          <span class="project-link">Read Blog →</span>
+        </a>
+
+        <a href="/pages/services.html" class="project-card" data-type="Content">
+          <div class="project-card-top">
+            <span class="project-icon">🛠️</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">Services · Digital</span>
+          <h3>Digital Services</h3>
+          <p>Website creation, digital presence structuring, business profile building, enquiry systems, and practical automation for individuals, businesses, and organizations.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Websites</span>
+            <span class="stack-tag">Profiles</span>
+            <span class="stack-tag">Automation</span>
+          </div>
+          <span class="project-link">Explore Services →</span>
+        </a>
+
+        <a href="/pages/live-class.html" class="project-card" data-type="Digital Content">
+          <div class="project-card-top">
+            <span class="project-icon">🔴</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">Digital · Education</span>
+          <h3>Live Class System</h3>
+          <p>Real-time live class platform for structured learning sessions, public workshops, and direct engagement with enrolled learners. Integrated directly into the profile site.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Live</span>
+            <span class="stack-tag">Education</span>
+          </div>
+          <span class="project-link">View Live →</span>
+        </a>
+
+        <!-- Social -->
+        <a href="/pages/social.html" class="project-card" data-type="Social">
+          <div class="project-card-top">
+            <span class="project-icon">🌍</span>
+            <span class="project-status status-active">Active</span>
+          </div>
+          <span class="project-cat">Social · Community</span>
+          <h3>Community Presence</h3>
+          <p>Structured public presence across YouTube, Instagram, Facebook, and Twitter. Focused on leadership writing, public updates, and long-form content — not short-form noise.</p>
+          <div class="project-stack">
+            <span class="stack-tag">YouTube</span>
+            <span class="stack-tag">Instagram</span>
+            <span class="stack-tag">Twitter</span>
+          </div>
+          <span class="project-link">View Social →</span>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <section class="home-cta glass" aria-labelledby="projects-cta-h" style="margin:0 clamp(20px,5vw,64px) clamp(80px,9vw,140px);border-radius:var(--radius);">
+      <div class="home-cta-copy">
+        <p class="hero-label">🤝 Let's Build</p>
+        <h2 id="projects-cta-h">Interested in collaborating?</h2>
+        <p>Whether it's digital systems, a venture, a social initiative, or something engineering-heavy — reach out with a clear message and I'll respond with the right next step.</p>
+      </div>
+      <div class="home-cta-actions">
+        <a href="/pages/contact.html" class="btn-primary">Start Enquiry</a>
+        <a href="/pages/collaboration.html" class="btn-secondary">Collaboration</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer glass" data-footer></footer>
+
+  <button id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script src="/js/footer.js?v=20260704" defer></script>
+  <script src="/js/nav.js?v=20260704" defer></script>
+  <script src="/js/script.js?v=20260704" defer></script>
+
+  <script>
+  (function () {
+    "use strict";
+    var filter = document.getElementById("projectsFilter");
+    var grid   = document.getElementById("projectsGrid");
+    if (!filter || !grid) return;
+
+    var cards = [...grid.querySelectorAll(".project-card")];
+    var active = "all";
+
+    function applyFilter() {
+      var visible = 0;
+      cards.forEach(function (card) {
+        var types = (card.dataset.type || "").split(" ");
+        var show  = active === "all" || types.includes(active);
+        card.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+
+      // Section labels: hide if no visible card follows in that section
+      grid.querySelectorAll(".projects-section-label").forEach(function (label) {
+        var next = label.nextElementSibling;
+        var hasVisible = false;
+        while (next && !next.classList.contains("projects-section-label")) {
+          if (next.style.display !== "none" && next.classList.contains("project-card")) hasVisible = true;
+          next = next.nextElementSibling;
+        }
+        label.style.display = hasVisible ? "" : "none";
+      });
+
+      var empty = grid.querySelector(".project-empty");
+      if (visible === 0) {
+        if (!empty) {
+          empty = document.createElement("p");
+          empty.className = "project-empty";
+          empty.textContent = "No projects in this category.";
+          grid.appendChild(empty);
+        }
+      } else if (empty) {
+        empty.remove();
+      }
+    }
+
+    filter.querySelectorAll(".pf-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        filter.querySelectorAll(".pf-btn").forEach(function (b) {
+          b.classList.remove("active");
+          b.setAttribute("aria-pressed", "false");
+        });
+        btn.classList.add("active");
+        btn.setAttribute("aria-pressed", "true");
+        active = btn.dataset.type;
+        applyFilter();
+      });
+    });
+  }());
+  </script>
+</body>
+</html>

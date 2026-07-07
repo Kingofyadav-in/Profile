@@ -391,17 +391,13 @@ body.theme-dark .footer-pro-strip span {
 ====================================================== */
 
 :root {
-  --zs-header-height: 76px;
+  --zs-header-height: var(--header-height);
   --zs-workspace-width: 1100px;
   --zs-wide-width: 1320px;
 }
 
 .hidden {
   display: none !important;
-}
-
-body {
-  padding-top: var(--zs-header-height);
 }
 
 .zs-header-actions {

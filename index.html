@@ -46,22 +46,21 @@
     <!-- ================= STYLES ================= -->
 
     <!-- Base (critical) -->
-    <link rel="stylesheet" href="css/base.css?v=20260613" />
-    <noscript><link rel="stylesheet" href="css/base.css?v=20260613" /></noscript>
+    <link rel="stylesheet" href="css/base.css?v=20260704" />
+    <noscript><link rel="stylesheet" href="css/base.css?v=20260704" /></noscript>
     <!-- Components (critical UI) -->
-    <link rel="stylesheet" href="css/components.css?v=20260613" />
+    <link rel="stylesheet" href="css/components.css?v=20260704" />
 
     <!-- Page-specific -->
-    <link rel="stylesheet" href="css/layout.css?v=20260613-1" />
-    <link rel="stylesheet" href="css/index.css?v=20260613-2" />
-    <link rel="stylesheet" href="css/auth.css?v=20260613" />
+    <link rel="stylesheet" href="css/layout.css?v=20260704" />
+    <link rel="stylesheet" href="css/index.css?v=20260704" />
+    <link rel="stylesheet" href="css/auth.css?v=20260704" />
 
     <!-- ================= ICONS ================= -->
     <link rel="icon" href="favicon/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
     <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
 
-    <script src="js/site-init.js?v=20260613"></script>
 
     <script type="application/ld+json">
       {
@@ -95,6 +94,7 @@
   </head>
 
   <body class="theme-dark">
+    <script src="js/site-init.js?v=20260704"></script>
 
     <div id="scrollProgress"></div>
 
@@ -107,7 +107,7 @@
     <header class="site-header glass">
       <div class="header-inner">
         <a href="/" class="brand-link">
-          <img id="siteLogo" src="/logo/night-logo.png" alt="Amit Ku Yadav" class="logo" />
+          <img id="siteLogo" src="/logo/night-logo.png" alt="Amit Ku Yadav" class="logo" width="50" height="50" fetchpriority="high" />
           <div class="brand-text">
             <span class="brand-name">Amit Ku Yadav</span>
             <span class="brand-tagline">Profile</span>
@@ -320,6 +320,62 @@
         </div>
       </section>
 
+      <!-- ================= ACHIEVEMENTS TIMELINE ================= -->
+      <section class="home-section timeline-section" aria-labelledby="timeline-heading">
+        <p class="home-section-label hero-label">🏆 The Journey</p>
+        <h2 class="home-section-title" id="timeline-heading">Key Milestones</h2>
+
+        <div class="timeline" role="list">
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-marker" aria-hidden="true">2020</div>
+            <div class="timeline-content glass">
+              <h3>First Digital Systems</h3>
+              <p>Started building structured websites and digital presence systems for businesses and public figures.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-marker" aria-hidden="true">2021</div>
+            <div class="timeline-content glass">
+              <h3>Jhon Aamit LLP Founded</h3>
+              <p>Registered a compliant brokerage firm delivering structured, growth-oriented financial solutions in Bihar.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-marker" aria-hidden="true">2022</div>
+            <div class="timeline-content glass">
+              <h3>Royal Heritage Resort Launched</h3>
+              <p>Opened hospitality venture offering cultural experience, comfort, and responsible tourism from Bhagalpur.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-marker" aria-hidden="true">2023</div>
+            <div class="timeline-content glass">
+              <h3>National Youth Force — NGO</h3>
+              <p>Founded a national NGO prioritizing children, women, youth development, and environmental responsibility.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-marker" aria-hidden="true">2024</div>
+            <div class="timeline-content glass">
+              <h3>Human Identity Framework</h3>
+              <p>Built HI — a personal digital identity and licensing system to protect original content and verify work.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" role="listitem">
+            <div class="timeline-marker" aria-hidden="true">2025</div>
+            <div class="timeline-content glass">
+              <h3>Full Digital Ecosystem</h3>
+              <p>Launched kingofyadav.in — a complete public profile: ventures, writing, services, AI operator, and identity layer.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ================= WORK WITH ME ================= -->
       <section class="home-cta glass" aria-labelledby="home-cta-title">
         <div class="home-cta-copy">
@@ -363,13 +419,13 @@
     </button>
 
     <!-- ================= SCRIPT ================= -->
-    <script src="js/auth.js?v=20260613" defer></script>
-    <script src="/js/footer.js" defer></script>
-    <script src="/js/nav.js" defer></script>
-    <script src="js/script.js?v=20260613" defer></script>
+    <script src="js/auth.js?v=20260704" defer></script>
+    <script src="/js/footer.js?v=20260704" defer></script>
+    <script src="/js/nav.js?v=20260704" defer></script>
+    <script src="js/script.js?v=20260704" defer></script>
 
     <script
-      src="/api-static/jarvis-widget.js?v=20260613"
+      src="/api-static/jarvis-widget.js?v=20260704"
       data-endpoint="/api/jarvis-chat"
       data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public"
       data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry"

@@ -51,6 +51,13 @@
 
   --text-dark: #111;
   --text-light: #e5e5e5;
+  --text-color: inherit;
+
+  /* Font Stacks */
+  --font-mono: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  /* Layout */
+  --header-height: 80px;
 
   /* Brand Core */
   --brand-green: #046A38;
@@ -181,7 +188,7 @@ body {
   letter-spacing: 0.1px;
 
   min-height: 100vh;
-  padding-top: 80px;
+  padding-top: var(--header-height);
 
   animation: fadeIn 0.35s ease;
 }
@@ -201,6 +208,7 @@ body.theme-dark {
   background: #000;
   color: var(--text-light);
 
+  --text-color: var(--text-light);
   --card-bg: #1c1c1e;
   --card-border: var(--card-border-dark);
   --card-shadow: var(--card-shadow-dark);
@@ -218,6 +226,7 @@ body.theme-light {
   background: #fff;
   color: var(--text-dark);
 
+  --text-color: var(--text-dark);
   --card-bg: #ffffff;
   --card-border: var(--card-border-light);
   --card-shadow: var(--card-shadow-light);

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <title>Now | Amit Ku Yadav — What I'm Working On</title>
+  <meta name="description" content="What Amit Ku Yadav is currently focused on — active projects, learning, and priorities right now." />
+  <meta name="author" content="Amit Ku Yadav" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#046A38" />
+  <link rel="canonical" href="https://kingofyadav.in/pages/now.html" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Now | Amit Ku Yadav — What I'm Working On" />
+  <meta property="og:description" content="A living page of what I'm currently building, learning, and focused on." />
+  <meta property="og:image" content="https://kingofyadav.in/og-image.png" />
+  <meta property="og:url" content="https://kingofyadav.in/pages/now.html" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Now | Amit Ku Yadav" />
+  <meta name="twitter:image" content="https://kingofyadav.in/og-image.png" />
+  <meta name="twitter:creator" content="@kingofyadav_in" />
+
+  <link rel="icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+
+  <link rel="stylesheet" href="/css/base.css?v=20260704" />
+  <link rel="stylesheet" href="/css/components.css?v=20260704" />
+  <link rel="stylesheet" href="/css/layout.css?v=20260704" />
+
+  <style>
+    .now-hero {
+      padding: clamp(120px, 14vw, 200px) clamp(20px, 5vw, 64px) clamp(80px, 8vw, 120px);
+    }
+    .now-hero h1 {
+      font-size: clamp(3rem, 6vw, 4.8rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .now-updated {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 28px;
+    }
+    .now-updated time { font-variant-numeric: tabular-nums; }
+    .now-sections {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 64px) clamp(80px, 9vw, 140px);
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    .now-block {
+      padding: 32px 36px;
+      border-radius: var(--radius);
+    }
+    body.theme-dark .now-block {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    body.theme-light .now-block {
+      background: rgba(0,0,0,0.02);
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .now-block-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--brand-green);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .now-block h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .now-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .now-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      opacity: 0.85;
+    }
+    .now-list li::before {
+      content: "→";
+      color: var(--brand-green);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .now-list li strong {
+      font-weight: 600;
+      opacity: 1;
+    }
+    .now-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      opacity: 0.78;
+      margin: 0;
+    }
+    .now-note {
+      font-size: 0.8rem;
+      opacity: 0.45;
+      text-align: center;
+      padding: 0 clamp(20px, 5vw, 64px) 48px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    @media (max-width: 600px) {
+      .now-block { padding: 24px 20px; }
+    }
+  </style>
+
+  <meta property="og:site_name" content="Amit Ku Yadav" />
+  <meta name="twitter:description" content="A living page of what I'm currently building, learning, and focused on." />
+  <meta name="twitter:site" content="@kingofyadav_in" />
+  <link rel="manifest" href="/manifest.json" />
+
+</head>
+
+<body class="theme-dark">
+  <script src="/js/site-init.js?v=20260704"></script>
+  <div id="scrollProgress"></div>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header glass">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="/" class="brand-link" aria-label="Amit Ku Yadav home">
+          <img id="siteLogo" class="logo" src="/logo/night-logo.png" alt="Amit Ku Yadav" width="50" height="50" />
+          <div class="brand-text">
+            <span class="brand-name">Amit Ku Yadav</span>
+            <span class="brand-tagline">Now</span>
+          </div>
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="Main navigation" data-nav="index"></nav>
+    </div>
+  </header>
+
+  <main class="site-main" id="main-content">
+
+    <section class="now-hero page-hero">
+      <div class="hero-content">
+        <p class="hero-label">⚡ CURRENT FOCUS</p>
+        <h1>What I'm doing <span class="accent">now</span>.</h1>
+        <p class="now-updated">Last updated: <time datetime="2026-06-25">June 2026</time></p>
+        <p class="hero-description">
+          A living page. Inspired by Derek Sivers' /now movement —
+          this is what I'm genuinely focused on at this point in time.
+        </p>
+      </div>
+    </section>
+
+    <div class="now-sections">
+
+      <div class="now-block glass">
+        <span class="now-block-label">🏗️ Building</span>
+        <h2>Active Projects</h2>
+        <ul class="now-list">
+          <li><strong>kingofyadav.in</strong> — Expanding the digital identity ecosystem. Adding AI integration, structured content, and new tools.</li>
+          <li><strong>HI Identity System</strong> — Building the Human Identity (HI) licensing and verification framework for original digital content.</li>
+          <li><strong>National Youth Force</strong> — Running youth programs, environmental initiatives, and community leadership work across Bihar.</li>
+          <li><strong>Royal Heritage Resort</strong> — Developing hospitality infrastructure and digital presence for responsible tourism in Bhagalpur.</li>
+        </ul>
+      </div>
+
+      <div class="now-block glass">
+        <span class="now-block-label">📖 Learning</span>
+        <h2>What I'm Studying</h2>
+        <ul class="now-list">
+          <li>AI systems and agentic workflows — understanding how AI operators and autonomous agents will reshape work and business.</li>
+          <li>Digital governance and policy frameworks — especially around content ownership, platform accountability, and identity verification.</li>
+          <li>Long-form writing and structured communication — developing a consistent voice across essays, social, and digital content.</li>
+        </ul>
+      </div>
+
+      <div class="now-block glass">
+        <span class="now-block-label">✍️ Writing</span>
+        <h2>Current Thinking</h2>
+        <p class="now-desc">
+          Publishing structured essays on leadership, technology, governance, and social systems.
+          The focus right now is on India's digital future — what we need to build,
+          what we need to resist, and what it means to create lasting public value in a noisy world.
+          Latest posts on the <a href="/pages/blog.html" style="color:var(--brand-green)">blog</a>.
+        </p>
+      </div>
+
+      <div class="now-block glass">
+        <span class="now-block-label">🌍 Contributing</span>
+        <h2>Social & Community</h2>
+        <ul class="now-list">
+          <li>Running youth leadership programs through National Youth Force.</li>
+          <li>Supporting community-level digital literacy initiatives in Bihar.</li>
+          <li>Engaging with public discourse on social media — focused content, low noise.</li>
+        </ul>
+      </div>
+
+      <div class="now-block glass">
+        <span class="now-block-label">🎯 Not Doing</span>
+        <h2>What I'm Saying No To</h2>
+        <p class="now-desc">
+          Random collaborations without clear purpose. Short-term projects that don't build toward anything lasting.
+          Distractions that don't compound. I'm in a focused building phase —
+          taking on fewer things to go deeper on the ones that matter.
+        </p>
+      </div>
+
+    </div>
+
+    <p class="now-note">
+      This page is updated periodically. If you want to connect about something on this page,
+      <a href="/pages/contact.html" style="color:var(--brand-green)">reach out here</a>.
+    </p>
+
+  </main>
+
+  <footer class="site-footer glass" data-footer></footer>
+
+  <button id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script src="/js/footer.js?v=20260704" defer></script>
+  <script src="/js/nav.js?v=20260704" defer></script>
+  <script src="/js/script.js?v=20260704" defer></script>
+</body>
+</html>

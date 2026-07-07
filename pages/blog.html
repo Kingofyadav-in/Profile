@@ -45,10 +45,10 @@
   <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
 
   <!-- ================= STYLES ================= -->
-  <link rel="stylesheet" href="/css/base.css?v=20260613" />
-  <link rel="stylesheet" href="/css/components.css?v=20260613" />
-  <link rel="stylesheet" href="/css/layout.css?v=20260613-1" />
-  <link rel="stylesheet" href="/css/blog.css?v=20260613" />
+  <link rel="stylesheet" href="/css/base.css?v=20260704" />
+  <link rel="stylesheet" href="/css/components.css?v=20260704" />
+  <link rel="stylesheet" href="/css/layout.css?v=20260704" />
+  <link rel="stylesheet" href="/css/blog.css?v=20260704" />
 
 <script type="application/ld+json">
 {
@@ -68,10 +68,10 @@
 }
 </script>
 
-  <script src="/js/site-init.js?v=20260613"></script>
 </head>
 
 <body class="theme-dark blog-page">
+  <script src="/js/site-init.js?v=20260704"></script>
   <div id="scrollProgress"></div>
   <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -189,6 +189,26 @@
       <small id="jarvisTranslateStatus" aria-live="polite"></small>
     </label>
   </section>
+
+  <div id="blog-filter-bar" class="blog-filter-bar" role="search" aria-label="Filter articles">
+    <div class="blog-filter-search">
+      <input type="search" id="blogSearch" placeholder="Search articles…" aria-label="Search articles" autocomplete="off" />
+    </div>
+    <div class="blog-filter-cats" role="group" aria-label="Filter by category">
+      <button class="blog-cat-btn active" data-cat="all" aria-pressed="true">All</button>
+      <button class="blog-cat-btn" data-cat="Technology" aria-pressed="false">Technology</button>
+      <button class="blog-cat-btn" data-cat="Geopolitics" aria-pressed="false">Geopolitics</button>
+      <button class="blog-cat-btn" data-cat="Digital" aria-pressed="false">Digital</button>
+      <button class="blog-cat-btn" data-cat="Leadership" aria-pressed="false">Leadership</button>
+      <button class="blog-cat-btn" data-cat="Strategy" aria-pressed="false">Strategy</button>
+      <button class="blog-cat-btn" data-cat="Social" aria-pressed="false">Social</button>
+      <button class="blog-cat-btn" data-cat="Education" aria-pressed="false">Education</button>
+      <button class="blog-cat-btn" data-cat="Health" aria-pressed="false">Health</button>
+      <button class="blog-cat-btn" data-cat="Environment" aria-pressed="false">Environment</button>
+      <button class="blog-cat-btn" data-cat="Governance" aria-pressed="false">Governance</button>
+      <button class="blog-cat-btn" data-cat="Youth" aria-pressed="false">Youth</button>
+    </div>
+  </div>
 
   <div id="blog-dynamic-grid" class="blog-library-grid">
 
@@ -504,10 +524,65 @@
   <button id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
-  <script src="/js/footer.js" defer></script>
-  <script src="/js/nav.js" defer></script>
-  <script src="/js/script.js?v=20260613" defer></script>
+  <script src="/js/footer.js?v=20260704" defer></script>
+  <script src="/js/nav.js?v=20260704" defer></script>
+  <script src="/js/script.js?v=20260704" defer></script>
 
-  <script src="/api-static/jarvis-widget.js?v=20260613" data-endpoint="/api/jarvis-chat" data-fallback-endpoint="/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
+  <script src="/api-static/jarvis-widget.js?v=20260704" data-endpoint="/api/jarvis-chat" data-fallback-endpoint="/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, services, ventures, and collaboration." defer></script>
+
+  <script>
+  (function () {
+    "use strict";
+    const grid = document.getElementById("blog-dynamic-grid");
+    const filterBar = document.getElementById("blog-filter-bar");
+    if (!grid || !filterBar) return;
+
+    const cards = [...grid.querySelectorAll(".blog-card")];
+    let activeCat = "all";
+    let query = "";
+
+    function applyFilter() {
+      let visible = 0;
+      cards.forEach(card => {
+        const cat = card.querySelector(".blog-category")?.textContent.trim() ?? "";
+        const text = (card.querySelector("h3")?.textContent ?? "") + " " + (card.querySelector("p")?.textContent ?? "");
+        const catOk  = activeCat === "all" || cat === activeCat;
+        const textOk = !query || text.toLowerCase().includes(query);
+        const show = catOk && textOk;
+        card.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      let empty = grid.querySelector(".blog-empty");
+      if (visible === 0) {
+        if (!empty) {
+          empty = document.createElement("p");
+          empty.className = "blog-empty";
+          empty.textContent = "No articles match your search.";
+          grid.appendChild(empty);
+        }
+      } else if (empty) {
+        empty.remove();
+      }
+    }
+
+    filterBar.querySelectorAll(".blog-cat-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterBar.querySelectorAll(".blog-cat-btn").forEach(b => {
+          b.classList.remove("active");
+          b.setAttribute("aria-pressed", "false");
+        });
+        btn.classList.add("active");
+        btn.setAttribute("aria-pressed", "true");
+        activeCat = btn.dataset.cat;
+        applyFilter();
+      });
+    });
+
+    document.getElementById("blogSearch")?.addEventListener("input", e => {
+      query = e.target.value.trim().toLowerCase();
+      applyFilter();
+    });
+  })();
+  </script>
 </body>
 </html>

@@ -6,11 +6,15 @@
    Author: Amit Ku Yadav
 ====================================================== */
 
-const VERSION = "v20260528-2031";
+const VERSION = "v20260703-1659";
 const STATIC_CACHE = `ak-static-${VERSION}`;
 const DYNAMIC_CACHE = `ak-dynamic-${VERSION}`;
 const MAX_DYNAMIC_ITEMS = 80;
 
+// App shell only — no versioned CSS/JS URLs here.
+// CSS/JS/fonts are cached at runtime by the Cache-First fetch handler below,
+// keyed by the exact URL (including ?v=...) that each page requests.
+// Keeping versioned URLs in this list caused stale-version cache misses every deploy.
 const STATIC_ASSETS = [
   "/",
   "/index.html",
@@ -37,43 +41,12 @@ const STATIC_ASSETS = [
   "/pages/hi-license.html",
   "/pages/hi-protect.html",
 
-  /* CSS — versions matched to what pages request */
-  "/css/base.css?v=form-suite-1",
-  "/css/components.css?v=footer-clean-1",
-  "/css/layout.css?v=layout-1",
-  "/css/index.css?v=20260502-pro",
-  "/css/blog.css?v=hi-1",
-  "/css/services.css?v=20260502-pro",
-  "/css/contact.css?v=hi-1",
-  "/css/professional.css?v=hi-1",
-  "/css/social.css?v=hi-1",
-  "/css/personal.css?v=nav-pro-3",
-  "/css/collaboration.css?v=mobile-hero-2",
-  "/css/auth.css?v=auth-otp-1",
-  "/css/effects.css?v=3",
-
-  /* JS */
-  "/js/script.js?v=footer-clean-1",
-  "/js/effects.js?v=3",
-  "/js/site-init.js?v=1",
-  "/js/personal-data.js?v=20260502-pro",
-  "/js/profile-renderer.js?v=20260502-pro",
-  "/js/auth.js?v=auth-otp-1",
-  "/js/nav.js",
-  "/js/footer.js",
-
-  /* LOGO */
+  /* Logos & favicons — no versioning, rarely change */
   "/logo/day-logo.png",
   "/logo/night-logo.png",
-
-  /* FAVICONS */
   "/favicon/favicon.ico",
   "/favicon/android-chrome-192x192.png",
-  "/favicon/android-chrome-512x512.png",
-
-  /* GALLERY */
-  "/images/gallery/Screenshot_20250511_203439_Snapchat.jpg",
-  "/images/gallery/Screenshot_20250511_203646_Snapchat.jpg"
+  "/favicon/android-chrome-512x512.png"
 ];
 
 self.addEventListener("install", (event) => {

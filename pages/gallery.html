@@ -22,9 +22,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
 
-  <link rel="stylesheet" href="/css/base.css?v=20260613" />
-  <link rel="stylesheet" href="/css/components.css?v=20260613" />
-  <link rel="stylesheet" href="/css/layout.css?v=20260613-1" />
+  <link rel="stylesheet" href="/css/base.css?v=20260704" />
+  <link rel="stylesheet" href="/css/components.css?v=20260704" />
+  <link rel="stylesheet" href="/css/layout.css?v=20260704" />
 
   <style>
     .gallery-page {
@@ -519,10 +519,17 @@
       }
     }
   </style>
-  <script src="/js/site-init.js?v=20260613"></script>
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Premium Photo Gallery | Amit Ku Yadav" />
+  <meta name="twitter:description" content="A premium visual archive of Amit Ku Yadav featuring personal portraits, local gallery moments, and a polished full-screen photo viewer." />
+  <meta name="twitter:image"       content="https://kingofyadav.in/images/gallery/IMG_20250718_175939_991.converted.jpg" />
+  <meta name="twitter:creator"     content="@kingofyadav_in" />
+  <meta name="twitter:site"        content="@kingofyadav_in" />
+
 </head>
 
 <body class="theme-dark">
+  <script src="/js/site-init.js?v=20260704"></script>
 <div id="scrollProgress"></div>
 <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -560,7 +567,7 @@
       </div>
     </div>
     <figure class="gallery-hero-card" aria-label="Featured gallery photo">
-      <img src="/images/gallery/IMG_20250718_175939_991.converted.jpg" alt="Featured portrait from Amit Ku Yadav gallery" />
+      <img src="/images/gallery/IMG_20250718_175939_991.converted.jpg" alt="Featured portrait from Amit Ku Yadav gallery" width="520" height="650" fetchpriority="high" />
     </figure>
   </section>
 
@@ -732,7 +739,7 @@
     <button class="gallery-lightbox-close" type="button" id="galleryClose" aria-label="Close gallery viewer">×</button>
     <button class="gallery-lightbox-nav gallery-lightbox-prev" type="button" id="galleryPrev" aria-label="Previous image">‹</button>
     <div class="gallery-lightbox-media">
-      <img id="galleryLightboxImage" src="/images/gallery/IMG_20250718_175939_991.converted.jpg" alt="Expanded gallery image" />
+      <img id="galleryLightboxImage" src="/images/gallery/IMG_20250718_175939_991.converted.jpg" alt="Expanded gallery image" loading="lazy" />
     </div>
     <aside class="gallery-lightbox-panel">
       <span id="galleryLightboxCount">Photo 01</span>
@@ -777,7 +784,7 @@
       var item = galleryItems[activeIndex];
       image.src = item.src;
       image.alt = item.title + " from Amit Ku Yadav gallery";
-      count.textContent = "Photo " + String(activeIndex + 1).padStart(2, "0");
+      count.textContent = (activeIndex + 1) + " / " + galleryItems.length;
       title.textContent = item.title;
       text.textContent = item.text;
     }
@@ -785,6 +792,7 @@
     function open(index) {
       render(index);
       lightbox.classList.add("open");
+      lightbox.focus();
       document.body.style.overflow = "hidden";
     }
 
@@ -811,11 +819,21 @@
       if (event.key === "ArrowLeft") render(activeIndex - 1);
       if (event.key === "ArrowRight") render(activeIndex + 1);
     });
+
+    // Touch swipe support
+    var touchStartX = 0;
+    lightbox.addEventListener("touchstart", function (e) {
+      touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    lightbox.addEventListener("touchend", function (e) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) render(activeIndex + (dx < 0 ? 1 : -1));
+    }, { passive: true });
   }());
 </script>
-<script src="/js/footer.js" defer></script>
-  <script src="/js/nav.js" defer></script>
-  <script src="/js/script.js?v=20260613" defer></script>
-<script src="/api-static/jarvis-widget.js?v=20260613" data-endpoint="/api/jarvis-chat" data-fallback-endpoint="/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, gallery, services, ventures, and collaboration." defer></script>
+<script src="/js/footer.js?v=20260704" defer></script>
+  <script src="/js/nav.js?v=20260704" defer></script>
+  <script src="/js/script.js?v=20260704" defer></script>
+<script src="/api-static/jarvis-widget.js?v=20260704" data-endpoint="/api/jarvis-chat" data-fallback-endpoint="/api/jarvis-chat" data-live-endpoint="wss://jarvis.kingofyadav.in/api/ws/public" data-enquiry-endpoint="https://jarvis.kingofyadav.in/api/public-enquiry" data-signup-endpoint="https://jarvis.kingofyadav.in/api/public-signup" data-title="Jarvis AI" data-subtitle="Ask Jarvis about King Yadav and the website." data-site-line="Explore identity, writing, gallery, services, ventures, and collaboration." defer></script>
 </body>
 </html>

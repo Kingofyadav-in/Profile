@@ -386,7 +386,9 @@
 
   function initBlogSearch() {
     var grid = document.getElementById('blog-dynamic-grid');
-    if (!grid) return;
+    /* Skip when the page ships its own filter bar (pages/blog.html) —
+       two filters fighting over card.style.display gives wrong counts */
+    if (!grid || document.getElementById('blog-filter-bar')) return;
 
     /* Build search UI */
     var wrap = document.createElement('div');

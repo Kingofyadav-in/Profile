@@ -547,3 +547,52 @@ body.theme-light .form-group textarea:focus {
   .contact-card-alt:hover { transform: none; }
   .site-header.scrolled { transition: none; }
 }
+
+/* ── Inline field validation ── */
+
+.field-error {
+  font-size: 0.75rem;
+  color: var(--brand-orange);
+  min-height: 1em;
+  display: block;
+  margin-top: -4px;
+}
+
+.form-group input.field-invalid,
+.form-group textarea.field-invalid {
+  border-color: var(--brand-orange) !important;
+  box-shadow: 0 0 0 3px var(--brand-orange-soft) !important;
+}
+
+/* ── Success state ── */
+
+.contact-form--success .form-group,
+.contact-form--success .form-row,
+.contact-form--success .form-footer > .cf-submit-btn {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.contact-form--success .form-status.success {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(4,106,56,0.12);
+  border: 1px solid rgba(4,106,56,0.25);
+}
+
+.cf-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-right: 6px;
+  vertical-align: middle;
+}

@@ -24,7 +24,7 @@ function makeRes() {
     setHeader(k, v) { h[k] = v; return this; },
     status(code) { this.statusCode = code; return this; },
     json(obj) { this._json = obj; this._body = JSON.stringify(obj); return this; },
-    end(b) { this._body = b || ""; return this; },
+    end(b) { this._body = b || ""; try { if (b) this._json = JSON.parse(b); } catch {} return this; },
   };
   return res;
 }
@@ -90,7 +90,6 @@ describe("claim handler — validation", () => {
 describe("claim handler — DMCA submission", () => {
   it("creates claim record and returns DMCA text", async () => {
     mockQuery
-      .mockResolvedValueOnce({ rows: [] }) // CREATE TABLE IF NOT EXISTS
       .mockResolvedValueOnce({ rows: [] }); // INSERT
 
     const res = makeRes();
@@ -114,8 +113,7 @@ describe("claim handler — DMCA submission", () => {
 
   it("works without optional fields (platform, reporter_name)", async () => {
     mockQuery
-      .mockResolvedValueOnce({ rows: [] })
-      .mockResolvedValueOnce({ rows: [] });
+      .mockResolvedValueOnce({ rows: [] }); // INSERT
 
     const res = makeRes();
     await handler(makeReq("POST", {

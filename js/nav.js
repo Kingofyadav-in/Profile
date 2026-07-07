@@ -11,21 +11,21 @@
   const INDEX_NAV = [
     { label: 'Home',          href: '/' },
     { label: 'Blog',          href: '/pages/blog.html' },
-    { label: 'Gallery',       href: '/pages/gallery.html' },
+    { label: 'Projects',      href: '/pages/projects.html' },
     { label: 'Services',      href: '/pages/services.html' },
     { label: 'Contact',       href: '/pages/contact.html' },
-    { label: 'Order',         href: '/pages/order.html' },
-    { label: 'Collaboration', href: '/pages/collaboration.html' },
-    { label: '🔴 Live Class', href: '/pages/live-class.html', cls: 'live-class-link' },
+    { label: '🔴 Live',       href: '/pages/live-class.html', cls: 'live-class-link' },
   ]
 
   const PERSONAL_NAV = [
-    { label: 'HI Life OS',  href: '/pages/personal.html' },
-    { label: 'Dashboard',   href: '/pages/dashboard.html' },
-    { label: 'Wallet',      href: '/pages/wallet.html', cls: 'wallet-link' },
-    { label: 'About Me',    href: '/pages/about.html' },
-    { label: 'Origin',      href: '/pages/origin.html' },
-    { label: 'Haven',       href: '/pages/haven.html' },
+    { label: 'HI Life OS',    href: '/pages/personal.html' },
+    { label: 'Dashboard',     href: '/pages/dashboard.html' },
+    { label: 'Wallet',        href: '/pages/wallet.html', cls: 'wallet-link' },
+    { label: 'Professional',  href: '/pages/professional.html' },
+    { label: 'Social',        href: '/pages/social.html' },
+    { label: 'About Me',      href: '/pages/about.html' },
+    { label: 'Origin',        href: '/pages/origin.html' },
+    { label: 'Haven',         href: '/pages/haven.html' },
     { label: 'Bhagalpur',   href: '/pages/bhagalpur.html' },
     { label: '🔐 IP Vault',    href: '/pages/hi-license.html', cls: 'license-link' },
     { label: '🛡 Protection', href: '/pages/hi-protect.html', cls: 'protect-link' },
@@ -47,7 +47,8 @@
 
   const PERSONAL_PATHS = [
     '/pages/personal', '/pages/about', '/pages/origin',
-    '/pages/haven', '/pages/bhagalpur', '/pages/hi-license', '/pages/hi-protect', '/pages/dashboard', '/pages/wallet',
+    '/pages/haven', '/pages/bhagalpur', '/pages/hi-license', '/pages/hi-protect',
+    '/pages/dashboard', '/pages/wallet',
   ]
 
   function normPath(p) {

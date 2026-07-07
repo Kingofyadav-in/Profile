@@ -1,13 +1,18 @@
 "use strict";
 
-const db = require("../lib/db");
+const db   = require("../lib/db");
+const { send } = require("./_response");
+
+// Verify responses are public and immutable-ish — cache errors too, so
+// crawlers probing unknown IDs get absorbed by the CDN instead of the DB.
+const CACHE = { "Cache-Control": "public, max-age=300" };
 
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Cache-Control", "public, max-age=300");
 
-  const id = req.query.id ?? req.url.split("/").pop();
-  if (!id) return res.status(400).json({ ok: false, error: "ID required" });
+  // Vercel rewrites /verify/:id → /verify?id=:id, so req.query.id is always populated.
+  const id = (req.query.id ?? "").trim();
+  if (!id) { send(res, 400, { ok: false, error: "ID required", code: "BAD_REQUEST" }, CACHE); return; }
 
   // 1. Static identity records — checked first, no DB needed
   const STATIC = {
@@ -27,7 +32,8 @@ module.exports = async (req, res) => {
     },
   };
   if (STATIC[id]) {
-    return res.json({ ok: true, type: "identity", data: STATIC[id] });
+    send(res, 200, { ok: true, type: "identity", data: STATIC[id] }, CACHE);
+    return;
   }
 
   // 2. Check Licenses Table
@@ -39,24 +45,25 @@ module.exports = async (req, res) => {
   if (licenseRows.length) {
     const row  = licenseRows[0];
     const meta = row.metadata ?? {};
-    return res.json({
+    send(res, 200, {
       ok: true,
       type: "license",
       data: {
         id:         row.claim_id,
-        title:      meta.title   ?? "Untitled",
-        type:       meta.type    ?? "content",
+        title:      meta.title    ?? "Untitled",
+        type:       meta.type     ?? "content",
         category:   meta.category ?? null,
-        author:     meta.author  ?? "Amit Ku Yadav",
-        created:    meta.created ?? row.claim_date,
+        author:     meta.author   ?? "Amit Ku Yadav",
+        created:    meta.created  ?? row.claim_date,
         status:     row.status,
-        license:    meta.license ?? "CC-BY-NC-ND-4.0",
-        url:        meta.url     ?? null,
+        license:    meta.license  ?? "CC-BY-NC-ND-4.0",
+        url:        meta.url      ?? null,
         hash:       row.content_hash ?? null,
         hdi_code:   meta.hdi_code ?? null,
         verify_url: `https://kingofyadav.in/verify/${row.claim_id}`,
       },
-    });
+    }, CACHE);
+    return;
   }
 
   // 3. Check Claims (Violations) Table
@@ -67,7 +74,7 @@ module.exports = async (req, res) => {
 
   if (claimRows.length) {
     const claim = claimRows[0];
-    return res.json({
+    send(res, 200, {
       ok: true,
       type: "violation_claim",
       data: {
@@ -78,8 +85,9 @@ module.exports = async (req, res) => {
         submitted_at:   claim.submitted_at,
         violation_type: claim.violation_type,
       },
-    });
+    }, CACHE);
+    return;
   }
 
-  return res.status(404).json({ ok: false, error: "Resource not found" });
+  send(res, 404, { ok: false, error: "Resource not found", code: "NOT_FOUND" }, CACHE);
 };

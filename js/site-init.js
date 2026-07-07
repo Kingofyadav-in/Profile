@@ -3,10 +3,12 @@
 // Theme flash prevention — runs before body paint
 (function () {
   try {
+    // script.js stores "light"/"dark"; older versions stored "theme-light"/"theme-dark"
     var t = localStorage.getItem("theme");
     if (t) {
+      var cls = t === "light" || t === "theme-light" ? "theme-light" : "theme-dark";
       document.body.classList.remove("theme-dark", "theme-light");
-      document.body.classList.add(t);
+      document.body.classList.add(cls);
     }
   } catch (e) {}
 })();
@@ -28,7 +30,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var s  = document.createElement('script');
-    s.src  = '/js/effects.js?v=3';
+    s.src  = '/js/effects.js?v=4';
     s.defer = true;
     document.body.appendChild(s);
   });

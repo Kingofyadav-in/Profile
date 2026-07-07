@@ -6,3 +6,12 @@
 .env.production
 node_modules/
 .env*.local
+dist/
+build/
+.next/
+.turbo/
+coverage/
+test-results/
+playwright-report/
+*.log
+*.tsbuildinfo

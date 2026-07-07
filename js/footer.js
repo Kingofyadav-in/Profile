@@ -76,6 +76,25 @@
         <p class="footer-brand-location">${IC_LOCATION} Bhagalpur, Bihar, India</p>
         <div class="footer-socials" role="list" aria-label="Social media links">${socialsHtml}</div>
       </div>
+      <nav class="footer-col" aria-label="Explore">
+        <p class="footer-col-heading">Explore</p>
+        <ul>
+          <li><a href="/pages/now.html">Now</a></li>
+          <li><a href="/pages/gallery.html">Gallery</a></li>
+          <li><a href="/pages/collaboration.html">Collaboration</a></li>
+          <li><a href="/pages/order.html">Order Services</a></li>
+          <li><a href="/pages/live-class.html">Live Class</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Ventures">
+        <p class="footer-col-heading">Ventures</p>
+        <ul>
+          <li><a href="/brands/royal-heritage-resort.html">Royal Heritage Resort</a></li>
+          <li><a href="/brands/national-youth-force.html">National Youth Force</a></li>
+          <li><a href="/brands/jhon-aamit-llp.html">Jhon Aamit LLP</a></li>
+          <li><a href="/pages/projects.html">All Projects</a></li>
+        </ul>
+      </nav>
       <div class="footer-right">
         <div class="footer-info-row">${IC_PHONE}<a href="tel:+919523528114">+91&nbsp;95235&nbsp;28114</a></div>
         <div class="footer-info-row">${IC_MAIL}<a href="mailto:kingofyadav.in@gmail.com">kingofyadav.in@gmail.com</a></div>

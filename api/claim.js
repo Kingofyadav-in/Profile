@@ -1,7 +1,31 @@
 "use strict";
 
 const db = require("../lib/db");
-const { csrfGuard } = require("./_response");
+const { csrfGuard, send, badRequest, methodNotAllowed, preflight, CORS_HEADERS } = require("./_response");
+
+// Mirrors migrations/006_hdi_claims.sql — Vercel deploys don't run migrations,
+// so ensure the table once per cold start instead of failing every claim.
+let tableReady = null;
+function ensureTable() {
+  if (!tableReady) {
+    tableReady = db.query(
+      `CREATE TABLE IF NOT EXISTS hdi_claims (
+         id               UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+         license_id       VARCHAR(100),
+         infringing_url   TEXT         NOT NULL,
+         platform         VARCHAR(100),
+         violation_type   VARCHAR(50),
+         reporter_name    VARCHAR(200),
+         reporter_email   TEXT         NOT NULL,
+         reporter_contact TEXT,
+         dmca_text        TEXT,
+         status           VARCHAR(20)  NOT NULL DEFAULT 'open',
+         submitted_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+       )`
+    ).catch(err => { tableReady = null; throw err; });
+  }
+  return tableReady;
+}
 
 const buildDmca = ({ license_id, infringing_url, platform, violation_type, reporter_name, reporter_email }) => {
   const date = new Date().toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" });
@@ -33,42 +57,28 @@ Date    : ${date}
 };
 
 module.exports = async (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  if (req.method === "OPTIONS") return res.status(204).end();
-  if (req.method !== "POST") return res.status(405).json({ ok: false, error: "POST only" });
+  Object.entries(CORS_HEADERS).forEach(([k, v]) => res.setHeader(k, v));
+
+  if (req.method === "OPTIONS") { preflight(res); return; }
+  if (req.method !== "POST") { methodNotAllowed(res, "POST, OPTIONS"); return; }
   if (csrfGuard(req, res)) return;
 
   const { license_id, infringing_url, platform, violation_type, reporter_name, reporter_email, reporter_contact } = req.body ?? {};
   if (!license_id || !infringing_url || !reporter_email) {
-    return res.status(400).json({ ok: false, error: "license_id, infringing_url, reporter_email required" });
+    badRequest(res, "license_id, infringing_url, reporter_email required");
+    return;
   }
-
-  await db.query(`
-    CREATE TABLE IF NOT EXISTS hdi_claims (
-      id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      license_id       VARCHAR(100),
-      infringing_url   TEXT NOT NULL,
-      platform         VARCHAR(100),
-      violation_type   VARCHAR(50),
-      reporter_name    VARCHAR(200),
-      reporter_email   TEXT NOT NULL,
-      reporter_contact TEXT,
-      dmca_text        TEXT,
-      status           VARCHAR(20) DEFAULT 'open',
-      submitted_at     TIMESTAMPTZ DEFAULT NOW()
-    )
-  `);
 
   const dmca = buildDmca({ license_id, infringing_url, platform, violation_type, reporter_name, reporter_email });
 
-  await db.query(`
-    INSERT INTO hdi_claims
-      (license_id, infringing_url, platform, violation_type, reporter_name, reporter_email, reporter_contact, dmca_text)
-    VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-  `, [license_id, infringing_url, platform ?? null, violation_type ?? null,
-      reporter_name ?? null, reporter_email, reporter_contact ?? null, dmca]);
+  await ensureTable();
+  await db.query(
+    `INSERT INTO hdi_claims
+       (license_id, infringing_url, platform, violation_type, reporter_name, reporter_email, reporter_contact, dmca_text)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+    [license_id, infringing_url, platform ?? null, violation_type ?? null,
+     reporter_name ?? null, reporter_email, reporter_contact ?? null, dmca]
+  );
 
-  return res.json({ ok: true, dmca });
+  send(res, 200, { ok: true, dmca });
 };

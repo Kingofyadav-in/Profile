@@ -4,7 +4,7 @@
 jest.mock("pg", () => {
   const query   = jest.fn();
   const connect = jest.fn();
-  const instance = { query, connect };
+  const instance = { query, connect, on: jest.fn() };
   const Pool = jest.fn(() => instance);
   Pool._query   = query;
   Pool._connect = connect;

@@ -798,31 +798,40 @@ function initScrollReveal() {
 ====================================================== */
 
 function initCounters() {
-  const stats = document.querySelectorAll(".pro-stat-num");
+  const seen  = new Set();
+  const stats = [...document.querySelectorAll(".pro-stat-num, [data-count]")]
+    .filter(el => { if (seen.has(el)) return false; seen.add(el); return true; });
   if (!stats.length) return;
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const el = entry.target;
-      const textNode = [...el.childNodes].find(n => n.nodeType === 3);
-      if (!textNode) return;
-      const target = parseInt(textNode.textContent, 10);
+      observer.unobserve(el);
+
+      const useAttr = el.dataset.count !== undefined;
+      const target  = useAttr
+        ? parseInt(el.dataset.count, 10)
+        : parseInt(([...el.childNodes].find(n => n.nodeType === 3) ?? {}).textContent ?? "0", 10);
+      const suffix = el.dataset.countSuffix ?? "";
       if (isNaN(target)) return;
 
       let start = null;
-      const duration = 1400;
       const tick = ts => {
         if (!start) start = ts;
-        const p = Math.min((ts - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        textNode.textContent = Math.round(eased * target);
+        const p = Math.min((ts - start) / 1400, 1);
+        const v = Math.round((1 - Math.pow(1 - p, 3)) * target);
+        if (useAttr) {
+          el.textContent = v + suffix;
+        } else {
+          const textNode = [...el.childNodes].find(n => n.nodeType === 3);
+          if (textNode) textNode.textContent = v;
+        }
         if (p < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
-      observer.unobserve(el);
     });
-  }, { threshold: 0.7 });
+  }, { threshold: 0.5 });
 
   stats.forEach(el => observer.observe(el));
 }
@@ -975,7 +984,7 @@ function dismissInstallBar() {
 ====================================================== */
 
 function initContactForm() {
-  const form = document.getElementById("contactForm");
+  const form      = document.getElementById("contactForm");
   if (!form) return;
 
   const submitBtn = document.getElementById("cf-submit");
@@ -987,15 +996,57 @@ function initContactForm() {
     if (submitBtn) submitBtn.disabled = true;
     return;
   }
-  if (formId === "YOUR_FORM_ID") {
-    console.warn("Contact form: replace YOUR_FORM_ID with your Formspree ID.");
+
+  const RULES = {
+    "cf-name":    { label: "Full Name",  minLen: 2 },
+    "cf-email":   { label: "Email",      email: true },
+    "cf-subject": { label: "Subject",    minLen: 3 },
+    "cf-message": { label: "Message",    minLen: 20 },
+  };
+
+  function getOrCreateError(input) {
+    let el = input.parentElement.querySelector(".field-error");
+    if (!el) {
+      el = document.createElement("span");
+      el.className = "field-error";
+      el.setAttribute("aria-live", "polite");
+      input.parentElement.appendChild(el);
+    }
+    return el;
   }
+
+  function validateField(input) {
+    const rule = RULES[input.id];
+    if (!rule) return true;
+    const val = input.value.trim();
+    let error = "";
+    if (!val) {
+      error = `${rule.label} is required.`;
+    } else if (rule.minLen && val.length < rule.minLen) {
+      error = `${rule.label} must be at least ${rule.minLen} characters.`;
+    } else if (rule.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      error = "Please enter a valid email address.";
+    }
+    const errEl = getOrCreateError(input);
+    errEl.textContent = error;
+    input.classList.toggle("field-invalid", !!error);
+    return !error;
+  }
+
+  Object.keys(RULES).forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    input.addEventListener("blur",  () => validateField(input));
+    input.addEventListener("input", () => { if (input.classList.contains("field-invalid")) validateField(input); });
+  });
 
   form.addEventListener("submit", async e => {
     e.preventDefault();
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+    const inputs = Object.keys(RULES).map(id => document.getElementById(id)).filter(Boolean);
+    const allValid = inputs.map(validateField).every(Boolean);
+    if (!allValid) {
+      (inputs.find(el => el.classList.contains("field-invalid")) ?? inputs[0])?.focus();
       return;
     }
 
@@ -1008,22 +1059,33 @@ function initContactForm() {
       const res = await fetch(`https://formspree.io/f/${formId}`, {
         method: "POST",
         headers: { "Accept": "application/json" },
-        body: new FormData(form)
+        body: new FormData(form),
       });
 
       if (res.ok) {
-        status.textContent = "Message sent! I'll reply within 24–48 hours.";
+        form.classList.add("contact-form--success");
         status.className = "form-status success";
+        status.innerHTML = '<span class="cf-success-icon" aria-hidden="true">✓</span> Message sent! I\'ll reply within 24–48 hours.';
         form.reset();
+        inputs.forEach(el => el.classList.remove("field-invalid"));
+        submitBtn.textContent = "Sent ✓";
+        setTimeout(() => {
+          form.classList.remove("contact-form--success");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send Message";
+          status.textContent = "";
+          status.className = "form-status";
+        }, 5000);
       } else {
         const data = await res.json().catch(() => ({}));
         status.textContent = data.error || "Something went wrong. Please email directly.";
         status.className = "form-status error";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send Message";
       }
     } catch {
       status.textContent = "Network error. Please email kingofyadav.in@gmail.com";
       status.className = "form-status error";
-    } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = "Send Message";
     }
@@ -1498,6 +1560,20 @@ function _jarvisSetCache(key, data) {
    INIT
 ====================================================== */
 
+function initTimelineReveal() {
+  const items = document.querySelectorAll(".timeline-item");
+  if (!items.length) return;
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  items.forEach(el => observer.observe(el));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   removeFooterThemeToggles();
@@ -1512,6 +1588,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollReveal();
   initCounters();
   initParallax();
+  initTimelineReveal();
   initGlobalClickHandler();
   initServiceWorker();
   initInstallPrompt();
